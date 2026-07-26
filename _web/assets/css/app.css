@@ -1,0 +1,655 @@
+/* =============================================================================
+   ÖkoTech Home — Test2 · app.css
+   -----------------------------------------------------------------------------
+   Igazságforrás: OTH-design-system-Teszt.v2.html (v0.5) + OTH-design-system-Teszt.v2.md
+   A @layer sorrend rögzíti a rétegarchitektúrát: primitive → semantic → component.
+   Egyedi érték itt nem keletkezik; minden méret, szín és térköz tokenből jön.
+   Az új (a designrendszerben még nem definiált) komponensek a `components` rétegben,
+   külön jelölve. Indoklásuk: _web/COMPONENTS.md
+   ============================================================================= */
+
+@layer reset, tokens, base, typography, components, responsive, motion;
+
+/* ---------------------------------------------------------------- 1. RESET  */
+@layer reset {
+  *{box-sizing:border-box;margin:0;padding:0}
+  img{max-width:100%;display:block}
+  ul{list-style:none}
+}
+
+/* --------------------------------------------------------------- 2. TOKENS */
+@layer tokens {
+  :root{
+    /* ---- 1) PRIMITIVE — ÖTH márkapaletta ---- */
+    --color-stardust:#FAFAFA;
+    --color-drizzle:#F3F2EC;
+    --color-lime:#E5EBBB;
+    --color-fern:#80A640;
+    --color-seamist:#DEECEA;
+    --color-skyblue:#99C6D4;
+    --color-oliveleaf:#56642B;
+    --color-forest:#133216;
+    --color-warning-500:#C98A1D;
+    --color-danger-500:#B23B2B;
+
+    /* ---- TYPE — betűcsaládok ---- */
+    --font-heading:'Zilla Slab',Georgia,serif;
+    --font-body:'IBM Plex Sans',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+
+    /* ---- TYPOGRAPHY ROLE TOKENS — desktop ≥1025px ---- */
+    --type-display-hero-size:52px;
+    --type-display-hero-weight:600;
+    --type-display-hero-line-height:1.05;
+    --type-display-hero-letter-spacing:-.02em;
+
+    --type-display-page-title-size:38px;
+    --type-display-page-title-weight:500;
+    --type-display-page-title-line-height:1.12;
+    --type-display-page-title-letter-spacing:-.015em;
+
+    --type-display-section-title-size:28px;
+    --type-display-section-title-weight:500;
+    --type-display-section-title-line-height:1.2;
+    --type-display-section-title-letter-spacing:0;
+
+    --type-display-feature-title-size:28px;
+    --type-display-feature-title-weight:600;
+    --type-display-feature-title-line-height:1.15;
+    --type-display-feature-title-letter-spacing:0;
+
+    --type-display-highlight-title-size:30px;
+    --type-display-highlight-title-weight:500;
+    --type-display-highlight-title-line-height:1.15;
+    --type-display-highlight-title-letter-spacing:0;
+
+    --type-ui-card-title-size:16px;
+    --type-ui-card-title-weight:600;
+    --type-ui-card-title-line-height:1.35;
+
+    --type-ui-subtitle-size:14px;
+    --type-ui-subtitle-weight:400;
+    --type-ui-subtitle-line-height:1.5;
+
+    --type-ui-body-size:16px;
+    --type-ui-body-weight:400;
+    --type-ui-body-line-height:1.5;
+
+    --type-ui-body-strong-size:16px;
+    --type-ui-body-strong-weight:600;
+    --type-ui-body-strong-line-height:1.5;
+
+    --type-ui-label-size:13px;
+    --type-ui-label-weight:500;
+    --type-ui-label-line-height:1.3;
+
+    --type-ui-button-size:15px;
+    --type-ui-button-weight:600;
+    --type-ui-button-line-height:1.2;
+
+    --type-ui-caption-size:12px;
+    --type-ui-caption-weight:400;
+    --type-ui-caption-line-height:1.4;
+
+    --type-data-eyebrow-size:11px;
+    --type-data-eyebrow-weight:500;
+    --type-data-eyebrow-line-height:1.3;
+    --type-data-eyebrow-letter-spacing:.14em;
+
+    --type-data-value-size:12px;
+    --type-data-value-weight:500;
+    --type-data-value-line-height:1.5;
+    --type-data-value-letter-spacing:0;
+
+    /* ---- 2) SEMANTIC — interakció ---- */
+    --primary:var(--color-fern);
+    --primary-hover:#6F9236;
+    --primary-active:#5F7D2E;
+    --primary-disabled:var(--color-drizzle);
+    --primary-soft:var(--color-lime);
+    --on-primary:var(--color-forest);
+
+    --secondary:var(--color-oliveleaf);
+    --on-secondary:var(--color-stardust);
+
+    /* felület */
+    --canvas:var(--color-drizzle);
+    --surface:var(--color-stardust);
+    --surface-muted:var(--color-lime);
+    --surface-sunken:var(--color-seamist);
+    --surface-inverse:var(--color-forest);
+
+    /* border */
+    --border:#E2E1D6;
+    --border-strong:var(--color-oliveleaf);
+    --border-focus:#2F6F82;
+
+    /* szöveg */
+    --text-primary:var(--color-forest);
+    --text-secondary:var(--color-oliveleaf);
+    --text-tertiary:#5D6935;
+    --text-disabled:#B9C0A8;
+    --text-on-dark:var(--color-stardust);
+    --text-on-dark-muted:#94A98D;
+
+    --link:#2F6F82;
+    --link-hover:#245666;
+
+    /* szemantikus státuszok */
+    --success-text:var(--color-forest);
+    --success-bg:var(--color-lime);
+    --success-border:var(--color-oliveleaf);
+
+    --info-text:var(--color-forest);
+    --info-bg:var(--color-seamist);
+    --info-border:var(--color-skyblue);
+
+    --warning-text:#7A4A00;
+    --warning-bg:#FBEFD9;
+    --warning-border:var(--color-warning-500);
+
+    --danger-text:#7A2318;
+    --danger-bg:#F7E4E0;
+    --danger-border:var(--color-danger-500);
+
+    /* ---- 3) COMPONENT — interakciós alapkomponensek ---- */
+    --button-focus:var(--border-focus);
+
+    --button-primary-bg:var(--primary);
+    --button-primary-text:var(--on-primary);
+    --button-primary-border:var(--primary);
+    --button-primary-border-hover:var(--primary-active);
+    --button-primary-border-active:var(--secondary);
+    --button-primary-bg-disabled:var(--primary-disabled);
+    --button-primary-text-disabled:var(--text-disabled);
+
+    --button-secondary-bg:var(--secondary);
+    --button-secondary-text:var(--on-secondary);
+    --button-secondary-border:var(--secondary);
+    --button-secondary-bg-disabled:var(--primary-disabled);
+    --button-secondary-text-disabled:var(--text-disabled);
+
+    /* ---- SPACING — fix skála, nincs köztes érték ---- */
+    --space-4:4px;
+    --space-8:8px;
+    --space-16:16px;
+    --space-24:24px;
+    --space-32:32px;
+    --space-48:48px;
+    --space-64:64px;
+    --space-96:96px;
+    --space-128:128px;
+
+    /* ---- LAYOUT ROLE ---- */
+    --space-section:var(--space-128);  /* desktop ≥1025px */
+    --page-gutter:var(--space-48);     /* desktop ≥1025px */
+    --topbar-h:60px;
+    --container-max:1180px;            /* designrendszer 5.2 — rögzített konténer-szélesség */
+
+    /* radius / motion */
+    --r-md:10px;--r-lg:14px;--r-xl:16px;
+    --dur-fast:150ms;--ease-out:cubic-bezier(.2,0,0,1);
+
+    /* elevation — Forest-tónusú árnyékok */
+    --shadow-1:0 2px 6px -2px rgba(19,50,22,.10),0 1px 2px rgba(19,50,22,.06);
+    --shadow-2:0 8px 20px -6px rgba(19,50,22,.16),0 2px 6px rgba(19,50,22,.08);
+
+    /* =========================================================================
+       ÚJ KOMPONENS-TOKENEK — a designrendszer 10. fejezete szerint ezek a
+       komponensek („Kártya", „Szekció-sáv", „Kép- és illusztrációs rendszer")
+       még NINCSENEK definiálva. Itt szereptokenként vezetjük be őket, kizárólag
+       meglévő szemantikus tokenekre hivatkozva. Jóváhagyásig javaslat.
+       Indoklás és javasolt szabályzatszöveg: _web/COMPONENTS.md
+       ========================================================================= */
+
+    /* szekció-sáv */
+    --section-bg:var(--canvas);
+    --section-alt-bg:var(--surface-muted);
+
+    /* kártya (e1 emelés) */
+    --card-bg:var(--surface);
+    --card-border:var(--border);
+    --card-shadow:var(--shadow-1);
+    --card-radius:var(--r-lg);
+    --card-padding:var(--space-24);
+
+    /* kiemelt panel */
+    --panel-bg:var(--surface-muted);
+    --panel-border:var(--border);
+    --panel-radius:var(--r-xl);
+    --panel-padding:var(--space-48);   /* desktop; a töréspontokon átdeklarálva */
+    /* A kétoszlopos szekcióalj szűkebb belső térközt kap: a fele szélességen élő
+       négyoszlopos tábla és a kétoszlopos termékrács így kap elég helyet. */
+    --split-padding:var(--space-32);
+
+    /* médiakeret — a kivágott (alfás) illusztrációk befoglaló aránya */
+    --media-ratio-card:3 / 2;
+    --media-ratio-panel:16 / 9;
+    --media-ratio-product:1 / 1;
+
+    /* sorszámjelvény */
+    --badge-size:var(--space-48);
+    --badge-bg:var(--surface-muted);
+    --badge-text:var(--text-primary);
+
+    /* összehasonlító táblázat */
+    --table-row-bg:transparent;
+    --table-row-alt-bg:var(--surface);
+    --table-border:var(--border);
+    --table-cell-padding-block:var(--space-16);
+    /* Szűk: az összehasonlító tábla a kétoszlopos szekcióalj felén él, ahol
+       1180px konténernél ~432px jut neki. 16px-es vízszintes belső térköznél
+       a negyedik oszlop kilógna. */
+    --table-cell-padding-inline:var(--space-8);
+
+    /* ikon — a designrendszer 10. fejezete szerint az ikonrendszer még
+       definiálatlan; itt egyetlen méretszerep és a currentColor-szabály él */
+    --icon-size:var(--space-48);
+  }
+
+  [data-theme="dark"]{
+    --canvas:var(--color-forest);
+    --surface:#233F1B;
+    --surface-muted:#354B20;
+    --surface-sunken:#455826;
+    --border:#4F5F29;
+    --border-strong:var(--color-oliveleaf);
+    --text-primary:var(--color-stardust);
+    --text-secondary:#C7D0B8;
+    --text-tertiary:#96A183;
+    --border-focus:var(--color-skyblue);
+    --link:#B7DCE6;
+    --link-hover:#D2E8EE;
+
+    --button-focus:var(--border-focus);
+
+    --primary-disabled:#2C4522;
+    --button-primary-bg-disabled:var(--primary-disabled);
+    --button-secondary-bg-disabled:var(--primary-disabled);
+    --button-primary-text-disabled:#7E8A6C;
+    --button-secondary-text-disabled:#7E8A6C;
+
+    /* ---- KÖTELEZŐ ÚJRADEKLARÁLÁS (designrendszer 2.4) ----
+       A var() a deklaráció helyén oldódik fel, ezért minden témafüggő
+       szemantikus tokenre hivatkozó komponens-tokent itt is deklarálni kell. */
+    --section-bg:var(--canvas);
+    --section-alt-bg:var(--surface-muted);
+
+    --card-bg:var(--surface);
+    --card-border:var(--border);
+    /* Designrendszer 3.: sötét témában a mélységet a felület-lépcső viszi,
+       nem az árnyék — ezért a kártya árnyéka itt szándékosan elmarad. */
+    --card-shadow:none;
+
+    --panel-bg:var(--surface-muted);
+    --panel-border:var(--border);
+
+    --badge-bg:var(--surface-muted);
+    --badge-text:var(--text-primary);
+
+    --table-row-alt-bg:var(--surface);
+    --table-border:var(--border);
+  }
+}
+
+/* ----------------------------------------------------------------- 3. BASE */
+@layer base {
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--font-body);
+    background:var(--canvas);
+    color:var(--text-primary);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--link)}
+  a:hover{color:var(--link-hover)}
+
+  .skip-link{
+    position:absolute;left:var(--space-8);top:calc(-1 * var(--space-64));
+    z-index:30;padding:var(--space-8) var(--space-16);
+    background:var(--surface);color:var(--text-primary);
+    border:1px solid var(--border);border-radius:var(--r-md);
+    font-family:var(--font-body);font-size:var(--type-ui-body-size);font-weight:600;
+    text-decoration:underline;
+    transition:top var(--dur-fast) var(--ease-out);
+  }
+  .skip-link:focus-visible{top:var(--space-8);outline:3px solid var(--border-focus);outline-offset:3px}
+
+  .visually-hidden{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;
+  }
+}
+
+/* ----------------------------------------------------- 4. TYPOGRAPHY ROLES */
+@layer typography {
+  .heading{font-family:var(--font-heading)}
+  .mono{font-family:var(--font-mono)}
+  /* A böngésző alapértelmezett 700-as <strong> súlya kívül esne a rendszeren
+     (4.4: nincs választható súlytartomány). A body-strong szerep súlyára állítjuk. */
+  strong,b{font-weight:var(--type-ui-body-strong-weight)}
+  .hl{background:var(--surface-muted);color:var(--text-primary);padding:.02em .2em;border-radius:.15em;font-weight:inherit}
+
+  .type-display-hero{
+    font-family:var(--font-heading);font-size:var(--type-display-hero-size);font-weight:var(--type-display-hero-weight);
+    line-height:var(--type-display-hero-line-height);letter-spacing:var(--type-display-hero-letter-spacing);
+  }
+  .type-display-page-title{
+    font-family:var(--font-heading);font-size:var(--type-display-page-title-size);font-weight:var(--type-display-page-title-weight);
+    line-height:var(--type-display-page-title-line-height);letter-spacing:var(--type-display-page-title-letter-spacing);
+  }
+  .type-display-section-title{
+    font-family:var(--font-heading);font-size:var(--type-display-section-title-size);font-weight:var(--type-display-section-title-weight);
+    line-height:var(--type-display-section-title-line-height);letter-spacing:var(--type-display-section-title-letter-spacing);
+  }
+  .type-display-feature-title{
+    font-family:var(--font-heading);font-size:var(--type-display-feature-title-size);font-weight:var(--type-display-feature-title-weight);
+    line-height:var(--type-display-feature-title-line-height);letter-spacing:var(--type-display-feature-title-letter-spacing);
+  }
+  .type-display-highlight-title{
+    font-family:var(--font-heading);font-size:var(--type-display-highlight-title-size);font-weight:var(--type-display-highlight-title-weight);
+    line-height:var(--type-display-highlight-title-line-height);letter-spacing:var(--type-display-highlight-title-letter-spacing);
+  }
+  .type-ui-card-title{font-family:var(--font-body);font-size:var(--type-ui-card-title-size);font-weight:var(--type-ui-card-title-weight);line-height:var(--type-ui-card-title-line-height)}
+  .type-ui-subtitle{font-family:var(--font-body);font-size:var(--type-ui-subtitle-size);font-weight:var(--type-ui-subtitle-weight);line-height:var(--type-ui-subtitle-line-height)}
+  .type-ui-body{font-family:var(--font-body);font-size:var(--type-ui-body-size);font-weight:var(--type-ui-body-weight);line-height:var(--type-ui-body-line-height)}
+  .type-ui-body-strong{font-family:var(--font-body);font-size:var(--type-ui-body-strong-size);font-weight:var(--type-ui-body-strong-weight);line-height:var(--type-ui-body-strong-line-height)}
+  .type-ui-label{font-family:var(--font-body);font-size:var(--type-ui-label-size);font-weight:var(--type-ui-label-weight);line-height:var(--type-ui-label-line-height)}
+  .type-ui-button{font-family:var(--font-body);font-size:var(--type-ui-button-size);font-weight:var(--type-ui-button-weight);line-height:var(--type-ui-button-line-height)}
+  .type-ui-caption{font-family:var(--font-body);font-size:var(--type-ui-caption-size);font-weight:var(--type-ui-caption-weight);line-height:var(--type-ui-caption-line-height)}
+  .type-data-eyebrow{
+    font-family:var(--font-mono);font-size:var(--type-data-eyebrow-size);font-weight:var(--type-data-eyebrow-weight);
+    line-height:var(--type-data-eyebrow-line-height);letter-spacing:var(--type-data-eyebrow-letter-spacing);text-transform:uppercase;
+  }
+  .type-data-value{
+    font-family:var(--font-mono);font-size:var(--type-data-value-size);font-weight:var(--type-data-value-weight);
+    line-height:var(--type-data-value-line-height);letter-spacing:var(--type-data-value-letter-spacing);
+  }
+}
+
+/* ----------------------------------------------------------- 5. COMPONENTS */
+@layer components {
+
+  /* ===== 5.1 Gomb — a designrendszer 7.1 szerint, változatlanul ===== */
+  .btn{
+    appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);
+    min-height:44px;padding:10px 18px;border:1px solid transparent;border-radius:var(--r-md);
+    font-family:var(--font-body);font-size:var(--type-ui-button-size);font-weight:var(--type-ui-button-weight);
+    line-height:var(--type-ui-button-line-height);text-align:center;
+    text-decoration:none;cursor:pointer;
+    transition:transform var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);
+  }
+  .btn-primary{background:var(--button-primary-bg);color:var(--button-primary-text);border-color:var(--button-primary-border)}
+  .btn-primary:hover:not(:disabled){border-color:var(--button-primary-border-hover);box-shadow:var(--shadow-1);transform:translateY(-1px)}
+  .btn-primary:active:not(:disabled){border-color:var(--button-primary-border-active);box-shadow:inset 0 0 0 1px var(--button-primary-border-active);transform:translateY(0)}
+  .btn-secondary{background:var(--button-secondary-bg);color:var(--button-secondary-text);border-color:var(--button-secondary-border)}
+  .btn-secondary:hover:not(:disabled){box-shadow:var(--shadow-1);transform:translateY(-1px)}
+  .btn-secondary:active:not(:disabled){box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--button-secondary-text) 28%,transparent);transform:translateY(0)}
+  .btn:focus-visible{outline:3px solid var(--button-focus);outline-offset:3px}
+  .btn:disabled{background:var(--button-primary-bg-disabled);color:var(--button-primary-text-disabled);border-color:var(--border);box-shadow:none;transform:none;cursor:not-allowed}
+  .btn-secondary:disabled{background:var(--button-secondary-bg-disabled);color:var(--button-secondary-text-disabled)}
+  .btn[aria-busy="true"]{cursor:wait}
+  .btn[aria-busy="true"]::before{content:"";width:12px;height:12px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:btn-spin .8s linear infinite}
+  @keyframes btn-spin{to{transform:rotate(360deg)}}
+
+  /* Az `a.btn` a gomb megjelenését adja NAVIGÁCIÓS elemnek.
+     A designrendszer 7.6 táblája szerint a navigáció `.text-link` — a vizuális
+     terv viszont a szekció fő CTA-ját kitöltött gombként mutatja. Ez tudatos,
+     jelzett eltérés; a hivatkozás elemtípusa helyesen `<a>`. Lásd COMPONENTS.md */
+  a.btn{text-decoration:none}
+
+  /* ===== 5.2 Szöveges hivatkozás — a designrendszer 7.2 szerint ===== */
+  .text-link{
+    display:inline-flex;align-items:center;min-height:44px;color:var(--link);
+    font-family:var(--font-body);font-size:var(--type-ui-body-size);font-weight:600;line-height:var(--type-ui-body-line-height);
+    text-decoration-line:underline;text-decoration-thickness:1px;text-underline-offset:.22em;border-radius:4px;
+  }
+  .text-link:hover{color:var(--link-hover);text-decoration-thickness:2px}
+  .text-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+
+  /* =========================================================================
+     ÚJ KOMPONENSEK — designrendszer 10. fejezete szerint még definiálatlanok.
+     Minden érték tokenből jön; egyedi px, hex és köztes térköz nincs.
+     ========================================================================= */
+
+  /* ===== 5.3 Szekció-sáv (ÚJ) ===== */
+  .section{background:var(--section-bg);padding-block:var(--space-section)}
+  .section-alt{background:var(--section-alt-bg)}
+  .section-inner{max-width:var(--container-max);margin-inline:auto;padding-inline:var(--page-gutter)}
+
+  .section-head{margin-bottom:var(--space-48);text-align:center}
+  /* Dokumentált variáns: balra zárt szekciófejléc (4. alapszabály — új variáns
+     csak új osztállyal). A 4. szekció így indul, a vizuális terv szerint. */
+  .section-head-start{text-align:left}
+  .section-eyebrow{color:var(--text-tertiary);margin-bottom:var(--space-16)}
+  .section-title{color:var(--text-primary);text-wrap:balance}
+  .section-lead{color:var(--text-secondary);margin-top:var(--space-16);max-width:62ch}
+  .section-head-start .section-lead{margin-inline:0}
+
+  /* ===== 5.4 Kártyarács és kártya, e1 emelés (ÚJ) ===== */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:var(--space-24);
+    /* align-items alapértelmezetten stretch: a rács minden eleme a legmagasabb
+       sorhoz igazodik, így a kártyák alja egy vonalban zár. */
+  }
+  .card-item{display:flex;flex-direction:column}
+
+  .card{
+    display:flex;flex-direction:column;gap:var(--space-16);
+    flex:1 1 auto;
+    padding:var(--card-padding);
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:var(--card-radius);
+    box-shadow:var(--card-shadow);
+  }
+  .card-title{color:var(--text-primary)}
+  .card-text{color:var(--text-secondary)}
+  /* A hivatkozás a kártya aljára kerül, bármilyen hosszú a szöveg. */
+  .card-action{margin-top:auto;align-self:flex-start}
+  /* A nyíl dekoratív: a link szövege önmagában is értelmes. */
+  .action-arrow{margin-right:var(--space-8)}
+
+  /* ===== 5.5 Médiakeret kivágott illusztrációhoz (ÚJ) ===== */
+  .card-media{
+    display:flex;align-items:flex-end;justify-content:center;
+    aspect-ratio:var(--media-ratio-card);
+    /* A keret flex-elem is: az alapértelmezett min-height:auto a KÉP belső
+       méretéből számolna, és felülírná az aspect-ratio-t, valahányszor a kép
+       saját aránya magasabb a megadottnál. A 0 adja vissza az irányítást
+       a szereptokennek. */
+    min-height:0;
+    margin-bottom:var(--space-16);
+  }
+  .card-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom}
+
+  /* ===== 5.6 Kiemelt panel (ÚJ) ===== */
+  .panel{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:var(--space-48);align-items:center;
+    margin-top:var(--space-48);
+    padding:var(--panel-padding);
+    background:var(--panel-bg);
+    border:1px solid var(--panel-border);
+    border-radius:var(--panel-radius);
+  }
+  .panel-body{display:flex;flex-direction:column;gap:var(--space-16);align-items:flex-start}
+  .panel-title{color:var(--text-primary);text-wrap:balance}
+  .panel-lead{color:var(--text-primary)}
+  .panel-text{color:var(--text-secondary)}
+  .panel-action{margin-top:var(--space-8)}
+  .panel-media{aspect-ratio:var(--media-ratio-panel);display:flex;align-items:center;justify-content:center;min-height:0}
+  .panel-media img{width:100%;height:100%;object-fit:contain}
+
+  /* ===== 5.7 Sorszámozott kártya (ÚJ) ===== */
+  .numbered-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
+  .card-badge{
+    display:flex;align-items:center;justify-content:center;
+    width:var(--badge-size);height:var(--badge-size);flex:none;
+    border-radius:50%;
+    background:var(--badge-bg);color:var(--badge-text);
+  }
+
+  /* ===== 5.8 Ikon (ÚJ) =====
+     A rajzolat maszkként érkezik, a színt a currentColor adja — így az ikon
+     témát vált, és nem visz beégetett hexet a felületre. Az ikonok dekoratívak:
+     a jelentést mindig a mellettük álló szöveg hordozza (8. fejezet). */
+  /* MÉRETSZABÁLY: az ikonokat a MAGASSÁG normalizálja, nem négyzetes doboz.
+     A rajzolatok eltérő arányúak (52×41, 67×41, 107×41); négyzetbe zárva a
+     `mask-size:contain` a szélességre skálázna, és a legszélesebb ikon lenne a
+     legalacsonyabb — a 107×41-es alig 12px magasan, olvashatatlanul. Rögzített
+     magasság + saját arány mellett mindhárom optikai súlya azonos. */
+  .icon{
+    display:block;height:var(--icon-size);width:auto;
+    background-color:currentColor;
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    -webkit-mask-position:center;mask-position:center;
+    -webkit-mask-size:contain;mask-size:contain;
+  }
+  .icon-zart-tarolo{
+    aspect-ratio:52 / 41;
+    -webkit-mask-image:url("../icon/tech-zart-tarolo.svg");mask-image:url("../icon/tech-zart-tarolo.svg");
+  }
+  .icon-oldomedence{
+    aspect-ratio:67 / 41;
+    -webkit-mask-image:url("../icon/tech-oldomedence.svg");mask-image:url("../icon/tech-oldomedence.svg");
+  }
+  .icon-biologiai{
+    aspect-ratio:107 / 41;
+    -webkit-mask-image:url("../icon/tech-biologiai.svg");mask-image:url("../icon/tech-biologiai.svg");
+  }
+
+  /* ===== 5.9 Összehasonlító táblázat (ÚJ) ===== */
+  .compare-scroll{overflow-x:auto}
+  .compare-scroll:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:var(--r-md)}
+
+  .compare-table{width:100%;border-collapse:collapse;text-align:center}
+  .compare-table caption{
+    text-align:left;color:var(--text-primary);
+    margin-bottom:var(--space-24);
+  }
+  .compare-table th,.compare-table td{
+    padding:var(--table-cell-padding-block) var(--table-cell-padding-inline);
+    border-bottom:1px solid var(--table-border);
+    vertical-align:middle;
+  }
+  .compare-table tbody tr:last-child th,
+  .compare-table tbody tr:last-child td{border-bottom:0}
+  /* Sorfejléc: a sor jelentését hordozza, ezért balra zárt és hangsúlyos. */
+  .compare-table tbody th[scope="row"]{text-align:left;color:var(--text-primary);white-space:normal}
+  .compare-table tbody td{color:var(--text-secondary)}
+  .compare-table tbody tr:nth-child(even) th,
+  .compare-table tbody tr:nth-child(even) td{background:var(--table-row-alt-bg)}
+
+  /* Az ikon a fejlécben a felirat FÖLÖTT áll, tőle elválasztva. */
+  .compare-colhead{display:flex;flex-direction:column;align-items:center;gap:var(--space-16);color:var(--text-primary)}
+  /* A fejléc alatti elválasztó a teljes táblaszélességen végigfut — a sorfejléc
+     oszlopa alatt is, ahogy a vizuális terven. */
+  .compare-table thead th,
+  .compare-table thead td{border-bottom:1px solid var(--table-border)}
+  .compare-table thead th{vertical-align:bottom}
+
+  /* A gomb a bal oszlop aljára tapad, így az alja egy vonalban zár a jobb
+     oszlop kártyájának aljával. A panel alsó margója adja a minimális hézagot;
+     a maradék szabad hely a gomb FÖLÉ kerül. */
+  .compare-action{margin-top:auto;align-self:flex-start}
+
+  /* ===== 5.10 Termékkártya (ÚJ) ===== */
+  .product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-24)}
+  .product{display:flex;flex-direction:column;gap:var(--space-16)}
+  .product-media{
+    aspect-ratio:var(--media-ratio-product);min-height:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .product-media img{width:100%;height:100%;object-fit:contain}
+  .product-title{color:var(--text-primary)}
+  .product-text{color:var(--text-secondary)}
+  .product-note{color:var(--text-secondary);margin-top:var(--space-16)}
+
+  /* ===== 5.11 Kétoszlopos szekcióalj (ÚJ) ===== */
+  /* align-items alapértelmezetten stretch: mindkét oszlop a magasabbikhoz igazodik,
+     így a két oldal alja egy vonalban zár. */
+  .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-24);margin-top:var(--space-32)}
+  .split-col{display:flex;flex-direction:column}
+  .split-panel{
+    padding:var(--split-padding);
+    background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:var(--panel-radius);
+    margin-bottom:var(--space-24);
+  }
+  .split-card{
+    padding:var(--split-padding);
+    background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--panel-radius);
+    box-shadow:var(--card-shadow);
+  }
+  .split-title{color:var(--text-primary);margin-bottom:var(--space-24)}
+}
+
+/* ----------------------------------------------------------- 6. RESPONSIVE */
+@layer responsive {
+  /* Tablet 641–1024px */
+  @media (max-width:1024px){
+    :root{
+      --space-section:var(--space-96);
+      --page-gutter:var(--space-32);
+      --panel-padding:var(--space-32);
+      --split-padding:var(--space-24);
+
+      --type-display-hero-size:46px;
+      --type-display-page-title-size:34px;
+      --type-display-section-title-size:26px;
+      --type-display-feature-title-size:26px;
+      --type-display-highlight-title-size:28px;
+    }
+    .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .panel{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
+    /* Álló elrendezésben a kép a szöveg elé kerül — a vizuális horgony vezet be. */
+    .panel-media{order:-1}
+    .numbered-grid{grid-template-columns:minmax(0,1fr)}
+    .split{grid-template-columns:minmax(0,1fr)}
+  }
+
+  /* Mobil ≤640px */
+  @media (max-width:640px){
+    :root{
+      --space-section:var(--space-64);
+      --page-gutter:20px;
+      --panel-padding:var(--space-24);
+      --split-padding:var(--space-24);
+
+      --type-display-hero-size:40px;
+      --type-display-page-title-size:30px;
+      --type-display-section-title-size:24px;
+      --type-display-feature-title-size:24px;
+      --type-display-highlight-title-size:26px;
+
+      /* Egyoszlopos elrendezésben a kártya teljes szélességű, így a 3:2-es
+         médiakeret a viewport felét elvinné, és négy egymás utáni illusztráció
+         eltolná a szöveget. Alacsonyabb keret tartja olvashatónak a listát. */
+      --media-ratio-card:16 / 9;
+    }
+    .card-grid{grid-template-columns:minmax(0,1fr)}
+    .section-head{text-align:left}
+    .product-grid{grid-template-columns:minmax(0,1fr)}
+    /* A táblázat mobilon nem tördelhető szét értelmesen: vízszintesen görgethető
+       marad, billentyűzetről is elérhető fókuszálható régióként. */
+    .compare-table{min-width:36rem}
+  }
+}
+
+/* --------------------------------------------------------------- 7. MOTION */
+@layer motion {
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+      scroll-behavior:auto !important;
+    }
+    .btn{transition:none}
+    .btn-primary:hover:not(:disabled),.btn-secondary:hover:not(:disabled){transform:none}
+    .btn[aria-busy="true"]::before{animation:none}
+  }
+}

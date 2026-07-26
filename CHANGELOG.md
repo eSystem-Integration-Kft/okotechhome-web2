@@ -31,10 +31,55 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ## [Kiadatlan]
 
-Még nincs kiadatlan változás.
+Az első két tartalmi szekció és a hozzájuk tartozó designrendszer-implementáció.
+Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át kell nevezni
+`## [0.02.00] — ÉÉÉÉ-HH-NN` alakra).
 
-**Következő mérföldkő — `0.02.00`:** a Test2 designrendszer (tokenkészlet, tipográfia,
-motion-nyelv) meghatározása és az első `_web/` oldalváz.
+### Hozzáadva
+
+- **`assets/css/app.css`** — a designrendszer (`OTH-design-system-Teszt.v2` v0.5)
+  implementációja `@layer` architektúrában: `reset → tokens → base → typography →
+  components → responsive → motion`. A tokenblokk szó szerint az élő HTML-referenciából,
+  a `.type-*` szereposztályok, a `.btn` és a `.text-link` változatlanul.
+- **`index.html` — 3. szekció (*Kiinduló helyzet*)**: négy helyzetkártya kivágott
+  illusztrációval, alattuk kiemelt panel a nagyobb kapacitású (50 fő feletti) igényekhez,
+  a szekció egyetlen elsődleges CTA-jával.
+- **`index.html` — 4. szekció (*Technológiák*)**: három sorszámozott magyarázókártya,
+  „Gyors összehasonlítás" táblázat ikonos oszlopfejlécekkel, és a saját berendezések
+  (Epureco oldómedence, A.B. Clear) blokkja.
+- **Új komponensek** — a designrendszer 10. fejezete szerint még definiálatlan elemek
+  dokumentált osztályként, kizárólag meglévő tokenekből: szekció-sáv, kártya, médiakeret,
+  kiemelt panel, sorszámjelvény, ikon, összehasonlító táblázat, termékkártya,
+  kétoszlopos szekcióalj. Indoklás és javasolt szabályzatszöveg: **`_web/COMPONENTS.md`**.
+- **`.htaccess`** — kiterjesztés nélküli (clean) URL-ek: `/valami.html` → 301 `/valami`,
+  `/index.html` → 301 `/`, záró perjel eltávolítása; biztonsági fejlécek (CSP, nosniff,
+  X-Frame-Options, Referrer-Policy, Permissions-Policy), tömörítés és cache.
+- **`serve.py`** — lokális preview szerver, amely a `.htaccess` clean-URL viselkedését
+  emulálja. Enélkül a kiterjesztés nélküli linkek helyben 404-et adnának.
+- **Médiaeszközök** — öt kivágott illusztráció és két termékfotó WebP-ben
+  (`assets/img/`), három technológiai ikon (`assets/icon/`).
+
+### Javítva
+
+- **Médiakeret magassága** — a `.card-media` egyszerre flex-konténer és flex-elem, így az
+  alapértelmezett `min-height:auto` a *kép* belső méretéből számolt, és felülírta az
+  `aspect-ratio`-t. A hiba csak akkor jelentkezett, ha a kép saját aránya magasabb volt a
+  szereptokenben megadottnál — ezért asztali nézetben rejtve maradt, és mobilon jött elő
+  (460×306 a várt 460×259 helyett). Javítás: `min-height:0`.
+- **Ikonok beégetett színe** — a kapott CorelDRAW-SVG-k `fill:#21432B` nyers hexet
+  hordoztak, ami a 9. tiltólistába ütközik és sötét témában olvashatatlan lenne.
+  A `fill` `currentColor`-ra cserélve, a színt CSS-maszk adja.
+- **Táblázat túlcsordulása** — a négyoszlopos összehasonlító tábla 46px-szel kilógott a
+  szekcióalj felén. A cellák vízszintes belső térköze `--space-16` → `--space-8`.
+
+### Megjegyzés
+
+- A kártyák **azonos magasságúak** (a rács `stretch` igazítása), a hivatkozás
+  `margin-top:auto`-val mindig a kártya alján zár.
+- A `_web/` linkjei már **kiterjesztés nélküliek**; a hivatkozott aloldalak
+  (`uj-epitkezes`, `emeszto-kivaltasa`, …) még nem léteznek, így helyben 404-et adnak.
+- Két, döntést igénylő pont a `COMPONENTS.md`-ben van jelölve: a navigációs CTA
+  gombként való megjelenítése (7.6 tábla), és a szekció-sávok váltakozása (5.3 elv).
 
 ---
 

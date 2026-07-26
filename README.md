@@ -190,10 +190,24 @@ a szolgáltató kiesése esetén is folytatható legyen (Szjt. 1999. évi LXXVI.
 
 ## 📌 Nyitott pontok
 
-- [ ] Test2 designrendszer meghatározása (tokenkészlet, tipográfia, motion-nyelv)
-- [ ] Oldal-inventár átemelése a Test1-ből az új designra
-- [ ] `_web/.htaccess` — clean URL rewrite + biztonsági fejlécek
-- [ ] `_web/robots.txt` + `_web/sitemap.xml` felvétele
+**Designrendszer-döntést igényel** (részletek: [`_web/COMPONENTS.md`](./_web/COMPONENTS.md))
+
+- [ ] Navigációs fő CTA gombként — kerüljön-e a 7.6 komponensválasztó táblába
+      az `a.btn-primary` sor, vagy a panel CTA-ja váltson `.text-link`-re
+- [ ] Szekció-sávok váltakozása (5.3 elv) — a 3. és 4. szekció jelenleg egyaránt
+      canvas sávon ül, a vizuális terv szerint
+- [ ] Az új komponensek (kártya, szekció-sáv, táblázat, médiakeret, ikon) átemelése
+      a hivatalos designrendszerbe
+
+**Építés**
+
+- [x] 3. szekció — *Kiinduló helyzet*
+- [x] 4. szekció — *Technológiák*
+- [x] Clean URL (`.htaccess` + `serve.py`)
+- [ ] 1–2. szekció (hero, bizalmi sáv)
+- [ ] A hivatkozott aloldalak (`uj-epitkezes`, `emeszto-kivaltasa`, `idoszakos-hasznalat`,
+      `telekvasarlas`, `szervezeti-telepulesi-megoldasok`, tudástár)
+- [ ] `_web/404.html`, `_web/robots.txt`, `_web/sitemap.xml`
 - [ ] Staging URL kijelölése és Basic Auth beállítása
 - [ ] AI backend az `AIDT` és `OFC` modulok mögé (Test1-ben kliensoldali szimuláció)
 - [ ] Test1 vs. Test2 ügyfél-döntés → a nyertes ág megy `1.00.00`-ra
