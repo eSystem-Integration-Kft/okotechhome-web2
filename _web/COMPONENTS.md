@@ -81,6 +81,14 @@ Tokenné emelve, hogy ne szórt literálként éljen a kódban.
 | `.section-alt` | váltakozó sáv `--section-alt-bg` háttérrel (5.3: *„Szekció-sávok váltakoznak"*) |
 | `.section-inner` | konténer: `max-width: var(--container-max)`, középre, `padding-inline: var(--page-gutter)` |
 | `.section-head` | eyebrow + cím blokk, alatta `--space-48` |
+| `.section-lead` | bevezető bekezdés a cím alatt, `max-width: 62ch` (olvashatósági korlát) |
+| `.section-lead-wide` | variáns: a bevezető a teljes konténerszélességet használhatja |
+
+**`.section-lead-wide` + `.br-desktop`.** Ahol a terv a bevezetőt fix sortöréssel mutatja
+(5. szekció: két mondat, két sor), a 62ch korlát három sorra tördelne. A variáns feloldja a
+korlátot, a törést pedig egy `<br class="br-desktop">` adja, amely **csak ≥1025px felett
+látszik** — szűkebb képernyőn a szöveg természetesen tördel, ott a kényszerített törés csonka
+sort hagyna.
 
 - Asztali és tablet nézetben a fejléc **középre zárt**, mobilon **balra** — egy oszlopban a
   középre zárt, több soros cím olvasási horgony nélkül marad.
@@ -120,6 +128,33 @@ felületű kattintás elrejtené a link célját a billentyűzetes és képerny�
 **`.action-arrow`** dekoratív, `aria-hidden="true"`. A link szövege a nyíl nélkül is teljes
 értelmű mondat — a 8. fejezet *„szín önmagában nem hordozhat jelentést"* elvének megfelelően
 a nyíl sem hordoz információt.
+
+### `.card-tag` — címke-chip
+
+A kártya besorolását adja („Állandó használatra", „Nagy kapacitásra"). Az 5. szekcióban él.
+
+```html
+<span class="card-tag type-ui-label">Állandó használatra</span>
+```
+
+| Token | Érték |
+|---|---|
+| `--tag-bg` | `var(--surface-muted)` |
+| `--tag-text` | `var(--text-primary)` |
+| `--tag-radius` | `var(--r-md)` |
+
+**Nem `.alert` és nem gomb.** A chip *besorolás*, nem státusz és nem művelet: nem interaktív,
+nincs állapota, és nem hordoz olyan jelentést, amit a kártya címe és szövege ne mondana el.
+Ezért önálló, semleges komponens.
+
+### A kártyán belüli médiakeret
+
+Az 5. szekcióban a kép a **kártyán belül** áll (a 3. szekcióban a kártya *fölött*, a canvason).
+A térközt ilyenkor a kártya saját `gap`-je adja, ezért a keret alsó margója elmarad:
+
+```css
+.card > .card-media{margin-bottom:0}
+```
 
 ---
 
@@ -161,6 +196,18 @@ display-méretek töréspontos váltását kezeli.
 |---|---|---|
 | asztali / tablet | `3 / 2` | — |
 | mobil ≤640px | `16 / 9` | 46% → 39% |
+
+### `.card-media-product` — variáns álló/négyzetes renderhez
+
+A 3:2-es alapkeret a **fekvő** helyzet-illusztrációkra van szabva. Az 5. szekció
+termékrenderei álló (1086×1448) vagy négyzetes (1254×1254) arányúak; `contain` mellett ezek a
+fekvő keretben eltörpülnének — a kártya szélességének alig felét töltenék ki. A variáns
+négyzetes keretet ad (`--media-ratio-product: 1 / 1`), és középre igazít:
+
+```css
+.card-media-product{aspect-ratio:var(--media-ratio-product);align-items:center}
+.card-media-product img{object-position:center}
+```
 
 ---
 

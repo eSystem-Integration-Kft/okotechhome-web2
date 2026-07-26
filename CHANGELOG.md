@@ -47,6 +47,14 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 - **`index.html` — 4. szekció (*Technológiák*)**: három sorszámozott magyarázókártya,
   „Gyors összehasonlítás" táblázat ikonos oszlopfejlécekkel, és a saját berendezések
   (Epureco oldómedence, A.B. Clear) blokkja.
+- **`index.html` — 5. szekció (*Megoldásaink*)**: négy termékkártya besorolás-címkével
+  (A.B. Clear · telepek · Epureco oldómedencék · iszapzsákos technológia).
+- **`.card-tag`** — címke-chip a kártya besorolásához. Nem státusz és nem művelet, ezért
+  nem `.alert` és nem gomb, hanem önálló, nem interaktív komponens.
+- **`.card-media-product`** — médiakeret-variáns álló és négyzetes termékrenderhez;
+  a 3:2-es alapkeretben ezek a képek a kártya szélességének alig felét töltenék ki.
+- **`.section-lead-wide` + `.br-desktop`** — a bevezető bekezdés a terv szerinti
+  sortöréssel, kizárólag asztali nézetben kényszerítve.
 - **Új komponensek** — a designrendszer 10. fejezete szerint még definiálatlan elemek
   dokumentált osztályként, kizárólag meglévő tokenekből: szekció-sáv, kártya, médiakeret,
   kiemelt panel, sorszámjelvény, ikon, összehasonlító táblázat, termékkártya,

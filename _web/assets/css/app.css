@@ -232,6 +232,11 @@
     --badge-bg:var(--surface-muted);
     --badge-text:var(--text-primary);
 
+    /* címke-chip (kártya besorolása) */
+    --tag-bg:var(--surface-muted);
+    --tag-text:var(--text-primary);
+    --tag-radius:var(--r-md);
+
     /* összehasonlító táblázat — három felület: panel → páratlan sor → páros sor.
        A páratlan sor a panelnél halványabb zöld. Nincs rá saját token, és nyers
        hexet a 0.8/9. szabály tilt, ezért meglévő szemantikus tokenekből keverjük
@@ -289,6 +294,9 @@
 
     --badge-bg:var(--surface-muted);
     --badge-text:var(--text-primary);
+
+    --tag-bg:var(--surface-muted);
+    --tag-text:var(--text-primary);
 
     --table-row-bg:color-mix(in srgb,var(--surface-muted) 60%,var(--surface));
     --table-row-alt-bg:var(--surface);
@@ -430,6 +438,14 @@
   .section-title{color:var(--text-primary);text-wrap:balance}
   .section-lead{color:var(--text-secondary);margin-top:var(--space-16);max-width:62ch}
   .section-head-start .section-lead{margin-inline:0}
+  /* Variáns: a bevezető a teljes konténerszélességet használhatja, hogy a
+     mondatok a terv szerinti sortörésnél váljanak el. A 62ch olvashatósági
+     korlát itt szándékosan nem érvényes. */
+  .section-lead-wide{max-width:none}
+  /* Tervezett sortörés — csak asztali nézetben; szűkebb képernyőn a szöveg
+     természetesen tördel, ott a kényszerített törés csonka sort adna. */
+  .br-desktop{display:none}
+  @media (min-width:1025px){.br-desktop{display:inline}}
 
   /* ===== 5.4 Kártyarács és kártya, e1 emelés (ÚJ) ===== */
   .card-grid{
@@ -457,6 +473,20 @@
   /* A nyíl dekoratív: a link szövege önmagában is értelmes. */
   .action-arrow{margin-right:var(--space-8)}
 
+  /* ===== 5.4b Címke-chip (ÚJ) =====
+     A kártya besorolását adja („Állandó használatra"). Nem interaktív és nem
+     státusz — ezért nem `.alert` és nem gomb, hanem önálló, semleges chip. */
+  .card-tag{
+    display:inline-flex;align-items:center;align-self:flex-start;
+    padding:var(--space-4) var(--space-8);
+    border-radius:var(--tag-radius);
+    background:var(--tag-bg);color:var(--tag-text);
+  }
+
+  /* A kártyán BELÜLI médiakeret térközét a kártya `gap`-je adja, ezért a keret
+     saját alsó margója itt elmarad (a 3. szekcióban a kártya FÖLÖTT áll). */
+  .card > .card-media{margin-bottom:0}
+
   /* ===== 5.5 Médiakeret kivágott illusztrációhoz (ÚJ) ===== */
   .card-media{
     display:flex;align-items:flex-end;justify-content:center;
@@ -469,6 +499,11 @@
     margin-bottom:var(--space-16);
   }
   .card-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom}
+
+  /* Variáns: álló/négyzetes termékrenderhez. A 3:2-es alapkeret a fekvő
+     helyzet-illusztrációkra van szabva; egy álló tartály abban eltörpülne. */
+  .card-media-product{aspect-ratio:var(--media-ratio-product);align-items:center}
+  .card-media-product img{object-position:center}
 
   /* ===== 5.6 Kiemelt panel (ÚJ) ===== */
   .panel{

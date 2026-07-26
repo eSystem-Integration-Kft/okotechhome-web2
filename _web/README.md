@@ -10,16 +10,16 @@ Kizárólag ennek a tartalma kerül élesre — a repó gyökerében élő `READ
 | | |
 |---|---|
 | **Designrendszer** | `OTH-design-system-Teszt.v2` **v0.5** implementálva (`assets/css/app.css`) |
-| **Kész szekciók** | 3. — *Kiinduló helyzet* · 4. — *Technológiák* |
+| **Kész szekciók** | 3. — *Kiinduló helyzet* · 4. — *Technológiák* · 5. — *Megoldásaink* |
 | **Hiányzik** | 1–2. szekció (hero, bizalmi sáv), aloldalak, `404.html`, `robots.txt`, `sitemap.xml` |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
-| **JS** | jelenleg **nincs** — a két szekció teljes egészében HTML + CSS |
+| **JS** | jelenleg **nincs** — mindhárom szekció teljes egészében HTML + CSS |
 
 ## Szerkezet
 
 ```text
 _web/
-├─ index.html                    # főoldal — jelenleg a 3. és 4. szekció
+├─ index.html                    # főoldal — jelenleg a 3., 4. és 5. szekció
 ├─ .htaccess                     # clean URL rewrite, 301-ek, biztonsági fejlécek, cache
 ├─ serve.py                      # lokális preview szerver (a .htaccess-t emulálja)
 ├─ COMPONENTS.md                 # ÚJ komponensek — javaslat a designrendszerhez
@@ -31,7 +31,8 @@ _web/
    └─ img/                       # WebP, alfacsatornás kivágatok
       ├─ helyzet-{uj-epitkezes,emeszto-kivaltasa,nyaralo,telekvasarlas}.webp
       ├─ nagyobb-kapacitas-panzio.webp
-      └─ termek-{epureco-oldomedence,ab-clear}.webp
+      ├─ termek-{epureco-oldomedence,ab-clear}.webp
+      └─ megoldas-{ab-clear,telepek,iszapzsak}.webp
 ```
 
 ## Designrendszer

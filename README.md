@@ -44,7 +44,7 @@ webkimenet (`_web/`) és a hozzá tartozó verziókezelési réteg, saját verzi
   <tr><td><b>Távoli repó</b></td><td><code>github.com/eSystem-Integration-Kft/okotechhome-web2</code> (privát)</td></tr>
   <tr><td><b>Kezdőverzió</b></td><td><code>v0.01.01</code></td></tr>
   <tr><td><b>Designrendszer</b></td><td><code>OTH-design-system-Teszt.v2</code> <b>v0.5</b> — a HTML-referencia az igazságforrás</td></tr>
-  <tr><td><b>Kész szekciók</b></td><td>3. — <i>Kiinduló helyzet</i> · 4. — <i>Technológiák</i></td></tr>
+  <tr><td><b>Kész szekciók</b></td><td>3. — <i>Kiinduló helyzet</i> · 4. — <i>Technológiák</i> · 5. — <i>Megoldásaink</i></td></tr>
   <tr><td><b>Nyelv</b></td><td><code>hu-HU</code></td></tr>
 </table>
 
@@ -91,7 +91,7 @@ _OkoTechHome2/
 ├─ scripts/release.sh         # kiadás-automatizálás (bump + annotált tag)
 ├─ .github/banner.*           # README-banner (nem kerül élesre)
 ├─ _web/                      # 🌐 WEBKIMENET — ez megy élesre
-│  ├─ index.html              #    főoldal — 3. és 4. szekció
+│  ├─ index.html              #    főoldal — 3., 4. és 5. szekció
 │  ├─ .htaccess               #    clean URL rewrite, biztonsági fejlécek, cache
 │  ├─ serve.py                #    lokális preview szerver (a .htaccess-t emulálja)
 │  ├─ COMPONENTS.md           #    ÚJ komponensek — javaslat a designrendszerhez
@@ -242,6 +242,7 @@ a szolgáltató kiesése esetén is folytatható legyen (Szjt. 1999. évi LXXVI.
 
 - [x] 3. szekció — *Kiinduló helyzet*
 - [x] 4. szekció — *Technológiák*
+- [x] 5. szekció — *Megoldásaink*
 - [x] Clean URL (`.htaccess` + `serve.py`)
 - [ ] 1–2. szekció (hero, bizalmi sáv)
 - [ ] A hivatkozott aloldalak (`uj-epitkezes`, `emeszto-kivaltasa`, `idoszakos-hasznalat`,
