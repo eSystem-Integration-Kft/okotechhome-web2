@@ -13,8 +13,9 @@
 <p align="center">
   <img src="https://img.shields.io/badge/verzi%C3%B3-0.01.01-36C5E6?style=flat-square" alt="verzió 0.01.01">
   <img src="https://img.shields.io/badge/v%C3%A1ltozat-Test2-C9A24A?style=flat-square" alt="Test2">
-  <img src="https://img.shields.io/badge/st%C3%A1tusz-inicializ%C3%A1lva-6f42c1?style=flat-square" alt="státusz: inicializálva">
-  <img src="https://img.shields.io/badge/statikus-HTML%20%2F%20CSS%20%2F%20JS-19C37D?style=flat-square" alt="statikus">
+  <img src="https://img.shields.io/badge/st%C3%A1tusz-fejleszt%C3%A9s%20alatt-6f42c1?style=flat-square" alt="státusz: fejlesztés alatt">
+  <img src="https://img.shields.io/badge/designrendszer-v0.5-80A640?style=flat-square" alt="designrendszer v0.5">
+  <img src="https://img.shields.io/badge/statikus-HTML%20%2F%20CSS-19C37D?style=flat-square" alt="statikus HTML/CSS">
   <img src="https://img.shields.io/badge/SEO%20%2B%20GEO-JSON--LD-6f42c1?style=flat-square" alt="SEO+GEO">
   <img src="https://img.shields.io/badge/A11y-WCAG%202.2%20AA-0A7?style=flat-square" alt="WCAG 2.2 AA">
   <img src="https://img.shields.io/badge/licenc-Proprietary-C9A24A?style=flat-square" alt="Proprietary">
@@ -23,6 +24,7 @@
 <p align="center">
   <a href="./CHANGELOG.md">Változásnapló</a> ·
   <a href="./VERSIONING.md">Verziózási szabályzat</a> ·
+  <a href="./_web/COMPONENTS.md">Komponensek</a> ·
   <a href="./VERSION">VERSION</a>
 </p>
 
@@ -41,6 +43,8 @@ webkimenet (`_web/`) és a hozzá tartozó verziókezelési réteg, saját verzi
   <tr><td><b>Fejlesztő</b></td><td>eSystem-Integration Kft. / IEM — Industrial Electric &amp; Mechanic Kft., Érd</td></tr>
   <tr><td><b>Távoli repó</b></td><td><code>github.com/eSystem-Integration-Kft/okotechhome-web2</code> (privát)</td></tr>
   <tr><td><b>Kezdőverzió</b></td><td><code>v0.01.01</code></td></tr>
+  <tr><td><b>Designrendszer</b></td><td><code>OTH-design-system-Teszt.v2</code> <b>v0.5</b> — a HTML-referencia az igazságforrás</td></tr>
+  <tr><td><b>Kész szekciók</b></td><td>3. — <i>Kiinduló helyzet</i> · 4. — <i>Technológiák</i></td></tr>
   <tr><td><b>Nyelv</b></td><td><code>hu-HU</code></td></tr>
 </table>
 
@@ -53,12 +57,20 @@ webkimenet (`_web/`) és a hozzá tartozó verziókezelési réteg, saját verzi
     <th>Test2 — <code>okotechhome-web2</code> <i>(ez)</i></th>
   </tr>
   <tr><td><b>Márka / logó</b></td><td colspan="2" align="center">🟰 <b>azonos</b> — ÖkoTech Home</td></tr>
-  <tr><td><b>Motor / technológia</b></td><td colspan="2" align="center">🟰 <b>azonos</b> — statikus HTML/CSS/JS, GSAP + Lenis, Apache <code>.htaccess</code></td></tr>
   <tr><td><b>Tartalmi téma</b></td><td colspan="2" align="center">🟰 <b>azonos</b> — otthoni biológiai szennyvíztisztítás, döntéstámogató tölcsér</td></tr>
-  <tr><td><b>Designrendszer</b></td><td>smaragd/aqua tokenkészlet, Sora + Inter</td><td>🆕 <b>új vizuális irány</b> — kidolgozás alatt</td></tr>
+  <tr><td><b>Alaptechnológia</b></td><td colspan="2" align="center">🟰 <b>azonos</b> — statikus HTML/CSS, vanilla JS, Apache <code>.htaccess</code>, clean URL</td></tr>
+  <tr><td><b>Tipográfia</b></td><td>Sora + Inter</td><td>🆕 Zilla Slab + IBM Plex Sans + IBM Plex Mono</td></tr>
+  <tr><td><b>Paletta</b></td><td>smaragd / aqua tokenkészlet</td><td>🆕 ÖTH-paletta — Fern · Lime · Olive Leaf · Forest · Sea Mist · Sky Blue</td></tr>
+  <tr><td><b>Animációs réteg</b></td><td>GSAP 3.12 + ScrollTrigger + Lenis</td><td>⚠️ <b>nincs</b> — a designrendszer 0.7 szabálya tiltja a frameworköt</td></tr>
   <tr><td><b>Verziószám</b></td><td><code>0.9.0</code> (klasszikus SemVer)</td><td><code>0.01.01</code> (feltöltött SemVer)</td></tr>
   <tr><td><b>Verzió-idővonal</b></td><td colspan="2" align="center">↔️ <b>független</b> — a két repó verziója nem korrelál</td></tr>
 </table>
+
+> ⚠️ **A motor mégsem teljesen azonos.** A Test1 GSAP + Lenis stacket használ, a Test2
+> designrendszer **0.7 alapszabálya** viszont kimondja: *„Nincs framework. Natív HTML-elem és
+> vanilla JS."* A scroll-animációs réteg tehát **nem emelhető át változtatás nélkül** — vagy
+> natív CSS scroll-driven animation kell helyette, vagy a designrendszernek kell felmentést
+> adnia. Nyitott kérdés, lásd a *Nyitott pontok* szakaszt.
 
 ---
 
@@ -79,8 +91,15 @@ _OkoTechHome2/
 ├─ scripts/release.sh         # kiadás-automatizálás (bump + annotált tag)
 ├─ .github/banner.*           # README-banner (nem kerül élesre)
 ├─ _web/                      # 🌐 WEBKIMENET — ez megy élesre
+│  ├─ index.html              #    főoldal — 3. és 4. szekció
+│  ├─ .htaccess               #    clean URL rewrite, biztonsági fejlécek, cache
+│  ├─ serve.py                #    lokális preview szerver (a .htaccess-t emulálja)
+│  ├─ COMPONENTS.md           #    ÚJ komponensek — javaslat a designrendszerhez
 │  ├─ README.md
-│  └─ assets/{css,js,img}/
+│  └─ assets/
+│     ├─ css/app.css          #    a teljes designrendszer @layer architektúrában
+│     ├─ icon/                #    technológiai ikonok (currentColor)
+│     └─ img/                 #    WebP kivágatok (alfa)
 │  └───────────────────────────────────────────────────────────────────────────┘
 │
 │  ┌─ ❌ HELYI — nem kerül a távoli repóba ────────────────────────────────────┐
@@ -145,15 +164,30 @@ git diff v0.01.01..HEAD --stat        # mely fájlok változtak
 
 ## 🖥️ Helyi fejlesztés
 
-A webkimenet a `_web/` alatt épül. Amíg nincs saját preview-szerver, egyszerű kiszolgálás:
+Az oldal **kiterjesztés nélküli** útvonalakat használ (`/uj-epitkezes`), amit élesben a
+`.htaccess` rewrite old meg. A sima `python3 -m http.server` ezekre 404-et adna, ezért saját
+preview-szerver kell:
 
 ```bash
 cd _web
-python3 -m http.server 8849      # http://localhost:8849
+python3 serve.py            # http://localhost:8849
+python3 serve.py 9000       # egyedi port
 ```
 
-> Clean URL-ek (`/uj-epitkezes`) bevezetésekor a Test1 `serve.py` mintájára kell preview-szervert
-> tenni a `_web/` gyökerébe — a sima `http.server` 404-et adna a kiterjesztés nélküli linkekre.
+A `serve.py` a `.htaccess` viselkedését emulálja: `/oldal.html` → 301 `/oldal`,
+`/index.html` → 301 `/`, záró perjel levágása, és `404.html` a nem létező útvonalakra.
+
+> A hivatkozott aloldalak még nem léteznek, így helyben 404-et adnak — ez várt állapot.
+
+### Designrendszer
+
+Az igazságforrás az `OTH-design-system-Teszt.v2.html` **élő referencia** (v0.5); a `.md` ennek
+gépi kivonata. Ha a kettő eltér, **a HTML nyer**. Az implementáció: `_web/assets/css/app.css`,
+`@layer` sorrenddel `reset → tokens → base → typography → components → responsive → motion`.
+
+A rendszer 10. fejezete szerint még **definiálatlan** komponensek (kártya, szekció-sáv,
+táblázat, médiakeret, ikonrendszer) dokumentált osztályként, kizárólag meglévő tokenekből
+készültek — indoklás és javasolt szabályzatszöveg: [`_web/COMPONENTS.md`](./_web/COMPONENTS.md).
 
 ---
 
@@ -161,9 +195,10 @@ python3 -m http.server 8849      # http://localhost:8849
 
 Csak a **`_web/` tartalma** kerül élesre. A `README.md`, `CHANGELOG.md`, `VERSIONING.md`,
 `VERSION`, `scripts/` és `.github/` **nem** — a többi könyvtár pedig eleve nincs a repóban.
+A `_web/`-en belül szintén ki kell hagyni: `README.md`, `COMPONENTS.md`, `serve.py`.
 
 ```bash
-git archive v0.01.01 --prefix=okotechhome2/ -o /tmp/okotechhome2-0.01.01.tar.gz _web
+git archive v0.02.00 --prefix=okotechhome2/ -o /tmp/okotechhome2.tar.gz _web
 ```
 
 | Környezet | Cím | Megjegyzés |
@@ -198,6 +233,10 @@ a szolgáltató kiesése esetén is folytatható legyen (Szjt. 1999. évi LXXVI.
       canvas sávon ül, a vizuális terv szerint
 - [ ] Az új komponensek (kártya, szekció-sáv, táblázat, médiakeret, ikon) átemelése
       a hivatalos designrendszerbe
+- [ ] **Animációs réteg**: a Test1 GSAP + Lenis stackje ütközik a 0.7 alapszabállyal
+      („Nincs framework"). Natív CSS scroll-driven animation, vagy a szabály alóli felmentés?
+- [ ] `--surface-muted-soft` szint felvétele a felület-lépcsőbe — jelenleg a táblázat
+      páratlan sorának árnyalatát `color-mix` állítja elő
 
 **Építés**
 

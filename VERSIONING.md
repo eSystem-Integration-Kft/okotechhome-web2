@@ -130,8 +130,9 @@ A repó [Conventional Commits](https://www.conventionalcommits.org/) formátumot
 | `chore` | karbantartás, eszközök | — |
 | `feat!` / `BREAKING CHANGE:` lábjegyzet | törő változás | **MAJOR** |
 
-**Bevált hatókörök (scope):** `hero`, `howworks`, `ai-advisor`, `ofc`, `form`, `nav`, `seo`,
-`a11y`, `htaccess`, `readme`, `assets`, `design`, `release`.
+**Bevált hatókörök (scope):** `design` (tokenek, `app.css`), `web` (szekció- és oldalépítés),
+`compare` (összehasonlító tábla), `hero`, `nav`, `form`, `seo`, `a11y`, `htaccess`, `assets`,
+`icon`, `readme`, `release`.
 
 Példák:
 
@@ -253,8 +254,9 @@ ami a NIS2 szerinti változáskövetés miatt is elvárás.
 
 | Fázis | Verziótartomány | Állapot |
 |---|---|---|
-| Munkaterület-inicializálás | `0.01.01` | **jelenlegi** |
-| Designrendszer és oldalépítés | `0.02.00` – `0.99.xx` | tervezett |
+| Munkaterület-inicializálás | `0.01.01` | kiadva |
+| Designrendszer-implementáció + 3–4. szekció | `0.02.00` | **kiadásra kész** |
+| További szekciók és aloldalak | `0.03.00` – `0.99.xx` | tervezett |
 | Éles átvétel (go-live) | `1.00.00` | tervezett |
 | Karbantartás, tartalom-bővítés | `1.xx.yy` | tervezett |
 | Többnyelvűsítés (HU/EN/DE), CRM/AI backend | `2.00.00` | opció |

@@ -71,6 +71,25 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   A `fill` `currentColor`-ra cserélve, a színt CSS-maszk adja.
 - **Táblázat túlcsordulása** — a négyoszlopos összehasonlító tábla 46px-szel kilógott a
   szekcióalj felén. A cellák vízszintes belső térköze `--space-16` → `--space-8`.
+- **Fejléc-ikonok elcsúszása** — alsó cellaigazításnál a kétsoros oszlopfelirat
+  („Biológiai szennyvíztisztító") feltolta a saját ikonját, és az ikonsor kiesett a vonalból.
+  A fejléccellák `vertical-align: top`-ra állítva.
+- **A táblázat harmadik felülete** — a vizuális terv három felületet használ (panel →
+  halványabb zöld páratlan sor → fehér páros sor), az implementációban csak kettő volt.
+  A középső árnyalatra nincs token, nyers hexet pedig a 0.8 és a 9. szabály tilt, ezért
+  `color-mix(in srgb, var(--surface-muted) 60%, var(--surface))` állítja elő — így témaváltáskor
+  együtt mozog a két forrásfelülettel.
+
+### Dokumentáció
+
+- **`_web/README.md`** újraírva: designrendszer-összefoglaló (betűcsaládok, paletta, térköz,
+  töréspontok), a betartott kötelező szabályok, clean-URL viselkedéstábla, deploy-kizárások.
+- **`README.md`** — Test1 ↔ Test2 összevetés kiegészítve a tényleges tipográfiával és
+  palettával; a könyvtárfa a valós `_web/` tartalommal; helyi fejlesztés `serve.py`-ra állítva.
+- **`VERSIONING.md`** — commit-hatókörök a projekt tényleges moduljaira igazítva,
+  verzió-életút frissítve.
+- **Jelezve:** a Test1 GSAP + Lenis animációs rétege ütközik a designrendszer **0.7**
+  alapszabályával (*„Nincs framework"*), ezért nem emelhető át változtatás nélkül.
 
 ### Megjegyzés
 
