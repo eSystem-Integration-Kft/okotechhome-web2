@@ -1,0 +1,51 @@
+# ── macOS ────────────────────────────────────────────────────────────────────
+.DS_Store
+**/.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# ── Titkok ───────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# ═════════════════════════════════════════════════════════════════════════════
+#  HELYI MUNKAKÖNYVTÁRAK — NEM kerülnek a távoli repóba
+# ═════════════════════════════════════════════════════════════════════════════
+# A repó hatóköre szándékosan szűk: a verziózott tartalom a webkimenet (_web/)
+# és a hozzá tartozó dokumentációs / verziókezelési réteg. Minden más helyben
+# marad, mert belső munkaanyag, ügyfél-dokumentum vagy nagy bináris.
+#
+# Mentésük NEM git feladata → külső meghajtó vagy felhő-tárhely, időbélyeges
+# mappával. Részletek: README.md → „Mi nincs git alatt (és miért)”.
+
+# FONTOS: a git csak a SOR ELEJÉN ismeri el a `#`-ot kommentnek — sorvégi
+# megjegyzés a minta részévé válna, és a szabály némán hatástalan lenne.
+
+# projektmemória — belső, gépspecifikus
+_memory/
+# munkapéldányok, jegyzetek, promptok, kutatás, backupok
+_work/
+# ügyfél-leszállítandók (ajánlat, stratégia, jogi anyagok)
+_files/
+# teszt-ajánlatok az OFC modul kipróbálásához
+_OTH_tesztfileok/
+# médiamesterek (434 MB) — a git nem bináris-tár
+_kepek_videok/
+
+# ── Webkimenet: a forrás verziózódik, a build-melléktermék nem ───────────────
+_web/node_modules/
+_web/dist/
+_web/.cache/
+
+# ── Egyéb ────────────────────────────────────────────────────────────────────
+*.log
+node_modules/
+.venv/
+__pycache__/
+*.tmp
+~$*
