@@ -280,10 +280,35 @@ teljes szemantikával:
 
 | Token | Érték |
 |---|---|
+| `--table-row-bg` | `color-mix(in srgb, var(--surface-muted) 60%, var(--surface))` |
 | `--table-row-alt-bg` | `var(--surface)` |
 | `--table-border` | `var(--border)` |
 | `--table-cell-padding-block` | `var(--space-16)` |
 | `--table-cell-padding-inline` | `var(--space-8)` |
+
+### Három felület, nem kettő
+
+A vizuális terven a tábla **három** felületet használ, nem kettőt:
+
+| Réteg | Felület | Érték |
+|---|---|---|
+| panel | `--panel-bg` | `#E5EBBB` (Lime) |
+| páratlan sor (1·3·5) | `--table-row-bg` | `#EDF1D4` — a panelnél halványabb zöld |
+| páros sor (2·4) | `--table-row-alt-bg` | `#FAFAFA` (Stardust) |
+
+A középső árnyalatra **nincs token**, és nyers hexet a 0.8 és a 9. szabály tilt. Ezért a
+`--surface-muted` és a `--surface` **`color-mix`-e** adja — a rendszer maga is él ezzel
+(`--topbar-bg`, `.btn-secondary:active`). Így az árnyalat témaváltáskor is együtt mozog a
+két forrásfelülettel, ahelyett hogy beégetett érték lenne.
+
+> Ha a designrendszer egyszer felvesz egy `--surface-muted-soft` szintet a felület-lépcsőbe,
+> ez a `color-mix` arra cserélendő.
+
+### Fejléc-igazítás
+
+A fejléccellák `vertical-align: top`. Alsó igazításnál a kétsoros oszlopfelirat
+(„Biológiai szennyvíztisztító") **feltolná a saját ikonját**, és az ikonsor elcsúszna.
+Felülre igazítva mindhárom ikon egy vonalban áll, a hosszabb felirat pedig lefelé nő.
 
 **A vízszintes belső térköz `--space-8`, nem `--space-16`.** A tábla a kétoszlopos szekcióalj
 felén él: 1180px-es konténernél ~432px jut neki, és 16px-es cellatérköznél a negyedik oszlop

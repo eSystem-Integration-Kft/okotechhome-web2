@@ -232,8 +232,11 @@
     --badge-bg:var(--surface-muted);
     --badge-text:var(--text-primary);
 
-    /* összehasonlító táblázat */
-    --table-row-bg:transparent;
+    /* összehasonlító táblázat — három felület: panel → páratlan sor → páros sor.
+       A páratlan sor a panelnél halványabb zöld. Nincs rá saját token, és nyers
+       hexet a 0.8/9. szabály tilt, ezért meglévő szemantikus tokenekből keverjük
+       (a rendszer maga is használ color-mix-et, pl. --topbar-bg). */
+    --table-row-bg:color-mix(in srgb,var(--surface-muted) 60%,var(--surface));
     --table-row-alt-bg:var(--surface);
     --table-border:var(--border);
     --table-cell-padding-block:var(--space-16);
@@ -287,6 +290,7 @@
     --badge-bg:var(--surface-muted);
     --badge-text:var(--text-primary);
 
+    --table-row-bg:color-mix(in srgb,var(--surface-muted) 60%,var(--surface));
     --table-row-alt-bg:var(--surface);
     --table-border:var(--border);
   }
@@ -541,6 +545,8 @@
   /* Sorfejléc: a sor jelentését hordozza, ezért balra zárt és hangsúlyos. */
   .compare-table tbody th[scope="row"]{text-align:left;color:var(--text-primary);white-space:normal}
   .compare-table tbody td{color:var(--text-secondary)}
+  .compare-table tbody tr:nth-child(odd) th,
+  .compare-table tbody tr:nth-child(odd) td{background:var(--table-row-bg)}
   .compare-table tbody tr:nth-child(even) th,
   .compare-table tbody tr:nth-child(even) td{background:var(--table-row-alt-bg)}
 
@@ -550,7 +556,9 @@
      oszlopa alatt is, ahogy a vizuális terven. */
   .compare-table thead th,
   .compare-table thead td{border-bottom:1px solid var(--table-border)}
-  .compare-table thead th{vertical-align:bottom}
+  /* Felülre igazítva az ikonok egy vonalban állnak. Alsó igazításnál a kétsoros
+     felirat feltolná a saját ikonját, és az ikonsor elcsúszna. */
+  .compare-table thead th{vertical-align:top}
 
   /* A gomb a bal oszlop aljára tapad, így az alja egy vonalban zár a jobb
      oszlop kártyájának aljával. A panel alsó margója adja a minimális hézagot;
