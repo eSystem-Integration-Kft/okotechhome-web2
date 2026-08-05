@@ -258,3 +258,19 @@ a szolgáltató kiesése esetén is folytatható legyen (Szjt. 1999. évi LXXVI.
   <sub>Belső dokumentum · Ökotech-Home Kft. · 2509 Esztergom, Strázsa utca 12.<br>
   Fejlesztés: eSystem-Integration Kft. (IEM — Industrial Electric &amp; Mechanic Kft.), Érd</sub>
 </p>
+
+## Skillek — projekt-tudás a munkához
+
+A repó két skillt hoz magával (`.claude/skills/`), amelyeket a munka során be kell olvasni:
+
+| Skill | Mire való |
+|---|---|
+| **`okotechhome-oldalgyartas`** | *hogyan* épül egy oldal: teljes sitemap (402 elem), URL-séma, hat oldaltípus-sablon, a Test2 komponenskészlete és tokenjei, szöveg- és adatforrások |
+| **`otthoni-biologiai-szennyviztisztitas`** | *mit* írunk: szabványok (EN 12566-3, CE, ISO 9001), magyar jogszabályok és engedélyezés, EU-keret, piaci márkák, HU/EN/DE glosszárium, GEO/AIO tartalom |
+
+A kettő együtt használandó: az első a gyártási kézikönyv, a második a szakmai tudásbázis.
+
+> ⚠️ **Adathiány.** A termékoldalak (A.B. Clear, EPURECO modellek, műszaki adatok,
+> tanúsítványok) megépítéséhez **gyártói dokumentáció kell** — a hiánylista a
+> `okotechhome-oldalgyartas/references/szovegforrasok.md` fájlban.
+

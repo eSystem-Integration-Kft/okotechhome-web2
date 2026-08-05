@@ -31,22 +31,174 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ## [Kiadatlan]
 
-Az első két tartalmi szekció és a hozzájuk tartozó designrendszer-implementáció.
+A főoldal fejléce és 1–5. szekciója, a hozzájuk tartozó designrendszer-implementációval.
 Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át kell nevezni
 `## [0.02.00] — ÉÉÉÉ-HH-NN` alakra).
 
 ### Hozzáadva
 
+- **„Helyzetem" kategória — 8 oldal.** A sitemap első főkategóriája megépült: áttekintő
+  (`helyzetem/`) és hét helyzet-oldal (nincs közcsatorna · telekvásárlás és új építés ·
+  emésztő kiváltása · nyaraló és szezonális · családi ház · vállalkozás és intézmény ·
+  már van rendszerem). A szekciók a sitemap 3. szintjét követik, a szerkezet az
+  `okotechhome-oldalgyartas` skill „Helyzet-oldal" sablonját. Minden oldalon saját,
+  21:9 arányú generált fejléckép, morzsamenü, GYIK és `BreadcrumbList` + `FAQPage`
+  strukturált adat.
+- **Kapcsolat oldal (`kapcsolat.html`).** A webhely egyetemes CTA-célpontja; eddig
+  minden szekció és aloldal nem létező URL-re mutatott. Négy megszólítás-útvonal a
+  sitemap szerint (új érdeklődő · meglévő ügyfél · szakmai partner · sajtó), plusz
+  elérhetőségek. A fejléc „Konzultációt kérek" gombja is ide mutat.
+- **`.numbered-grid` négyelemű változata.** Pontosan négy kártyánál 2×2 rács
+  (`:has(> :nth-child(4):last-child)`), mert a hármas osztás 3+1-re tört, és az árva
+  kártya elrendezési hibának látszott.
+- **Egyedi hibaoldalak — 404 · 403 · 401 · 500.** Egyetlen relatív útvonal sincs
+  bennük (a logó beágyazott SVG), mert a böngésző a relatív útvonalakat a
+  *kért* URL-hez oldja fel, nem a hibaoldal helyéhez — `/megoldasok/nincs-ilyen`
+  kérésnél a `assets/css/app.css` `/megoldasok/assets/…`-ra mutatna, és szintén 404
+  lenne. A stílus ezért a `/assets/css/hiba.css`-ben áll, gyökér-abszolút
+  hivatkozással. A `.htaccess` mind a négyet bejegyzi, és `Options -Indexes`-szel
+  kikapcsolja a könyvtárlistákat (a tiltás 403-at ad, amit a hibaoldal fog el).
+  Forrás: `scripts/oldalgyartas/hibaoldalak.py`.
+- **`serve.py` — a teljes biztonságifejléc-készlet.** A helyi kiszolgáló eddig három
+  fejlécet küldött, CSP-t nem; így egy egész hibaosztály csak élesben derült ki.
+  Mostantól a `.htaccess` CSP-jét, `X-Frame-Options`-át, `Permissions-Policy`-jét és
+  a teszt üzemmód `X-Robots-Tag`-jét is küldi.
+- **Teljes ikonkészlet.** Eddig **egyetlen favicon sem volt** — minden böngészőfülön
+  üres lap-ikon állt. A jelrajzból (a logó Fern-zöld térkép-sziluettje) készült
+  `favicon.svg`, `favicon-{16,32,48}.png`, gyökérbeli `favicon.ico`,
+  `apple-touch-icon.png` (tömör háttérrel, mert az iOS nem kezeli az alfát),
+  `icon-{192,512}.png`, maskable változat és `site.webmanifest`. Bekötve mind a
+  15 oldalra, `theme-color`-ral együtt.
+- **Oldalgenerátorok a repóban** (`scripts/oldalgyartas/`): `sablon.py` a szekció- és
+  oldalváz-építőkkel, `helyzetem.py`, `kapcsolat.py`, `hibaoldalak.py`. A fejlécet a
+  sablon egy meglévő aloldalból emeli ki, így a 15 példányban duplikált fejléc nem tud
+  szétcsúszni, amíg nincs valódi build-lépés.
+
+### Javítva
+
+- **A főoldal 3. szekciójának hivatkozásai** nem létező, a sitemap-en kívüli szlugokra
+  mutattak (`uj-epitkezes`, `emeszto-kivaltasa`, `idoszakos-hasznalat`, `telekvasarlas`).
+  Mind a négy a megfelelő `helyzetem/…` oldalra mutat. Az első oszlop
+  („Építkezés csatorna nélküli telken") a közcsatorna-oldalra került, mert a
+  telekvásárlásra a negyedik oszlop mutat.
+- **`megoldasok/megoldasok-attekintese`** — a megamenü olyan szlugra hivatkozott, amely
+  soha nem létezett; az áttekintő oldal maga a `megoldasok/`. Javítva 13 fájlban.
+- **Sötét panelen a prózában álló hivatkozás** a `--link` kékjét kapta, ami a Forest
+  háttéren nem éri el a 4,5:1-et. A `.panel-dark-text a` mostantól ugyanazt a
+  `--panel-dark-link` színt használja, mint a `.text-link`.
+- **Nyolc fejléckép függőleges varrattal.** A képgeneráló promptban a „bal harmad
+  üresen marad a szövegnek" megfogalmazás miatt a modell a bal harmadot külön, lapos
+  panelként rajzolta, éles illesztéssel — a legfeltűnőbb az *Oldómedencés rendszer*
+  oldalon volt. Mind a nyolc újragenerálva egyetlen összefüggő jelenetként; a
+  hibás promptszerkezet és a varrat gépi kimutatása a `okotechhome-oldalgyartas`
+  skill `designrendszer.md` fájljában rögzítve, hogy ne ismétlődjön.
+- **Logó SVG megtisztítva.** A CorelDRAW-export külső DTD-hivatkozást (egyes elemzők
+  hálózatról töltenék be), fix `width="3576px"`/`height` attribútumot (CSS-hiba esetén
+  ekkorán rajzolódna) és holt névtereket tartalmazott. 10 771 → 10 349 byte, `<title>`
+  hozzáadva a közvetlen megnyitáshoz.
+- **Teszt üzemmód — keresők teljes kizárása.** Az oldal a `tst.okoth.hu` aldomainre
+  költözik; a zárás három rétegben él: `X-Robots-Tag` fejléc a `.htaccess`-ben,
+  `Disallow: /` a `robots.txt`-ben, és `<meta name="robots" content="noindex, …">`
+  minden oldalon. A HTTP Basic Auth blokk előkészítve, kommentben. Az élesítési
+  ellenőrzőlista a `_web/README.md` elején.
+- **Domain átállítás:** a `canonical` és az Open Graph URL-ek `okotechhome.hu` helyett
+  már az éles **`okoth.hu`** domainre mutatnak, így élesítéskor nem kell hozzájuk nyúlni.
+- **Hero videó erőforrás-kezelése.** A hurokban futó felvétel `IntersectionObserver`-rel
+  és `visibilitychange`-dzsel megáll, amikor kigörög a képből vagy a lap háttérbe kerül —
+  enélkül a folyamatos dekódolás hosszú munkamenetben lassuláshoz, végül a lap
+  összeomlásához vezetett. A videó újrakódolva takarékosabbra: 1600→1280px,
+  3026→1515 kbps, 2,5→1,27 MB.
+- **`serve.py` — részleges letöltés (HTTP 206).** A beépített kiszolgáló minden kérésre a
+  teljes fájlt küldte, ezért a hurokvideó újra és újra letöltődött. Élesben az Apache ezt
+  magától megoldja; ez a helyi kiszolgálót hozza szintre.
+
+- **Megamenü a fejlécben** — a sitemap 2. szintje (39 aloldal öt kategóriában) lenyíló
+  panelekből érhető el. A nyitóelem `button` (`aria-expanded` + `aria-controls`), a panel
+  `hidden`-nel zár, Esc és külső kattintás bezárja, a fókusz visszatér. A navigáció a
+  sitemap nyolc főkategóriájára épült át: öt a fejlécben panellel, három a kontaktsávban.
+- **`index.html` — oldalfejléc**: kontaktsáv (cím, e-mail, telefon · GYIK, Karrier) és fő
+  navigációs sáv (logó, ötelemű menü, „Konzultációt kérek" CTA). A menü natív
+  `details`/`summary`: a markupban nyitva áll, ezért JS nélkül is elérhető; ≤1024px-en
+  lenyitható panellé válik.
+- **`index.html` — 1. szekció (*Hero*)**: adatsor, kiemeléses főcím, bevezető, két gomb és
+  egy chip-hivatkozás az ajánlat-összehasonlításhoz. **Borító-elrendezés**: a felvétel a
+  teljes hero-felületet kitölti, a szöveg rajta ül. A magasság a képernyővel mozog —
+  legalább `100svh − --header-h`, e fölött a médiablokk aránya vagy a szöveg magassága
+  dönt. ≤1024px-en a borító megszűnik: szöveg, alatta a szűk kivágatú kép.
+- **Lágy folt (veil) a hero szövege mögött** — radiális gradiens, amely minden irányban a
+  nulláig fut ki, ezért sehol nincs éle vagy sávhatára. Középpontja a konténerhez kötött
+  (`50% − --container-max/2 + --page-gutter + 26ch`), így a szövegoszlop fölött marad
+  minden képernyőszélességen. Csak annyit emel a háttéren, hogy a felvétel kontúrjai ne
+  fussanak bele a betűkbe; ≤1024px-en kikapcsolva.
+
+  > ⚠️ A mozgókép változó háttere miatt a WCAG 2.2 AA szövegkontraszt **nem garantálható
+  > minden pillanatban**. Jelezve a `COMPONENTS.md` 13. pontjában.
+- **Tapadó (sticky) fejléc** finom árnyékkal (`--shadow-1`, sötét témában elmarad):
+  a kontaktsáv görgetéskor kicsúszik, a fő sáv a viewport tetején marad. A `top` épp a
+  kontaktsáv magasságával negatív — a fő sávot önmagában nem lehet tapasztani, mert a
+  `sticky` a szülő dobozán belül mozog.
+- **`.btn-inverse`** — a hero második gombja a legsötétebb felületen (Forest), ahogy a
+  vizuális terv mutatja; sötét témában a felület-lépcső következő fokán.
+- **`index.html` — 2. szekció (*Bizalmi sáv*)**: négy állítás (3 800+ rendszer ·
+  EN 12566-3 / CE · Construma Nagydíj 2014 · ISO 9001 / esztergomi gyártás) függőleges
+  elválasztókkal; a szabványjelölések mono betűvel, mert adatok.
+- **Hero-média** — állókép **két kivágásban** (16:9 asztali, 3:2 szűk) WebP-ben, `picture`
+  art directionnel, és a `hero-rendszer.{webm,mp4}` felvétel hang nélkül. A videót
+  a `site.js` **csak asztali nézetben, mozgás engedélyezése mellett és adattakarékos mód
+  nélkül** tölti be, a `load` esemény után; minden más esetben az állókép a végállapot.
+- **`assets/js/site.js`** — az oldal első JS-e (~2 KB, `defer`): menüpanel szűk nézetben,
+  feltételes hero videó. Mindkettő progressive enhancement.
+- **`index.html` — 8. szekció (*AI-alapú döntéstámogató*)** és **`assets/js/ai-advisor.js`**:
+  a Test1 §6 modulja átvéve. A JS (566 sor: kérdéssor, ársáv-logika, eredményképernyő)
+  **változatlan**, a ~200 soros `.aidt-*` CSS teljes egészében a Test2 tokenjeire újraírva.
+  Lásd `_web/COMPONENTS.md` 18.
+- **`assets/data/aidt-konfig.js`** — a döntéstámogató **árértékei a kódon kívülre kerültek**,
+  a cég által szerkeszthető konfigba (a modulban csak tartalék marad). Ugyanitt áll az
+  adatküldés végpontja és az adatkezelési tájékoztató útvonala.
+- **Valódi adatküldés a döntéstámogatóban** — beállított végponttal `POST`, sikeres válasz
+  után visszaigazolás, hibánál `role="alert"` üzenet. Végpont nélkül a modul **nem állítja,
+  hogy elküldte**, hanem jelzi, hogy a küldés még nincs élesítve. A hozzájárulás mellett
+  megjelenik az adatkezelési tájékoztató hivatkozása.
+- **`<noscript>` alternatíva a 8. szekcióban** — JS nélkül a szekció elmondja, mit kérdezne
+  a modul, és felkínálja a telefonos, illetve e-mailes utat.
+- **Hero-felvétel cserélve** az új anyagra (naplementés kert, feltárt munkagödör): WebM
+  2,7 MB + MP4 2,8 MB, 1600px szélességben. Az állóképek is **ebből a felvételből** készültek
+  (16:9 asztali és 3:2 szűk kivágat), hogy a mobil és az asztali nézet ne térjen el.
+  A hero adatsora a másodlagos szövegszínt kapta: a napfényes égen a harmadlagos nem érte el
+  a 4,5:1-et.
+- **`assets/img/logo-okotechhome.svg`** — az ügyféltől kapott kétszínű logó (Fern jelrajz,
+  Forest szóvédjegy), egyetlen kiegészítéssel: a szóvédjegy sötét rendszertémán Stardustra
+  vált (`prefers-color-scheme`). A fejlécben `height: var(--space-48)`, `width: auto`.
+- **`assets/icon/ui-{helyszin,email,telefon}.svg`** — az ügyféltől kapott kontaktikonok
+  `currentColor`-ra állítva; `ui-dokumentum.svg` **ideiglenes saját pótlás**, a terv
+  chipjének rajzolata után (álló lap behajtott sarokkal, három sorral, az első rövidebb).
+- **`.chip-link`** — kiegészítő, chip megjelenésű hivatkozás. Nem gomb (a 7.1 szerint
+  szekciónként egy elsődleges CTA áll) és nem `.card-tag` (az nem interaktív).
+- **`.icon-inline` / `.icon-inline-lg`** — soron belüli ikonméret-szerep. Itt a befoglaló
+  négyzet a helyes szabály, nem a blokk-ikonok magasság-normalizálása.
+- **`--dur-media` (600ms)** — javasolt lassabb időtartam-szerep médiaváltáshoz; a rendszerben
+  eddig csak a `--dur-fast` (150ms) élt.
 - **`assets/css/app.css`** — a designrendszer (`OTH-design-system-Teszt.v2` v0.5)
   implementációja `@layer` architektúrában: `reset → tokens → base → typography →
   components → responsive → motion`. A tokenblokk szó szerint az élő HTML-referenciából,
   a `.type-*` szereposztályok, a `.btn` és a `.text-link` változatlanul.
-- **`index.html` — 3. szekció (*Kiinduló helyzet*)**: négy helyzetkártya kivágott
-  illusztrációval, alattuk kiemelt panel a nagyobb kapacitású (50 fő feletti) igényekhez,
-  a szekció egyetlen elsődleges CTA-jával.
+- **`index.html` — 3. szekció (*Kiinduló helyzet*)**: négy helyzetoszlop kerek
+  ikonjelvénnyel és felső elválasztó vonallal (nem kártya, a canvason), alattuk **sötét
+  kiemelt panel** a nagyobb kapacitású (50 fő feletti) igényekhez. A szövegek a végleges
+  főoldal-dokumentumból (`Okoteh-Home.fooldal.szoveg-vagleges.docx`).
+- **`assets/icon/ui-{epitkezes,emeszto,nyaralo,telek}.svg`** — a helyzetoszlopok
+  ikonjai; saját vonalas rajzolat a vizuális terv után, `currentColor`-ral.
+- **A döntéstámogató haladás-sínje és ikonjai átdolgozva** — a sín halvány sávon telített
+  kitöltés, gyűrű nélküli véggel (a korábbi világos gyűrű elvágta a sínt), a kitöltésnek
+  alsó határa van, hogy induláskor is látszódjon. A bizalmi jelvények 32→40px, a rajzolatok
+  16→24px: a korábbi méret olvashatatlanul apró volt.
+- **`.situation` · `.icon-badge` · `.panel-dark` · `.link-label`** — új komponensek,
+  kizárólag meglévő tokenekből. Indoklás: `_web/COMPONENTS.md` 13/b–13/c.
 - **`index.html` — 4. szekció (*Technológiák*)**: három sorszámozott magyarázókártya,
   „Gyors összehasonlítás" táblázat ikonos oszlopfejlécekkel, és a saját berendezések
-  (Epureco oldómedence, A.B. Clear) blokkja.
+  (Epureco oldómedence, A.B. Clear) blokkja. A technológiai ikonok és a két termékrender
+  az ügyfél új eszközeire cserélve (a biológiai ikon 107×41 → 58×41, az `aspect-ratio`
+  ehhez igazítva; a termékfotók 1254×1254, alfacsatornás WebP).
 - **`index.html` — 5. szekció (*Megoldásaink*)**: négy termékkártya besorolás-címkével
   (A.B. Clear · telepek · Epureco oldómedencék · iszapzsákos technológia).
 - **`.card-tag`** — címke-chip a kártya besorolásához. Nem státusz és nem művelet, ezért
@@ -61,7 +213,8 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   kétoszlopos szekcióalj. Indoklás és javasolt szabályzatszöveg: **`_web/COMPONENTS.md`**.
 - **`.htaccess`** — kiterjesztés nélküli (clean) URL-ek: `/valami.html` → 301 `/valami`,
   `/index.html` → 301 `/`, záró perjel eltávolítása; biztonsági fejlécek (CSP, nosniff,
-  X-Frame-Options, Referrer-Policy, Permissions-Policy), tömörítés és cache.
+  X-Frame-Options, Referrer-Policy, Permissions-Policy), tömörítés és cache. A cache-szabályok
+  kiegészítve a `video/webm` és `video/mp4` típusokkal.
 - **`serve.py`** — lokális preview szerver, amely a `.htaccess` clean-URL viselkedését
   emulálja. Enélkül a kiterjesztés nélküli linkek helyben 404-et adnának.
 - **Médiaeszközök** — öt kivágott illusztráció és két termékfotó WebP-ben
@@ -105,8 +258,20 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   `margin-top:auto`-val mindig a kártya alján zár.
 - A `_web/` linkjei már **kiterjesztés nélküliek**; a hivatkozott aloldalak
   (`uj-epitkezes`, `emeszto-kivaltasa`, …) még nem léteznek, így helyben 404-et adnak.
-- Két, döntést igénylő pont a `COMPONENTS.md`-ben van jelölve: a navigációs CTA
-  gombként való megjelenítése (7.6 tábla), és a szekció-sávok váltakozása (5.3 elv).
+  A hero három modul-útvonala (`dontesi-utvonal`, `koltsegiranytu`,
+  `ajanlat-osszehasonlitas`) **javasolt szlug**, a döntéstámogató modulok végleges
+  elnevezésével együtt véglegesítendő.
+- Döntést igénylő pontok a `COMPONENTS.md`-ben jelölve: a navigációs CTA gombként való
+  megjelenítése (7.6 tábla), a szekció-sávok váltakozása (5.3 elv), a kontaktsáv
+  hivatkozásainak típusa (`.topbar-link` vs `.text-link`), a nagybetűs navigáció
+  szerepszintre emelése, az inverz gomb felvétele a 7.1-be, a réteg- (z-index-) skála
+  hiánya, valamint a mozgókép rendszerszintű szabályozása.
+- **A logó szóvédjegye a `prefers-color-scheme`-et követi**, nem a `[data-theme]`
+  kapcsolót — a témaváltó UI megépítésekor inline SVG-re cserélendő. A vektoros mester
+  (`okotech-logo-magyar-colorversions.ai`) egyszínű, szeriffes feliratú változatokat
+  tartalmaz; a weben az ügyféltől külön kapott **kétszínű, groteszk feliratú** SVG él.
+- A hero videója **8 másodperces, néma, hurokban futó** felvétel: WebM 1,4 MB,
+  MP4 1,7 MB. Szűk nézetben egyik sem töltődik le.
 
 ---
 
