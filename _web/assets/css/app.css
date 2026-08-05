@@ -554,6 +554,12 @@
      mondatok a terv szerinti sortörésnél váljanak el. A 62ch olvashatósági
      korlát itt szándékosan nem érvényes. */
   .section-lead-wide{max-width:none}
+  /* Szekciózáró lábjegyzet: a számítás feltevései. Vonallal elválasztva, mert
+     nem a tartalom folytatása, hanem a fenti számok érvényességi köre. */
+  .section-note{
+    margin-top:var(--space-48);padding-top:var(--space-24);
+    border-top:1px solid var(--border);color:var(--text-tertiary);
+  }
   /* Tervezett sortörés — csak asztali nézetben; szűkebb képernyőn a szöveg
      természetesen tördel, ott a kényszerített törés csonka sort adna. */
   .br-desktop{display:none}
@@ -1152,6 +1158,28 @@
      A 3. szekció négy kiinduló helyzete. NEM kártya: a canvason ülnek, felül
      vékony elválasztó vonallal, kerek ikonjelvénnyel — a vizuális terv szerint. */
   .situation-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-32)}
+  /* Variáns: három oszlop. A 9. szekció három technológiát állít egymás mellé;
+     a négyes rácsban a negyedik hely üresen maradna. */
+  .situation-grid[data-cols="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+  /* Az oszlop élén álló fényképkeret. A .card-media kivágott illusztrációt
+     tart (contain, alsó igazítás); ez teljes képet vág be (cover), világos
+     felületre ültetve — a 9. szekció terve szerint. */
+  .situation-media{
+    display:block;
+    aspect-ratio:var(--media-ratio-card);
+    padding:var(--space-16);
+    background:var(--surface);
+    border-radius:var(--panel-radius);
+    /* Flex-elemként az alapértelmezett min-height:auto a KÉP belső méretéből
+       számolna, és felülírná az aspect-ratio-t. Ugyanaz a csapda, mint a
+       .card-media-nál. */
+    min-height:0;
+  }
+  .situation-media img{
+    width:100%;height:100%;object-fit:cover;
+    border-radius:var(--r-md);display:block;
+  }
   .situation{
     display:flex;flex-direction:column;gap:var(--space-16);
     padding-top:var(--space-32);
@@ -1622,7 +1650,11 @@
     .trust-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .trust-item:nth-child(odd){border-left:0}
 
-    .situation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    /* A [data-cols] variáns is ide esik vissza: az attribútum-szelektor
+       specifikusabb, ezért külön kell nevesíteni, különben tableten is
+       három oszlop maradna. */
+    .situation-grid,
+    .situation-grid[data-cols]{grid-template-columns:repeat(2,minmax(0,1fr))}
     .panel-dark{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
 
     /* AI-döntéstámogató: egy oszlop, az állapotpanel lenyithatóvá válik. */
@@ -1686,7 +1718,8 @@
 
     .hero{padding-top:var(--space-48)}
 
-    .situation-grid{grid-template-columns:minmax(0,1fr)}
+    .situation-grid,
+    .situation-grid[data-cols]{grid-template-columns:minmax(0,1fr)}
 
     /* A válaszlehetőségek két oszlopban maradnak; a beszélgetés nem görgethető
        külön dobozban, hanem az oldallal együtt fut. */

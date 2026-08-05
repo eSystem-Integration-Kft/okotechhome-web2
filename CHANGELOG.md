@@ -37,6 +37,15 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **§9 — Üzemeltetés és hosszú távú költség.** Három technológia éves üzemeltetési
+  tételei egymás mellett (zárt tároló · oldómedence · A.B. Clear), saját metszeti
+  fényképpel. A számok a végleges szövegdokumentumból valók, nem becslésből —
+  a számítás feltevései (háromfős háztartás, napi 135 l/fő, piaci átlagdíjak)
+  lábjegyzetben, vonallal elválasztva, mert nem a tartalom folytatása, hanem a
+  fenti számok érvényességi köre. Két új variáns: `.situation-grid[data-cols="3"]`
+  és `.situation-media` (teljes fénykép világos keretben — a `.card-media` ezzel
+  szemben kivágott illusztrációt tart). Az „Epureco … a technológia aloldalán"
+  mondat az oldómedencés oldalra hivatkozik.
 - **„Helyzetem" kategória — 8 oldal.** A sitemap első főkategóriája megépült: áttekintő
   (`helyzetem/`) és hét helyzet-oldal (nincs közcsatorna · telekvásárlás és új építés ·
   emésztő kiváltása · nyaraló és szezonális · családi ház · vállalkozás és intézmény ·
@@ -48,6 +57,11 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   minden szekció és aloldal nem létező URL-re mutatott. Négy megszólítás-útvonal a
   sitemap szerint (új érdeklődő · meglévő ügyfél · szakmai partner · sajtó), plusz
   elérhetőségek. A fejléc „Konzultációt kérek" gombja is ide mutat.
+- **`.situation-grid[data-cols]` reszponzív felülírása.** Az attribútum-szelektor
+  specifikusabb az osztályszelektornál, ezért a média-lekérdezésben lévő
+  `.situation-grid{grid-template-columns:…}` nem írta volna felül: tableten és
+  mobilon is három oszlop maradt volna, összenyomott képekkel. A töréspontok
+  most külön nevesítik a variánst.
 - **`.numbered-grid` négyelemű változata.** Pontosan négy kártyánál 2×2 rács
   (`:has(> :nth-child(4):last-child)`), mert a hármas osztás 3+1-re tört, és az árva
   kártya elrendezési hibának látszott.
