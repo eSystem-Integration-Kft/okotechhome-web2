@@ -5,35 +5,133 @@ Kizárólag ennek a tartalma kerül élesre — a repó gyökerében élő `READ
 `VERSIONING.md`, `VERSION`, `scripts/` és `.github/` **nem**, és az itteni `README.md`,
 `COMPONENTS.md`, `serve.py` sem.
 
+## ⚠️ TESZT ÜZEMMÓD — élesítési ellenőrzőlista
+
+Az oldal jelenleg a **`https://tst.okoth.hu`** aldomainen fut, és **minden keresőmotor
+elől el van zárva**. Az éles domain: **`https://okoth.hu`**.
+
+A zárás **három rétegben** él — élesítéskor mindhármat fel kell oldani:
+
+| # | Hol | Mit kell tenni élesítéskor |
+|---|---|---|
+| 1 | `.htaccess` → *TESZT ÜZEMMÓD* blokk | az `X-Robots-Tag` sort törölni vagy kikommentezni |
+| 2 | `robots.txt` | a `Disallow: /` helyére az élesítési változat (a fájlban kommentben ott áll) |
+| 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` sort törölni |
+
+**Miért három réteg.** Önmagában a `robots.txt` nem elég: az URL link alapján akkor is
+indexelődhet, tartalom nélkül. Az `X-Robots-Tag` fejléc a valódi tiltás, a `<meta>` pedig
+akkor is véd, ha a fájl olyan szerverre kerül, ahol a `.htaccess` nem érvényesül.
+
+**A legerősebb védelem a jelszó.** A `.htaccess`-ben előkészítve, kommentben áll a HTTP
+Basic Auth blokk — ha a teszt-aldomain nyilvános URL-en érhető el, érdemes bekapcsolni.
+
+**Ellenőrzés élesítés után:**
+
+```bash
+curl -I https://okoth.hu/ | grep -i x-robots-tag   # semmit nem adhat vissza
+curl -s https://okoth.hu/robots.txt                 # Allow: / kell benne legyen
+```
+
+> A `canonical` és az Open Graph URL-ek **már az éles domainre** (`okoth.hu`) mutatnak,
+> így élesítéskor azokhoz nem kell hozzányúlni. A kapcsolati e-mail cím maradt
+> `kapcsolat@okotechhome.hu` — ha az is változik, azt külön kell átvezetni.
+
 ## Jelenlegi állapot
 
 | | |
 |---|---|
 | **Designrendszer** | `OTH-design-system-Teszt.v2` **v0.5** implementálva (`assets/css/app.css`) |
-| **Kész szekciók** | 3. — *Kiinduló helyzet* · 4. — *Technológiák* · 5. — *Megoldásaink* |
-| **Hiányzik** | 1–2. szekció (hero, bizalmi sáv), aloldalak, `404.html`, `robots.txt`, `sitemap.xml` |
+| **Kész szekciók** | fejléc · 1. — *Hero* · 2. — *Bizalmi sáv* · 3. — *Kiinduló helyzet* · 4. — *Technológiák* · 5. — *Megoldásaink* · 8. — *AI-alapú döntéstámogató* |
+| **Kész aloldalak** | **Megoldások** (5) · **Helyzetem** (8) · **Kapcsolat** — összesen 14 aloldal |
+| **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
+| **Hiányzik** | lábléc, a sitemap 5 további főkategóriája, `sitemap.xml`, főoldali 6–7. és 9–15. szekció |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
-| **JS** | jelenleg **nincs** — mindhárom szekció teljes egészében HTML + CSS |
+| **JS** | `assets/js/site.js` (2 KB) — menüpanel, hero videó · `assets/js/ai-advisor.js` (566 sor) — a 8. szekció interaktív modulja, a Test1-ből átvéve. Minden más HTML + CSS. |
 
 ## Szerkezet
 
 ```text
 _web/
-├─ index.html                    # főoldal — jelenleg a 3., 4. és 5. szekció
+├─ index.html                    # főoldal — fejléc + 1–5. és 8. szekció
+├─ kapcsolat.html                # a webhely egyetemes CTA-célpontja
+├─ megoldasok/                   # index + 4 technológia-oldal
+├─ helyzetem/                    # index + 7 helyzet-oldal
 ├─ .htaccess                     # clean URL rewrite, 301-ek, biztonsági fejlécek, cache
+├─ robots.txt                    # TESZT ÜZEMMÓD: Disallow: / — élesítéskor cserélni
+├─ {401,403,404,500}.html        # egyedi hibaoldalak — külön stíluslappal (lásd lent)
+├─ favicon.ico                   # a gyökérben kell: a böngészők kérés nélkül is kérik
+├─ site.webmanifest              # PWA-ikonok és téma
 ├─ serve.py                      # lokális preview szerver (a .htaccess-t emulálja)
 ├─ COMPONENTS.md                 # ÚJ komponensek — javaslat a designrendszerhez
 └─ assets/
    ├─ css/app.css                # a teljes designrendszer @layer architektúrában
-   ├─ js/                        # (üres — még nincs szükség rá)
-   ├─ icon/                      # technológiai ikonok, currentColor-ra állítva
-   │  └─ tech-{zart-tarolo,oldomedence,biologiai}.svg
+   ├─ js/site.js                 # menüpanel + hero videó (progressive enhancement)
+   ├─ js/ai-advisor.js           # 8. szekció — AI döntéstámogató (Test1-ből, változatlan)
+   ├─ icon/                      # ikonok, currentColor-ra állítva (CSS-maszk)
+   │  ├─ tech-{zart-tarolo,oldomedence,biologiai}.svg      # technológiák (ügyféleszköz)
+   │  ├─ ui-{helyszin,email,telefon}.svg                   # kontaktsáv (ügyféleszköz)
+   │  └─ ui-{dokumentum,epitkezes,emeszto,nyaralo,telek}.svg  # saját rajzolat
+   ├─ video/                     # hero-felvétel, WebM (VP9) + MP4 (H.264), hang nélkül
+   │  └─ hero-rendszer.{webm,mp4}
    └─ img/                       # WebP, alfacsatornás kivágatok
+      ├─ logo-okotechhome.svg
+      ├─ hero-rendszer-allokep{,-1024}.webp        # 16:9 — asztali
+      ├─ hero-rendszer-allokep-szuk{,-800}.webp    # 3:2  — tablet és mobil kivágat
       ├─ helyzet-{uj-epitkezes,emeszto-kivaltasa,nyaralo,telekvasarlas}.webp
       ├─ nagyobb-kapacitas-panzio.webp
       ├─ termek-{epureco-oldomedence,ab-clear}.webp
       └─ megoldas-{ab-clear,telepek,iszapzsak}.webp
 ```
+
+### Hibaoldalak — miért külön stíluslap
+
+A `401/403/404/500.html` az **egyetlen négy oldal**, ahol a stílus nem az `app.css`-ből
+jön. Ennek oka nem esztétikai:
+
+> A böngésző a relatív útvonalakat a **kért URL-hez** oldja fel, nem a hibaoldal
+> helyéhez. A `/megoldasok/nincs-ilyen` kérésre kiszolgált `404.html`-ben az
+> `assets/css/app.css` hivatkozás `/megoldasok/assets/css/app.css`-re mutatna — ami
+> szintén 404. A hibaoldal stílus nélkül jelenne meg.
+
+Ezért a stílus a `/assets/css/hiba.css`-ben van, **gyökér-abszolút** hivatkozással, a
+logó pedig beágyazott SVG — egyetlen relatív útvonal sincs az oldalon.
+
+**Beágyazott `<style>` nem jöhet szóba**, mert a CSP `style-src`-je nem tartalmaz
+`'unsafe-inline'`-t: a böngésző eldobná, és a hibaoldal formázatlanul jelenne meg.
+Ugyanezért kapja a beágyazott logó a színét `fill` prezentációs attribútumból, nem az
+SVG saját `<style>` blokkjából.
+
+> A `serve.py` **ugyanazt a CSP-t küldi**, mint a `.htaccess` — enélkül ez a hibaosztály
+> csak élesben derülne ki. Ha a `.htaccess` CSP-je változik, a `serve.py`-t is át kell írni.
+
+Ha a designrendszer tokenjei változnak, a `hiba.css`-t kézzel utána kell húzni —
+a forrás: `scripts/oldalgyartas/hibaoldalak.py`.
+
+> ⚠️ **Alkönyvtáras telepítésnél** (pl. `pelda.hu/oko22/`) a `.htaccess`
+> `ErrorDocument` sorait *és* a hibaoldalak gyökér-abszolút hivatkozásait is át kell
+> írni az alkönyvtárra.
+
+### Hero — média-döntési fa
+
+| Feltétel | Mit lát a felhasználó |
+|---|---|
+| ≥1025px, mozgás engedve, nincs adattakarékos mód | állókép → **videó** a médiasávban (a `load` után, csak ha lejátszható) |
+| ≤1024px | **szűk kivágatú állókép** (3:2) a szöveg alatt — videó nem töltődik le |
+| `prefers-reduced-motion: reduce` | állókép |
+| `navigator.connection.saveData` | állókép |
+| JS nélkül | állókép |
+
+Asztali nézetben a hero **borító-elrendezésű**: a felvétel a teljes hero-felületet
+kitölti, a szöveg rajta ül. A hero magassága a képernyővel mozog: legalább
+`100svh − fejléc`, e fölött a médiablokk 16:9-es aránya vagy a szövegoszlop magassága dönt.
+A szöveg mögött **lágy folt** (radiális gradiens) fut, amely minden irányban a nulláig hal
+el — nincs éle vagy sávhatára; ≤1024px-en kikapcsolva.
+
+> ⚠️ A mozgókép változó háttere miatt a WCAG 2.2 AA szövegkontraszt nem garantálható
+> minden pillanatban. Részletek: [`COMPONENTS.md`](./COMPONENTS.md) 13. pont.
+
+Az állókép **végállapot, nem helyőrző**: minden nem asztali nézetben az marad.
+Részletek és indoklás: [`COMPONENTS.md`](./COMPONENTS.md) 13. pont.
 
 ## Designrendszer
 
@@ -80,8 +178,8 @@ A **márka, a téma és a logó azonos** a Test1-gyel; az eltérés a designrend
 |---|---|
 | **Markup** | szemantikus HTML5, oldalanként önálló fájl |
 | **Stílus** | saját CSS `@layer` + design-tokenek (nincs Tailwind) |
-| **Interakció** | vanilla JS — jelenleg egyáltalán nincs betöltve |
-| **Média** | WebP kivágatok (alfa), videónál WebM (VP9) + MP4 (H.264) + poster |
+| **Interakció** | vanilla JS, `assets/js/site.js` (defer, ~2 KB) — natív `details` menü, feltételes hero videó |
+| **Média** | WebP kivágatok (alfa), videónál WebM (VP9) + MP4 (H.264), hang nélkül |
 | **Szerver** | statikus, Apache `.htaccess` |
 
 > **Eltérés a Test1-től, amit tudni kell:** a Test1 GSAP 3.12 + ScrollTrigger + Lenis
@@ -112,9 +210,19 @@ A `serve.py` a `.htaccess` viselkedését emulálja:
 | `/uj-epitkezes/` | 301 → `/uj-epitkezes` |
 | nem létező útvonal | `404.html`, 404-es státusszal |
 
-> A hivatkozott aloldalak (`uj-epitkezes`, `emeszto-kivaltasa`, `idoszakos-hasznalat`,
-> `telekvasarlas`, `szervezeti-telepulesi-megoldasok`, tudástár) **még nem léteznek**,
-> így helyben 404-et adnak. Ez várt állapot, nem hiba.
+> A hivatkozott aloldalak **még nem léteznek**, így helyben 404-et adnak. Ez várt állapot,
+> nem hiba. Jelenleg hivatkozott útvonalak:
+>
+> | Honnan | Útvonal |
+> |---|---|
+> | fejléc, navigáció | `megoldasok` · `megoldasaink` · `referenciak` · `tudastar` · `kapcsolat` · `gyik` · `karrier` |
+> | fejléc CTA | `konzultacio` |
+> | hero | `dontesi-utvonal` (döntési útvonal) · `koltsegiranytu` (költségiránytű) · `ajanlat-osszehasonlitas` |
+> | 3–5. szekció | `uj-epitkezes` · `emeszto-kivaltasa` · `idoszakos-hasznalat` · `telekvasarlas` · `szervezeti-telepulesi-megoldasok` · `biologiai-szennyviztisztito-1-50` · `telepek` · `oldomedencek` · `iszapzsak` · `tudastar/technologiak-osszehasonlitasa` |
+>
+> A hero három útvonala a *döntéstámogató modulokhoz* tartozik
+> (`_files/okotechhome-dontestamogato-modulok.docx`): a szlugok **javaslatok**, a modulok
+> végleges elnevezésével együtt véglegesítendők.
 
 ## Deploy (Apache shared hosting)
 

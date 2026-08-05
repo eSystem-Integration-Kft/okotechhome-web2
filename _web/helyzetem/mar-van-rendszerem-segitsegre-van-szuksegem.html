@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<!-- TESZT ÜZEMMÓD: az oldal fejlesztés alatt áll. ÉLESÍTÉSKOR ezt a sort
+     minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Már van rendszerem, segítségre van szükségem — szerviz és üzemeltetés | ÖkoTech Home</title>
+<meta name="description" content="Meglévő szennyvíztisztító rendszerhez üzemeltetési segítség, hibajelenség azonosítása, alkatrész és szerviz — az Ügyféltámogatás belépési pontja.">
+<link rel="canonical" href="https://okoth.hu/helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Már van rendszerem, segítségre van szükségem">
+<meta property="og:description" content="Meglévő szennyvíztisztító rendszerhez üzemeltetési segítség, hibajelenség azonosítása, alkatrész és szerviz — az Ügyféltámogatás belépési pontja.">
+<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-mar-van-rendszerem.webp">
+<meta property="og:locale" content="hu_HU">
+<!-- Ikonkészlet. Az SVG a modern böngészőké (élesen skálázódik, sötét témán is
+     él); az .ico a gyökérben marad, mert a böngészők kérés nélkül is /favicon.ico-t
+     kérnek; az apple-touch-icon tömör hátterű, mert az iOS nem kezeli az alfát. -->
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#133216">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/css/app.css?v=37">
+<link rel="preload" as="image" href="../assets/img/oldalak/hero-mar-van-rendszerem.webp"
+      imagesrcset="../assets/img/oldalak/hero-mar-van-rendszerem-1024.webp 1100w, ../assets/img/oldalak/hero-mar-van-rendszerem.webp 1800w"
+      imagesizes="100vw">
+</head>
+<body>
+
+<a class="skip-link" href="#fotartalom">Ugrás a tartalomra</a>
+
+<!-- ==========================================================================
+     OLDALFEJLÉC — kontaktsáv + fő navigáció
+     A navigáció natív `details`/`summary`: szűk nézetben lenyitható panel,
+     asztali nézetben a lenyitó gomb elrejtve, a lista nyitva. JS csak annyit
+     tesz, hogy szűk nézetben becsukja az alapból nyitott panelt.
+     ========================================================================== -->
+<header class="site-header">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <ul class="topbar-list" role="list">
+        <li class="topbar-item type-ui-label topbar-hide-narrow">
+          <span class="icon icon-inline icon-helyszin topbar-icon" aria-hidden="true"></span>
+          2509 Esztergom, Strázsa u. 12.
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="mailto:kapcsolat@okotechhome.hu">
+            <span class="icon icon-inline icon-email topbar-icon" aria-hidden="true"></span>
+            kapcsolat@okotechhome.hu
+          </a>
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="tel:+3633200211">
+            <span class="icon icon-inline icon-telefon topbar-icon" aria-hidden="true"></span>
+            +36 33 200 211
+          </a>
+        </li>
+      </ul>
+
+      <!-- A sitemap nyolc főkategóriájából a három másodlagos itt kap helyet:
+           a fő sávban nyolc nagybetűs menüpont nem fér el a logó és a CTA mellett. -->
+      <ul class="topbar-list topbar-hide-narrow" role="list">
+        <li><a class="topbar-link type-ui-label" href="../ugyfeltamogatas/">Ügyféltámogatás</a></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><a class="topbar-link type-ui-label" href="../partnereknek/">Partnereknek</a></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><a class="topbar-link type-ui-label" href="../okotech-home/">ÖkoTech-Home</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- A kontaktsáv elgörög, a fő sáv tapad (sticky), finom árnyékkal. -->
+  <div class="header-main">
+  <div class="header-inner">
+    <a class="site-logo" href="../" aria-label="ÖkoTech Home — főoldal">
+      <img src="../assets/img/logo-okotechhome.svg" width="928" height="290"
+           alt="ÖkoTech Home" decoding="async">
+    </a>
+
+    <details class="nav-drawer" open>
+      <summary class="nav-toggle type-ui-button">Menü</summary>
+      <nav class="site-nav" aria-label="Fő navigáció">
+        <ul class="nav-list" role="list">
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-helyzetem">
+              Helyzetem<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-helyzetem" hidden>
+              <div class="mega-inner">
+                <p class="type-data-eyebrow mega-eyebrow">Helyzetem</p>
+                <ul class="mega-list" role="list">
+                  <li><a class="mega-link" href="../helyzetem/nincs-elerheto-kozcsatorna"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozcsatorna"></span></span><span class="mega-label type-ui-body">Nincs elérhető közcsatorna</span></a></li>
+                  <li><a class="mega-link" href="../helyzetem/telekvasarlas-vagy-uj-epites-elott-allok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-telek"></span></span><span class="mega-label type-ui-body">Telekvásárlás vagy új építés előtt állok</span></a></li>
+                  <li><a class="mega-link" href="../helyzetem/meglevo-emesztot-szeretnek-kivaltani"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-emeszto"></span></span><span class="mega-label type-ui-body">Meglévő emésztőt szeretnék kiváltani</span></a></li>
+                  <li><a class="mega-link" href="../helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nyaralo"></span></span><span class="mega-label type-ui-body">Nyaraló vagy szezonálisan használt ingatlan</span></a></li>
+                  <li><a class="mega-link" href="../helyzetem/csaladi-hazhoz-keresek-rendszert"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-epitkezes"></span></span><span class="mega-label type-ui-body">Családi házhoz keresek rendszert</span></a></li>
+                  <li><a class="mega-link" href="../helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vallalkozas"></span></span><span class="mega-label type-ui-body">Vállalkozás vagy intézmény számára keresek megoldást</span></a></li>
+                  <li><a class="mega-link" href="../helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-szerviz"></span></span><span class="mega-label type-ui-body">Már van rendszerem, segítségre van szükségem</span></a></li>
+                </ul>
+                <p class="mega-foot"><a class="text-link" href="../helyzetem/"><span class="link-label">Áttekintés: Helyzetem<span class="action-arrow-end" aria-hidden="true">→</span></span></a></p>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-megoldasok" aria-current="true">
+              Megoldások<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-megoldasok" hidden>
+              <div class="mega-inner">
+                <p class="type-data-eyebrow mega-eyebrow">Megoldások</p>
+                <ul class="mega-list" role="list">
+                  <li><a class="mega-link" href="../megoldasok/"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Megoldások áttekintése</span></a></li>
+                  <li><a class="mega-link" href="../megoldasok/biologiai-szennyviztisztitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-biologiai"></span></span><span class="mega-label type-ui-body">Biológiai szennyvíztisztítás</span></a></li>
+                  <li><a class="mega-link" href="../megoldasok/oldomedences-rendszer"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vizminoseg"></span></span><span class="mega-label type-ui-body">Oldómedencés rendszer</span></a></li>
+                  <li><a class="mega-link" href="../megoldasok/nagyobb-es-kozossegi-rendszerek"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozossegi"></span></span><span class="mega-label type-ui-body">Nagyobb és közösségi rendszerek</span></a></li>
+                  <li><a class="mega-link" href="../megoldasok/alternativak"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-alternativak"></span></span><span class="mega-label type-ui-body">Alternatívák</span></a></li>
+                </ul>
+                <p class="mega-foot"><a class="text-link" href="../megoldasok/"><span class="link-label">Áttekintés: Megoldások<span class="action-arrow-end" aria-hidden="true">→</span></span></a></p>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-projekt-elokeszites">
+              Előkészítés<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-projekt-elokeszites" hidden>
+              <div class="mega-inner">
+                <p class="type-data-eyebrow mega-eyebrow">Projekt-előkészítés</p>
+                <ul class="mega-list" role="list">
+                  <li><a class="mega-link" href="../projekt-elokeszites/projekt-elokeszitesi-kozpont"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-iranytu"></span></span><span class="mega-label type-ui-body">Projekt-előkészítési központ</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/telekalkalmassag"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-talaj"></span></span><span class="mega-label type-ui-body">Telekalkalmasság</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/tisztitott-viz-elhelyezese"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vizelvezetes"></span></span><span class="mega-label type-ui-body">Tisztított víz elhelyezése</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/terheles-es-kapacitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-terheles"></span></span><span class="mega-label type-ui-body">Terhelés és kapacitás</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/engedelyezes-es-dokumentumok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-engedely"></span></span><span class="mega-label type-ui-body">Engedélyezés és dokumentumok</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/koltsegek-es-ajanlatok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-koltseg"></span></span><span class="mega-label type-ui-body">Költségek és ajánlatok</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/helyszini-felmeres"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-felmeres"></span></span><span class="mega-label type-ui-body">Helyszíni felmérés</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/telepites-es-beuzemeles"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-telepites"></span></span><span class="mega-label type-ui-body">Telepítés és beüzemelés</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/projektkeszultsegi-ellenorzes"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-ellenorzes"></span></span><span class="mega-label type-ui-body">Projektkészültségi ellenőrzés</span></a></li>
+                  <li><a class="mega-link" href="../projekt-elokeszites/projekt-inditasa"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-inditas"></span></span><span class="mega-label type-ui-body">Projekt indítása</span></a></li>
+                </ul>
+                <p class="mega-foot"><a class="text-link" href="../projekt-elokeszites/"><span class="link-label">Áttekintés: Projekt-előkészítés<span class="action-arrow-end" aria-hidden="true">→</span></span></a></p>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-tudastar">
+              Tudástár<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-tudastar" hidden>
+              <div class="mega-inner">
+                <p class="type-data-eyebrow mega-eyebrow">Tudástár</p>
+                <ul class="mega-list" role="list">
+                  <li><a class="mega-link" href="../tudastar/tudastar-kezdooldal"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-tudastar"></span></span><span class="mega-label type-ui-body">Tudástár kezdőoldal</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/megoldasok-es-mukodes"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-mukodes"></span></span><span class="mega-label type-ui-body">Megoldások és működés</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/telek-talaj-es-viz"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-talaj"></span></span><span class="mega-label type-ui-body">Telek, talaj és víz</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/terheles-es-meretezes"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-terheles"></span></span><span class="mega-label type-ui-body">Terhelés és méretezés</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/engedelyezes-es-megfeleloseg"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-engedely"></span></span><span class="mega-label type-ui-body">Engedélyezés és megfelelőség</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/koltseg-es-megvalositas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-koltseg"></span></span><span class="mega-label type-ui-body">Költség és megvalósítás</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/uzemeltetes-es-hibamegelozes"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-szerviz"></span></span><span class="mega-label type-ui-body">Üzemeltetés és hibamegelőzés</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/vizminoseg-es-iszap"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vizminoseg"></span></span><span class="mega-label type-ui-body">Vízminőség és iszap</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/fogalomtar"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-fogalomtar"></span></span><span class="mega-label type-ui-body">Fogalomtár</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/gyakorlati-utmutatok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-utmutato"></span></span><span class="mega-label type-ui-body">Gyakorlati útmutatók</span></a></li>
+                  <li><a class="mega-link" href="../tudastar/keresheto-gyik"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-gyik"></span></span><span class="mega-label type-ui-body">Kereshető GYIK</span></a></li>
+                </ul>
+                <p class="mega-foot"><a class="text-link" href="../tudastar/"><span class="link-label">Áttekintés: Tudástár<span class="action-arrow-end" aria-hidden="true">→</span></span></a></p>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-eredmenyek">
+              Eredmények<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-eredmenyek" hidden>
+              <div class="mega-inner">
+                <p class="type-data-eyebrow mega-eyebrow">Eredmények</p>
+                <ul class="mega-list" role="list">
+                  <li><a class="mega-link" href="../eredmenyek/eredmenyek-attekintese"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Eredmények áttekintése</span></a></li>
+                  <li><a class="mega-link" href="../eredmenyek/esettanulmanyok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-esettanulmany"></span></span><span class="mega-label type-ui-body">Esettanulmányok</span></a></li>
+                  <li><a class="mega-link" href="../eredmenyek/projektadatbazis"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-adatbazis"></span></span><span class="mega-label type-ui-body">Projektadatbázis</span></a></li>
+                  <li><a class="mega-link" href="../eredmenyek/muszaki-bizonyitekok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-bizonyitek"></span></span><span class="mega-label type-ui-body">Műszaki bizonyítékok</span></a></li>
+                  <li><a class="mega-link" href="../eredmenyek/tanusitvanyok-es-dokumentumok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-tanusitvany"></span></span><span class="mega-label type-ui-body">Tanúsítványok és dokumentumok</span></a></li>
+                  <li><a class="mega-link" href="../eredmenyek/ugyfeltapasztalatok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-velemeny"></span></span><span class="mega-label type-ui-body">Ügyféltapasztalatok</span></a></li>
+                </ul>
+                <p class="mega-foot"><a class="text-link" href="../eredmenyek/"><span class="link-label">Áttekintés: Eredmények<span class="action-arrow-end" aria-hidden="true">→</span></span></a></p>
+              </div>
+            </div>
+          </li>
+          <!-- A sitemap három másodlagos főkategóriája a kontaktsávban áll;
+               szűk nézetben ide, a menübe kerül. -->
+          <li class="nav-item-secondary"><a class="nav-link type-ui-button" href="../ugyfeltamogatas/">Ügyféltámogatás</a></li>
+          <li class="nav-item-secondary"><a class="nav-link type-ui-button" href="../partnereknek/">Partnereknek</a></li>
+          <li class="nav-item-secondary"><a class="nav-link type-ui-button" href="../okotech-home/">ÖkoTech-Home</a></li>
+        </ul>
+      </nav>
+    </details>
+
+    <a class="btn btn-primary header-cta" href="../kapcsolat">
+      <span class="action-arrow" aria-hidden="true">→</span>Konzultációt kérek
+    </a>
+  </div>
+  </div>
+
+</header>
+
+<main id="fotartalom">
+
+  <section class="hero page-hero" aria-labelledby="oldal-cim">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <nav class="breadcrumb" aria-label="Morzsamenü">
+          <ol class="breadcrumb-list type-ui-caption" role="list">
+            <li><a href="../">Főoldal</a></li>
+            <li><a href="./">Helyzetem</a></li>
+            <li aria-current="page">Már van rendszerem, segítségre van szükségem</li>
+          </ol>
+        </nav>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Már van rendszerem, segítségre van szükségem</h1>
+        <p class="type-ui-body-strong hero-lead">Ha a rendszer már működik, a kérdés nem a választás, hanem az üzemeltetés. Az alábbi belépési pontok az Ügyféltámogatás területére vezetnek: hibajelenség, karbantartás, alkatrész és szerviz. Nem tőlünk származó berendezéssel is fordulhat hozzánk — megmondjuk, ha nem tudunk segíteni.</p>
+      </div>
+    </div>
+    <figure class="hero-media page-hero-media">
+      <picture>
+        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-mar-van-rendszerem-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
+        <img src="../assets/img/oldalak/hero-mar-van-rendszerem.webp"
+             srcset="../assets/img/oldalak/hero-mar-van-rendszerem-1024.webp 1100w, ../assets/img/oldalak/hero-mar-van-rendszerem.webp 1800w"
+             sizes="100vw" width="1800" height="771" alt="Szervizre nyitott biológiai tisztító akna gondozott kertben, mellette kompresszorszekrény és kiterített szerszámok" fetchpriority="high" decoding="async">
+      </picture>
+    </figure>
+  </section>
+
+  <section class="section" aria-labelledby="miben-tudunk-segiteni-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Támogatás</p>
+        <h2 class="type-display-section-title section-title" id="miben-tudunk-segiteni-cim">Miben tudunk segíteni?</h2>
+      </header>
+      <ul class="situation-grid" role="list">
+        <li class="situation">
+          <span class="icon-badge" aria-hidden="true">
+            <span class="icon icon-inline icon-badge-size icon-nav-szerviz"></span>
+          </span>
+          <h3 class="type-ui-card-title situation-title">Hibajelenség azonosítása</h3>
+          <p class="type-ui-body situation-text">Szag, visszaduzzadás, szokatlan zaj vagy leállt kompresszor: az első lépés annak eldöntése, üzemeltetési vagy műszaki okról van-e szó.</p>
+          <a class="text-link situation-action" href="../ugyfeltamogatas/"><span class="link-label">Hibajelenségek<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+        </li>
+        <li class="situation">
+          <span class="icon-badge" aria-hidden="true">
+            <span class="icon icon-inline icon-badge-size icon-nav-mukodes"></span>
+          </span>
+          <h3 class="type-ui-card-title situation-title">Rendszeres karbantartás</h3>
+          <p class="type-ui-body situation-text">Az iszapszint ellenőrzése, a membrán és a kompresszor átnézése, valamint az időszakos iszapelszállítás — ezek adják a rendszer élettartamát.</p>
+          <a class="text-link situation-action" href="../ugyfeltamogatas/"><span class="link-label">Karbantartás<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+        </li>
+        <li class="situation">
+          <span class="icon-badge" aria-hidden="true">
+            <span class="icon icon-inline icon-badge-size icon-nav-telepites"></span>
+          </span>
+          <h3 class="type-ui-card-title situation-title">Alkatrész és csere</h3>
+          <p class="type-ui-body situation-text">Kompresszor, membrán, fedlap és egyéb kopó elemek. A pontos típus a berendezés adattáblájáról olvasható le.</p>
+          <a class="text-link situation-action" href="../ugyfeltamogatas/"><span class="link-label">Alkatrészek<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+        </li>
+        <li class="situation">
+          <span class="icon-badge" aria-hidden="true">
+            <span class="icon icon-inline icon-badge-size icon-nav-felmeres"></span>
+          </span>
+          <h3 class="type-ui-card-title situation-title">Meglévő rendszer felmérése</h3>
+          <p class="type-ui-body situation-text">Ha nem tudja, milyen rendszer van a telken, vagy régóta nem volt átnézve: a felmérés megmutatja az állapotát és a további teendőket.</p>
+          <a class="text-link situation-action" href="../kapcsolat"><span class="link-label">Felmérés kérése<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mit-erdemes-megnezni-mielott-szervizt-hiv-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Első lépések</p>
+        <h2 class="type-display-section-title section-title" id="mit-erdemes-megnezni-mielott-szervizt-hiv-cim">Mit érdemes megnézni, mielőtt szervizt hív</h2>
+        <p class="type-ui-body section-lead">Az esetek egy részében a probléma üzemeltetési okra vezethető vissza, és néhány perces ellenőrzéssel tisztázható. Ez a lista nem helyettesíti a szervizt, de segít pontosabban leírni a helyzetet.</p>
+      </header>
+      <ul class="numbered-grid" role="list">
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">01</span>
+          <p class="type-ui-body card-text"><strong>Van-e áram a berendezésen?</strong> Kioldott kismegszakító vagy kihúzott csatlakozó a leggyakoribb ok a kompresszor leállása mögött.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">02</span>
+          <p class="type-ui-body card-text"><strong>Működik-e a kompresszor?</strong> Halk, egyenletes hang normális. A teljes csend vagy a szokatlanul hangos, egyenetlen működés egyaránt jelzés.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">03</span>
+          <p class="type-ui-body card-text"><strong>Mikor volt utoljára iszapelszállítás?</strong> Az elmaradt iszapürítés a leggyakoribb oka a hatásfokromlásnak és a szagnak.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">04</span>
+          <p class="type-ui-body card-text"><strong>Változott-e a terhelés?</strong> Több lakó, hosszabb vendégség vagy éppen több hetes távollét egyaránt hatással van a rendszer működésére.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">05</span>
+          <p class="type-ui-body card-text"><strong>Került-e a rendszerbe olyasmi, ami nem oda való?</strong> Nedves törlőkendő, zsír, festék, gyógyszer vagy fertőtlenítőszer nagy mennyiségben mind kárt tesz a biológiai folyamatban.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="lepjen-tovabb-a-tamogatasi-teruletre-cim">
+    <div class="section-inner">
+      <aside class="panel-dark" aria-labelledby="lepjen-tovabb-a-tamogatasi-teruletre-cim">
+        <div class="panel-dark-head">
+          <p class="type-data-eyebrow panel-dark-eyebrow">Ügyféltámogatás</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="lepjen-tovabb-a-tamogatasi-teruletre-cim">Lépjen tovább a támogatási területre</h2>
+        </div>
+        <div class="panel-dark-body">
+          <p class="type-ui-body panel-dark-text">A hibajelenségek, a karbantartási teendők, az alkatrészek és a szervizkérés részletesen az Ügyféltámogatás területen szerepelnek.</p>
+          <p class="type-ui-body panel-dark-text">Ha a berendezés nem tőlünk származik, akkor is írjon: megnézzük, tudunk-e segíteni, és megmondjuk, ha nem — ilyenkor igyekszünk megmondani, kihez érdemes fordulni.</p>
+          <p class="type-ui-body panel-dark-text"><a href="../kapcsolat">Vagy írjon közvetlenül a szerviznek</a></p>
+          <p class="panel-dark-actions"><a class="btn btn-inverse" href="../ugyfeltamogatas/">Ügyféltámogatás</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gyik-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
+        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit a leggyakrabban kérdeznek</h2>
+      </header>
+      <div class="faq">
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Nem tőletek van a berendezés — tudtok segíteni?</summary>
+          <div class="faq-a"><p class="type-ui-body">Sok esetben igen, különösen üzemeltetési kérdésekben és felmérésnél. Alkatrésznél a típus dönt: ha az adott gyártó eleme nem beszerezhető, azt megmondjuk, ahelyett hogy alkalmatlan helyettesítőt javasolnánk.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Milyen gyakran kell iszapot elszállíttatni?</summary>
+          <div class="faq-a"><p class="type-ui-body">Ez a terheléstől és a berendezés típusától függ, ezért nem adható meg általánosan. Az iszapszint ellenőrzése a rendszeres karbantartás része, és abból következik az ürítés időpontja — nem naptári alapon érdemes tervezni.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mit jelent, ha szagot érzek a rendszer közelében?</summary>
+          <div class="faq-a"><p class="type-ui-body">A szag mindig jelzés, nem normál üzemállapot. Leggyakoribb oka az elmaradt iszapürítés, a levegőztetés kiesése vagy a szellőzés eltömődése. Ha az áramellátás és a kompresszor rendben van, érdemes szervizt hívni.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="../assets/js/site.js?v=3" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":2,"name":"Helyzetem","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":3,"name":"Már van rendszerem, segítségre van szükségem","item":"https://okoth.hu/helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+      {"@type":"Question","name":"Nem tőletek van a berendezés — tudtok segíteni?","acceptedAnswer":{"@type":"Answer","text":"Sok esetben igen, különösen üzemeltetési kérdésekben és felmérésnél. Alkatrésznél a típus dönt: ha az adott gyártó eleme nem beszerezhető, azt megmondjuk, ahelyett hogy alkalmatlan helyettesítőt javasolnánk."}},
+      {"@type":"Question","name":"Milyen gyakran kell iszapot elszállíttatni?","acceptedAnswer":{"@type":"Answer","text":"Ez a terheléstől és a berendezés típusától függ, ezért nem adható meg általánosan. Az iszapszint ellenőrzése a rendszeres karbantartás része, és abból következik az ürítés időpontja — nem naptári alapon érdemes tervezni."}},
+      {"@type":"Question","name":"Mit jelent, ha szagot érzek a rendszer közelében?","acceptedAnswer":{"@type":"Answer","text":"A szag mindig jelzés, nem normál üzemállapot. Leggyakoribb oka az elmaradt iszapürítés, a levegőztetés kiesése vagy a szellőzés eltömődése. Ha az áramellátás és a kompresszor rendben van, érdemes szervizt hívni."}}
+      ]
+    }
+  ]
+}
+</script>
+
+</body>
+</html>

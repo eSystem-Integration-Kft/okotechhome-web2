@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- „Ajánlat" (dokumentum) ikon — a vizuális terv chipjének rajzolata után:
+     álló lap behajtott jobb felső sarokkal, három sorral, amelyek közül az
+     ELSŐ rövidebb. Vonalas, currentColor; az `.icon` maszkja ebből képez
+     sziluettet. Ügyféleszköz érkezésekor cserélendő. Lásd _web/COMPONENTS.md -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="1.5"
+     stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14.1 2.9H6.7a1.7 1.7 0 0 0-1.7 1.7v14.8a1.7 1.7 0 0 0 1.7 1.7h10.6a1.7 1.7 0 0 0 1.7-1.7V7.8z"/>
+  <path d="M14.1 2.9v4.9H19"/>
+  <path d="M8 11.1h4.4"/>
+  <path d="M8 14.5h8"/>
+  <path d="M8 17.9h8"/>
+</svg>

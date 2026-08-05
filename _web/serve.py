@@ -28,7 +28,52 @@ DEFAULT_PORT = 8849
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-class CleanURLHandler(http.server.SimpleHTTPRequestHandler):
+
+class RangeMixin:
+    """Részleges (206) válasz támogatása.
+
+    A `SimpleHTTPRequestHandler` mindig a teljes fájlt küldi. Videónál ez azt
+    jelenti, hogy a böngésző minden tekeréskor/újraindításkor az egészet
+    letölti — hosszú munkamenetben ez fölösleges forgalom és memória. Élesben
+    az Apache ezt magától megoldja; ez a helyi kiszolgálót hozza szintre."""
+
+    def send_head(self):
+        rng = self.headers.get('Range')
+        if not rng or not rng.startswith('bytes='):
+            return super().send_head()
+        path = self.translate_path(self.path)
+        if os.path.isdir(path):
+            return super().send_head()
+        try:
+            f = open(path, 'rb')
+        except OSError:
+            self.send_error(404)
+            return None
+        size = os.fstat(f.fileno()).st_size
+        try:
+            first, last = rng.split('=', 1)[1].split('-', 1)
+            start = int(first) if first else 0
+            end = int(last) if last else size - 1
+        except ValueError:
+            f.close()
+            return super().send_head()
+        end = min(end, size - 1)
+        if start > end:
+            f.close()
+            self.send_error(416)
+            return None
+        self.send_response(206)
+        self.send_header('Content-Type', self.guess_type(path))
+        self.send_header('Accept-Ranges', 'bytes')
+        self.send_header('Content-Range', f'bytes {start}-{end}/{size}')
+        self.send_header('Content-Length', str(end - start + 1))
+        self.end_headers()
+        f.seek(start)
+        self.wfile.write(f.read(end - start + 1))
+        f.close()
+        return None
+
+class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=ROOT, **kwargs)
 
@@ -91,8 +136,29 @@ class CleanURLHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         # A .htaccess biztonsági fejléceinek helyi tükre, hogy a fejlesztés
         # közben is ugyanaz a viselkedés érvényesüljön.
+        #
+        # A CSP-t azért is küldjük, mert enélkül egy egész hibaosztály csak
+        # ÉLESBEN derül ki: a `style-src` itt NEM tartalmaz 'unsafe-inline'-t,
+        # ezért minden beágyazott <style> és style="" attribútum eldobódik —
+        # helyben viszont, CSP nélkül, tökéletesnek látszana. (Pontosan ez
+        # történt a hibaoldalakkal: formázatlanul jelentek meg a szerveren.)
+        # HA EZT A SORT MÓDOSÍTOD, a .htaccess CSP-jét is át kell írni.
         self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self'; base-uri 'self'; form-action 'self'; "
+            "frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; "
+            "style-src 'self' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com; script-src 'self'",
+        )
+        # A teszt üzemmód robotkizárása is, hogy a két környezet ne térjen el.
+        self.send_header(
+            "X-Robots-Tag",
+            "noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate",
+        )
         self.send_header("Cache-Control", "no-store")
         super().end_headers()
 

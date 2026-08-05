@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Menüikon: telepítés és beüzemelés — daru/emelés. Saját rajzolat, egységes 24-es rácson. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3.4 20.6h17.2"/><path d="M6.2 20.6V4.4h11.4"/><path d="M17.6 4.4v4.2"/><rect x="14.4" y="12.6" width="6.4" height="5.4" rx="1.2"/><path d="M17.6 8.6v4"/>
+</svg>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Helyzet-ikon: építkezés csatorna nélküli telken — zömök ház, széles ajtóval.
+     Saját rajzolat a vizuális terv arányai után; ügyféleszköz érkezésekor cserélendő. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2.4 11.3 12 3.6l9.6 7.7"/>
+  <path d="M4.9 10.1v10.3h14.2V10.1"/>
+  <path d="M9.2 20.4v-5.6h5.6v5.6"/>
+</svg>

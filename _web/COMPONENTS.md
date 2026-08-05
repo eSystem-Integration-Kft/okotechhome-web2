@@ -388,12 +388,532 @@ strong,b{font-weight:var(--type-ui-body-strong-weight)}   /* 600 */
 
 ---
 
-## 12. Amire még nincs megoldás
+## 12. Oldalfejléc — `.site-header`
+
+A fejléc **két sávból** áll: fölül a kontaktsáv (`--topbar-bg` = `--canvas`), alatta a fő
+navigációs sáv (`--header-bg` = `--surface`). A kettő felületkülönbsége adja a tagolást,
+nem árnyék.
+
+```html
+<header class="site-header">
+  <div class="topbar"><div class="topbar-inner">…</div></div>
+  <div class="header-inner">
+    <a class="site-logo" href="/">…</a>
+    <details class="nav-drawer" open>
+      <summary class="nav-toggle type-ui-button">Menü</summary>
+      <nav class="site-nav" aria-label="Fő navigáció"><ul class="nav-list">…</ul></nav>
+    </details>
+    <a class="btn btn-primary header-cta" href="konzultacio">…</a>
+  </div>
+</header>
+```
+
+| Token | Érték | Sötétben újradeklarálva |
+|---|---|:--:|
+| `--topbar-bg` | `var(--canvas)` | ✅ |
+| `--topbar-border` | `var(--border)` | ✅ |
+| `--topbar-text` | `var(--text-primary)` | ✅ |
+| `--topbar-icon` | `var(--primary)` | — (a Fern mindkét témán él) |
+| `--header-bg` | `var(--surface)` | ✅ |
+| `--header-border` | `var(--border)` | ✅ |
+| `--header-shadow` | `var(--shadow-1)` → sötétben `none` | ✅ |
+| `--header-h` | `calc(48 + 48 + 32)` = 128px, csak skálaértékekből | — |
+| `--nav-text` | `var(--text-primary)` | ✅ |
+
+**A kontaktsáv magasságát nem külön token adja**, hanem a benne álló hivatkozások
+érintőcélpontja (`min-height: var(--space-48)`). Így a sáv és a kattintható felület nem
+csúszhat szét, és nem keletkezik `--topbar-h`-tól független második magasságérték.
+A fő sáv `min-height: var(--topbar-h)` (60px), a tényleges magasságát a 48px-es logó és a
+`--space-16` belső térköz adja (80px).
+
+### Tapadó (sticky) fejléc — miért az egész, és miért negatív `top`
+
+```css
+.site-header{position:sticky;top:calc(-1 * var(--space-48));z-index:30}
+.header-main{border-bottom:1px solid var(--header-border);box-shadow:var(--header-shadow)}
+```
+
+A kívánt viselkedés: a kontaktsáv görgetéskor kicsússzon, a fő sáv maradjon a viewport
+tetején. A kézenfekvő megoldás — `position: sticky` magán a fő sávon — **nem működik**:
+a tapadó elem a *szülő* dobozán belül mozog, a fejléc pedig pontosan olyan magas, mint a
+tartalma, így nincs hova tapadnia. Ezért a **teljes fejléc** tapad, `top`-ja pedig épp a
+kontaktsáv magasságával negatív: a sáv kicsúszik, a fő sáv megáll a tetején.
+
+Az árnyék (`--header-shadow` = `--shadow-1`) a **legfinomabb emelés**; sötét témában
+elmarad, a 3. fejezet szabálya szerint (*ott a mélységet a felület-lépcső viszi*).
+
+> ⚠️ **Nyitott:** a fejléc `z-index: 30`. A rendszerben nincs réteg- (z-index-) skála;
+> a jelenlegi értékek: fejléc 30 · menüpanel 20 · skip-link 30 · hero szöveg 1.
+> Ha a designrendszer felvesz egy réteg-skálát, ezek arra cserélendők.
+
+### ⚠️ Jelzett eltérés — a kontaktsáv hivatkozásai nem `.text-link`
+
+A 7.6 tábla szerint a navigáció `.text-link`, ami aláhúzott, `--link` színű és 44px magas.
+A kontaktsáv három adata (cím, e-mail, telefon) így három kék, aláhúzott blokk lenne egy
+13px-es utility sávban. Az implementáció `.topbar-link`: `--text-primary` szín, aláhúzás
+csak hoverkor, de **teljes értékű fókuszgyűrű és 48px-es érintőcélpont**.
+
+**Kért döntés:** kapjon-e a 7.6 tábla egy sort — *„utility sáv hivatkozása → `.topbar-link`"* —,
+vagy a sáv váltson `.text-link`-re a vizuális tervtől eltérve.
+
+### ⚠️ Jelzett eltérés — a navigáció nagybetűs
+
+A `.nav-link` `text-transform: uppercase`-t kap. A rendszerben ilyet eddig csak a
+`.type-data-eyebrow` szerep tett; a `type-ui-button` szerepnek nincs nagybetűs variánsa.
+A vizuális terv viszont nagybetűs menüt mutat. Ha ez marad, érdemes szerepszinten
+rögzíteni (pl. `--type-ui-nav-*`), hogy ne komponensszabály hordozza.
+
+### Lenyitható menü natív elemmel
+
+A 0.7 alapszabály (*„a viselkedést nem újraépítjük, hanem a platformtól kérjük"*) miatt a
+menü `<details>`/`<summary>`, nem JS-vezérelt panel. A markupban **nyitva** áll, ezért
+JS nélkül is elérhető; a `site.js` mindössze annyit tesz, hogy ≤1024px-en becsukja, és
+kezeli az Esc-et meg a panelen kívüli kattintást.
+
+A GYIK és a Karrier ≤640px-en a kontaktsávból a menübe költözik (`.nav-item-secondary`) —
+szűk sávban a hat elem tördelése két sorra tolná a fejlécet.
+
+### Megamenü — `.nav-trigger` + `.mega`
+
+A sitemap **2. szintje** a fejlécből érhető el. Öt főkategória kap panelt (Helyzetem ·
+Megoldások · Előkészítés · Tudástár · Eredmények), a maradék három (Ügyféltámogatás ·
+Partnereknek · ÖkoTech-Home) a kontaktsávban áll — nyolc nagybetűs menüpont nem fér el a
+logó és a CTA mellett.
+
+```html
+<li class="nav-item">
+  <button type="button" class="nav-link nav-trigger type-ui-button"
+          aria-expanded="false" aria-controls="mega-megoldasok">
+    Megoldások<span class="nav-caret" aria-hidden="true"></span>
+  </button>
+  <div class="mega" id="mega-megoldasok" hidden>
+    <div class="mega-inner">…<ul class="mega-list">…</ul>…</div>
+  </div>
+</li>
+```
+
+- A nyitóelem **`button`**, nem `a`: művelet, nem navigáció (7.2). A cél-oldalra a panel
+  alján álló „Áttekintés: …" hivatkozás visz.
+- A panel **`hidden` attribútummal** zár, ezért JS nélkül sem marad nyitva lógva.
+- Egyszerre egy panel nyitott; **Esc** és a panelen kívüli kattintás zár, a fókusz
+  visszatér a nyitó gombra. Nézetváltásnál (`matchMedia`) automatikusan zár, mert a
+  pozicionálás is más.
+- Asztali nézetben a panel a **fejléc teljes szélességén** ül (`.header-main` a
+  pozicionálási kontextus), szűk nézetben a menüpont alatt, a folyamban nyílik.
+- A menücímke rövidíthető (`Projekt-előkészítés` → `Előkészítés`); a panel fejléce és a
+  cél-hivatkozás a **teljes** kategórianevet viszi.
+
+> A `.nav-list` oszlopköze `--space-16` (nem 24): öt nagybetűs menüpont a lenyíló
+> nyilakkal 24px-es közzel két sorba tördelt 1440px-en.
+
+---
+
+## 13. Hero — `.hero`
+
+```html
+<section class="hero" aria-labelledby="hero-cim">
+  <div class="hero-inner"><div class="hero-copy">…</div></div>
+  <figure class="hero-media" data-hero-video data-video-webm="…" data-video-mp4="…">
+    <picture>…</picture>
+  </figure>
+</section>
+```
+
+| Token | Érték |
+|---|---|
+| `--hero-media-ratio` | `16 / 9` → ≤1024px `3 / 2` |
+| `--hero-min-h` | `calc(100svh - var(--header-h))` |
+| `--dur-media` | `600ms` |
+
+### Borító-elrendezés
+
+```css
+.hero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  min-height:var(--hero-min-h);
+}
+.hero > .hero-inner,.hero > .hero-media{grid-column:1;grid-row:1}
+.hero-inner{position:relative;z-index:1;align-self:start}
+```
+
+A szöveg és a médiablokk **ugyanabban a rácscellában** ül, a szöveg `z-index: 1`-gyel fest
+fölötte. Így a felvétel a **teljes hero-felületet** kitölti, a szöveg pedig rajta.
+
+A magasságot három tényező közül a **legnagyobb** adja:
+
+| Forrás | Mikor dominál |
+|---|---|
+| `--hero-min-h` (`100svh − --header-h`) | alacsony ablakban — a hero mindig kitölti a képernyőt |
+| `--hero-media-ratio` (16:9) | széles ablakban — a felvétel torzítatlanul elfér |
+| a szövegoszlop magassága | keskeny asztali ablakban |
+
+Ezért mozog a hero **a képernyővel együtt**: átméretezéskor folyamatosan a fenti három
+közül a nagyobb érvényesül, a `cover` pedig a felvételt igazítja hozzá. A rács oszlopa
+`minmax(0,1fr)` — `auto` mellett a rács a tartalom szélességére húzódna, és a médiablokk
+aránya nem számolna magasságot.
+
+≤1024px-en **nincs borító**: a hero blokk-elrendezésre vált (szöveg, alatta a szűk
+kivágatú kép), mert egy oszlopban a mozgókép fölé szedett szöveg nem tartható olvashatóan.
+
+### Lágy folt (veil) a szöveg mögött
+
+```css
+.hero-media::after{
+  background:radial-gradient(ellipse 50ch 34ch at var(--hero-veil-x) 46%,
+    var(--hero-veil) 0%,
+    var(--hero-veil-soft) 52%,
+    transparent 100%);
+}
+```
+
+| Token | Érték | Sötétben újradeklarálva |
+|---|---|:--:|
+| `--hero-veil` | `color-mix(in srgb, var(--canvas) 90%, transparent)` | ✅ |
+| `--hero-veil-soft` | `color-mix(in srgb, var(--canvas) 64%, transparent)` | ✅ |
+| `--hero-veil-x` | `calc(50% − var(--container-max)/2 + var(--page-gutter) + 26ch)` | — |
+
+- **Ellipszis, nem sáv.** A folt minden irányban a nulláig fut ki, ezért **sehol nincs
+  éle, határa vagy vágása**. Korábbi iterációk lineáris gradienssel dolgoztak; az
+  bármilyen finomra hangolva látható átmenetet („fade-t") hagyott a szöveg mellett.
+- **A közepe a konténerhez kötött** (`--hero-veil-x`), nem viewport-százalékhoz — így a
+  szövegoszlop fölött marad minden képernyőszélességen.
+- **Csak annyit emel**, hogy a felvétel kontúrjai ne fussanak bele a betűkbe; a kép a
+  szövegtől jobbra és lefelé végig tisztán látszik.
+- Az **állóképnél gyakorlatilag láthatatlan**: ott a felső régió alfás, a folt a canvasra
+  fest canvast.
+- ≤1024px-en kikapcsolva (`display: none`): egy oszlopban a szöveg nem a felvételen áll.
+
+> ⚠️ **Kontraszt.** A folt a leggyakoribb kockákon 4,5:1 fölé emeli a szöveget, de a
+> mozgókép változó háttere miatt a WCAG 2.2 AA **nem garantálható minden pillanatban**.
+> A rendszer mozgókép-szabályának megszületésekor ez felülvizsgálandó.
+
+> Ez a `--media-tint` szereptoken első tényleges felhasználása lenne, ha a designrendszer
+> definiálná (10. fejezet: a kép- és illusztrációs rendszer hiányzó része).
+
+### ⚠️ Új időtartam-szerep — `--dur-media`
+
+A rendszerben egyetlen időtartam él, a `--dur-fast` (150ms). Az állókép→videó átúszás
+azon a hosszon ugrásnak látszik. A `--dur-media: 600ms` javaslat egy **lassabb,
+médiaváltásra való** szerepre.
+
+### Kép: art direction, nem csak méretezés
+
+A `<picture>` ≤1024px-en **más kivágást** tölt (`…-szuk.webp`, 3:2), nem csak kisebb
+fájlt. Indok: a széles változat felső harmada alfás égbolt, amit asztali nézetben a fölé
+csúszó szöveg tölt ki — egy oszlopban ugyanaz a sáv üresen maradna.
+
+| Nézet | Fájl | Méret |
+|---|---|---|
+| ≥1025px | `hero-rendszer-allokep.webp` (1024w / 1672w) | 16:9, teljes jelenet |
+| ≤1024px | `hero-rendszer-allokep-szuk.webp` (800w / 1300w) | 3:2, szűk kivágat |
+
+### Videó — feltételes, JS-ből
+
+A hero videója **nincs benne a HTML-ben**. A `site.js` csak akkor hozza létre és tölti be,
+ha mindhárom feltétel teljesül: `min-width: 1025px`, `prefers-reduced-motion: no-preference`,
+és nincs `navigator.connection.saveData`. Egyébként az állókép marad — **az a végállapot,
+nem helyőrző**.
+
+- A videó a `load` esemény után indul, hogy ne versenyezzen az LCP-elemmel (az állóképpel).
+- Csak akkor úszik be (`[data-ready]`), ha a `play()` ténylegesen elindult.
+- `aria-hidden="true"`, `tabindex="-1"`: a jelentést az állókép `alt`-ja hordozza.
+- Formátumok: WebM (VP9) elsőként, MP4 (H.264) tartalékként.
+
+**Égbolt-átmenet.** A felvétel égboltja Stardust-fehér, a szekciósáv Drizzle — a videó
+felső éle e nélkül látható vízszintes törés lenne. A `.hero-media[data-video-ready]::before`
+egy `--space-96` magas átmenetet fest közvetlenül a médiablokk fölé, `--canvas`-ból
+`--surface`-be. Csak akkor él, amikor a videó tényleg megy: az állókép égboltja alfás,
+ott nincs mit elfedni.
+
+---
+
+## 13/a. Inverz gomb — `.btn-inverse`
+
+A hero második gombja („Mennyibe kerül?"). A vizuális terv a **legsötétebb felületen**
+mutatja (közel Forest), nem az Olive Leaf másodlagos színen.
+
+| Token | Érték | Sötétben |
+|---|---|---|
+| `--button-inverse-bg` | `var(--surface-inverse)` (Forest) | `var(--surface-muted)` |
+| `--button-inverse-text` | `var(--text-on-dark)` | `var(--text-primary)` |
+
+**Miért nem `.btn-secondary`.** A 7.1 két gombváltozatot definiál; a `.btn-secondary`
+felülete az Olive Leaf (`#56642B`), a terven viszont ennél jóval sötétebb gomb áll. A
+`.btn-inverse` nem harmadik hierarchia-szint: ugyanaz a *másodlagos* szerep, más felületen.
+
+**Sötét témában nem maradhat Forest**, mert az ott maga a sáv színe — a felület-lépcső
+következő foka (`--surface-muted`) adja a kontrasztot.
+
+> **Kért döntés:** a 7.1 vegye-e fel harmadik gombváltozatként, vagy a `.btn-secondary`
+> felülete változzon a terv szerint.
+
+---
+
+## 13/b. Helyzetoszlop és ikonjelvény — `.situation`, `.icon-badge`
+
+A 3. szekció négy kiinduló helyzete. **Nem kártya:** a canvason ülnek, felül vékony
+elválasztó vonallal és kerek ikonjelvénnyel — a vizuális terv szerint.
+
+```html
+<li class="situation">
+  <span class="icon-badge" aria-hidden="true">
+    <span class="icon icon-inline icon-inline-lg icon-epitkezes"></span>
+  </span>
+  <h3 class="type-ui-card-title situation-title">…</h3>
+  <p class="type-ui-body situation-text">…</p>
+  <a class="text-link situation-action" href="…">
+    <span class="link-label">Építkezés előtt állok<span class="action-arrow-end" aria-hidden="true">→</span></span>
+  </a>
+</li>
+```
+
+| Token | Érték |
+|---|---|
+| `--badge-lg-size` | `calc(var(--space-64) + var(--space-16))` = 80px — az ikonjelvény átmérője |
+| `--icon-size-badge` | `calc(var(--space-32) + var(--space-4))` = 36px — a rajzolat a jelvényben |
+| `--badge-bg` / `--badge-text` | a sorszámjelvényével közös (Lime felület, Forest rajzolat) |
+
+**A méretek a tervről mérve**, nem becsülve: a kör 80px, benne a rajzolat 36px (45%).
+Mindkettő skálaértékek összege — köztes egyedi méret nincs. Az ikonok vonalvastagsága
+`1.8` a 24-es viewBoxban, ami 36px-en 2,7px — ez adja a terv optikai súlyát.
+
+### Szövegszínek — a tervről mérve
+
+| Elem | Token | Mért érték a terven |
+|---|---|---|
+| szekció- és oszlopcím | `--text-primary` | ≈ `#0f1c0f` (Forest) |
+| törzsszöveg | `--text-tertiary` | `#697542` — **nem** a másodlagos (Olive Leaf) |
+| hivatkozás | `--link` | `#1c6278` |
+| panel eyebrow | `--panel-dark-muted` | `#849274` |
+| panel cím | `--panel-dark-text` | `#ffffff` |
+| panel törzsszöveg | `--panel-dark-muted` | `#849b7f` — **nem** a tiszta világos |
+| panel hivatkozás | `--panel-dark-link` | `#c4eaf5` — világoskék, nem fehér |
+
+- A rács 4 · 2 · 1 oszlop (asztali · tablet · mobil).
+- A felső vonal `border-top: 1px solid var(--border)` + `padding-top: var(--space-32)`.
+- `.situation-action { margin-top: auto }` — a hivatkozás akkor is az oszlop alján zár,
+  ha a szövegek eltérő hosszúak.
+
+### `.link-label` — miért kell a burok
+
+A nyíl a felirat **után** áll, nem előtte (a 3. szekció terve így mutatja; a korábbi
+szekciókban `.action-arrow` előre került). A `.text-link` viszont `inline-flex`, így a
+nyíl külön flex-elemként a **sor végére** csúszna, nem a szó után. A `.link-label`
+(`display: inline`) egy elembe fogja a feliratot és a nyilat.
+
+> **Kért döntés:** a 7.2 rögzítse-e a nyíl helyét (elöl vagy hátul), vagy maradjon
+> szekciónként a vizuális tervre bízva. Jelenleg mindkét minta él az oldalon.
+
+---
+
+## 13/c. Sötét kiemelt panel — `.panel-dark`
+
+A 3. szekció záró blokkja: a legsötétebb felületen, kétoszlopos (cím | szöveg + link).
+
+| Token | Érték | Sötétben |
+|---|---|---|
+| `--panel-dark-bg` | `var(--surface-inverse)` (Forest) | `var(--surface-muted)` |
+| `--panel-dark-text` | `var(--text-on-dark)` | `var(--text-primary)` |
+| `--panel-dark-muted` | `var(--text-on-dark-muted)` | `var(--text-secondary)` |
+
+- Az emelést itt **nem árnyék adja, hanem a felület-váltás** — a 6. fejezet
+  emelés-létrájának szellemében.
+- A hivatkozás a panelen a **szövegszínt** veszi fel: a `--link` kékje (`#2F6F82`) Forest
+  felületen nem éri el a 4,5:1-et.
+- Sötét témában a Forest maga a sáv színe, ezért a panel a felület-lépcső következő fokára
+  ül (`--surface-muted`), a szöveg pedig a normál szövegszínt kapja.
+
+---
+
+## 14. Chip-hivatkozás — `.chip-link`
+
+A hero harmadik, kiegészítő belépési pontja („Már van ajánlata? Hasonlítsa össze").
+
+| Token | Érték | Sötétben újradeklarálva |
+|---|---|:--:|
+| `--chip-bg` | `var(--surface-muted)` | ✅ |
+| `--chip-text` | `var(--text-primary)` | ✅ |
+| `--chip-radius` | `var(--r-md)` | — |
+
+A gombsorral közös csoportban áll (`.hero-cta`, `flex-direction: column`,
+`align-items: flex-start`), így a térköz egységes, a chip szélességét viszont **a saját
+tartalma** adja — nem nyúlik a fölötte álló két gomb szélességére.
+
+**Miért nem gomb és miért nem `.card-tag`.** A 7.1 szerint szekciónként **egy**
+`.btn-primary` áll; a hero fő CTA-ja már az. Harmadik gombként ez a hivatkozás
+azonos súllyal versenyezne a másik kettővel. A `.card-tag` viszont nem interaktív,
+nincs fókuszállapota és nincs hover-emelése. A `.chip-link` a kettő között áll: chip
+megjelenés, hivatkozás-viselkedés, 44px érintőcélpont, látható fókusz.
+
+---
+
+## 15. Bizalmi sáv — `.trust-grid`
+
+Négy állítás középre zárva, függőleges elválasztókkal.
+
+| Token | Érték | Sötétben újradeklarálva |
+|---|---|:--:|
+| `--trust-divider` | `var(--border)` | ✅ |
+
+- **Oszlopköz szándékosan nincs.** Az elválasztó a cellahatáron fut (`border-left`),
+  a levegőt a cellák belső tere adja (`padding-inline: var(--space-24)`). Oszlopközzel a
+  vonal a hézag szélére kerülne, nem a közepére.
+- 4 oszlop asztali · 2 oszlop tablet · 1 oszlop mobil; egy oszlopban az elválasztó
+  vízszintesre vált (`border-top`).
+- A cím `.type-ui-card-title`, a magyarázat `.type-ui-subtitle`.
+
+### `.trust-title-data` — mono variáns
+
+A szabvány- és tanúsítványjelölés (`EN 12566-3`, `ISO 9001`) **adat**, nem cím, ezért mono
+betűvel áll — a 4.2 szerepkiosztás szellemében (`--font-mono` = adat). Méretszerepet nem
+vált: a `.type-ui-card-title` 16px-e marad, csak a betűcsalád más. Külön `type-data-*`
+szerep nem használható, mert azok 11–12px-esek, és a sáv címei nem apró adatcímkék.
+
+---
+
+## 16. Soron belüli ikonok — `.icon-inline`
+
+| Token | Érték |
+|---|---|
+| `--icon-size-inline` | `var(--space-16)` — kontaktsáv |
+| `--icon-size-inline-lg` | `var(--space-24)` — chip |
+
+A 8. pont a **magasság-normalizálást** rögzítette a blokk-ikonokra (52×41 … 107×41).
+A soron belüli ikonoknál viszont a **befoglaló négyzet** a helyes szabály: ezek a
+rajzolatok közel négyzetesek (18×11, 13×18, 14×15, 24×24), így `mask-size: contain`
+mellett az optikai súlyuk egyforma marad, és a szövegsorban egy vonalban ülnek.
+Magasságra normalizálva a 18×11-es boríték kétszer olyan széles lenne, mint a 13×18-as
+helyszín-ikon.
+
+Az ikonok forrása az ügyféltől érkezett CorelDRAW-export, a `fill` `currentColor`-ra
+cserélve (`assets/icon/ui-{helyszin,email,telefon}.svg`) — ugyanaz az eljárás, mint a
+technológiai ikonoknál.
+
+> ⚠️ **`ui-dokumentum.svg` ideiglenes.** A chip „ajánlat" ikonjához nem érkezett
+> ügyféleszköz; a jelenlegi rajzolat saját, vonalas pótlás. Ügyféleszköz érkezésekor
+> cserélendő.
+
+---
+
+## 17. Logó — `assets/img/logo-okotechhome.svg`
+
+Az **ügyféltől kapott kétszínű SVG** (CorelDRAW-export, 928,41 × 289,93 viewBox), két
+path, két osztály:
+
+| Osztály | Rajzolat | Szín |
+|---|---|---|
+| `.fil0` | jelrajz (ház + fa) | `#80A640` — a márkapaletta Fern színe |
+| `.fil1` | szóvédjegy („ÖkoTechHome") | `#133216` (Forest), sötét rendszertémán `#FAFAFA` (Stardust) |
+
+Az eszközön egyetlen módosítás történt: a `.fil1` kapott egy
+`@media (prefers-color-scheme:dark)` szabályt. Ezt az SVG saját `<style>`-ja viszi, mert a
+logó `<img>`-ként töltődik be — ott a külső dokumentum `currentColor`-ja nem oldódna fel.
+
+A méretezés a fejlécben: `height: var(--space-48)`, `width: auto` — a **magasság** a
+rögzített méret, a szélességet a rajzolat aránya adja (ugyanaz a szabály, mint a
+blokk-ikonoknál, 8. pont). A `width`/`height` attribútum a natív viewBox-méret, hogy a
+böngésző a betöltés előtt is ismerje az arányt (CLS).
+
+> ⚠️ **Két nyitott pont.** (1) A nyers hex a márkaeszköz saját színe, nem felületszín —
+> a 0.8/9. tiltás CSS-re vonatkozik; ha a rendszer felvesz `--brand-*` tokeneket, ide is
+> azok jönnek. (2) A `prefers-color-scheme` a **rendszertémát** követi, a `[data-theme]`
+> kapcsolót nem. Amikor a témaváltó UI megépül, a logót inline SVG-re kell cserélni
+> `currentColor`-os szóvédjeggyel.
+
+---
+
+## 18. AI-alapú döntéstámogató — `.aidt-*`
+
+A 8. szekció (*„Mitől függ az ár?"*) a Test1 (`okotechhome-web`) §6 moduljából került át.
+**A funkció és az elrendezés változatlan; a megjelenés teljes egészében a Test2
+designrendszerére van átültetve.**
+
+| Réteg | Mi történt vele |
+|---|---|
+| `assets/js/ai-advisor.js` (566 sor) | **változatlanul átvéve** — kérdéssor, állapotkezelés, ársáv-logika, eredményképernyő |
+| `.aidt-*` CSS (~200 sor) | **újraírva**: minden érték a Test2 tokenjeiből |
+| szekció-váz (HTML) | a Test2 `.section` / `.section-inner` szerkezetébe illesztve |
+
+### Token-megfeleltetés (Test1 → Test2)
+
+| Test1 | Test2 |
+|---|---|
+| `--paper`, `--paper-2` | `--canvas` |
+| `--ink-text` / `--muted` | `--text-primary` / `--text-secondary` |
+| `--line-light`, `--ag-line` | `--border` |
+| `--emerald` / `--emerald-d` | `--primary` / `--secondary` |
+| `--foam`, `--mint` | `--surface-muted` |
+| `--ink`, `--ink-3` (gradiens) | `--surface-inverse` (sík felület) |
+| `--gold` | `--warning-border` / `--warning-text` |
+| `--shadow-sm` | `--card-shadow` |
+| `clamp()` méretek | fix skálaértékek (`--space-*`) |
+| pill (`100px`) sarkok | `--r-md` — a Test2 gombformája |
+| nyers `px` betűméretek | `--type-*` szereptokenek |
+
+**Miért a CSS hordozza a betűméretet.** A modul DOM-ját JS generálja, a markupban nincs
+`.type-*` szereposztály. A komponens-CSS ezért közvetlenül a **szereptokenekre** hivatkozik
+(`font-size: var(--type-ui-body-size)`), nem nyers px-re — a réteg-sorrend így sértetlen.
+
+### Az ársáv a kódon kívül él — `assets/data/aidt-konfig.js`
+
+A modul **nem tartalmaz árakat**. Az összes érték a fenti konfigfájlban áll, amit a cég
+fejlesztő nélkül szerkeszthet; a modul `window.OTH_AIDT.arsav`-ból olvassa (ha a fájl
+hiányzik, a JS-ben álló tartalék lép életbe, hogy a szekció ne törjön el).
+
+```js
+window.OTH_AIDT = {
+  arsav:   { base: { "1-2": [1600000, 2200000], … }, modifiers: { talajviz: 350000, … } },
+  endpoint: "",                                  // az összefoglaló-küldés végpontja
+  adatkezelesUrl: "adatkezelesi-tajekoztato"
+};
+```
+
+Szerkesztés után a hivatkozás verzióját is emelni kell (`aidt-konfig.js?v=NN`), mert a
+`.htaccess` egy évig cache-eli a JS-t.
+
+> ⚠️ Az értékek **még nincsenek jóváhagyva** — éles indulás előtt a cég szakmai
+> vezetésének kell megerősítenie őket.
+
+### Adatküldés és adatkezelés
+
+- **Van végpont** (`endpoint` kitöltve): az űrlap `POST`-tal küldi a strukturált profilt
+  (e-mail, visszahívás-jelölés, válaszok, számított ársáv, időbélyeg), és csak a sikeres
+  válasz után írja ki, hogy elküldte. Hiba esetén `role="alert"` üzenet és telefonszám.
+- **Nincs végpont** (jelenlegi állapot): a modul **nem állítja, hogy elküldte** — kiírja,
+  hogy a küldés még nincs élesítve, és felkínálja a telefonos utat. Félrevezető
+  visszaigazolás nincs.
+- A hozzájárulás alatt megjelenik az **adatkezelési tájékoztató** hivatkozása
+  (`adatkezelesUrl`).
+
+> **CSP:** saját domainre mutató végpontot a jelenlegi `default-src 'self'` enged. Külső
+> (CRM-)végpontnál a `.htaccess`-ben `connect-src 'self' <domain>` kiegészítés kell.
+
+### JS nélkül — `<noscript>`
+
+A szekció `<noscript>` blokkja elmondja, mit kérdezne a modul (a hat témát), és felkínálja
+a telefonos, illetve e-mailes utat — így JS nélkül sem zsákutca a szekció.
+
+---
+
+## 19. Amire még nincs megoldás
 
 - **Képaláírás** és `--media-tint` — a kép- és illusztrációs rendszer hiányzó része
-- **Ikon-méretskála és vonalvastagság** — jelenleg egyetlen `--icon-size` szerep él
+- **Ikon-méretskála és vonalvastagság** — jelenleg három méretszerep él
+  (`--icon-size`, `--icon-size-inline`, `--icon-size-inline-lg`), skála és
+  vonalvastagság-szabály nélkül
 - **Sötét témájú `.alert`** — a státusz-tokenek nem témafüggők (designrendszer 10.)
 - **Szekció-sáv váltakozás:** az 5.3 elv szerint a sávoknak váltakozniuk kell
-  (`canvas → surface-muted → sötét`). A 3. és 4. szekció a vizuális terv szerint **egyaránt
-  canvas** sávon ül. A `.section-alt` osztály készen áll; a ritmust a teljes oldal
-  összeállásakor kell eldönteni.
+  (`canvas → surface-muted → sötét`). A hero, a bizalmi sáv, a 3. és a 4. szekció a
+  vizuális terv szerint **egyaránt canvas** sávon ül. A `.section-alt` osztály készen áll;
+  a ritmust a teljes oldal összeállásakor kell eldönteni.
+- **Fejléc viselkedése görgetéskor** — a terv statikus fejlécet mutat, a rendszerben
+  viszont van `--topbar-h` token, ami tapadó (sticky) fejlécre utal. Amíg a designrendszer
+  nem mondja ki, a fejléc statikus marad.
+- **Videó a designrendszerben** — mozgókép, `poster`, autoplay-szabály és
+  `prefers-reduced-motion`-viselkedés nincs definiálva. A hero videója a 8. fejezet
+  akadálymentességi elvei szerint készült (dekoratív, feltételes betöltés), de ez
+  jelenleg **komponensdöntés, nem rendszerszabály**.
+- **Betűtípus-önhosztolás** — a Google Fonts külső kérés; a CSP `style-src`/`font-src`
+  emiatt engedi a `fonts.googleapis.com`/`fonts.gstatic.com` hosztot. Önhosztolt woff2
+  esetén mindkettő szűkíthető `'self'`-re.

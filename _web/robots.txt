@@ -1,0 +1,13 @@
+# =============================================================================
+# TESZT ÜZEMMÓD — tst.okoth.hu
+# Az oldal fejlesztés alatt áll, semmilyen robot nem térképezheti fel.
+#
+# ÉLESÍTÉSKOR cseréld erre (és vedd ki az X-Robots-Tag blokkot a .htaccess-ből):
+#
+#   User-agent: *
+#   Allow: /
+#   Sitemap: https://okoth.hu/sitemap.xml
+#
+# =============================================================================
+User-agent: *
+Disallow: /

@@ -12,17 +12,24 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # ALKÖNYVTÁRAS TELEPÍTÉS
+  # A site domaingyökérben és alkönyvtárban (pl. /_work/oko22/) is működik.
+  # Ehhez az átirányítások célja RELATÍV — a `RewriteBase`-hez, illetve annak
+  # hiányában a kérés útjához igazodik. Ha az Apache mégis a gyökérbe dobná a
+  # 301-eket, vedd ki a kommentet és írd át az elérési útra:
+  # RewriteBase /_work/oko22/
+
   # --- 1a) index.html a kanonikus gyökérre ---------------------------------
   # Külön szabály: e nélkül az általános .html-levágás /index-re küldene,
   # ami működne ugyan, de két URL-en lenne elérhető a főoldal.
   RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
-  RewriteRule ^ /%1 [R=301,L,NE]
+  RewriteRule ^ %1 [R=301,L,NE]
 
   # --- 1b) A .html kiterjesztés levágása -------------------------------------
   # Ha a látogató mégis /valami.html-t kér, 301-gyel a tiszta URL-re küldjük.
   # A %{THE_REQUEST} vizsgálat kell, hogy a belső rewrite ne indítson hurkot.
   RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
-  RewriteRule ^ /%1 [R=301,L,NE]
+  RewriteRule ^ %1 [R=301,L,NE]
 
   # --- 2) Kiterjesztés nélküli útvonal kiszolgálása a .html fájlból ----------
   # Csak akkor, ha nem létező könyvtárra vagy fájlra mutat, és a .html létezik.
@@ -33,10 +40,25 @@ DirectoryIndex index.html
 
   # --- 3) Záró perjel eltávolítása (a duplikált URL-ek elkerüléséért) -------
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(.+)/$ /$1 [R=301,L,NE]
+  RewriteRule ^(.+)/$ $1 [R=301,L,NE]
 </IfModule>
 
+# --- Egyedi hibaoldalak -------------------------------------------------------
+# Mind a négy oldal ÖNHORDÓ (beágyazott stílus és logó), mert a böngésző a
+# relatív útvonalakat a KÉRT URL-hez oldja fel, nem a hibaoldal helyéhez:
+# /megoldasok/nincs-ilyen kérésnél az assets/... hivatkozás /megoldasok/assets/...
+# lenne, ami szintén 404. Lásd scripts/oldalgyartas/hibaoldalak.py.
+#
+# ALKÖNYVTÁRAS TELEPÍTÉSNÉL az alábbi négy útvonal elé az alkönyvtár is kell
+# (pl. /oko22/404.html), és a hibaoldalak gyökér-abszolút hivatkozásait is.
+ErrorDocument 401 /401.html
+ErrorDocument 403 /403.html
 ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+
+# A könyvtárlisták kikapcsolása — enélkül a kép- és ikonkönyvtárak tartalma
+# böngészhető lenne. A tiltás 403-at ad, amit a fenti hibaoldal fog el.
+Options -Indexes
 
 # --- Biztonsági fejlécek ------------------------------------------------------
 <IfModule mod_headers.c>
@@ -70,9 +92,40 @@ ErrorDocument 404 /404.html
   ExpiresByType image/avif "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType video/webm "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
 </IfModule>
 
 # A statikus eszközök cache-bustingja a ?v=NN query-vel történik (app.css?v=1).
+# FIGYELEM: az AI-döntéstámogató árértékei az assets/data/aidt-konfig.js fájlban élnek,
+# amit szintén egy év cache véd — szerkesztés után a ?v= verziót emelni kell az index.html-ben.
+# Külső (nem saját domainre mutató) adatküldési végpontnál a fenti CSP-t bővíteni kell:
+# connect-src 'self' <a-végpont-domainje>
+
+
+# =============================================================================
+# TESZT ÜZEMMÓD — KERESŐK TELJES KIZÁRÁSA
+# -----------------------------------------------------------------------------
+# Amíg az oldal a tst.okoth.hu aldomainen fejlesztés alatt áll, SEMMILYEN
+# keresőmotor nem indexelheti, nem archiválhatja és nem követheti a linkjeit.
+#
+# ÉLESÍTÉSKOR: ezt a teljes blokkot töröld vagy kommentezd ki, ÉS cseréld a
+# robots.txt tartalmát az éles változatra (lásd a fájl végén lévő megjegyzést).
+# Ellenőrzés élesítés után:  curl -I https://okoth.hu/ | grep -i x-robots-tag
+# (semmit nem szabad visszaadnia)
+# =============================================================================
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate"
+</IfModule>
+
+# Jelszavas védelem (a legerősebb réteg — a robot be sem jut).
+# Bekapcsoláshoz készíts .htpasswd fájlt a webgyökér FÖLÖTT:
+#   htpasswd -c /home/USER/.htpasswd tesztelo
+# majd vedd ki a komment-jeleket:
+# AuthType Basic
+# AuthName "Fejlesztes alatt"
+# AuthUserFile /home/USER/.htpasswd
+# Require valid-user
 
 # --- Verziózási és dokumentációs fájlok kizárása -------------------------------
 <FilesMatch "\.(md|py|sh)$">

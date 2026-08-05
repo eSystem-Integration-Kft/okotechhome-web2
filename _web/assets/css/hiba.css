@@ -1,0 +1,99 @@
+/* =============================================================================
+   hiba.css — a 401/403/404/500 oldalak stílusa
+   -----------------------------------------------------------------------------
+   GENERÁLT FÁJL — a forrás: scripts/oldalgyartas/hibaoldalak.py. Kézzel ne írd.
+
+   Miért külön fájl, és miért nem az app.css:
+     * a hibaoldalt a kiszolgáló tetszőleges mélységű URL-re adja vissza, a
+       böngésző pedig a relatív útvonalakat a KÉRT URL-hez oldja fel — ezért
+       a hivatkozás gyökér-abszolút (/assets/css/hiba.css);
+     * beágyazott <style> nem jöhet szóba: a .htaccess CSP-je 'unsafe-inline'
+       nélküli style-src-t ad, ami eldobná;
+     * az app.css teljes egészében fölösleges volna egy hibaoldalhoz.
+
+   A tokenek az app.css-ből másolt értékek. Ha ott változnak, ITT is át kell írni.
+   ============================================================================= */
+
+  /* A designrendszer szükséges részhalmaza — lásd a fájl fejlécében az okot. */
+  :root{
+    --color-forest:#133216; --color-fern:#80A640; --color-olive:#5B7B2E;
+    --color-stardust:#FAFAFA; --color-drizzle:#F2F2EF; --color-slate:#4A4F49;
+    --canvas:var(--color-drizzle); --surface:var(--color-stardust);
+    --text-primary:var(--color-forest); --text-secondary:var(--color-slate);
+    --primary:var(--color-fern); --border:#DCDCD6;
+    --space-8:.5rem; --space-16:1rem; --space-24:1.5rem; --space-32:2rem;
+    --space-48:3rem; --space-64:4rem; --space-96:6rem;
+    --radius:.5rem;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --canvas:#0E1A10; --surface:#16241A; --text-primary:var(--color-stardust);
+      --text-secondary:#B9C2B8; --border:#2A3B2D;
+    }
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; min-height:100svh; display:flex; flex-direction:column;
+    background:var(--canvas); color:var(--text-primary);
+    font-family:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+    font-size:1rem; line-height:1.6;
+  }
+  /* A hibaoldal egyetlen, középre zárt oszlop — ezért a logó és a lábléc is
+     középen áll, nem balra zárva, mint a webhely többi részén. */
+  .hiba-fej{
+    padding:var(--space-24) clamp(1.25rem,5vw,3rem);
+    border-bottom:1px solid var(--border); background:var(--surface);
+    text-align:center;
+  }
+  .hiba-logo{display:inline-flex; text-decoration:none}
+  .hiba-logo-svg{height:var(--space-48); width:auto; display:block}
+  /* A logó színét `fill` prezentációs attribútum adja (a CSP miatt az SVG saját
+     <style> blokkja nem érvényesülne). A prezentációs attribútum a leggyengébb
+     forrás, ezért a sötét témát innen felül tudjuk írni: a szóvédjegy Forestje
+     sötét háttéren olvashatatlan lenne. A jelrajz Fernje mindkét témán él. */
+  @media (prefers-color-scheme:dark){
+    .hiba-logo-svg .fil0{fill:var(--color-fern)}      /* a jelrajz sötéten is Fern */
+    .hiba-logo-svg .fil1{fill:var(--color-stardust)}  /* a szóvédjegy világosra vált */
+  }
+  .hiba-fo{
+    flex:1; display:flex; align-items:center;
+    padding:var(--space-96) clamp(1.25rem,5vw,3rem);
+  }
+  .hiba-torzs{max-width:44rem; margin-inline:auto}
+  .hiba-kod{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:.6875rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--text-secondary); margin:0 0 var(--space-16);
+  }
+  .hiba-cim{
+    font-family:"Zilla Slab",Georgia,serif; font-weight:500;
+    font-size:clamp(1.75rem,4vw,2.375rem); line-height:1.2;
+    margin:0 0 var(--space-24); text-wrap:balance;
+  }
+  .hiba-szoveg{color:var(--text-secondary); margin:0 0 var(--space-16); max-width:38rem}
+  .hiba-lista{
+    list-style:none; margin:var(--space-32) 0 0; padding:0;
+    display:grid; gap:var(--space-8);
+  }
+  .hiba-lista a{color:var(--text-primary); text-decoration:none; font-weight:500}
+  .hiba-lista a:hover{color:var(--color-olive)}
+  .hiba-lista a::before{content:"→"; margin-right:var(--space-8); color:var(--primary)}
+  .hiba-gomb{
+    display:inline-flex; align-items:center; gap:var(--space-8);
+    margin-top:var(--space-32); padding:.75rem var(--space-24);
+    min-height:2.75rem;                     /* 44px érintőcélpont */
+    background:var(--primary); color:var(--color-forest);
+    border-radius:var(--radius); text-decoration:none; font-weight:600;
+  }
+  .hiba-gomb:hover{background:var(--color-olive); color:var(--color-stardust)}
+  a:focus-visible,.hiba-logo:focus-visible{
+    outline:2px solid var(--primary); outline-offset:3px; border-radius:2px;
+  }
+  .hiba-lab{
+    padding:var(--space-24) clamp(1.25rem,5vw,3rem);
+    border-top:1px solid var(--border); color:var(--text-secondary);
+    font-size:.875rem; text-align:center;
+  }
+  .hiba-lab p{margin:0}
+  .hiba-lab a{color:inherit}

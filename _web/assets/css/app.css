@@ -185,6 +185,10 @@
     --page-gutter:var(--space-48);     /* desktop ≥1025px */
     --topbar-h:60px;
     --container-max:1180px;            /* designrendszer 5.2 — rögzített konténer-szélesség */
+    /* A fejléc és a hero szélesebb konténerben ül: a menü így szellősebb, a
+       logó és a hero-szöveg pedig ugyanazon a bal élen kezdődik. A tartalmi
+       szekciók továbbra is az 5.2 szerinti 1180px-en maradnak (olvashatóság). */
+    --container-wide:1440px;
 
     /* radius / motion */
     --r-md:10px;--r-lg:14px;--r-xl:16px;
@@ -231,6 +235,18 @@
     --badge-size:var(--space-48);
     --badge-bg:var(--surface-muted);
     --badge-text:var(--text-primary);
+    /* ikonjelvény — a helyzetoszlopok kerek, kitöltött ikonkerete.
+       A terven a kör 80px, benne a rajzolat 36px: skálaértékek összegéből. */
+    --badge-lg-size:calc(var(--space-64) + var(--space-16));
+    --icon-size-badge:calc(var(--space-32) + var(--space-4));
+
+    /* sötét kiemelt panel */
+    --panel-dark-bg:var(--surface-inverse);
+    --panel-dark-text:var(--text-on-dark);
+    --panel-dark-muted:var(--text-on-dark-muted);
+    /* A --link kékje Forest felületen 2,4:1 — világosítva éri el a 4,5:1-et.
+       A terven is világoskék hivatkozás áll a sötét panelen. */
+    --panel-dark-link:color-mix(in srgb,var(--link) 30%,var(--text-on-dark));
 
     /* címke-chip (kártya besorolása) */
     --tag-bg:var(--surface-muted);
@@ -253,6 +269,62 @@
     /* ikon — a designrendszer 10. fejezete szerint az ikonrendszer még
        definiálatlan; itt egyetlen méretszerep és a currentColor-szabály él */
     --icon-size:var(--space-48);
+    /* Soron belüli ikonméret: a fejléc kontaktsorában és a chipben az ikon a
+       szöveg mellett áll, ott a 48px-es blokkméret értelmetlen. Második
+       méretszerep, nem egyedi érték. */
+    --icon-size-inline:var(--space-16);
+    --icon-size-inline-lg:var(--space-24);
+
+    /* oldalfejléc — kontaktsáv + fő navigációs sáv */
+    --topbar-bg:var(--canvas);
+    --topbar-border:var(--border);
+    --topbar-text:var(--text-primary);
+    --topbar-icon:var(--primary);
+    --header-bg:var(--surface);
+    --header-border:var(--border);
+    --header-shadow:var(--shadow-1);
+    --nav-text:var(--text-primary);
+    /* A fejléc teljes magassága, kizárólag skálaértékekből:
+       kontaktsáv (--space-48) + fő sáv (48px logó + 2 × --space-16). */
+    --header-h:calc(var(--space-48) + var(--space-48) + var(--space-32));
+
+    /* hero */
+    /* Lágy folt (veil) a szöveg mögé: ellipszis, amely MINDEN irányban elhal —
+       nincs éle, nincs sávhatára. Csak annyit emel a háttéren, hogy a felvétel
+       kontúrjai ne fussanak bele a betűkbe. */
+    --hero-veil:color-mix(in srgb,var(--canvas) 90%,transparent);
+    --hero-veil-soft:color-mix(in srgb,var(--canvas) 64%,transparent);
+    /* A folt közepe a szövegoszlop közepén, a konténerhez kötve — nem a
+       viewport százalékához, hogy minden képernyőszélességen ott maradjon. */
+    --hero-veil-x:calc(50% - var(--container-wide) / 2 + var(--page-gutter) + 26ch);
+    /* Függőlegesen a hero TETEJÉTŐL mérve, nem százalékban: a hero magassága a
+       képernyővel változik, a szövegblokk helye viszont nem. */
+    --hero-veil-y:calc(var(--space-128) + var(--space-96));
+
+    --hero-media-ratio:16 / 9;
+    /* Aloldalon a fejléc-kép SÁV, nem borító: alacsonyabb arány és felső
+       magasságkorlát, hogy nagy képernyőn se nőjön képernyőnyire. */
+    --page-hero-ratio:21 / 9;
+    --page-hero-max:34rem;
+    /* A hero a képernyővel együtt mozog: legalább egy képernyőnyi a fejléc
+       alatt, e fölött a médiablokk aránya adja a magasságot. */
+    --hero-min-h:calc(100svh - var(--header-h));
+
+    /* sötét (inverz) gomb — a vizuális terv másodlagos hero-gombja */
+    --button-inverse-bg:var(--surface-inverse);
+    --button-inverse-text:var(--text-on-dark);
+
+    /* chip-hivatkozás (kiegészítő, nem elsődleges művelet) */
+    --chip-bg:var(--surface-muted);
+    --chip-text:var(--text-primary);
+    --chip-radius:var(--r-md);
+
+    /* bizalmi sáv */
+    --trust-divider:var(--border);
+
+    /* Lassabb átmenet-szerep: az állókép→videó átúszás 150ms-on ugrásnak
+       látszik. A rendszerben egyelőre csak --dur-fast él. */
+    --dur-media:600ms;
   }
 
   [data-theme="dark"]{
@@ -295,12 +367,41 @@
     --badge-bg:var(--surface-muted);
     --badge-text:var(--text-primary);
 
+    /* Sötét témában a Forest maga a sáv színe — a panel a felület-lépcső
+       következő fokára ül, a szöveg pedig a normál szövegszínt kapja. */
+    --panel-dark-bg:var(--surface-muted);
+    --panel-dark-text:var(--text-primary);
+    --panel-dark-muted:var(--text-secondary);
+    --panel-dark-link:var(--link);
+
     --tag-bg:var(--surface-muted);
     --tag-text:var(--text-primary);
 
     --table-row-bg:color-mix(in srgb,var(--surface-muted) 60%,var(--surface));
     --table-row-alt-bg:var(--surface);
     --table-border:var(--border);
+
+    --topbar-bg:var(--canvas);
+    --topbar-border:var(--border);
+    --topbar-text:var(--text-primary);
+    --header-bg:var(--surface);
+    --header-border:var(--border);
+    /* Sötét témában a mélységet a felület-lépcső viszi, nem az árnyék (3. fejezet). */
+    --header-shadow:none;
+    --nav-text:var(--text-primary);
+
+    --hero-veil:color-mix(in srgb,var(--canvas) 90%,transparent);
+    --hero-veil-soft:color-mix(in srgb,var(--canvas) 64%,transparent);
+
+    /* Az inverz gomb sötét témán nem lehet Forest: az a sáv saját színe.
+       A felület-lépcső következő foka adja a kontrasztot. */
+    --button-inverse-bg:var(--surface-muted);
+    --button-inverse-text:var(--text-primary);
+
+    --chip-bg:var(--surface-muted);
+    --chip-text:var(--text-primary);
+
+    --trust-divider:var(--border);
   }
 }
 
@@ -396,6 +497,11 @@
   .btn-primary:hover:not(:disabled){border-color:var(--button-primary-border-hover);box-shadow:var(--shadow-1);transform:translateY(-1px)}
   .btn-primary:active:not(:disabled){border-color:var(--button-primary-border-active);box-shadow:inset 0 0 0 1px var(--button-primary-border-active);transform:translateY(0)}
   .btn-secondary{background:var(--button-secondary-bg);color:var(--button-secondary-text);border-color:var(--button-secondary-border)}
+  /* Inverz gomb (ÚJ) — a vizuális terv a hero második gombját a legsötétebb
+     felületen mutatja, nem az Olive Leaf másodlagos színen. Lásd COMPONENTS.md */
+  .btn-inverse{background:var(--button-inverse-bg);color:var(--button-inverse-text);border-color:var(--button-inverse-bg)}
+  .btn-inverse:hover:not(:disabled){box-shadow:var(--shadow-1);transform:translateY(-1px)}
+  .btn-inverse:active:not(:disabled){box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--button-inverse-text) 28%,transparent);transform:translateY(0)}
   .btn-secondary:hover:not(:disabled){box-shadow:var(--shadow-1);transform:translateY(-1px)}
   .btn-secondary:active:not(:disabled){box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--button-secondary-text) 28%,transparent);transform:translateY(0)}
   .btn:focus-visible{outline:3px solid var(--button-focus);outline-offset:3px}
@@ -412,12 +518,18 @@
   a.btn{text-decoration:none}
 
   /* ===== 5.2 Szöveges hivatkozás — a designrendszer 7.2 szerint ===== */
+  /* A hivatkozás jelölése NEM aláhúzás, hanem szín + hover-felület — ugyanaz a
+     nyelv, mint a megamenüben. (Folyó szövegbe ágyazott linknél az aláhúzás
+     marad: ott a szín önmagában nem különböztetné meg — 8. fejezet.) */
   .text-link{
     display:inline-flex;align-items:center;min-height:44px;color:var(--link);
     font-family:var(--font-body);font-size:var(--type-ui-body-size);font-weight:600;line-height:var(--type-ui-body-line-height);
-    text-decoration-line:underline;text-decoration-thickness:1px;text-underline-offset:.22em;border-radius:4px;
+    text-decoration:none;
+    padding-inline:var(--space-8);margin-inline-start:calc(-1 * var(--space-8));
+    border-radius:var(--r-md);
+    transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
   }
-  .text-link:hover{color:var(--link-hover);text-decoration-thickness:2px}
+  .text-link:hover{color:var(--link-hover);background:var(--canvas)}
   .text-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
 
   /* =========================================================================
@@ -525,6 +637,10 @@
 
   /* ===== 5.7 Sorszámozott kártya (ÚJ) ===== */
   .numbered-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
+  /* Négy elemnél a hármas rács 3+1-re törik, és az árva kártya elrendezési
+     hibának látszik. Pontosan négy gyereknél ezért 2×2. Ötnél és hatnál a
+     hármas osztás kiegyensúlyozott (3+2, 3+3), ott marad. */
+  .numbered-grid:has(> :nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
   .card-badge{
     display:flex;align-items:center;justify-content:center;
     width:var(--badge-size);height:var(--badge-size);flex:none;
@@ -550,16 +666,67 @@
   }
   .icon-zart-tarolo{
     aspect-ratio:52 / 41;
-    -webkit-mask-image:url("../icon/tech-zart-tarolo.svg");mask-image:url("../icon/tech-zart-tarolo.svg");
+    -webkit-mask-image:url("../icon/tech-zart-tarolo.svg?v=2");mask-image:url("../icon/tech-zart-tarolo.svg?v=2");
   }
   .icon-oldomedence{
     aspect-ratio:67 / 41;
-    -webkit-mask-image:url("../icon/tech-oldomedence.svg");mask-image:url("../icon/tech-oldomedence.svg");
+    -webkit-mask-image:url("../icon/tech-oldomedence.svg?v=2");mask-image:url("../icon/tech-oldomedence.svg?v=2");
   }
   .icon-biologiai{
-    aspect-ratio:107 / 41;
-    -webkit-mask-image:url("../icon/tech-biologiai.svg");mask-image:url("../icon/tech-biologiai.svg");
+    aspect-ratio:58 / 41;
+    -webkit-mask-image:url("../icon/tech-biologiai.svg?v=2");mask-image:url("../icon/tech-biologiai.svg?v=2");
   }
+
+  /* Soron belüli ikonok (kontaktsor, chip). Itt a befoglaló NÉGYZET a helyes
+     méretszabály, nem a magasság-normalizálás: ezek a rajzolatok közel
+     négyzetesek (18×11, 13×18, 14×15, 24×24), így a `contain` mellett az
+     optikai súlyuk egyforma marad, és a szövegsorban egy vonalban ülnek.
+     A blokk-ikonoknál (52×41 … 107×41) ugyanez eltorzítana — lásd COMPONENTS.md 8. */
+  .icon-inline{
+    display:inline-block;flex:none;
+    width:var(--icon-size-inline);height:var(--icon-size-inline);
+  }
+  .icon-inline-lg{width:var(--icon-size-inline-lg);height:var(--icon-size-inline-lg)}
+  .icon-badge-size{width:var(--icon-size-badge);height:var(--icon-size-badge)}
+  .icon-helyszin{-webkit-mask-image:url("../icon/ui-helyszin.svg?v=2");mask-image:url("../icon/ui-helyszin.svg?v=2")}
+  .icon-email{-webkit-mask-image:url("../icon/ui-email.svg?v=2");mask-image:url("../icon/ui-email.svg?v=2")}
+  .icon-telefon{-webkit-mask-image:url("../icon/ui-telefon.svg?v=2");mask-image:url("../icon/ui-telefon.svg?v=2")}
+  .icon-dokumentum{-webkit-mask-image:url("../icon/ui-dokumentum.svg?v=2");mask-image:url("../icon/ui-dokumentum.svg?v=2")}
+  /* Menüikonok (megamenü) */
+  .icon-nav-adatbazis{-webkit-mask-image:url("../icon/ui-nav-adatbazis.svg?v=1");mask-image:url("../icon/ui-nav-adatbazis.svg?v=1")}
+  .icon-nav-alternativak{-webkit-mask-image:url("../icon/ui-nav-alternativak.svg?v=1");mask-image:url("../icon/ui-nav-alternativak.svg?v=1")}
+  .icon-nav-attekintes{-webkit-mask-image:url("../icon/ui-nav-attekintes.svg?v=1");mask-image:url("../icon/ui-nav-attekintes.svg?v=1")}
+  .icon-nav-biologiai{-webkit-mask-image:url("../icon/ui-nav-biologiai.svg?v=1");mask-image:url("../icon/ui-nav-biologiai.svg?v=1")}
+  .icon-nav-bizonyitek{-webkit-mask-image:url("../icon/ui-nav-bizonyitek.svg?v=1");mask-image:url("../icon/ui-nav-bizonyitek.svg?v=1")}
+  .icon-nav-ellenorzes{-webkit-mask-image:url("../icon/ui-nav-ellenorzes.svg?v=1");mask-image:url("../icon/ui-nav-ellenorzes.svg?v=1")}
+  .icon-nav-engedely{-webkit-mask-image:url("../icon/ui-nav-engedely.svg?v=1");mask-image:url("../icon/ui-nav-engedely.svg?v=1")}
+  .icon-nav-esettanulmany{-webkit-mask-image:url("../icon/ui-nav-esettanulmany.svg?v=1");mask-image:url("../icon/ui-nav-esettanulmany.svg?v=1")}
+  .icon-nav-felmeres{-webkit-mask-image:url("../icon/ui-nav-felmeres.svg?v=1");mask-image:url("../icon/ui-nav-felmeres.svg?v=1")}
+  .icon-nav-fogalomtar{-webkit-mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1");mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1")}
+  .icon-nav-gyik{-webkit-mask-image:url("../icon/ui-nav-gyik.svg?v=1");mask-image:url("../icon/ui-nav-gyik.svg?v=1")}
+  .icon-nav-inditas{-webkit-mask-image:url("../icon/ui-nav-inditas.svg?v=1");mask-image:url("../icon/ui-nav-inditas.svg?v=1")}
+  .icon-nav-iranytu{-webkit-mask-image:url("../icon/ui-nav-iranytu.svg?v=1");mask-image:url("../icon/ui-nav-iranytu.svg?v=1")}
+  .icon-nav-koltseg{-webkit-mask-image:url("../icon/ui-nav-koltseg.svg?v=1");mask-image:url("../icon/ui-nav-koltseg.svg?v=1")}
+  .icon-nav-kozcsatorna{-webkit-mask-image:url("../icon/ui-nav-kozcsatorna.svg?v=1");mask-image:url("../icon/ui-nav-kozcsatorna.svg?v=1")}
+  .icon-nav-kozossegi{-webkit-mask-image:url("../icon/ui-nav-kozossegi.svg?v=1");mask-image:url("../icon/ui-nav-kozossegi.svg?v=1")}
+  .icon-nav-mukodes{-webkit-mask-image:url("../icon/ui-nav-mukodes.svg?v=1");mask-image:url("../icon/ui-nav-mukodes.svg?v=1")}
+  .icon-nav-szerviz{-webkit-mask-image:url("../icon/ui-nav-szerviz.svg?v=1");mask-image:url("../icon/ui-nav-szerviz.svg?v=1")}
+  .icon-nav-talaj{-webkit-mask-image:url("../icon/ui-nav-talaj.svg?v=1");mask-image:url("../icon/ui-nav-talaj.svg?v=1")}
+  .icon-nav-tanusitvany{-webkit-mask-image:url("../icon/ui-nav-tanusitvany.svg?v=1");mask-image:url("../icon/ui-nav-tanusitvany.svg?v=1")}
+  .icon-nav-telepites{-webkit-mask-image:url("../icon/ui-nav-telepites.svg?v=1");mask-image:url("../icon/ui-nav-telepites.svg?v=1")}
+  .icon-nav-terheles{-webkit-mask-image:url("../icon/ui-nav-terheles.svg?v=1");mask-image:url("../icon/ui-nav-terheles.svg?v=1")}
+  .icon-nav-tudastar{-webkit-mask-image:url("../icon/ui-nav-tudastar.svg?v=1");mask-image:url("../icon/ui-nav-tudastar.svg?v=1")}
+  .icon-nav-utmutato{-webkit-mask-image:url("../icon/ui-nav-utmutato.svg?v=1");mask-image:url("../icon/ui-nav-utmutato.svg?v=1")}
+  .icon-nav-vallalkozas{-webkit-mask-image:url("../icon/ui-nav-vallalkozas.svg?v=1");mask-image:url("../icon/ui-nav-vallalkozas.svg?v=1")}
+  .icon-nav-velemeny{-webkit-mask-image:url("../icon/ui-nav-velemeny.svg?v=1");mask-image:url("../icon/ui-nav-velemeny.svg?v=1")}
+  .icon-nav-vizelvezetes{-webkit-mask-image:url("../icon/ui-nav-vizelvezetes.svg?v=1");mask-image:url("../icon/ui-nav-vizelvezetes.svg?v=1")}
+  .icon-nav-vizminoseg{-webkit-mask-image:url("../icon/ui-nav-vizminoseg.svg?v=1");mask-image:url("../icon/ui-nav-vizminoseg.svg?v=1")}
+
+  /* Helyzet-ikonok (3. szekció) */
+  .icon-epitkezes{-webkit-mask-image:url("../icon/ui-epitkezes.svg?v=3");mask-image:url("../icon/ui-epitkezes.svg?v=3")}
+  .icon-emeszto{-webkit-mask-image:url("../icon/ui-emeszto.svg?v=3");mask-image:url("../icon/ui-emeszto.svg?v=3")}
+  .icon-nyaralo{-webkit-mask-image:url("../icon/ui-nyaralo.svg?v=3");mask-image:url("../icon/ui-nyaralo.svg?v=3")}
+  .icon-telek{-webkit-mask-image:url("../icon/ui-telek.svg?v=3");mask-image:url("../icon/ui-telek.svg?v=3")}
 
   /* ===== 5.9 Összehasonlító táblázat (ÚJ) ===== */
   .compare-scroll{overflow-x:auto}
@@ -628,6 +795,767 @@
     box-shadow:var(--card-shadow);
   }
   .split-title{color:var(--text-primary);margin-bottom:var(--space-24)}
+
+  /* ===== 5.12 Oldalfejléc — kontaktsáv + fő navigáció (ÚJ) ===== */
+  /* A fejléc EGÉSZE tapad, de a kontaktsáv magasságával feljebb: görgetéskor a
+     kontaktsáv kicsúszik, és a fő sáv áll meg a viewport tetején. (A fő sávot
+     önmagában nem lehet tapasztani: a `sticky` a SZÜLŐ dobozán belül mozog,
+     a fejléc pedig épp olyan magas, mint a tartalma.) */
+  .site-header{
+    position:sticky;top:calc(-1 * var(--space-48));z-index:30;
+    background:var(--header-bg);
+  }
+  /* Az árnyék a legfinomabb emelés (e1): elválasztja a sávot a mögötte futó
+     tartalomtól, de nem emeli ki kártyaként. */
+  .header-main{
+    background:var(--header-bg);
+    border-bottom:1px solid var(--header-border);
+    box-shadow:var(--header-shadow);
+  }
+
+  /* Kontaktsáv. A sáv magasságát nem külön token adja, hanem a benne álló
+     hivatkozások érintőcélpontja (--space-48) — így a kettő nem csúszhat szét. */
+  .topbar{background:var(--topbar-bg);border-bottom:1px solid var(--topbar-border)}
+  .topbar-inner{
+    max-width:var(--container-wide);margin-inline:auto;padding-inline:var(--page-gutter);
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    column-gap:var(--space-32);
+  }
+  .topbar-list{display:flex;flex-wrap:wrap;align-items:center;column-gap:var(--space-16)}
+  .topbar-item{display:flex;align-items:center;gap:var(--space-8);color:var(--topbar-text)}
+  .topbar-link{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    min-height:var(--space-48);padding-inline:var(--space-4);
+    border-radius:var(--r-md);
+    color:var(--topbar-text);text-decoration:none;
+    transition:background var(--dur-fast) var(--ease-out);
+  }
+  .topbar-link:hover{color:var(--topbar-text);background:var(--surface)}
+  .topbar-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px;border-radius:4px}
+  /* Az ikon dekoratív, a jelentést a mellette álló szöveg hordozza (8. fejezet). */
+  .topbar-icon{color:var(--topbar-icon)}
+  .topbar-sep{color:var(--text-tertiary)}
+
+  /* Fő sáv: logó — navigáció — CTA */
+  .header-inner{
+    max-width:var(--container-wide);margin-inline:auto;padding-inline:var(--page-gutter);
+    min-height:var(--topbar-h);padding-block:var(--space-16);
+    display:flex;align-items:center;justify-content:space-between;gap:var(--space-24);
+  }
+  .site-logo{display:inline-flex;align-items:center;text-decoration:none}
+  /* A magasság a rögzített méret, a szélességet a rajzolat aránya adja. */
+  .site-logo img{display:block;height:var(--space-48);width:auto}
+  .site-logo:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:4px}
+
+  .nav-drawer{display:flex;align-items:center}
+  /* Asztali nézetben a lenyitó gomb nem kell: a `details` nyitva marad. */
+  .nav-toggle{display:none}
+  /* Öt nagybetűs menüpont + lenyíló nyilak: a 24px-es köz mellett a sor tördelt. */
+  .nav-list{display:flex;flex-wrap:wrap;align-items:center;column-gap:var(--space-16)}
+  .nav-link{
+    display:inline-flex;align-items:center;min-height:44px;
+    padding-inline:var(--space-8);border-radius:var(--r-md);
+    color:var(--nav-text);text-decoration:none;text-transform:uppercase;
+    transition:background var(--dur-fast) var(--ease-out);
+  }
+  .nav-link:hover{background:var(--canvas);text-decoration:none}
+  .nav-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:4px}
+  .nav-link[aria-current="page"]{background:var(--surface-muted)}
+  /* A GYIK és a Karrier asztali nézetben a kontaktsávban él; a menüben csak
+     akkor jelenik meg, amikor a kontaktsáv rövidül (≤640px). */
+  .nav-item-secondary{display:none}
+  .header-cta{flex:none}
+
+
+  /* ===== 5.12b Megamenü (ÚJ) =====
+     A sitemap 2. szintje a fejlécből érhető el. A nyitó elem `button`
+     (művelet, nem navigáció — 7.2), a panel `hidden` attribútummal zár, így
+     JS nélkül sem marad nyitva lógva. A panel LEBEG: a nyitó menüponthoz
+     igazodik, szélességét a tartalma adja, és egy csúcs mutatja, honnan
+     nyílt — nem a fejléc teljes szélességén ül. */
+  .header-main{position:relative}
+  .nav-item{position:relative}
+  .nav-trigger{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    border:0;background:none;cursor:pointer;
+    font-family:var(--font-body);font-size:var(--type-ui-button-size);
+    font-weight:var(--type-ui-button-weight);line-height:var(--type-ui-button-line-height);
+  }
+  .nav-caret{
+    width:var(--space-8);height:var(--space-8);flex:none;
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    transform:rotate(45deg) translate(-2px,-2px);
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+  .nav-trigger[aria-expanded="true"] .nav-caret{transform:rotate(-135deg) translate(-2px,-2px)}
+  /* A nyitott menüpont felülettel jelöl, nem aláhúzással — így a panel
+     „hozzátartozása" vizuálisan is folytonos. */
+  .nav-trigger[aria-expanded="true"]{background:var(--canvas)}
+
+  /* Finom belépés: a panel néhány képpontnyit lejjebb csúszva halványul be.
+     A `display` átmenete natívan, `allow-discrete`-tel megy — így a `hidden`
+     attribútum megmarad az egyetlen állapotjelzőnek (nincs külön osztály).
+     Régebbi böngészőn az átmenet elmarad, a panel egyszerűen megjelenik. */
+  .mega[hidden]{display:none;opacity:0;transform:translateY(calc(-1 * var(--space-8)))}
+  @starting-style{
+    .mega:not([hidden]){opacity:0;transform:translateY(calc(-1 * var(--space-8)))}
+  }
+  .mega{
+    opacity:1;transform:none;
+    transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),
+               display 180ms var(--ease-out) allow-discrete;
+    position:absolute;top:calc(100% + var(--space-16));left:calc(-1 * var(--space-16));
+    z-index:25;
+    width:max-content;max-width:min(88vw,42rem);
+    background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--panel-radius);
+    box-shadow:var(--shadow-2);
+  }
+  /* A csúcs a nyitó menüpont alatt: megmutatja, honnan lebeg a panel.
+     Két háromszög — a külső a keretet, a belső a felületet folytatja. */
+  .mega::before,.mega::after{
+    content:"";position:absolute;bottom:100%;left:var(--space-32);
+    width:0;height:0;border:var(--space-8) solid transparent;
+  }
+  .mega::before{border-bottom-color:var(--border)}
+  .mega::after{border-bottom-color:var(--surface);margin-bottom:-1px}
+
+  .mega-inner{padding:var(--space-24)}
+  .mega-eyebrow{color:var(--text-tertiary);margin-bottom:var(--space-16)}
+  /* Egy oszlop hat elemig, e fölött kettő: a panel se túl magas, se
+     indokolatlanul széles ne legyen. */
+  /* A lista oszlopokba tördel, a sorok számát a MARKUP adja (`data-rows`),
+     az elemszám feléből kerekítve — így a két oszlop kiegyensúlyozott marad
+     (7 elem → 4+3), nem 6+1. Öt elemig egy oszlop. */
+  .mega-list{
+    display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,auto);
+    gap:var(--space-4) var(--space-16);
+  }
+  .mega-list[data-rows="1"]{grid-template-rows:repeat(1,auto)}
+  .mega-list[data-rows="2"]{grid-template-rows:repeat(2,auto)}
+  .mega-list[data-rows="3"]{grid-template-rows:repeat(3,auto)}
+  .mega-list[data-rows="4"]{grid-template-rows:repeat(4,auto)}
+  .mega-list[data-rows="5"]{grid-template-rows:repeat(5,auto)}
+  .mega-list[data-rows="6"]{grid-template-rows:repeat(6,auto)}
+  .mega-list[data-rows="7"]{grid-template-rows:repeat(7,auto)}
+  .mega-list[data-rows="8"]{grid-template-rows:repeat(8,auto)}
+  .mega-link{
+    display:flex;align-items:center;gap:var(--space-16);
+    padding:var(--space-8);border-radius:var(--r-md);
+    color:var(--text-primary);text-decoration:none;
+    transition:background var(--dur-fast) var(--ease-out);
+  }
+  /* Az ikon halvány felületen ül; hoverkor a Lime-ra vált — a témát az ikon
+     hordozza, a jelentést a felirat (8. fejezet). */
+  .mega-ico{
+    display:grid;place-items:center;flex:none;
+    width:calc(var(--space-32) + var(--space-8));height:calc(var(--space-32) + var(--space-8));
+    border-radius:var(--r-md);
+    background:var(--canvas);color:var(--secondary);
+    transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
+  }
+  .mega-link:hover .mega-ico{background:var(--surface-muted);color:var(--text-primary)}
+  .mega-label{line-height:var(--type-ui-body-line-height)}
+  .mega-link:hover{background:var(--canvas);color:var(--text-primary)}
+  .mega-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px}
+  .mega-foot{margin-top:var(--space-16);padding-top:var(--space-16);border-top:1px solid var(--border)}
+
+  /* A jobb szélső menüpontok panelje jobbra igazodik, hogy ne lógjon ki. */
+  .nav-item:nth-last-child(4) .mega,
+  .nav-item:nth-last-child(5) .mega{left:auto;right:calc(-1 * var(--space-16))}
+  .nav-item:nth-last-child(4) .mega::before,
+  .nav-item:nth-last-child(4) .mega::after,
+  .nav-item:nth-last-child(5) .mega::before,
+  .nav-item:nth-last-child(5) .mega::after{left:auto;right:var(--space-32)}
+
+
+  /* ===== 5.13 Hero (ÚJ) ===== */
+  /* Borító-elrendezés: a szöveg és a médiablokk UGYANABBAN a rácscellában ül,
+     így a felvétel a teljes hero-felületet kitölti, a szöveg pedig rajta.
+     A magasságot a legnagyobb tényező adja: legalább egy képernyőnyi
+     (--hero-min-h), e fölött a médiablokk aránya vagy a szöveg magassága.
+     Fátyol (scrim) nincs: a szöveg közvetlenül a felvételen áll. */
+  .hero{
+    display:grid;
+    /* Egyetlen, teljes szélességű oszlop. `auto` mellett a rács a tartalom
+       szélességére húzódna, és a médiablokk aránya nem számolna magasságot. */
+    grid-template-columns:minmax(0,1fr);
+    background:var(--section-bg);
+    min-height:var(--hero-min-h);
+  }
+  .hero > .hero-inner,
+  .hero > .hero-media{grid-column:1;grid-row:1}
+  .hero-inner{
+    position:relative;z-index:1;align-self:start;
+    width:100%;padding-block:var(--space-64);
+    max-width:var(--container-wide);margin-inline:auto;padding-inline:var(--page-gutter);
+  }
+  .hero-copy{display:flex;flex-direction:column;align-items:flex-start}
+    /* Az adatsor mono rajzolata 12px-en vékony, és a felvétel textúráján akkor is
+     nehezen olvas, ha a mért kontraszt megfelelő. Ezért saját, egyenletes
+     felületet kap — ugyanaz a nyelv, mint a főcím `.hl` kiemelése. */
+  .hero-eyebrow{
+    color:var(--text-primary);background:var(--surface-muted);
+    padding:var(--space-4) var(--space-8);border-radius:var(--r-md);
+    align-self:flex-start;margin-bottom:var(--space-16);
+  }
+  /* A bevezető a fotón a legerősebb szövegszínt kapja: a másodlagos szín ott
+     épp a 4,5:1 határon billeg. */
+  .hero .hero-lead{color:var(--text-primary)}
+  /* Biztonsági háló nagyon szűk képernyőre: a leghosszabb szó
+     („szennyvízkezelés") 320px-en a display-méreten sem lóghat ki. */
+  .hero-title{color:var(--text-primary);margin-bottom:var(--space-16);overflow-wrap:break-word}
+  .hero-lead{color:var(--text-secondary);max-width:52ch;margin-bottom:var(--space-24)}
+  /* A gombsor és a chip egy csoport, egységes térközzel. A chip a saját
+     tartalmához igazodik — nem a gombsor szélességéhez. */
+  .hero-cta{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-8)}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+
+  /* Kiegészítő hivatkozás chip formában. Nem gomb: nem művelet, hanem
+     navigáció egy másik belépési pontra — és nem `.card-tag`, mert az nem
+     interaktív. Lásd COMPONENTS.md */
+  .chip-link{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    min-height:44px;padding:var(--space-8) var(--space-16);
+    background:var(--chip-bg);color:var(--chip-text);border-radius:var(--chip-radius);
+    text-decoration:none;
+    transition:transform var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .chip-link:hover{color:var(--chip-text);box-shadow:var(--shadow-1);transform:translateY(-1px)}
+  .chip-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+  .chip-arrow{margin-left:var(--space-4)}
+
+  /* Médiablokk: a hero teljes felülete. Az arány a minimális magasságot adja;
+     ha a rácscella magasabb (alacsony ablak, hosszabb szöveg), a `cover`
+     igazítja a felvételt. */
+  .hero-media{position:relative;aspect-ratio:var(--hero-media-ratio)}
+  /* A `picture` alapból INLINE elem: szélességét a benne álló kép natív mérete
+     adná, és az `img{width:100%}` ehhez a körkörös értékhez igazodna — a lap
+     szűk nézetben vízszintesen túlcsordulna. A blokk-megjelenítés töri a kört. */
+  .hero-media picture{display:block;width:100%;height:100%}
+  .hero-media img,.hero-media video{
+    width:100%;height:100%;object-fit:cover;object-position:center bottom;
+  }
+  /* A videót a JS teszi be, és csak ha lejátszható — addig (és mobilon,
+     valamint prefers-reduced-motion mellett) az állókép marad. */
+  .hero-video{
+    position:absolute;inset:0;opacity:0;
+    transition:opacity var(--dur-media) var(--ease-out);
+  }
+  .hero-video[data-ready]{opacity:1}
+
+  /* Lágy folt a szöveg mögött. Ellipszis, amely a széle felé teljesen elhal —
+     se sávhatára, se vágása nincs, csak a felvétel kontúrjait csendesíti a
+     betűk mögött. Az állóképnél gyakorlatilag láthatatlan: ott a felső régió
+     alfás, a folt a canvasra fest canvast. */
+  .hero-media::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse 50ch 34ch at var(--hero-veil-x) var(--hero-veil-y),
+      var(--hero-veil) 0%,
+      var(--hero-veil-soft) 52%,
+      transparent 100%);
+  }
+
+
+  /* ===== 5.19 Aloldal-elemek (ÚJ) =====
+     Morzsamenü, oldal-hero (a kép a szöveg ALATT, nem borító), alkalmassági
+     lista és GYIK-harmonika. A harmonika natív `details`/`summary`. */
+
+  .breadcrumb{margin-bottom:var(--space-16)}
+  .breadcrumb-list{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-8);color:var(--text-secondary)}
+  .breadcrumb-list li{display:flex;align-items:center;gap:var(--space-8)}
+  .breadcrumb-list li+li::before{content:"/";color:var(--text-tertiary)}
+  .breadcrumb-list a{color:var(--text-secondary);text-decoration:none}
+  .breadcrumb-list a:hover{color:var(--text-primary)}
+  .breadcrumb-list [aria-current="page"]{color:var(--text-primary)}
+
+  /* Oldal-hero: BORÍTÓ, mint a főoldalon — a szöveg a felvételen ül, annak
+     üres (égbolt, lombkorona) sávjában, lágy folttal a kontraszthoz. A magasságot
+     a kép aránya adja; képernyő-magasságot itt nem kényszerítünk. */
+  .page-hero{
+    display:grid;grid-template-columns:minmax(0,1fr);
+    background:var(--section-bg);min-height:0;padding-top:0;
+  }
+  .page-hero > .hero-inner,
+  .page-hero > .page-hero-media{grid-column:1;grid-row:1}
+  .page-hero .hero-inner{
+    position:relative;z-index:1;align-self:start;
+    padding-block:var(--space-48);
+  }
+  .page-hero .hero-lead{max-width:62ch;color:var(--text-primary)}
+  .page-hero-media{
+    position:relative;aspect-ratio:var(--page-hero-ratio);
+    /* A `width:100%` nélkül a magasságkorlát az ARÁNYON keresztül a szélességet
+       is visszavenné, és a sáv nem érne ki a viewport széléig. */
+    width:100%;max-height:var(--page-hero-max);margin-top:0;
+  }
+  /* A sávban a felvétel felső-középső harmada marad: fönt az égbolt (oda kerül
+     a szöveg), lentebb még látszik a berendezés. */
+  /* A felvétel eleve banner-arányú és a megoldás a jobb kétharmadban áll,
+     ezért nincs függőleges kivágás — a kép teljes egészében látszik. */
+  .page-hero-media img{object-position:center}
+  /* A folt közepe feljebb ül, mint a főoldalon: itt rövidebb a szövegblokk. */
+  .page-hero-media::after{--hero-veil-y:calc(var(--space-96) + var(--space-32))}
+
+  /* Alkalmassági lista — a „mikor NEM" ugyanolyan súllyal áll, mint a „mikor igen". */
+  .fit-list{display:flex;flex-direction:column;gap:var(--space-16)}
+  .fit-list li{display:flex;align-items:flex-start;gap:var(--space-16);color:var(--text-secondary)}
+  .fit-mark{
+    flex:none;width:var(--space-24);height:var(--space-24);border-radius:50%;
+    margin-top:2px;position:relative;
+  }
+  .fit-yes{background:var(--surface-muted)}
+  .fit-no{background:var(--warning-bg)}
+  .fit-mark::before{content:"";position:absolute;left:50%;top:50%}
+  /* pipa: rövid bal szár + hosszú jobb szár, 45°-ban */
+  .fit-yes::before{
+    color:var(--secondary);
+    width:var(--space-4);height:calc(var(--space-8) + var(--space-4));
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    transform:translate(-50%,-62%) rotate(45deg);
+  }
+  /* tiltás: vízszintes vonal */
+  .fit-no::before{
+    color:var(--warning-text);
+    width:calc(var(--space-8) + var(--space-4));height:0;
+    border-top:2px solid currentColor;
+    transform:translate(-50%,-50%);
+  }
+  .fit-text{display:block}
+
+  /* GYIK — natív harmonika */
+  .faq{display:flex;flex-direction:column;gap:var(--space-8)}
+  .faq-item{
+    background:var(--card-bg);border:1px solid var(--card-border);
+    border-radius:var(--r-lg);box-shadow:var(--card-shadow);
+  }
+  .faq-q{
+    display:flex;align-items:center;gap:var(--space-16);
+    padding:var(--space-16) var(--space-24);
+    color:var(--text-primary);cursor:pointer;list-style:none;
+    min-height:44px;
+  }
+  .faq-q::-webkit-details-marker{display:none}
+  .faq-q::after{
+    content:"";margin-left:auto;flex:none;
+    width:var(--space-8);height:var(--space-8);
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    transform:rotate(45deg) translate(-2px,-2px);
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+  .faq-item[open] .faq-q::after{transform:rotate(-135deg) translate(-2px,-2px)}
+  .faq-q:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px;border-radius:var(--r-lg)}
+  .faq-a{padding:0 var(--space-24) var(--space-24)}
+  .faq-a p{color:var(--text-secondary);max-width:70ch}
+
+  /* ===== 5.14b Helyzetoszlop és ikonjelvény (ÚJ) =====
+     A 3. szekció négy kiinduló helyzete. NEM kártya: a canvason ülnek, felül
+     vékony elválasztó vonallal, kerek ikonjelvénnyel — a vizuális terv szerint. */
+  .situation-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-32)}
+  .situation{
+    display:flex;flex-direction:column;gap:var(--space-16);
+    padding-top:var(--space-32);
+    border-top:1px solid var(--border);
+  }
+  .icon-badge{
+    display:flex;align-items:center;justify-content:center;flex:none;
+    width:var(--badge-lg-size);height:var(--badge-lg-size);
+    border-radius:50%;
+    background:var(--badge-bg);color:var(--badge-text);
+  }
+  .situation-title{color:var(--text-primary)}
+  /* A terven a törzsszöveg a harmadlagos (halványabb) szövegszín. */
+  .situation-text{color:var(--text-tertiary)}
+  /* A hivatkozás az oszlop aljára kerül, bármilyen hosszú a szöveg. */
+  .situation-action{margin-top:auto;align-self:flex-start}
+  /* A nyíl a felirat UTÁN áll (a vizuális terv szerint), és dekoratív.
+     A `.link-label` burok kell hozzá: a `.text-link` flex-konténer, ezért külön
+     flex-elemként a nyíl a sor VÉGÉRE csúszna, nem a szó után. */
+  .link-label{display:inline}
+  .action-arrow-end{margin-left:var(--space-8)}
+
+  /* ===== 5.14c Sötét kiemelt panel (ÚJ) =====
+     A szekció záró blokkja a legsötétebb felületen. Az emelést itt nem árnyék
+     adja, hanem a felület-váltás — a 6. fejezet emelés-létrájának szellemében. */
+  .panel-dark{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);
+    gap:var(--space-48);
+    margin-top:var(--space-48);
+    padding:var(--panel-padding);
+    background:var(--panel-dark-bg);color:var(--panel-dark-text);
+    border-radius:var(--panel-radius);
+  }
+  .panel-dark-head{display:flex;flex-direction:column;gap:var(--space-16)}
+  .panel-dark-eyebrow{color:var(--panel-dark-muted)}
+  .panel-dark-title{color:var(--panel-dark-text);text-wrap:balance}
+  .panel-dark-body{display:flex;flex-direction:column;gap:var(--space-16);align-items:flex-start}
+  /* A terven csak a CÍM tiszta világos; a törzsszöveg halványabb. */
+  .panel-dark-text{color:var(--panel-dark-muted)}
+  /* A panel záró akciója: a testszövegtől elválasztva, hogy a gomb ne olvadjon
+     az utolsó bekezdéshez. A --space-8 a flex gap-en FELÜL jön. */
+  .panel-dark-actions{margin-top:var(--space-8)}
+  /* A hivatkozás sötét felületen a szövegszínt veszi fel: a --link kékje itt
+     nem érné el a 4,5:1-et. Ez a prózában álló <a>-ra is áll, nem csak a
+     .text-link komponensre — különben a panelbe írt szövegközi link megbukna. */
+  .panel-dark .text-link,
+  .panel-dark-text a{color:var(--panel-dark-link)}
+  .panel-dark .text-link:hover,
+  .panel-dark-text a:hover{color:var(--panel-dark-link)}
+  .panel-dark .text-link:focus-visible,
+  .panel-dark-text a:focus-visible{outline-color:var(--panel-dark-link)}
+
+
+  /* ===== 5.18 AI-alapú döntéstámogató — „Mitől függ az ár?" (ÚJ) =====
+     Átvéve a Test1 (`okotechhome-web`) §6 moduljából: a FUNKCIÓ és az ELRENDEZÉS
+     változatlan, a megjelenés viszont teljes egészében a Test2 designrendszerére
+     van átültetve. A modul DOM-ját a `assets/js/ai-advisor.js` generálja, ezért a
+     betűméretek is itt, szereptokenekből jönnek (a markupban nincs `.type-*`).
+     Token-megfeleltetés: paper→canvas · ink-text→text-primary · muted→text-secondary
+     line-light/ag-line→border · emerald→primary · emerald-d→secondary
+     foam/mint→surface-muted · ink→surface-inverse · gold→warning-border. */
+
+  /* fejléc: cím + bizalmi jelzések */
+  .aidt-head{
+    display:grid;grid-template-columns:1.25fr .85fr;gap:var(--space-48);
+    align-items:end;margin-bottom:var(--space-48);
+  }
+  .aidt-title{color:var(--text-primary);margin:var(--space-16) 0}
+  .aidt-accent{color:var(--secondary)}
+  .aidt-lead{color:var(--text-secondary);max-width:56ch}
+  .aidt-intro{color:var(--text-secondary);margin-bottom:var(--space-24)}
+  .aidt-htrust{display:flex;flex-wrap:wrap;gap:var(--space-16) var(--space-24)}
+  .aidt-htrust li{
+    display:flex;align-items:center;gap:var(--space-8);
+    font-family:var(--font-body);font-size:var(--type-ui-label-size);
+    font-weight:var(--type-ui-card-title-weight);line-height:var(--type-ui-label-line-height);
+    color:var(--text-primary);
+  }
+  /* A jelvény 40px, benne 24px rajzolat — a 32/16 kombináció apró és halvány volt. */
+  .aidt-htrust svg{
+    flex:none;width:calc(var(--space-32) + var(--space-8));height:calc(var(--space-32) + var(--space-8));
+    padding:var(--space-8);
+    border-radius:50%;border:1px solid var(--border);color:var(--secondary);
+    fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .aidt-eyebrow{
+    font-family:var(--font-mono);font-size:var(--type-data-eyebrow-size);
+    font-weight:var(--type-data-eyebrow-weight);letter-spacing:var(--type-data-eyebrow-letter-spacing);
+    text-transform:uppercase;color:var(--text-tertiary);
+  }
+
+  /* törzs: beszélgetés + állapotpanel */
+  .aidt-body{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--space-24);align-items:start}
+  .aidt-body.is-result{grid-template-columns:minmax(0,1fr)}
+
+  /* beszélgetés-kártya */
+  .aidt-chat{
+    position:relative;display:flex;flex-direction:column;
+    background:var(--card-bg);border:1px solid var(--card-border);
+    border-radius:var(--panel-radius);box-shadow:var(--card-shadow);
+    padding:var(--space-24) var(--space-24) var(--space-24) var(--space-48);
+  }
+  .aidt-chat-head{
+    display:flex;align-items:center;gap:var(--space-16);
+    padding-bottom:var(--space-16);border-bottom:1px solid var(--border);margin-bottom:var(--space-16);
+  }
+  .aidt-av,.aidt-av-lg{
+    flex:none;width:var(--space-48);height:var(--space-48);border-radius:50%;
+    display:grid;place-items:center;background:var(--surface);
+    border:1px solid var(--border);color:var(--secondary);
+  }
+  .aidt-av svg,.aidt-av-lg svg{width:var(--space-24);height:var(--space-24);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .aidt-chat-id{flex:1;display:flex;flex-direction:column;line-height:var(--type-ui-label-line-height)}
+  .aidt-chat-id b{
+    font-family:var(--font-body);font-size:var(--type-ui-card-title-size);
+    font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);
+  }
+  .aidt-chat-id span{font-family:var(--font-body);font-size:var(--type-ui-caption-size);color:var(--text-secondary)}
+  .aidt-count{font-family:var(--font-mono);font-size:var(--type-ui-subtitle-size);color:var(--text-secondary)}
+  .aidt-count b{font-size:var(--type-display-section-title-size);color:var(--text-primary)}
+
+  .aidt-msgs{display:flex;flex-direction:column;gap:var(--space-16);max-height:540px;overflow-y:auto;scroll-behavior:smooth;padding-right:var(--space-4)}
+  .aidt-row{display:flex;gap:var(--space-8);align-items:flex-start}
+  .aidt-row.is-user{justify-content:flex-end}
+  .aidt-av-sm{
+    flex:none;width:var(--space-32);height:var(--space-32);border-radius:50%;
+    display:grid;place-items:center;background:var(--surface);
+    border:1px solid var(--border);color:var(--secondary);
+  }
+  .aidt-row.is-bot.no-av .aidt-bubble{margin-left:calc(var(--space-32) + var(--space-8))}
+  .aidt-av-sm svg{width:calc(var(--space-16) + var(--space-4));height:calc(var(--space-16) + var(--space-4));fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .aidt-bubble{
+    position:relative;max-width:86%;background:var(--canvas);
+    border-radius:var(--r-lg);padding:var(--space-16);
+    font-family:var(--font-body);font-size:var(--type-ui-body-size);
+    line-height:var(--type-ui-body-line-height);color:var(--text-primary);
+  }
+  .aidt-bubble p{margin:0}
+  .aidt-qwrap{max-width:100%;width:100%;background:var(--surface);border:1px solid var(--border);box-shadow:var(--card-shadow)}
+  .aidt-q{
+    font-family:var(--font-body);font-weight:var(--type-ui-card-title-weight);
+    font-size:var(--type-ui-card-title-size);color:var(--text-primary);
+    margin-bottom:var(--space-16) !important;line-height:var(--type-ui-card-title-line-height);
+  }
+  .aidt-time{display:block;margin-top:var(--space-8);font-size:var(--type-ui-caption-size);color:var(--text-secondary)}
+  .aidt-why{
+    display:inline-flex;align-items:center;gap:var(--space-8);margin-top:var(--space-8);
+    font-size:var(--type-ui-caption-size);font-weight:var(--type-ui-card-title-weight);color:var(--secondary);
+  }
+  .aidt-why svg{width:calc(var(--space-16) + var(--space-4));height:calc(var(--space-16) + var(--space-4));fill:none;stroke:currentColor;stroke-width:1.8}
+
+  /* válaszlehetőségek */
+  .aidt-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-8)}
+  .aidt-opts.is-multi{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .aidt-opt{
+    display:flex;align-items:center;justify-content:center;gap:var(--space-8);text-align:center;
+    min-height:calc(var(--space-48) + var(--space-8));padding:var(--space-8) var(--space-16);
+    border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);
+    font-family:var(--font-body);font-size:var(--type-ui-subtitle-size);
+    font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);cursor:pointer;
+    transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
+  }
+  .aidt-opt:not(:disabled):not(.is-sel):hover{border-color:var(--primary);background:var(--surface-muted)}
+  .aidt-opt:focus-visible{outline:3px solid var(--button-focus);outline-offset:3px}
+  .aidt-opt.is-sel{background:var(--secondary);border-color:var(--secondary);color:var(--on-secondary)}
+  .aidt-opt:disabled{cursor:default}
+  .aidt-opt-ck{display:inline-grid;place-items:center;width:var(--space-16);height:var(--space-16);border-radius:50%;background:color-mix(in srgb,var(--on-secondary) 25%,transparent)}
+  .aidt-opt-ck svg{width:var(--space-8);height:var(--space-8);fill:none;stroke:currentColor;stroke-width:2.2}
+  .aidt-multi-foot{display:flex;align-items:center;gap:var(--space-16);margin-top:var(--space-16)}
+  .aidt-next{
+    display:inline-flex;align-items:center;gap:var(--space-8);min-height:44px;
+    padding:10px 18px;border:1px solid var(--button-primary-border);border-radius:var(--r-md);
+    background:var(--button-primary-bg);color:var(--button-primary-text);
+    font-family:var(--font-body);font-size:var(--type-ui-button-size);
+    font-weight:var(--type-ui-button-weight);cursor:pointer;
+    transition:box-shadow var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);
+  }
+  .aidt-next:disabled{background:var(--button-primary-bg-disabled);color:var(--button-primary-text-disabled);border-color:var(--border);cursor:not-allowed}
+  .aidt-next:not(:disabled):hover{box-shadow:var(--shadow-1);transform:translateY(-1px)}
+  .aidt-next:focus-visible{outline:3px solid var(--button-focus);outline-offset:3px}
+  .aidt-next svg{width:var(--space-16);height:var(--space-16);fill:none;stroke:currentColor;stroke-width:2}
+  .aidt-multi-hint{font-size:var(--type-ui-caption-size);color:var(--text-secondary)}
+  .aidt-multi-badge{
+    display:inline-flex;align-items:center;gap:var(--space-4);margin-left:var(--space-8);
+    padding:var(--space-4) var(--space-8);border-radius:var(--r-md);
+    background:var(--surface-muted);color:var(--text-primary);
+    font-family:var(--font-body);font-size:var(--type-ui-caption-size);
+    font-weight:var(--type-ui-card-title-weight);white-space:nowrap;vertical-align:middle;
+  }
+  .aidt-multi-badge svg{width:var(--space-16);height:var(--space-16);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .aidt-opt--cb{justify-content:flex-start;text-align:left;gap:var(--space-16);padding-left:var(--space-16)}
+  .aidt-cbx{
+    flex:none;width:calc(var(--space-16) + var(--space-4));height:calc(var(--space-16) + var(--space-4));
+    border-radius:var(--space-4);border:2px solid var(--border);background:var(--surface);
+    display:grid;place-items:center;transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);
+  }
+  .aidt-opt--cb.is-sel .aidt-cbx{background:var(--surface);border-color:var(--surface)}
+  .aidt-cbx svg{width:var(--space-8);height:var(--space-8);fill:none;stroke:var(--secondary);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity var(--dur-fast) var(--ease-out)}
+  .aidt-opt--cb.is-sel .aidt-cbx svg{opacity:1}
+
+  /* a felhasználó válaszának visszajelzése */
+  .aidt-echo-wrap{display:flex;flex-wrap:wrap;gap:var(--space-8);justify-content:flex-end;align-items:center;max-width:86%}
+  .aidt-echo{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-8) var(--space-16);border-radius:var(--r-md);
+    background:var(--secondary);color:var(--on-secondary);
+    font-size:var(--type-ui-subtitle-size);font-weight:var(--type-ui-card-title-weight);
+  }
+  .aidt-edit{
+    border:0;background:none;color:var(--link);font-size:var(--type-ui-caption-size);
+    font-weight:var(--type-ui-card-title-weight);text-decoration:underline;cursor:pointer;padding:var(--space-4);
+  }
+  .aidt-edit:hover{color:var(--link-hover)}
+  .aidt-edit:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px;border-radius:4px}
+
+  /* jobb oldali állapotpanel */
+  .aidt-panel{
+    background:var(--card-bg);border:1px solid var(--card-border);
+    border-radius:var(--panel-radius);box-shadow:var(--card-shadow);padding:var(--space-24);
+  }
+  .aidt-time-pill{
+    display:flex;align-items:center;justify-content:center;gap:var(--space-8);
+    padding:var(--space-8);border-radius:var(--r-md);
+    background:var(--surface-muted);border:1px solid var(--border);
+    font-size:var(--type-ui-subtitle-size);font-weight:var(--type-ui-card-title-weight);
+    color:var(--text-primary);margin-bottom:var(--space-24);
+  }
+  .aidt-time-pill svg{width:var(--space-24);height:var(--space-24);fill:none;stroke:currentColor;stroke-width:1.8}
+  .aidt-panel-h{
+    font-family:var(--font-heading);font-size:var(--type-display-section-title-size);
+    font-weight:var(--type-display-section-title-weight);color:var(--text-primary);margin-bottom:var(--space-4);
+  }
+  .aidt-panel-sub{font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);margin-bottom:var(--space-16)}
+  .aidt-steps{display:flex;flex-direction:column;gap:var(--space-4);margin-bottom:var(--space-24)}
+  .aidt-step{
+    display:flex;align-items:center;gap:var(--space-16);width:100%;text-align:left;
+    padding:var(--space-8);border:0;background:none;border-radius:var(--r-md);cursor:default;
+    transition:background var(--dur-fast) var(--ease-out);
+  }
+  .aidt-step[data-edit]{cursor:pointer}
+  .aidt-step[data-edit]:hover{background:var(--canvas)}
+  .aidt-step[data-edit]:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .aidt-step-n{
+    flex:none;width:var(--space-32);height:var(--space-32);border-radius:50%;
+    display:grid;place-items:center;font-family:var(--font-mono);
+    font-size:var(--type-data-value-size);font-weight:var(--type-data-value-weight);
+    color:var(--text-secondary);background:var(--canvas);border:1px solid var(--border);
+  }
+  .aidt-step.is-active .aidt-step-n{color:var(--text-primary);border-color:var(--primary);background:var(--surface-muted)}
+  .aidt-step.is-done .aidt-step-n{background:var(--secondary);border-color:var(--secondary);color:var(--on-secondary)}
+  .aidt-step.is-done .aidt-step-n svg{width:calc(var(--space-16) + var(--space-4));height:calc(var(--space-16) + var(--space-4));fill:none;stroke:currentColor;stroke-width:2.2}
+  .aidt-step-label{flex:1;font-size:var(--type-ui-subtitle-size);font-weight:var(--type-ui-card-title-weight);color:var(--text-primary)}
+  .aidt-step:not(.is-done):not(.is-active) .aidt-step-label{color:var(--text-secondary)}
+  .aidt-sv{font-size:var(--type-ui-caption-size);font-weight:var(--type-ui-card-title-weight)}
+  .aidt-sv.open{color:var(--text-secondary);font-weight:var(--type-ui-body-weight)}
+  .aidt-sv.chip{padding:var(--space-4) var(--space-8);border-radius:var(--r-md);background:var(--surface-muted);color:var(--text-primary);border:1px solid var(--border)}
+
+  .aidt-band-box{padding-top:var(--space-16);border-top:1px solid var(--border)}
+  .aidt-band-box h4{font-family:var(--font-body);font-size:var(--type-ui-card-title-size);font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);margin-bottom:var(--space-4)}
+  .aidt-band-sub{font-size:var(--type-ui-caption-size);color:var(--text-secondary);margin-bottom:var(--space-8)}
+  .aidt-band-row{display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);margin-bottom:var(--space-8)}
+  .aidt-dots{display:flex;gap:var(--space-4)}
+  .aidt-dot{width:var(--space-8);height:var(--space-8);border-radius:50%;background:var(--border);transition:background var(--dur-fast) var(--ease-out)}
+  .aidt-dot.on{background:var(--primary)}
+  .aidt-band-val{font-family:var(--font-mono);font-weight:var(--type-ui-card-title-weight);font-size:var(--type-ui-card-title-size);color:var(--text-secondary);white-space:nowrap}
+  .aidt-band-note{font-size:var(--type-ui-caption-size);color:var(--text-secondary)}
+  .aidt-warn{
+    display:flex;gap:var(--space-8);align-items:flex-start;margin-top:var(--space-16);
+    padding:var(--space-16);border-radius:var(--r-md);
+    background:var(--warning-bg);border:1px solid var(--warning-border);
+  }
+  .aidt-warn svg{flex:none;width:var(--space-16);height:var(--space-16);margin-top:2px;fill:none;stroke:var(--warning-text);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .aidt-warn p{margin:0;font-size:var(--type-ui-subtitle-size);color:var(--warning-text);line-height:var(--type-ui-subtitle-line-height)}
+
+  /* haladás-sín a kártya bal szélén */
+  /* A sín a beszélgetés haladását mutatja. Halvány sáv + telített kitöltés, a
+     végén finom ponttal. A pont a kitöltés színét viszi, gyűrű nélkül — így a sín
+     folytonos marad (a világos gyűrű „elvágta" volna). A kitöltésnek van alsó
+     határa, hogy induláskor is látszódjon a kezdőpont. */
+  .aidt-rail{
+    position:absolute;left:var(--space-16);top:var(--space-24);bottom:var(--space-24);
+    width:var(--space-4);border-radius:var(--space-4);
+    background:var(--surface-muted);z-index:1;
+  }
+  .aidt-rail-fill{
+    position:absolute;left:0;top:0;width:100%;border-radius:var(--space-4);
+    background:var(--primary);height:0;min-height:var(--space-32);
+    transition:height .7s var(--ease-out);
+  }
+  .aidt-rail-fill::after{
+    content:"";position:absolute;left:50%;bottom:0;transform:translate(-50%,50%);
+    width:var(--space-8);height:var(--space-8);border-radius:50%;
+    background:var(--primary);
+  }
+
+  /* „gépel" jelző */
+  .aidt-typing{display:inline-flex;gap:var(--space-4);align-items:center;padding:var(--space-16)}
+  .aidt-typing span{width:var(--space-8);height:var(--space-8);border-radius:50%;background:var(--secondary);animation:aidt-type 1.2s infinite}
+  .aidt-typing span:nth-child(2){animation-delay:.18s}
+  .aidt-typing span:nth-child(3){animation-delay:.36s}
+  @keyframes aidt-type{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+  .aidt-row.aidt-in{animation:aidt-slidein .5s var(--ease-out)}
+  @keyframes aidt-slidein{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  .aidt-mtoggle{display:none}
+
+  /* eredményképernyő */
+  .aidt-result{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--panel-radius);box-shadow:var(--card-shadow);padding:var(--space-32)}
+  .aidt-res-head{display:flex;align-items:center;gap:var(--space-16);margin-bottom:var(--space-24)}
+  .aidt-res-head h3{font-family:var(--font-heading);font-weight:var(--type-display-section-title-weight);font-size:var(--type-display-section-title-size);color:var(--text-primary)}
+  .aidt-res-band{
+    position:relative;overflow:hidden;border-radius:var(--panel-radius);padding:var(--space-32);
+    color:var(--text-on-dark);background:var(--surface-inverse);margin-bottom:var(--space-24);
+  }
+  .aidt-res-tag{
+    display:inline-block;font-family:var(--font-mono);font-size:var(--type-data-eyebrow-size);
+    font-weight:var(--type-data-eyebrow-weight);letter-spacing:var(--type-data-eyebrow-letter-spacing);
+    text-transform:uppercase;color:var(--text-on-dark-muted);
+    background:color-mix(in srgb,var(--text-on-dark) 12%,transparent);
+    padding:var(--space-4) var(--space-8);border-radius:var(--r-md);margin-bottom:var(--space-16);
+  }
+  .aidt-res-band strong{
+    display:block;font-family:var(--font-heading);font-weight:var(--type-display-hero-weight);
+    font-size:var(--type-display-page-title-size);letter-spacing:var(--type-display-page-title-letter-spacing);
+    line-height:var(--type-display-page-title-line-height);margin-bottom:var(--space-8);
+  }
+  .aidt-res-band p{margin:0;font-size:var(--type-ui-body-size);color:var(--text-on-dark-muted);line-height:var(--type-ui-body-line-height);max-width:62ch}
+  .aidt-res-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16);margin-bottom:var(--space-16)}
+  .aidt-res-card{padding:var(--space-24);border-radius:var(--r-lg);background:var(--canvas);border:1px solid var(--border)}
+  .aidt-res-card h4{font-family:var(--font-body);font-size:var(--type-ui-card-title-size);font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);margin-bottom:var(--space-16)}
+  .aidt-drivers{display:flex;flex-direction:column;gap:var(--space-8)}
+  .aidt-drivers li{position:relative;padding-left:var(--space-24);font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height)}
+  .aidt-drivers li::before{content:"";position:absolute;left:0;top:8px;width:var(--space-8);height:var(--space-8);border-radius:50%;background:var(--primary)}
+  .aidt-drivers b{color:var(--text-primary);font-weight:var(--type-ui-body-strong-weight)}
+  .aidt-clarify{display:flex;flex-direction:column;gap:var(--space-8)}
+  .aidt-clarify li{display:flex;align-items:center;gap:var(--space-8);font-size:var(--type-ui-subtitle-size);color:var(--text-primary);font-weight:var(--type-ui-card-title-weight)}
+  .aidt-clarify li::before{
+    content:"?";flex:none;width:calc(var(--space-16) + var(--space-4));height:calc(var(--space-16) + var(--space-4));
+    border-radius:50%;display:grid;place-items:center;background:var(--warning-bg);color:var(--warning-text);
+    font-size:var(--type-ui-caption-size);font-weight:var(--type-ui-card-title-weight);
+  }
+  .aidt-muted{font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height)}
+  .aidt-prep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-8) var(--space-24)}
+  .aidt-prep li{display:flex;align-items:flex-start;gap:var(--space-8);font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height)}
+  .aidt-prep svg{flex:none;width:var(--space-16);height:var(--space-16);margin-top:2px;fill:none;stroke:var(--secondary);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+  .aidt-res-actions{display:grid;grid-template-columns:1.3fr .7fr;gap:var(--space-24);margin-top:var(--space-24);padding-top:var(--space-24);border-top:1px solid var(--border)}
+  .aidt-act{display:flex;gap:var(--space-16)}
+  .aidt-act-ico{flex:none;width:var(--space-48);height:var(--space-48);border-radius:var(--r-md);display:grid;place-items:center;background:var(--surface-muted);color:var(--secondary)}
+  .aidt-act-ico svg{width:var(--space-24);height:var(--space-24);fill:none;stroke:currentColor;stroke-width:1.8}
+  .aidt-act-body h5{font-family:var(--font-body);font-size:var(--type-ui-card-title-size);font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);margin-bottom:var(--space-4)}
+  .aidt-act-body>p{font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height);margin-bottom:var(--space-8)}
+  .aidt-mailform{display:flex;gap:var(--space-8);margin-bottom:var(--space-8)}
+  .aidt-mailform input{
+    flex:1;min-width:0;padding:10px var(--space-16);border:1px solid var(--border);
+    border-radius:var(--r-md);font-family:var(--font-body);font-size:var(--type-ui-subtitle-size);
+    color:var(--text-primary);background:var(--surface);
+  }
+  .aidt-mailform input:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px;border-color:var(--primary)}
+  .aidt-mailform input[aria-invalid="true"],.aidt-mailform input.err{border-color:var(--danger-border)}
+  .aidt-mailform .btn{flex:none}
+  .aidt-consent{display:flex;gap:var(--space-8);align-items:flex-start;font-size:var(--type-ui-caption-size);color:var(--text-secondary);line-height:var(--type-ui-caption-line-height);cursor:pointer}
+  .aidt-consent input{margin-top:2px;flex:none;width:var(--space-16);height:var(--space-16);accent-color:var(--secondary)}
+  /* JS nélküli alternatíva */
+  .aidt-noscript{
+    padding:var(--space-32);border-radius:var(--panel-radius);
+    background:var(--panel-bg);border:1px solid var(--panel-border);
+  }
+  .aidt-noscript h3{color:var(--text-primary);margin-bottom:var(--space-8)}
+  .aidt-noscript p{color:var(--text-secondary);max-width:62ch;margin-bottom:var(--space-24)}
+  .aidt-noscript-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-16)}
+
+  .aidt-privacy{margin-top:var(--space-8);font-size:var(--type-ui-caption-size);color:var(--text-secondary);line-height:var(--type-ui-caption-line-height)}
+  .aidt-privacy a{color:var(--link);text-decoration:underline;text-underline-offset:.22em}
+  .aidt-privacy a:hover{color:var(--link-hover)}
+  .aidt-senderr{margin-bottom:var(--space-8);font-size:var(--type-ui-caption-size);color:var(--danger-text);line-height:var(--type-ui-caption-line-height)}
+  /* A modul gombjaiban álló nyíl-ikon. Méret nélkül az SVG a viewBox miatt a
+     gomb egész felületére nőne — ez a szabály köti a szöveg magasságához. */
+  .btn .ico{flex:none;width:var(--space-16);height:var(--space-16);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .aidt-act-cta{display:flex;flex-direction:column;gap:var(--space-8);justify-content:center}
+  .aidt-act-cta .btn{justify-content:center}
+  .aidt-sent{display:flex;gap:var(--space-16);align-items:flex-start}
+  .aidt-sent svg{flex:none;width:var(--space-32);height:var(--space-32);padding:var(--space-8);border-radius:50%;background:var(--secondary);color:var(--on-secondary);fill:none;stroke:currentColor;stroke-width:2.2}
+  .aidt-sent h5{font-family:var(--font-body);font-size:var(--type-ui-card-title-size);font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);margin-bottom:var(--space-4)}
+  .aidt-sent p{font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height)}
+  .aidt-res-foot{display:flex;gap:var(--space-8);align-items:flex-start;margin-top:var(--space-16);font-size:var(--type-ui-caption-size);color:var(--text-secondary);line-height:var(--type-ui-caption-line-height)}
+  .aidt-res-foot svg{flex:none;width:var(--space-16);height:var(--space-16);margin-top:1px;fill:none;stroke:var(--warning-border);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ===== 5.14 Bizalmi sáv (ÚJ) ===== */
+  /* Négy állítás, függőleges elválasztókkal. Oszlopköz szándékosan nincs:
+     az elválasztó vonal a cellahatáron fut, a levegőt a cellák belső tere adja. */
+  .trust-grid{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    row-gap:var(--space-32);text-align:center;
+  }
+  .trust-item{
+    display:flex;flex-direction:column;gap:var(--space-8);
+    padding-inline:var(--space-24);
+  }
+  .trust-item + .trust-item{border-left:1px solid var(--trust-divider)}
+  .trust-title{color:var(--text-primary);text-wrap:balance}
+  /* Variáns: szabvány- és tanúsítványjelölés — adat, ezért mono. */
+  .trust-title-data{font-family:var(--font-mono)}
+  .trust-text{color:var(--text-secondary);text-wrap:balance}
 }
 
 /* ----------------------------------------------------------- 6. RESPONSIVE */
@@ -645,8 +1573,76 @@
       --type-display-section-title-size:26px;
       --type-display-feature-title-size:26px;
       --type-display-highlight-title-size:28px;
+
+      /* Szűkebb nézetben a médiablokk a szűk KIVÁGATOT kapja (lásd index.html
+         `picture`), amelyen alig van égbolt — átfedés helyett a szöveg alatt,
+         a maga teljes magasságában áll. */
+      --hero-media-ratio:3 / 2;
     }
     .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+    /* Fejléc: a navigáció lenyitható panelbe kerül (natív `details`). */
+    .nav-toggle{
+      display:inline-flex;align-items:center;gap:var(--space-8);
+      min-height:44px;padding:var(--space-8) var(--space-16);
+      border:1px solid var(--border);border-radius:var(--r-md);
+      background:var(--surface);color:var(--text-primary);
+      cursor:pointer;list-style:none;
+    }
+    .nav-toggle::-webkit-details-marker{display:none}
+    .nav-toggle:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+    /* A lenyitó gomb a CTA mellé, a sor jobb végére kerül. */
+    .nav-drawer{position:relative;margin-left:auto}
+    .nav-drawer .site-nav{
+      position:absolute;top:calc(100% + var(--space-8));right:0;z-index:20;
+      width:max-content;max-width:70vw;
+      padding:var(--space-16);
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+      box-shadow:var(--shadow-2);
+    }
+    .nav-list{flex-direction:column;align-items:stretch;column-gap:0}
+    /* Megamenü szűk nézetben: a panel a menüpont alatt, a folyamban nyílik. */
+    .nav-item{position:relative}
+    .mega{position:static;box-shadow:none;border:0;background:none;width:auto;max-width:none}
+    .mega::before,.mega::after{display:none}
+    .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
+    .mega-list,.mega-list[data-rows]{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:minmax(0,1fr)}
+    .mega-eyebrow{display:none}
+    .mega-foot{margin-top:var(--space-8);padding-top:var(--space-8)}
+
+    /* Szűk nézetben a médiasáv a szűk kivágat arányát veszi fel, és nem
+       feszül a képernyő maradékára. */
+    .hero{display:block;min-height:0}
+    .hero-inner{padding-block:var(--space-48) 0}
+    .hero-media{margin-top:var(--space-32);aspect-ratio:var(--hero-media-ratio)}
+    /* Egy oszlopban a szöveg nem a felvételen áll, így a folt sem kell. */
+    .hero-media::after{display:none}
+
+    /* A bizalmi sáv két oszlopra vált; az elválasztó csak az oszlopok között marad. */
+    .trust-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .trust-item:nth-child(odd){border-left:0}
+
+    .situation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .panel-dark{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
+
+    /* AI-döntéstámogató: egy oszlop, az állapotpanel lenyithatóvá válik. */
+    .aidt-head{grid-template-columns:minmax(0,1fr);align-items:start;gap:var(--space-24)}
+    .aidt-body{grid-template-columns:minmax(0,1fr)}
+    .aidt-panel-wrap{order:-1}
+    .aidt-mtoggle{
+      display:flex;align-items:center;gap:var(--space-8);width:100%;
+      min-height:44px;padding:var(--space-16);
+      border:1px solid var(--border);border-radius:var(--r-lg);
+      background:var(--surface);box-shadow:var(--card-shadow);
+      font-family:var(--font-body);font-size:var(--type-ui-subtitle-size);
+      color:var(--text-primary);cursor:pointer;
+    }
+    .aidt-mtoggle b{color:var(--secondary)}
+    .aidt-mtoggle svg{width:var(--space-16);height:var(--space-16);margin-left:auto;fill:none;stroke:currentColor;stroke-width:2;transition:transform var(--dur-fast) var(--ease-out)}
+    .panel-open .aidt-mtoggle svg{transform:rotate(180deg)}
+    .aidt-panel{display:none;margin-top:var(--space-8)}
+    .panel-open .aidt-panel{display:block}
+    .aidt-res-cols,.aidt-res-actions,.aidt-prep{grid-template-columns:minmax(0,1fr)}
     .panel{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
     /* Álló elrendezésben a kép a szöveg elé kerül — a vizuális horgony vezet be. */
     .panel-media{order:-1}
@@ -676,6 +1672,32 @@
     .card-grid{grid-template-columns:minmax(0,1fr)}
     .section-head{text-align:left}
     .product-grid{grid-template-columns:minmax(0,1fr)}
+
+    /* A kontaktsáv szűkül: a cím és a másodlagos hivatkozások a menübe,
+       illetve a láblécbe kerülnek — a telefon és az e-mail marad. */
+    .topbar-hide-narrow{display:none}
+    .nav-item-secondary{display:block}
+
+    /* A fejléc három eleme (logó, menügomb, CTA) 640px alatt nem fér ki egy
+       sorba: a CTA a második sorba kerül, teljes szélességben. Tördelés nélkül
+       a sáv túlcsordulna, és az egész oldal vízszintesen görgethetővé válna. */
+    .header-inner{flex-wrap:wrap;row-gap:var(--space-8)}
+    .header-cta{width:100%}
+
+    .hero{padding-top:var(--space-48)}
+
+    .situation-grid{grid-template-columns:minmax(0,1fr)}
+
+    /* A válaszlehetőségek két oszlopban maradnak; a beszélgetés nem görgethető
+       külön dobozban, hanem az oldallal együtt fut. */
+    .aidt-opts,.aidt-opts.is-multi{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .aidt-msgs{max-height:none;overflow:visible}
+    .aidt-mailform{flex-direction:column}
+    .aidt-chat{padding-left:var(--space-32)}
+
+    .trust-grid{grid-template-columns:minmax(0,1fr);row-gap:0}
+    .trust-item{padding-block:var(--space-24);padding-inline:0}
+    .trust-item + .trust-item{border-left:0;border-top:1px solid var(--trust-divider)}
     /* A táblázat mobilon nem tördelhető szét értelmesen: vízszintesen görgethető
        marad, billentyűzetről is elérhető fókuszálható régióként. */
     .compare-table{min-width:36rem}
@@ -691,8 +1713,13 @@
       transition-duration:.01ms !important;
       scroll-behavior:auto !important;
     }
-    .btn{transition:none}
-    .btn-primary:hover:not(:disabled),.btn-secondary:hover:not(:disabled){transform:none}
+    .btn,.chip-link{transition:none}
+    .btn-primary:hover:not(:disabled),.btn-secondary:hover:not(:disabled),
+    .chip-link:hover{transform:none}
     .btn[aria-busy="true"]::before{animation:none}
+    /* A hero videóját ilyenkor a JS be sem tölti; ez a szabály a biztosíték. */
+    .hero-video{display:none}
+    /* A megamenü átmenet nélkül vált állapotot. */
+    .mega{transition:none}
   }
 }

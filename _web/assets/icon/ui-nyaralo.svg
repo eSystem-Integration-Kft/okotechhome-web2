@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Helyzet-ikon: nyaraló vagy időszakos használat — ház, mellette nap.
+     Saját rajzolat a vizuális terv arányai után; ügyféleszköz érkezésekor cserélendő. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M1.9 12.6 9.4 6.6l7.5 6"/>
+  <path d="M3.9 11.5v8.9h11v-8.9"/>
+  <path d="M7.3 20.4v-4.6h4.2v4.6"/>
+  <circle cx="18.8" cy="5.2" r="2.3"/>
+  <path d="M18.8 1v1M18.8 8.4v1M23 5.2h-1M15.6 5.2h-1M21.8 2.2l-.7.7M16.5 7.5l-.7.7M21.8 8.2l-.7-.7M16.5 2.9l-.7-.7"/>
+</svg>
