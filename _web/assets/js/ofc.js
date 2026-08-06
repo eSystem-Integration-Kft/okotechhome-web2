@@ -173,6 +173,28 @@
   /* ------------------------------------------- összehasonlító tábla és lépések */
   const compare = document.querySelector('.ofc-compare');
   if (!compare) return;
+  const torzs = compare.querySelector('[data-ofc-body]');
+
+  /* A tábla és az üzenet KIZÁRJA egymást. Hibánál egy csupa „—" tábla nemcsak
+     csúnya: azt sugallja, hogy az elemzés lefutott és nem talált semmit —
+     pedig el sem indult. */
+  const uzenet = (szoveg, allapot) => {
+    let sav = compare.querySelector('.ofc-uzenet');
+    if (!szoveg) {
+      if (sav) sav.remove();
+      if (torzs) torzs.hidden = false;
+      return;
+    }
+    if (!sav) {
+      sav = document.createElement('p');
+      sav.className = 'ofc-uzenet type-ui-body';
+      compare.insertBefore(sav, torzs);
+    }
+    sav.className = 'ofc-uzenet type-ui-body' + (allapot === 'hiba' ? ' ofc-uzenet-hiba' : '');
+    sav.setAttribute('role', allapot === 'hiba' ? 'alert' : 'status');
+    sav.textContent = szoveg;
+    if (torzs) torzs.hidden = (allapot === 'hiba');
+  };
 
   const valueCells = Array.from(compare.querySelectorAll('[data-ofc-table] tbody td'))
     .filter((td) => td.cellIndex > 0);
@@ -255,17 +277,11 @@
     if (steps[2]) steps[2].classList.add('is-active');
 
     /* A tájékoztató szöveg a szerverről jön, hogy egy helyen legyen karbantartva. */
-    let sav = compare.querySelector('.ofc-demo');
-    if (!sav) {
-      sav = document.createElement('p');
-      sav.className = 'ofc-demo type-ui-body';
-      sav.setAttribute('role', 'status');
-      compare.insertBefore(sav, compare.querySelector('[data-ofc-body]'));
-    }
-    sav.textContent = adat.tajekoztato || '';
+    uzenet(adat.tajekoztato || '', 'ok');
   };
 
   emptyState();
+  uzenet('', null);
 
   const cta = document.querySelector('.ofc-cta');
   if (!cta) return;
@@ -310,16 +326,7 @@
         fillState(j);
         compare.scrollIntoView({ block: 'start', behavior: 'smooth' });
       })
-      .catch((e) => {
-        let hiba = compare.querySelector('.ofc-hiba');
-        if (!hiba) {
-          hiba = document.createElement('p');
-          hiba.className = 'ofc-hiba type-ui-body';
-          hiba.setAttribute('role', 'alert');
-          compare.insertBefore(hiba, compare.querySelector('[data-ofc-body]'));
-        }
-        hiba.textContent = e.message;
-      })
+      .catch((e) => uzenet(e.message, 'hiba'))
       .finally(() => {
         cta.classList.remove('is-loading');
         cta.removeAttribute('aria-busy');

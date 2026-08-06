@@ -1794,21 +1794,20 @@
     width:var(--badge-lg-size);height:var(--badge-lg-size);
     border-radius:var(--r-md);background:var(--surface-muted);color:var(--text-primary);
   }
-  /* Tájékoztató sáv a tábla fölött. Nem figyelmeztetés, hanem az eredmény
-     érvényességi köre: az elemzés a dokumentumokból készül, és ahol „nincs
-     adat" áll, ott a dokumentum nem tartalmazta az információt — ami nem
-     ugyanaz, mintha a szolgáltatás kimaradna az ajánlatból. */
-  .ofc-demo{
+  /* Üzenetsáv a tábla helyén vagy fölött. Sikeres elemzésnél tájékoztató
+     (semleges felület), hibánál figyelmeztető — és ilyenkor a tábla el is
+     tűnik, mert egy csupa „—" tábla azt sugallná, hogy az elemzés lefutott. */
+  .ofc-uzenet{
     margin-bottom:var(--space-24);padding:var(--space-16);
+    background:var(--surface-muted);border-radius:var(--card-radius);
+    color:var(--text-primary);
+  }
+  .ofc-uzenet-hiba{
+    margin-bottom:0;
     background:var(--warning-bg);border:1px solid var(--warning-border);
-    border-radius:var(--card-radius);color:var(--warning-text);
+    color:var(--warning-text);
   }
 
-  .ofc-hiba{
-    margin-bottom:var(--space-24);padding:var(--space-16);
-    background:var(--danger-bg);border:1px solid var(--danger-border);
-    border-radius:var(--card-radius);color:var(--danger-text);
-  }
 
   /* Betöltés alatt a gomb nem kattintható újra. */
   .ofc-cta.is-loading{opacity:.7;pointer-events:none}
