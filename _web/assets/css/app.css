@@ -1236,6 +1236,13 @@
 
 
 
+  /* A helyzetkártya vizsgálati irányt ajánl, majd megmondja, mi írhatja felül.
+     A kettőt tipográfia választja el, nem szín — a „mi módosíthatja" nem
+     figyelmeztetés, hanem a javaslat érvényességi köre. */
+  .helyzet-irany{color:var(--text-primary)}
+  .helyzet-kizar{color:var(--text-tertiary);margin-top:auto;padding-top:var(--space-8);
+    border-top:1px solid var(--border)}
+
   /* ===== 5.19 Konzultáció és fülrendszeres GYIK (ÚJ) ===== */
   .konz-fo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--space-48);align-items:start}
   .konz-pontok{list-style:none;margin:0;padding:0;display:grid;

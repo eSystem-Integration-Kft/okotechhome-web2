@@ -37,6 +37,21 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **Megoldások hub — a sitemap szerinti négy döntéstámogató aloldal.**
+  Megoldástípusok összehasonlítása · Melyik megoldás mikor megfelelő? · Kizáró és
+  korlátozó feltételek · Megoldástípus-előszűrő. Bekötve a megamenübe (a
+  Megoldások panel most nyolc elemű, 4+4 elrendezésben).
+  **Két szabály végig érvényes, a tartalmi brief előírása szerint:**
+  nincs „jobb–rosszabb" minősítés — a technológiák feltételekkel és
+  kompromisszumokkal írhatók le, mert a cél nem az A.B. Clear mindenáron való
+  kiválasztása, hanem a rossz technológiaválasztás megelőzése; és **nincs
+  kitalált adat** — ahol a brief belső ÖkoTech-adatot ír elő (karbantartási
+  ciklus, kizárási mátrix, telekigény, ürítési intervallum, energiafogyasztás,
+  a teljes döntési fa), ott `ADATHIÁNY` jelölés áll, nem becslés. A jogszabályra
+  hivatkozó állítások `JOGI ELLENŐRZÉS` jelölést kaptak, mert a brief publikálás
+  előtti friss ellenőrzést ír elő. Konkrét ár sehol nincs, csak költségkategória.
+  Az előszűrő felülete szándékosan még nem él: a döntési szabályokat a cég
+  szakmai vezetésének kell jóváhagynia, mielőtt bárkinek eredményt mutatunk.
 - **§12 — Dokumentált projektek és használói tapasztalatok**, és a hozzá tartozó
   **négy esettanulmány-oldal** (`eredmenyek/csikvand`, `bakonypeterd`,
   `diosbereny`, `obudavar`). Kiemelt projekt + hármas rács, mindegyik saját
