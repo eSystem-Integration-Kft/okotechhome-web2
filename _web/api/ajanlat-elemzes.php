@@ -27,7 +27,17 @@ OthVedelem::sebessegkorlat('elemzes', 5, 60);
 
 $ai = $CFG['ai'] ?? [];
 if (empty($ai['kulcs']) || $ai['kulcs'] === 'IDE_JON_AZ_API_KULCS') {
-    error_log('OTH: hiányzik az AI API-kulcs a config.php-ból.');
+    /* A naplóba MEGKÜLÖNBÖZTETVE írjuk, mi hiányzik — a két eset más javítást
+       kíván, és a kettő összemosása órákat vihet el a hibakeresésből.
+       A kulcs ÉRTÉKE természetesen sosem kerül a naplóba. */
+    if (!isset($CFG['ai'])) {
+        error_log('OTH AI: a config.php-ban NINCS "ai" tömb. A kulcsot ebbe a szerkezetbe '
+                . "kell tenni: 'ai' => ['kulcs' => '…', 'modell' => 'claude-sonnet-5'].");
+    } elseif (empty($ai['kulcs'])) {
+        error_log('OTH AI: az "ai" tömb megvan, de a "kulcs" mező üres.');
+    } else {
+        error_log('OTH AI: a "kulcs" mező még a helyőrzőt tartalmazza.');
+    }
     OthVedelem::valasz(503, ['ok' => false,
         'uzenet' => 'Az automatikus elemzés jelenleg nem elérhető. Küldje el nekünk az '
                   . 'ajánlatokat, és szakértőnk átnézi őket.']);
@@ -133,7 +143,7 @@ foreach ($dokumentumok as $jel => $d) {
 /* --- hívás ----------------------------------------------------------------- */
 $kereles = [
     'model'      => $ai['modell'] ?? 'claude-sonnet-5',
-    'max_tokens' => 4000,
+    'max_tokens' => 8000,   // 10 szempont × 3 ajánlat, részletekkel
     'system'     => $SYSTEM,
     'messages'   => [['role' => 'user', 'content' => $content]],
 ];
@@ -165,13 +175,37 @@ if ($valasz === false || $kod !== 200) {
 }
 
 $j = json_decode($valasz, true);
-$szoveg = $j['content'][0]['text'] ?? '';
-/* A modell kaphat kódblokkot a szöveg köré; leszedjük, mielőtt dekódolnánk. */
-$szoveg = trim(preg_replace('/^```(?:json)?|```$/m', '', $szoveg));
+
+/* A content tömb ELSŐ eleme nem feltétlenül szöveg: a modell adhat előtte más
+   típusú blokkot is. Ezért a típus alapján keressük meg, nem index szerint. */
+$szoveg = '';
+foreach (($j['content'] ?? []) as $blokk) {
+    if (($blokk['type'] ?? '') === 'text') {
+        $szoveg .= $blokk['text'] ?? '';
+    }
+}
+
+/* A modell kaphat kódblokkot vagy bevezető mondatot a JSON köré. Előbb a
+   kódblokk-jelöléseket szedjük le, majd — ha még mindig nem áll össze — a
+   legkülső kapcsos zárójelpárt vágjuk ki. */
+$szoveg = trim(preg_replace('/^```(?:json)?\s*|\s*```$/m', '', $szoveg));
 $adat = json_decode($szoveg, true);
+if (!is_array($adat)) {
+    $eleje = strpos($szoveg, '{');
+    $vege  = strrpos($szoveg, '}');
+    if ($eleje !== false && $vege !== false && $vege > $eleje) {
+        $adat = json_decode(substr($szoveg, $eleje, $vege - $eleje + 1), true);
+    }
+}
 
 if (!is_array($adat) || empty($adat['ajanlatok'])) {
-    error_log('OTH AI: értelmezhetetlen válasz.');
+    /* A naplóba a HIBA OKA kerül és a válasz eleje — enélkül nem lehet
+       megmondani, a modell írt-e prózát, kifutott-e a tokenkeretből, vagy
+       más szerkezetet adott. A dokumentum tartalma nem kerül a naplóba. */
+    error_log('OTH AI: értelmezhetetlen válasz.'
+        . ' stop=' . ($j['stop_reason'] ?? '?')
+        . ' hossz=' . strlen($szoveg)
+        . ' eleje=' . substr(preg_replace('/\s+/', ' ', $szoveg), 0, 200));
     OthVedelem::valasz(502, ['ok' => false,
         'uzenet' => 'Az elemzés eredményét nem sikerült feldolgozni. Küldje el nekünk az '
                   . 'ajánlatokat, és átnézzük.']);

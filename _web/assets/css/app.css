@@ -1252,13 +1252,15 @@
   .lablec{background:var(--surface-inverse);color:var(--text-on-dark);margin-top:var(--space-128)}
   .lablec-inner{
     max-width:var(--container-wide);margin-inline:auto;
-    padding:var(--space-96) var(--page-gutter) var(--space-64);
+    padding:var(--space-64) var(--page-gutter) var(--space-48);
     display:grid;grid-template-columns:minmax(0,4fr) repeat(5,minmax(0,2fr));
     gap:var(--space-48) var(--space-32);align-items:start;
   }
   .lablec-marka{display:flex;flex-direction:column;gap:var(--space-16);max-width:26rem}
   .lablec-logo{display:inline-flex}
-  .lablec-logo img{width:11rem;height:auto;display:block}
+  /* A jelrajz Fern, a szóvédjegy Stardust — a PNG-ben átlátszó háttérrel.
+     Ha valaha fehér téglalap jelenik meg mögötte, a PNG alfája veszett el. */
+  .lablec-logo img{width:9.5rem;height:auto;display:block}
   .lablec-lead{color:var(--text-on-dark-muted)}
   .lablec-kapcsolat{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
   .lablec-halvany{color:var(--text-on-dark-muted)}
