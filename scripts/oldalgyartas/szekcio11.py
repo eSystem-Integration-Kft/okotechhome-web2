@@ -231,8 +231,9 @@ def build():
 
           <p class="ofc-actions">
             <button type="button" class="btn btn-primary ofc-cta">
-              Ajánlatok összehasonlítása
-              <span class="action-arrow-end" aria-hidden="true">→</span>
+              <span class="ofc-cta-jel" aria-hidden="true">{svg('spark')}</span>
+              <span class="ofc-cta-felirat">Ajánlatok elemzése</span>
+              <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
             </button>
           </p>
           <p class="type-ui-caption ofc-disclaimer">

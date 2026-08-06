@@ -1387,10 +1387,21 @@
   }
   /* A lépéseket összekötő vonal a korongok magasságában fut, a rács MÖGÖTT.
      Külön elem helyett ::before, mert így nem kerül a hozzáférhetőségi fába. */
-  .folyamat-sin::before{
-    content:"";position:absolute;left:8%;right:8%;
+  .folyamat-sin::before,
+  .folyamat-sin::after{
+    content:"";position:absolute;left:8%;
     top:calc(var(--space-24) + var(--badge-lg-size) / 2);
-    height:1px;background:var(--border);
+    height:2px;border-radius:1px;
+  }
+  /* Alsó réteg: a teljes út. */
+  .folyamat-sin::before{right:8%;background:var(--border)}
+  /* Felső réteg: a megtett rész. A szélességet a JS állítja a kiválasztott
+     lépés arányára — így a sáv BALRÓL JOBBRA tölt ki, és a haladás magától
+     olvasható, nem csak a sorszámból. */
+  .folyamat-sin::after{
+    width:calc((100% - 16%) * var(--folyamat-halad, 0));
+    background:linear-gradient(90deg,var(--secondary),var(--primary));
+    transition:width var(--dur-media) var(--ease-out);
   }
   .folyamat-lepes{display:flex}
   .folyamat-gomb{
@@ -1401,7 +1412,7 @@
   }
   .folyamat-szam{color:var(--text-tertiary)}
   .folyamat-korong{
-    display:grid;place-items:center;
+    display:grid;place-items:center;position:relative;z-index:1;
     width:var(--badge-lg-size);height:var(--badge-lg-size);border-radius:50%;
     background:var(--surface);border:1px solid var(--border);color:var(--text-secondary);
     transition:background var(--dur-ui) var(--ease-out),border-color var(--dur-ui) var(--ease-out),
@@ -1440,6 +1451,24 @@
   .folyamat-korong{position:relative}
   .folyamat-gomb[aria-expanded="true"] .folyamat-szam,
   .folyamat-gomb[aria-expanded="true"] .folyamat-cimke{color:var(--text-primary)}
+
+  /* A már megtett lépések: kitöltött korong pipával. A pipa nem díszítés —
+     a színvak felhasználó is látja, meddig jutott, nem csak a sáv színéből. */
+  .folyamat-lepes[data-allapot="kesz"] .folyamat-korong{
+    background:var(--secondary);border-color:var(--secondary);color:var(--on-secondary);
+  }
+  .folyamat-lepes[data-allapot="kesz"] .folyamat-szam{color:var(--text-secondary)}
+  .folyamat-lepes[data-allapot="kesz"] .folyamat-korong::before{
+    content:"";position:absolute;right:-2px;bottom:-2px;
+    width:var(--space-16);height:var(--space-16);border-radius:50%;
+    background:var(--primary);
+    /* A pipa maszkkal, hogy a márkaszínt vegye fel. */
+    -webkit-mask:url("../icon/lepes-beuzemeles.svg") center/72% no-repeat;
+    mask:url("../icon/lepes-beuzemeles.svg") center/72% no-repeat;
+  }
+  /* A hátralévők halványabbak: a szem így a jelenlegi lépésen áll meg. */
+  .folyamat-lepes[data-allapot="hatra"] .folyamat-korong{opacity:.55}
+  .folyamat-lepes[data-allapot="hatra"] .folyamat-cimke{color:var(--text-tertiary)}
 
   .folyamat-panelek{padding-left:var(--space-32);border-left:2px solid var(--border);max-width:44rem;margin-left:auto}
   .folyamat-panel{animation:folyamat-be var(--dur-ui) var(--ease-out)}
@@ -1809,8 +1838,29 @@
   }
 
 
-  /* Betöltés alatt a gomb nem kattintható újra. */
-  .ofc-cta.is-loading{opacity:.7;pointer-events:none}
+  /* Betöltés alatt a gomb nem kattintható újra. A dokumentumok kiolvasása
+     hosszú művelet (akár fél perc), ezért a szikra folyamatosan mozog: enélkül
+     a látogató azt hinné, a gomb nem reagált, és újra rákattintana. */
+  .ofc-cta{gap:var(--space-8)}
+  .ofc-cta-jel{display:inline-grid;place-items:center;flex:none}
+  .ofc-cta-jel svg{width:var(--space-24);height:var(--space-24)}
+  .ofc-cta.is-loading{pointer-events:none}
+  .ofc-cta.is-loading .ofc-cta-felirat{opacity:.85}
+  .ofc-cta.is-loading .action-arrow-end{opacity:0}
+  .ofc-cta.is-loading .ofc-cta-jel{animation:ofc-szikra 1.6s var(--ease-out) infinite}
+  /* Lüktetés és lassú fordulás: „gondolkodik", nem „töltődik". A kettő
+     különbözik — a spinner várakozást jelez, ez folyamatban lévő munkát. */
+  @keyframes ofc-szikra{
+    0%,100%{transform:scale(1) rotate(0deg);opacity:1}
+    35%{transform:scale(1.22) rotate(70deg);opacity:.75}
+    70%{transform:scale(.94) rotate(140deg);opacity:1}
+  }
+  /* Csökkentett mozgás mellett a forgás elmarad; a halványulás marad, tehát
+     az „éppen dolgozik" állapot továbbra is látszik. */
+  @media (prefers-reduced-motion:reduce){
+    .ofc-cta.is-loading .ofc-cta-jel{animation:ofc-szikra-halk 1.6s ease-in-out infinite}
+    @keyframes ofc-szikra-halk{0%,100%{opacity:1}50%{opacity:.4}}
+  }
   /* Hiányzó feltöltésnél a gomb odagörget és megvillantja az üres kártyát. */
   @keyframes ofc-nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
   .ofc-nudge{animation:ofc-nudge 320ms var(--ease-out) 2;border-color:var(--warning-border)}

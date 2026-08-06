@@ -309,6 +309,11 @@
 
     cta.classList.add('is-loading');
     cta.setAttribute('aria-busy', 'true');
+    /* A felirat is változik: a mozgó ikon önmagában nem mondja meg, mi tart —
+       a dokumentumok kiolvasása fél percig is eltarthat. */
+    const felirat = cta.querySelector('.ofc-cta-felirat');
+    const eredetiFelirat = felirat ? felirat.textContent : '';
+    if (felirat) felirat.textContent = 'Dokumentumok kiolvasása…';
 
     const adatok = new FormData();
     Array.from(document.querySelectorAll('[data-ofc-card]')).forEach((c, i) => {
@@ -330,6 +335,7 @@
       .finally(() => {
         cta.classList.remove('is-loading');
         cta.removeAttribute('aria-busy');
+        if (felirat) felirat.textContent = eredetiFelirat;
       });
   });
 })();

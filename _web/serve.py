@@ -18,6 +18,7 @@ Használat:
 """
 
 import http.server
+import json
 import os
 import posixpath
 import socketserver
@@ -116,6 +117,38 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
     def _fs_path(self, url_path):
         rel = posixpath.normpath(url_path).lstrip("/")
         return os.path.join(ROOT, rel.replace("/", os.sep))
+
+
+    def do_POST(self):
+        """A /api/ végpontok PHP-t igényelnek — ez a kiszolgáló nem futtat PHP-t.
+
+        Miért kell mégis kezelni: POST-ra a BaseHTTPRequestHandler 501-et küld,
+        de a kérés TÖRZSÉT nem olvassa ki. Nagyobb feltöltésnél a böngésző a
+        küldés közben blokkol, a fetch sosem tér vissza, és a gomb a végtelenségig
+        pörög — ami hibának látszik a weboldalon, holott a kiszolgáló hiánya.
+
+        Ezért itt kiolvassuk a törzset, és beszédes JSON-t adunk vissza.
+        """
+        hossz = int(self.headers.get("Content-Length") or 0)
+        maradek = hossz
+        while maradek > 0:                      # a törzset EL KELL olvasni
+            maradek -= len(self.rfile.read(min(65536, maradek)) or b"")
+
+        if self.path.startswith("/api/"):
+            uzenet = ("Ez a fejlesztői kiszolgáló nem futtat PHP-t, ezért az /api/ "
+                      "végpontok itt nem működnek. Próbálja PHP-s kiszolgálón: "
+                      "php -S 127.0.0.1:8910 -t . — vagy a teszt-szerveren.")
+            kod = 501
+        else:
+            uzenet = "Ez a kiszolgáló csak statikus fájlokat ad ki."
+            kod = 405
+
+        torzs = json.dumps({"ok": False, "uzenet": uzenet}, ensure_ascii=False).encode("utf-8")
+        self.send_response(kod)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(torzs)))
+        self.end_headers()
+        self.wfile.write(torzs)
 
     def send_error(self, code, message=None, explain=None):
         """404-nél az egyedi hibaoldalt adjuk vissza, megtartva a 404 státuszt."""

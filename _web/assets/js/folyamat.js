@@ -16,10 +16,28 @@
     const panelek = Array.from(doboz.querySelectorAll('[data-folyamat-panel]'));
     if (gombok.length < 2 || !panelek.length) return;
 
+    const sin = doboz.querySelector('.folyamat-sin');
+
     const valt = (kulcs) => {
-      gombok.forEach((g) => g.setAttribute('aria-expanded',
-        String(g.dataset.folyamat === kulcs)));
+      const hol = gombok.findIndex((g) => g.dataset.folyamat === kulcs);
+
+      gombok.forEach((g, i) => {
+        g.setAttribute('aria-expanded', String(i === hol));
+        /* Három állapot: megtett · jelenlegi · hátralévő. Attribútumban, nem
+           osztályban — az állapot adat, és a CSS ebből következik. */
+        const lepes = g.closest('.folyamat-lepes');
+        if (lepes) {
+          lepes.dataset.allapot = i < hol ? 'kesz' : (i === hol ? 'itt' : 'hatra');
+        }
+      });
       panelek.forEach((p) => { p.hidden = p.dataset.folyamatPanel !== kulcs; });
+
+      /* A kitöltött sáv a lépés KÖZEPÉIG ér: a korongok a rács celláinak
+         közepén ülnek, tehát az arány (index + 0,5) / lépésszám. */
+      if (sin && gombok.length > 1) {
+        const arany = (hol + 0.5) / gombok.length;
+        sin.style.setProperty('--folyamat-halad', String(Math.max(0, Math.min(1, arany))));
+      }
     };
 
     gombok.forEach((g) => g.addEventListener('click', () => valt(g.dataset.folyamat)));
