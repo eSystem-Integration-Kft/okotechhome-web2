@@ -37,6 +37,21 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **„Telekvásárlás vagy új építés" hub — öt aloldal.** Alkalmas lehet-e a telek? ·
+  Talaj, talajvíz és vízelhelyezés · Milyen dokumentumokra lehet szükség? ·
+  Telekadat-ellenőrzőlista · Helyszíni felmérés.
+  **A brief három ponton kifejezetten felülír korábbi állításokat, és mindhármat
+  átvezettem:** (1) a „nem feltétlenül szükséges helyszíni felmérés — elég, ha
+  tudja a telek adatait" helyére döntési tábla került (mikor elég dokumentum és
+  fotó, mikor indokolt a kiszállás, mikor kell más szakértő); (2) a tartály
+  telepíthetősége és a kezelt víz elhelyezhetősége **két külön döntés** — a régi
+  tartalom ezt egybemosta, pedig a magasabb talajvíznél rögzíthető tartályból nem
+  következik, hogy a víz helyben szikkasztható; (3) a felmérés eredménye nem
+  „személyre szabott ajánlat", hanem strukturált telekbrief.
+  Szolgáltatási ár sehol nincs, a felmérésé sem. Az ellenőrzőlista **nem kér
+  kapcsolati adatot** a használatához, és minden tételnél elfogadja a „nem tudom"
+  választ. A dokumentumoldal szerepkör szerint oszt (építtető / tervező /
+  ÖkoTech / hatóság), és kimondja, hogy univerzális dokumentumlista nincs.
 - **„Nincs elérhető közcsatorna" hub — a sitemap szerinti négy aloldal.**
   Milyen megoldási lehetőségek vannak? · Közcsatorna vagy egyedi rendszer? ·
   Milyen adatokat kell először összegyűjteni? · Projektindító. A hub-oldal
