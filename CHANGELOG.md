@@ -37,6 +37,24 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **§11 — AI ajánlat-összehasonlító.** A Test1-beli modul átvéve: három feltöltő
+  kártya (A/B/C) behúzással és tallózással, formátum- és méretellenőrzéssel,
+  fájlchippel és visszaállítással; háromlépéses jelző; tízsoros összehasonlító
+  tábla, amely üresen indul, és csak a ténylegesen feltöltött ajánlatok oszlopát
+  tölti ki. Viselkedés és elrendezés változatlan, a megjelenés a Test2
+  tokenkészletéből.
+  **Két eltérés a forrástól, mindkettő szándékos:** a megszólítás magázóra
+  váltott (a webhely többi része, a 8. szekció modulja is az), és a kitöltés
+  után a modul kiírja, hogy **mintaadatot** mutat — a feltöltött fájlok
+  kiolvasása backendet igényel, ami még nincs. Enélkül a felhasználó a saját
+  ajánlatai elemzésének hinné a táblát. A JS-horgok `data-ofc-*` attribútumok,
+  nem osztályok, mert az osztály stílust sugallna.
+  Forrás: `assets/js/ofc.js`, `scripts/oldalgyartas/szekcio11.py`.
+- **§10 — Tudástár.** Hét témakör-belépő: egy kiemelt (a leggyakoribb elakadási
+  pont) és hat a hármas rácsban, mindegyik „Pl. …" ízelítővel a témakör
+  hatóköréről. A címek aláhúzottak — ez a dokumentált kivétel a webhely
+  aláhúzás-mentes hivatkozásai alól: a szekció szinte csupa link, és a szín
+  önmagában nem különböztetné meg őket (WCAG 1.4.1).
 - **§9 — Üzemeltetés és hosszú távú költség.** Három technológia éves üzemeltetési
   tételei egymás mellett (zárt tároló · oldómedence · A.B. Clear), saját metszeti
   fényképpel. A számok a végleges szövegdokumentumból valók, nem becslésből —

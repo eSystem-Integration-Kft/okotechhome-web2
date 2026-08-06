@@ -1180,6 +1180,222 @@
     width:100%;height:100%;object-fit:cover;
     border-radius:var(--r-md);display:block;
   }
+
+  /* ===== 5.13 Tudástár-belépők (ÚJ) =====
+     A 10. szekció témakörönként egy-egy belépőt kínál a tudástárba. A címek
+     itt HIVATKOZÁSOK, nem díszek, ezért aláhúzottak: a szekció szinte csupa
+     link, és a szín önmagában nem különböztetné meg őket (WCAG 1.4.1). Ez a
+     dokumentált kivétel a webhely aláhúzás-mentes hivatkozásai alól. */
+  .kb-feature{margin-bottom:var(--space-48)}
+  .kb-title{
+    display:block;color:var(--link);
+    text-decoration:underline;text-underline-offset:.18em;
+  }
+  .kb-title:hover{color:var(--link-hover)}
+  /* A nyíl a hivatkozás része, de nem húzzuk alá: aláhúzva vastag, elkent
+     vonalkezdet lenne a szöveg előtt. */
+  .kb-arrow{margin-right:var(--space-8);text-decoration:none;display:inline-block}
+  .kb-body{color:var(--text-secondary)}
+  .kb-body-strong{color:var(--text-primary)}
+  /* „Pl. …" — a témakörbe tartozó kérdések ízelítője. Halványabb, mert nem a
+     belépő állítása, hanem a hatókörének jelzése. */
+  .kb-eg{color:var(--text-tertiary)}
+
+  /* A rácsbeli belépő a .situation flex-oszlopa: a térközt KIZÁRÓLAG a gap
+     adja. Margóval együtt a kettő összeadódna, és a cím alatt kétszeres rés
+     nyílna. A kiemelt belépő nem flex-konténer, ott margó kell. */
+  .kb-feature .kb-title{margin-bottom:var(--space-24)}
+  .kb-feature .kb-body{margin-bottom:var(--space-8)}
+
+  /* Szekciózáró, középre zárt akció. */
+  .section-actions{
+    display:flex;justify-content:center;
+    margin-top:var(--space-64);
+  }
+
+  /* ===== 5.14 Ajánlat-összehasonlító modul (ÚJ, a Test1-ből átvéve) =====
+     A 11. szekció: bal oszlop a magyarázat és az indítógomb, jobb oszlop a
+     feltöltő felület és az összehasonlító tábla. A funkció és az elrendezés a
+     Test1-beli modulé, a megjelenés a Test2 tokenkészletéből épül. */
+  .ofc{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,9fr);gap:var(--space-48);align-items:start}
+
+  .ofc-eyebrow{display:flex;align-items:center;gap:var(--space-8);color:var(--text-tertiary);margin-bottom:var(--space-16)}
+  .ofc-lead{color:var(--text-secondary);margin-top:var(--space-24)}
+  /* A cím második fele a terv szerint kiemelt színnel áll. Fern szövegszínként
+     csak nagy méretben megengedett (≥28px) — a szekciócím efölött van. */
+  .ofc-accent{color:var(--primary)}
+
+  .ofc-features{list-style:none;margin:var(--space-32) 0 0;padding:0;display:grid;gap:var(--space-24)}
+  .ofc-feature{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-16);align-items:start}
+  .ofc-feat-title{color:var(--text-primary);margin-bottom:var(--space-4)}
+  .ofc-feat-text{color:var(--text-secondary)}
+
+  .ofc-actions{margin-top:var(--space-32)}
+  .ofc-actions .btn{width:100%;justify-content:space-between}
+  .ofc-disclaimer{display:flex;gap:var(--space-8);align-items:flex-start;margin-top:var(--space-16);color:var(--text-tertiary)}
+
+  /* --- lépésjelző --- */
+  .ofc-steps{
+    list-style:none;margin:0 0 var(--space-24);padding:0;
+    display:flex;align-items:center;gap:var(--space-16);
+  }
+  .ofc-step{display:flex;align-items:center;gap:var(--space-8);color:var(--text-tertiary)}
+  /* A lépések közti vonal rugalmas: a sáv teljes szélességét kitölti. */
+  .ofc-step-sep{flex:1;height:1px;background:var(--border)}
+  .ofc-step-n{
+    display:grid;place-items:center;flex:none;
+    width:var(--space-24);height:var(--space-24);border-radius:50%;
+    background:var(--badge-bg);color:var(--badge-text);
+    font-family:var(--font-mono);font-size:var(--type-data-value-size);
+  }
+  .ofc-step.is-active{color:var(--text-primary)}
+  .ofc-step.is-active .ofc-step-n{background:var(--primary);color:var(--on-primary)}
+  .ofc-step.is-done .ofc-step-n{background:var(--secondary);color:var(--on-secondary)}
+
+  /* --- feltöltő panel --- */
+  .ofc-panel{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--panel-radius);padding:var(--space-32);
+  }
+  .ofc-uphead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,22rem);gap:var(--space-24);align-items:start;margin-bottom:var(--space-24)}
+  .ofc-uphead-note{color:var(--text-tertiary);font-weight:400}
+  .ofc-secure{display:flex;align-items:center;gap:var(--space-8);color:var(--text-tertiary);margin-top:var(--space-8)}
+  .ofc-tip{
+    display:flex;gap:var(--space-8);align-items:flex-start;
+    max-width:26rem;padding:var(--space-16);
+    background:var(--surface-muted);border-radius:var(--card-radius);
+    color:var(--text-primary);
+  }
+
+  .ofc-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-16)}
+  .ofc-card{
+    display:flex;flex-direction:column;gap:var(--space-8);
+    padding:var(--space-16);
+    background:var(--canvas);border:1px solid var(--border);border-radius:var(--card-radius);
+  }
+  .ofc-card-head{display:flex;align-items:center;gap:var(--space-8);color:var(--text-primary)}
+  /* A név saját rugalmas sávot kap: enélkül a „(opcionális)" kitolja a
+     törlőgombot a kártyából. Két sor magasságot MINDIG lefoglal, hogy a három
+     kártya feltöltő-mezője egy vonalban kezdődjön — csak a C fejléce tördel,
+     és enélkül az ő dropzone-ja lejjebb csúszna a másik kettőnél. */
+  .ofc-card-name{flex:1;min-width:0;min-height:2lh}
+  .ofc-badge{
+    display:grid;place-items:center;flex:none;
+    width:var(--space-24);height:var(--space-24);border-radius:var(--r-md);
+    background:var(--primary);color:var(--on-primary);
+    font-family:var(--font-mono);font-size:var(--type-data-value-size);
+  }
+  .ofc-badge-muted{background:var(--badge-bg);color:var(--badge-text)}
+  .ofc-opt{color:var(--text-tertiary);font-weight:400}
+  /* A törlőgomb a fejléc jobb szélére kerül, 44px érintőcélponttal. */
+  .ofc-x{
+    margin-left:auto;flex:none;display:grid;place-items:center;
+    width:var(--space-24);height:var(--space-24);
+    border:0;background:none;color:var(--text-tertiary);cursor:pointer;
+    border-radius:var(--r-md);font-size:1.25rem;line-height:1;
+  }
+  .ofc-x:hover{color:var(--text-primary);background:var(--surface-muted)}
+  .ofc-x:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
+
+  .ofc-slot{position:relative}
+  .ofc-drop{
+    width:100%;display:flex;flex-direction:column;align-items:center;gap:var(--space-8);
+    padding:var(--space-24) var(--space-16);
+    border:1px dashed var(--border);border-radius:var(--card-radius);
+    background:var(--surface);color:var(--text-secondary);cursor:pointer;text-align:center;
+  }
+  .ofc-drop:hover{border-color:var(--primary);background:var(--surface-muted)}
+  .ofc-drop:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
+  .ofc-drop-title{color:var(--text-primary)}
+  .ofc-drop-hint{color:var(--text-tertiary)}
+  .ofc-slot.is-drag .ofc-drop{border-color:var(--primary);background:var(--surface-muted)}
+  .ofc-drop.is-error{border-color:var(--danger-border);background:var(--danger-bg)}
+  .ofc-error{margin-top:var(--space-8);color:var(--danger-text)}
+
+  /* Csatolt fájl chipje: típusjel, név, méret, pipa. */
+  .ofc-file{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-8);align-items:center;
+    padding:var(--space-8);background:var(--surface-muted);border-radius:var(--card-radius);
+  }
+  .ofc-file-ic{
+    display:grid;place-items:center;flex:none;width:var(--space-32);height:var(--space-32);
+    border-radius:var(--r-md);background:var(--surface);color:var(--text-secondary);
+    font-family:var(--font-mono);font-size:var(--type-data-value-size);
+  }
+  .ofc-file-meta{min-width:0}
+  .ofc-file-name{display:block;color:var(--text-primary);overflow-wrap:anywhere}
+  .ofc-file-size{display:block;color:var(--text-tertiary)}
+  .ofc-file-ok{display:grid;place-items:center;color:var(--success-text)}
+
+  .ofc-label{display:block;color:var(--text-secondary);margin-top:var(--space-8)}
+  /* Űrlapelemek: a designrendszer nem definiál mezőstílust, ezért itt vezetjük
+     be — kizárólag szemantikus tokenekből. A 44px magasság érintőcélpont. */
+  .ofc-select,.ofc-note{
+    width:100%;min-height:2.75rem;padding:var(--space-8) var(--space-16);
+    font:inherit;font-size:var(--type-ui-subtitle-size);
+    color:var(--text-primary);background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--r-md);
+  }
+  .ofc-select:focus-visible,.ofc-note:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
+  .ofc-note::placeholder{color:var(--text-tertiary)}
+
+  /* --- összehasonlító tábla --- */
+  .ofc-compare{margin-top:var(--space-24);background:var(--surface);border:1px solid var(--border);border-radius:var(--panel-radius);padding:var(--space-32)}
+  .ofc-compare-head{display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);margin-bottom:var(--space-24);flex-wrap:wrap}
+  .ofc-compare-title{display:flex;align-items:center;gap:var(--space-8);color:var(--text-primary)}
+  .ofc-th-sub{display:block;color:var(--text-tertiary);font-weight:400}
+  .ofc-cell-label{display:flex;align-items:center;gap:var(--space-8)}
+  /* Állapotjel a cellában: a SZÍN önmagában nem hordozhat jelentést (WCAG 1.4.1),
+     ezért minden állapot szöveget is kap, több esetben ikont is. */
+  .ofc-st{display:inline-flex;flex-wrap:wrap;align-items:center;gap:var(--space-4)}
+  .ofc-st small{display:block;flex-basis:100%;color:var(--text-tertiary)}
+  .ofc-st-yes{color:var(--success-text)}
+  .ofc-st-warn{color:var(--warning-text)}
+  .ofc-st-bad,.ofc-st-no{color:var(--danger-text)}
+  .ofc-st-muted,.ofc-st-nodata,.ofc-st-unclear{color:var(--text-tertiary)}
+  .ofc-dash,.ofc-wait{color:var(--text-tertiary)}
+  .ofc-row-total td{border-top:2px solid var(--border)}
+
+  /* --- AI-összegzés a bal oszlopban --- */
+  .ofc-ai{margin-top:var(--space-32);padding:var(--space-24);background:var(--surface);border:1px solid var(--border);border-radius:var(--panel-radius)}
+  .ofc-ai-title{color:var(--text-primary);margin-bottom:var(--space-16)}
+  .ofc-ai-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-16)}
+  .ofc-ai-list li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-8);align-items:start;color:var(--text-secondary)}
+  .ofc-ai-ok{color:var(--success-text)}
+  .ofc-ai-warn{color:var(--warning-text)}
+  .ofc-ai-info{color:var(--text-tertiary)}
+  .ofc-ai-wait{color:var(--text-tertiary)}
+
+  /* --- szakértői sáv --- */
+  .ofc-expert{
+    margin-top:var(--space-24);padding:var(--space-24);
+    display:flex;align-items:center;justify-content:space-between;gap:var(--space-24);flex-wrap:wrap;
+    background:var(--surface-muted);border-radius:var(--panel-radius);
+  }
+  .ofc-expert-text{display:flex;align-items:center;gap:var(--space-8);color:var(--text-primary)}
+
+  /* A modul ikonjai vonalrajzok: közös méret és vonalvastagság. */
+  .ofc svg{flex:none;width:var(--space-16);height:var(--space-16);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ofc-feat-ico svg,.ofc-drop > svg{width:var(--space-24);height:var(--space-24)}
+  .ofc-feat-ico{
+    display:grid;place-items:center;flex:none;
+    width:var(--badge-lg-size);height:var(--badge-lg-size);
+    border-radius:var(--r-md);background:var(--surface-muted);color:var(--text-primary);
+  }
+  /* Mintaadat-figyelmeztetés: amíg nincs backend, a tábla NEM a feltöltött
+     fájlokból készül. Figyelmeztető felületet kap, hogy ne lehessen átsiklani
+     fölötte — a felhasználó különben a saját ajánlatai elemzésének hinné. */
+  .ofc-demo{
+    margin-bottom:var(--space-24);padding:var(--space-16);
+    background:var(--warning-bg);border:1px solid var(--warning-border);
+    border-radius:var(--card-radius);color:var(--warning-text);
+  }
+
+  /* Betöltés alatt a gomb nem kattintható újra. */
+  .ofc-cta.is-loading{opacity:.7;pointer-events:none}
+  /* Hiányzó feltöltésnél a gomb odagörget és megvillantja az üres kártyát. */
+  @keyframes ofc-nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .ofc-nudge{animation:ofc-nudge 320ms var(--ease-out) 2;border-color:var(--warning-border)}
   .situation{
     display:flex;flex-direction:column;gap:var(--space-16);
     padding-top:var(--space-32);
@@ -1655,6 +1871,12 @@
        három oszlop maradna. */
     .situation-grid,
     .situation-grid[data-cols]{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+    /* A modul kétoszlopos elrendezése 1024px alatt egymás alá kerül: a jobb
+       oszlop (feltöltés + tábla) fél szélességen használhatatlan volna. */
+    .ofc{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
+    .ofc-uphead{grid-template-columns:minmax(0,1fr)}
+    .ofc-tip{max-width:none}
     .panel-dark{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
 
     /* AI-döntéstámogató: egy oszlop, az állapotpanel lenyithatóvá válik. */
@@ -1720,6 +1942,15 @@
 
     .situation-grid,
     .situation-grid[data-cols]{grid-template-columns:minmax(0,1fr)}
+
+    /* Három feltöltő kártya egymás mellett mobilon olvashatatlan. */
+    .ofc-cards{grid-template-columns:minmax(0,1fr)}
+    .ofc-panel,.ofc-compare{padding:var(--space-16)}
+    /* A lépésjelző szövege elfogyna: a számok maradnak, a feliratok tördelnek,
+       az összekötő vonalak eltűnnek. */
+    .ofc-steps{flex-wrap:wrap;gap:var(--space-8)}
+    .ofc-step-sep{display:none}
+    .ofc-expert{flex-direction:column;align-items:flex-start}
 
     /* A válaszlehetőségek két oszlopban maradnak; a beszélgetés nem görgethető
        külön dobozban, hanem az oldallal együtt fut. */
