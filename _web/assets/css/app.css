@@ -1225,6 +1225,88 @@
   }
 
 
+
+
+  /* ===== 5.18 Szolgáltatási folyamat — lépéssor (ÚJ) ===== */
+  /* A lépéssor burkolója: a sín és a panelek együtt. */
+  .folyamat{display:block}
+  .folyamat-sin{
+    list-style:none;margin:0 0 var(--space-48);padding:0;
+    display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--space-8);
+    position:relative;
+  }
+  /* A lépéseket összekötő vonal a korongok magasságában fut, a rács MÖGÖTT.
+     Külön elem helyett ::before, mert így nem kerül a hozzáférhetőségi fába. */
+  .folyamat-sin::before{
+    content:"";position:absolute;left:8%;right:8%;
+    top:calc(var(--space-24) + var(--badge-lg-size) / 2);
+    height:1px;background:var(--border);
+  }
+  .folyamat-lepes{display:flex}
+  .folyamat-gomb{
+    display:flex;flex-direction:column;align-items:center;gap:var(--space-8);
+    width:100%;padding:0 var(--space-4) var(--space-8);
+    border:0;background:none;cursor:pointer;text-align:center;
+    color:var(--text-secondary);font:inherit;
+  }
+  .folyamat-szam{color:var(--text-tertiary)}
+  .folyamat-korong{
+    display:grid;place-items:center;
+    width:var(--badge-lg-size);height:var(--badge-lg-size);border-radius:50%;
+    background:var(--surface);border:1px solid var(--border);color:var(--text-secondary);
+    transition:background var(--dur-ui) var(--ease-out),border-color var(--dur-ui) var(--ease-out),
+               color var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out);
+  }
+  .folyamat-cimke{color:var(--text-secondary);text-wrap:balance}
+  .folyamat-gomb:hover .folyamat-korong{border-color:var(--primary);transform:scale(1.05)}
+  .folyamat-gomb:focus-visible{outline:3px solid var(--button-focus);outline-offset:3px;border-radius:var(--card-radius)}
+  /* A kiválasztott lépés: lime korong, sötét kerettel — az állapotot nem
+     csak a szín hordozza, hanem az aria-expanded is. */
+  .folyamat-gomb[aria-expanded="true"] .folyamat-korong{
+    background:var(--surface-muted);border-color:var(--primary);color:var(--text-primary);
+  }
+  .folyamat-gomb[aria-expanded="true"] .folyamat-szam,
+  .folyamat-gomb[aria-expanded="true"] .folyamat-cimke{color:var(--text-primary)}
+
+  .folyamat-panelek{padding-left:var(--space-32);border-left:2px solid var(--border);max-width:44rem;margin-left:auto}
+  .folyamat-panel{animation:folyamat-be var(--dur-ui) var(--ease-out)}
+  @keyframes folyamat-be{from{opacity:0;transform:translateY(var(--space-8))}to{opacity:1;transform:none}}
+  .folyamat-cim{color:var(--text-primary);padding-bottom:var(--space-16);
+    margin-bottom:var(--space-24);border-bottom:1px solid var(--border);text-wrap:balance}
+  .folyamat-cim-szam{color:var(--text-tertiary)}
+  .folyamat-lista{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-16)}
+  .folyamat-lista li{display:flex;gap:var(--space-16);align-items:baseline;color:var(--text-secondary)}
+  .folyamat-lista li::before{content:"";flex:none;width:.4em;height:.4em;border-radius:50%;
+    border:1px solid var(--text-tertiary)}
+  .folyamat-dol{
+    margin-top:var(--space-32);padding:var(--space-24);
+    background:var(--surface-muted);border-radius:var(--card-radius);
+    display:grid;gap:var(--space-4);
+  }
+  .folyamat-dol strong{color:var(--text-primary)}
+  .folyamat-dol span{color:var(--text-secondary)}
+
+  /* ===== 5.17 Folyamat, konzultáció, csoportos GYIK (ÚJ) ===== */
+  /* A „Itt dől el:" zárósor a lépéskártya lényege — elválik a leírástól. */
+  .kez-dol{color:var(--text-primary);margin-top:var(--space-8)}
+  .konz-akcio{margin:var(--space-32) 0 var(--space-8)}
+  .konz-tel{color:var(--text-secondary);margin:0 0 var(--space-16)}
+  .konz-keznel{color:var(--text-tertiary);margin:0}
+  .konz-bemutat{display:flex;flex-direction:column;gap:var(--space-8)}
+  .konz-nev{color:var(--text-primary)}
+  .konz-titulus{color:var(--text-tertiary)}
+  .konz-bio{color:var(--text-secondary);margin-top:var(--space-8)}
+  .konz-utana{margin-top:var(--space-64)}
+  .konz-utana-cim{color:var(--text-primary);margin-bottom:var(--space-24)}
+  /* A GYIK négy témakörre bomlik: a csoportcím vonallal válik el, hogy a
+     tizenöt kérdés ne egyetlen hosszú listának látsszon. */
+  .gyik-csoport + .gyik-csoport{margin-top:var(--space-48)}
+  .gyik-csoport-cim{
+    color:var(--text-primary);padding-bottom:var(--space-8);
+    margin-bottom:var(--space-16);border-bottom:1px solid var(--border);
+  }
+  .faq-tovabb{margin-top:var(--space-8)}
+
   /* ===== 5.16 Projektek és visszajelzések (ÚJ) ===== */
   .projekt-kiemelt{
     display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
@@ -2034,6 +2116,10 @@
     .ofc{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
     .projekt-kiemelt{grid-template-columns:minmax(0,1fr)}
     .projekt-racs{grid-template-columns:repeat(2,minmax(0,1fr))}
+    /* Hat lépés egy sorban tableten olvashatatlan címkéket adna. */
+    .folyamat-sin{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:var(--space-24)}
+    .folyamat-sin::before{display:none}
+    .folyamat-panelek{margin-left:0}
     .velemeny-keret{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
     .ofc-uphead{grid-template-columns:minmax(0,1fr)}
     .ofc-tip{max-width:none}
@@ -2106,6 +2192,8 @@
     /* Három feltöltő kártya egymás mellett mobilon olvashatatlan. */
     .ofc-cards{grid-template-columns:minmax(0,1fr)}
     .projekt-racs{grid-template-columns:minmax(0,1fr)}
+    .folyamat-sin{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .folyamat-panelek{padding-left:var(--space-16)}
     .velemeny-doboz{padding-left:var(--space-16)}
     .ofc-panel,.ofc-compare{padding:var(--space-16)}
     /* A lépésjelző szövege elfogyna: a számok maradnak, a feliratok tördelnek,
