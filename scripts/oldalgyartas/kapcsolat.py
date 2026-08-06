@@ -16,8 +16,11 @@ from sablon import sec_numbered, sec_situations, sec_prose, sec_faq
 
 WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
 
-# A gyökérben a fejléc-hivatkozások nem ../-rel kezdődnek.
-HEADER = re.sub(r'href="\.\./', 'href="', G.HEADER)
+# A gyökérben a fejléc-hivatkozások nem ../-rel kezdődnek. A CSUPASZ `../`-t
+# külön kell kezelni: abból üres href lenne, ami az AKTUÁLIS oldalra mutat —
+# a logóra kattintva nem történne semmi. Ezért az lesz './'.
+HEADER = G.HEADER.replace('href="../"', 'href="./"')
+HEADER = re.sub(r'href="\.\./', 'href="', HEADER)
 HEADER = HEADER.replace('src="../assets/', 'src="assets/')
 
 TEL_HREF, TEL = 'tel:+3633200211', '+36 33 200 211'
