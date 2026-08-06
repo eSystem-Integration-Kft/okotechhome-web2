@@ -80,12 +80,11 @@ return [
     'csatolmany' => [
         'max_meret'  => 10 * 1024 * 1024,
         'max_darab'  => 3,
-        'kiterjesztes' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'png'],
+        // A régi, bináris .doc és .xls kimarad — nem olvasható ki megbízhatóan.
+        'kiterjesztes' => ['pdf', 'docx', 'xlsx', 'png'],
         'mime' => [
             'application/pdf',
-            'application/msword',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.ms-excel',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'image/png',
         ],

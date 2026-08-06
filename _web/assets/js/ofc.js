@@ -27,14 +27,15 @@
 
   /* Csak ezek a formátumok mehetnek be — tallózásnál ÉS behúzásnál is.
      A szerveroldali ellenőrzést ez nem váltja ki, csak a felhasználót segíti. */
-  const ALLOWED_EXT = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'png'];
+  const ALLOWED_EXT = ['pdf', 'docx', 'xlsx', 'png'];
   const MAX_SIZE = 10 * 1024 * 1024;
 
   const extOf = (file) => (file.name.split('.').pop() || '').toLowerCase();
 
   const rejectReason = (file) => {
     if (!ALLOWED_EXT.includes(extOf(file))) {
-      return 'Nem támogatott formátum. Engedélyezett: PDF, DOC, DOCX, XLS, XLSX, PNG.';
+      return 'Ezt a formátumot nem tudjuk kiolvasni. Engedélyezett: PDF, DOCX, XLSX, PNG. '
+           + 'Régi .doc vagy .xls fájlt mentsen el PDF-ként, és úgy töltse fel.';
     }
     if (file.size > MAX_SIZE) return 'A fájl túl nagy (legfeljebb 10 MB).';
     return null;
@@ -311,7 +312,7 @@
     cta.setAttribute('aria-busy', 'true');
     /* A felirat is változik: a mozgó ikon önmagában nem mondja meg, mi tart —
        a dokumentumok kiolvasása fél percig is eltarthat. */
-    const felirat = cta.querySelector('.ofc-cta-felirat');
+    const felirat = cta.querySelector('[data-ofc-felirat]');
     const eredetiFelirat = felirat ? felirat.textContent : '';
     if (felirat) felirat.textContent = 'Dokumentumok kiolvasása…';
 

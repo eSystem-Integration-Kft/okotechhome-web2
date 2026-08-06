@@ -64,9 +64,11 @@ FEATURES = [
 ]
 
 # --- a három feltöltő kártya ------------------------------------------------
-ACCEPT = ('.pdf,.doc,.docx,.xls,.xlsx,.png,application/pdf,application/msword,'
+# A régi, bináris .doc és .xls KIMARAD: azokat nem tudjuk megbízhatóan
+# kiolvasni, és a félig sikerült kiolvasás téves adatot vinne az
+# összehasonlításba. Jobb a tallózásnál elutasítani, mint utólag közölni.
+ACCEPT = ('.pdf,.docx,.xlsx,.png,application/pdf,'
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document,'
-          'application/vnd.ms-excel,'
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png')
 TYPES = ['Válasszon típust', 'Zárt szennyvíztároló', 'Biológiai szennyvíztisztító',
          'Oldómedence', 'Egyéb']
@@ -88,7 +90,7 @@ def card(letter, extra, placeholder, muted):
               <button type="button" class="ofc-drop" data-ofc-drop>
                 {svg('upload')}
                 <b class="type-ui-subtitle ofc-drop-title">Húzza ide a fájlt, vagy kattintson a tallózáshoz</b>
-                <small class="type-ui-caption ofc-drop-hint">PDF, DOC/DOCX, XLS/XLSX, PNG · legfeljebb 10&nbsp;MB</small>
+                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, PNG · legfeljebb 10&nbsp;MB</small>
               </button>
               <input type="file" data-ofc-input accept="{ACCEPT}"
                      aria-label="Ajánlat {letter} fájlja" hidden>
@@ -232,7 +234,7 @@ def build():
           <p class="ofc-actions">
             <button type="button" class="btn btn-primary ofc-cta">
               <span class="ofc-cta-jel" aria-hidden="true">{svg('spark')}</span>
-              <span class="ofc-cta-felirat">Ajánlatok elemzése</span>
+              <span data-ofc-felirat>Ajánlatok elemzése</span>
               <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
             </button>
           </p>
