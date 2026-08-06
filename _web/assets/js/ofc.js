@@ -324,15 +324,39 @@
       if (sel && sel.selectedIndex > 0) adatok.append('tipus_' + jel, sel.value);
     });
 
-    fetch('api/ajanlat-elemzes', { method: 'POST', headers: { Accept: 'application/json' }, body: adatok })
-      .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
+    /* Kliensoldali időkorlát. Enélkül a gomb a végtelenségig pörög, ha a
+       szerver válasz nélkül elesik — márpedig megosztott tárhelyen ez a
+       leggyakoribb kimenet. A határ bővebb, mint a szerveré, hogy annak
+       saját hibaüzenete elsőbbséget élvezzen. */
+    const megszakito = new AbortController();
+    const ora = setTimeout(() => megszakito.abort(), 180000);
+
+    fetch('api/ajanlat-elemzes', {
+      method: 'POST', headers: { Accept: 'application/json' },
+      body: adatok, signal: megszakito.signal,
+    })
+      /* A válasz nem biztos, hogy JSON: ha a szerver hibaoldalt vagy üres
+         törzset ad, a json() elszállna egy értelmetlen üzenettel. */
+      .then((r) => r.text().then((t) => {
+        let j = {};
+        try { j = JSON.parse(t); } catch (_) {
+          throw new Error('A kiszolgáló nem értelmezhető választ adott'
+            + (r.status ? ' (' + r.status + ')' : '') + '. Kérjük, próbálja újra.');
+        }
+        return { ok: r.ok, j };
+      }))
       .then(({ ok, j }) => {
         if (!ok || !j.ok) throw new Error(j.uzenet || 'Az elemzés nem sikerült.');
         fillState(j);
         compare.scrollIntoView({ block: 'start', behavior: 'smooth' });
       })
-      .catch((e) => uzenet(e.message, 'hiba'))
+      .catch((e) => uzenet(
+        e.name === 'AbortError'
+          ? 'A kiolvasás túl sokáig tartott, ezért megszakítottuk. Próbálja kevesebb '
+            + 'vagy kisebb fájllal, vagy küldje el nekünk az ajánlatokat.'
+          : e.message, 'hiba'))
       .finally(() => {
+        clearTimeout(ora);
         cta.classList.remove('is-loading');
         cta.removeAttribute('aria-busy');
         if (felirat) felirat.textContent = eredetiFelirat;

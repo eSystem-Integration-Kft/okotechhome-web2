@@ -22,6 +22,20 @@
 declare(strict_types=1);
 require __DIR__ . '/lib/indit.php';
 
+/* A dokumentumok kiolvasása hosszú művelet. Megosztott tárhelyen a
+   max_execution_time gyakran 30–60 másodperc: a szerver a szkriptet VÁLASZ
+   NÉLKÜL megöli, a böngésző pedig a végtelenségig vár. Ez volt az oka annak,
+   hogy a gomb pörgött, de semmi nem történt.
+
+   Ezért: felemeljük a futásidőt, ha a tárhely engedi, ÉS a curl időkorlátját
+   ez alá állítjuk — így a hívás mindig előbb ér véget, mint a szkript, és
+   marad idő értelmes hibaüzenetet visszaadni. */
+@set_time_limit(180);
+$phpKorlat = (int) ini_get('max_execution_time');
+/* 0 = nincs korlát. Ha van, 10 másodperc tartalékot hagyunk a válasz
+   összeállítására és elküldésére. */
+$curlKorlat = $phpKorlat > 0 ? max(15, $phpKorlat - 10) : 150;
+
 /* Az elemzés drága művelet: szigorúbb korlát, mint a leveleknél. */
 OthVedelem::sebessegkorlat('elemzes', 5, 60);
 
@@ -152,7 +166,7 @@ $ch = curl_init('https://api.anthropic.com/v1/messages');
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST           => true,
-    CURLOPT_TIMEOUT        => (int) ($ai['timeout'] ?? 120),
+    CURLOPT_TIMEOUT        => min((int) ($ai['timeout'] ?? 120), $curlKorlat),
     CURLOPT_HTTPHEADER     => [
         'content-type: application/json',
         'x-api-key: ' . $ai['kulcs'],
@@ -168,10 +182,17 @@ curl_close($ch);
 if ($valasz === false || $kod !== 200) {
     /* A hibaüzenet NEM tartalmazhatja a kérést: abban a dokumentum és a kulcs
        fejléce is szerepelne. */
-    error_log('OTH AI: HTTP ' . $kod . ($curlHiba ? ' · ' . $curlHiba : ''));
+    error_log('OTH AI: HTTP ' . $kod . ($curlHiba ? ' · ' . $curlHiba : '')
+        . ' · php_limit=' . $phpKorlat . ' curl_limit=' . $curlKorlat);
+    /* Az időtúllépés MÁS üzenetet kap: azon a felhasználó tud segíteni
+       (kevesebb vagy kisebb fájl), a többi hibán nem. */
+    $ido = ($kod === 0 && stripos($curlHiba, 'timed out') !== false);
     OthVedelem::valasz(502, ['ok' => false,
-        'uzenet' => 'Az elemzés most nem sikerült. Próbálja újra, vagy küldje el nekünk az '
-                  . 'ajánlatokat — szakértőnk átnézi őket.']);
+        'uzenet' => $ido
+            ? 'A kiolvasás nem fejeződött be időben. Próbálja kevesebb vagy kisebb '
+            . 'fájllal — vagy küldje el nekünk az ajánlatokat, és szakértőnk átnézi őket.'
+            : 'Az elemzés most nem sikerült. Próbálja újra, vagy küldje el nekünk az '
+            . 'ajánlatokat — szakértőnk átnézi őket.']);
 }
 
 $j = json_decode($valasz, true);
