@@ -1609,6 +1609,26 @@
   /* A hivatkozás a kártya aljára tapad, hogy a három oszlop egy vonalban zárjon. */
   .projekt-link{margin-top:auto;align-self:flex-start}
 
+  /* KÖZÖS SORRÁCS. Flexben minden elem a fölötte lévő szöveg hosszához igazodik,
+     ezért a cím, a meta, a chip és a hivatkozás hasábonként más magasságban ült.
+     A `subgrid` a KÁRTYÁKAT a rács saját soraiba köti, így minden elem ugyanabban
+     a sávban kezdődik — a szöveg hosszától függetlenül.
+     Hat sor: kép · cím · meta · szöveg · chip · hivatkozás. A negyedik (a szöveg)
+     nyúlik, a többi tartalom szerinti. */
+  @supports (grid-template-rows: subgrid){
+    .projekt-racs{grid-template-rows:auto auto auto 1fr auto auto}
+    .projekt{
+      display:grid;grid-row:span 6;grid-template-rows:subgrid;
+      gap:var(--space-16);
+    }
+    /* A rács adja a helyet, tehát a flexes igazítás itt már nem kell. */
+    .projekt-link{margin-top:0;justify-self:start;align-self:start}
+    /* A chip a hasáb teljes szélességét kitölti. Tartalomra szabva három eltérő
+       szélességű folt lenne egymás mellett — a rendezett sáv nyugodtabb, és a
+       szám így is kiemelkedik. */
+    .projekt-chip{align-self:start;justify-self:stretch}
+  }
+
   .velemeny-keret{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);
     gap:var(--space-48);align-items:start}
   .velemeny-fej{margin-bottom:0}
