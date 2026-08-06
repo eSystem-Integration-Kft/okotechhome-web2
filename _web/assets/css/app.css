@@ -1929,28 +1929,50 @@
   }
 
 
-  /* Betöltés alatt a gomb nem kattintható újra. A dokumentumok kiolvasása
-     hosszú művelet (akár fél perc), ezért a szikra folyamatosan mozog: enélkül
-     a látogató azt hinné, a gomb nem reagált, és újra rákattintana. */
-  .ofc-cta{gap:var(--space-8)}
+  /* Betöltés alatt a gomb nem kattintható újra. A kiolvasás fél percig is
+     tarthat, ezért folyamatos visszajelzés kell — enélkül a látogató azt
+     hinné, a gomb nem reagált, és újra rákattintana. */
+  .ofc-cta{gap:var(--space-8);position:relative;overflow:hidden}
   .ofc-cta-jel{display:inline-grid;place-items:center;flex:none}
   .ofc-cta-jel svg{width:var(--space-24);height:var(--space-24)}
   .ofc-cta.is-loading{pointer-events:none}
-  .ofc-cta.is-loading .ofc-cta-felirat{opacity:.85}
   .ofc-cta.is-loading .action-arrow-end{opacity:0}
-  .ofc-cta.is-loading .ofc-cta-jel{animation:ofc-szikra 1.6s var(--ease-out) infinite}
-  /* Lüktetés és lassú fordulás: „gondolkodik", nem „töltődik". A kettő
-     különbözik — a spinner várakozást jelez, ez folyamatban lévő munkát. */
-  @keyframes ofc-szikra{
-    0%,100%{transform:scale(1) rotate(0deg);opacity:1}
-    35%{transform:scale(1.22) rotate(70deg);opacity:.75}
-    70%{transform:scale(.94) rotate(140deg);opacity:1}
+  /* Az általános gomb-pörgőt elnyomjuk: ezen a gombon a szikra a jelzés, és
+     két egyidejű betöltésjelző zavaró — ráadásul külön ritmusban futnak. */
+  .ofc-cta[aria-busy="true"]::before{display:none}
+
+  /* A szikra NEM forog: egy négyágú csillag elfordítva hibás alakzatnak
+     látszik. Helyette a két ág FELVÁLTVA villan — ez a „gondolkodik" mozdulat,
+     és bármelyik pillanatban ép marad a rajzolat. */
+  .ofc-cta.is-loading .ofc-cta-jel svg > *{transform-origin:center}
+  .ofc-cta.is-loading .ofc-cta-jel svg > :first-child{
+    animation:ofc-csillan 1.4s var(--ease-out) infinite;
   }
-  /* Csökkentett mozgás mellett a forgás elmarad; a halványulás marad, tehát
-     az „éppen dolgozik" állapot továbbra is látszik. */
+  .ofc-cta.is-loading .ofc-cta-jel svg > :last-child{
+    animation:ofc-csillan 1.4s var(--ease-out) .45s infinite;
+  }
+  @keyframes ofc-csillan{
+    0%,100%{opacity:.4;transform:scale(.88)}
+    40%{opacity:1;transform:scale(1.16)}
+  }
+
+  /* Balról jobbra futó fénypászma: a haladás iránya akkor is olvasható,
+     amikor a szikra épp halvány. */
+  .ofc-cta.is-loading::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(100deg,transparent 35%,
+      color-mix(in srgb,var(--on-primary) 20%,transparent) 50%,transparent 65%);
+    transform:translateX(-100%);
+    animation:ofc-paszma 1.8s var(--ease-out) infinite;
+  }
+  @keyframes ofc-paszma{to{transform:translateX(100%)}}
+
   @media (prefers-reduced-motion:reduce){
-    .ofc-cta.is-loading .ofc-cta-jel{animation:ofc-szikra-halk 1.6s ease-in-out infinite}
-    @keyframes ofc-szikra-halk{0%,100%{opacity:1}50%{opacity:.4}}
+    .ofc-cta.is-loading::after{display:none}
+    .ofc-cta.is-loading .ofc-cta-jel svg > *{
+      animation:ofc-csillan-halk 1.4s ease-in-out infinite;
+    }
+    @keyframes ofc-csillan-halk{0%,100%{opacity:1}50%{opacity:.45}}
   }
   /* Hiányzó feltöltésnél a gomb odagörget és megvillantja az üres kártyát. */
   @keyframes ofc-nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
