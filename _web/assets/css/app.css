@@ -718,6 +718,14 @@
   .icon-nav-ellenorzes{-webkit-mask-image:url("../icon/ui-nav-ellenorzes.svg?v=1");mask-image:url("../icon/ui-nav-ellenorzes.svg?v=1")}
   .icon-nav-engedely{-webkit-mask-image:url("../icon/ui-nav-engedely.svg?v=1");mask-image:url("../icon/ui-nav-engedely.svg?v=1")}
   .icon-nav-esettanulmany{-webkit-mask-image:url("../icon/ui-nav-esettanulmany.svg?v=1");mask-image:url("../icon/ui-nav-esettanulmany.svg?v=1")}
+  /* A 13. szekció lépéssorának saját rajzolatai — a menüikonok jelentése
+     nem illett rájuk (méretezés ≠ mérleg, beüzemelés ≠ lejátszás). */
+  .icon-lepes-telekadat{-webkit-mask-image:url("../icon/lepes-telekadat.svg?v=1");mask-image:url("../icon/lepes-telekadat.svg?v=1")}
+  .icon-lepes-meretezes{-webkit-mask-image:url("../icon/lepes-meretezes.svg?v=1");mask-image:url("../icon/lepes-meretezes.svg?v=1")}
+  .icon-lepes-dokumentum{-webkit-mask-image:url("../icon/lepes-dokumentum.svg?v=1");mask-image:url("../icon/lepes-dokumentum.svg?v=1")}
+  .icon-lepes-telepites{-webkit-mask-image:url("../icon/lepes-telepites.svg?v=1");mask-image:url("../icon/lepes-telepites.svg?v=1")}
+  .icon-lepes-beuzemeles{-webkit-mask-image:url("../icon/lepes-beuzemeles.svg?v=1");mask-image:url("../icon/lepes-beuzemeles.svg?v=1")}
+  .icon-lepes-karbantartas{-webkit-mask-image:url("../icon/lepes-karbantartas.svg?v=1");mask-image:url("../icon/lepes-karbantartas.svg?v=1")}
   .icon-nav-felmeres{-webkit-mask-image:url("../icon/ui-nav-felmeres.svg?v=1");mask-image:url("../icon/ui-nav-felmeres.svg?v=1")}
   .icon-nav-fogalomtar{-webkit-mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1");mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1")}
   .icon-nav-gyik{-webkit-mask-image:url("../icon/ui-nav-gyik.svg?v=1");mask-image:url("../icon/ui-nav-gyik.svg?v=1")}
@@ -1227,6 +1235,125 @@
 
 
 
+
+  /* ===== 5.19 Konzultáció és fülrendszeres GYIK (ÚJ) ===== */
+  .konz-fo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--space-48);align-items:start}
+  .konz-pontok{list-style:none;margin:0;padding:0;display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
+  /* Függőleges elválasztó a pontok között — a terv szerint. Az elsőnek nincs. */
+  .konz-pont{display:flex;flex-direction:column;gap:var(--space-8);padding-right:var(--space-24)}
+  .konz-pont + .konz-pont{border-left:1px solid var(--border);padding-left:var(--space-24)}
+  .konz-pont-ikon{
+    display:grid;place-items:center;width:var(--badge-lg-size);height:var(--badge-lg-size);
+    border-radius:50%;background:var(--surface);border:1px solid var(--border);
+    color:var(--text-primary);margin-bottom:var(--space-8);
+  }
+  .konz-pont-cim{color:var(--text-primary)}
+  .konz-pont-szoveg{color:var(--text-secondary)}
+  .konz-akcio{margin:var(--space-48) 0 var(--space-24)}
+  .konz-tel{display:flex;align-items:center;gap:var(--space-16);margin:0}
+  .konz-tel-ikon{display:grid;place-items:center;flex:none;
+    width:var(--space-48);height:var(--space-48);border-radius:50%;
+    background:var(--surface-muted);color:var(--text-primary)}
+  .konz-tel-szam{display:block;color:var(--text-primary);text-decoration:none}
+  .konz-tel-alatt{display:block;color:var(--text-tertiary)}
+
+  .konz-bemutat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--space-24);align-items:start}
+  .konz-foto{margin:0;border-radius:var(--card-radius);overflow:hidden;background:var(--surface-muted)}
+  .konz-foto img{width:100%;height:auto;display:block}
+  .konz-bemutat-torzs{display:flex;flex-direction:column;gap:var(--space-8)}
+  .konz-nev{color:var(--text-primary)}
+  .konz-titulus{color:var(--text-tertiary)}
+  /* A bemutatkozás a titulustól vonallal válik el, ahogy a terven. */
+  .konz-bio{color:var(--text-secondary)}
+  .konz-bio:first-of-type{padding-top:var(--space-16);margin-top:var(--space-8);
+    border-top:1px solid var(--border)}
+
+  .konz-keznel{
+    display:flex;gap:var(--space-16);align-items:center;
+    margin:var(--space-64) 0 0;padding:var(--space-24);
+    background:var(--surface-muted);border-radius:var(--panel-radius);color:var(--text-primary);
+  }
+  .konz-keznel-ikon{display:grid;place-items:center;flex:none;
+    width:var(--space-48);height:var(--space-48);border-radius:50%;background:var(--surface)}
+
+  .utana{margin-top:var(--space-32);padding:var(--space-32);
+    border:1px solid var(--border);border-radius:var(--panel-radius)}
+  .utana-cim{color:var(--text-primary);margin-bottom:var(--space-32)}
+  .utana-sin{list-style:none;margin:0;padding:0;display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-24);position:relative}
+  .utana-sin::before{content:"";position:absolute;left:6%;right:6%;
+    top:calc(var(--space-48) / 2);height:1px;background:var(--border)}
+  .utana-lepes{display:flex;flex-direction:column;gap:var(--space-16);align-items:flex-start}
+  .utana-szam{display:grid;place-items:center;flex:none;position:relative;
+    width:var(--space-48);height:var(--space-48);border-radius:50%;
+    background:var(--canvas);border:1px solid var(--primary);color:var(--text-primary)}
+  .utana-szoveg{color:var(--text-secondary)}
+  .utana-szoveg strong{color:var(--text-primary);display:block}
+
+  /* --- GYIK: kategóriafülek + kérdéslista + válaszpanel --- */
+  /* Burkolók: a .gyik a fülrendszer egésze, a .gyik-tabla egy kategória
+     táblája, a .konz-bal a konzultációs szekció bal oszlopa. */
+  .gyik,.gyik-tabla{display:block}
+  .konz-bal{display:flex;flex-direction:column}
+  .gyik-fulek{display:flex;flex-wrap:wrap;border:1px solid var(--border);
+    border-radius:var(--card-radius);overflow:hidden}
+  .gyik-ful{
+    flex:1 1 auto;padding:var(--space-16) var(--space-24);border:0;
+    border-right:1px solid var(--border);background:var(--surface);
+    color:var(--text-secondary);cursor:pointer;font:inherit;
+    border-bottom:3px solid transparent;
+    transition:background var(--dur-ui) var(--ease-out),color var(--dur-ui) var(--ease-out);
+  }
+  .gyik-ful:last-child{border-right:0}
+  .gyik-ful:hover{background:var(--surface-muted);color:var(--text-primary)}
+  .gyik-ful:focus-visible{outline:3px solid var(--button-focus);outline-offset:-3px}
+  /* A kiválasztott fül állapotát az aria-selected hordozza, a stílus abból
+     következik — így a szín nem az egyetlen jelzés. */
+  .gyik-ful[aria-selected="true"]{color:var(--text-primary);font-weight:600;
+    border-bottom-color:var(--primary)}
+
+  .gyik-oszlopok{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);
+    gap:var(--space-24);margin-top:var(--space-24)}
+  .gyik-kerdesek{list-style:none;margin:0;padding:0;
+    border:1px solid var(--border);border-radius:var(--card-radius);overflow:hidden}
+  .gyik-kerdesek li + li{border-top:1px solid var(--border)}
+  .gyik-kerdes{
+    display:flex;gap:var(--space-16);align-items:center;width:100%;
+    padding:var(--space-16);border:0;border-left:3px solid transparent;
+    background:none;color:var(--text-secondary);cursor:pointer;text-align:left;font:inherit;
+    transition:background var(--dur-ui) var(--ease-out);
+  }
+  .gyik-kerdes:hover{background:var(--surface)}
+  .gyik-kerdes:focus-visible{outline:3px solid var(--button-focus);outline-offset:-3px}
+  .gyik-kerdes-szam{display:grid;place-items:center;flex:none;
+    width:var(--space-32);height:var(--space-32);border-radius:50%;
+    border:1px solid var(--border);color:var(--text-tertiary)}
+  .gyik-kerdes[aria-selected="true"]{background:var(--surface);border-left-color:var(--primary)}
+  .gyik-kerdes[aria-selected="true"] .gyik-kerdes-szam{background:var(--color-forest,#133216);
+    border-color:transparent;color:var(--color-stardust,#FAFAFA)}
+  .gyik-kerdes[aria-selected="true"] .gyik-kerdes-szoveg{color:var(--text-primary)}
+
+  .gyik-valaszok{border:1px solid var(--border);border-radius:var(--card-radius);
+    padding:var(--space-32)}
+  .gyik-valasz{animation:folyamat-be var(--dur-ui) var(--ease-out)}
+  .gyik-valasz-cim{display:flex;gap:var(--space-16);align-items:flex-start;
+    color:var(--text-primary);margin-bottom:var(--space-16);text-wrap:balance}
+  .gyik-valasz-szam{display:grid;place-items:center;flex:none;
+    width:var(--space-32);height:var(--space-32);border-radius:50%;
+    background:var(--color-forest,#133216);color:var(--color-stardust,#FAFAFA);
+    font-family:var(--font-body);font-size:var(--type-ui-subtitle-size);margin-top:.15em}
+  .gyik-valasz-szoveg{color:var(--text-secondary);margin-bottom:var(--space-32)}
+  .gyik-tovabb{display:flex;gap:var(--space-16);align-items:center;
+    padding:var(--space-24);border:1px solid var(--border);border-radius:var(--card-radius);
+    text-decoration:none;transition:border-color var(--dur-ui) var(--ease-out),background var(--dur-ui) var(--ease-out)}
+  .gyik-tovabb:hover{border-color:var(--primary);background:var(--surface)}
+  .gyik-tovabb:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
+  .gyik-tovabb-nyil{flex:none;color:var(--text-primary);font-size:1.25rem}
+  .gyik-tovabb-cimke{display:block;color:var(--text-primary);text-decoration:underline;
+    text-underline-offset:.18em}
+  .gyik-tovabb-alcim{display:block;color:var(--text-tertiary)}
+
   /* ===== 5.18 Szolgáltatási folyamat — lépéssor (ÚJ) ===== */
   /* A lépéssor burkolója: a sín és a panelek együtt. */
   .folyamat{display:block}
@@ -1264,7 +1391,30 @@
      csak a szín hordozza, hanem az aria-expanded is. */
   .folyamat-gomb[aria-expanded="true"] .folyamat-korong{
     background:var(--surface-muted);border-color:var(--primary);color:var(--text-primary);
+    /* A kiválasztott korong megnő és gyűrűt kap: a váltás így akkor is
+       látszik, ha a felhasználó nem különbözteti meg a színeket. */
+    transform:scale(1.12);
+    box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 22%,transparent);
   }
+  /* Az ikon a váltás pillanatában elfordul egy keveset — jelzi, hogy a lenti
+     panel is kicserélődött. */
+  .folyamat-gomb[aria-expanded="true"] .folyamat-korong .icon{
+    animation:lepes-ikon var(--dur-ui) var(--ease-out);
+  }
+  @keyframes lepes-ikon{from{transform:rotate(-12deg) scale(.82);opacity:.4}to{transform:none;opacity:1}}
+  /* Csökkentett mozgás mellett a nagyítás és a forgás elmarad; a gyűrű és a
+     szín marad, tehát az állapot továbbra is látszik. */
+  @media (prefers-reduced-motion:reduce){
+    .folyamat-gomb[aria-expanded="true"] .folyamat-korong{transform:none}
+    .folyamat-gomb[aria-expanded="true"] .folyamat-korong .icon{animation:none}
+  }
+  /* A sín kitöltése a kiválasztott lépésig — a haladás így vizuálisan is
+     követhető, nem csak a sorszámból derül ki. */
+  .folyamat-korong::after{
+    content:"";position:absolute;inset:-1px;border-radius:50%;
+    border:1px solid transparent;transition:border-color var(--dur-ui) var(--ease-out);
+  }
+  .folyamat-korong{position:relative}
   .folyamat-gomb[aria-expanded="true"] .folyamat-szam,
   .folyamat-gomb[aria-expanded="true"] .folyamat-cimke{color:var(--text-primary)}
 
@@ -2118,6 +2268,11 @@
     .projekt-racs{grid-template-columns:repeat(2,minmax(0,1fr))}
     /* Hat lépés egy sorban tableten olvashatatlan címkéket adna. */
     .folyamat-sin{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:var(--space-24)}
+    .konz-fo{grid-template-columns:minmax(0,1fr)}
+    .konz-bemutat{grid-template-columns:minmax(0,4fr) minmax(0,8fr)}
+    .utana-sin{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--space-32)}
+    .utana-sin::before{display:none}
+    .gyik-oszlopok{grid-template-columns:minmax(0,1fr)}
     .folyamat-sin::before{display:none}
     .folyamat-panelek{margin-left:0}
     .velemeny-keret{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
@@ -2193,6 +2348,15 @@
     .ofc-cards{grid-template-columns:minmax(0,1fr)}
     .projekt-racs{grid-template-columns:minmax(0,1fr)}
     .folyamat-sin{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .konz-pontok{grid-template-columns:minmax(0,1fr)}
+    .konz-pont + .konz-pont{border-left:0;border-top:1px solid var(--border);
+      padding-left:0;padding-top:var(--space-24)}
+    .konz-bemutat{grid-template-columns:minmax(0,1fr)}
+    .utana-sin{grid-template-columns:minmax(0,1fr)}
+    .gyik-fulek{flex-direction:column}
+    .gyik-ful{border-right:0;border-bottom:1px solid var(--border);border-left:3px solid transparent}
+    .gyik-ful[aria-selected="true"]{border-left-color:var(--primary);border-bottom-color:var(--border)}
+    .gyik-valaszok{padding:var(--space-16)}
     .folyamat-panelek{padding-left:var(--space-16)}
     .velemeny-doboz{padding-left:var(--space-16)}
     .ofc-panel,.ofc-compare{padding:var(--space-16)}

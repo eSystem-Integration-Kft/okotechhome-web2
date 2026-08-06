@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=48">
+<link rel="stylesheet" href="assets/css/app.css?v=50">
 <link rel="preload" as="image" media="(min-width: 1025px)" href="assets/img/hero-rendszer-allokep.webp"
       imagesrcset="assets/img/hero-rendszer-allokep-1024.webp 1024w, assets/img/hero-rendszer-allokep.webp 1600w"
       imagesizes="100vw">
@@ -1461,7 +1461,7 @@
                     aria-expanded="true" aria-controls="lepes-1">
               <span class="type-data-value folyamat-szam">01</span>
               <span class="folyamat-korong" aria-hidden="true">
-                <span class="icon icon-inline icon-badge-size icon-nav-felmeres"></span>
+                <span class="icon icon-inline icon-badge-size icon-lepes-telekadat"></span>
               </span>
               <span class="type-ui-subtitle folyamat-cimke">Projektadatok és telekadottságok</span>
             </button>
@@ -1471,7 +1471,7 @@
                     aria-expanded="false" aria-controls="lepes-2">
               <span class="type-data-value folyamat-szam">02</span>
               <span class="folyamat-korong" aria-hidden="true">
-                <span class="icon icon-inline icon-badge-size icon-nav-terheles"></span>
+                <span class="icon icon-inline icon-badge-size icon-lepes-meretezes"></span>
               </span>
               <span class="type-ui-subtitle folyamat-cimke">Méretezés és technológia</span>
             </button>
@@ -1481,7 +1481,7 @@
                     aria-expanded="false" aria-controls="lepes-3">
               <span class="type-data-value folyamat-szam">03</span>
               <span class="folyamat-korong" aria-hidden="true">
-                <span class="icon icon-inline icon-badge-size icon-nav-engedely"></span>
+                <span class="icon icon-inline icon-badge-size icon-lepes-dokumentum"></span>
               </span>
               <span class="type-ui-subtitle folyamat-cimke">Dokumentáció és engedélyezési háttér</span>
             </button>
@@ -1491,7 +1491,7 @@
                     aria-expanded="false" aria-controls="lepes-4">
               <span class="type-data-value folyamat-szam">04</span>
               <span class="folyamat-korong" aria-hidden="true">
-                <span class="icon icon-inline icon-badge-size icon-nav-telepites"></span>
+                <span class="icon icon-inline icon-badge-size icon-lepes-telepites"></span>
               </span>
               <span class="type-ui-subtitle folyamat-cimke">Gyártás és telepítés</span>
             </button>
@@ -1501,7 +1501,7 @@
                     aria-expanded="false" aria-controls="lepes-5">
               <span class="type-data-value folyamat-szam">05</span>
               <span class="folyamat-korong" aria-hidden="true">
-                <span class="icon icon-inline icon-badge-size icon-nav-inditas"></span>
+                <span class="icon icon-inline icon-badge-size icon-lepes-beuzemeles"></span>
               </span>
               <span class="type-ui-subtitle folyamat-cimke">Beüzemelés és használat</span>
             </button>
@@ -1511,102 +1511,21 @@
                     aria-expanded="false" aria-controls="lepes-6">
               <span class="type-data-value folyamat-szam">06</span>
               <span class="folyamat-korong" aria-hidden="true">
-                <span class="icon icon-inline icon-badge-size icon-nav-szerviz"></span>
+                <span class="icon icon-inline icon-badge-size icon-lepes-karbantartas"></span>
               </span>
               <span class="type-ui-subtitle folyamat-cimke">Karbantartás, szerviz és hosszú távú támogatás</span>
             </button>
           </li>
         </ol>
         <div class="folyamat-panelek">
-        <div class="folyamat-panel" id="lepes-1" data-folyamat-panel="1">
-          <h3 class="type-display-highlight-title folyamat-cim">
-            <span class="folyamat-cim-szam">01</span> · Projektadatok és telekadottságok
-          </h3>
-          <ul class="folyamat-lista" role="list">
-            <li class="type-ui-body">csőkivezetés, lejtés</li>
-            <li class="type-ui-body">talaj és talajvíz</li>
-            <li class="type-ui-body">elszivárogtatás</li>
-            <li class="type-ui-body">gépi hozzáférés a telken</li>
-          </ul>
-          <p class="folyamat-dol">
-            <strong class="type-ui-card-title">Itt dől el:</strong>
-            <span class="type-ui-body">milyen kialakítás jöhet szóba az adott ingatlanon.</span>
-          </p>
-        </div>
-        <div class="folyamat-panel" id="lepes-2" data-folyamat-panel="2" hidden>
-          <h3 class="type-display-highlight-title folyamat-cim">
-            <span class="folyamat-cim-szam">02</span> · Méretezés és technológia
-          </h3>
-          <ul class="folyamat-lista" role="list">
-            <li class="type-ui-body">állandó lakóház vagy nyaraló</li>
-            <li class="type-ui-body">meglévő emésztő kiváltása</li>
-            <li class="type-ui-body">nagyobb terhelésű ingatlan</li>
-          </ul>
-          <p class="folyamat-dol">
-            <strong class="type-ui-card-title">Itt dől el:</strong>
-            <span class="type-ui-body">az A.B. Clear biológiai szennyvíztisztító, az Epureco oldómedence vagy egy nagyobb kapacitású rendszer illik-e a helyzethez.</span>
-          </p>
-        </div>
-        <div class="folyamat-panel" id="lepes-3" data-folyamat-panel="3" hidden>
-          <h3 class="type-display-highlight-title folyamat-cim">
-            <span class="folyamat-cim-szam">03</span> · Dokumentáció és engedélyezési háttér
-          </h3>
-          <ul class="folyamat-lista" role="list">
-            <li class="type-ui-body">EN 12566-3 szerinti minősítés</li>
-            <li class="type-ui-body">műszaki adatok és helyszínrajz</li>
-            <li class="type-ui-body">a kezelt víz elhelyezése</li>
-            <li class="type-ui-body">hatósági kérdések</li>
-          </ul>
-          <p class="folyamat-dol">
-            <strong class="type-ui-card-title">Itt dől el:</strong>
-            <span class="type-ui-body">milyen dokumentációval és milyen eljárással érdemes továbbmenni.</span>
-          </p>
-        </div>
-        <div class="folyamat-panel" id="lepes-4" data-folyamat-panel="4" hidden>
-          <h3 class="type-display-highlight-title folyamat-cim">
-            <span class="folyamat-cim-szam">04</span> · Gyártás és telepítés
-          </h3>
-          <ul class="folyamat-lista" role="list">
-            <li class="type-ui-body">magyarországi gyártás</li>
-            <li class="type-ui-body">saját fejlesztésű rendszerek</li>
-            <li class="type-ui-body">telepítési tapasztalat csatorna nélküli ingatlanokon</li>
-          </ul>
-          <p class="folyamat-dol">
-            <strong class="type-ui-card-title">Itt dől el:</strong>
-            <span class="type-ui-body">hogyan lesz a tervből működő berendezés.</span>
-          </p>
-        </div>
-        <div class="folyamat-panel" id="lepes-5" data-folyamat-panel="5" hidden>
-          <h3 class="type-display-highlight-title folyamat-cim">
-            <span class="folyamat-cim-szam">05</span> · Beüzemelés és használat
-          </h3>
-          <ul class="folyamat-lista" role="list">
-            <li class="type-ui-body">átadás és működési tudnivalók</li>
-            <li class="type-ui-body">tisztítószerek</li>
-            <li class="type-ui-body">az iszapzsák kezelése</li>
-            <li class="type-ui-body">szaghatás, kompresszor</li>
-          </ul>
-          <p class="folyamat-dol">
-            <strong class="type-ui-card-title">Itt dől el:</strong>
-            <span class="type-ui-body">mit kell tudnia a tulajdonosnak a mindennapi használatról.</span>
-          </p>
-        </div>
-        <div class="folyamat-panel" id="lepes-6" data-folyamat-panel="6" hidden>
-          <h3 class="type-display-highlight-title folyamat-cim">
-            <span class="folyamat-cim-szam">06</span> · Karbantartás, szerviz és hosszú távú támogatás
-          </h3>
-          <ul class="folyamat-lista" role="list">
-            <li class="type-ui-body">rendszeres ellenőrzés</li>
-            <li class="type-ui-body">membráncsere, kompresszor</li>
-            <li class="type-ui-body">iszapzsák</li>
-            <li class="type-ui-body">dokumentáció és karbantartási emlékeztető</li>
-            <li class="type-ui-body">hibajelzés és szervizháttér</li>
-          </ul>
-          <p class="folyamat-dol">
-            <strong class="type-ui-card-title">Itt dől el:</strong>
-            <span class="type-ui-body">hogyan marad a rendszer hosszú távon üzembiztos.</span>
-          </p>
-        </div>
+
+        <!-- JOGI JÓVÁHAGYÁSRA VÁR — NEM PUBLIKÁLHATÓ: „Van csatorna az utcánkban. Választhatok mégis egyedi szennyvízkezelést?"
+             A szövegforrás maga jelöli: „[Jogi ellenőrzés szükséges a végleges
+             megfogalmazás előtt.]" A válasz a rákötési kötelezettséget és a
+             talajterhelési díjat értelmezi — jogszabály-értelmezés, téves
+             megfogalmazás esetén a látogatót téves döntéshez vezetheti.
+             A kész szöveg a scripts/oldalgyartas/szekcio13_15.py fájlban áll;
+             a GYIK-sor `True` értékét `False`-ra váltva publikálható. -->
         </div>
       </div>
     </div>
@@ -1628,59 +1547,97 @@
         </p>
       </header>
 
-      <div class="split">
-        <div class="split-col">
-          <ul class="fit-list" role="list">
-          <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>Műszaki irány</strong> — reális-e az adott helyzetben a biológiai szennyvíztisztító, az oldómedence vagy más kialakítás. Azt is megmondjuk, ha az Ön ingatlanán nem a mi rendszerünk a megfelelő megoldás.</span></li>
-          <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>Tisztázandó pontok</strong> — mely telekadatok, engedélyezési kérdések vagy helyszíni adottságok befolyásolják a döntést.</span></li>
-          <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>Következő lépés</strong> — elég-e további adatot bekérni, szükséges-e helyszíni felmérés, vagy már előkészíthető az ajánlat.</span></li>
+      <div class="konz-fo">
+        <div class="konz-bal">
+          <ul class="konz-pontok" role="list">
+          <li class="konz-pont">
+            <span class="konz-pont-ikon" aria-hidden="true">
+              <span class="icon icon-inline icon-badge-size icon-nav-iranytu"></span>
+            </span>
+            <h3 class="type-ui-card-title konz-pont-cim">Műszaki irány</h3>
+            <p class="type-ui-body konz-pont-szoveg">Reális-e az adott helyzetben a biológiai szennyvíztisztító, az oldómedence vagy más kialakítás. Azt is megmondjuk, ha az Ön ingatlanán nem a mi rendszerünk a megfelelő megoldás.</p>
+          </li>
+          <li class="konz-pont">
+            <span class="konz-pont-ikon" aria-hidden="true">
+              <span class="icon icon-inline icon-badge-size icon-nav-ellenorzes"></span>
+            </span>
+            <h3 class="type-ui-card-title konz-pont-cim">Tisztázandó pontok</h3>
+            <p class="type-ui-body konz-pont-szoveg">Mely telekadatok, engedélyezési kérdések vagy helyszíni adottságok befolyásolják a döntést.</p>
+          </li>
+          <li class="konz-pont">
+            <span class="konz-pont-ikon" aria-hidden="true">
+              <span class="icon icon-inline icon-badge-size icon-nav-inditas"></span>
+            </span>
+            <h3 class="type-ui-card-title konz-pont-cim">Következő lépés</h3>
+            <p class="type-ui-body konz-pont-szoveg">Elég-e további adatot bekérni, szükséges-e helyszíni felmérés, vagy már előkészíthető az ajánlat.</p>
+          </li>
           </ul>
 
           <p class="konz-akcio">
-            <a class="btn btn-primary" href="kapcsolat">Előzetes egyeztetést kérek</a>
+            <a class="btn btn-primary" href="kapcsolat">
+              <span class="action-arrow" aria-hidden="true">&rarr;</span>Előzetes egyeztetést kérek
+            </a>
           </p>
-          <p class="type-ui-subtitle konz-tel">
-            <a href="tel:+3633200211">+36 33 200 211</a> — 2004 óta ugyanezen a számon.
-          </p>
-          <p class="type-ui-caption konz-keznel">
-            <strong>Hasznos, ha kéznél van:</strong> helyrajzi szám, helyszínrajz vagy tervrajz,
-            a meglévő emésztő adatai, fotók a telekről, korábbi ajánlatok.
+
+          <p class="konz-tel">
+            <span class="konz-tel-ikon" aria-hidden="true">
+              <span class="icon icon-inline icon-inline-lg icon-telefon"></span>
+            </span>
+            <span>
+              <a class="type-ui-card-title konz-tel-szam" href="tel:+3633200211">+36 33 200 211</a>
+              <span class="type-ui-caption konz-tel-alatt">— 2004 óta ugyanezen a számon.</span>
+            </span>
           </p>
         </div>
 
-        <aside class="split-card konz-bemutat" aria-labelledby="konz-nev">
-          <p class="type-ui-card-title konz-nev" id="konz-nev">Krasznói Anna</p>
-          <p class="type-ui-subtitle konz-titulus">ügyvezető, társalapító · ÖkoTech-Home Kft.</p>
-          <p class="type-ui-body konz-bio">
-            Közgazdász, korábban banki kockázatkezelési vezető. A szennyvíztisztítást azóta is
-            így nézi: beruházási, engedélyezési és üzemeltetési döntésként, nem csak műszaki
-            kérdésként. A cég első berendezése a saját telkükre épült, ahová a szippantóautó
-            sem jutott fel.
-          </p>
-          <!-- ADATHIÁNY: portréfotó Krasznói Annáról — ügyféltől kérendő. -->
+        <aside class="konz-bemutat" aria-labelledby="konz-nev">
+          <figure class="konz-foto">
+            <img src="assets/img/krasznoi-anna.webp" width="640" height="962"
+                 alt="Krasznói Anna, az ÖkoTech-Home Kft. ügyvezetője" loading="lazy" decoding="async">
+          </figure>
+          <div class="konz-bemutat-torzs">
+            <p class="type-display-highlight-title konz-nev" id="konz-nev">Krasznói Anna</p>
+            <p class="type-ui-subtitle konz-titulus">ügyvezető, társalapító · ÖkoTech-Home Kft.</p>
+            <p class="type-ui-body konz-bio">
+              Közgazdász, korábban banki kockázatkezelési vezető. A szennyvíztisztítást azóta is
+              így nézi: beruházási, engedélyezési és üzemeltetési döntésként, nem csak műszaki
+              kérdésként.
+            </p>
+            <p class="type-ui-body konz-bio">
+              A cég első berendezése a saját telkükre épült, ahová a szippantóautó sem jutott fel.
+            </p>
+          </div>
         </aside>
       </div>
 
-      <div class="konz-utana">
-        <h3 class="type-ui-card-title konz-utana-cim">Mi történik a jelentkezés után?</h3>
-        <ul class="numbered-grid" role="list">
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">1</span>
-          <p class="type-ui-body card-text">Elküldi az alapadatokat: a telek, a használat, a meglévő rendszer és az elérhető dokumentumok adatait.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">2</span>
-          <p class="type-ui-body card-text">Átnézzük, mi tisztázható előzetesen: a műszaki irányt, a hiányzó adatokat, az engedélyezési kérdéseket.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">3</span>
-          <p class="type-ui-body card-text">Egyeztetünk a következő lépésről: további adatbekérés, helyszíni felmérés vagy ajánlat-előkészítés.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">4</span>
-          <p class="type-ui-body card-text">Ajánlatot csak tisztázott adatok alapján készítünk. Automatikus értékesítési folyamat nem indul.</p>
-        </li>
-        </ul>
+      <p class="konz-keznel">
+        <span class="konz-keznel-ikon" aria-hidden="true">
+          <span class="icon icon-inline icon-inline-lg icon-dokumentum"></span>
+        </span>
+        <span class="type-ui-body"><strong>Hasznos, ha kéznél van:</strong> helyrajzi szám,
+          helyszínrajz vagy tervrajz, a meglévő emésztő adatai, fotók a telekről, korábbi ajánlatok.</span>
+      </p>
+
+      <div class="utana">
+        <h3 class="type-display-highlight-title utana-cim">Mi történik a jelentkezés után?</h3>
+        <ol class="utana-sin" role="list">
+          <li class="utana-lepes">
+            <span class="utana-szam type-ui-card-title" aria-hidden="true">1</span>
+            <p class="type-ui-subtitle utana-szoveg"><strong>Elküldi az alapadatokat:</strong> a telek, a használat, a meglévő rendszer és az elérhető dokumentumok adatait.</p>
+          </li>
+          <li class="utana-lepes">
+            <span class="utana-szam type-ui-card-title" aria-hidden="true">2</span>
+            <p class="type-ui-subtitle utana-szoveg"><strong>Átnézzük, mi tisztázható előzetesen:</strong> a műszaki irányt, a hiányzó adatokat, az engedélyezési kérdéseket.</p>
+          </li>
+          <li class="utana-lepes">
+            <span class="utana-szam type-ui-card-title" aria-hidden="true">3</span>
+            <p class="type-ui-subtitle utana-szoveg"><strong>Egyeztetünk a következő lépésről:</strong> további adatbekérés, helyszíni felmérés vagy ajánlat-előkészítés.</p>
+          </li>
+          <li class="utana-lepes">
+            <span class="utana-szam type-ui-card-title" aria-hidden="true">4</span>
+            <p class="type-ui-subtitle utana-szoveg"><strong>Ajánlatot csak tisztázott adatok alapján készítünk.</strong> Automatikus értékesítési folyamat nem indul.</p>
+          </li>
+        </ol>
       </div>
     </div>
   </section>
@@ -1703,144 +1660,372 @@
         </p>
       </header>
 
-      <div class="gyik-csoport">
-        <h3 class="type-ui-card-title gyik-csoport-cim">Engedélyezés és telekalkalmasság</h3>
-        <div class="faq">
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell engedély a házi szennyvíztisztító telepítéséhez?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Az engedélyezés menete településenként eltérhet. Van, ahol egyszerűbb bejelentés elegendő, máshol részletesebb vízjogi vagy hatósági eljárás szükséges. Az első lépés mindig ugyanaz: tisztázni kell a helyi előírásokat, a kezelt víz elhelyezését és a telek adottságait.</p>
-            <p class="faq-tovabb"><a class="text-link" href="tudastar/engedelyezes-es-megfeleloseg"><span class="link-label">Az engedélyezés menete<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
+      <div class="gyik" data-gyik>
+        <div class="gyik-fulek" role="tablist" aria-label="Kérdéskörök">
+            <button type="button" role="tab" class="gyik-ful type-ui-body"
+                    id="ful-1" data-gyik-ful="1" aria-selected="true" aria-controls="gyik-1"
+                    tabindex="0">Engedélyezés és telekalkalmasság</button>
+            <button type="button" role="tab" class="gyik-ful type-ui-body"
+                    id="ful-2" data-gyik-ful="2" aria-selected="false" aria-controls="gyik-2"
+                    tabindex="-1">Technológia és használat</button>
+            <button type="button" role="tab" class="gyik-ful type-ui-body"
+                    id="ful-3" data-gyik-ful="3" aria-selected="false" aria-controls="gyik-3"
+                    tabindex="-1">Üzemeltetés</button>
+            <button type="button" role="tab" class="gyik-ful type-ui-body"
+                    id="ful-4" data-gyik-ful="4" aria-selected="false" aria-controls="gyik-4"
+                    tabindex="-1">Ár és ajánlat</button>
+            <button type="button" role="tab" class="gyik-ful type-ui-body"
+                    id="ful-5" data-gyik-ful="5" aria-selected="false" aria-controls="gyik-5"
+                    tabindex="-1">Következő lépés</button>
+        </div>
+        <div class="gyik-tabla" id="gyik-1" role="tabpanel"
+             aria-labelledby="ful-1" data-gyik-tabla="1">
+          <div class="gyik-oszlopok">
+            <ul class="gyik-kerdesek" role="list">
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-1" aria-selected="true"
+                        aria-controls="valasz-1-1">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Kell engedély a házi szennyvíztisztító telepítéséhez?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-2" aria-selected="false"
+                        aria-controls="valasz-1-2">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Mitől függ, hogy telepíthető-e szennyvíztisztító az adott telken?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-3" aria-selected="false"
+                        aria-controls="valasz-1-3">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">3</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Magas talajvíznél is telepíthető biológiai szennyvíztisztító?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-4" aria-selected="false"
+                        aria-controls="valasz-1-4">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">4</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Hová kerül a tisztított víz?</span>
+                </button>
+              </li>
+            </ul>
+            <div class="gyik-valaszok">
+            <article class="gyik-valasz" id="valasz-1-1"
+                     data-gyik-valasz="1-1">
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">1</span>Kell engedély a házi szennyvíztisztító telepítéséhez?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Az engedélyezés menete településenként eltérhet. Van, ahol egyszerűbb bejelentés elegendő, máshol részletesebb vízjogi vagy hatósági eljárás szükséges. Az első lépés mindig ugyanaz: tisztázni kell a helyi előírásokat, a kezelt víz elhelyezését és a telek adottságait.</p>
+              <a class="gyik-tovabb" href="tudastar/engedelyezes-es-megfeleloseg">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Az engedélyezés menete</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Részletes útmutató a hatósági eljárás lépéseiről.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-1-2"
+                     data-gyik-valasz="1-2" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">2</span>Mitől függ, hogy telepíthető-e szennyvíztisztító az adott telken?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Elsősorban a kezelt víz elhelyezésétől, a talaj szikkasztóképességétől, a talajvízszinttől, a csőkivezetés mélységétől és a helyi előírásoktól. Nem elég azt tudni, van-e hely a tartálynak. Azt is látni kell, hová kerül a víz.</p>
+              <a class="gyik-tovabb" href="projekt-elokeszites/telekalkalmassag">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Telek-alkalmassági ellenőrzés</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Mit kell megnézni a telken a döntés előtt.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-1-3"
+                     data-gyik-valasz="1-3" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">3</span>Magas talajvíznél is telepíthető biológiai szennyvíztisztító?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">A magas talajvíz nem feltétlenül kizáró ok, de külön műszaki kialakítást igényelhet. Ilyenkor a tartály védelmét és a kezelt víz elhelyezését külön kell megtervezni.</p>
+              <a class="gyik-tovabb" href="tudastar/telek-talaj-es-viz">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Magas talajvíz és betonmedencés telepítés</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Mikor kell eltérő műszaki kialakítás.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-1-4"
+                     data-gyik-valasz="1-4" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">4</span>Hová kerül a tisztított víz?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Jellemzően telken belüli elszivárogtatással vagy gyökérzónás hasznosítással kerül vissza a környezetbe. A feltételeket a talaj, a talajvíz, a helyi előírások és a választott technológia együtt határozzák meg.</p>
+              <a class="gyik-tovabb" href="projekt-elokeszites/tisztitott-viz-elhelyezese">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">A tisztított víz elszivárogtatása</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Hová kerülhet a kezelt víz, és milyen feltételekkel.</span>
+                </span>
+              </a>
+            </article>
+            </div>
           </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Mitől függ, hogy telepíthető-e szennyvíztisztító az adott telken?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Elsősorban a kezelt víz elhelyezésétől, a talaj szikkasztóképességétől, a talajvízszinttől, a csőkivezetés mélységétől és a helyi előírásoktól. Nem elég azt tudni, van-e hely a tartálynak. Azt is látni kell, hová kerül a víz.</p>
-            <p class="faq-tovabb"><a class="text-link" href="projekt-elokeszites/telekalkalmassag"><span class="link-label">Telek-alkalmassági ellenőrzés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
+        </div>
+        <div class="gyik-tabla" id="gyik-2" role="tabpanel"
+             aria-labelledby="ful-2" data-gyik-tabla="2" hidden>
+          <div class="gyik-oszlopok">
+            <ul class="gyik-kerdesek" role="list">
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-1" aria-selected="true"
+                        aria-controls="valasz-2-1">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Mi a különbség a zárt tároló, az oldómedence és a biológiai szennyvíztisztító között?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-2" aria-selected="false"
+                        aria-controls="valasz-2-2">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Nyaralóhoz vagy időszakos használathoz jó a biológiai szennyvíztisztító?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-3" aria-selected="false"
+                        aria-controls="valasz-2-3">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">3</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Mi történik a régi emésztővel, ha biológiai szennyvíztisztítóra váltunk?</span>
+                </button>
+              </li>
+            </ul>
+            <div class="gyik-valaszok">
+            <article class="gyik-valasz" id="valasz-2-1"
+                     data-gyik-valasz="2-1">
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">1</span>Mi a különbség a zárt tároló, az oldómedence és a biológiai szennyvíztisztító között?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">A zárt tároló gyűjti a szennyvizet, ezért rendszeres szippantást igényel. Az oldómedence ülepít és részlegesen kezel. A biológiai szennyvíztisztító ténylegesen biológiai tisztítást végez, amelynek végén tisztított víz távozik.</p>
+              <a class="gyik-tovabb" href="megoldasok/">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">A technológiák összehasonlítása</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Zárt tároló, oldómedence és biológiai rendszer egymás mellett.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-2-2"
+                     data-gyik-valasz="2-2" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">2</span>Nyaralóhoz vagy időszakos használathoz jó a biológiai szennyvíztisztító?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Nem minden esetben. A baktériumkultúra rendszeres terhelés mellett működik a legjobban. Időszakos használatnál külön kell vizsgálni, hogy a biológiai szennyvíztisztító, az oldómedence vagy más megoldás illik-e az ingatlanhoz.</p>
+              <a class="gyik-tovabb" href="helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Időszakos használat és technológiaválasztás</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Nyaraló és szezonális ingatlan: melyik megoldás való oda.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-2-3"
+                     data-gyik-valasz="2-3" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">3</span>Mi történik a régi emésztővel, ha biológiai szennyvíztisztítóra váltunk?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">A meglévő emésztőt szakszerűen kell kezelni: kiürítés, megszüntetés, betömedékelés vagy más funkcióra alakítás merülhet fel. Ezt a telepítés előtt kell tisztázni, mert a régi rendszer helye és állapota a kivitelezést is befolyásolja.</p>
+              <a class="gyik-tovabb" href="helyzetem/meglevo-emesztot-szeretnek-kivaltani">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Emésztő kiváltása</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Mikor indokolt a csere, és mi lesz a régi rendszerrel.</span>
+                </span>
+              </a>
+            </article>
+            </div>
           </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Magas talajvíznél is telepíthető biológiai szennyvíztisztító?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">A magas talajvíz nem feltétlenül kizáró ok, de külön műszaki kialakítást igényelhet. Ilyenkor a tartály védelmét és a kezelt víz elhelyezését külön kell megtervezni.</p>
-            <p class="faq-tovabb"><a class="text-link" href="tudastar/telek-talaj-es-viz"><span class="link-label">Magas talajvíz és betonmedencés telepítés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
+        </div>
+        <div class="gyik-tabla" id="gyik-3" role="tabpanel"
+             aria-labelledby="ful-3" data-gyik-tabla="3" hidden>
+          <div class="gyik-oszlopok">
+            <ul class="gyik-kerdesek" role="list">
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-1" aria-selected="true"
+                        aria-controls="valasz-3-1">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Kell szippantani az A.B. Clear biológiai szennyvíztisztítót?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-2" aria-selected="false"
+                        aria-controls="valasz-3-2">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Van szaga a biológiai szennyvíztisztítónak?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-3" aria-selected="false"
+                        aria-controls="valasz-3-3">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">3</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Kell baktériumot, tablettát vagy adalékanyagot adagolni?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-4" aria-selected="false"
+                        aria-controls="valasz-3-4">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">4</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Miből áll az éves üzemeltetési költség?</span>
+                </button>
+              </li>
+            </ul>
+            <div class="gyik-valaszok">
+            <article class="gyik-valasz" id="valasz-3-1"
+                     data-gyik-valasz="3-1">
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">1</span>Kell szippantani az A.B. Clear biológiai szennyvíztisztítót?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Nem. Az iszapzsákos technológia miatt a rendszer nem igényel rendszeres szippantást. A tisztítás során keletkező fölösiszap zsákban gyűlik, víztelenített formában kivehető, majd komposztálható.</p>
+              <a class="gyik-tovabb" href="megoldasok/biologiai-szennyviztisztitas">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Az iszapzsákos technológia</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Hogyan működik szippantás nélkül.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-3-2"
+                     data-gyik-valasz="3-2" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">2</span>Van szaga a biológiai szennyvíztisztítónak?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Megfelelő működés mellett nincs szaghatás. A biológiai tisztítás levegőztetett folyamat, nem rothasztásra épül. Az erős szag jellemzően hibára, túlterhelésre vagy karbantartási problémára utal.</p>
+              <a class="gyik-tovabb" href="tudastar/uzemeltetes-es-hibamegelozes">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Szaghatás és karbantartás</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Mit jelez a szag, és mit kell tenni.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-3-3"
+                     data-gyik-valasz="3-3" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">3</span>Kell baktériumot, tablettát vagy adalékanyagot adagolni?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Az A.B. Clear rendszerben a baktériumkultúra önfenntartó, a beérkező szennyvíz táplálja. Normál használat mellett nincs szükség baktériumtablettára, porra vagy más adalékanyagra.</p>
+              <a class="gyik-tovabb" href="tudastar/uzemeltetes-es-hibamegelozes">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Mit szabad és mit nem szabad a rendszerbe juttatni?</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">A mindennapi használat szabályai.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-3-4"
+                     data-gyik-valasz="3-4" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">4</span>Miből áll az éves üzemeltetési költség?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">A technológiától függ. Zárt tárolónál a fő tétel a szippantás. Biológiai rendszereknél áramfogyasztás, alkatrészcsere, karbantartás és iszapkezelés merülhet fel. Az A.B. Clear esetében nincs rendszeres szippantás és nincs adalékanyag, ezért az éves költség jobban tervezhető.</p>
+              <a class="gyik-tovabb" href="#uzemeltetes-cim">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Üzemeltetés és hosszú távú költség</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Az éves tételek technológiánként.</span>
+                </span>
+              </a>
+            </article>
+            </div>
           </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Hová kerül a tisztított víz?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Jellemzően telken belüli elszivárogtatással vagy gyökérzónás hasznosítással kerül vissza a környezetbe. A feltételeket a talaj, a talajvíz, a helyi előírások és a választott technológia együtt határozzák meg.</p>
-            <p class="faq-tovabb"><a class="text-link" href="projekt-elokeszites/tisztitott-viz-elhelyezese"><span class="link-label">A tisztított víz elszivárogtatása<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
+        </div>
+        <div class="gyik-tabla" id="gyik-4" role="tabpanel"
+             aria-labelledby="ful-4" data-gyik-tabla="4" hidden>
+          <div class="gyik-oszlopok">
+            <ul class="gyik-kerdesek" role="list">
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="4-1" aria-selected="true"
+                        aria-controls="valasz-4-1">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Miért nem adható pontos ár telefonon vagy néhány adat alapján?</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="4-2" aria-selected="false"
+                        aria-controls="valasz-4-2">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Mire érdemes figyelni, ha már van ajánlatom?</span>
+                </button>
+              </li>
+            </ul>
+            <div class="gyik-valaszok">
+            <article class="gyik-valasz" id="valasz-4-1"
+                     data-gyik-valasz="4-1">
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">1</span>Miért nem adható pontos ár telefonon vagy néhány adat alapján?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">A végleges ár nem csak a berendezéstől függ. Számít a kapacitás, a földmunka, a telek hozzáférhetősége, a csőkivezetés mélysége, a talajvíz, a kezelt víz elhelyezése, és az is, ki végzi a telepítést. Pontos ajánlatot ezért csak az ingatlan adatainak ismeretében lehet adni.</p>
+              <a class="gyik-tovabb" href="#ai-dontestamogato">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Előzetes ársáv kalkulátor</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Néhány kérdés alapján nagyságrendi tartomány.</span>
+                </span>
+              </a>
+            </article>
+            <article class="gyik-valasz" id="valasz-4-2"
+                     data-gyik-valasz="4-2" hidden>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">2</span>Mire érdemes figyelni, ha már van ajánlatom?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Ellenőrizze, mire terjed ki az ajánlat: csak a berendezésre, vagy tartalmazza a telepítést, a földmunkát, a kezelt víz elhelyezését, az engedélyezési dokumentációt, a beüzemelést és a szervizhátteret is. A hiányzó tételek később külön költségként jelenhetnek meg.</p>
+              <a class="gyik-tovabb" href="#ajanlat-osszehasonlito">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Ajánlat-ellenőrző</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Mire terjed ki az ajánlat, és mi hiányzik belőle.</span>
+                </span>
+              </a>
+            </article>
+            </div>
           </div>
-        </details>
-
-        <!-- JOGI JÓVÁHAGYÁSRA VÁR — NEM PUBLIKÁLHATÓ:
-             „Van csatorna az utcánkban. Választhatok mégis egyedi szennyvízkezelést?"
-             A szövegforrás maga jelöli: „[Jogi ellenőrzés szükséges a
-             végleges megfogalmazás előtt.]" A válasz a rákötési
-             kötelezettséget és a talajterhelési díjat értelmezi —
-             jogszabály-értelmezés, téves megfogalmazás esetén a
-             látogatót téves döntéshez vezetheti. A kész szöveg a
-             scripts/oldalgyartas/szekcio13_15.py fájlban áll; a
-             GYIK-sorban a `True` `False`-ra váltásával publikálható,
-             amint a jogi jóváhagyás megvan. -->
+        </div>
+        <div class="gyik-tabla" id="gyik-5" role="tabpanel"
+             aria-labelledby="ful-5" data-gyik-tabla="5" hidden>
+          <div class="gyik-oszlopok">
+            <ul class="gyik-kerdesek" role="list">
+              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="5-1" aria-selected="true"
+                        aria-controls="valasz-5-1">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">Kell helyszíni felmérés az első egyeztetéshez?</span>
+                </button>
+              </li>
+            </ul>
+            <div class="gyik-valaszok">
+            <article class="gyik-valasz" id="valasz-5-1"
+                     data-gyik-valasz="5-1">
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">1</span>Kell helyszíni felmérés az első egyeztetéshez?
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">Nem feltétlenül. Sok esetben a telek alapadataiból, a használat módjából, a meglévő rendszerből és a rendelkezésre álló rajzokból már látszik, milyen irányba érdemes továbbmenni. Helyszíni felmérésre akkor van szükség, ha a műszaki vagy engedélyezési kérdések ezt indokolják.</p>
+              <a class="gyik-tovabb" href="kapcsolat">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">Előzetes szakmai egyeztetés</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">Elköteleződés nélküli első beszélgetés.</span>
+                </span>
+              </a>
+            </article>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="gyik-csoport">
-        <h3 class="type-ui-card-title gyik-csoport-cim">Technológia és használat</h3>
-        <div class="faq">
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Mi a különbség a zárt tároló, az oldómedence és a biológiai szennyvíztisztító között?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">A zárt tároló gyűjti a szennyvizet, ezért rendszeres szippantást igényel. Az oldómedence ülepít és részlegesen kezel. A biológiai szennyvíztisztító ténylegesen biológiai tisztítást végez, amelynek végén tisztított víz távozik.</p>
-            <p class="faq-tovabb"><a class="text-link" href="megoldasok/"><span class="link-label">A technológiák összehasonlítása<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Nyaralóhoz vagy időszakos használathoz jó a biológiai szennyvíztisztító?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Nem minden esetben. A baktériumkultúra rendszeres terhelés mellett működik a legjobban. Időszakos használatnál külön kell vizsgálni, hogy a biológiai szennyvíztisztító, az oldómedence vagy más megoldás illik-e az ingatlanhoz.</p>
-            <p class="faq-tovabb"><a class="text-link" href="helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan"><span class="link-label">Időszakos használat és technológiaválasztás<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Mi történik a régi emésztővel, ha biológiai szennyvíztisztítóra váltunk?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">A meglévő emésztőt szakszerűen kell kezelni: kiürítés, megszüntetés, betömedékelés vagy más funkcióra alakítás merülhet fel. Ezt a telepítés előtt kell tisztázni, mert a régi rendszer helye és állapota a kivitelezést is befolyásolja.</p>
-            <p class="faq-tovabb"><a class="text-link" href="helyzetem/meglevo-emesztot-szeretnek-kivaltani"><span class="link-label">Emésztő kiváltása<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        </div>
-      </div>
-
-      <div class="gyik-csoport">
-        <h3 class="type-ui-card-title gyik-csoport-cim">Üzemeltetés</h3>
-        <div class="faq">
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell szippantani az A.B. Clear biológiai szennyvíztisztítót?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Nem. Az iszapzsákos technológia miatt a rendszer nem igényel rendszeres szippantást. A tisztítás során keletkező fölösiszap zsákban gyűlik, víztelenített formában kivehető, majd komposztálható.</p>
-            <p class="faq-tovabb"><a class="text-link" href="megoldasok/biologiai-szennyviztisztitas"><span class="link-label">Az iszapzsákos technológia<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Van szaga a biológiai szennyvíztisztítónak?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Megfelelő működés mellett nincs szaghatás. A biológiai tisztítás levegőztetett folyamat, nem rothasztásra épül. Az erős szag jellemzően hibára, túlterhelésre vagy karbantartási problémára utal.</p>
-            <p class="faq-tovabb"><a class="text-link" href="tudastar/uzemeltetes-es-hibamegelozes"><span class="link-label">Szaghatás és karbantartás<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell baktériumot, tablettát vagy adalékanyagot adagolni?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Az A.B. Clear rendszerben a baktériumkultúra önfenntartó, a beérkező szennyvíz táplálja. Normál használat mellett nincs szükség baktériumtablettára, porra vagy más adalékanyagra.</p>
-            <p class="faq-tovabb"><a class="text-link" href="tudastar/uzemeltetes-es-hibamegelozes"><span class="link-label">Mit szabad és mit nem szabad a rendszerbe juttatni?<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Miből áll az éves üzemeltetési költség?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">A technológiától függ. Zárt tárolónál a fő tétel a szippantás. Biológiai rendszereknél áramfogyasztás, alkatrészcsere, karbantartás és iszapkezelés merülhet fel. Az A.B. Clear esetében nincs rendszeres szippantás és nincs adalékanyag, ezért az éves költség jobban tervezhető.</p>
-            <p class="faq-tovabb"><a class="text-link" href="#uzemeltetes-cim"><span class="link-label">Üzemeltetés és hosszú távú költség<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        </div>
-      </div>
-
-      <div class="gyik-csoport">
-        <h3 class="type-ui-card-title gyik-csoport-cim">Ár és ajánlat</h3>
-        <div class="faq">
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Miért nem adható pontos ár telefonon vagy néhány adat alapján?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">A végleges ár nem csak a berendezéstől függ. Számít a kapacitás, a földmunka, a telek hozzáférhetősége, a csőkivezetés mélysége, a talajvíz, a kezelt víz elhelyezése, és az is, ki végzi a telepítést. Pontos ajánlatot ezért csak az ingatlan adatainak ismeretében lehet adni.</p>
-            <p class="faq-tovabb"><a class="text-link" href="#ai-dontestamogato"><span class="link-label">Előzetes ársáv kalkulátor<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Mire érdemes figyelni, ha már van ajánlatom?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Ellenőrizze, mire terjed ki az ajánlat: csak a berendezésre, vagy tartalmazza a telepítést, a földmunkát, a kezelt víz elhelyezését, az engedélyezési dokumentációt, a beüzemelést és a szervizhátteret is. A hiányzó tételek később külön költségként jelenhetnek meg.</p>
-            <p class="faq-tovabb"><a class="text-link" href="#ajanlat-osszehasonlito"><span class="link-label">Ajánlat-ellenőrző<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        </div>
-      </div>
-
-      <div class="gyik-csoport">
-        <h3 class="type-ui-card-title gyik-csoport-cim">Következő lépés</h3>
-        <div class="faq">
-        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell helyszíni felmérés az első egyeztetéshez?</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">Nem feltétlenül. Sok esetben a telek alapadataiból, a használat módjából, a meglévő rendszerből és a rendelkezésre álló rajzokból már látszik, milyen irányba érdemes továbbmenni. Helyszíni felmérésre akkor van szükség, ha a műszaki vagy engedélyezési kérdések ezt indokolják.</p>
-            <p class="faq-tovabb"><a class="text-link" href="kapcsolat"><span class="link-label">Előzetes szakmai egyeztetés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
-          </div>
-        </details>
-        </div>
-      </div>
+        <!-- JOGI JÓVÁHAGYÁSRA VÁR — NEM PUBLIKÁLHATÓ: „Van csatorna az utcánkban. Választhatok mégis egyedi szennyvízkezelést?"
+             A szövegforrás maga jelöli: „[Jogi ellenőrzés szükséges a végleges
+             megfogalmazás előtt.]" A válasz a rákötési kötelezettséget és a
+             talajterhelési díjat értelmezi — jogszabály-értelmezés, téves
+             megfogalmazás esetén a látogatót téves döntéshez vezetheti.
+             A kész szöveg a scripts/oldalgyartas/szekcio13_15.py fájlban áll;
+             a GYIK-sor `True` értékét `False`-ra váltva publikálható. -->
 
     </div>
   </section>
@@ -1855,6 +2040,7 @@
 <script src="assets/js/ofc.js?v=1" defer></script>
 <script src="assets/js/velemeny.js?v=1" defer></script>
 <script src="assets/js/folyamat.js?v=1" defer></script>
+<script src="assets/js/gyik.js?v=1" defer></script>
 
 <script type="application/ld+json">
 {

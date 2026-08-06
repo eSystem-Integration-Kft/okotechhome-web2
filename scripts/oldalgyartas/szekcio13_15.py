@@ -16,32 +16,33 @@ import pathlib, re, sys, html as _h
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 
 WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
+ALCIM = {'Az engedélyezés menete': 'Részletes útmutató a hatósági eljárás lépéseiről.', 'Telek-alkalmassági ellenőrzés': 'Mit kell megnézni a telken a döntés előtt.', 'Magas talajvíz és betonmedencés telepítés': 'Mikor kell eltérő műszaki kialakítás.', 'A tisztított víz elszivárogtatása': 'Hová kerülhet a kezelt víz, és milyen feltételekkel.', 'A technológiák összehasonlítása': 'Zárt tároló, oldómedence és biológiai rendszer egymás mellett.', 'Időszakos használat és technológiaválasztás': 'Nyaraló és szezonális ingatlan: melyik megoldás való oda.', 'Emésztő kiváltása': 'Mikor indokolt a csere, és mi lesz a régi rendszerrel.', 'Az iszapzsákos technológia': 'Hogyan működik szippantás nélkül.', 'Szaghatás és karbantartás': 'Mit jelez a szag, és mit kell tenni.', 'Mit szabad és mit nem szabad a rendszerbe juttatni?': 'A mindennapi használat szabályai.', 'Üzemeltetés és hosszú távú költség': 'Az éves tételek technológiánként.', 'Előzetes ársáv kalkulátor': 'Néhány kérdés alapján nagyságrendi tartomány.', 'Ajánlat-ellenőrző': 'Mire terjed ki az ajánlat, és mi hiányzik belőle.', 'Előzetes szakmai egyeztetés': 'Elköteleződés nélküli első beszélgetés.'}
 esc = lambda s: _h.escape(s, quote=False)
 
 # ------------------------------------------------------------------ 13.
 LEPESEK = [
-    ('nav-felmeres', 'Projektadatok és telekadottságok',
+    ('lepes-telekadat', 'Projektadatok és telekadottságok',
      ['csőkivezetés, lejtés', 'talaj és talajvíz', 'elszivárogtatás',
       'gépi hozzáférés a telken'],
      'milyen kialakítás jöhet szóba az adott ingatlanon.'),
-    ('nav-terheles', 'Méretezés és technológia',
+    ('lepes-meretezes', 'Méretezés és technológia',
      ['állandó lakóház vagy nyaraló', 'meglévő emésztő kiváltása',
       'nagyobb terhelésű ingatlan'],
      'az A.B. Clear biológiai szennyvíztisztító, az Epureco oldómedence vagy egy nagyobb '
      'kapacitású rendszer illik-e a helyzethez.'),
-    ('nav-engedely', 'Dokumentáció és engedélyezési háttér',
+    ('lepes-dokumentum', 'Dokumentáció és engedélyezési háttér',
      ['EN 12566-3 szerinti minősítés', 'műszaki adatok és helyszínrajz',
       'a kezelt víz elhelyezése', 'hatósági kérdések'],
      'milyen dokumentációval és milyen eljárással érdemes továbbmenni.'),
-    ('nav-telepites', 'Gyártás és telepítés',
+    ('lepes-telepites', 'Gyártás és telepítés',
      ['magyarországi gyártás', 'saját fejlesztésű rendszerek',
       'telepítési tapasztalat csatorna nélküli ingatlanokon'],
      'hogyan lesz a tervből működő berendezés.'),
-    ('nav-inditas', 'Beüzemelés és használat',
+    ('lepes-beuzemeles', 'Beüzemelés és használat',
      ['átadás és működési tudnivalók', 'tisztítószerek',
       'az iszapzsák kezelése', 'szaghatás, kompresszor'],
      'mit kell tudnia a tulajdonosnak a mindennapi használatról.'),
-    ('nav-szerviz', 'Karbantartás, szerviz és hosszú távú támogatás',
+    ('lepes-karbantartas', 'Karbantartás, szerviz és hosszú távú támogatás',
      ['rendszeres ellenőrzés', 'membráncsere, kompresszor', 'iszapzsák',
       'dokumentáció és karbantartási emlékeztető', 'hibajelzés és szervizháttér'],
      'hogyan marad a rendszer hosszú távon üzembiztos.'),
@@ -49,25 +50,25 @@ LEPESEK = [
 
 # ------------------------------------------------------------------ 14.
 TISZTAZ = [
-    ('Műszaki irány',
+    ('nav-iranytu', 'Műszaki irány',
      'reális-e az adott helyzetben a biológiai szennyvíztisztító, az oldómedence vagy más '
      'kialakítás. Azt is megmondjuk, ha az Ön ingatlanán nem a mi rendszerünk a megfelelő '
      'megoldás.'),
-    ('Tisztázandó pontok',
+    ('nav-ellenorzes', 'Tisztázandó pontok',
      'mely telekadatok, engedélyezési kérdések vagy helyszíni adottságok befolyásolják a döntést.'),
-    ('Következő lépés',
+    ('nav-inditas', 'Következő lépés',
      'elég-e további adatot bekérni, szükséges-e helyszíni felmérés, vagy már előkészíthető '
      'az ajánlat.'),
 ]
 UTANA = [
-    'Elküldi az alapadatokat: a telek, a használat, a meglévő rendszer és az elérhető '
-    'dokumentumok adatait.',
-    'Átnézzük, mi tisztázható előzetesen: a műszaki irányt, a hiányzó adatokat, az '
-    'engedélyezési kérdéseket.',
-    'Egyeztetünk a következő lépésről: további adatbekérés, helyszíni felmérés vagy '
-    'ajánlat-előkészítés.',
-    'Ajánlatot csak tisztázott adatok alapján készítünk. Automatikus értékesítési folyamat '
-    'nem indul.',
+    ('Elküldi az alapadatokat:',
+     'a telek, a használat, a meglévő rendszer és az elérhető dokumentumok adatait.'),
+    ('Átnézzük, mi tisztázható előzetesen:',
+     'a műszaki irányt, a hiányzó adatokat, az engedélyezési kérdéseket.'),
+    ('Egyeztetünk a következő lépésről:',
+     'további adatbekérés, helyszíni felmérés vagy ajánlat-előkészítés.'),
+    ('Ajánlatot csak tisztázott adatok alapján készítünk.',
+     'Automatikus értékesítési folyamat nem indul.'),
 ]
 
 # ------------------------------------------------------------------ 15.
@@ -186,14 +187,18 @@ def epit():
           </p>
         </div>''' for i, (_, cim, tetelek, dol) in enumerate(LEPESEK, 1))
 
-    tisztaz = '\n'.join(f'''          <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span>'''
-                        f'''<span class="fit-text"><strong>{esc(c)}</strong> — {esc(t)}</span></li>'''
-                        for c, t in TISZTAZ)
+    tisztaz = '\n'.join(f'''          <li class="konz-pont">
+            <span class="konz-pont-ikon" aria-hidden="true">
+              <span class="icon icon-inline icon-badge-size icon-{ik}"></span>
+            </span>
+            <h3 class="type-ui-card-title konz-pont-cim">{esc(c)}</h3>
+            <p class="type-ui-body konz-pont-szoveg">{esc(t[0].upper() + t[1:])}</p>
+          </li>''' for ik, c, t in TISZTAZ)
 
-    utana = '\n'.join(f'''        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">{i}</span>
-          <p class="type-ui-body card-text">{esc(t)}</p>
-        </li>''' for i, t in enumerate(UTANA, 1))
+    utana = '\n'.join(f'''          <li class="utana-lepes">
+            <span class="utana-szam type-ui-card-title" aria-hidden="true">{i}</span>
+            <p class="type-ui-subtitle utana-szoveg"><strong>{esc(a)}</strong> {esc(b)}</p>
+          </li>''' for i, (a, b) in enumerate(UTANA, 1))
 
     # --- GYIK csoportonként ---
     csoportok, sorrend = {}, []
@@ -202,36 +207,70 @@ def epit():
             csoportok[cs] = []; sorrend.append(cs)
         csoportok[cs].append((k, v, cimke, cel, jogi))
 
-    gyik = ''
-    for cs in sorrend:
-        tetelek = ''
-        for k, v, cimke, cel, jogi in csoportok[cs]:
+    fulek, listak, panelek = [], [], ''
+    for ci, cs in enumerate(sorrend, 1):
+        akt = ' aria-selected="true"' if ci == 1 else ' aria-selected="false"'
+        rejt = '' if ci == 1 else ' hidden'
+        fulek.append(f'''            <button type="button" role="tab" class="gyik-ful type-ui-body"
+                    id="ful-{ci}" data-gyik-ful="{ci}"{akt} aria-controls="gyik-{ci}"
+                    tabindex="{0 if ci == 1 else -1}">{esc(cs)}</button>''')
+
+        sorok, valaszok = [], []
+        for qi, (k, v, cimke, cel, jogi) in enumerate(csoportok[cs], 1):
             if jogi:
-                tetelek += (f'\n        <!-- JOGI JÓVÁHAGYÁSRA VÁR — NEM PUBLIKÁLHATÓ:\n'
-                            f'             „{k}"\n'
-                            f'             A szövegforrás maga jelöli: „[Jogi ellenőrzés szükséges a\n'
-                            f'             végleges megfogalmazás előtt.]" A válasz a rákötési\n'
-                            f'             kötelezettséget és a talajterhelési díjat értelmezi —\n'
-                            f'             jogszabály-értelmezés, téves megfogalmazás esetén a\n'
-                            f'             látogatót téves döntéshez vezetheti. A kész szöveg a\n'
-                            f'             scripts/oldalgyartas/szekcio13_15.py fájlban áll; a\n'
-                            f'             GYIK-sorban a `True` `False`-ra váltásával publikálható,\n'
-                            f'             amint a jogi jóváhagyás megvan. -->\n')
+                panelek += (f'''
+        <!-- JOGI JÓVÁHAGYÁSRA VÁR — NEM PUBLIKÁLHATÓ: „{k}"
+             A szövegforrás maga jelöli: „[Jogi ellenőrzés szükséges a végleges
+             megfogalmazás előtt.]" A válasz a rákötési kötelezettséget és a
+             talajterhelési díjat értelmezi — jogszabály-értelmezés, téves
+             megfogalmazás esetén a látogatót téves döntéshez vezetheti.
+             A kész szöveg a scripts/oldalgyartas/szekcio13_15.py fájlban áll;
+             a GYIK-sor `True` értékét `False`-ra váltva publikálható. -->''')
                 continue
-            tetelek += f'''        <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">{esc(k)}</summary>
-          <div class="faq-a">
-            <p class="type-ui-body">{esc(v)}</p>
-            <p class="faq-tovabb"><a class="text-link" href="{cel}"><span class="link-label">{esc(cimke)}<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
+            kv = f'{ci}-{qi}'
+            aktk = ' aria-selected="true"' if qi == 1 else ' aria-selected="false"'
+            sorok.append(f'''              <li>
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="{kv}"{aktk}
+                        aria-controls="valasz-{kv}">
+                  <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">{qi}</span>
+                  <span class="type-ui-body gyik-kerdes-szoveg">{esc(k)}</span>
+                </button>
+              </li>''')
+            valaszok.append(f'''            <article class="gyik-valasz" id="valasz-{kv}"
+                     data-gyik-valasz="{kv}"{'' if qi == 1 else ' hidden'}>
+              <h4 class="type-display-highlight-title gyik-valasz-cim">
+                <span class="gyik-valasz-szam" aria-hidden="true">{qi}</span>{esc(k)}
+              </h4>
+              <p class="type-ui-body gyik-valasz-szoveg">{esc(v)}</p>
+              <a class="gyik-tovabb" href="{cel}">
+                <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
+                <span>
+                  <span class="type-ui-card-title gyik-tovabb-cimke">{esc(cimke)}</span>
+                  <span class="type-ui-subtitle gyik-tovabb-alcim">{esc(ALCIM.get(cimke, ''))}</span>
+                </span>
+              </a>
+            </article>''')
+
+        listak.append(f'''        <div class="gyik-tabla" id="gyik-{ci}" role="tabpanel"
+             aria-labelledby="ful-{ci}" data-gyik-tabla="{ci}"{rejt}>
+          <div class="gyik-oszlopok">
+            <ul class="gyik-kerdesek" role="list">
+{chr(10).join(sorok)}
+            </ul>
+            <div class="gyik-valaszok">
+{chr(10).join(valaszok)}
+            </div>
           </div>
-        </details>
-'''
-        gyik += f'''
-      <div class="gyik-csoport">
-        <h3 class="type-ui-card-title gyik-csoport-cim">{esc(cs)}</h3>
-        <div class="faq">
-{tetelek}        </div>
+        </div>''')
+
+    gyik = f'''
+      <div class="gyik" data-gyik>
+        <div class="gyik-fulek" role="tablist" aria-label="Kérdéskörök">
+{chr(10).join(fulek)}
+        </div>
+{chr(10).join(listak)}
       </div>
+{panelek}
 '''
 
     return f'''
@@ -280,42 +319,62 @@ def epit():
         </p>
       </header>
 
-      <div class="split">
-        <div class="split-col">
-          <ul class="fit-list" role="list">
+      <div class="konz-fo">
+        <div class="konz-bal">
+          <ul class="konz-pontok" role="list">
 {tisztaz}
           </ul>
 
           <p class="konz-akcio">
-            <a class="btn btn-primary" href="kapcsolat">Előzetes egyeztetést kérek</a>
+            <a class="btn btn-primary" href="kapcsolat">
+              <span class="action-arrow" aria-hidden="true">&rarr;</span>Előzetes egyeztetést kérek
+            </a>
           </p>
-          <p class="type-ui-subtitle konz-tel">
-            <a href="tel:+3633200211">+36 33 200 211</a> — 2004 óta ugyanezen a számon.
-          </p>
-          <p class="type-ui-caption konz-keznel">
-            <strong>Hasznos, ha kéznél van:</strong> helyrajzi szám, helyszínrajz vagy tervrajz,
-            a meglévő emésztő adatai, fotók a telekről, korábbi ajánlatok.
+
+          <p class="konz-tel">
+            <span class="konz-tel-ikon" aria-hidden="true">
+              <span class="icon icon-inline icon-inline-lg icon-telefon"></span>
+            </span>
+            <span>
+              <a class="type-ui-card-title konz-tel-szam" href="tel:+3633200211">+36 33 200 211</a>
+              <span class="type-ui-caption konz-tel-alatt">— 2004 óta ugyanezen a számon.</span>
+            </span>
           </p>
         </div>
 
-        <aside class="split-card konz-bemutat" aria-labelledby="konz-nev">
-          <p class="type-ui-card-title konz-nev" id="konz-nev">Krasznói Anna</p>
-          <p class="type-ui-subtitle konz-titulus">ügyvezető, társalapító · ÖkoTech-Home Kft.</p>
-          <p class="type-ui-body konz-bio">
-            Közgazdász, korábban banki kockázatkezelési vezető. A szennyvíztisztítást azóta is
-            így nézi: beruházási, engedélyezési és üzemeltetési döntésként, nem csak műszaki
-            kérdésként. A cég első berendezése a saját telkükre épült, ahová a szippantóautó
-            sem jutott fel.
-          </p>
-          <!-- ADATHIÁNY: portréfotó Krasznói Annáról — ügyféltől kérendő. -->
+        <aside class="konz-bemutat" aria-labelledby="konz-nev">
+          <figure class="konz-foto">
+            <img src="assets/img/krasznoi-anna.webp" width="640" height="962"
+                 alt="Krasznói Anna, az ÖkoTech-Home Kft. ügyvezetője" loading="lazy" decoding="async">
+          </figure>
+          <div class="konz-bemutat-torzs">
+            <p class="type-display-highlight-title konz-nev" id="konz-nev">Krasznói Anna</p>
+            <p class="type-ui-subtitle konz-titulus">ügyvezető, társalapító · ÖkoTech-Home Kft.</p>
+            <p class="type-ui-body konz-bio">
+              Közgazdász, korábban banki kockázatkezelési vezető. A szennyvíztisztítást azóta is
+              így nézi: beruházási, engedélyezési és üzemeltetési döntésként, nem csak műszaki
+              kérdésként.
+            </p>
+            <p class="type-ui-body konz-bio">
+              A cég első berendezése a saját telkükre épült, ahová a szippantóautó sem jutott fel.
+            </p>
+          </div>
         </aside>
       </div>
 
-      <div class="konz-utana">
-        <h3 class="type-ui-card-title konz-utana-cim">Mi történik a jelentkezés után?</h3>
-        <ul class="numbered-grid" role="list">
+      <p class="konz-keznel">
+        <span class="konz-keznel-ikon" aria-hidden="true">
+          <span class="icon icon-inline icon-inline-lg icon-dokumentum"></span>
+        </span>
+        <span class="type-ui-body"><strong>Hasznos, ha kéznél van:</strong> helyrajzi szám,
+          helyszínrajz vagy tervrajz, a meglévő emésztő adatai, fotók a telekről, korábbi ajánlatok.</span>
+      </p>
+
+      <div class="utana">
+        <h3 class="type-display-highlight-title utana-cim">Mi történik a jelentkezés után?</h3>
+        <ol class="utana-sin" role="list">
 {utana}
-        </ul>
+        </ol>
       </div>
     </div>
   </section>
