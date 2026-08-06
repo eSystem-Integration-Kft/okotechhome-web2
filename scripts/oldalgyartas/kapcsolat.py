@@ -160,40 +160,78 @@ FORM = '''
 
 SECTIONS.append(FORM)
 TERKEP = '''
-  <section class="section" aria-labelledby="terkep-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Elérhetőség</p>
-        <h2 class="type-display-section-title section-title" id="terkep-cim">Elérhetőség és megközelítés</h2>
-      </header>
-      <p class="type-ui-body section-lead"><strong>ÖkoTech Home</strong> — {cim}</p>
-      <p class="type-ui-body section-lead">Telefon: <a href="{tel_href}">{tel}</a> ·
-        E-mail: <a href="mailto:{mail}">{mail}</a></p>
-      <p class="type-ui-body section-lead">A helyszíni felmérésre az ország egész területén
-        vállalkozunk. A látogatás időpontját előre egyeztetjük, és előtte átküldjük, mit
-        érdemes hozzá előkészíteni.</p>
-    </div>
-  </section>
+  <!-- ==========================================================================
+       ELÉRHETŐSÉG — a térkép a TELJES SZÉLESSÉGŰ háttér, az adatok pedig egy
+       lebegő kártyán ülnek fölötte, bal oldalon. Korábban a szöveg külön
+       szekcióban állt a térkép FÖLÖTT: két blokk mondta ugyanazt egymás után,
+       és a térképnek csak a maradék hely jutott. Egyben tartva a szakasz
+       rövidebb, a térkép pedig másfélszer magasabb lehet.
 
-  <!-- A térkép TELJES SZÉLESSÉGŰ, a két széle a lap hátterébe fakul.
-       A Google Térkép ALAPÉRTELMEZÉSBEN töltődik be — a cég döntése, a
-       cookie-tájékoztató és az adatkezelési tájékoztató fedi le.
+       A kártya SZÁNDÉKOSAN nem ér le a térkép aljáig: a bal alsó sarokban a
+       Google logója, a jobb alsóban a térképadat-jelzés áll — ezek eltakarása
+       a beágyazás felhasználási feltételeibe ütközne.
 
+       A Google Térkép ALAPÉRTELMEZÉSBEN töltődik be — a cég döntése.
        ADATVÉDELMI KÖTELEZETTSÉG: a beágyazás sütit tesz le és elküldi a
        látogató IP-jét a Google-nek. Ezt a cookie-tájékoztatóban nevesíteni
        kell (harmadik féltől származó süti, cél, adatkezelő), és a
        cookie-hozzájárulásnak ki kell terjednie rá. Amíg ezek nem élnek, ez
-       nyitott megfelelőségi pont. -->
+       nyitott megfelelőségi pont.
+  =========================================================================== -->
   <section class="terkep" aria-labelledby="terkep-cim">
-    <iframe class="terkep-beagyazott"
-            title="ÖkoTech Home — 2509 Esztergom, Strázsa u. 12. a Google Térképen"
-            src="https://www.google.com/maps?q={terkep_q}&amp;z=16&amp;hl=hu&amp;output=embed"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen></iframe>
-    <span class="terkep-fade" aria-hidden="true"></span>
+    <div class="terkep-inner">
+      <article class="terkep-kartya">
+        <p class="type-data-eyebrow terkep-eyebrow">Elérhetőség</p>
+        <h2 class="type-display-section-title terkep-cim" id="terkep-cim">Elérhetőség és megközelítés</h2>
+
+        <ul class="terkep-adatok" role="list">
+          <li class="terkep-adat">
+            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5s7-6.6 7-11.5a7 7 0 1 0-14 0c0 4.9 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+            <span class="type-ui-body terkep-adat-szoveg"><strong>ÖkoTech Home</strong><br>{cim}</span>
+          </li>
+          <li class="terkep-adat">
+            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 3h3.1l1.5 4-2 1.4a12.5 12.5 0 0 0 5.6 5.6L16 12l4 1.5v3.1a2 2 0 0 1-2.2 2A16.4 16.4 0 0 1 4 6.2 2 2 0 0 1 6 3z"/></svg></span>
+            <span class="type-ui-body terkep-adat-szoveg"><a href="{tel_href}">{tel}</a></span>
+          </li>
+          <li class="terkep-adat">
+            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <span class="type-ui-body terkep-adat-szoveg"><a href="mailto:{mail}">{mail}</a></span>
+          </li>
+        </ul>
+
+        <p class="type-ui-body terkep-megjegyzes">A helyszíni felmérésre az ország egész
+          területén vállalkozunk. A látogatás időpontját előre egyeztetjük, és előtte
+          átküldjük, mit érdemes hozzá előkészíteni.</p>
+
+        <p>
+          <a class="btn btn-secondary terkep-utvonal"
+             href="https://www.google.com/maps/dir/?api=1&amp;destination={terkep_cel}"
+             target="_blank" rel="noopener noreferrer">Útvonaltervezés<span
+             class="terkep-utvonal-jel" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg></span><span
+             class="visually-hidden"> — a Google Térképen, új lapon nyílik</span></a>
+        </p>
+      </article>
+    </div>
+
+    <div class="terkep-vaszon">
+      <iframe class="terkep-beagyazott"
+              title="ÖkoTech Home — {cim} a Google Térképen"
+              src="https://www.google.com/maps?q={terkep_q}&amp;z=16&amp;hl=hu&amp;output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+      <span class="terkep-fade" aria-hidden="true"></span>
+
+      <!-- Saját jelölés a Google gombostűje fölött. `aria-hidden`: a címet a
+           kártya már kimondja, ez vizuális kiemelés, nem új információ. -->
+      <span class="terkep-jeloles" aria-hidden="true">
+        <img src="assets/img/logo-okotechhome.svg" width="928" height="290"
+             alt="" loading="lazy" decoding="async">
+      </span>
+    </div>
   </section>
 '''.format(tel_href=TEL_HREF, tel=TEL, mail=MAIL, cim=CIM,
-        terkep_q='2509+Esztergom%2C+Str%C3%A1zsa+u.+12.')
+        terkep_q='2509+Esztergom%2C+Str%C3%A1zsa+u.+12.',
+        terkep_cel='2509%20Esztergom%2C%20Str%C3%A1zsa%20u.%2012.')
 SECTIONS.append(TERKEP)
 SECTIONS.append(sec_faq([
     ('Mennyi idő alatt kapok választ?',

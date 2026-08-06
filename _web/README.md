@@ -25,6 +25,19 @@ látogató IP-jét a Google-nek, ezért a **cookie-tájékoztatóban nevesíteni
 terjednie rá. Amíg ezek nem élnek, ez nyitott pont — a beágyazás a
 `kapcsolat.html` `.terkep` szekciójában van.
 
+**Második nyitott megfelelőségi pont: a hivatkozások aláhúzása.** A hivatkozások
+alapállapotban aláhúzás nélkül állnak (`a{text-decoration:none}`), egérrel és
+billentyűzet-fókuszban aláhúzottak. Ez a **különálló** hivatkozásoknál (telefon,
+e-mail, menü, kártyacím) rendben van. A **folyószövegbe ágyazott** hivatkozásnál a
+WCAG 2.2 1.4.1 nem-szín alapú megkülönböztetést vár: a linkszín (`--link`, `#2F6F82`)
+és a törzsszöveg (`--text-primary`, `#133216`) kontrasztja **2,49:1**, ami a 3:1 alatt
+van, tehát ott formailag hiányosság. Világos háttéren ez nem is oldható meg pusztán
+színnel: a 3:1 a szöveghez és a 4,5:1 a háttérhez egyszerre nem teljesíthető.
+Ha az EAA-megfelelés élesben követelmény, a folyószövegbe ágyazott linkeknél
+vissza kell tenni egy vékony aláhúzást — egyetlen szabály az `app.css` `@layer base`
+blokkjában: `p a,li a{text-decoration:underline;text-decoration-thickness:1px;
+text-underline-offset:.18em}`.
+
 **Miért három réteg.** Önmagában a `robots.txt` nem elég: az URL link alapján akkor is
 indexelődhet, tartalom nélkül. Az `X-Robots-Tag` fejléc a valódi tiltás, a `<meta>` pedig
 akkor is véd, ha a fájl olyan szerverre kerül, ahol a `.htaccess` nem érvényesül.

@@ -37,6 +37,20 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **Kapcsolat — elérhetőségi kártya a térkép fölött.** A korábbi két blokk (szöveges
+  „Elérhetőség és megközelítés" szekció, alatta a térképsáv) egyetlen sávvá vonva:
+  a Google Térkép a teljes szélességű háttér, az adatok egy lebegő kártyán ülnek
+  fölötte a bal oldalon. A rétegezés griddel megy — mindkét réteg ugyanabba a cellába
+  kerül —, ezért a sáv magassága a magasabbhoz igazodik: nagyobb betűméretnél a
+  kártya nem lóg ki, a térkép nő vele. Mobilon nincs átfedés, a kettő egymás alá áll.
+- **Saját térképjelölés a cég logójával.** Csücskös doboz a Google gombostűje fölött,
+  a keret közepére igazítva. A beágyazott keret ezért **nem húzható**
+  (`pointer-events:none`): egy saját réteg csak addig mond igazat, amíg a térkép
+  alatta nem mozdul el. A mozgatás útja az „Útvonaltervezés" gomb.
+- **`--shadow-3` — harmadik elevációs szint.** A lapról leváló, más tartalom fölött
+  lebegő felületekhez. Egyetlen használati helye a térkép fölötti kártya és jelölés:
+  ott a háttér nem egyszínű, hanem rajzos, és a `--shadow-2` finom pereme beleolvadt.
+
 - **„Telekvásárlás vagy új építés" hub — öt aloldal.** Alkalmas lehet-e a telek? ·
   Talaj, talajvíz és vízelhelyezés · Milyen dokumentumokra lehet szükség? ·
   Telekadat-ellenőrzőlista · Helyszíni felmérés.
@@ -175,8 +189,31 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   sablon egy meglévő aloldalból emeli ki, így a 15 példányban duplikált fejléc nem tud
   szétcsúszni, amíg nincs valódi build-lépés.
 
+### Módosítva
+
+- **A hivatkozások alapállapotban nem aláhúzottak** (`a{text-decoration:none}`), egérrel
+  és billentyűzet-fókuszban igen. A böngésző alapértelmezett aláhúzása vastag, a
+  betűtalpakat elvágó vonal, ami a felületen — ahol a linkek jellemzően külön sorban
+  álló adatok — zajnak látszott. A `:hover`/`:focus-visible` aláhúzás nem díszítés:
+  ez az egyetlen nem-szín alapú jelzés, ami a hivatkozást hivatkozásként azonosítja.
+  A **folyószövegbe ágyazott** linkeknél ez nyitott WCAG 1.4.1 pont — a linkszín és a
+  törzsszöveg kontrasztja 2,49:1, a 3:1 alatt. Részletek és a visszakapcsolás egyetlen
+  szabálya: `_web/README.md`.
+- **A beágyazott térkép tompított és márkaszínű fátylat kapott** (`saturate(.72)` +
+  a lap zöldjének 30%-os rétege), hogy háttér maradjon, és a fölötte lebegő kártya és
+  logó elváljon tőle. A fátyol maszkja az alsó sávot kihagyja: ott fut a Google logója
+  és a térképadat-jelzés, azokat sem fadelni, sem befátyolozni nem szabad.
+- **A Google saját adatlapja eltűnt a térkép bal felső sarkából.** URL-paraméterrel nem
+  kapcsolható ki, ezért a keret 120px-szel feljebb nyúlik és a sávból kivágódik. Az
+  alsó él a helyén marad, így az attribúció végig látszik.
+
 ### Javítva
 
+- **A kapcsolat oldalról hiányzott a lábléc.** A `lablec.py` a `\n<script src=` minta
+  elé szúrta be a láblécet; ezen az oldalon az utolsó elem egy beágyazott JSON-LD blokk,
+  amiben nincs `src=`, így a beszúrás NÉMÁN elmaradt — a szkript mégis sikeresnek
+  jelentette. Új tartalék a `</body>` elé, és aki így sem kap láblécet, arról a szkript
+  most nevesítve szól.
 - **A főoldal 3. szekciójának hivatkozásai** nem létező, a sitemap-en kívüli szlugokra
   mutattak (`uj-epitkezes`, `emeszto-kivaltasa`, `idoszakos-hasznalat`, `telekvasarlas`).
   Mind a négy a megfelelő `helyzetem/…` oldalra mutat. Az első oszlop

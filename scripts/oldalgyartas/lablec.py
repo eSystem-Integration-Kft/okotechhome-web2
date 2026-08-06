@@ -155,8 +155,18 @@ if __name__ == '__main__':
         uj = epit(elo)
         if '<footer class="lablec">' in s:
             s = re.sub(r'\n<!-- =+\n     LÁBLÉC.*?\n</footer>\n', uj, s, flags=re.S)
-        else:
+        elif '\n<script src=' in s:
+            # A lábléc a betöltött szkriptek ELÉ kerül — a szkriptek maradjanak
+            # a törzs végén, hogy ne blokkolják a megjelenítést.
             s = s.replace('\n<script src=', uj + '\n<script src=', 1)
+        elif '</body>' in s:
+            # Ha az oldal nem tölt be külső szkriptet (a kapcsolat oldal utolsó
+            # eleme például egy beágyazott JSON-LD blokk), a fenti minta nem
+            # illeszkedik. Enélkül az oldal NÉMÁN lábléc nélkül maradt.
+            s = s.replace('\n</body>', uj + '\n</body>', 1)
+        else:
+            print(f'  ! nem találtam beszúrási pontot: {p.relative_to(WEB)}')
+            continue
         p.write_text(s, encoding='utf-8')
         n += 1
     print(f'lábléc beírva: {n} oldal')

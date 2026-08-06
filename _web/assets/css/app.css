@@ -208,6 +208,11 @@
     /* elevation — Forest-tónusú árnyékok */
     --shadow-1:0 2px 6px -2px rgba(19,50,22,.10),0 1px 2px rgba(19,50,22,.06);
     --shadow-2:0 8px 20px -6px rgba(19,50,22,.16),0 2px 6px rgba(19,50,22,.08);
+    /* Harmadik szint — a lapról LEVÁLÓ, más tartalom fölött lebegő felület.
+       Egyetlen helye a térkép fölötti kártya és jelölés: ott a háttér nem
+       egyszínű, hanem rajzos, és a shadow-2 finom pereme beleolvadt.
+       Rendes tartalomkártyán ne használd: ott hangos lenne. */
+    --shadow-3:0 20px 44px -14px rgba(19,50,22,.30),0 6px 14px rgba(19,50,22,.14);
 
     /* =========================================================================
        ÚJ KOMPONENS-TOKENEK — a designrendszer 10. fejezete szerint ezek a
@@ -426,8 +431,19 @@
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-  a{color:var(--link)}
+  /* HIVATKOZÁSOK — alapállapotban NINCS aláhúzás, egérrel és billentyűzettel
+     megérintve van. A böngésző alapértelmezett aláhúzása vastag, a betűtalpakat
+     elvágó vonal, ami a felületen — ahol a linkek jellemzően külön sorban álló
+     adatok (telefon, e-mail, cím) — zajnak látszott.
+
+     AMIT EZ MEGKÖVETEL: a `:hover` és a `:focus-visible` aláhúzása nem díszítés,
+     hanem az egyetlen nem-szín alapú jelzés, ami a hivatkozást hivatkozásként
+     azonosítja. Ha valaha eltávolítanád, a linkeket csak a színük különböztetné
+     meg — az a WCAG 2.2 1.4.1. Lásd a `_web/README.md` megfelelőségi jegyzetét
+     a folyószövegbe ágyazott linkekről. */
+  a{color:var(--link);text-decoration:none}
   a:hover{color:var(--link-hover)}
+  a:hover,a:focus-visible{text-decoration:underline;text-underline-offset:.18em}
 
   .skip-link{
     position:absolute;left:var(--space-8);top:calc(-1 * var(--space-64));
@@ -1203,14 +1219,12 @@
 
   /* ===== 5.13 Tudástár-belépők (ÚJ) =====
      A 10. szekció témakörönként egy-egy belépőt kínál a tudástárba. A címek
-     itt HIVATKOZÁSOK, nem díszek, ezért aláhúzottak: a szekció szinte csupa
-     link, és a szín önmagában nem különböztetné meg őket (WCAG 1.4.1). Ez a
-     dokumentált kivétel a webhely aláhúzás-mentes hivatkozásai alól. */
+     itt HIVATKOZÁSOK, nem díszek — de KÜLÖNÁLLÓ hivatkozások, nem folyószövegbe
+     ágyazottak: nincs körülöttük olyan szöveg, amivel összetéveszthetők
+     lennének, ezért az alapállapotú aláhúzás elmarad (a `a{}` alapszabály
+     szerint). Egérrel és fókuszban aláhúzottak. */
   .kb-feature{margin-bottom:var(--space-48)}
-  .kb-title{
-    display:block;color:var(--link);
-    text-decoration:underline;text-underline-offset:.18em;
-  }
+  .kb-title{display:block;color:var(--link)}
   .kb-title:hover{color:var(--link-hover)}
   /* A nyíl a hivatkozás része, de nem húzzuk alá: aláhúzva vastag, elkent
      vonalkezdet lenne a szöveg előtt. */
@@ -1246,23 +1260,163 @@
 
 
 
-  /* ===== 5.21 Térkép (ÚJ) =====
-     Teljes szélességű sáv, a két széle a lap hátterébe fakulva. A beágyazott
-     Google Térkép maga központoz a címre, ezért külön jelölő nem kell. */
-  .terkep{
-    position:relative;width:100%;height:400px;overflow:hidden;
-    margin-top:var(--space-64);background:var(--canvas);
+  /* ===== 5.21 Térkép + elérhetőségi kártya (ÚJ) =====
+     A térkép a teljes szélességű HÁTTÉR, az elérhetőségi adatok egy lebegő
+     kártyán ülnek fölötte, bal oldalon. Előtte a szöveg külön szekcióban állt
+     a térkép fölött, és a fadelő réteg a Google saját adatlapját is kimosta a
+     bal felső sarokban.
+
+     Miért kártya, és miért nem áttetsző szövegsáv: a térkép sűrű, kontrasztos
+     rajz (utcanevek, POI-ikonok, vízfelület), amin a fölé írt szöveg
+     helyenként olvashatatlanná válna. A kártya saját felülete a térkép minden
+     részletén ugyanazt a kontrasztot adja.
+
+     A rétegezés GRIDDEL történik, nem abszolút pozicionálással: mindkét gyerek
+     ugyanabba a cellába kerül, így a sáv magassága a kettő közül a MAGASABBHOZ
+     igazodik. Ha a látogató nagyobb betűméretet állít be, a kártya nem lóg ki
+     a térképből — a térkép nő vele. */
+  .terkep{position:relative;display:grid;background:var(--canvas)}
+  .terkep > *{grid-area:1 / 1}                 /* a két réteg egymásra */
+
+  .terkep-vaszon{position:relative;z-index:1;min-height:600px;overflow:hidden}
+
+  /* A keret FELFELÉ nyúlik ki a sávból, és a felső 120px-e kivágódik.
+     Miért: a Google saját adatlapja a beágyazás bal felső sarkában ül,
+     ugyanazt a címet ismétli, amit a kártya, és félig a kártya alá csúszik.
+     URL-paraméterrel nem kapcsolható ki (a `iwloc=` a régi beágyazásé, ez a
+     változat üres térképet ad), ezért a látható területről vágjuk le.
+     Az ALSÓ él a sáv alsó élén marad: a Google logója és a térképadat-jelzés
+     — amit a felhasználási feltételek megkövetelnek — végig látszik.
+     Mellékhatás: a térkép középpontja 60px-szel a sáv közepe fölé kerül. Ez
+     szándékos, a jelölő így a kártya magasságában áll. */
+  .terkep-beagyazott{
+    position:absolute;top:-120px;left:0;
+    width:100%;height:calc(100% + 120px);
+    border:0;display:block;
+    pointer-events:none;                  /* lásd .terkep-jeloles indoklását */
+    /* A Google alaptérképe telített: a narancs POI-ikonok és a kék utak
+       elviszik a tekintetet a logós jelölésről. A tompítás visszaveszi a
+       színeket, hogy a térkép HÁTTÉR maradjon. Csak ennyi — erősebb szűrő
+       (szürkeárnyalat, sötétítés) már a Google jelmagyarázatát is olvashatatlanná
+       tenné, és a feliratok kontrasztját is levinné. */
+    filter:saturate(.72) contrast(.96);
   }
-  .terkep-beagyazott{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-  /* A széleket elhalványító réteg NEM foghatja el az egeret: alatta a térkép
-     görgethető és nagyítható marad. Ezért pointer-events:none. */
+
+  /* Két feladata van: a két szélet a lap hátterébe olvasztja, ÉS egy vékony
+     márkaszínű fátylat tesz az egész térképre. A fátyol a lap zöldjét viszi rá
+     — így a beágyazás nem idegen, kivágott téglalap, hanem az oldal része, és
+     a fölötte lebegő fehér kártya és logó jobban elválik tőle.
+
+     NEM foghatja el az egeret: `pointer-events:none`.
+     A maszk az ALSÓ sávot kihagyja: ott fut a Google logója és a térképadat-
+     jelzés — azokat sem fadelni, sem befátyolozni nem szabad. */
   .terkep-fade{
     position:absolute;inset:0;pointer-events:none;z-index:1;
-    background:linear-gradient(90deg,
-      var(--canvas) 0%, color-mix(in srgb,var(--canvas) 60%,transparent) 8%,
-      transparent 22%, transparent 78%,
-      color-mix(in srgb,var(--canvas) 60%,transparent) 92%, var(--canvas) 100%);
+    background:
+      linear-gradient(90deg,var(--canvas),transparent var(--space-96)),
+      linear-gradient(270deg,var(--canvas),transparent var(--space-96));
+    /* Szereptoken, nem nyers szín: sötét módban a `--surface-muted` maga is
+       sötétzöld, így a fátyol ott sötétít — ugyanaz a szándék, fordított
+       világításban. */
+    background-color:color-mix(in srgb,var(--surface-muted) 30%,transparent);
+    -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - var(--space-48)),transparent 100%);
+    mask-image:linear-gradient(180deg,#000 calc(100% - var(--space-48)),transparent 100%);
   }
+
+  /* SAJÁT JELÖLÉS — a logó a Google gombostűje fölött lebeg, csücsökkel lefelé.
+     A beágyazás a címre központoz, ezért a gombostű a keret közepén áll; a
+     keretet 120px-szel feljebb húztuk, így a sáv közepéhez képest 60px-szel
+     feljebb. A doboz ehhez a ponthoz igazodik, onnan emelkedik a gombostű fölé.
+
+     EZÉRT NEM HÚZHATÓ A TÉRKÉP (lásd .terkep-beagyazott, pointer-events:none):
+     egy saját réteg csak addig mond igazat, amíg a térkép alatta nem mozdul el.
+     Aki mozgatni akarja, az „Útvonaltervezés" gombbal a Google Térképre jut. */
+  .terkep-jeloles{
+    position:absolute;z-index:2;pointer-events:none;
+    left:50%;top:calc(50% - 60px);
+    transform:translate(-50%,calc(-100% - var(--space-48)));
+    padding:var(--space-8) var(--space-16);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r-lg);
+    box-shadow:var(--shadow-3);
+  }
+  .terkep-jeloles img{display:block;width:var(--space-128);height:auto}
+  /* A lefelé mutató csücsök: elforgatott négyzet, amiből csak a két külső éle
+     látszik — így a doboz kerete megszakítás nélkül folytatódik benne. */
+  .terkep-jeloles::after{
+    content:"";position:absolute;top:100%;left:50%;
+    width:var(--space-16);height:var(--space-16);
+    margin:calc(-1 * var(--space-8)) 0 0 calc(-1 * var(--space-8));
+    background:var(--surface);
+    border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+    transform:rotate(45deg);
+  }
+
+  /* A kártyát tartó sáv a fejléccel és a heróval AZONOS konténerben ül, így a
+     kártya bal éle egy vonalban van a logóval és a hero-szöveggel.
+     `pointer-events:none`: a kártyán KÍVÜL a térkép marad az egéré. */
+  .terkep-inner{
+    position:relative;z-index:2;align-self:center;
+    width:100%;max-width:var(--container-wide);margin-inline:auto;
+    padding:var(--space-48) var(--page-gutter);
+    pointer-events:none;
+  }
+  .terkep-kartya{
+    pointer-events:auto;
+    width:min(25rem,100%);
+    padding:var(--space-32);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r-xl);
+    box-shadow:var(--shadow-3);
+  }
+  /* Áttetszőség CSAK ott, ahol a háttér-elmosás is megvan. Enélkül a térkép
+     rajza átütne a szövegen — a kettő együtt érvényes, külön nem. */
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){
+    .terkep-kartya{
+      background:color-mix(in srgb,var(--surface) 92%,transparent);
+      -webkit-backdrop-filter:blur(12px) saturate(1.15);
+      backdrop-filter:blur(12px) saturate(1.15);
+    }
+  }
+
+  .terkep-eyebrow{color:var(--text-tertiary);margin-bottom:var(--space-8)}
+  .terkep-cim{color:var(--text-primary);text-wrap:balance;margin-bottom:var(--space-24)}
+
+  .terkep-adatok{display:grid;gap:var(--space-16);margin-bottom:var(--space-24)}
+  .terkep-adat{display:grid;grid-template-columns:auto minmax(0,1fr);
+    gap:var(--space-16);align-items:start}
+  .terkep-adat-szoveg{color:var(--text-secondary)}
+  .terkep-adat-szoveg strong{color:var(--text-primary)}
+  /* Az ikon a sor első sorával egy magasságban álljon, ne a doboz tetején:
+     a `--type-ui-body-line-height` egységnyi szorzó, ezért a betűmérettel
+     szorozva adja a sormagasságot. */
+  .terkep-ikon{
+    display:grid;place-items:center;
+    width:var(--space-32);height:var(--space-32);
+    border-radius:50%;
+    background:var(--surface-muted);color:var(--primary);
+    margin-top:calc((var(--type-ui-body-size) * var(--type-ui-body-line-height) - var(--space-32)) / 2);
+  }
+  .terkep-ikon svg{
+    width:var(--space-16);height:var(--space-16);
+    fill:none;stroke:currentColor;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+
+  .terkep-megjegyzes{color:var(--text-secondary);max-width:44ch;
+    margin-bottom:var(--space-32)}
+
+  .terkep-utvonal{display:inline-flex;align-items:center;gap:var(--space-8)}
+  .terkep-utvonal-jel{display:inline-grid;place-items:center}
+  .terkep-utvonal-jel svg{
+    width:var(--space-16);height:var(--space-16);
+    fill:none;stroke:currentColor;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+    transition:transform var(--dur-ui) var(--ease-out);
+  }
+  .terkep-utvonal:hover .terkep-utvonal-jel svg{transform:translate(2px,-2px)}
 
   /* ===== 5.20 Lábléc (ÚJ) =====
      Egy sorban: márkablokk + öt hasáb. A minta kétsoros volt; nyolc
@@ -1450,8 +1604,10 @@
   .gyik-tovabb:hover{border-color:var(--primary);background:var(--surface)}
   .gyik-tovabb:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
   .gyik-tovabb-nyil{flex:none;color:var(--text-primary);font-size:1.25rem}
-  .gyik-tovabb-cimke{display:block;color:var(--text-primary);text-decoration:underline;
-    text-underline-offset:.18em}
+  /* A címke az egész kártyát kitöltő hivatkozás felirata — a kártya kerete és
+     hover-állapota már jelzi, hogy kattintható, aláhúzás nem kell hozzá. */
+  .gyik-tovabb-cimke{display:block;color:var(--text-primary)}
+  .gyik-tovabb:hover .gyik-tovabb-cimke{text-decoration:underline;text-underline-offset:.18em}
   .gyik-tovabb-alcim{display:block;color:var(--text-tertiary)}
 
   /* ===== 5.18 Szolgáltatási folyamat — lépéssor (ÚJ) ===== */
@@ -2226,9 +2382,12 @@
   }
   .aidt-edit{
     border:0;background:none;color:var(--link);font-size:var(--type-ui-caption-size);
-    font-weight:var(--type-ui-card-title-weight);text-decoration:underline;cursor:pointer;padding:var(--space-4);
+    font-weight:var(--type-ui-card-title-weight);cursor:pointer;padding:var(--space-4);
   }
-  .aidt-edit:hover{color:var(--link-hover)}
+  /* Gomb, nem link — az aláhúzás itt csak egérrel jelenik meg. A `button`-ra az
+     `a{}` alapszabály nem vonatkozik, ezért kell külön kimondani. */
+  .aidt-edit:hover,.aidt-edit:focus-visible{color:var(--link-hover);
+    text-decoration:underline;text-underline-offset:.18em}
   .aidt-edit:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px;border-radius:4px}
 
   /* jobb oldali állapotpanel */
@@ -2389,7 +2548,7 @@
   .aidt-noscript-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-16)}
 
   .aidt-privacy{margin-top:var(--space-8);font-size:var(--type-ui-caption-size);color:var(--text-secondary);line-height:var(--type-ui-caption-line-height)}
-  .aidt-privacy a{color:var(--link);text-decoration:underline;text-underline-offset:.22em}
+  .aidt-privacy a{color:var(--link)}
   .aidt-privacy a:hover{color:var(--link-hover)}
   .aidt-senderr{margin-bottom:var(--space-8);font-size:var(--type-ui-caption-size);color:var(--danger-text);line-height:var(--type-ui-caption-line-height)}
   /* A modul gombjaiban álló nyíl-ikon. Méret nélkül az SVG a viewBox miatt a
@@ -2539,6 +2698,12 @@
     .panel-media{order:-1}
     .numbered-grid{grid-template-columns:minmax(0,1fr)}
     .split{grid-template-columns:minmax(0,1fr)}
+
+    /* Térkép: az átfedés marad, de a kártya keskenyebb — 768px-en a 27rem-es
+       kártya mellett alig maradna látható térkép. */
+    .terkep-vaszon{min-height:520px}
+    .terkep-kartya{width:min(21rem,100%);padding:var(--space-24)}
+    .terkep-megjegyzes{margin-bottom:var(--space-24)}
   }
 
   /* Mobil ≤640px */
@@ -2586,8 +2751,18 @@
     .folyamat-sin{grid-template-columns:repeat(2,minmax(0,1fr))}
     .konz-pontok{grid-template-columns:minmax(0,1fr)}
     .lablec-inner{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:var(--space-64)}
-    /* Mobilon a fade elmarad: keskeny nézetben a térkép nagy részét elfedné. */
-    .terkep{height:320px}
+    /* Térkép: mobilon NINCS átfedés. Egy 320px magas térképen a kártya nem
+       hagyna látható térképet, a kettő pedig egymást tenné olvashatatlanná.
+       A `display:block` kikapcsolja a rétegezést, és a két gyerek a DOM
+       sorrendjében áll egymás alá: előbb az adatok, alatta a térkép.
+       A fade is elmarad — keskeny nézetben a térkép nagy részét elfedné. */
+    .terkep{display:block}
+    .terkep-vaszon{min-height:0;height:360px}
+    /* A logós jelölés mobilon elmarad: a keskeny térképen a doboz a gombostűt
+       és a környező utcaneveket is elfedné. A Google saját gombostűje marad. */
+    .terkep-jeloles{display:none}
+    .terkep-inner{padding:0 var(--page-gutter) var(--space-32)}
+    .terkep-kartya{width:auto;padding:var(--space-24)}
     .terkep-fade{display:none}
     .lablec-zaro-inner{flex-direction:column;align-items:flex-start}
     .split-4{grid-template-columns:minmax(0,1fr)}
@@ -2621,6 +2796,14 @@
     /* A táblázat mobilon nem tördelhető szét értelmesen: vízszintesen görgethető
        marad, billentyűzetről is elérhető fókuszálható régióként. */
     .compare-table{min-width:36rem}
+  }
+
+  /* 1025–1280px — a legszűkebb asztali sáv.
+     A logós térképjelölés a keret KÖZEPÉN áll (a gombostű fölött), a kártya
+     pedig a bal élen: 1280px alatt a teljes szélességű kártya beleérne a
+     jelölésbe. Itt keskenyebb, hogy a kettő között maradjon rés. */
+  @media (min-width:1025px) and (max-width:1280px){
+    .terkep-kartya{width:min(20rem,100%)}
   }
 }
 

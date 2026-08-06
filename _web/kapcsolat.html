@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=67">
+<link rel="stylesheet" href="assets/css/app.css?v=68">
 <link rel="preload" as="image" href="assets/img/oldalak/hero-kapcsolat.webp"
       imagesrcset="assets/img/oldalak/hero-kapcsolat-1024.webp 1100w, assets/img/oldalak/hero-kapcsolat.webp 1800w"
       imagesizes="100vw">
@@ -401,37 +401,74 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="terkep-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Elérhetőség</p>
-        <h2 class="type-display-section-title section-title" id="terkep-cim">Elérhetőség és megközelítés</h2>
-      </header>
-      <p class="type-ui-body section-lead"><strong>ÖkoTech Home</strong> — 2509 Esztergom, Strázsa u. 12.</p>
-      <p class="type-ui-body section-lead">Telefon: <a href="tel:+3633200211">+36 33 200 211</a> ·
-        E-mail: <a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></p>
-      <p class="type-ui-body section-lead">A helyszíni felmérésre az ország egész területén
-        vállalkozunk. A látogatás időpontját előre egyeztetjük, és előtte átküldjük, mit
-        érdemes hozzá előkészíteni.</p>
-    </div>
-  </section>
+  <!-- ==========================================================================
+       ELÉRHETŐSÉG — a térkép a TELJES SZÉLESSÉGŰ háttér, az adatok pedig egy
+       lebegő kártyán ülnek fölötte, bal oldalon. Korábban a szöveg külön
+       szekcióban állt a térkép FÖLÖTT: két blokk mondta ugyanazt egymás után,
+       és a térképnek csak a maradék hely jutott. Egyben tartva a szakasz
+       rövidebb, a térkép pedig másfélszer magasabb lehet.
 
-  <!-- A térkép TELJES SZÉLESSÉGŰ, a két széle a lap hátterébe fakul.
-       A Google Térkép ALAPÉRTELMEZÉSBEN töltődik be — a cég döntése, a
-       cookie-tájékoztató és az adatkezelési tájékoztató fedi le.
+       A kártya SZÁNDÉKOSAN nem ér le a térkép aljáig: a bal alsó sarokban a
+       Google logója, a jobb alsóban a térképadat-jelzés áll — ezek eltakarása
+       a beágyazás felhasználási feltételeibe ütközne.
 
+       A Google Térkép ALAPÉRTELMEZÉSBEN töltődik be — a cég döntése.
        ADATVÉDELMI KÖTELEZETTSÉG: a beágyazás sütit tesz le és elküldi a
        látogató IP-jét a Google-nek. Ezt a cookie-tájékoztatóban nevesíteni
        kell (harmadik féltől származó süti, cél, adatkezelő), és a
        cookie-hozzájárulásnak ki kell terjednie rá. Amíg ezek nem élnek, ez
-       nyitott megfelelőségi pont. -->
+       nyitott megfelelőségi pont.
+  =========================================================================== -->
   <section class="terkep" aria-labelledby="terkep-cim">
-    <iframe class="terkep-beagyazott"
-            title="ÖkoTech Home — 2509 Esztergom, Strázsa u. 12. a Google Térképen"
-            src="https://www.google.com/maps?q=2509+Esztergom%2C+Str%C3%A1zsa+u.+12.&amp;z=16&amp;hl=hu&amp;output=embed"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen></iframe>
-    <span class="terkep-fade" aria-hidden="true"></span>
+    <div class="terkep-inner">
+      <article class="terkep-kartya">
+        <p class="type-data-eyebrow terkep-eyebrow">Elérhetőség</p>
+        <h2 class="type-display-section-title terkep-cim" id="terkep-cim">Elérhetőség és megközelítés</h2>
+
+        <ul class="terkep-adatok" role="list">
+          <li class="terkep-adat">
+            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5s7-6.6 7-11.5a7 7 0 1 0-14 0c0 4.9 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+            <span class="type-ui-body terkep-adat-szoveg"><strong>ÖkoTech Home</strong><br>2509 Esztergom, Strázsa u. 12.</span>
+          </li>
+          <li class="terkep-adat">
+            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 3h3.1l1.5 4-2 1.4a12.5 12.5 0 0 0 5.6 5.6L16 12l4 1.5v3.1a2 2 0 0 1-2.2 2A16.4 16.4 0 0 1 4 6.2 2 2 0 0 1 6 3z"/></svg></span>
+            <span class="type-ui-body terkep-adat-szoveg"><a href="tel:+3633200211">+36 33 200 211</a></span>
+          </li>
+          <li class="terkep-adat">
+            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <span class="type-ui-body terkep-adat-szoveg"><a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></span>
+          </li>
+        </ul>
+
+        <p class="type-ui-body terkep-megjegyzes">A helyszíni felmérésre az ország egész
+          területén vállalkozunk. A látogatás időpontját előre egyeztetjük, és előtte
+          átküldjük, mit érdemes hozzá előkészíteni.</p>
+
+        <p>
+          <a class="btn btn-secondary terkep-utvonal"
+             href="https://www.google.com/maps/dir/?api=1&amp;destination=2509%20Esztergom%2C%20Str%C3%A1zsa%20u.%2012."
+             target="_blank" rel="noopener noreferrer">Útvonaltervezés<span
+             class="terkep-utvonal-jel" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg></span><span
+             class="visually-hidden"> — a Google Térképen, új lapon nyílik</span></a>
+        </p>
+      </article>
+    </div>
+
+    <div class="terkep-vaszon">
+      <iframe class="terkep-beagyazott"
+              title="ÖkoTech Home — 2509 Esztergom, Strázsa u. 12. a Google Térképen"
+              src="https://www.google.com/maps?q=2509+Esztergom%2C+Str%C3%A1zsa+u.+12.&amp;z=16&amp;hl=hu&amp;output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+      <span class="terkep-fade" aria-hidden="true"></span>
+
+      <!-- Saját jelölés a Google gombostűje fölött. `aria-hidden`: a címet a
+           kártya már kimondja, ez vizuális kiemelés, nem új információ. -->
+      <span class="terkep-jeloles" aria-hidden="true">
+        <img src="assets/img/logo-okotechhome.svg" width="928" height="290"
+             alt="" loading="lazy" decoding="async">
+      </span>
+    </div>
   </section>
 
   <section class="section" aria-labelledby="gyik-cim">
@@ -458,6 +495,118 @@
   </section>
 
 </main>
+
+<!-- ==========================================================================
+     LÁBLÉC — egy sorban: márkablokk + öt hasáb.
+     A `data-helyorzo` mezők cégadatot várnak (cégjegyzékszám, adószám,
+     székhely). Ezeket nem lehet kitalálni: tévesen közölt cégadat jogi
+     kockázat. Élesítés előtt kereséssel mind megtalálható.
+=========================================================================== -->
+<footer class="lablec">
+  <div class="lablec-inner">
+
+    <div class="lablec-marka">
+      <a class="lablec-logo" href="./" aria-label="ÖkoTech Home — főoldal">
+        <img src="assets/img/logo-email.png" width="220" height="69"
+             alt="ÖkoTech Home" loading="lazy" decoding="async">
+      </a>
+      <p class="type-ui-body lablec-lead">
+        Biológiai szennyvíztisztítás közcsatorna nélküli ingatlanokhoz — a telek
+        felmérésétől az üzemeltetésig, egy kézben.
+      </p>
+      <ul class="lablec-kapcsolat" role="list">
+        <li><a class="lablec-link" href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></li>
+        <li><a class="lablec-link" href="tel:+3633200211">+36 33 200 211</a></li>
+        <li class="lablec-halvany">2509 Esztergom, Strázsa u. 12.</li>
+      </ul>
+      <p class="lablec-masodlagos"><a class="lablec-link" href="ugyfeltamogatas/">Ügyféltámogatás</a> <a class="lablec-link" href="partnereknek/">Partnereknek</a> <a class="lablec-link" href="okotech-home/">ÖkoTech-Home</a> <a class="lablec-link" href="kapcsolat">Kapcsolat</a></p>
+    </div>
+
+      <nav class="lablec-hasab" aria-labelledby="lf-helyzetem">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-helyzetem">
+          <a class="lablec-cim-link" href="helyzetem/">Helyzetem</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="helyzetem/nincs-elerheto-kozcsatorna">Nincs elérhető közcsatorna</a></li>
+          <li><a class="lablec-link" href="helyzetem/telekvasarlas-vagy-uj-epites-elott-allok">Telekvásárlás, új építés</a></li>
+          <li><a class="lablec-link" href="helyzetem/meglevo-emesztot-szeretnek-kivaltani">Emésztő kiváltása</a></li>
+          <li><a class="lablec-link" href="helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan">Nyaraló, szezonális</a></li>
+          <li><a class="lablec-link" href="helyzetem/csaladi-hazhoz-keresek-rendszert">Családi ház</a></li>
+          <li><a class="lablec-link" href="helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast">Vállalkozás, intézmény</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-megoldasok">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-megoldasok">
+          <a class="lablec-cim-link" href="megoldasok/">Megoldások</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="megoldasok/biologiai-szennyviztisztitas">Biológiai szennyvíztisztítás</a></li>
+          <li><a class="lablec-link" href="megoldasok/oldomedences-rendszer">Oldómedencés rendszer</a></li>
+          <li><a class="lablec-link" href="megoldasok/nagyobb-es-kozossegi-rendszerek">Nagyobb és közösségi</a></li>
+          <li><a class="lablec-link" href="megoldasok/alternativak">Alternatívák</a></li>
+          <li><a class="lablec-link" href="megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összevetése</a></li>
+          <li><a class="lablec-link" href="megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró feltételek</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-projekt-elokeszites">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-projekt-elokeszites">
+          <a class="lablec-cim-link" href="projekt-elokeszites/">Előkészítés</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="projekt-elokeszites/telekalkalmassag">Telekalkalmasság</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/terheles-es-kapacitas">Terhelés és kapacitás</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/tisztitott-viz-elhelyezese">Tisztított víz elhelyezése</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/engedelyezes-es-dokumentumok">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/helyszini-felmeres">Helyszíni felmérés</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/koltsegek-es-ajanlatok">Költségek és ajánlatok</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-tudastar">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-tudastar">
+          <a class="lablec-cim-link" href="tudastar/">Tudástár</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="tudastar/telek-talaj-es-viz">Telek, talaj és víz</a></li>
+          <li><a class="lablec-link" href="tudastar/terheles-es-meretezes">Terhelés és méretezés</a></li>
+          <li><a class="lablec-link" href="tudastar/engedelyezes-es-megfeleloseg">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="tudastar/uzemeltetes-es-hibamegelozes">Üzemeltetés</a></li>
+          <li><a class="lablec-link" href="tudastar/koltseg-es-megvalositas">Költség és megvalósítás</a></li>
+          <li><a class="lablec-link" href="tudastar/fogalomtar">Fogalomtár</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-eredmenyek">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-eredmenyek">
+          <a class="lablec-cim-link" href="eredmenyek/">Eredmények</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="eredmenyek/csikvand">Csikvánd — 128 berendezés</a></li>
+          <li><a class="lablec-link" href="eredmenyek/bakonypeterd">Bakonypéterd — központi telep</a></li>
+          <li><a class="lablec-link" href="eredmenyek/diosbereny">Diósberény — 90 berendezés</a></li>
+          <li><a class="lablec-link" href="eredmenyek/obudavar">Óbudavár — a kezdet</a></li>
+          <li><a class="lablec-link" href="eredmenyek/esettanulmanyok">Esettanulmányok</a></li>
+          <li><a class="lablec-link" href="eredmenyek/tanusitvanyok-es-dokumentumok">Tanúsítványok</a></li>
+        </ul>
+      </nav>
+
+  </div>
+
+  <div class="lablec-zaro">
+    <div class="lablec-inner lablec-zaro-inner">
+      <p class="type-ui-caption lablec-ceg">
+        © 2026 ÖkoTech-Home Kft. Minden jog fenntartva.
+        <span class="lablec-helyorzo" data-helyorzo="cegjegyzekszam">Cégjegyzékszám: #####</span>
+        <span class="lablec-helyorzo" data-helyorzo="adoszam">Adószám: #####</span>
+      </p>
+      <ul class="lablec-jogi" role="list">
+        <li><a class="lablec-jogi-link" href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="cookie-tajekoztato">Cookie-tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="jogi-nyilatkozat">Jogi nyilatkozat</a></li>
+        <li><a class="lablec-jogi-link" href="aszf">ÁSZF</a></li>
+        <li><a class="lablec-jogi-link" href="akadalymentessegi-nyilatkozat">Akadálymentesség</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
 
 <script src="assets/js/site.js?v=3" defer></script>
 <script src="assets/js/urlap.js?v=1" defer></script>
