@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=59">
+<link rel="stylesheet" href="../assets/css/app.css?v=61">
 <link rel="preload" as="image" href="../assets/img/oldalak/hero-mar-van-rendszerem.webp"
       imagesrcset="../assets/img/oldalak/hero-mar-van-rendszerem-1024.webp 1100w, ../assets/img/oldalak/hero-mar-van-rendszerem.webp 1800w"
       imagesizes="100vw">
@@ -357,6 +357,118 @@
   </section>
 
 </main>
+
+<!-- ==========================================================================
+     LÁBLÉC — egy sorban: márkablokk + öt hasáb.
+     A `data-helyorzo` mezők cégadatot várnak (cégjegyzékszám, adószám,
+     székhely). Ezeket nem lehet kitalálni: tévesen közölt cégadat jogi
+     kockázat. Élesítés előtt kereséssel mind megtalálható.
+=========================================================================== -->
+<footer class="lablec">
+  <div class="lablec-inner">
+
+    <div class="lablec-marka">
+      <a class="lablec-logo" href="../" aria-label="ÖkoTech Home — főoldal">
+        <img src="../assets/img/logo-email.png" width="220" height="69"
+             alt="ÖkoTech Home" loading="lazy" decoding="async">
+      </a>
+      <p class="type-ui-body lablec-lead">
+        Biológiai szennyvíztisztítás közcsatorna nélküli ingatlanokhoz — a telek
+        felmérésétől az üzemeltetésig, egy kézben.
+      </p>
+      <ul class="lablec-kapcsolat" role="list">
+        <li><a class="lablec-link" href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></li>
+        <li><a class="lablec-link" href="tel:+3633200211">+36 33 200 211</a></li>
+        <li class="lablec-halvany">2509 Esztergom, Strázsa u. 12.</li>
+      </ul>
+      <p class="lablec-masodlagos"><a class="lablec-link" href="../ugyfeltamogatas/">Ügyféltámogatás</a> <a class="lablec-link" href="../partnereknek/">Partnereknek</a> <a class="lablec-link" href="../okotech-home/">ÖkoTech-Home</a> <a class="lablec-link" href="../kapcsolat">Kapcsolat</a></p>
+    </div>
+
+      <nav class="lablec-hasab" aria-labelledby="lf-helyzetem">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-helyzetem">
+          <a class="lablec-cim-link" href="../helyzetem/">Helyzetem</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../helyzetem/nincs-elerheto-kozcsatorna">Nincs elérhető közcsatorna</a></li>
+          <li><a class="lablec-link" href="../helyzetem/telekvasarlas-vagy-uj-epites-elott-allok">Telekvásárlás, új építés</a></li>
+          <li><a class="lablec-link" href="../helyzetem/meglevo-emesztot-szeretnek-kivaltani">Emésztő kiváltása</a></li>
+          <li><a class="lablec-link" href="../helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan">Nyaraló, szezonális</a></li>
+          <li><a class="lablec-link" href="../helyzetem/csaladi-hazhoz-keresek-rendszert">Családi ház</a></li>
+          <li><a class="lablec-link" href="../helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast">Vállalkozás, intézmény</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-megoldasok">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-megoldasok">
+          <a class="lablec-cim-link" href="../megoldasok/">Megoldások</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../megoldasok/biologiai-szennyviztisztitas">Biológiai szennyvíztisztítás</a></li>
+          <li><a class="lablec-link" href="../megoldasok/oldomedences-rendszer">Oldómedencés rendszer</a></li>
+          <li><a class="lablec-link" href="../megoldasok/nagyobb-es-kozossegi-rendszerek">Nagyobb és közösségi</a></li>
+          <li><a class="lablec-link" href="../megoldasok/alternativak">Alternatívák</a></li>
+          <li><a class="lablec-link" href="../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összevetése</a></li>
+          <li><a class="lablec-link" href="../megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró feltételek</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-projekt-elokeszites">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-projekt-elokeszites">
+          <a class="lablec-cim-link" href="../projekt-elokeszites/">Előkészítés</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../projekt-elokeszites/telekalkalmassag">Telekalkalmasság</a></li>
+          <li><a class="lablec-link" href="../projekt-elokeszites/terheles-es-kapacitas">Terhelés és kapacitás</a></li>
+          <li><a class="lablec-link" href="../projekt-elokeszites/tisztitott-viz-elhelyezese">Tisztított víz elhelyezése</a></li>
+          <li><a class="lablec-link" href="../projekt-elokeszites/engedelyezes-es-dokumentumok">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="../projekt-elokeszites/helyszini-felmeres">Helyszíni felmérés</a></li>
+          <li><a class="lablec-link" href="../projekt-elokeszites/koltsegek-es-ajanlatok">Költségek és ajánlatok</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-tudastar">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-tudastar">
+          <a class="lablec-cim-link" href="../tudastar/">Tudástár</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../tudastar/telek-talaj-es-viz">Telek, talaj és víz</a></li>
+          <li><a class="lablec-link" href="../tudastar/terheles-es-meretezes">Terhelés és méretezés</a></li>
+          <li><a class="lablec-link" href="../tudastar/engedelyezes-es-megfeleloseg">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="../tudastar/uzemeltetes-es-hibamegelozes">Üzemeltetés</a></li>
+          <li><a class="lablec-link" href="../tudastar/koltseg-es-megvalositas">Költség és megvalósítás</a></li>
+          <li><a class="lablec-link" href="../tudastar/fogalomtar">Fogalomtár</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-eredmenyek">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-eredmenyek">
+          <a class="lablec-cim-link" href="../eredmenyek/">Eredmények</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../eredmenyek/csikvand">Csikvánd — 128 berendezés</a></li>
+          <li><a class="lablec-link" href="../eredmenyek/bakonypeterd">Bakonypéterd — központi telep</a></li>
+          <li><a class="lablec-link" href="../eredmenyek/diosbereny">Diósberény — 90 berendezés</a></li>
+          <li><a class="lablec-link" href="../eredmenyek/obudavar">Óbudavár — a kezdet</a></li>
+          <li><a class="lablec-link" href="../eredmenyek/esettanulmanyok">Esettanulmányok</a></li>
+          <li><a class="lablec-link" href="../eredmenyek/tanusitvanyok-es-dokumentumok">Tanúsítványok</a></li>
+        </ul>
+      </nav>
+
+  </div>
+
+  <div class="lablec-zaro">
+    <div class="lablec-inner lablec-zaro-inner">
+      <p class="type-ui-caption lablec-ceg">
+        © 2026 ÖkoTech-Home Kft. Minden jog fenntartva.
+        <span class="lablec-helyorzo" data-helyorzo="cegjegyzekszam">Cégjegyzékszám: #####</span>
+        <span class="lablec-helyorzo" data-helyorzo="adoszam">Adószám: #####</span>
+      </p>
+      <ul class="lablec-jogi" role="list">
+        <li><a class="lablec-jogi-link" href="../adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="../cookie-tajekoztato">Cookie-tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="../jogi-nyilatkozat">Jogi nyilatkozat</a></li>
+        <li><a class="lablec-jogi-link" href="../aszf">ÁSZF</a></li>
+        <li><a class="lablec-jogi-link" href="../akadalymentessegi-nyilatkozat">Akadálymentesség</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
 
 <script src="../assets/js/site.js?v=3" defer></script>
 <script type="application/ld+json">

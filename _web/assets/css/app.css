@@ -1244,6 +1244,65 @@
   .helyzet-kizar{color:var(--text-tertiary);margin-top:auto;padding-top:var(--space-8);
     border-top:1px solid var(--border)}
 
+
+  /* ===== 5.20 Lábléc (ÚJ) =====
+     Egy sorban: márkablokk + öt hasáb. A minta kétsoros volt; nyolc
+     főkategóriából ötöt hozunk hasábba, a három másodlagos a márkablokk alá
+     kerül — ugyanoda, ahová a fejlécben is. */
+  .lablec{background:var(--surface-inverse);color:var(--text-on-dark);margin-top:var(--space-128)}
+  .lablec-inner{
+    max-width:var(--container-wide);margin-inline:auto;
+    padding:var(--space-96) var(--page-gutter) var(--space-64);
+    display:grid;grid-template-columns:minmax(0,4fr) repeat(5,minmax(0,2fr));
+    gap:var(--space-48) var(--space-32);align-items:start;
+  }
+  .lablec-marka{display:flex;flex-direction:column;gap:var(--space-16);max-width:26rem}
+  .lablec-logo{display:inline-flex}
+  .lablec-logo img{width:11rem;height:auto;display:block}
+  .lablec-lead{color:var(--text-on-dark-muted)}
+  .lablec-kapcsolat{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
+  .lablec-halvany{color:var(--text-on-dark-muted)}
+  .lablec-masodlagos{
+    display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-16);
+    margin:var(--space-8) 0 0;padding-top:var(--space-16);
+    border-top:1px solid color-mix(in srgb,var(--text-on-dark) 18%,transparent);
+  }
+  .lablec-hasab{display:flex;flex-direction:column;gap:var(--space-16)}
+  .lablec-cim{color:var(--text-on-dark-muted)}
+  .lablec-cim-link{color:inherit;text-decoration:none}
+  .lablec-cim-link:hover{color:var(--text-on-dark)}
+  .lablec-lista{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
+  /* A hivatkozás világos felületen aláhúzás nélkül él, mert a hasáb egésze
+     link — a kontextus egyértelmű. Hoverre a márkazöld emeli ki. */
+  .lablec-link{
+    color:var(--text-on-dark);text-decoration:none;
+    transition:color var(--dur-ui) var(--ease-out);
+  }
+  .lablec-link:hover{color:var(--primary)}
+  .lablec-link:focus-visible,.lablec-cim-link:focus-visible,.lablec-jogi-link:focus-visible{
+    outline:2px solid var(--primary);outline-offset:3px;border-radius:2px;
+  }
+  /* A helyőrző LÁTHATÓAN ideiglenes: cégadatot nem lehet kitalálni, és a
+     tévesen közölt adat jogi kockázat. Élesítés előtt keresendő. */
+  .lablec-helyorzo{
+    display:inline-block;margin-left:var(--space-8);padding:0 var(--space-8);
+    border:1px dashed color-mix(in srgb,var(--text-on-dark) 45%,transparent);
+    border-radius:var(--r-md);color:var(--text-on-dark-muted);
+  }
+  .lablec-zaro{border-top:1px solid color-mix(in srgb,var(--text-on-dark) 18%,transparent)}
+  .lablec-zaro-inner{
+    display:flex;flex-wrap:wrap;gap:var(--space-16);
+    align-items:center;justify-content:space-between;
+    padding-block:var(--space-24);
+  }
+  .lablec-ceg{color:var(--text-on-dark-muted);margin:0}
+  .lablec-jogi{
+    list-style:none;margin:0;padding:0;
+    display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-16);
+  }
+  .lablec-jogi-link{color:var(--text-on-dark-muted);text-decoration:none;font-size:var(--type-ui-caption-size)}
+  .lablec-jogi-link:hover{color:var(--text-on-dark)}
+
   /* ===== 5.19 Konzultáció és fülrendszeres GYIK (ÚJ) ===== */
   /* Négy szerepkör egymás mellett — a dokumentumoldal felosztása. */
   .split-4{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -1702,13 +1761,20 @@
   .ofc-x:hover{color:var(--text-primary);background:var(--surface-muted)}
   .ofc-x:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
 
-  .ofc-slot{position:relative}
+  /* A hely FIX: a chip alacsonyabb, mint a feltöltő mező, ezért csatolás után
+     a kártyák elcsúsznának egymáshoz képest. Így a három hasáb egy vonalban
+     marad, akárhány fájl van csatolva. */
+  .ofc-slot{position:relative;display:grid;align-content:center;min-height:11rem}
   .ofc-drop{
     width:100%;display:flex;flex-direction:column;align-items:center;gap:var(--space-8);
     padding:var(--space-24) var(--space-16);
     border:1px dashed var(--border);border-radius:var(--card-radius);
     background:var(--surface);color:var(--text-secondary);cursor:pointer;text-align:center;
   }
+  /* A `display:flex` felülírná a `[hidden]` böngésző-alapértelmezését, ezért
+     a rejtést itt is ki kell mondani — különben a csatolt fájl ALATT ott
+     marad a feltöltő mező. Ugyanaz a csapda, mint a GYIK-tábláknál. */
+  .ofc-drop[hidden]{display:none}
   .ofc-drop:hover{border-color:var(--primary);background:var(--surface-muted)}
   .ofc-drop:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
   .ofc-drop-title{color:var(--text-primary)}
@@ -1719,8 +1785,17 @@
 
   /* Csatolt fájl chipje: típusjel, név, méret, pipa. */
   .ofc-file{
-    display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-8);align-items:center;
-    padding:var(--space-8);background:var(--surface-muted);border-radius:var(--card-radius);
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-16);
+    align-items:center;padding:var(--space-16);
+    background:var(--surface-muted);border:1px solid var(--primary);
+    border-radius:var(--card-radius);
+    /* Csatoláskor beúszik: a fájl megjelenése így követhető esemény, nem
+       néma csere. */
+    animation:ofc-fajl-be var(--dur-ui) var(--ease-out);
+  }
+  @keyframes ofc-fajl-be{
+    from{opacity:0;transform:translateY(calc(-1 * var(--space-8))) scale(.98)}
+    to{opacity:1;transform:none}
   }
   .ofc-file-ic{
     display:grid;place-items:center;flex:none;width:var(--space-32);height:var(--space-32);
@@ -1730,7 +1805,21 @@
   .ofc-file-meta{min-width:0}
   .ofc-file-name{display:block;color:var(--text-primary);overflow-wrap:anywhere}
   .ofc-file-size{display:block;color:var(--text-tertiary)}
-  .ofc-file-ok{display:grid;place-items:center;color:var(--success-text)}
+  /* A pipa a saját körében, márkaszínnel — a csatolás visszaigazolása.
+     Egyszer megrajzolódik, hogy a szem odakapjon. */
+  .ofc-file-ok{
+    display:grid;place-items:center;flex:none;
+    width:var(--space-24);height:var(--space-24);border-radius:50%;
+    background:var(--primary);color:var(--on-primary);
+  }
+  .ofc-file-ok svg{width:var(--space-16);height:var(--space-16);
+    stroke-dasharray:24;stroke-dashoffset:24;
+    animation:ofc-pipa 420ms var(--ease-out) 120ms forwards}
+  @keyframes ofc-pipa{to{stroke-dashoffset:0}}
+  @media (prefers-reduced-motion:reduce){
+    .ofc-file{animation:none}
+    .ofc-file-ok svg{animation:none;stroke-dashoffset:0}
+  }
 
   .ofc-label{display:block;color:var(--text-secondary);margin-top:var(--space-8)}
   /* Űrlapelemek: a designrendszer nem definiál mezőstílust, ezért itt vezetjük
@@ -2348,6 +2437,10 @@
     /* Hat lépés egy sorban tableten olvashatatlan címkéket adna. */
     .folyamat-sin{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:var(--space-24)}
     .konz-fo{grid-template-columns:minmax(0,1fr)}
+    /* Öt hasáb tableten olvashatatlanul keskeny: a márkablokk teljes
+       szélességre ül, a hasábok hármasával törnek. */
+    .lablec-inner{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .lablec-marka{grid-column:1 / -1;max-width:none}
     .split-4{grid-template-columns:repeat(2,minmax(0,1fr))}
     .konz-bemutat{grid-template-columns:minmax(0,4fr) minmax(0,8fr)}
     .utana-sin{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--space-32)}
@@ -2429,6 +2522,8 @@
     .projekt-racs{grid-template-columns:minmax(0,1fr)}
     .folyamat-sin{grid-template-columns:repeat(2,minmax(0,1fr))}
     .konz-pontok{grid-template-columns:minmax(0,1fr)}
+    .lablec-inner{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:var(--space-64)}
+    .lablec-zaro-inner{flex-direction:column;align-items:flex-start}
     .split-4{grid-template-columns:minmax(0,1fr)}
     .konz-pont + .konz-pont{border-left:0;border-top:1px solid var(--border);
       padding-left:0;padding-top:var(--space-24)}
