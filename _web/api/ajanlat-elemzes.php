@@ -21,7 +21,18 @@
 
 declare(strict_types=1);
 require __DIR__ . '/lib/indit.php';
-require __DIR__ . '/lib/office.php';
+
+/* Az Office-kibontó NEM kötelező függőség: nélküle a PDF és a kép továbbra is
+   elemezhető, csak a DOCX/XLSX marad olvashatatlan. Ezért `include`, nem
+   `require` — egy hiányzó segédfájl ne döntse le az egész végpontot.
+   (Pontosan ez történt: a fájl feltöltése lemaradt, és a teljes elemzés
+   500-zal elszállt, holott két ajánlat feldolgozható lett volna.) */
+$OFFICE_ELERHETO = @include_once __DIR__ . '/lib/office.php';
+if (!$OFFICE_ELERHETO || !class_exists('OthOffice')) {
+    $OFFICE_ELERHETO = false;
+    error_log('OTH AI: az api/lib/office.php hiányzik — a DOCX/XLSX nem lesz '
+            . 'kiolvasva. A PDF és a kép elemzése ettől még működik.');
+}
 
 /* A dokumentumok kiolvasása hosszú művelet. Megosztott tárhelyen a
    max_execution_time gyakran 30–60 másodperc: a szerver a szkriptet VÁLASZ
@@ -150,7 +161,7 @@ foreach ($dokumentumok as $jel => $d) {
            A régi, bináris .doc/.xls nem bontható — ott marad az őszinte
            „nem olvasható", mert a félig sikerült kiolvasás téves adatot vinne
            az összehasonlításba. */
-        $kibontott = OthOffice::szoveg($f['adat'], $f['mime']);
+        $kibontott = $OFFICE_ELERHETO ? OthOffice::szoveg($f['adat'], $f['mime']) : null;
         if ($kibontott !== null && $kibontott !== '') {
             $content[] = ['type' => 'text', 'text' =>
                 "(A dokumentum szöveges tartalma, táblázatból kibontva. A tördelés "
