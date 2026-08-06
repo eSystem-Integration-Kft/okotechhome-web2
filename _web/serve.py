@@ -184,6 +184,7 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
             "Content-Security-Policy",
             "default-src 'self'; base-uri 'self'; form-action 'self'; "
             "frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; "
+            "frame-src https://www.google.com; "
             "style-src 'self' https://fonts.googleapis.com; "
             "font-src 'self' https://fonts.gstatic.com; script-src 'self'",
         )

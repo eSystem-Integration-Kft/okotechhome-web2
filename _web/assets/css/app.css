@@ -1245,6 +1245,76 @@
     border-top:1px solid var(--border)}
 
 
+
+  /* ===== 5.21 Térkép (ÚJ) =====
+     Teljes szélességű sáv, a két széle a lap hátterébe fakulva. A cég jelölője
+     MINDIG a közepén áll: a képet úgy vágtuk, hogy a cím a kép közepére essen,
+     a jelölő pedig abszolút pozícióban a sáv közepén ül — így a viewport
+     szélességétől függetlenül egy helyen marad. */
+  .terkep{
+    position:relative;width:100%;height:400px;overflow:hidden;
+    margin-top:var(--space-64);background:var(--canvas);
+  }
+  .terkep-kep{margin:0;width:100%;height:100%}
+  .terkep-kep picture{display:block;width:100%;height:100%}
+  .terkep-kep img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+  /* A két szél elhalványul a lap háttérszínébe — a térkép így nem vágódik el
+     éles vonallal, hanem beleolvad az oldalba. */
+  .terkep::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:linear-gradient(90deg,
+      var(--canvas) 0%, color-mix(in srgb,var(--canvas) 55%,transparent) 12%,
+      transparent 28%, transparent 72%,
+      color-mix(in srgb,var(--canvas) 55%,transparent) 88%, var(--canvas) 100%);
+  }
+  /* --- a jelölő --- */
+  .terkep-jelolo{
+    position:absolute;left:50%;top:50%;z-index:2;
+    transform:translate(-50%,-100%);pointer-events:none;
+  }
+  .terkep-jelolo svg{width:var(--space-48);height:calc(var(--space-48) * 1.25);display:block}
+  .terkep-jelolo-test{fill:var(--surface-inverse)}
+  .terkep-jelolo-mag{fill:var(--primary)}
+  /* Lüktető gyűrű a jelölő talpánál — a szem így megtalálja a sáv közepén.
+     Dekoráció, ezért aria-hidden a markupban. */
+  .terkep-jelolo-gyuru{
+    position:absolute;left:50%;bottom:-6px;width:var(--space-16);height:var(--space-16);
+    margin-left:calc(-1 * var(--space-8));border-radius:50%;
+    background:color-mix(in srgb,var(--primary) 55%,transparent);
+    animation:terkep-lukteto 2.4s var(--ease-out) infinite;
+  }
+  @keyframes terkep-lukteto{
+    0%{transform:scale(.6);opacity:.9}
+    70%,100%{transform:scale(2.6);opacity:0}
+  }
+  .terkep-cimke{
+    position:absolute;left:50%;top:calc(50% + var(--space-24));z-index:2;
+    transform:translateX(-50%);text-align:center;white-space:nowrap;
+    padding:var(--space-8) var(--space-16);border-radius:var(--card-radius);
+    background:var(--surface);box-shadow:var(--shadow-1);color:var(--text-primary);margin:0;
+  }
+  .terkep-cimke-alatt{display:block;color:var(--text-secondary)}
+  .terkep-akcio{
+    position:absolute;left:50%;bottom:var(--space-24);z-index:2;
+    transform:translateX(-50%);margin:0;
+    display:flex;flex-wrap:wrap;gap:var(--space-16);align-items:center;justify-content:center;
+  }
+  .terkep-uj{background:var(--surface);padding:var(--space-8) var(--space-16);border-radius:var(--card-radius)}
+  .terkep-jog{
+    position:absolute;right:var(--space-16);top:var(--space-16);z-index:2;
+    max-width:26rem;margin:0;padding:var(--space-8) var(--space-16);
+    background:color-mix(in srgb,var(--surface) 88%,transparent);
+    border-radius:var(--card-radius);color:var(--text-secondary);
+  }
+  /* Betöltés után az iframe mindent elfed: a saját kép, a jelölő és a
+     figyelmeztetés dolga véget ért. */
+  .terkep-beagyazott{position:absolute;inset:0;z-index:3;width:100%;height:100%;border:0}
+  .terkep[data-terkep-allapot="beagyazott"] .terkep-jelolo,
+  .terkep[data-terkep-allapot="beagyazott"] .terkep-cimke,
+  .terkep[data-terkep-allapot="beagyazott"] .terkep-jog,
+  .terkep[data-terkep-allapot="beagyazott"]::before{display:none}
+  @media (prefers-reduced-motion:reduce){.terkep-jelolo-gyuru{animation:none;opacity:.5}}
+
   /* ===== 5.20 Lábléc (ÚJ) =====
      Egy sorban: márkablokk + öt hasáb. A minta kétsoros volt; nyolc
      főkategóriából ötöt hozunk hasábba, a három másodlagos a márkablokk alá
@@ -2567,6 +2637,11 @@
     .folyamat-sin{grid-template-columns:repeat(2,minmax(0,1fr))}
     .konz-pontok{grid-template-columns:minmax(0,1fr)}
     .lablec-inner{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:var(--space-64)}
+    /* Mobilon a felirat és a gombok nem férnek el egymás mellett a képen. */
+    .terkep{height:340px}
+    .terkep-jog{position:static;max-width:none;margin:var(--space-8) var(--space-16);
+      background:var(--surface)}
+    .terkep-cimke{white-space:normal;max-width:16rem}
     .lablec-zaro-inner{flex-direction:column;align-items:flex-start}
     .split-4{grid-template-columns:minmax(0,1fr)}
     .konz-pont + .konz-pont{border-left:0;border-top:1px solid var(--border);

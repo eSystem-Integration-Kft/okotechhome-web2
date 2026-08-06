@@ -69,7 +69,7 @@ Options -Indexes
 
   # CSP — a betűkészletek a Google Fonts-ról jönnek (designrendszer 1. fejezet).
   # Ha új külső forrás kerül az oldalra, ITT kell engedélyezni.
-  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'"
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; frame-src https://www.google.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'"
 
   # HSTS — CSAK éles, HTTPS-en kiszolgált domainen kapcsold be.
   # Staging vagy HTTP alatt hagyd kikommentezve.
