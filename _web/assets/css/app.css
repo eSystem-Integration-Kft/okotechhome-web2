@@ -1180,6 +1180,7 @@
   /* Variáns: három oszlop. A 9. szekció három technológiát állít egymás mellé;
      a négyes rácsban a negyedik hely üresen maradna. */
   .situation-grid[data-cols="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .situation-grid[data-cols="4"]{grid-template-columns:repeat(4,minmax(0,1fr))}
 
   /* Az oszlop élén álló fényképkeret. A .card-media kivágott illusztrációt
      tart (contain, alsó igazítás); ez teljes képet vág be (cover), világos

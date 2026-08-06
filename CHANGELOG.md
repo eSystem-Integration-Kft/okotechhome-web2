@@ -37,6 +37,19 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **„Nincs elérhető közcsatorna" hub — a sitemap szerinti négy aloldal.**
+  Milyen megoldási lehetőségek vannak? · Közcsatorna vagy egyedi rendszer? ·
+  Milyen adatokat kell először összegyűjteni? · Projektindító. A hub-oldal
+  döntési útvonalként köti össze őket, mert a sorrend nem tetszőleges: a
+  közcsatornahelyzet tisztázása megelőzi a technológiaválasztást.
+  **A brief négy szabálya végig érvényes:** nincs konkrét ár (a régi oldal havi
+  költség- és megtérülési számai NEM kerültek át); a **„nem tudom" érvényes
+  válasz** — az adatlap minden tételénél szerepel, honnan tudható meg, becsülhető-e
+  vagy mérni kell; **az ajánlatkérés nem minden oldal végpontja** (legitim
+  eredmény a további adatgyűjtés, a telekellenőrzés vagy más megoldás); és a
+  **„Közcsatorna vagy egyedi rendszer?" a hub leggyorsabban avuló oldala** —
+  jogi jelöléssel és azzal a kiírt kikötéssel, hogy a saját ingatlanra vonatkozó
+  választ a víziközmű-szolgáltatótól és az önkormányzattól kell megkérni.
 - **Megoldások hub — a sitemap szerinti négy döntéstámogató aloldal.**
   Megoldástípusok összehasonlítása · Melyik megoldás mikor megfelelő? · Kizáró és
   korlátozó feltételek · Megoldástípus-előszűrő. Bekötve a megamenübe (a
