@@ -41,6 +41,12 @@ return [
     // proxy, a kliens csak azt a végpontot látja.
     'ai' => [
         'kulcs'   => oth_env('OTH_AI_KULCS', 'IDE_JON_AZ_API_KULCS'),
+        // A modellazonosítót az Anthropic konzol modell-listája adja. Dokumentum-
+        // kiolvasáshoz a pontosság a fontos: egy félreolvasott ár többe kerül,
+        // mint amit egy kisebb modellel megspórol. Ha mégis vált, ugyanazokkal a
+        // fájlokkal vesse össze — ha a „nincs adat” cellák száma nő, a modell
+        // kevesebbet TALÁL MEG, nem az ajánlatból hiányzik.
+        // Elgépelt modellnév esetén a hiba a api/hiba.log-ban nevesítve jelenik meg.
         'modell'  => oth_env('OTH_AI_MODELL', 'claude-sonnet-5'),
         'timeout' => 120,
     ],

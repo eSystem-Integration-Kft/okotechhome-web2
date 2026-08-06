@@ -198,6 +198,27 @@ if ($valasz === false || $kod !== 200) {
     /* Az időtúllépés MÁS üzenetet kap: azon a felhasználó tud segíteni
        (kevesebb vagy kisebb fájl), a többi hibán nem. */
     $ido = ($kod === 0 && stripos($curlHiba, 'timed out') !== false);
+
+    /* Az API hibatípusát a naplóba írjuk. Az elgépelt modellnév és a lejárt
+       kulcs a leggyakoribb beüzemelési hiba, és mindkettő ÜZEMELTETŐI javítást
+       kíván — a látogatónak nincs vele dolga, ezért ő általános üzenetet kap,
+       az üzemeltető viszont pontosat. */
+    $hj = json_decode((string) $valasz, true);
+    $apiTipus = $hj['error']['type'] ?? '';
+    $apiUzenet = $hj['error']['message'] ?? '';
+    if ($kod === 404 || str_contains($apiUzenet, 'model')) {
+        error_log('OTH AI: a modellnév valószínűleg érvénytelen — beállítva: "'
+            . ($ai['modell'] ?? '?') . '". Az érvényes azonosítót az Anthropic konzol '
+            . 'modell-listája adja. API-üzenet: ' . $apiUzenet);
+    } elseif ($kod === 401 || $apiTipus === 'authentication_error') {
+        error_log('OTH AI: a kulcsot az API visszautasította (401). Lejárt vagy '
+            . 'visszavont kulcs? A config.php ai.kulcs mezőjét kell frissíteni.');
+    } elseif ($kod === 429) {
+        error_log('OTH AI: az API sebességkorlátja lépett életbe (429).');
+    } elseif ($apiUzenet !== '') {
+        error_log('OTH AI: API-hiba (' . $kod . ') ' . $apiTipus . ': ' . $apiUzenet);
+    }
+
     OthVedelem::valasz(502, ['ok' => false,
         'uzenet' => $ido
             ? 'A kiolvasás nem fejeződött be időben. Próbálja kevesebb vagy kisebb '
