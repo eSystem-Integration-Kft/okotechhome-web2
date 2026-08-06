@@ -184,15 +184,26 @@
     --space-section:var(--space-128);  /* desktop ≥1025px */
     --page-gutter:var(--space-48);     /* desktop ≥1025px */
     --topbar-h:60px;
-    --container-max:1180px;            /* designrendszer 5.2 — rögzített konténer-szélesség */
+    /* ELTÉRÉS a designrendszer 5.2-től: 1180 helyett 1280px.
+       Indok: a fejléc és a hero 1440px-es konténere mellett az 1180 260px-kel
+       keskenyebb volt, és ez a különbség elcsúszásnak látszott, nem szándékos
+       beljebb húzásnak. 1280-nál a rés 160px — az már olvasható tagolás.
+       A SORHOSSZ nem romlik: a folyószöveget nem a konténer korlátozza, hanem
+       hét helyen külön `ch`-alapú felső határ (52–70 karakter). A szélesítés
+       így csak a rácsoknak és a moduloknak ad levegőt; a hármas rácsban a
+       hasáb 340→373px (42→47 karakter/sor), ami a kényelmes sávon belül van. */
+    --container-max:1280px;
     /* A fejléc és a hero szélesebb konténerben ül: a menü így szellősebb, a
-       logó és a hero-szöveg pedig ugyanazon a bal élen kezdődik. A tartalmi
-       szekciók továbbra is az 5.2 szerinti 1180px-en maradnak (olvashatóság). */
+       logó és a hero-szöveg pedig ugyanazon a bal élen kezdődik. */
     --container-wide:1440px;
 
     /* radius / motion */
     --r-md:10px;--r-lg:14px;--r-xl:16px;
-    --dur-fast:150ms;--ease-out:cubic-bezier(.2,0,0,1);
+    --dur-fast:150ms;
+    /* Állapotváltás, amit a szemnek követnie kell (ikon-kiemelés, kártyafókusz,
+       behúzás-visszajelzés). A 150ms ehhez túl gyors: lefut, mielőtt a tekintet
+       odaérne. A 600ms viszont már késleltetésnek érződik egy hover-nél. */
+    --dur-ui:260ms;--ease-out:cubic-bezier(.2,0,0,1);
 
     /* elevation — Forest-tónusú árnyékok */
     --shadow-1:0 2px 6px -2px rgba(19,50,22,.10),0 1px 2px rgba(19,50,22,.06);
@@ -1411,8 +1422,44 @@
   .ofc-expert-text{display:flex;align-items:center;gap:var(--space-8);color:var(--text-primary)}
 
   /* A modul ikonjai vonalrajzok: közös méret és vonalvastagság. */
-  .ofc svg{flex:none;width:var(--space-16);height:var(--space-16);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .ofc-feat-ico svg,.ofc-drop > svg{width:var(--space-24);height:var(--space-24)}
+  /* Az alapméret 16px volt: a 24-es viewBoxban rajzolt vonalak ekkorára
+     zsugorítva elmosódnak, és a jelentésük elvész. 20px a legkisebb méret,
+     ahol egy vonalrajz még olvasható marad. A vonalvastagság is nő, mert
+     1,8-nál a világos felületen alig látszott. */
+  .ofc svg{
+    flex:none;width:var(--space-24);height:var(--space-24);
+    fill:none;stroke:currentColor;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+  /* A jelzőikonok a szövegsorhoz kötve maradnak kicsik. */
+  .ofc-st svg,.ofc-secure svg,.ofc-disclaimer svg,.ofc-eyebrow svg{
+    width:var(--space-16);height:var(--space-16);
+  }
+  /* A foglalatban álló ikon a badge felének feleljen meg — 24px egy 80px-es
+     körben elveszett. */
+  .ofc-feat-ico svg{width:var(--space-32);height:var(--space-32);stroke-width:1.9}
+  .ofc-drop > svg{width:var(--space-32);height:var(--space-32)}
+  .ofc-cell-label svg{width:var(--space-24);height:var(--space-24);color:var(--text-tertiary)}
+
+  /* A „szikra" az AI-jelzés: márkaszínt kap és vastagabb vonalat, különben
+     halványszürke szövegszínnel gyakorlatilag láthatatlan. */
+  .ofc-compare-title svg,.ofc-eyebrow svg{
+    color:var(--primary);stroke-width:2.2;
+  }
+  .ofc-compare-title svg{width:var(--space-32);height:var(--space-32)}
+
+  /* --- mozgás: célzott és látható, de nem hivalkodó --- */
+  .ofc-feature{transition:transform var(--dur-ui) var(--ease-out)}
+  .ofc-feat-ico{transition:background var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out)}
+  .ofc-feature:hover .ofc-feat-ico{background:var(--primary);color:var(--on-primary);transform:scale(1.06)}
+  .ofc-card{transition:border-color var(--dur-ui) var(--ease-out),box-shadow var(--dur-ui) var(--ease-out)}
+  .ofc-card:focus-within{border-color:var(--primary);box-shadow:var(--shadow-1)}
+  .ofc-drop{transition:border-color var(--dur-ui) var(--ease-out),background var(--dur-ui) var(--ease-out)}
+  .ofc-drop > svg{transition:transform var(--dur-ui) var(--ease-out)}
+  .ofc-drop:hover > svg{transform:translateY(-3px)}
+  /* A behúzás visszajelzése erősebb: a keret élénkül, a felület kiemelkedik. */
+  .ofc-slot.is-drag .ofc-drop{border-style:solid;box-shadow:var(--shadow-1)}
+  .ofc-slot.is-drag .ofc-drop > svg{transform:translateY(-4px) scale(1.1)}
   .ofc-feat-ico{
     display:grid;place-items:center;flex:none;
     width:var(--badge-lg-size);height:var(--badge-lg-size);
