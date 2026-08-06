@@ -69,23 +69,88 @@ FORM = '''
         <p class="type-data-eyebrow section-eyebrow">Üzenet</p>
         <h2 class="type-display-section-title section-title" id="urlap-cim">Írjon nekünk</h2>
         <p class="type-ui-body section-lead">Munkanapokon igyekszünk egy munkanapon belül
-          válaszolni. Ha sürgős, a telefon a gyorsabb út.</p>
+          válaszolni. Ha sürgős, a telefon a gyorsabb út:
+          <a href="{tel_href}">{tel}</a>.</p>
       </header>
 
-      <!-- ADATHIÁNY: az űrlap küldési végpontja még nincs beállítva. Amíg nincs,
-           az űrlap NEM tesz úgy, mintha elküldte volna az üzenetet: a gomb helyett
-           a közvetlen elérhetőségek állnak itt. A végpontot ugyanoda kell felvenni,
-           ahol a döntéstámogató modulé is van: assets/data/aidt-konfig.js -> endpoint. -->
-      <div class="panel">
-        <p class="type-ui-body"><strong>Az online űrlap még nem éles.</strong> Amíg a küldési
-          végpont nincs beállítva, nem teszünk ki olyan űrlapot, amelyik látszólag elküldi az
-          üzenetet, valójában nem. Addig a közvetlen elérhetőségek működnek:</p>
-        <ul class="fit-list" role="list">
-          <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>Telefon:</strong> <a href="{tel_href}">{tel}</a> — munkanapokon</span></li>
-          <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>E-mail:</strong> <a href="mailto:{mail}">{mail}</a></span></li>
-          <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>Cím:</strong> {cim}</span></li>
-        </ul>
-      </div>
+      <!-- Az űrlap JS NÉLKÜL is működik: sima POST az api/kapcsolat végpontra,
+           amely ilyenkor JSON-t ad vissza. A JS ezt fogja el, és helyben
+           jeleníti meg a választ — de a küldés nem függ tőle. -->
+      <form class="urlap" method="post" action="api/kapcsolat" data-urlap>
+        <div class="urlap-sor">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-nev">Név <span aria-hidden="true">*</span></label>
+            <input class="urlap-input" type="text" id="f-nev" name="nev" required
+                   autocomplete="name" maxlength="120">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-email">E-mail <span aria-hidden="true">*</span></label>
+            <input class="urlap-input" type="email" id="f-email" name="email" required
+                   autocomplete="email" maxlength="254">
+          </p>
+        </div>
+
+        <div class="urlap-sor">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-tel">Telefon</label>
+            <input class="urlap-input" type="tel" id="f-tel" name="telefon"
+                   autocomplete="tel" maxlength="40" placeholder="+36 30 123 4567">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-telepules">Település</label>
+            <input class="urlap-input" type="text" id="f-telepules" name="telepules"
+                   maxlength="120" placeholder="ahol az ingatlan van">
+          </p>
+        </div>
+
+        <p class="urlap-mezo">
+          <label class="type-ui-caption urlap-cimke" for="f-tema">Megkeresés típusa</label>
+          <select class="urlap-input" id="f-tema" name="tema">
+            <option value="uj">Új érdeklődő vagyok</option>
+            <option value="ugyfel">Meglévő ügyfél vagyok</option>
+            <option value="partner">Szakmai partner vagyok</option>
+            <option value="sajto">Sajtó vagy egyéb megkeresés</option>
+          </select>
+        </p>
+
+        <p class="urlap-mezo">
+          <label class="type-ui-caption urlap-cimke" for="f-uzenet">Üzenet <span aria-hidden="true">*</span></label>
+          <textarea class="urlap-input urlap-terulet" id="f-uzenet" name="uzenet" required
+                    rows="6" maxlength="5000"
+                    placeholder="Írja le néhány mondatban a helyzetét: hol van az ingatlan, hogyan használják, és mi a kérdése."></textarea>
+        </p>
+
+        <p class="urlap-jelolo">
+          <input type="checkbox" id="f-hozzajarul" name="hozzajarul" value="1" required>
+          <label class="type-ui-subtitle" for="f-hozzajarul">Hozzájárulok, hogy a megadott adataimat
+            a megkeresés megválaszolása céljából kezeljék.
+            <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> <span aria-hidden="true">*</span></label>
+        </p>
+
+        <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
+             megnyitás időpontja — a túl gyors beküldés is robotra utal. -->
+        <p class="urlap-csapda" aria-hidden="true">
+          <label for="f-weboldal">Weboldal</label>
+          <input type="text" id="f-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
+        </p>
+        <input type="hidden" name="nyitva" value="" data-urlap-ido>
+
+        <p class="urlap-akcio">
+          <button class="btn btn-primary" type="submit">Üzenet küldése</button>
+        </p>
+        <p class="type-ui-caption urlap-jog">A <span aria-hidden="true">*</span>-gal jelölt mezők
+          kitöltése kötelező. Az adatait kizárólag a megkeresés megválaszolására használjuk.</p>
+
+        <!-- A visszajelzés helye. `aria-live`: a képernyőolvasó felolvassa,
+             amint megjelenik — enélkül a nem látó felhasználó nem tudná meg,
+             sikerült-e a küldés. -->
+        <p class="urlap-valasz type-ui-body" role="status" aria-live="polite" data-urlap-valasz hidden></p>
+      </form>
+
+      <p class="type-ui-body urlap-kozvetlen">Vagy közvetlenül:
+        <a href="{tel_href}">{tel}</a> ·
+        <a href="mailto:{mail}">{mail}</a> ·
+        {cim}</p>
     </div>
   </section>
 '''.format(tel_href=TEL_HREF, tel=TEL, mail=MAIL, cim=CIM)
@@ -132,6 +197,9 @@ if __name__ == '__main__':
     html = html.replace(G.HEADER, HEADER)
     html = re.sub(r'(href|src|imagesrcset|srcset)="\.\./', r'\1="', html)
     html = html.replace('../assets/', 'assets/')
+    html = html.replace('<script src="assets/js/site.js?v=3" defer></script>',
+                        '<script src="assets/js/site.js?v=3" defer></script>\n'
+                        '<script src="assets/js/urlap.js?v=1" defer></script>')
     out = WEB / PAGE['file']
     out.write_text(html, encoding='utf-8')
     print(f"{PAGE['file']}  {len(html)//1024} KB")

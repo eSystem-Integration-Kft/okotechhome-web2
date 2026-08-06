@@ -36,6 +36,36 @@ curl -s https://okoth.hu/robots.txt                 # Allow: / kell benne legyen
 > így élesítéskor azokhoz nem kell hozzányúlni. A kapcsolati e-mail cím maradt
 > `kapcsolat@okotechhome.hu` — ha az is változik, azt külön kell átvezetni.
 
+## Backend — levélküldés
+
+Három végpont a `_web/api/` alatt, PHP-ben (a tárhely Apache + PHP):
+
+| Végpont | Mit szolgál ki |
+|---|---|
+| `api/kapcsolat` | a Kapcsolat oldal űrlapja |
+| `api/dontestamogato` | a 8. szekció összefoglalója (JSON) |
+| `api/ajanlat-atnezes` | a 11. szekció szakértői átnézése, csatolmánnyal |
+
+**A jelszó nincs a repóban.** A valódi értékek az `api/config.php`-ban élnek,
+ami a `.gitignore`-ban van; a repóban csak az `api/config.example.php` minta.
+Új szerverre telepítéskor:
+
+```bash
+cd api && cp config.example.php config.php && chmod 600 config.php
+# majd beírni az SMTP-adatokat (vagy környezeti változóban megadni — az erősebb)
+```
+
+Az `api/.htaccess` letiltja a `config.php`, a `lib/` és a naplók kiszolgálását.
+Ez akkor is véd, ha a PHP kiesne és a szerver nyers szövegként adná ki a fájlt.
+
+**Négy védelmi réteg** minden végponton: origin-ellenőrzés (CSRF), mézesbödön
+mező, kitöltési idő, és IP-alapú sebességkorlát. A fejléc-injekció ellen minden
+felhasználói érték CR/LF-szűrésen megy át — enélkül az űrlap spamtovábbítóvá
+válna.
+
+**Az űrlapok JS nélkül is működnek:** sima POST megy a végpontra. Az
+`assets/js/urlap.js` csak annyit tesz, hogy a választ helyben jeleníti meg.
+
 ## Jelenlegi állapot
 
 | | |

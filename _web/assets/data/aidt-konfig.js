@@ -43,7 +43,7 @@ window.OTH_AIDT = {
      Üresen hagyva a modul NEM küld adatot sehova, és ezt őszintén jelzi is
      a látogatónak. Külső (nem saját domainre mutató) végpontnál a
      `.htaccess` CSP-jét ki kell egészíteni: `connect-src 'self' <domain>`. */
-  endpoint: "",
+  endpoint: "api/dontestamogato",
 
   /* Az adatkezelési tájékoztató útvonala — a hozzájárulás mellett jelenik meg. */
   adatkezelesUrl: "adatkezelesi-tajekoztato"

@@ -37,6 +37,23 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **Levélküldő backend — három végpont.** `api/kapcsolat`, `api/dontestamogato`
+  és `api/ajanlat-atnezes` (ez utóbbi csatolmánnyal). Saját, függőség nélküli
+  SMTP-kliens (implicit TLS 465 és STARTTLS 587); a `mail()` azért nem jó, mert
+  hitelesítés nélkül adja át a levelet, és SPF/DKIM nélkül spambe kerül.
+  **Márkás HTML levélsablon**: sötét fejlécsáv a logóval, táblázatos elrendezés
+  (az e-mail-kliensek nem tudnak flexboxot), minden szabály `style` attribútumban
+  (a Gmail a `<style>`-t kiszűrheti), és mindig megy sima szöveges változat is.
+  A kép blokkolása esetén a fejléc olvasható marad.
+  **Négy védelmi réteg**: origin-ellenőrzés, mézesbödön mező, kitöltési idő,
+  IP-alapú sebességkorlát. Minden felhasználói érték CR/LF-szűrésen megy át —
+  enélkül a `Bcc:` beszúrható lenne, és az űrlap spamtovábbítóvá válna.
+  A csatolmány kiterjesztés ÉS tényleges tartalom szerint is ellenőrzött.
+  **A jelszó nincs a repóban**: `api/config.php` gitignore-olt, a repóban csak
+  a minta van; az `api/.htaccess` a kiszolgálását is tiltja.
+- **Kapcsolat oldal — valódi űrlap.** A korábbi „még nem éles" panel helyett
+  működő űrlap, amely **JS nélkül is beküld** (sima POST); az `urlap.js` csak a
+  választ jeleníti meg helyben, és a hibás mezőre ugrik.
 - **§11 — AI ajánlat-összehasonlító.** A Test1-beli modul átvéve: három feltöltő
   kártya (A/B/C) behúzással és tallózással, formátum- és méretellenőrzéssel,
   fájlchippel és visszaállítással; háromlépéses jelző; tízsoros összehasonlító

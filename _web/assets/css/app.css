@@ -1213,6 +1213,42 @@
     margin-top:var(--space-64);
   }
 
+  /* ===== 5.15 Űrlap (ÚJ) =====
+     A designrendszer nem definiál mezőstílust. Az alábbiak kizárólag
+     szemantikus tokenből épülnek; a mezők 44px magasak (érintőcélpont), és a
+     fókuszgyűrű minden elemen látszik. */
+  .urlap{display:grid;gap:var(--space-16);max-width:44rem}
+  .urlap-sor{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16)}
+  .urlap-mezo{display:grid;gap:var(--space-4);margin:0}
+  .urlap-cimke{color:var(--text-secondary)}
+  .urlap-input{
+    width:100%;min-height:2.75rem;padding:var(--space-8) var(--space-16);
+    font:inherit;font-size:var(--type-ui-body-size);
+    color:var(--text-primary);background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--r-md);
+  }
+  .urlap-input:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
+  .urlap-input::placeholder{color:var(--text-tertiary)}
+  /* A hibás mezőt NATÍV attribútum jelöli, nem osztály — a böngésző és a
+     képernyőolvasó ugyanazt olvassa. */
+  .urlap-input[aria-invalid="true"]{border-color:var(--danger-border);background:var(--danger-bg)}
+  .urlap-terulet{min-height:9rem;resize:vertical;line-height:1.6}
+  .urlap-jelolo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-8);align-items:start;margin:0}
+  .urlap-jelolo input{margin-top:.3em;width:1.1em;height:1.1em;accent-color:var(--primary)}
+  .urlap-jog{color:var(--text-tertiary);margin:0}
+  .urlap-akcio{margin:var(--space-8) 0 0}
+  .urlap-kozvetlen{color:var(--text-secondary);margin-top:var(--space-32)}
+  /* Mézesbödön: a képernyőről eltűnik, de a robot a DOM-ban látja és kitölti.
+     `display:none` helyett eltolás, mert azt egyes robotok felismerik. */
+  .urlap-csapda{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .urlap-valasz{
+    margin:0;padding:var(--space-16);border-radius:var(--card-radius);
+    background:var(--success-bg);border:1px solid var(--success-border);color:var(--success-text);
+  }
+  .urlap-valasz[data-allapot="hiba"]{
+    background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger-text);
+  }
+
   /* ===== 5.14 Ajánlat-összehasonlító modul (ÚJ, a Test1-ből átvéve) =====
      A 11. szekció: bal oszlop a magyarázat és az indítógomb, jobb oszlop a
      feltöltő felület és az összehasonlító tábla. A funkció és az elrendezés a

@@ -49,3 +49,10 @@ node_modules/
 __pycache__/
 *.tmp
 ~$*
+
+# ── Backend-titkok ───────────────────────────────────────────────────────────
+# Az SMTP-jelszó SOHA nem kerülhet a repóba. A valódi értékek ebben a fájlban
+# élnek, a repóban csak a `config.example.php` minta van benne.
+_web/api/config.php
+_web/api/*.log
+_web/api/.ratelimit/

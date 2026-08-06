@@ -1,0 +1,45 @@
+# =============================================================================
+#  /api — a webhely levélküldő végpontjai
+# -----------------------------------------------------------------------------
+#  Csak a három végpont hívható kívülről. A konfiguráció (benne az SMTP-jelszó),
+#  a könyvtárak és a naplók NEM érhetők el a weben.
+#
+#  FONTOS: ha a tárhelyen nem fut mod_php (pl. a PHP FPM/CGI alatt van), a
+#  <Files> tiltás akkor is érvényes — a szabály a KISZOLGÁLÁST tiltja, nem a
+#  végrehajtást. A config.php így akkor sem tölthető le, ha a PHP kikapcsolna
+#  és a szerver nyers szövegként adná ki a fájlt. Ez a legfontosabb sor itt.
+# =============================================================================
+
+# --- Titkos és belső fájlok: teljes tiltás -----------------------------------
+<FilesMatch "^(config\.php|config\.example\.php|.*\.log)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# --- A könyvtárak és a sebességkorlát-állományok nem kérhetők le -------------
+RedirectMatch 404 ^/api/(lib|\.ratelimit)/
+
+# --- Könyvtárlista kikapcsolva ----------------------------------------------
+Options -Indexes
+
+# --- A végpontok tiszta URL-t is kapnak (/api/kapcsolat) --------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.php -f
+  RewriteRule ^(kapcsolat|dontestamogato|ajanlat-atnezes)$ $1.php [L]
+</IfModule>
+
+# --- A válasz sosem gyorstárazódik ------------------------------------------
+<IfModule mod_headers.c>
+  Header always set Cache-Control "no-store"
+  Header always set X-Content-Type-Options "nosniff"
+  # A végpontok nem HTML-t adnak, itt a szigorú CSP fölösleges, de a
+  # keretbe ágyazás tiltása maradjon.
+  Header always set X-Frame-Options "DENY"
+</IfModule>
