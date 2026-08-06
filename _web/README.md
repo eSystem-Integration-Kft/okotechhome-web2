@@ -18,6 +18,13 @@ A zárás **három rétegben** él — élesítéskor mindhármat fel kell oldan
 | 2 | `robots.txt` | a `Disallow: /` helyére az élesítési változat (a fájlban kommentben ott áll) |
 | 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` sort törölni |
 
+**Külön, a keresőktől független megfelelőségi pont:** a Kapcsolat oldalon a Google
+Térkép **alapértelmezésben** töltődik be. A beágyazás sütit tesz le és elküldi a
+látogató IP-jét a Google-nek, ezért a **cookie-tájékoztatóban nevesíteni kell**
+(harmadik féltől származó süti, cél, adatkezelő), és a cookie-hozzájárulásnak ki kell
+terjednie rá. Amíg ezek nem élnek, ez nyitott pont — a beágyazás a
+`kapcsolat.html` `.terkep` szekciójában van.
+
 **Miért három réteg.** Önmagában a `robots.txt` nem elég: az URL link alapján akkor is
 indexelődhet, tartalom nélkül. Az `X-Robots-Tag` fejléc a valódi tiltás, a `<meta>` pedig
 akkor is véd, ha a fájl olyan szerverre kerül, ahol a `.htaccess` nem érvényesül.

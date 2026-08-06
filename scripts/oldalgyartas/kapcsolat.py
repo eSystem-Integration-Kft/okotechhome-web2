@@ -176,41 +176,24 @@ TERKEP = '''
   </section>
 
   <!-- A térkép TELJES SZÉLESSÉGŰ, a két széle a lap hátterébe fakul.
-       Alapból a saját, kiszolgált állókép látszik: így a betöltés nem küld
-       adatot harmadik félnek. A Google Térkép csak KATTINTÁSRA töltődik be —
-       az iframe hozzájárulás nélkül sütit tenne le és elküldené a látogató
-       IP-jét, ami hozzájárulás nélkül nem jogszerű. -->
-  <section class="terkep" aria-labelledby="terkep-cim" data-terkep>
-    <figure class="terkep-kep">
-      <picture>
-        <source media="(max-width: 1024px)" srcset="assets/img/terkep-esztergom-1200.webp" width="1144" height="300">
-        <img src="assets/img/terkep-esztergom.webp" width="2288" height="600"
-             alt="Térképrészlet Esztergomról, a Strázsa utcai telephely környékével"
-             loading="lazy" decoding="async">
-      </picture>
-    </figure>
+       A Google Térkép ALAPÉRTELMEZÉSBEN töltődik be — a cég döntése, a
+       cookie-tájékoztató és az adatkezelési tájékoztató fedi le.
 
-    <span class="terkep-jelolo" aria-hidden="true">
-      <svg viewBox="0 0 48 60" role="img">
-        <path class="terkep-jelolo-test" d="M24 2c-9.4 0-17 7.6-17 17 0 12.4 17 39 17 39s17-26.6 17-39c0-9.4-7.6-17-17-17z"/>
-        <circle class="terkep-jelolo-mag" cx="24" cy="19" r="7.5"/>
-      </svg>
-      <span class="terkep-jelolo-gyuru"></span>
-    </span>
-
-    <p class="terkep-cimke type-ui-card-title">ÖkoTech Home<span class="type-ui-caption terkep-cimke-alatt">{cim}</span></p>
-
-    <p class="terkep-akcio">
-      <button type="button" class="btn btn-secondary" data-terkep-betolt>Google Térkép megnyitása itt</button>
-      <a class="text-link terkep-uj" href="https://www.google.com/maps/search/?api=1&amp;query=2509+Esztergom%2C+Str%C3%A1zsa+u.+12."
-         target="_blank" rel="noopener noreferrer"><span class="link-label">Megnyitom új lapon<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-    </p>
-
-    <p class="type-ui-caption terkep-jog">A térképrészlet forrása az OpenStreetMap
-      (© OpenStreetMap közreműködői). A Google Térkép betöltésekor a Google adatokat kaphat
-      Önről — ezért csak az Ön kattintására töltjük be.</p>
+       ADATVÉDELMI KÖTELEZETTSÉG: a beágyazás sütit tesz le és elküldi a
+       látogató IP-jét a Google-nek. Ezt a cookie-tájékoztatóban nevesíteni
+       kell (harmadik féltől származó süti, cél, adatkezelő), és a
+       cookie-hozzájárulásnak ki kell terjednie rá. Amíg ezek nem élnek, ez
+       nyitott megfelelőségi pont. -->
+  <section class="terkep" aria-labelledby="terkep-cim">
+    <iframe class="terkep-beagyazott"
+            title="ÖkoTech Home — 2509 Esztergom, Strázsa u. 12. a Google Térképen"
+            src="https://www.google.com/maps?q={terkep_q}&amp;z=16&amp;hl=hu&amp;output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen></iframe>
+    <span class="terkep-fade" aria-hidden="true"></span>
   </section>
-'''.format(tel_href=TEL_HREF, tel=TEL, mail=MAIL, cim=CIM)
+'''.format(tel_href=TEL_HREF, tel=TEL, mail=MAIL, cim=CIM,
+        terkep_q='2509+Esztergom%2C+Str%C3%A1zsa+u.+12.')
 SECTIONS.append(TERKEP)
 SECTIONS.append(sec_faq([
     ('Mennyi idő alatt kapok választ?',
@@ -247,8 +230,7 @@ if __name__ == '__main__':
     html = html.replace('../assets/', 'assets/')
     html = html.replace('<script src="assets/js/site.js?v=3" defer></script>',
                         '<script src="assets/js/site.js?v=3" defer></script>\n'
-                        '<script src="assets/js/urlap.js?v=1" defer></script>\n'
-                        '<script src="assets/js/terkep.js?v=1" defer></script>')
+                        '<script src="assets/js/urlap.js?v=1" defer></script>')
     out = WEB / PAGE['file']
     out.write_text(html, encoding='utf-8')
     print(f"{PAGE['file']}  {len(html)//1024} KB")
