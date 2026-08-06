@@ -32,7 +32,7 @@ Options -Indexes
   RewriteEngine On
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}.php -f
-  RewriteRule ^(kapcsolat|dontestamogato|ajanlat-atnezes)$ $1.php [L]
+  RewriteRule ^(kapcsolat|dontestamogato|ajanlat-atnezes|ajanlat-elemzes)$ $1.php [L]
 </IfModule>
 
 # --- A válasz sosem gyorstárazódik ------------------------------------------

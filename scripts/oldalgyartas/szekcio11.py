@@ -241,7 +241,7 @@ def build():
           </p>
 
           <aside class="ofc-ai" aria-labelledby="ofc-ai-cim">
-            <h3 class="type-ui-card-title ofc-ai-title" id="ofc-ai-cim">Összegzés röviden</h3>
+            <h3 class="type-ui-card-title ofc-ai-title" id="ofc-ai-cim">Megjegyzések a dokumentumokról</h3>
             <ul class="ofc-ai-list" role="list">
 {ai}
             </ul>

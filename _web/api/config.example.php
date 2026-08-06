@@ -35,6 +35,16 @@ return [
         'timeout' => 20,
     ],
 
+
+    /* --- AI-elemzés (11. szekció ajánlat-összehasonlító) ------------------ */
+    // Az API-kulcs SOHA nem kerül a böngészőbe: az api/ajanlat-elemzes.php a
+    // proxy, a kliens csak azt a végpontot látja.
+    'ai' => [
+        'kulcs'   => oth_env('OTH_AI_KULCS', 'IDE_JON_AZ_API_KULCS'),
+        'modell'  => oth_env('OTH_AI_MODELL', 'claude-sonnet-5'),
+        'timeout' => 120,
+    ],
+
     /* --- Feladó és címzettek --------------------------------------------- */
     // A feladónak a saját domainen kell lennie, különben az SPF/DKIM elbukik,
     // és a levél spambe kerül. A látogató címe a Reply-To fejlécbe megy.

@@ -8,16 +8,15 @@
    indul, és az „Ajánlatok összehasonlítása" gomb tölti ki — csak azoknak az
    ajánlatoknak az oszlopát, amelyekhez tényleg tartozik feltöltés.
 
-   ⚠️ AMIT A MODUL MA NEM TUD
-   A feltöltött fájlok kiolvasása backendet igényel: ma NEM történik elemzés.
-   A táblában és az AI-összegzésben MINTAADAT jelenik meg, hogy a felület
-   kipróbálható legyen. Ezért a kitöltés után egy jól látható figyelmeztetés is
-   megjelenik — enélkül a felhasználó azt hinné, a saját ajánlatait látja
-   feldolgozva. (Ugyanaz az elv, mint a 8. szekció e-mail-küldésénél: inkább
-   mondjuk meg, hogy még nem éles, mint hogy úgy tegyünk, mintha az lenne.)
+   AZ ELEMZÉS VALÓDI. A gomb feltölti az ajánlatokat az api/ajanlat-elemzes
+   végpontra, amely a dokumentumokból olvassa ki a cellák tartalmát. Az
+   API-kulcs a szerveren marad, a böngésző sosem látja.
 
-   Élesítéskor: a `fillState()` a backend válaszából töltse a cellákat, és a
-   `showDemoNotice()` hívása törlendő.
+   AMIT A FELÜLET KÖTELEZŐEN KIÍR: az elemzés tájékoztató jellegű, és ahol
+   „nincs adat" áll, ott a dokumentum nem tartalmazta az információt — ez NEM
+   jelenti azt, hogy a szolgáltatás kimarad az ajánlatból. A különbségtétel a
+   látogató szempontjából lényeges, ezért a szöveg a szerverről jön (egy helyen
+   változik), és a tábla fölött mindig megjelenik.
    ============================================================================= */
 
 (() => {
@@ -181,10 +180,6 @@
   const aiList = document.querySelector('.ofc-ai-list');
   const steps = document.querySelectorAll('.ofc-step');
 
-  /* A markupban álló mintatartalmat eltesszük, mert az üres állapot felülírja. */
-  const cellStore = valueCells.map((td) => td.innerHTML);
-  const headStore = headSubs.map((s) => s.innerHTML);
-  const aiStore = aiList ? aiList.innerHTML : '';
 
   const OFFER_INDEX = { a: 0, b: 1, c: 2 };
 
@@ -206,38 +201,68 @@
     });
   };
 
-  /* A mintaadat-figyelmeztetés. Amíg nincs backend, a tábla NEM a feltöltött
-     fájlokból készül — ezt ki kell mondani, nem elrejteni. */
-  const showDemoNotice = () => {
-    if (compare.querySelector('.ofc-demo')) return;
-    const p = document.createElement('p');
-    p.className = 'ofc-demo type-ui-body';
-    p.setAttribute('role', 'status');
-    p.innerHTML =
-      '<strong>Ez egy bemutató kitöltés.</strong> A feltöltött fájlok kiolvasása még nem ' +
-      'él, ezért az alábbi tábla mintaadatot mutat, nem az Ön ajánlatait. Ha most szeretne ' +
-      'érdemi véleményt, küldje el nekünk az ajánlatokat — átnézzük.';
-    compare.insertBefore(p, compare.querySelector('[data-ofc-body]'));
+  /* A cella tartalmát a szerver adja. Escape-elve írjuk ki: a modell
+     kimenete idegen szöveg, HTML-ként értelmezve beszúrás lenne. */
+  const cella = (mezo) => {
+    if (!mezo) return '<span class="ofc-dash">—</span>';
+    const ertek = document.createElement('span');
+    const nincs = /^nincs adat$/i.test(mezo.ertek || '');
+    ertek.className = 'ofc-st ' + (nincs ? 'ofc-st-nodata' : 'ofc-st-muted');
+    ertek.textContent = mezo.ertek || 'nincs adat';
+    if (mezo.reszlet) {
+      const kis = document.createElement('small');
+      kis.textContent = mezo.reszlet;
+      ertek.append(kis);
+    }
+    return ertek.outerHTML;
   };
 
-  const fillState = () => {
-    const up = uploaded();
+  const fillState = (adat) => {
+    const kulcsok = Object.keys(adat.szempontok || {});
+    const jelek = ['A', 'B', 'C'];
+
     valueCells.forEach((td, i) => {
-      const offer = td.cellIndex - 1;              // 0 = A, 1 = B, 2 = C
-      td.innerHTML = up[offer] ? cellStore[i] : '<span class="ofc-dash">—</span>';
+      const jel = jelek[td.cellIndex - 1];
+      const sor = kulcsok[Math.floor(i / 3)];
+      const a = adat.ajanlatok[jel];
+      td.innerHTML = a ? cella(a.szempontok[sor]) : '<span class="ofc-dash">—</span>';
     });
-    headSubs.forEach((s, i) => { s.innerHTML = up[i] ? headStore[i] : '—'; });
+    headSubs.forEach((s, i) => {
+      const a = adat.ajanlatok[jelek[i]];
+      s.textContent = a ? a.cimke : '—';
+    });
 
     if (aiList) {
-      aiList.innerHTML = aiStore;
-      Array.from(aiList.querySelectorAll('li')).forEach((li) => {
-        const key = li.getAttribute('data-ofc-for');
-        if (key && !up[OFFER_INDEX[key]]) li.hidden = true;
+      aiList.innerHTML = '';
+      jelek.forEach((jel) => {
+        const a = adat.ajanlatok[jel];
+        if (!a || !a.megjegyzes) return;
+        const li = document.createElement('li');
+        li.className = 'type-ui-subtitle';
+        li.textContent = 'Ajánlat ' + jel + ': ' + a.megjegyzes;
+        aiList.append(li);
       });
+      if (!aiList.children.length) {
+        const li = document.createElement('li');
+        li.className = 'type-ui-subtitle';
+        li.textContent = 'A dokumentumok olvashatók voltak, külön észrevétel nincs.';
+        aiList.append(li);
+      }
     }
+
     if (steps[0]) { steps[0].classList.remove('is-active'); steps[0].classList.add('is-done'); }
-    if (steps[1]) steps[1].classList.add('is-active');
-    showDemoNotice();
+    if (steps[1]) { steps[1].classList.remove('is-active'); steps[1].classList.add('is-done'); }
+    if (steps[2]) steps[2].classList.add('is-active');
+
+    /* A tájékoztató szöveg a szerverről jön, hogy egy helyen legyen karbantartva. */
+    let sav = compare.querySelector('.ofc-demo');
+    if (!sav) {
+      sav = document.createElement('p');
+      sav.className = 'ofc-demo type-ui-body';
+      sav.setAttribute('role', 'status');
+      compare.insertBefore(sav, compare.querySelector('[data-ofc-body]'));
+    }
+    sav.textContent = adat.tajekoztato || '';
   };
 
   emptyState();
@@ -268,11 +293,36 @@
 
     cta.classList.add('is-loading');
     cta.setAttribute('aria-busy', 'true');
-    setTimeout(() => {
-      cta.classList.remove('is-loading');
-      cta.removeAttribute('aria-busy');
-      fillState();
-      compare.scrollIntoView({ block: 'start', behavior: 'smooth' });
-    }, 900);
+
+    const adatok = new FormData();
+    Array.from(document.querySelectorAll('[data-ofc-card]')).forEach((c, i) => {
+      const input = c.querySelector('[data-ofc-input]');
+      const sel = c.querySelector('.ofc-select');
+      const jel = ['a', 'b', 'c'][i];
+      if (input && input.files && input.files[0]) adatok.append('ajanlat_' + jel, input.files[0]);
+      if (sel && sel.selectedIndex > 0) adatok.append('tipus_' + jel, sel.value);
+    });
+
+    fetch('api/ajanlat-elemzes', { method: 'POST', headers: { Accept: 'application/json' }, body: adatok })
+      .then((r) => r.json().then((j) => ({ ok: r.ok, j })))
+      .then(({ ok, j }) => {
+        if (!ok || !j.ok) throw new Error(j.uzenet || 'Az elemzés nem sikerült.');
+        fillState(j);
+        compare.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      })
+      .catch((e) => {
+        let hiba = compare.querySelector('.ofc-hiba');
+        if (!hiba) {
+          hiba = document.createElement('p');
+          hiba.className = 'ofc-hiba type-ui-body';
+          hiba.setAttribute('role', 'alert');
+          compare.insertBefore(hiba, compare.querySelector('[data-ofc-body]'));
+        }
+        hiba.textContent = e.message;
+      })
+      .finally(() => {
+        cta.classList.remove('is-loading');
+        cta.removeAttribute('aria-busy');
+      });
   });
 })();
