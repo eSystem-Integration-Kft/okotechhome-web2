@@ -1293,7 +1293,6 @@
     position:absolute;top:-120px;left:0;
     width:100%;height:calc(100% + 120px);
     border:0;display:block;
-    pointer-events:none;                  /* lásd .terkep-jeloles indoklását */
     /* A Google alaptérképe telített: a narancs POI-ikonok és a kék utak
        elviszik a tekintetet a logós jelölésről. A tompítás visszaveszi a
        színeket, hogy a térkép HÁTTÉR maradjon. Csak ennyi — erősebb szűrő
@@ -1324,17 +1323,25 @@
   }
 
   /* SAJÁT JELÖLÉS — a logó a Google gombostűje fölött lebeg, csücsökkel lefelé.
-     A beágyazás a címre központoz, ezért a gombostű a keret közepén áll; a
-     keretet 120px-szel feljebb húztuk, így a sáv közepéhez képest 60px-szel
-     feljebb. A doboz ehhez a ponthoz igazodik, onnan emelkedik a gombostű fölé.
+     A helye KISZÁMÍTOTT, nem szemre igazított:
+     · vízszintesen: a beágyazás középpontja (`ll=`) 0,00279 fokkal nyugatabbra
+       van a jelölőnél (`q=`), ezért a gombostű a sáv közepétől jobbra áll.
+       A képlet (0,00279 × 256 × 2^16 / 360) 130px-et ad, a beágyazás viszont
+       MÉRVE 122px-et rajzol — a keret nem pontosan a `z=16` névleges léptékén
+       jelenít meg. A CSS a MÉRT értéket követi. A kettő csak EGYÜTT
+       módosítható: ha a kapcsolat.py-ban átírod a középpontot, ezt is — és
+       utána képernyőn ellenőrizd, ne képletből.
+     · függőlegesen: a keret 120px-szel feljebb kezdődik (lásd fent), ezért a
+       középpont a sáv közepéhez képest 60px-szel feljebb van.
 
-     EZÉRT NEM HÚZHATÓ A TÉRKÉP (lásd .terkep-beagyazott, pointer-events:none):
-     egy saját réteg csak addig mond igazat, amíg a térkép alatta nem mozdul el.
-     Aki mozgatni akarja, az „Útvonaltervezés" gombbal a Google Térképre jut. */
+     A TÉRKÉP HÚZHATÓ, a jelölés viszont nem tud vele mozogni — ezért az egér
+     alatt elhalványul, és ha a látogató tényleg megmozgatta a térképet, a
+     `terkep.js` végleg el is veszi. Enélkül rossz helyre mutatna. */
   .terkep-jeloles{
     position:absolute;z-index:2;pointer-events:none;
-    left:50%;top:calc(50% - 60px);
+    left:calc(50% + 122px);top:calc(50% - 60px);
     transform:translate(-50%,calc(-100% - var(--space-48)));
+    transition:opacity var(--dur-ui) var(--ease-out);
     padding:var(--space-8) var(--space-16);
     background:var(--surface);
     border:1px solid var(--border);
@@ -1352,6 +1359,9 @@
     border-right:1px solid var(--border);border-bottom:1px solid var(--border);
     transform:rotate(45deg);
   }
+  /* Amint az egér a térképre ér, a jelölés elhalványul: onnantól a látogatóé a
+     térkép, és a saját rétegünk nem tudja követni. Ez JS nélkül is működik. */
+  .terkep-vaszon:hover .terkep-jeloles{opacity:0}
 
   /* A kártyát tartó sáv a fejléccel és a heróval AZONOS konténerben ül, így a
      kártya bal éle egy vonalban van a logóval és a hero-szöveggel.

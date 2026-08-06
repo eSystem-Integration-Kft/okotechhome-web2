@@ -43,10 +43,20 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   fölötte a bal oldalon. A rétegezés griddel megy — mindkét réteg ugyanabba a cellába
   kerül —, ezért a sáv magassága a magasabbhoz igazodik: nagyobb betűméretnél a
   kártya nem lóg ki, a térkép nő vele. Mobilon nincs átfedés, a kettő egymás alá áll.
-- **Saját térképjelölés a cég logójával.** Csücskös doboz a Google gombostűje fölött,
-  a keret közepére igazítva. A beágyazott keret ezért **nem húzható**
-  (`pointer-events:none`): egy saját réteg csak addig mond igazat, amíg a térkép
-  alatta nem mozdul el. A mozgatás útja az „Útvonaltervezés" gomb.
+- **Saját térképjelölés a cég logójával** — csücskös doboz a Google gombostűje fölött.
+  A helye kiszámított, nem szemre igazított: a beágyazás középpontja (`ll=`) 0,00279
+  fokkal nyugatabbra van a jelölőnél (`q=`), így a gombostű a sáv közepétől jobbra
+  áll, el a bal oldali kártyától — a jelölés CSS-eltolása ugyanezt a **mért** 122
+  képpontot követi (a képlet 130-at adna; a keret nem a `z=16` névleges léptékén
+  rajzol).
+- **`terkep.js` — a jelölés élettartama.** A réteg csak addig mutat a cégre, amíg a
+  térkép áll, mozgásáról viszont — másik eredet lévén — a lap semmit nem tud. Ezért
+  nem követjük, hanem visszavonjuk: az egér alatt elhalványul (CSS, JS nélkül is), és
+  ha a látogató tényleg a térképpel foglalkozott — 700 ms-nél tovább időzött fölötte,
+  vagy a keret fókuszt kapott —, a szkript végleg elveszi. A pontos helyet onnantól a
+  Google saját gombostűje jelöli, ami együtt mozog a térképpel. A tévedés ára
+  aszimmetrikus: a fölöslegesen elvett jelölés csak egy hiányzó dísz, a bent maradó
+  viszont rossz helyre mutatna.
 - **`--shadow-3` — harmadik elevációs szint.** A lapról leváló, más tartalom fölött
   lebegő felületekhez. Egyetlen használati helye a térkép fölötti kártya és jelölés:
   ott a háttér nem egyszínű, hanem rajzos, és a `--shadow-2` finom pereme beleolvadt.

@@ -216,7 +216,7 @@ TERKEP = '''
     <div class="terkep-vaszon">
       <iframe class="terkep-beagyazott"
               title="ÖkoTech Home — {cim} a Google Térképen"
-              src="https://www.google.com/maps?q={terkep_q}&amp;z=16&amp;hl=hu&amp;output=embed"
+              src="https://www.google.com/maps?q={terkep_jelolo}&amp;ll={terkep_kozep}&amp;z=16&amp;hl=hu&amp;output=embed"
               loading="lazy" referrerpolicy="no-referrer-when-downgrade"
               allowfullscreen></iframe>
       <span class="terkep-fade" aria-hidden="true"></span>
@@ -230,7 +230,17 @@ TERKEP = '''
     </div>
   </section>
 '''.format(tel_href=TEL_HREF, tel=TEL, mail=MAIL, cim=CIM,
-        terkep_q='2509+Esztergom%2C+Str%C3%A1zsa+u.+12.',
+        # A JELÖLŐ a cég koordinátája (a Google saját geokódolása a címre), a
+        # KÖZÉPPONT ettől nyugatra van — így a gombostű a sáv közepétől jobbra
+        # kerül, el a bal oldali kártyától.
+        #
+        # A két hosszúsági fok különbsége 0,00279°. A képlet
+        # 0,00279 × (256 × 2^16 / 360) ≈ 130px-et ad, a beágyazás viszont mérve
+        # 122px-et rajzol. A `.terkep-jeloles` CSS-eltolása a MÉRT 122px — ha
+        # itt módosítod a középpontot, ott is át kell írni, és képernyőn kell
+        # ellenőrizni, nem képletből, különben a logó elcsúszik a gombostűtől.
+        terkep_jelolo='47.7501283,18.73557',
+        terkep_kozep='47.7501283,18.73278',
         terkep_cel='2509%20Esztergom%2C%20Str%C3%A1zsa%20u.%2012.')
 SECTIONS.append(TERKEP)
 SECTIONS.append(sec_faq([
@@ -268,7 +278,8 @@ if __name__ == '__main__':
     html = html.replace('../assets/', 'assets/')
     html = html.replace('<script src="assets/js/site.js?v=3" defer></script>',
                         '<script src="assets/js/site.js?v=3" defer></script>\n'
-                        '<script src="assets/js/urlap.js?v=1" defer></script>')
+                        '<script src="assets/js/urlap.js?v=1" defer></script>\n'
+                        '<script src="assets/js/terkep.js?v=1" defer></script>')
     out = WEB / PAGE['file']
     out.write_text(html, encoding='utf-8')
     print(f"{PAGE['file']}  {len(html)//1024} KB")
