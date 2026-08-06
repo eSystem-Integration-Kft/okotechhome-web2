@@ -1224,6 +1224,80 @@
     margin-top:var(--space-64);
   }
 
+
+  /* ===== 5.16 Projektek és visszajelzések (ÚJ) ===== */
+  .projekt-kiemelt{
+    display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    gap:var(--space-32);align-items:stretch;margin-bottom:var(--space-48);
+  }
+  .projekt-media{
+    aspect-ratio:var(--media-ratio-card);border-radius:var(--panel-radius);
+    overflow:hidden;background:var(--surface-muted);margin:0;
+  }
+  .projekt-media img{width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform var(--dur-media) var(--ease-out)}
+  .projekt:hover .projekt-media img,
+  .projekt-kiemelt:hover .projekt-media img{transform:scale(1.03)}
+  .projekt-media-nagy{aspect-ratio:auto;min-height:18rem}
+  .projekt-kiemelt-torzs{display:flex;flex-direction:column;gap:var(--space-16)}
+  .projekt-eyebrow{color:var(--text-tertiary)}
+  .projekt-kiemelt-cim,.projekt-cim{color:var(--text-primary);text-wrap:balance}
+  /* Az évszám és a helyszín egy sorban, mono évszámmal — adat, nem próza. */
+  .projekt-meta{display:flex;flex-wrap:wrap;gap:var(--space-8);align-items:center;
+    color:var(--text-tertiary);margin:0}
+  .projekt-ev{color:var(--text-secondary)}
+  .projekt-szoveg{color:var(--text-secondary)}
+  /* A projekt egy számban összefoglalva: lime felület, mert ez a szekció
+     legfontosabb adata, és a szemnek meg kell akadnia rajta. */
+  .projekt-chip{
+    display:inline-flex;flex-direction:column;gap:var(--space-4);
+    padding:var(--space-16);background:var(--surface-muted);
+    border-radius:var(--card-radius);margin:0;align-self:flex-start;
+  }
+  .projekt-chip-szam{color:var(--text-primary)}
+  .projekt-chip-alatt{color:var(--text-secondary)}
+  .projekt-kiemelt-alj{display:flex;flex-wrap:wrap;gap:var(--space-24);
+    align-items:center;justify-content:space-between;margin-top:auto}
+  .projekt-racs{list-style:none;margin:0;padding:0;display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-32)}
+  .projekt{display:flex;flex-direction:column;gap:var(--space-16)}
+  /* A hivatkozás a kártya aljára tapad, hogy a három oszlop egy vonalban zárjon. */
+  .projekt-link{margin-top:auto;align-self:flex-start}
+
+  .velemeny-keret{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);
+    gap:var(--space-48);align-items:start}
+  .velemeny-fej{margin-bottom:0}
+  /* A függőleges vonal az idézetblokk bal szélén: tipográfiai jel, hogy
+     idézetről van szó, nem folytatásról. */
+  .velemeny-doboz{padding-left:var(--space-32);border-left:2px solid var(--border)}
+  .velemeny-lista{list-style:none;margin:0;padding:0}
+  .velemeny-tema{color:var(--text-primary);margin-bottom:var(--space-24)}
+  .velemeny-idezet{margin:0}
+  /* A nyitó idézőjel dekoráció: nem kerül a hozzáférhetőségi fába, mert
+     ::before tartalmat a képernyőolvasók nem olvasnak fel. */
+  .velemeny-idezet::before{
+    content:"\201E";display:block;font-family:var(--font-heading);
+    font-size:2.5rem;line-height:.7;color:var(--primary);margin-bottom:var(--space-8);
+  }
+  .velemeny-szoveg{color:var(--text-primary);margin-bottom:var(--space-16)}
+  .velemeny-szoveg:focus-visible{outline:3px solid var(--button-focus);outline-offset:6px;border-radius:2px}
+  .velemeny-nev{color:var(--text-secondary)}
+  .velemeny-idezet-onallo{padding-left:var(--space-32);border-left:2px solid var(--border);max-width:56ch}
+  .velemeny-lepteto{display:flex;align-items:center;gap:var(--space-16);margin:var(--space-32) 0 0}
+  .velemeny-gomb{
+    display:grid;place-items:center;flex:none;
+    width:var(--space-48);height:var(--space-48);border-radius:50%;
+    border:1px solid var(--border);background:var(--surface);
+    color:var(--text-primary);cursor:pointer;font-size:1.25rem;line-height:1;
+    transition:background var(--dur-ui) var(--ease-out),border-color var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out);
+  }
+  .velemeny-gomb:hover{background:var(--primary);border-color:var(--primary);color:var(--on-primary);transform:scale(1.06)}
+  .velemeny-gomb:focus-visible{outline:3px solid var(--button-focus);outline-offset:3px}
+  .velemeny-szamlalo{color:var(--text-tertiary)}
+  /* A megjelenő vélemény finoman beúszik — a váltás így követhető. */
+  .velemeny[data-aktiv]{animation:velemeny-be var(--dur-ui) var(--ease-out)}
+  @keyframes velemeny-be{from{opacity:0;transform:translateY(var(--space-8))}to{opacity:1;transform:none}}
+
   /* ===== 5.15 Űrlap (ÚJ) =====
      A designrendszer nem definiál mezőstílust. Az alábbiak kizárólag
      szemantikus tokenből épülnek; a mezők 44px magasak (érintőcélpont), és a
@@ -1958,6 +2032,9 @@
     /* A modul kétoszlopos elrendezése 1024px alatt egymás alá kerül: a jobb
        oszlop (feltöltés + tábla) fél szélességen használhatatlan volna. */
     .ofc{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
+    .projekt-kiemelt{grid-template-columns:minmax(0,1fr)}
+    .projekt-racs{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .velemeny-keret{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
     .ofc-uphead{grid-template-columns:minmax(0,1fr)}
     .ofc-tip{max-width:none}
     .panel-dark{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
@@ -2028,6 +2105,8 @@
 
     /* Három feltöltő kártya egymás mellett mobilon olvashatatlan. */
     .ofc-cards{grid-template-columns:minmax(0,1fr)}
+    .projekt-racs{grid-template-columns:minmax(0,1fr)}
+    .velemeny-doboz{padding-left:var(--space-16)}
     .ofc-panel,.ofc-compare{padding:var(--space-16)}
     /* A lépésjelző szövege elfogyna: a számok maradnak, a feliratok tördelnek,
        az összekötő vonalak eltűnnek. */

@@ -37,6 +37,15 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **§12 — Dokumentált projektek és használói tapasztalatok**, és a hozzá tartozó
+  **négy esettanulmány-oldal** (`eredmenyek/csikvand`, `bakonypeterd`,
+  `diosbereny`, `obudavar`). Kiemelt projekt + hármas rács, mindegyik saját
+  légifelvétellel, projektadat-táblával és „miért így oldottuk meg" magyarázattal.
+  A számok és évszámok a végleges szövegdokumentumból valók, kerekítés nélkül.
+  A nyolc visszajelzés léptethető, de **JS nélkül mind látszik** — a `hidden`
+  attribútumot a JS teszi rá, tehát a tartalom sosem vész el, és a keresők is
+  megtalálják. Nincs automatikus léptetés: a mozgó szöveg olvasás közben zavaró,
+  és a WCAG 2.2 külön kéri a megállíthatóságot.
 - **Levélküldő backend — három végpont.** `api/kapcsolat`, `api/dontestamogato`
   és `api/ajanlat-atnezes` (ez utóbbi csatolmánnyal). Saját, függőség nélküli
   SMTP-kliens (implicit TLS 465 és STARTTLS 587); a `mail()` azért nem jó, mert
