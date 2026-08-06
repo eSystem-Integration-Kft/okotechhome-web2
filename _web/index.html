@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=50">
+<link rel="stylesheet" href="assets/css/app.css?v=51">
 <link rel="preload" as="image" media="(min-width: 1025px)" href="assets/img/hero-rendszer-allokep.webp"
       imagesrcset="assets/img/hero-rendszer-allokep-1024.webp 1024w, assets/img/hero-rendszer-allokep.webp 1600w"
       imagesizes="100vw">
@@ -1518,14 +1518,95 @@
           </li>
         </ol>
         <div class="folyamat-panelek">
-
-        <!-- JOGI JÓVÁHAGYÁSRA VÁR — NEM PUBLIKÁLHATÓ: „Van csatorna az utcánkban. Választhatok mégis egyedi szennyvízkezelést?"
-             A szövegforrás maga jelöli: „[Jogi ellenőrzés szükséges a végleges
-             megfogalmazás előtt.]" A válasz a rákötési kötelezettséget és a
-             talajterhelési díjat értelmezi — jogszabály-értelmezés, téves
-             megfogalmazás esetén a látogatót téves döntéshez vezetheti.
-             A kész szöveg a scripts/oldalgyartas/szekcio13_15.py fájlban áll;
-             a GYIK-sor `True` értékét `False`-ra váltva publikálható. -->
+        <div class="folyamat-panel" id="lepes-1" data-folyamat-panel="1">
+          <h3 class="type-display-highlight-title folyamat-cim">
+            <span class="folyamat-cim-szam">01</span> · Projektadatok és telekadottságok
+          </h3>
+          <ul class="folyamat-lista" role="list">
+            <li class="type-ui-body">csőkivezetés, lejtés</li>
+            <li class="type-ui-body">talaj és talajvíz</li>
+            <li class="type-ui-body">elszivárogtatás</li>
+            <li class="type-ui-body">gépi hozzáférés a telken</li>
+          </ul>
+          <p class="folyamat-dol">
+            <strong class="type-ui-card-title">Itt dől el:</strong>
+            <span class="type-ui-body">milyen kialakítás jöhet szóba az adott ingatlanon.</span>
+          </p>
+        </div>
+        <div class="folyamat-panel" id="lepes-2" data-folyamat-panel="2" hidden>
+          <h3 class="type-display-highlight-title folyamat-cim">
+            <span class="folyamat-cim-szam">02</span> · Méretezés és technológia
+          </h3>
+          <ul class="folyamat-lista" role="list">
+            <li class="type-ui-body">állandó lakóház vagy nyaraló</li>
+            <li class="type-ui-body">meglévő emésztő kiváltása</li>
+            <li class="type-ui-body">nagyobb terhelésű ingatlan</li>
+          </ul>
+          <p class="folyamat-dol">
+            <strong class="type-ui-card-title">Itt dől el:</strong>
+            <span class="type-ui-body">az A.B. Clear biológiai szennyvíztisztító, az Epureco oldómedence vagy egy nagyobb kapacitású rendszer illik-e a helyzethez.</span>
+          </p>
+        </div>
+        <div class="folyamat-panel" id="lepes-3" data-folyamat-panel="3" hidden>
+          <h3 class="type-display-highlight-title folyamat-cim">
+            <span class="folyamat-cim-szam">03</span> · Dokumentáció és engedélyezési háttér
+          </h3>
+          <ul class="folyamat-lista" role="list">
+            <li class="type-ui-body">EN 12566-3 szerinti minősítés</li>
+            <li class="type-ui-body">műszaki adatok és helyszínrajz</li>
+            <li class="type-ui-body">a kezelt víz elhelyezése</li>
+            <li class="type-ui-body">hatósági kérdések</li>
+          </ul>
+          <p class="folyamat-dol">
+            <strong class="type-ui-card-title">Itt dől el:</strong>
+            <span class="type-ui-body">milyen dokumentációval és milyen eljárással érdemes továbbmenni.</span>
+          </p>
+        </div>
+        <div class="folyamat-panel" id="lepes-4" data-folyamat-panel="4" hidden>
+          <h3 class="type-display-highlight-title folyamat-cim">
+            <span class="folyamat-cim-szam">04</span> · Gyártás és telepítés
+          </h3>
+          <ul class="folyamat-lista" role="list">
+            <li class="type-ui-body">magyarországi gyártás</li>
+            <li class="type-ui-body">saját fejlesztésű rendszerek</li>
+            <li class="type-ui-body">telepítési tapasztalat csatorna nélküli ingatlanokon</li>
+          </ul>
+          <p class="folyamat-dol">
+            <strong class="type-ui-card-title">Itt dől el:</strong>
+            <span class="type-ui-body">hogyan lesz a tervből működő berendezés.</span>
+          </p>
+        </div>
+        <div class="folyamat-panel" id="lepes-5" data-folyamat-panel="5" hidden>
+          <h3 class="type-display-highlight-title folyamat-cim">
+            <span class="folyamat-cim-szam">05</span> · Beüzemelés és használat
+          </h3>
+          <ul class="folyamat-lista" role="list">
+            <li class="type-ui-body">átadás és működési tudnivalók</li>
+            <li class="type-ui-body">tisztítószerek</li>
+            <li class="type-ui-body">az iszapzsák kezelése</li>
+            <li class="type-ui-body">szaghatás, kompresszor</li>
+          </ul>
+          <p class="folyamat-dol">
+            <strong class="type-ui-card-title">Itt dől el:</strong>
+            <span class="type-ui-body">mit kell tudnia a tulajdonosnak a mindennapi használatról.</span>
+          </p>
+        </div>
+        <div class="folyamat-panel" id="lepes-6" data-folyamat-panel="6" hidden>
+          <h3 class="type-display-highlight-title folyamat-cim">
+            <span class="folyamat-cim-szam">06</span> · Karbantartás, szerviz és hosszú távú támogatás
+          </h3>
+          <ul class="folyamat-lista" role="list">
+            <li class="type-ui-body">rendszeres ellenőrzés</li>
+            <li class="type-ui-body">membráncsere, kompresszor</li>
+            <li class="type-ui-body">iszapzsák</li>
+            <li class="type-ui-body">dokumentáció és karbantartási emlékeztető</li>
+            <li class="type-ui-body">hibajelzés és szervizháttér</li>
+          </ul>
+          <p class="folyamat-dol">
+            <strong class="type-ui-card-title">Itt dől el:</strong>
+            <span class="type-ui-body">hogyan marad a rendszer hosszú távon üzembiztos.</span>
+          </p>
+        </div>
         </div>
       </div>
     </div>

@@ -207,7 +207,7 @@ def epit():
             csoportok[cs] = []; sorrend.append(cs)
         csoportok[cs].append((k, v, cimke, cel, jogi))
 
-    fulek, listak, panelek = [], [], ''
+    fulek, listak, jogi_megjegyzes = [], [], ''
     for ci, cs in enumerate(sorrend, 1):
         akt = ' aria-selected="true"' if ci == 1 else ' aria-selected="false"'
         rejt = '' if ci == 1 else ' hidden'
@@ -218,7 +218,7 @@ def epit():
         sorok, valaszok = [], []
         for qi, (k, v, cimke, cel, jogi) in enumerate(csoportok[cs], 1):
             if jogi:
-                panelek += (f'''
+                jogi_megjegyzes += (f'''
         <!-- JOGI JÓVÁHAGYÁSRA VÁR — NEM PUBLIKÁLHATÓ: „{k}"
              A szövegforrás maga jelöli: „[Jogi ellenőrzés szükséges a végleges
              megfogalmazás előtt.]" A válasz a rákötési kötelezettséget és a
@@ -270,7 +270,7 @@ def epit():
         </div>
 {chr(10).join(listak)}
       </div>
-{panelek}
+{jogi_megjegyzes}
 '''
 
     return f'''

@@ -1293,8 +1293,15 @@
 
   /* --- GYIK: kategóriafülek + kérdéslista + válaszpanel --- */
   /* Burkolók: a .gyik a fülrendszer egésze, a .gyik-tabla egy kategória
-     táblája, a .konz-bal a konzultációs szekció bal oszlopa. */
-  .gyik,.gyik-tabla{display:block}
+     táblája, a .konz-bal a konzultációs szekció bal oszlopa.
+
+     A `display` KIZÁRÓLAG a nem rejtett állapotra vonatkozhat: a sima
+     `.gyik-tabla{display:block}` felülírná a `[hidden]` attribútumot (az
+     böngésző-alapértelmezésből kap `display:none`-t, ami a szerzői
+     szabálynál gyengébb), és MINDEN kategória egyszerre látszana. */
+  .gyik,
+  .gyik-tabla:not([hidden]){display:block}
+  .gyik-tabla[hidden]{display:none}
   .konz-bal{display:flex;flex-direction:column}
   .gyik-fulek{display:flex;flex-wrap:wrap;border:1px solid var(--border);
     border-radius:var(--card-radius);overflow:hidden}
@@ -1357,6 +1364,9 @@
   /* ===== 5.18 Szolgáltatási folyamat — lépéssor (ÚJ) ===== */
   /* A lépéssor burkolója: a sín és a panelek együtt. */
   .folyamat{display:block}
+  /* Ugyanaz a csapda, mint a .gyik-tabla-nál: a rejtett panel és vélemény
+     `display`-ét nem szabad szerzői szabállyal felülírni. */
+  .folyamat-panel[hidden],.gyik-valasz[hidden],.velemeny[hidden]{display:none}
   .folyamat-sin{
     list-style:none;margin:0 0 var(--space-48);padding:0;
     display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--space-8);
