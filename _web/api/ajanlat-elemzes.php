@@ -167,11 +167,16 @@ foreach ($dokumentumok as $jel => $d) {
                 "(A dokumentum szöveges tartalma, táblázatból kibontva. A tördelés "
               . "elveszhetett, az értékek nem.)\n\n" . mb_substr($kibontott, 0, 60000)];
         } else {
+            /* A látogatónak a KITERJESZTÉST mondjuk, ne a MIME-típust: az
+               „application/vnd.ms-excel” neki semmit nem jelent, a „.xls” igen. */
+            $kit = strtoupper((string) pathinfo($f['nev'], PATHINFO_EXTENSION));
             $content[] = ['type' => 'text', 'text' =>
-                "(Ez a fájl {$f['mime']} formátumú — régi, bináris Office-formátum, "
-              . "amelyet nem tudunk megbízhatóan kiolvasni. Minden szempontnál "
-              . "„nincs adat” szerepeljen, a megjegyzésben pedig az, hogy a formátum "
-              . "miatt nem olvasható; javasold a PDF-be mentést.)"];
+                "(Ez a fájl régi, bináris {$kit} formátumú — a 2007 előtti Word/Excel "
+              . "mentési formátuma —, amelyet nem tudunk megbízhatóan kiolvasni. Minden "
+              . "szempontnál „nincs adat” szerepeljen. A megjegyzésbe ezt írd, szó szerint: "
+              . "„A dokumentum régi {$kit} formátumú, ezért nem olvasható ki. Mentse el "
+              . "PDF-ként vagy " . ($kit === 'XLS' ? 'XLSX' : 'DOCX') . "-ként, és töltse "
+              . "fel újra — akkor az elemzés ezt az ajánlatot is figyelembe veszi.”)"];
         }
     }
 }
