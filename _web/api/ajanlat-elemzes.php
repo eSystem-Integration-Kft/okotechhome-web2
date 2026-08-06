@@ -21,6 +21,7 @@
 
 declare(strict_types=1);
 require __DIR__ . '/lib/indit.php';
+require __DIR__ . '/lib/office.php';
 
 /* A dokumentumok kiolvasása hosszú művelet. Megosztott tárhelyen a
    max_execution_time gyakran 30–60 másodperc: a szerver a szkriptet VÁLASZ
@@ -145,12 +146,22 @@ foreach ($dokumentumok as $jel => $d) {
             'type' => 'base64', 'media_type' => 'image/png',
             'data' => base64_encode($f['adat'])]];
     } else {
-        /* DOC/XLS: a bináris tartalmat nem küldjük el — a modell nem tudja
-           megbízhatóan olvasni, és a félreolvasás rosszabb, mint a nemleges válasz. */
-        $content[] = ['type' => 'text', 'text' =>
-            "(Ez a fájl {$f['mime']} formátumú, amelyet nem tudunk megbízhatóan kiolvasni. "
-          . "Minden szempontnál „nincs adat” szerepeljen, a megjegyzésben pedig az, hogy a "
-          . "formátum miatt nem olvasható.)"];
+        /* A DOCX és az XLSX ZIP-archívum: a szöveget kibontjuk, és úgy küldjük.
+           A régi, bináris .doc/.xls nem bontható — ott marad az őszinte
+           „nem olvasható", mert a félig sikerült kiolvasás téves adatot vinne
+           az összehasonlításba. */
+        $kibontott = OthOffice::szoveg($f['adat'], $f['mime']);
+        if ($kibontott !== null && $kibontott !== '') {
+            $content[] = ['type' => 'text', 'text' =>
+                "(A dokumentum szöveges tartalma, táblázatból kibontva. A tördelés "
+              . "elveszhetett, az értékek nem.)\n\n" . mb_substr($kibontott, 0, 60000)];
+        } else {
+            $content[] = ['type' => 'text', 'text' =>
+                "(Ez a fájl {$f['mime']} formátumú — régi, bináris Office-formátum, "
+              . "amelyet nem tudunk megbízhatóan kiolvasni. Minden szempontnál "
+              . "„nincs adat” szerepeljen, a megjegyzésben pedig az, hogy a formátum "
+              . "miatt nem olvasható; javasold a PDF-be mentést.)"];
+        }
     }
 }
 
