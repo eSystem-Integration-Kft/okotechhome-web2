@@ -1561,11 +1561,30 @@
   .dok-lista{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8);color:var(--text-secondary)}
   .dok-lista li{display:flex;gap:var(--space-8)}
   .dok-lista li::before{content:"";flex:none;width:.4em;height:.4em;margin-top:.55em;border-radius:50%;border:1px solid var(--text-tertiary)}
-  .konz-fo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--space-48);align-items:start}
+  /* A szekció fejléce SZŰKEBB, mint a konténer: a terv szerint a cím négy
+     sorba tördelve áll, nem egyetlen hosszú sorban. A `balance` tördelés
+     enélkül a teljes 1280px-et használná, és a mondat egy sorrá lapulna. */
+  .konz-fejlec{margin-bottom:var(--space-64)}
+  .konz-cim{max-width:20ch;margin-bottom:var(--space-24)}
+  .konz-fejlec .section-lead{max-width:56ch}
+  /* Az eyebrow alatti rövid vonal a terv jelölése — a szekció kezdetét jelzi. */
+  .konz-eyebrow{position:relative;padding-bottom:var(--space-16);
+    margin-bottom:var(--space-24)}
+  .konz-eyebrow::after{content:"";position:absolute;left:0;bottom:0;
+    width:var(--space-48);height:2px;background:var(--text-primary)}
+
+  /* A két oszlop aránya a terv szerint közel kiegyensúlyozott: a bemutatkozó
+     blokk nem mellékes kiegészítő, hanem a szekció fele. Korábban 7:5 volt,
+     ami a fotót és az életrajzot összenyomta. */
+  .konz-fo{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,7fr);gap:var(--space-48);align-items:start}
   .konz-pontok{list-style:none;margin:0;padding:0;display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
   /* Függőleges elválasztó a pontok között — a terv szerint. Az elsőnek nincs. */
-  .konz-pont{display:flex;flex-direction:column;gap:var(--space-8);padding-right:var(--space-24)}
+  /* A három pont KÖZÉPRE zárt: az ikon a hasáb közepén ül, alatta a cím és a
+     szöveg is középre igazodik. Balra zárva a három korong nem alkotott sort,
+     és a hasábok nem olvastak egymás mellett. */
+  .konz-pont{display:flex;flex-direction:column;align-items:center;
+    text-align:center;gap:var(--space-8);padding-right:var(--space-24)}
   .konz-pont + .konz-pont{border-left:1px solid var(--border);padding-left:var(--space-24)}
   .konz-pont-ikon{
     display:grid;place-items:center;width:var(--badge-lg-size);height:var(--badge-lg-size);
@@ -1582,7 +1601,10 @@
   .konz-tel-szam{display:block;color:var(--text-primary);text-decoration:none}
   .konz-tel-alatt{display:block;color:var(--text-tertiary)}
 
-  .konz-bemutat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--space-24);align-items:start}
+  /* A fotó és az életrajz nagyjából azonos szélességű — a terv szerint a
+     portré nem bélyegkép a szöveg mellett. Korábban 5:7 volt, ami a fotót a
+     hasáb harmadára nyomta össze. */
+  .konz-bemutat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-24);align-items:start}
   .konz-foto{margin:0;border-radius:var(--card-radius);overflow:hidden;background:var(--surface-muted)}
   .konz-foto img{width:100%;height:auto;display:block}
   .konz-bemutat-torzs{display:flex;flex-direction:column;gap:var(--space-8)}
@@ -1801,18 +1823,27 @@
   .folyamat-dol strong{color:var(--text-primary)}
   .folyamat-dol span{color:var(--text-secondary)}
 
-  /* ===== 5.17 Folyamat, konzultáció, csoportos GYIK (ÚJ) ===== */
-  /* A „Itt dől el:" zárósor a lépéskártya lényege — elválik a leírástól. */
-  .kez-dol{color:var(--text-primary);margin-top:var(--space-8)}
-  .konz-akcio{margin:var(--space-32) 0 var(--space-8)}
-  .konz-tel{color:var(--text-secondary);margin:0 0 var(--space-16)}
-  .konz-keznel{color:var(--text-tertiary);margin:0}
-  .konz-bemutat{display:flex;flex-direction:column;gap:var(--space-8)}
-  .konz-nev{color:var(--text-primary)}
-  .konz-titulus{color:var(--text-tertiary)}
-  .konz-bio{color:var(--text-secondary);margin-top:var(--space-8)}
-  .konz-utana{margin-top:var(--space-64)}
-  .konz-utana-cim{color:var(--text-primary);margin-bottom:var(--space-24)}
+  /* ===== 5.17 Csoportos GYIK (ÚJ) =====
+     ITT KORÁBBAN a konzultációs szekció EGY MÁSODIK, egyszerűbb szabálykészlete
+     állt (`.konz-akcio`, `.konz-tel`, `.konz-keznel`, `.konz-bemutat`,
+     `.konz-bio`). Ezek ugyanabban a rétegben, de KÉSŐBB álltak, mint az 5.16
+     szakasz teljes elrendezése — így felülírták azt:
+
+       · a `.konz-bemutat{display:flex;flex-direction:column}` szétverte a
+         fotó + szöveg kétoszlopos rácsot, a kép a szöveg FÖLÉ került teljes
+         szélességben;
+       · a `.konz-tel{margin:...}` elvette a telefonsor `display:flex`-ét, így
+         az ikon és a szám egymás alá esett;
+       · a `.konz-keznel{color;margin}` elvette a „Hasznos, ha kéznél van"
+         doboz hátterét, keretét és belső térközét.
+
+     A duplikáció onnan maradt, hogy a szekció egyszer egyszerűbb formában
+     készült el, majd újra — a régi szabályok viszont bent maradtak.
+     TANULSÁG: azonos osztályt két helyen definiálni ugyanabban a rétegben
+     mindig a későbbi győzelmét jelenti, akkor is, ha a korábbi a részletesebb.
+
+     A `.kez-dol`, `.konz-utana` és `.konz-utana-cim` osztályokat egyetlen
+     oldal sem használja, ezért azok is törölve. */
   /* A GYIK négy témakörre bomlik: a csoportcím vonallal válik el, hogy a
      tizenöt kérdés ne egyetlen hosszú listának látsszon. */
   .gyik-csoport + .gyik-csoport{margin-top:var(--space-48)}
@@ -2843,6 +2874,10 @@
     .terkep-fade{display:none}
     .lablec-zaro-inner{flex-direction:column;align-items:flex-start}
     .split-4{grid-template-columns:minmax(0,1fr)}
+    /* Egy hasábban a középre zárt folyószöveg rosszul olvasható: a szem nem
+       talál közös bal élt. Asztali nézetben a három hasáb együtt sort alkot,
+       ott indokolt — itt nem. */
+    .konz-pont{align-items:flex-start;text-align:left;padding-right:0}
     .konz-pont + .konz-pont{border-left:0;border-top:1px solid var(--border);
       padding-left:0;padding-top:var(--space-24)}
     .konz-bemutat{grid-template-columns:minmax(0,1fr)}
