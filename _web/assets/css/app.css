@@ -746,6 +746,12 @@
   .icon-nav-fogalomtar{-webkit-mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1");mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1")}
   .icon-nav-gyik{-webkit-mask-image:url("../icon/ui-nav-gyik.svg?v=1");mask-image:url("../icon/ui-nav-gyik.svg?v=1")}
   .icon-nav-inditas{-webkit-mask-image:url("../icon/ui-nav-inditas.svg?v=1");mask-image:url("../icon/ui-nav-inditas.svg?v=1")}
+  /* Konzultációs szekció saját ikonjai — a menüikonoknál vastagabb rajzolattal,
+     mert nagyobb korongban, kevesebb elem mellett állnak: ott a vékony vonal
+     elveszne. */
+  .icon-konz-muszaki{-webkit-mask-image:url("../icon/ui-konz-muszaki-irany.svg?v=1");mask-image:url("../icon/ui-konz-muszaki-irany.svg?v=1")}
+  .icon-konz-tisztazando{-webkit-mask-image:url("../icon/ui-konz-tisztazando.svg?v=1");mask-image:url("../icon/ui-konz-tisztazando.svg?v=1")}
+  .icon-konz-lepes{-webkit-mask-image:url("../icon/ui-konz-kovetkezo-lepes.svg?v=1");mask-image:url("../icon/ui-konz-kovetkezo-lepes.svg?v=1")}
   .icon-nav-iranytu{-webkit-mask-image:url("../icon/ui-nav-iranytu.svg?v=1");mask-image:url("../icon/ui-nav-iranytu.svg?v=1")}
   .icon-nav-koltseg{-webkit-mask-image:url("../icon/ui-nav-koltseg.svg?v=1");mask-image:url("../icon/ui-nav-koltseg.svg?v=1")}
   .icon-nav-kozcsatorna{-webkit-mask-image:url("../icon/ui-nav-kozcsatorna.svg?v=1");mask-image:url("../icon/ui-nav-kozcsatorna.svg?v=1")}
@@ -1586,10 +1592,15 @@
   .konz-pont{display:flex;flex-direction:column;align-items:center;
     text-align:center;gap:var(--space-8);padding-right:var(--space-24)}
   .konz-pont + .konz-pont{border-left:1px solid var(--border);padding-left:var(--space-24)}
+  /* A korong határozottabb, mint egy sima kártyakeret: 2px-es, márkaszínű
+     perem és lágy árnyék. Az 1px-es semleges keret ezen a mérten alig
+     látszott, és az ikon lebegett benne. */
   .konz-pont-ikon{
     display:grid;place-items:center;width:var(--badge-lg-size);height:var(--badge-lg-size);
-    border-radius:50%;background:var(--surface);border:1px solid var(--border);
-    color:var(--text-primary);margin-bottom:var(--space-8);
+    border-radius:50%;background:var(--surface);
+    border:2px solid color-mix(in srgb,var(--primary) 55%,transparent);
+    box-shadow:var(--shadow-1);
+    color:var(--text-primary);margin-bottom:var(--space-16);
   }
   .konz-pont-cim{color:var(--text-primary)}
   .konz-pont-szoveg{color:var(--text-secondary)}
@@ -1628,14 +1639,35 @@
   .utana-cim{color:var(--text-primary);margin-bottom:var(--space-32)}
   .utana-sin{list-style:none;margin:0;padding:0;display:grid;
     grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-24);position:relative}
-  .utana-sin::before{content:"";position:absolute;left:6%;right:6%;
-    top:calc(var(--space-48) / 2);height:1px;background:var(--border)}
-  .utana-lepes{display:flex;flex-direction:column;gap:var(--space-16);align-items:flex-start}
-  .utana-szam{display:grid;place-items:center;flex:none;position:relative;
-    width:var(--space-48);height:var(--space-48);border-radius:50%;
-    background:var(--canvas);border:1px solid var(--primary);color:var(--text-primary)}
+  /* Az összekötő vonal a KORONGOK KÖZEPÉTŐL a korongok közepéig fut, nem
+     tetszőleges százaléktól. Négy egyenlő hasábnál a szélső korong középpontja
+     fél hasábnyira van a széltől; a hasáb szélessége (100% − 3 × rés) / 4,
+     ennek a fele a behúzás. A rés a rácsé — ha ott változik, ITT is át kell írni.
+
+     A vonal a korongok MÖGÖTT fut, azok átlátszatlan háttere takarja ki. */
+  .utana-sin::before{
+    content:"";position:absolute;
+    left:calc((100% - 3 * var(--space-24)) / 8);
+    right:calc((100% - 3 * var(--space-24)) / 8);
+    top:calc(var(--space-64) / 2);height:2px;
+    background:color-mix(in srgb,var(--primary) 40%,transparent);
+  }
+  .utana-lepes{display:flex;flex-direction:column;gap:var(--space-24);align-items:flex-start}
+  /* A korong a HASÁB KÖZEPÉN ül, a szöveg viszont balra zárt marad: a
+     sorszám jelzés, a leírás olvasandó szöveg — más igazítás illik hozzájuk.
+     `align-self` kell, nem `align-items`, hogy csak a korong mozduljon. */
+  .utana-szam{
+    align-self:center;
+    display:grid;place-items:center;flex:none;position:relative;z-index:1;
+    width:var(--space-64);height:var(--space-64);border-radius:50%;
+    background:var(--surface);border:2px solid var(--primary);
+    box-shadow:var(--shadow-1);
+    font-family:var(--font-mono);font-size:var(--type-display-feature-title-size);
+    line-height:1;color:var(--text-primary);
+  }
   .utana-szoveg{color:var(--text-secondary)}
-  .utana-szoveg strong{color:var(--text-primary);display:block}
+  .utana-szoveg strong{color:var(--text-primary);display:block;
+    margin-bottom:var(--space-4)}
 
   /* --- GYIK: kategóriafülek + kérdéslista + válaszpanel --- */
   /* Burkolók: a .gyik a fülrendszer egésze, a .gyik-tabla egy kategória

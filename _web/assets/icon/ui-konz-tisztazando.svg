@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Konzultációs ikon: TISZTÁZANDÓ PONTOK — jelölt lista. Bal oldalon a
+     tételjelölő négyzetek, jobbra a hozzájuk tartozó sorok. A középső sor
+     rövidebb: a lista nem egyenletes, tisztázandó pontokból áll. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3.1" y="4.4" width="4" height="4" rx="1"/>
+  <rect x="3.1" y="10" width="4" height="4" rx="1"/>
+  <rect x="3.1" y="15.6" width="4" height="4" rx="1"/>
+  <path d="M10.6 6.4h10.3M10.6 12h7M10.6 17.6h10.3"/>
+</svg>
