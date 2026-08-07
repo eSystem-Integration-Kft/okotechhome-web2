@@ -749,7 +749,7 @@
   /* Konzultációs szekció saját ikonjai — a menüikonoknál vastagabb rajzolattal,
      mert nagyobb korongban, kevesebb elem mellett állnak: ott a vékony vonal
      elveszne. */
-  .icon-konz-muszaki{-webkit-mask-image:url("../icon/ui-konz-muszaki-irany.svg?v=1");mask-image:url("../icon/ui-konz-muszaki-irany.svg?v=1")}
+  .icon-konz-muszaki{-webkit-mask-image:url("../icon/ui-konz-muszaki-irany.svg?v=2");mask-image:url("../icon/ui-konz-muszaki-irany.svg?v=2")}
   .icon-konz-tisztazando{-webkit-mask-image:url("../icon/ui-konz-tisztazando.svg?v=1");mask-image:url("../icon/ui-konz-tisztazando.svg?v=1")}
   .icon-konz-lepes{-webkit-mask-image:url("../icon/ui-konz-kovetkezo-lepes.svg?v=1");mask-image:url("../icon/ui-konz-kovetkezo-lepes.svg?v=1")}
   .icon-nav-iranytu{-webkit-mask-image:url("../icon/ui-nav-iranytu.svg?v=1");mask-image:url("../icon/ui-nav-iranytu.svg?v=1")}
@@ -1571,7 +1571,11 @@
      sorba tördelve áll, nem egyetlen hosszú sorban. A `balance` tördelés
      enélkül a teljes 1280px-et használná, és a mondat egy sorrá lapulna. */
   .konz-fejlec{margin-bottom:var(--space-64)}
-  .konz-cim{max-width:20ch;margin-bottom:var(--space-24)}
+  /* KÉT sorba tördelve. A mondat ~82 karakter, ezért a korlát nagyjából a
+     fele — a `text-wrap:balance` osztja el egyenletesen a két sor között.
+     Ha a cím szövege változik, ezt az értéket is ellenőrizni kell: túl szűk
+     korlátnál három sor lesz belőle. */
+  .konz-cim{max-width:44ch;margin-bottom:var(--space-24)}
   .konz-fejlec .section-lead{max-width:56ch}
   /* Az eyebrow alatti rövid vonal a terv jelölése — a szekció kezdetét jelzi. */
   .konz-eyebrow{position:relative;padding-bottom:var(--space-16);

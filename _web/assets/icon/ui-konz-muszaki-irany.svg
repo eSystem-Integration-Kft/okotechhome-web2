@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Konzultációs ikon: MŰSZAKI IRÁNY — kapcsolási rajz jelképe. Középen a
-     berendezés (négyzet), négy irányba kilépő csatlakozás, mindegyik végén
-     merőleges lezárás. Saját rajzolat, a többi ikonnal azonos 24-es rácson. -->
+<!-- Konzultációs ikon: MŰSZAKI IRÁNY — elágazás. Egy bemenet, három lehetséges
+     irány: pontosan ez a szekció kérdése — melyik műszaki irány jöhet szóba az
+     adott ingatlanon. Saját rajzolat, a többi ikonnal azonos 24-es rácson.
+     Vastagabb vonal (1.9), mert nagy korongban, egyedül áll. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="8.6" y="8.6" width="6.8" height="6.8" rx="1.2"/>
-  <path d="M12 3.2v5.4M12 15.4v5.4M3.2 12h5.4M15.4 12h5.4"/>
-  <path d="M9.4 3.2h5.2M9.4 20.8h5.2M3.2 9.4v5.2M20.8 9.4v5.2"/>
+  <!-- bemenő ág a bal oldali csomópontból az elágazásig -->
+  <path d="M5.4 12h7.4"/>
+  <!-- függőleges elosztó, majd a felső és alsó ág kivezetése -->
+  <path d="M12.8 5.6v12.8M12.8 5.6h3.4M12.8 18.4h3.4"/>
+  <!-- csomópontok: bemenet és a három kimenet -->
+  <circle cx="3.6" cy="12" r="1.7"/>
+  <circle cx="18.4" cy="5.6" r="1.7"/>
+  <circle cx="18.4" cy="12" r="1.7"/>
+  <circle cx="18.4" cy="18.4" r="1.7"/>
 </svg>
