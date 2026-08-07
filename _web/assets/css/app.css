@@ -233,6 +233,15 @@
     --card-radius:var(--r-lg);
     --card-padding:var(--space-24);
 
+    /* Témaváltó fogója. Külön token, mert a fogónak MINDIG világosabbnak kell
+       lennie a sínnél — a `--surface` ezt csak világos témán teljesíti, sötét
+       témán sötétebb lenne a sínnél, és a fogó eltűnne benne. */
+    --tema-fogo-bg:var(--surface);
+    /* A lebegő súgó ugyanezért kap saját tokent: világos témán a sötét
+       felület a kontrasztos, sötét témán viszont beleolvadna a lapba. */
+    --tipp-bg:var(--surface-inverse);
+    --tipp-text:var(--text-on-dark);
+
     /* VÉSET — a logó jelrajza háttérdíszként (megamenü, 5.12b). A mélyedés a
        felület alá vág, a kiemelés fölé emel: a kettő egy képponttal eltolva
        adja a belevésett hatást. Világos témán a fény balról-fentről esik,
@@ -380,6 +389,11 @@
        szemantikus tokenre hivatkozó komponens-tokent itt is deklarálni kell. */
     --section-bg:var(--canvas);
     --section-alt-bg:var(--surface-muted);
+
+    /* A sín itt a Lime-sötét (#354B20), a fogónak e fölé kell emelkednie. */
+    --tema-fogo-bg:var(--surface-sunken);
+    --tipp-bg:var(--surface-sunken);
+    --tipp-text:var(--text-primary);
 
     /* A véset iránya nem fordul meg — a fény sötét témán is balról-fentről
        esik. A színek viszont igen: a mélyedés fekete, a kiemelés a Lime egy
@@ -787,6 +801,10 @@
   .icon-nav-vizelvezetes{-webkit-mask-image:url("../icon/ui-nav-vizelvezetes.svg?v=1");mask-image:url("../icon/ui-nav-vizelvezetes.svg?v=1")}
   .icon-nav-vizminoseg{-webkit-mask-image:url("../icon/ui-nav-vizminoseg.svg?v=1");mask-image:url("../icon/ui-nav-vizminoseg.svg?v=1")}
 
+  /* Témaváltó jelei */
+  .icon-tema-nap{-webkit-mask-image:url("../icon/ui-tema-nap.svg?v=1");mask-image:url("../icon/ui-tema-nap.svg?v=1")}
+  .icon-tema-hold{-webkit-mask-image:url("../icon/ui-tema-hold.svg?v=1");mask-image:url("../icon/ui-tema-hold.svg?v=1")}
+
   /* Helyzet-ikonok (3. szekció) */
   .icon-epitkezes{-webkit-mask-image:url("../icon/ui-epitkezes.svg?v=3");mask-image:url("../icon/ui-epitkezes.svg?v=3")}
   .icon-emeszto{-webkit-mask-image:url("../icon/ui-emeszto.svg?v=3");mask-image:url("../icon/ui-emeszto.svg?v=3")}
@@ -978,6 +996,99 @@
   .nav-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:4px}
   .nav-link[aria-current="page"]{background:var(--surface-muted)}
   .header-cta{flex:none}
+
+
+  /* ===== 5.12c Témaváltó =====
+     Csúszkakapcsoló a fejlécben: a fogó helyzete mondja meg, hol állunk, a
+     lebegő súgó pedig azt, mi történik kattintásra. Két ikon látszik egyszerre
+     (nap a világos, hold a sötét oldalon), így nem kell kitalálni, hogy a
+     rajzolat az aktuális állapotot vagy a műveletet jelenti-e.
+
+     A gomb CSAK akkor jelenik meg, ha a `data-theme` kikerült a gyökérelemre —
+     azt pedig kizárólag a tema.js írja ki. JS nélkül tehát nincs kapcsoló, és
+     az oldal világos marad: egy nem működő kapcsoló rosszabb a hiányánál. */
+  .tema-doboz{position:relative;display:none;align-items:center}
+  :root[data-theme] .tema-doboz{display:flex}
+
+  /* Színséma: a natív felületek (görgetősáv, űrlapelemek, dátumválasztó) is
+     kövessék a témát, különben világos görgetősáv marad a sötét oldalon. */
+  :root[data-theme="light"]{color-scheme:light}
+  :root[data-theme="dark"]{color-scheme:dark}
+
+  .tema-valto{
+    display:inline-flex;align-items:center;justify-content:center;
+    /* A sín 32 képpont magas, az érintőfelület viszont legalább 44 — a
+       függőleges belső tér adja ki a különbséget (akadálymentesség, 44×44). */
+    min-height:44px;padding:var(--space-4);
+    border:0;background:none;cursor:pointer;border-radius:var(--r-md);
+  }
+  .tema-valto:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+
+  .tema-sin{
+    position:relative;display:block;
+    width:calc(var(--space-32) + var(--space-24));height:var(--space-32);
+    border-radius:999px;
+    background:var(--surface-sunken);border:1px solid var(--border);
+    transition:background var(--dur-fast) var(--ease-out);
+  }
+  /* A sín két végén ülő jel halvány: a helyét mutatja, nem az állapotot. */
+  .tema-sin > .tema-jel{
+    position:absolute;top:50%;translate:0 -50%;color:var(--text-tertiary);
+  }
+  .tema-sin > .icon-tema-nap{left:var(--space-8)}
+  .tema-sin > .icon-tema-hold{right:var(--space-8)}
+
+  /* A FOGÓ az aktuális állapot jelét viseli, teljes kontraszttal. A két jel
+     egymáson ül és átúszik — így a váltás egyetlen mozdulatnak látszik, nem
+     ugrásnak. */
+  .tema-fogo{
+    position:absolute;top:var(--space-4);left:var(--space-4);
+    width:var(--space-24);height:var(--space-24);border-radius:50%;
+    background:var(--tema-fogo-bg);box-shadow:var(--shadow-1);
+    display:grid;place-items:center;
+    transition:translate var(--dur-fast) var(--ease-out);
+  }
+  .tema-fogo > *{grid-area:1 / 1}
+  .tema-fogo .tema-jel{
+    color:var(--text-primary);
+    transition:opacity var(--dur-fast) var(--ease-out);
+  }
+  .tema-fogo .icon-tema-hold{opacity:0}
+
+  .tema-valto[aria-checked="true"] .tema-fogo{translate:var(--space-24) 0}
+  .tema-valto[aria-checked="true"] .tema-fogo .icon-tema-nap{opacity:0}
+  .tema-valto[aria-checked="true"] .tema-fogo .icon-tema-hold{opacity:1}
+  .tema-valto[aria-checked="true"] .tema-sin{background:var(--surface-muted)}
+
+  /* LEBEGŐ SÚGÓ. A gomb NEVE állandó („Sötét téma"), az állapotát az
+     `aria-checked` hordozza — ez a kapcsolók helyes ARIA-mintája. A súgó
+     ezzel szemben a MŰVELETET mondja ki, és `aria-hidden`, hogy a
+     képernyőolvasó ne ismételje. Egérrel hoverre, billentyűvel fókuszra jön. */
+  .tema-tipp{
+    position:absolute;top:calc(100% + var(--space-4));right:0;z-index:30;
+    white-space:nowrap;pointer-events:none;
+    padding:var(--space-4) var(--space-8);border-radius:var(--r-md);
+    background:var(--tipp-bg);color:var(--tipp-text);
+    border:1px solid var(--border-strong);box-shadow:var(--shadow-2);
+    opacity:0;visibility:hidden;
+    translate:0 calc(-1 * var(--space-4));
+    transition:opacity var(--dur-fast) var(--ease-out),
+               translate var(--dur-fast) var(--ease-out),
+               visibility var(--dur-fast);
+  }
+  .tema-doboz:hover .tema-tipp,
+  .tema-valto:focus-visible ~ .tema-tipp{
+    opacity:1;visibility:visible;translate:0 0;
+  }
+
+  /* LOGÓ. Az `img`-ként betöltött SVG nem látja a szülő dokumentum témáját,
+     ezért a szóvédjegy színe nem tudná követni a váltást — sötét oldalon
+     olvashatatlan sötétzöld maradna. Két rajz van, a téma választ közülük. */
+  /* A választó fajsúlya a `.site-logo img`-ét (0,1,1) is meg kell haladja,
+     különben az ott álló `display:block` felülírja ezt a rejtést. */
+  .site-logo .site-logo-sotet{display:none}
+  :root[data-theme="dark"] .site-logo .site-logo-vilagos{display:none}
+  :root[data-theme="dark"] .site-logo .site-logo-sotet{display:block}
 
 
   /* ===== 5.12b Megamenü (ÚJ) =====

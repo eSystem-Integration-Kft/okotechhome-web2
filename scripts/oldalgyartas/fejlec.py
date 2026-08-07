@@ -342,9 +342,16 @@ def epit(elo=''):
   <!-- A kontaktsáv elgörög, a fő sáv tapad (sticky), finom árnyékkal. -->
   <div class="header-main">
   <div class="header-inner">
+    <!-- Két rajz, a téma választ: az `img`-ként betöltött SVG nem látja a
+         dokumentum `data-theme` attribútumát, ezért a szóvédjegy színe nem
+         tudná követni a váltást. Az `alt` csak az egyiken van kitöltve, a
+         másik `alt=""` — különben a képernyőolvasó kétszer mondaná ki a
+         cégnevet, hiszen a hivatkozásnak már van `aria-label`-je. -->
     <a class="site-logo" href="{elo or './'}" aria-label="ÖkoTech Home — főoldal">
-      <img src="{elo}assets/img/logo-okotechhome.svg" width="928" height="290"
-           alt="ÖkoTech Home" decoding="async">
+      <img class="site-logo-vilagos" src="{elo}assets/img/logo-okotechhome.svg"
+           width="928" height="290" alt="ÖkoTech Home" decoding="async">
+      <img class="site-logo-sotet" src="{elo}assets/img/logo-okotechhome-sotet.svg"
+           width="928" height="290" alt="" decoding="async">
     </a>
 
     <details class="nav-drawer" open>
@@ -356,6 +363,28 @@ def epit(elo=''):
       </nav>
     </details>
 
+    <!-- TÉMAVÁLTÓ. `role="switch"`: a gomb NEVE állandó („Sötét téma"), az
+         állapotot az `aria-checked` hordozza — ez a kapcsolók ARIA-mintája. A
+         lebegő súgó a MŰVELETET mondja ki, és `aria-hidden`, hogy a
+         képernyőolvasó ne ismételje meg ugyanazt más szavakkal.
+         A gomb csak akkor látszik, ha a tema.js lefutott (app.css 5.12c). -->
+    <div class="tema-doboz">
+      <button type="button" class="tema-valto" role="switch" aria-checked="false"
+              data-tema-valto>
+        <span class="visually-hidden">Sötét téma</span>
+        <span class="tema-sin" aria-hidden="true">
+          <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+          <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          <span class="tema-fogo">
+            <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+            <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          </span>
+        </span>
+      </button>
+      <span class="tema-tipp type-ui-caption" aria-hidden="true"
+            data-tema-tipp>Váltás sötét témára</span>
+    </div>
+
     <a class="btn btn-primary header-cta" href="{h('kapcsolat')}">
       <span class="action-arrow" aria-hidden="true">&rarr;</span>Konzultációt kérek</a>
   </div>
@@ -364,9 +393,28 @@ def epit(elo=''):
 </header>'''
 
 
+def temaszkript(s: str, elo: str) -> str:
+    """A témaváltó szkriptjét a `<head>`-be teszi, a stíluslap után.
+
+    HALASZTÁS NÉLKÜL töltődik, szemben az összes többi szkripttel: a témát a
+    `<html>` `data-theme` attribútuma hordozza, és ha ez a törzs végén dőlne
+    el, minden oldalbetöltéskor felvillanna a világos oldal, mielőtt sötétre
+    vált. Néhány sorról van szó, közvetlenül a stíluslap után.
+    """
+    if 'assets/js/tema.js' in s:
+        return s
+    minta = re.compile(r'(<link rel="stylesheet" href="[^"]*assets/css/app\.css[^"]*">)')
+    if not minta.search(s):
+        return s
+    return minta.sub(
+        r'\1\n<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs\n'
+        '     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->\n'
+        f'<script src="{elo}assets/js/tema.js?v=1"></script>', s, count=1)
+
+
 if __name__ == '__main__':
     minta = re.compile(r'<a class="skip-link".*?</header>', re.S)
-    n = 0
+    n, sz = 0, 0
     for p in sorted(WEB.rglob('*.html')):
         if p.name in ('401.html', '403.html', '404.html', '500.html'):
             continue                      # a hibaoldalak önhordók, saját fejlécük van
@@ -375,6 +423,11 @@ if __name__ == '__main__':
             print(f'  ! nincs fejléc: {p.relative_to(WEB)}')
             continue
         elo = '' if p.parent == WEB else '../'
-        p.write_text(minta.sub(lambda _: epit(elo), s, count=1), encoding='utf-8')
+        uj = minta.sub(lambda _: epit(elo), s, count=1)
+        elotte = uj
+        uj = temaszkript(uj, elo)
+        sz += uj != elotte
+        p.write_text(uj, encoding='utf-8')
         n += 1
+    print(f'témaszkript beszúrva: {sz} oldalon')
     print(f'fejléc beírva: {n} oldal')

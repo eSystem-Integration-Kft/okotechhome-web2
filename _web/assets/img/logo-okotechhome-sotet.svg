@@ -6,7 +6,7 @@ viewBox="0 0 928.41 289.93">
   <style type="text/css">
    <![CDATA[
     /* Jelrajz: Fern (a márkapaletta elsődleges zöldje) — mindkét témán él.
-       Szóvédjegy: Forest. A VILÁGOS változat.
+       Szóvédjegy: Forest. A SÖTÉT változat.
 
        Itt korábban egy `@media (prefers-color-scheme:dark)` váltotta a
        szóvédjegyet. Ez azóta hibás, hogy a téma a látogató választásán múlik:
@@ -16,7 +16,7 @@ viewBox="0 0 928.41 289.93">
        ezért két rajz tartozik, és a fejléc CSS-e választ (app.css 5.12c).
        Lásd _web/COMPONENTS.md 17. */
     .fil0 {fill:#80A640}
-    .fil1 {fill:#133216}
+    .fil1 {fill:#FAFAFA}
    ]]>
   </style>
  </defs>
