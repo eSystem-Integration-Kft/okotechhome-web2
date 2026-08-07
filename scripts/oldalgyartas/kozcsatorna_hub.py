@@ -60,7 +60,7 @@ ADATOK = [
          'víziközmű-szolgáltató', 'dokumentumból'),
     ]),
     ('Telek', [
-        ('Telekméret és szabad terület',
+        ('Telekméret és rendelkezésre álló terület',
          'A tisztítómező és a kezelt víz elhelyezése ezen múlik.',
          'tulajdoni lap, térképmásolat vagy helyszínrajz', 'dokumentumból'),
         ('Lejtésviszonyok',

@@ -123,7 +123,7 @@ def epit_hub():
                  'A zárt tartály és az a pont, ahol a víz ténylegesen a talajba kerül, '
                  'vízvédelmi szempontból nem ugyanaz az objektum.',
                  'kut-es-vedotavolsag', 'Kút és védelem'),
-                ('telek', 'Telekméret és szabad terület',
+                ('telek', 'Telekméret és rendelkezésre álló terület',
                  'Nem a telek négyzetmétere a kérdés, hanem a ház, kút, behajtó és '
                  'közművek után ténylegesen használható terület.',
                  'telekmeret-es-szabad-terulet', 'Telekméret'),
@@ -597,7 +597,7 @@ def epit_kut():
                 ['A kút miatti áthelyezés csak akkor megoldás, ha van hová. A következő oldal '
                  'a ténylegesen szabad területről szól — arról, ami a ház, a behajtó és a '
                  'közművek után marad.'],
-                'Telekméret és szabad terület', 'telekmeret-es-szabad-terulet',
+                'Telekméret és rendelkezésre álló terület', 'telekmeret-es-szabad-terulet',
                 alt=('Telekalkalmasság áttekintése', 'telekalkalmassag-attekintese')),
 
         sec_faq([
@@ -625,7 +625,7 @@ def epit_kut():
 
 
 # ===========================================================================
-# 5) Telekméret és szabad terület
+# 5) Telekméret és rendelkezésre álló terület
 # ===========================================================================
 def epit_terulet():
     return [
@@ -1245,11 +1245,14 @@ OLDALAK = [
          crumbs=HUB, sections=epit_kut()),
 
     dict(file='projekt-elokeszites/telekmeret-es-szabad-terulet.html',
+         # A SZLUG rövidebb marad, mint a megjelenített név: a sitemap oldalakat
+         # nevez meg, nem URL-eket, és a szakaszban másutt is rövidített szlug áll
+         # (pl. „Hogyan gyűjtsem össze a telekadatokat?" → telekadatok-osszegyujtese).
          url='projekt-elokeszites/telekmeret-es-szabad-terulet', img='csaladi-haz',
-         title='Telekméret és szabad terület — mennyi hely kell valójában | ÖkoTech Home',
+         title='Telekméret és rendelkezésre álló terület — mennyi hely kell valójában | ÖkoTech Home',
          desc='Nem a telek négyzetmétere a kérdés, hanem ami a ház, a kút, a behajtó és a '
               'közművek után marad. Mihez kell hely, és mit nem lehet a szikkasztó fölé építeni.',
-         h1='Telekméret és szabad terület',
+         h1='Telekméret és rendelkezésre álló terület',
          alt='Családi ház kertje felülnézetből: gyep, behajtó, néhány fa és egy szabadon '
              'hagyott zöldfelület',
          lead='Egy nagy telken is lehet szűkös a helyzet, egy kisebben pedig elegendő — '
