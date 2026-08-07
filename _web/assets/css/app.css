@@ -933,6 +933,9 @@
 
   /* Fő sáv: logó — navigáció — CTA */
   .header-inner{
+    /* A megamenü VISZONYÍTÁSI PONTJA — a panel a konténer tartalmi szélességét
+       veszi fel, nem a menüpontét és nem a teljes ablakét. */
+    position:relative;
     max-width:var(--container-wide);margin-inline:auto;padding-inline:var(--page-gutter);
     min-height:var(--topbar-h);padding-block:var(--space-16);
     display:flex;align-items:center;justify-content:space-between;gap:var(--space-24);
@@ -969,7 +972,9 @@
      igazodik, szélességét a tartalma adja, és egy csúcs mutatja, honnan
      nyílt — nem a fejléc teljes szélességén ül. */
   .header-main{position:relative}
-  .nav-item{position:relative}
+  /* A panel a fejléc konténeréhez igazodik, ezért a nav-elem NEM viszonyítási
+     pont — lásd a .mega magyarázatát. */
+  .nav-item{position:static}
   .nav-trigger{
     display:inline-flex;align-items:center;gap:var(--space-8);
     border:0;background:none;cursor:pointer;
@@ -995,45 +1000,73 @@
   @starting-style{
     .mega:not([hidden]){opacity:0;transform:translateY(calc(-1 * var(--space-8)))}
   }
+  /* A PANEL TELJES SZÉLESSÉGŰ: a fejléc konténeréhez igazodik, nem a
+     menüponthoz. Háromszintű tartalommal (hub + aloldalak) öt-hat hasáb áll
+     egymás mellett; egy nav-elemhez horgonyzott, tartalomra méretezett doboz
+     ilyenkor kilógna a képernyőről — a szélső menüpontoknál biztosan.
+
+     Ezért `.nav-item` static, a viszonyítási pont a `.header-inner`. A korábbi
+     kis csúcs (a menüpontra mutató háromszög) emiatt elmarad: egy teljes
+     szélességű panelnek nincs mire mutatnia. */
   .mega{
     opacity:1;transform:none;
     transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),
                display 180ms var(--ease-out) allow-discrete;
-    position:absolute;top:calc(100% + var(--space-16));left:calc(-1 * var(--space-16));
+    position:absolute;top:calc(100% + var(--space-16));
+    left:var(--page-gutter);right:var(--page-gutter);
     z-index:25;
-    width:max-content;max-width:min(88vw,42rem);
     background:var(--surface);
     border:1px solid var(--border);border-radius:var(--panel-radius);
     box-shadow:var(--shadow-2);
+    /* Hosszú kategóriánál (Helyzetem: hét hasáb) a panel magasabb lehet, mint
+       a képernyő. Görgethető, de a fejléc alatt marad. */
+    max-height:calc(100vh - var(--topbar-h) - var(--space-96));
+    overflow-y:auto;overscroll-behavior:contain;
   }
-  /* A csúcs a nyitó menüpont alatt: megmutatja, honnan lebeg a panel.
-     Két háromszög — a külső a keretet, a belső a felületet folytatja. */
-  .mega::before,.mega::after{
-    content:"";position:absolute;bottom:100%;left:var(--space-32);
-    width:0;height:0;border:var(--space-8) solid transparent;
-  }
-  .mega::before{border-bottom-color:var(--border)}
-  .mega::after{border-bottom-color:var(--surface);margin-bottom:-1px}
 
   .mega-inner{padding:var(--space-24)}
   .mega-eyebrow{color:var(--text-tertiary);margin-bottom:var(--space-16)}
-  /* Egy oszlop hat elemig, e fölött kettő: a panel se túl magas, se
-     indokolatlanul széles ne legyen. */
-  /* A lista oszlopokba tördel, a sorok számát a MARKUP adja (`data-rows`),
-     az elemszám feléből kerekítve — így a két oszlop kiegyensúlyozott marad
-     (7 elem → 4+3), nem 6+1. Öt elemig egy oszlop. */
-  .mega-list{
-    display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,auto);
-    gap:var(--space-4) var(--space-16);
+
+  /* HASÁBOK. Minden hub egy hasáb: fölül a hub hivatkozása ikonnal, alatta a
+     saját aloldallistája. `auto-fit` + minimum szélesség: hét hasáb szűkebb
+     képernyőn magától két sorba tördel, nem présel össze olvashatatlanra. */
+  .mega-oszlopok{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+    gap:var(--space-24) var(--space-16);
   }
-  .mega-list[data-rows="1"]{grid-template-rows:repeat(1,auto)}
-  .mega-list[data-rows="2"]{grid-template-rows:repeat(2,auto)}
-  .mega-list[data-rows="3"]{grid-template-rows:repeat(3,auto)}
-  .mega-list[data-rows="4"]{grid-template-rows:repeat(4,auto)}
-  .mega-list[data-rows="5"]{grid-template-rows:repeat(5,auto)}
-  .mega-list[data-rows="6"]{grid-template-rows:repeat(6,auto)}
-  .mega-list[data-rows="7"]{grid-template-rows:repeat(7,auto)}
-  .mega-list[data-rows="8"]{grid-template-rows:repeat(8,auto)}
+  .mega-oszlop{display:flex;flex-direction:column;gap:var(--space-8);min-width:0}
+  /* A hub feliratának két sorban is olvashatónak kell maradnia — hét hasábnál
+     a hosszabb nevek („Vállalkozás vagy intézmény…") tördelnek. */
+  .mega-oszlop .mega-link{align-items:flex-start}
+  /* A hub feliratának nem kell hivatkozásnak lennie, ha nincs mögötte oldal —
+     ilyenkor csak oszlopcím, kurzor és hover nélkül. */
+  .mega-link-passziv{cursor:default;color:var(--text-tertiary);margin:0}
+  .mega-link-passziv:hover{background:none}
+
+  /* Az aloldallista behúzva ül az ikon szélességéhez igazítva, így a hub és a
+     hozzá tartozó oldalak összetartozása a rácsból is látszik. */
+  .mega-alista{
+    display:flex;flex-direction:column;gap:var(--space-4);
+    margin:0 0 0 calc(var(--space-32) + var(--space-8) + var(--space-16));
+    padding-left:var(--space-16);
+    border-left:1px solid var(--border);
+  }
+  .mega-alink{
+    display:block;padding:var(--space-4) var(--space-8);
+    border-radius:var(--r-md);color:var(--text-secondary);text-decoration:none;
+    transition:background var(--dur-fast) var(--ease-out),
+               color var(--dur-fast) var(--ease-out);
+  }
+  .mega-alink:hover{background:var(--canvas);color:var(--text-primary)}
+  .mega-alink:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px}
+  /* Még nem létező oldal: látszik a szerkezetben, de nem kattintható — így a
+     látogató látja, mi készül, és nem fut 404-re. */
+  .mega-alink-passziv{color:var(--text-tertiary);cursor:default}
+  .mega-keszul{color:var(--text-tertiary)}
+  /* Kontaktsáv: még el nem készült szakasz felirata — látszik a szerkezetben,
+     de nem kattintható, tehát nem visz 404-re. */
+  .topbar-link-passziv{color:var(--text-on-dark-muted);cursor:default}
+
   .mega-link{
     display:flex;align-items:center;gap:var(--space-16);
     padding:var(--space-8);border-radius:var(--r-md);
@@ -1055,13 +1088,6 @@
   .mega-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px}
   .mega-foot{margin-top:var(--space-16);padding-top:var(--space-16);border-top:1px solid var(--border)}
 
-  /* A jobb szélső menüpontok panelje jobbra igazodik, hogy ne lógjon ki. */
-  .nav-item:nth-last-child(4) .mega,
-  .nav-item:nth-last-child(5) .mega{left:auto;right:calc(-1 * var(--space-16))}
-  .nav-item:nth-last-child(4) .mega::before,
-  .nav-item:nth-last-child(4) .mega::after,
-  .nav-item:nth-last-child(5) .mega::before,
-  .nav-item:nth-last-child(5) .mega::after{left:auto;right:var(--space-32)}
 
 
   /* ===== 5.13 Hero (ÚJ) ===== */
@@ -2776,10 +2802,16 @@
     .nav-list{flex-direction:column;align-items:stretch;column-gap:0}
     /* Megamenü szűk nézetben: a panel a menüpont alatt, a folyamban nyílik. */
     .nav-item{position:relative}
-    .mega{position:static;box-shadow:none;border:0;background:none;width:auto;max-width:none}
-    .mega::before,.mega::after{display:none}
+    /* Szűk nézetben a panel nem lebeg: a lenyitott menü részeként, egy
+       oszlopban áll. A magasságkorlát és a saját görgetés is elmarad — a
+       lapot görgeti a látogató, nem a panelt. */
+    .mega{position:static;box-shadow:none;border:0;background:none;
+      max-width:none;max-height:none;overflow:visible}
     .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
-    .mega-list,.mega-list[data-rows]{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:minmax(0,1fr)}
+    .mega-oszlopok{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
+    /* Az aloldallista behúzása kisebb: szűk nézetben a nagy behúzás elviszi
+       a sorhosszat. */
+    .mega-alista{margin-left:var(--space-16);padding-left:var(--space-16)}
     .mega-eyebrow{display:none}
     .mega-foot{margin-top:var(--space-8);padding-top:var(--space-8)}
 
