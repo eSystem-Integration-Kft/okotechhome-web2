@@ -557,7 +557,8 @@ def epit_kemping():
                 ['Több épület, több csatlakozási pont és bővíthetőség esetén a '
                  'moduláris kialakítás jöhet szóba. A Megoldások szakasz áttekintő '
                  'oldala ezt veszi végig.'],
-                'Megoldások áttekintése', '../megoldasok/nagyobb-megoldasok-attekintese',
+                'Nagyobb és közösségi rendszerek',
+                '../megoldasok/nagyobb-es-kozossegi-rendszerek',
                 alt=('Szakmai projektbrief', 'vallalkozas-szakmai-projektbrief')),
 
         sec_faq([

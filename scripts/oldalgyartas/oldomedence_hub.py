@@ -773,12 +773,27 @@ def epit_epu_hub():
                       '<strong>Tisztítómező.</strong> A mért szivárgás és a napi terhelés '
                       'alapján méretezve. Ez zárja le a rendszert.']),
 
+        sec_numbered('A jelenlegi gyártói kínálat', 'Három tartályméret',
+                     'A modellnévben lévő szám a névleges használói kapacitásra utal, a '
+                     'hozzá tartozó térfogat pedig a tartály mérete. Ezek a GRAF nyilvános '
+                     'adatai — hogy közülük az ÖkoTech ma pontosan melyeket forgalmazza '
+                     'Magyarországon, belső termékadatból egyértelműsítendő.',
+                     ['<strong>EPURECO 4</strong> — 2100 liter névleges térfogat',
+                      '<strong>EPURECO 6</strong> — 2700 liter névleges térfogat',
+                      '<strong>EPURECO 7</strong> — 3400 liter névleges térfogat']),
+
+        sec_prose('Amit a modellnév nem mond meg', 'A tartály önmagában nem rendszer',
+                  ['A modellnévben szereplő személyszám <strong>csak a tartály '
+                   'kiválasztásának egyik bemenete</strong>. A teljes rendszer '
+                   'alkalmasságához külön kell méretezni a tisztítómezőt a telek és a '
+                   'használat alapján.',
+                   'Ezért nincs ezen az oldalon „kiválasztom és megrendelem" logika: '
+                   'rossz mezővel a megfelelő méretű tartály sem alkot megfelelő '
+                   'rendszert. A döntő kérdés az, mekkora felület kell, elfér-e a telken, '
+                   'és befogadja-e a talaj a napi vízmennyiséget.']),
+
         sec_situations('A termékcsalád oldalai', 'Mit szeretne megnézni?', '',
                        [
-                           ('nav-attekintes', 'Termékcsalád áttekintése',
-                            'Milyen tartályméretek érhetők el, és milyen használói '
-                            'kapacitást szolgálnak.',
-                            'epureco-termekcsalad-attekintese', 'Áttekintés'),
                            ('nav-terheles', 'Modellek és kapacitások',
                             'Névleges kapacitás, tartálytérfogat, méretek — egységes '
                             'adatstruktúrában.',
@@ -807,7 +822,7 @@ def epit_epu_hub():
         sec_cta('Következő lépés', 'Előbb a használati profil',
                 ['A modellválasztás bemenete az, hogyan használják az ingatlant, és mit '
                  'bír a telek. Ha ez megvan, a tartály kérdése egyszerű.'],
-                'Termékcsalád áttekintése', 'epureco-termekcsalad-attekintese',
+                'Modellek és kapacitások', 'epureco-modellek-es-kapacitasok',
                 alt=('Tisztítómező és területigény', 'oldomedence-tisztitomezo')),
 
         sec_faq([
@@ -823,66 +838,6 @@ def epit_epu_hub():
              'Az EPURECO tartályokat a GRAF gyártja. Az ÖkoTech a magyarországi '
              'értékesítést, a rendszertervezést és a telepítést végzi — a tisztítómező '
              'méretezésével együtt.'),
-        ]),
-        JOGI,
-    ]
-
-
-# ===========================================================================
-# EPURECO 1) Termékcsalád áttekintése
-# ===========================================================================
-def epit_epu_attekintes():
-    return [
-        sec_prose('A modellcsalád', 'Tartályméret és használói kapacitás', [
-            'A GRAF jelenlegi nyilvános kínálatában három EPURECO tartályméret szerepel. '
-            'A modellnévben lévő szám a névleges használói kapacitásra utal, a hozzá '
-            'tartozó térfogat pedig a tartály mérete.',
-            'A modellnévben szereplő személyszám azonban <strong>csak a tartály '
-            'kiválasztásának egyik bemenete</strong>. A teljes rendszer alkalmasságához '
-            'külön kell méretezni a tisztítómezőt a telek és a használat alapján.',
-        ]),
-
-        sec_numbered('A jelenlegi gyártói kínálat', 'Három tartályméret',
-                     'Ezek a GRAF nyilvános adatai. Hogy ezek közül az ÖkoTech ma '
-                     'pontosan melyeket forgalmazza Magyarországon, belső '
-                     'termékadatból egyértelműsítendő — lásd az alábbi megjegyzést.',
-                     ['<strong>EPURECO 4</strong> — 2100 liter névleges térfogat',
-                      '<strong>EPURECO 6</strong> — 2700 liter névleges térfogat',
-                      '<strong>EPURECO 7</strong> — 3400 liter névleges térfogat']),
-
-        hiany('az ÖkoTech aktuális magyarországi kínálata: mely EPURECO modellek '
-              'rendelhetők, van-e eltérés a GRAF listájához képest, mik a magyar '
-              'termékkódok, és milyen tisztítómező-konfigurációkat kínálunk hozzájuk',
-              'ÖkoTech értékesítés — aktuális terméklista és rendelhető konfigurációk. '
-              'A fenti gyártói adatokat a magyar értékesítéshez használt aktuális '
-              'terméklappal kell egyeztetni, mielőtt termékadatként megjelennek'),
-
-        sec_prose('Amit ne várjon ettől az oldaltól', 'Nem „kiválasztom és megrendelem”', [
-            'Az oldal nem arra való, hogy a személyszám alapján kiválassza a modellt és '
-            'megrendelje. A tartályméret önmagában nem határozza meg, hogy a rendszer '
-            'működni fog-e.',
-            'A döntő kérdés a tisztítómező: mekkora felület kell, elfér-e a telken, és '
-            'befogadja-e a talaj a napi vízmennyiséget. Rossz mezővel a megfelelő méretű '
-            'tartály sem alkot megfelelő rendszert.',
-            'Ezért a következő lépés nem a megrendelés, hanem a telek adatainak '
-            'megadása.',
-        ]),
-
-        sec_cta('Következő lépés', 'A telek adatai',
-                ['A tartályméret és a tisztítómező együtt adja a rendszert. A mező '
-                 'méretezéséhez a talaj, a talajvíz és a szabad terület adatai kellenek.'],
-                'Modellek és kapacitások', 'epureco-modellek-es-kapacitasok',
-                alt=('Telekalkalmasság', '../projekt-elokeszites/telekalkalmassag')),
-
-        sec_faq([
-            ('Négyen leszünk a nyaralóban. Az EPURECO 4 kell?',
-             'A tartály kiválasztásához ez jó kiindulás, de a rendszer nem áll össze '
-             'ennyiből. Kell hozzá a használati ritmus — hány hónapban, milyen '
-             'gyakorisággal — és a telek adatai a tisztítómező méretezéséhez.'),
-            ('Mi a különbség a modellek között?',
-             'Elsősorban a névleges használói kapacitás és a tartálytérfogat. A pontos '
-             'méret-, tömeg- és csatlakozási adatokat a modellek és kapacitások oldalon '
-             'gyűjtjük össze, a gyártói adatlapok alapján.'),
         ]),
         JOGI,
     ]
@@ -1308,17 +1263,6 @@ OLDALAK = [
          lead='A tartályt a GRAF gyártja, és a házi szennyvízkezelés anaerob első '
               'szakasza. A rendszert a hozzá méretezett tisztítómezővel együtt alkotja.',
          crumbs=HUB, sections=epit_epu_hub()),
-
-    dict(file='megoldasok/epureco-termekcsalad-attekintese.html',
-         url='megoldasok/epureco-termekcsalad-attekintese', img='attekintes',
-         title='EPURECO termékcsalád áttekintése | ÖkoTech Home',
-         desc='Milyen tartályméretek érhetők el, és milyen használói kapacitást '
-              'szolgálnak — és miért nem elég a modellnév a döntéshez.',
-         h1='Termékcsalád áttekintése',
-         alt='Több méretű oldómedence-tartály egymás mellett egy telephelyen',
-         lead='A modellnévben szereplő személyszám csak a tartály kiválasztásának egyik '
-              'bemenete. A rendszer a tisztítómezővel együtt áll össze.',
-         crumbs=EPU, sections=epit_epu_attekintes()),
 
     dict(file='megoldasok/epureco-modellek-es-kapacitasok.html',
          url='megoldasok/epureco-modellek-es-kapacitasok', img='csaladi-haz',

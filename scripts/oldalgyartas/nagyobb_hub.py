@@ -102,14 +102,36 @@ def epit_hub():
             'mint egy lakóépületé.',
         ]),
 
+        sec_numbered('Négy rendszerforma', 'Milyen szerkezetű megoldás jöhet szóba?',
+                     'Nem terméknevekkel dolgozunk, hanem rendszerarchitektúrával: milyen '
+                     'felépítésű megoldás illik a létesítményhez. A konkrét berendezés '
+                     'ebből következik, nem fordítva.',
+                     ['<strong>Moduláris — több standard egység összekapcsolva.</strong> '
+                      'Fokozatos kapacitásépítés, leválasztható egységek. Saját példánk a '
+                      'Bakonypéterd-projekt: négy darab 50 fős berendezésből kialakított '
+                      'központi telep.',
+                      '<strong>Célzott nagy kapacitású tartályos telep.</strong> Kör '
+                      'keresztmetszetű, nagyobb kapacitásra gyártott rendszer, egységes '
+                      'technológiai és vezérlési felépítéssel.',
+                      '<strong>Konténeres kialakítás.</strong> Ahol a telepítési '
+                      'körülmények vagy az áthelyezhetőség ezt indokolja.',
+                      '<strong>Egyedi mérnöki technológia.</strong> Speciális, nem '
+                      'kommunális szennyvíznél. Itt a fő kérdés már nem a tartályforma, '
+                      'hanem hogy milyen előkezelés vagy technológiai módosítás kell a '
+                      'biológiai fokozat elé.']),
+
+        hiany('a rendszerformák valós műszaki szabályai: a moduláris rendszerek '
+              'összekapcsolási feltételei, a minimális és maximális egységszám, a '
+              'vezérlési architektúra, a tartályos és konténeres termékváltozatok, '
+              'valamint a standard és egyedi megoldások közötti határ',
+              'ÖkoTech műszaki csapat. A fenti tagolás addig általános szakmai logika; '
+              'ÖkoTech-specifikus előnyként vagy korlátként csak belső szabály alapján '
+              'publikálható'),
+
         sec_situations('A szakasz oldalai', 'Hol tart a projektben?',
                        'A sorrend a projekt logikáját követi: kategória, terhelés, '
                        'technológia, majd az üzemeltetés és az engedélyezés.',
                        [
-                           ('nav-attekintes', 'Megoldások áttekintése',
-                            'Moduláris, tartályos, konténeres vagy egyedi mérnöki '
-                            'rendszer — melyik irányt érdemes először megnézni.',
-                            'nagyobb-megoldasok-attekintese', 'Áttekintés'),
                            ('nav-terheles', 'Kapacitási és projektkategóriák',
                             'A jogi, a műszaki és a kereskedelmi kategória nem ugyanaz. '
                             'Hol húzódnak a határok — és hol van rés.',
@@ -193,89 +215,6 @@ def epit_hub():
 
 
 # ===========================================================================
-# 1) Megoldások áttekintése
-# ===========================================================================
-def epit_attekintes():
-    return [
-        sec_prose('Rendszerforma, nem terméknév', '', [
-            'Ez az oldal nem terméknevekkel dolgozik, hanem <strong>rendszer­'
-            'architektúrával</strong>: milyen szerkezetű megoldás illik a '
-            'létesítményhez. A konkrét berendezés ebből következik, nem fordítva.',
-            'Négy irány jöhet szóba. Nem egyenrangúak, és nem is zárják ki egymást — a '
-            'projekt adottságai döntik el, melyiket érdemes először megvizsgálni.',
-        ]),
-
-        sec_numbered('A négy irány', 'Milyen rendszerformák jöhetnek szóba?', '',
-                     ['<strong>Moduláris — több standard egység összekapcsolva.</strong> '
-                      'Több kisebb vagy közepes kapacitású berendezésből épül a rendszer. '
-                      'Erre saját példánk a Bakonypéterd-projekt, ahol négy darab 50 fős '
-                      'berendezésből alakítottunk ki központi telepet.',
-                      '<strong>Célzott nagy kapacitású tartályos telep.</strong> Kör '
-                      'keresztmetszetű, nagyobb kapacitásra gyártott rendszer, egységes '
-                      'technológiai és vezérlési felépítéssel.',
-                      '<strong>Konténeres kialakítás.</strong> Ahol a telepítési '
-                      'körülmények vagy az áthelyezhetőség ezt indokolja.',
-                      '<strong>Egyedi mérnöki technológia.</strong> Speciális, nem '
-                      'kommunális szennyvíznél. Itt a fő kérdés már nem a tartályforma, '
-                      'hanem hogy milyen előkezelés, kiegyenlítés vagy technológiai '
-                      'módosítás kell a biológiai fokozat elé.']),
-
-        sec_split('Moduláris vagy célzott nagytelep', 'Mi szól melyik mellett',
-                  'Moduláris kialakítás',
-                  ['Fokozatos kapacitásépítés — bővíthető',
-                   'Egy egység leválasztható karbantartásra',
-                   'Ismert, bevált standard egységekből',
-                   'Telepítés részletekben is lehetséges',
-                   'Az egységek közötti elosztás megoldandó'],
-                  'Célzott nagy kapacitású telep',
-                  ['Egységes technológiai és vezérlési rendszer',
-                   'Egy helyen összefogott üzemeltetés',
-                   'Kevesebb csatlakozási pont',
-                   'A bővítés jellemzően nem fokozatos',
-                   'A telepítés egyszeri, nagyobb kivitelezési feladat']),
-
-        hiany('a rendszerformák valós műszaki szabályai: a moduláris rendszerek '
-              'összekapcsolási feltételei, a minimális és maximális egységszám, a '
-              'vezérlési architektúra, a tartályos és konténeres termékváltozatok, a '
-              'standard és egyedi megoldások közötti határ, valamint a telepítési idő '
-              'és a felelősségi körök',
-              'ÖkoTech műszaki csapat. A fenti előny–korlát megfeleltetés addig '
-              'általános szakmai logika; ÖkoTech-specifikus állításként csak belső '
-              'szabály alapján publikálható'),
-
-        sec_numbered('Amit minden iránynál meg kell nézni', 'Az összevetés szempontjai',
-                     '',
-                     ['Tipikus projektméret és terhelési tartomány',
-                      'Helyigény és telepítési mód',
-                      'Bővíthetőség és tartalék kapacitás',
-                      'Redundancia — mi történik, ha egy egység kiesik',
-                      'Vezérlés és monitoring lehetőségei',
-                      'Szükséges előkezelés',
-                      'Az üzemeltetéshez szükséges kompetenciaszint',
-                      'A kivitelezés időtartama és fázisolhatósága']),
-
-        sec_cta('Következő lépés', 'Melyik kategóriába esik a projekt?',
-                ['A rendszerforma után a kapacitási és jogi kategória következik — ez '
-                 'határozza meg a tervezési szintet és az engedélyezési utat.'],
-                'Kapacitási és projektkategóriák', 'nagyobb-kapacitasi-kategoriak',
-                alt=('Terhelési profil', 'nagyobb-terhelesi-profil')),
-
-        sec_faq([
-            ('Melyik az olcsóbb?',
-             'Ezt nem lehet általánosan megmondani, és árat sem közlünk. A moduláris és '
-             'a célzott nagytelepi megoldás költségszerkezete eltér — a telepítés, a '
-             'vezérlés és az üzemeltetés is máshogy alakul. A konkrét projekt adataiból '
-             'viszont összevethető.'),
-            ('Bővíthető később a rendszer?',
-             'A moduláris kialakításnál ez jellemzően egyszerűbb. Bármelyik irányt is '
-             'választja, a bővítési tervet érdemes már a tervezéskor jelezni, mert a '
-             'helyigény és a csatlakozási pontok ettől függnek.'),
-        ]),
-        JOGI,
-    ]
-
-
-# ===========================================================================
 # 2) Kapacitási és projektkategóriák
 # ===========================================================================
 def epit_kategoriak():
@@ -348,7 +287,7 @@ def epit_kategoriak():
                  'szezonalitás és a szennyvíz eredete. Enélkül a besorolás becslés '
                  'marad.'],
                 'Terhelési profil', 'nagyobb-terhelesi-profil',
-                alt=('Megoldások áttekintése', 'nagyobb-megoldasok-attekintese')),
+                alt=('Terhelési profil', 'nagyobb-terhelesi-profil')),
 
         sec_faq([
             ('Hol tart pontosan az A.B.Clear termékcsalád?',
@@ -968,18 +907,6 @@ OLDALAK = [
               'üzemeltetési és engedélyezési szempontból önálló projektkategória — '
               'más tervezési úttal.',
          crumbs=CRUMB, sections=epit_hub()),
-
-    dict(file='megoldasok/nagyobb-megoldasok-attekintese.html',
-         url='megoldasok/nagyobb-megoldasok-attekintese', img='attekintes',
-         title='Nagyobb rendszerek — megoldások áttekintése | ÖkoTech Home',
-         desc='Moduláris, tartályos, konténeres vagy egyedi mérnöki rendszer — '
-              'rendszerarchitektúra szerint, nem terméknév szerint.',
-         h1='Megoldások áttekintése',
-         alt='Több összekapcsolt tisztítóegység egy közös telepen, gépészeti '
-             'csatlakozásokkal',
-         lead='Nem terméknevekkel dolgozunk, hanem rendszerarchitektúrával: milyen '
-              'szerkezetű megoldás illik a létesítményhez. A berendezés ebből következik.',
-         crumbs=HUB, sections=epit_attekintes()),
 
     dict(file='megoldasok/nagyobb-kapacitasi-kategoriak.html',
          url='megoldasok/nagyobb-kapacitasi-kategoriak', img='vallalkozas',

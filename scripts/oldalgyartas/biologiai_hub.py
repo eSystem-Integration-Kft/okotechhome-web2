@@ -934,12 +934,44 @@ def epit_abc_hub():
                       'alkatrészellátás szempontjából számít a leginkább: a pótalkatrész '
                       'nem külföldi szállítmányra vár.']),
 
+        sec_numbered('A család felépítése', 'Három kapacitási tartomány',
+                     'Az A.B.Clear nem egyetlen berendezés, hanem termékcsalád — és a '
+                     'modellek nem csak méretben térnek el, hanem a telepítési '
+                     'feltételekben is.',
+                     ['<strong>Kisebb lakossági modellek.</strong> Jellemzően családi ház, '
+                      'egy háztartás. Ide tartoznak azok a modellek, amelyekhez a nyilvános '
+                      'tájékoztatásban is szerepelnek csőcsatlakozási adatok.',
+                      '<strong>Nagyobb lakossági és kisebb közületi modellek.</strong> '
+                      'Nagyobb háztartás, több háztartás, kisebb szálláshely, iroda. '
+                      'Eltérő kialakítás, más telepítési feltételekkel.',
+                      '<strong>50 LE fölött.</strong> Itt a projekt kikerül az egyedi '
+                      'szennyvíztisztítás jogi kategóriájából, és más tervezési, '
+                      'engedélyezési és üzemeltetési úton halad. Ez már nem '
+                      'katalógusválasztás, hanem mérnöki feladat.']),
+
+        sec_prose('Egy dokumentált adat, példaként', 'Így néz ki egy használható modelladat',
+                  ['Egy 2020-as vízjogi engedélyben az A.B.Clear 6 modellhez '
+                   '<strong>6 LE</strong> névleges terhelés és <strong>legfeljebb '
+                   '0,78 m³/nap</strong> hidraulikai kapacitás szerepel. Ez jó példa arra, '
+                   'milyen adatpárra van szükség: a „fő" mellé mindig kell a tényleges '
+                   'napi vízmennyiség is.',
+                   'Ezt az értéket a modell hivatalos, aktuális adatlapjával <strong>újra '
+                   'kell ellenőrizni</strong>, mielőtt termékadatként megjelenik — egy '
+                   'néhány évvel ezelőtti engedélypélda nem termékadatlap. Ezért szerepel '
+                   'itt példaként, nem specifikációként.',
+                   'És egy dolog, amit nem kérünk: hogy pusztán a személyszám alapján '
+                   'válassza ki a pontos modellt. A valós vízfogyasztás, a csúcsterhelés, '
+                   'a szezonalitás és a telekadatok ugyanúgy részei a döntésnek.']),
+
+        hiany('a teljes, aktuális modelllista minden modell műszaki adatlapjával: névleges '
+              'LE, maximális napi hidraulikai kapacitás (m³/nap), alapvető méret, befolyási '
+              'szint, tipikus alkalmazás és a sajátos telepítési feltétel. Külön jelölendők '
+              'a megszűnt modellek és a gyártási verziók',
+              'ÖkoTech ár nélküli termékkatalógus. Enélkül ez az oldal a család '
+              'SZERKEZETÉT írja le, nem a konkrét modelleket'),
+
         sec_situations('A termékcsalád oldalai', 'Mit szeretne megnézni?', '',
                        [
-                           ('nav-attekintes', 'Termékcsalád áttekintése',
-                            'Hogyan tagolódik a család kapacitás és alkalmazási helyzet '
-                            'szerint, és hol vannak a határok.',
-                            'ab-clear-termekcsalad-attekintese', 'Áttekintés'),
                            ('nav-terheles', 'Modellek és kapacitások',
                             'Névleges LE, hidraulikai kapacitás, alkalmazási tartomány — '
                             'egységes adatstruktúrában.',
@@ -974,10 +1006,9 @@ def epit_abc_hub():
               'állítás nem kerülhet a webhelyre'),
 
         sec_cta('Következő lépés', 'Melyik modell tartozik Önhöz?',
-                ['A modellválasztás nem pusztán személyszám kérdése: a valós fogyasztás, a '
-                 'csúcsterhelés és a telekadatok is részei a döntésnek. Az áttekintés '
-                 'megmutatja a család felépítését.'],
-                'Termékcsalád áttekintése', 'ab-clear-termekcsalad-attekintese',
+                ['A modellválasztás bemenete a terhelési profil. Ha az megvan, a modell '
+                 'kérdése lényegesen egyszerűbb — és nem kell a maximumra méretezni.'],
+                'Modellek és kapacitások', 'ab-clear-modellek-es-kapacitasok',
                 alt=('Vissza: Biológiai szennyvíztisztítás', 'biologiai-szennyviztisztitas')),
 
         sec_faq([
@@ -996,82 +1027,6 @@ def epit_abc_hub():
              'telepítési útmutató és műszaki adatlap tartozik a termékhez. Ezek '
              'elérhetőségén dolgozunk a webhelyen is, hogy vásárlás előtt is '
              'megnézhetők legyenek.'),
-        ]),
-        JOGI,
-    ]
-
-
-# ===========================================================================
-# A.B.Clear 1) Termékcsalád áttekintése
-# ===========================================================================
-def epit_abc_attekintes():
-    return [
-        sec_prose('A család felépítése', 'Nem egyetlen termék', [
-            'Az A.B.Clear nem egyetlen berendezés, hanem termékcsalád. A jelenlegi '
-            'kommunikáció „1–50 főig” egységes kategóriaként kezeli, a részletes '
-            'tájékoztatás viszont külön beszél az A.B.Clear 6 és 8 modellekről, illetve a '
-            '10–50-es berendezésekről — utóbbiak eltérő kialakításúak.',
-            'Ez a különbség lényeges: nem csak méretben térnek el, hanem a telepítési '
-            'feltételekben is. Ezért itt kapacitás és alkalmazási helyzet szerint mutatjuk '
-            'be a családot, nem egyetlen sávként.',
-        ]),
-
-        sec_numbered('A tagolás logikája', 'Három tartomány', '',
-                     ['<strong>Kisebb lakossági modellek.</strong> Jellemzően családi ház, '
-                      'egy háztartás. Ide tartoznak azok a modellek, amelyekhez a nyilvános '
-                      'tájékoztatásban is szerepelnek csőcsatlakozási adatok.',
-                      '<strong>Nagyobb lakossági és kisebb közületi modellek.</strong> '
-                      'Nagyobb háztartás, több háztartás, kisebb szálláshely, iroda. '
-                      'Eltérő kialakítás, más telepítési feltételekkel.',
-                      '<strong>50 LE fölött.</strong> Itt a projekt kikerül az egyedi '
-                      'szennyvíztisztítás jogi kategóriájából, és más tervezési, '
-                      'engedélyezési és üzemeltetési úton halad. Ez már nem '
-                      'katalógusválasztás, hanem mérnöki feladat.']),
-
-        hiany('a teljes, aktuális modelllista minden modell műszaki adatlapjával: névleges '
-              'LE, maximális napi hidraulikai kapacitás (m³/nap), alapvető méret, befolyási '
-              'szint, tipikus alkalmazás és a sajátos telepítési feltétel. Külön jelölendők '
-              'a megszűnt modellek és a gyártási verziók',
-              'ÖkoTech ár nélküli termékkatalógus. Ez az oldal addig a család SZERKEZETÉT '
-              'írja le, nem a konkrét modelleket — mert a nyilvános anyagokban jelenleg '
-              'nincs egységes modell → LE → m³/nap → alkalmazási tartomány mátrix'),
-
-        sec_prose('Egy dokumentált adat, példaként', 'Így néz ki egy használható modelladat', [
-            'Egy 2020-as vízjogi engedélyben az A.B.Clear 6 modellhez <strong>6 LE</strong> '
-            'névleges terhelés és <strong>legfeljebb 0,78 m³/nap</strong> hidraulikai '
-            'kapacitás szerepel. Ez jó példa arra, milyen adatpárra van szükség: a „fő” '
-            'mellé mindig kell a tényleges napi vízmennyiség is.',
-            'Ezt az értéket a modell hivatalos, aktuális adatlapjával <strong>újra kell '
-            'ellenőrizni</strong>, mielőtt termékadatként megjelenik — egy négy évvel '
-            'ezelőtti engedélypélda nem termékadatlap. Ezért szerepel itt példaként, nem '
-            'specifikációként.',
-        ]),
-
-        sec_prose('Amit ne várjon ettől az oldaltól', 'A modellválasztás nem önkiszolgáló', [
-            'Nem kérjük, hogy pusztán a személyszám alapján válassza ki a pontos modellt. '
-            'A valós vízfogyasztás, a csúcsterhelés, a szezonalitás és a telekadatok '
-            'ugyanúgy részei a döntésnek.',
-            'A célunk az, hogy értse a család felépítését és a saját projektje '
-            'nagyságrendjét — a végleges modellt közösen határozzuk meg, a terhelési '
-            'profil és a telekadatok alapján.',
-        ]),
-
-        sec_cta('Következő lépés', 'Terhelési profil először',
-                ['A modellválasztás bemenete a terhelési profil: átlag, csúcs, időtartam, '
-                 'gyakoriság. Ha ez megvan, a modell kérdése lényegesen egyszerűbb.'],
-                'Terhelés és kapacitás', '../projekt-elokeszites/terheles-es-kapacitas',
-                alt=('Modellek és kapacitások', 'ab-clear-modellek-es-kapacitasok')),
-
-        sec_faq([
-            ('Négyen lakunk. Melyik modell kell?',
-             'A létszám jó kiindulás, de önmagában nem elég a modellválasztáshoz. Kell hozzá '
-             'a tényleges vízfogyasztás, a rendszeres csúcsterhelés és a tervezett bővítés '
-             'is. Ezekkel együtt viszont gyorsan megvan a válasz.'),
-            ('Mi a különbség a kisebb és a nagyobb modellek között?',
-             'Nem csak a kapacitás: a nagyobb berendezések eltérő kialakításúak, és a '
-             'telepítési feltételeik is mások. A pontos különbségeket a modellek és '
-             'kapacitások oldalon gyűjtjük össze, amint az egységes adatlap rendelkezésre '
-             'áll.'),
         ]),
         JOGI,
     ]
@@ -1754,17 +1709,6 @@ OLDALAK = [
               'Ez arról, hogy az ÖkoTech saját megoldása miben áll — és melyik modell '
               'tartozik az Ön projektjéhez.',
          crumbs=HUB, sections=epit_abc_hub()),
-
-    dict(file='megoldasok/ab-clear-termekcsalad-attekintese.html',
-         url='megoldasok/ab-clear-termekcsalad-attekintese', img='attekintes',
-         title='A.B.Clear termékcsalád áttekintése | ÖkoTech Home',
-         desc='Hogyan tagolódik a család kapacitás és alkalmazási helyzet szerint, és hol '
-              'húzódnak a határok — 50 LE fölött már mérnöki feladat.',
-         h1='Termékcsalád áttekintése',
-         alt='Több méretű tisztítóberendezés-tartály egymás mellett egy telephelyen',
-         lead='Az A.B.Clear nem egyetlen berendezés, hanem termékcsalád — és a modellek nem '
-              'csak méretben térnek el, hanem a telepítési feltételekben is.',
-         crumbs=ABC, sections=epit_abc_attekintes()),
 
     dict(file='megoldasok/ab-clear-modellek-es-kapacitasok.html',
          url='megoldasok/ab-clear-modellek-es-kapacitasok', img='vallalkozas',
