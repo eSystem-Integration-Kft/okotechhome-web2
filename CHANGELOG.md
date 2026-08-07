@@ -49,7 +49,18 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   áll, el a bal oldali kártyától — a jelölés CSS-eltolása ugyanezt a **mért** 122
   képpontot követi (a képlet 130-at adna; a keret nem a `z=16` névleges léptékén
   rajzol).
-- **`terkep.js` — a jelölés élettartama.** A réteg csak addig mutat a cégre, amíg a
+- **Élő térkép a Maps JavaScript API-val — kulcsra várva.** Ha a `.terkep` elem
+  `data-terkep-kulcs` attribútuma ki van töltve, a beágyazott keret helyére valódi
+  térkép kerül, és a logós jelölés **valódi térképjelölővé** válik: koordinátához
+  kötve, `OverlayView`-n keresztül, a térképpel együtt mozogva — húzás és nagyítás
+  közben is a házon marad. A színezést ilyenkor nem CSS-szűrő adja, hanem a Google
+  saját stílusrétege, és az értékek a designtokenekből olvasódnak ki, így a térkép a
+  világos/sötét témával együtt vált. **Üres kulcsnál minden a régi módon működik** —
+  a kulcs hiánya, rossz kulcs és hálózati hiba egyaránt a beágyazott keretre esik
+  vissza, üres folt nem keletkezik. A `.htaccess` a Maps forrásait külön blokkban,
+  kizárólag a `kapcsolat.html`-re engedi. Beállítás és a kulcs korlátozása:
+  `_web/README.md`.
+- **`terkep.js` — a jelölés élettartama (kulcs nélküli módban).** A réteg csak addig mutat a cégre, amíg a
   térkép áll, mozgásáról viszont — másik eredet lévén — a lap semmit nem tud. Ezért
   nem követjük, hanem visszavonjuk: az egér alatt elhalványul (CSS, JS nélkül is), és
   ha a látogató tényleg a térképpel foglalkozott — 700 ms-nél tovább időzött fölötte,

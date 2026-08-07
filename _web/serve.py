@@ -180,14 +180,32 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
-        self.send_header(
-            "Content-Security-Policy",
-            "default-src 'self'; base-uri 'self'; form-action 'self'; "
-            "frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; "
-            "frame-src https://www.google.com; "
-            "style-src 'self' https://fonts.googleapis.com; "
-            "font-src 'self' https://fonts.gstatic.com; script-src 'self'",
-        )
+        # A kapcsolat oldal élő Google-térképe több forrást igényel. A .htaccess
+        # ugyanezt egy <Files "kapcsolat.html"> blokkban adja — ha ott
+        # módosítod, ITT is át kell írni, különben a hiba csak élesben derül ki.
+        if self.path.rstrip("/").endswith(("kapcsolat", "kapcsolat.html")):
+            self.send_header(
+                "Content-Security-Policy",
+                "default-src 'self'; base-uri 'self'; form-action 'self'; "
+                "frame-ancestors 'none'; object-src 'none'; "
+                "img-src 'self' data: blob: https://*.googleapis.com "
+                "https://*.gstatic.com https://*.ggpht.com; "
+                "frame-src https://www.google.com; "
+                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+                "font-src 'self' https://fonts.gstatic.com; "
+                "script-src 'self' https://maps.googleapis.com https://maps.gstatic.com; "
+                "connect-src 'self' https://maps.googleapis.com https://*.googleapis.com; "
+                "worker-src 'self' blob:",
+            )
+        else:
+            self.send_header(
+                "Content-Security-Policy",
+                "default-src 'self'; base-uri 'self'; form-action 'self'; "
+                "frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; "
+                "frame-src https://www.google.com; "
+                "style-src 'self' https://fonts.googleapis.com; "
+                "font-src 'self' https://fonts.gstatic.com; script-src 'self'",
+            )
         # A teszt üzemmód robotkizárása is, hogy a két környezet ne térjen el.
         self.send_header(
             "X-Robots-Tag",

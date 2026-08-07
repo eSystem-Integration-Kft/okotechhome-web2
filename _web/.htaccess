@@ -74,6 +74,22 @@ Options -Indexes
   # HSTS — CSAK éles, HTTPS-en kiszolgált domainen kapcsold be.
   # Staging vagy HTTP alatt hagyd kikommentezve.
   # Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+  # --- Kapcsolat oldal: az élő Google-térkép többletforrásai -----------------
+  # A Maps JavaScript API saját szkriptet, csempéket és betűket tölt be, ezért
+  # a szigorú alapszabály itt nem elég. A bővítés SZÁNDÉKOSAN csak erre az egy
+  # oldalra érvényes: a webhely többi lapja marad a szűk listán.
+  #
+  # A `style-src 'unsafe-inline'` a legdrágább tétel — a Maps a saját elemeit
+  # beágyazott stílussal formázza. Ha a térkép nélküle is hibátlanul megjelenik
+  # (a böngésző konzoljában nincs CSP-hiba), vedd ki: a beágyazott stílus
+  # engedélyezése egy XSS-hez való támadási felület, még ha csak stíluson át is.
+  #
+  # Ha a `data-terkep-kulcs` üres, az egész blokk fölösleges — akkor a lap a
+  # beágyazott keretet használja, amihez a `frame-src` már megvan fent.
+  <Files "kapcsolat.html">
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://*.ggpht.com; frame-src https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://maps.googleapis.com https://*.googleapis.com; worker-src 'self' blob:"
+  </Files>
 </IfModule>
 
 # --- Tömörítés ----------------------------------------------------------------

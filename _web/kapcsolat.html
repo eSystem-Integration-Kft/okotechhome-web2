@@ -419,7 +419,11 @@
        cookie-hozzájárulásnak ki kell terjednie rá. Amíg ezek nem élnek, ez
        nyitott megfelelőségi pont.
   =========================================================================== -->
-  <section class="terkep" aria-labelledby="terkep-cim">
+  <section class="terkep" aria-labelledby="terkep-cim"
+           data-terkep-kulcs=""
+           data-terkep-szelesseg="47.7501283"
+           data-terkep-hosszusag="18.73557"
+           data-terkep-nagyitas="16">
     <div class="terkep-inner">
       <article class="terkep-kartya">
         <p class="type-data-eyebrow terkep-eyebrow">Elérhetőség</p>
@@ -468,6 +472,11 @@
         <img src="assets/img/logo-okotechhome.svg" width="928" height="290"
              alt="" loading="lazy" decoding="async">
       </span>
+
+      <!-- Az élő térkép tárolója. ÜRESEN és REJTVE marad mindaddig, amíg a
+           `data-terkep-kulcs` üres: kulcs nélkül a fenti beágyazott keret
+           szolgál ki. A terkep.js veszi elő, ha a Maps API betöltött. -->
+      <div class="terkep-elo" hidden></div>
     </div>
   </section>
 

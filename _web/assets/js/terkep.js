@@ -1,65 +1,195 @@
 /* =============================================================================
- * terkep.js — a logós térképjelölés élettartama
+ * terkep.js — a kapcsolat oldal térképe
  *
- * A jelölés egy SAJÁT réteg a beágyazott Google Térkép fölött. A helye fix
- * képpontban van megadva (lásd app.css `.terkep-jeloles`), és pontosan addig
- * mutat a cégre, amíg a térkép alatta áll. Ha a látogató elhúzza vagy
- * átnagyítja a térképet, a réteg a helyén marad — onnantól rossz helyre mutat.
+ * KÉT ÜZEMMÓD, ugyanazon a jelölésen.
  *
- * Ezt nem lehet megelőzni: a keret másik eredetről jön, a benne történő
- * mozgásról a lap semmit nem tud. Ezért nem követjük, hanem VISSZAVONJUK: ha
- * a látogató valóban a térképpel foglalkozott, a jelölést végleg elvesszük.
- * A pontos helyet ilyenkor a Google saját gombostűje jelöli, ami viszont
- * együtt mozog a térképpel.
+ * 1) KULCS NÉLKÜL (és JS nélkül) marad a beágyazott Google-keret. A logós
+ *    jelölés ilyenkor a mi rétegünk a keret fölött, fix képpontra állítva —
+ *    és pontosan addig igaz, amíg a térkép alatta áll. A keret másik eredetről
+ *    jön, a benne történő mozgásról a lap semmit nem tud, követni tehát nem
+ *    tudjuk. Ezért nem követjük, hanem visszavonjuk: az egér alatt elhalványul
+ *    (ezt a CSS intézi), és ha a látogató tényleg a térképpel foglalkozott,
+ *    innen végleg elvesszük. A helyet onnantól a Google saját gombostűje
+ *    jelöli, ami viszont együtt mozog a térképpel.
  *
- * A halványítást (egér a térkép fölött) a CSS intézi, JS nélkül is működik.
- * Ez a fájl csak a VÉGLEGES eltávolítást adja hozzá.
+ * 2) API-KULCCSAL a keret helyére VALÓDI térkép kerül, és a logós jelölés
+ *    valódi térképjelölővé válik: koordinátához kötve, a térképpel együtt
+ *    mozogva. Nem tűnik el, nem csúszik el, húzás és nagyítás közben is a
+ *    házon marad. Ez az 1) pont teljes körű megoldása — az ottani trükkökre
+ *    ilyenkor nincs szükség.
  *
- * Két jelet fogadunk el „tényleg hozzányúlt"-nak:
- *   · az egér legalább 700 ms-ig a térkép fölött volt — a fölötte elhaladó
- *     kurzor ennél rövidebb;
- *   · a keret fókuszt kapott — ez kattintásnál és húzásnál mindig megtörténik.
+ * A KULCS a `.terkep` elem `data-terkep-kulcs` attribútumában áll. Üresen a
+ * lap az 1) módban működik, tehát a kulcs hiánya nem tör el semmit.
+ * A Maps JavaScript API kulcsa SZÁNDÉKOSAN publikus (a böngészőben fut) —
+ * nem titok, hanem HTTP-referrer-korlátozással kell védeni a Google Cloud
+ * konzolban. Lásd `_web/README.md`.
  *
- * A tévedés ára aszimmetrikus: fölöslegesen elvett jelölés csak egy hiányzó
- * dísz, a bent maradó viszont rossz helyre mutat. Ezért a szigorúbb irányba
- * tévedünk.
+ * A térkép színezését nem CSS-szűrő adja, hanem a Google saját stílusrétege,
+ * és az értékeket a designrendszer tokenjeiből olvassuk ki — így a térkép
+ * együtt vált a lap világos/sötét témájával, és nincs kettős igazság.
  * ========================================================================== */
 (function () {
   'use strict';
 
-  var vaszon = document.querySelector('.terkep-vaszon');
-  if (!vaszon) return;
+  var szekcio = document.querySelector('.terkep');
+  if (!szekcio) return;
 
-  var jeloles = vaszon.querySelector('.terkep-jeloles');
-  var keret = vaszon.querySelector('.terkep-beagyazott');
-  if (!jeloles || !keret) return;
+  var vaszon = szekcio.querySelector('.terkep-vaszon');
+  var jeloles = szekcio.querySelector('.terkep-jeloles');
+  var keret = szekcio.querySelector('.terkep-beagyazott');
+  var elo = szekcio.querySelector('.terkep-elo');
+  if (!vaszon || !jeloles || !keret) return;
 
-  var ido = 0;
+  var kulcs = (szekcio.getAttribute('data-terkep-kulcs') || '').trim();
+  var szel = parseFloat(szekcio.getAttribute('data-terkep-szelesseg'));
+  var hossz = parseFloat(szekcio.getAttribute('data-terkep-hosszusag'));
+  var nagyitas = parseInt(szekcio.getAttribute('data-terkep-nagyitas'), 10) || 16;
 
-  function elvesz() {
-    window.clearTimeout(ido);
-    vaszon.removeEventListener('pointerenter', belep);
-    vaszon.removeEventListener('pointerleave', kilep);
-    window.removeEventListener('blur', fokuszra);
-    jeloles.remove();
+  if (kulcs && elo && isFinite(szel) && isFinite(hossz)) {
+    eloTerkep();
+  } else {
+    beagyazottJeloles();
   }
 
-  function belep() {
-    ido = window.setTimeout(elvesz, 700);
+  /* ---------------------------------------------------------------------
+   * 1) BEÁGYAZOTT KERET — a jelölés élettartama
+   *
+   * Két jelet fogadunk el „tényleg hozzányúlt"-nak:
+   *   · az egér legalább 700 ms-ig a térkép fölött volt — a fölötte elhaladó
+   *     kurzor ennél rövidebb;
+   *   · a keret fókuszt kapott — ez kattintásnál és húzásnál mindig megtörténik.
+   *
+   * A tévedés ára aszimmetrikus: a fölöslegesen elvett jelölés csak egy
+   * hiányzó dísz, a bent maradó viszont rossz helyre mutat. Ezért a szigorúbb
+   * irányba tévedünk.
+   * ------------------------------------------------------------------- */
+  function beagyazottJeloles() {
+    var ido = 0;
+
+    function elvesz() {
+      window.clearTimeout(ido);
+      vaszon.removeEventListener('pointerenter', belep);
+      vaszon.removeEventListener('pointerleave', kilep);
+      window.removeEventListener('blur', fokuszra);
+      jeloles.remove();
+    }
+    function belep() { ido = window.setTimeout(elvesz, 700); }
+    function kilep() { window.clearTimeout(ido); }
+    function fokuszra() { if (document.activeElement === keret) elvesz(); }
+
+    vaszon.addEventListener('pointerenter', belep);
+    vaszon.addEventListener('pointerleave', kilep);
+    window.addEventListener('blur', fokuszra);
   }
 
-  function kilep() {
-    window.clearTimeout(ido);
+  /* ---------------------------------------------------------------------
+   * 2) ÉLŐ TÉRKÉP — Maps JavaScript API
+   * ------------------------------------------------------------------- */
+  function eloTerkep() {
+    // A `callback` globális nevet vár; egyedi névvel, hogy ne ütközzön.
+    var nev = 'okotechTerkepKesz';
+    window[nev] = epit;
+
+    var s = document.createElement('script');
+    s.src = 'https://maps.googleapis.com/maps/api/js'
+          + '?key=' + encodeURIComponent(kulcs)
+          + '&callback=' + nev + '&language=hu&region=HU&v=weekly';
+    s.async = true;
+    // Ha a betöltés elhasal (rossz kulcs, hálózati hiba, letiltott API), a
+    // beágyazott keret a helyén marad, és a jelölés visszakapja az 1) módot —
+    // az oldalon nem keletkezik üres folt.
+    s.onerror = beagyazottJeloles;
+    document.head.appendChild(s);
   }
 
-  // A keretbe kattintás elveszi a lap fókuszát; az `activeElement` ilyenkor
-  // maga a keret. Ez az egyetlen jel, amit egy másik eredetű iframe-ről
-  // biztosan megkapunk.
-  function fokuszra() {
-    if (document.activeElement === keret) elvesz();
+  function epit() {
+    if (!window.google || !window.google.maps) { beagyazottJeloles(); return; }
+    jelolesProto();
+
+    // A tároló ELŐBB kapja meg a méretét, mint ahogy a térkép megépül: egy
+    // 0 magas dobozon a Maps 0×0-s nézetet számol, és utólag nem rajzol újra.
+    szekcio.classList.add('terkep-el');
+    elo.hidden = false;
+
+    var terkep = new google.maps.Map(elo, {
+      center: { lat: szel, lng: hossz },
+      zoom: nagyitas,
+      styles: stilus(),
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
+      // A görgetés a LAPOT görgesse; a térkép csak Ctrl/⌘ lenyomva nagyít.
+      // Enélkül a lapon lefelé haladó látogató beleragad a térképbe.
+      gestureHandling: 'cooperative',
+      keyboardShortcuts: true
+    });
+
+    // A beágyazott keret innentől fölösleges — a helyét az élő térkép vette át.
+    keret.remove();
+
+    new Jeloles(terkep, new google.maps.LatLng(szel, hossz), jeloles);
   }
 
-  vaszon.addEventListener('pointerenter', belep);
-  vaszon.addEventListener('pointerleave', kilep);
-  window.addEventListener('blur', fokuszra);
+  /* A logós doboz mint valódi térképjelölő. Az `OverlayView` az egyetlen
+     eszköz, amivel tetszőleges HTML köthető koordinátához úgy, hogy a
+     térképpel együtt mozogjon — a `Marker` csak képet fogad el. */
+  function Jeloles(terkep, pont, elem) {
+    this.pont = pont;
+    this.elem = elem;
+    this.setMap(terkep);
+  }
+
+  function jelolesProto() {
+    if (Jeloles.prototype instanceof google.maps.OverlayView) return;
+    Jeloles.prototype = new google.maps.OverlayView();
+
+    Jeloles.prototype.onAdd = function () {
+      // `floatPane`: a jelölések rétege, a térképfeliratok fölött.
+      this.getPanes().floatPane.appendChild(this.elem);
+    };
+
+    Jeloles.prototype.draw = function () {
+      var p = this.getProjection().fromLatLngToDivPixel(this.pont);
+      if (!p) return;
+      // Képpont-pozíció, ezért JS-ből írjuk. Az igazítás (a doboz a pont fölé
+      // emelkedik, csücsökkel lefelé) a CSS `transform`-jában marad.
+      this.elem.style.left = p.x + 'px';
+      this.elem.style.top = p.y + 'px';
+    };
+
+    Jeloles.prototype.onRemove = function () {
+      if (this.elem.parentNode) this.elem.parentNode.removeChild(this.elem);
+    };
+  }
+
+  /* A stílus a designrendszer tokenjeiből épül, nem beégetett hexákból: így a
+     térkép a lap világos/sötét témájával együtt vált, és egy helyen — a
+     tokeneknél — módosul. */
+  function stilus() {
+    var cs = getComputedStyle(document.documentElement);
+    function t(nev, tartalek) {
+      var v = cs.getPropertyValue(nev).trim();
+      return v || tartalek;
+    }
+    var zold = t('--surface-muted', '#E5EBBB');
+    var viz = t('--surface-sunken', '#DEECEA');
+    var lap = t('--canvas', '#F3F2EC');
+    var betu = t('--text-secondary', '#56642B');
+
+    return [
+      // A telített POI-ikonok és a nem odavaló feliratok elviszik a tekintetet
+      // a jelölésről; a térkép itt HÁTTÉR, nem böngészendő adat.
+      { featureType: 'poi', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+      { featureType: 'poi.business', stylers: [{ visibility: 'off' }] },
+      { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: betu }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: lap }, { weight: 3 }] },
+      { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: lap }] },
+      { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: zold }] },
+      { featureType: 'water', elementType: 'geometry', stylers: [{ color: viz }] },
+      { featureType: 'road', elementType: 'geometry.fill', stylers: [{ color: '#FFFFFF' }] },
+      { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ visibility: 'off' }] },
+      { featureType: 'road.highway', elementType: 'geometry.fill', stylers: [{ color: zold }] }
+    ];
+  }
 })();

@@ -1360,8 +1360,29 @@
     transform:rotate(45deg);
   }
   /* Amint az egér a térképre ér, a jelölés elhalványul: onnantól a látogatóé a
-     térkép, és a saját rétegünk nem tudja követni. Ez JS nélkül is működik. */
+     térkép, és a saját rétegünk nem tudja követni. Ez JS nélkül is működik.
+     ÉLŐ térképen nincs rá szükség — ott a jelölés valódi térképjelölő. */
   .terkep-vaszon:hover .terkep-jeloles{opacity:0}
+
+  /* ---- Élő térkép (Maps JavaScript API) ----------------------------------
+     Csak akkor lép működésbe, ha a `data-terkep-kulcs` ki van töltve; addig a
+     tároló üres és rejtett. A `[hidden]` külön kimondva: a `.terkep-elo`
+     saját `display` szabálya egyébként FELÜLÍRNÁ a böngésző alapértelmezését,
+     és a doboz rejtve is helyet foglalna. */
+  /* `z-index:0`: a térkép a DOM-ban a fátyol UTÁN áll, tehát alapból fölé
+     festene. Így a széleket elhalványító réteg (z-index:1) az élő térkép
+     fölött marad. */
+  .terkep-elo{position:absolute;inset:0;display:block;z-index:0}
+  .terkep-elo[hidden]{display:none}
+
+  /* Élő térképen a jelölés valódi térképjelölő: a helyét a Maps `OverlayView`
+     írja képpontban (left/top), a doboz igazítása marad CSS-ben. A statikus
+     eltolás és a hover-halványítás itt nem érvényes. */
+  .terkep-el .terkep-jeloles{left:0;top:0;opacity:1}
+  .terkep-el .terkep-vaszon:hover .terkep-jeloles{opacity:1}
+  /* A fátyol tónusa elmarad: a színezést a térkép saját stílusrétege adja.
+     A két szélt elhalványító átmenet marad — az a lapba illesztésé. */
+  .terkep-el .terkep-fade{background-color:transparent}
 
   /* A kártyát tartó sáv a fejléccel és a heróval AZONOS konténerben ül, így a
      kártya bal éle egy vonalban van a logóval és a hero-szöveggel.

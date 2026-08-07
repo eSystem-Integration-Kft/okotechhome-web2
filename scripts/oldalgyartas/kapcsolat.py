@@ -178,7 +178,11 @@ TERKEP = '''
        cookie-hozzájárulásnak ki kell terjednie rá. Amíg ezek nem élnek, ez
        nyitott megfelelőségi pont.
   =========================================================================== -->
-  <section class="terkep" aria-labelledby="terkep-cim">
+  <section class="terkep" aria-labelledby="terkep-cim"
+           data-terkep-kulcs="{terkep_kulcs}"
+           data-terkep-szelesseg="47.7501283"
+           data-terkep-hosszusag="18.73557"
+           data-terkep-nagyitas="16">
     <div class="terkep-inner">
       <article class="terkep-kartya">
         <p class="type-data-eyebrow terkep-eyebrow">Elérhetőség</p>
@@ -227,6 +231,11 @@ TERKEP = '''
         <img src="assets/img/logo-okotechhome.svg" width="928" height="290"
              alt="" loading="lazy" decoding="async">
       </span>
+
+      <!-- Az élő térkép tárolója. ÜRESEN és REJTVE marad mindaddig, amíg a
+           `data-terkep-kulcs` üres: kulcs nélkül a fenti beágyazott keret
+           szolgál ki. A terkep.js veszi elő, ha a Maps API betöltött. -->
+      <div class="terkep-elo" hidden></div>
     </div>
   </section>
 '''.format(tel_href=TEL_HREF, tel=TEL, mail=MAIL, cim=CIM,
@@ -241,6 +250,11 @@ TERKEP = '''
         # ellenőrizni, nem képletből, különben a logó elcsúszik a gombostűtől.
         terkep_jelolo='47.7501283,18.73557',
         terkep_kozep='47.7501283,18.73278',
+        # Maps JavaScript API kulcs. ÜRESEN a lap a beágyazott keretet
+        # használja — a kulcs hiánya nem tör el semmit. A kulcs szándékosan
+        # publikus (a böngészőben fut); HTTP-referrer-korlátozás védi, nem
+        # titkosság. Lásd `_web/README.md` „Google-térkép" szakaszát.
+        terkep_kulcs='',
         terkep_cel='2509%20Esztergom%2C%20Str%C3%A1zsa%20u.%2012.')
 SECTIONS.append(TERKEP)
 SECTIONS.append(sec_faq([

@@ -25,6 +25,41 @@ látogató IP-jét a Google-nek, ezért a **cookie-tájékoztatóban nevesíteni
 terjednie rá. Amíg ezek nem élnek, ez nyitott pont — a beágyazás a
 `kapcsolat.html` `.terkep` szekciójában van.
 
+### Google-térkép — a Maps API-kulcs beállítása
+
+A kapcsolat oldal térképe **két üzemmódot** ismer, és kulcs nélkül is működik.
+
+| | kulcs nélkül (mai állapot) | kulccsal |
+|---|---|---|
+| térkép | beágyazott `iframe` | valódi Maps JavaScript API |
+| logós jelölés | saját réteg a keret fölött; húzáskor eltűnik | **valódi térképjelölő**, a házon marad |
+| színezés | CSS-szűrő + fátyol | a Google saját stílusrétege, a designtokenekből |
+| külső forrás | `www.google.com` | + `maps.googleapis.com`, `maps.gstatic.com` |
+
+**A kulcs beszerzése** (Google Cloud Console): új projekt → *APIs & Services* →
+**Maps JavaScript API** engedélyezése → *Credentials* → **Create credentials → API key**.
+A projekthez számlázási profil kell; egy kapcsolat oldal forgalmát a havi ingyenkeret
+fedezi, de a profil nélkül a térkép „for development purposes only" vízjelet kap.
+
+**A kulcsot korlátozni KELL.** Ez a kulcs a böngészőben fut, tehát bárki elolvashatja
+az oldal forrásából — ez nem hiba, hanem a Maps JS API működése. Nem a titkosság védi,
+hanem a korlátozás: *Application restrictions* → **Websites**, és vedd fel a
+`https://okoth.hu/*` és `https://tst.okoth.hu/*` mintát. *API restrictions* → csak a
+**Maps JavaScript API**. Korlátozás nélkül a kulccsal más webhelyről is lehet a te
+számládra terhelni.
+
+**Beállítás:** a kulcs a `kapcsolat.html` `<section class="terkep" …>` elemének
+`data-terkep-kulcs` attribútumába kerül (és a `scripts/oldalgyartas/kapcsolat.py`
+`terkep_kulcs` változójába, hogy az újragenerálás ne írja felül). Üresen hagyva minden
+a mai módon működik — a kulcs hiánya nem tör el semmit.
+
+**A `.htaccess` CSP-je** külön blokkban engedi a Maps forrásait, kizárólag a
+`kapcsolat.html`-re. Ebben szerepel a `style-src 'unsafe-inline'` is, mert a Maps a
+saját elemeit beágyazott stílussal formázza. **Élesítés után érdemes megpróbálni
+nélküle:** ha a böngésző konzoljában nincs CSP-hiba és a térkép hibátlan, vedd ki —
+a beágyazott stílus engedélyezése egy XSS-hez való támadási felület. A `serve.py`
+ugyanezt a fejlécet küldi helyben, hogy az eltérés ne csak élesben derüljön ki.
+
 **Második nyitott megfelelőségi pont: a hivatkozások aláhúzása.** A hivatkozások
 alapállapotban aláhúzás nélkül állnak (`a{text-decoration:none}`), egérrel és
 billentyűzet-fókuszban aláhúzottak. Ez a **különálló** hivatkozásoknál (telefon,
