@@ -37,6 +37,20 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **Előkészítés → Telekalkalmasság hub — a brief szerinti kilenc aloldal**, plusz a
+  szakasz áttekintő oldala (`projekt-elokeszites/`). Áttekintés · Talaj és
+  szivárgóképesség · Talajvíz · Kút és védőtávolság · Telekméret és szabad terület ·
+  Lejtés és csőmélység · Járműterhelés és hozzáférés · Adatgyűjtés · Telek- és
+  vízelhelyezési előszűrő. A hub három ponton **felülírja** a korábbi
+  kommunikációt: az „elég, ha tudja a telek adatait" helyett adatminőségi feltétel
+  (becsült / dokumentált / mért) áll; a tartály telepíthetősége és a víz
+  elhelyezhetősége **külön** döntés, sőt a második maga is kettéválik műszaki és jogi
+  kérdésre; az eredmény pedig nem igen-nem, hanem négy állapot — standard, feltételes,
+  vizsgálandó, jelenleg nem igazolt.
+- **`.compare-table-start` — adattábla-variáns.** Az alaptábla oszlopokat vet össze,
+  ezért középre zár; ez a változat sorokat sorol fel (adat, forrás, minőség), ahol a
+  középre zárás olvashatatlan. `.compare-group` a témakörönkénti csoportfejléc-sor.
+
 - **Kapcsolat — elérhetőségi kártya a térkép fölött.** A korábbi két blokk (szöveges
   „Elérhetőség és megközelítés" szekció, alatta a térképsáv) egyetlen sávvá vonva:
   a Google Térkép a teljes szélességű háttér, az adatok egy lebegő kártyán ülnek

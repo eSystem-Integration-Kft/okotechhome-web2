@@ -794,6 +794,27 @@
   .compare-table tbody tr:nth-child(even) td{background:var(--table-row-alt-bg)}
 
   /* Az ikon a fejlécben a felirat FÖLÖTT áll, tőle elválasztva. */
+  /* Adattábla-variáns (ÚJ). Az alaptábla OSZLOPOKAT vet össze, ezért középre
+     zár. Ez a változat SOROKAT sorol fel — adat, forrás, minőség, megjegyzés —,
+     ahol a középre zárás olvashatatlan: a szem nem talál közös bal élt.
+     Külön osztály, nem felülírás: a 4. alapszabály szerint új variáns új
+     osztállyal jön. */
+  .compare-table-start,
+  .compare-table-start th,
+  .compare-table-start td{text-align:left}
+  /* Csoportfejléc-sor: a táblát témakörönként tagolja. `colspan`-nel a teljes
+     szélességet átfogja, ezért a sávozó `nth-child` háttér itt zavaró lenne —
+     saját, erősebb háttere van. */
+  .compare-table-start .compare-group,
+  .compare-table-start tbody tr:nth-child(odd) .compare-group,
+  .compare-table-start tbody tr:nth-child(even) .compare-group{
+    background:var(--surface-muted);color:var(--text-primary);
+    font-family:var(--font-mono);
+    font-size:var(--type-data-eyebrow-size);
+    letter-spacing:var(--type-data-eyebrow-letter-spacing);
+    text-transform:uppercase;
+  }
+
   .compare-colhead{display:flex;flex-direction:column;align-items:center;gap:var(--space-16);color:var(--text-primary)}
   /* A fejléc alatti elválasztó a teljes táblaszélességen végigfut — a sorfejléc
      oszlopa alatt is, ahogy a vizuális terven. */
