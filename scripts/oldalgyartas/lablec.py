@@ -7,10 +7,16 @@ A minta kétsoros volt (a hasábok két sávban álltak); itt EGY sor: a márkab
 olvashatatlanul keskeny lenne, ezért a három másodlagos kategória a márkablokk
 alá, illetve a záró sávba került — ugyanoda, ahová a fejlécben is.
 
-HELYŐRZŐK: a cégadatok (cégjegyzékszám, adószám, székhely) nincsenek meg a
-repóban. Kitalálni nem lehet őket — cégadat, amit tévesen közölni jogi kockázat.
-Ezért `data-helyorzo` attribútummal jelölt, láthatóan ideiglenes mezőként
-szerepelnek, és a CSS is megjelöli őket. Egyetlen kereséssel megtalálhatók.
+CÉGADATOK: a cégjegyzékszám és az adószám a cég élő webhelyének impresszumából
+került át (okotechhome.hu/impresszum), a jogi oldalak átvételekor. Korábban
+`data-helyorzo` mezőként álltak itt.
+
+FIGYELEM — CÍMELTÉRÉS: az impresszum szerint a SZÉKHELY 2500 Esztergom,
+Csendesvölgy utca 27., a lábléc viszont a 2509 Esztergom, Strázsa u. 12. címet
+mutatja. A kettő más. A láblécben az ÜGYFÉLSZOLGÁLATI cím szerepel — ez a
+használható —, a jogi oldalak pedig mindkettőt közlik, külön megnevezve.
+Ha a székhely azóta megváltozott, azt a `jogi_oldalak.py` CEG szótárában kell
+javítani, és onnan mind az öt jogi oldalon átvezetődik.
 """
 import pathlib, re
 
@@ -102,9 +108,10 @@ def epit(elo=''):
     return f'''
 <!-- ==========================================================================
      LÁBLÉC — egy sorban: márkablokk + öt hasáb.
-     A `data-helyorzo` mezők cégadatot várnak (cégjegyzékszám, adószám,
-     székhely). Ezeket nem lehet kitalálni: tévesen közölt cégadat jogi
-     kockázat. Élesítés előtt kereséssel mind megtalálható.
+
+     A záró sáv cégadatai a cég impresszumából származnak. A láblécben az
+     ÜGYFÉLSZOLGÁLATI cím szerepel (2509 Esztergom, Strázsa u. 12.); a
+     bejegyzett SZÉKHELY ettől eltér, azt a jogi oldalak közlik.
 =========================================================================== -->
 <footer class="lablec">
   <div class="lablec-inner">
@@ -133,8 +140,8 @@ def epit(elo=''):
     <div class="lablec-inner lablec-zaro-inner">
       <p class="type-ui-caption lablec-ceg">
         © 2026 ÖkoTech-Home Kft. Minden jog fenntartva.
-        <span class="lablec-helyorzo" data-helyorzo="cegjegyzekszam">Cégjegyzékszám: #####</span>
-        <span class="lablec-helyorzo" data-helyorzo="adoszam">Adószám: #####</span>
+        <span class="lablec-adat">Cégjegyzékszám: 11-09-008852</span>
+        <span class="lablec-adat">Adószám: 12268687-2-11</span>
       </p>
       <ul class="lablec-jogi" role="list">
 {jogi}

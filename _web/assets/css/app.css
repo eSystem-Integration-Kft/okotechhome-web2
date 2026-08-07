@@ -815,6 +815,33 @@
     text-transform:uppercase;
   }
 
+  /* ===== 5.22 Jogi oldalak (ÚJ) =====
+     Az adatkezelési tájékoztató, az ÁSZF és társaik hosszú, tagolt szövegek:
+     h2 alatt több h3, alattuk felsorolások. A szekció-építők eddig csak h2-t
+     ismertek, mert a marketingoldalakon nem volt rá szükség.
+
+     A SORHOSSZ itt a legfontosabb: jogi szöveget senki nem olvas el, ha a sor
+     a konténer teljes szélességét kitölti. Ezért `--jogi-sorhossz` korlát. */
+  .jogi-szoveg{max-width:72ch}
+  .jogi-alcim{color:var(--text-primary);margin-top:var(--space-32);
+    margin-bottom:var(--space-16)}
+  .jogi-szoveg > p{color:var(--text-secondary);margin-bottom:var(--space-16)}
+  .jogi-szoveg > p:last-child{margin-bottom:0}
+  .jogi-lista{margin:0 0 var(--space-16) var(--space-24);color:var(--text-secondary)}
+  .jogi-lista li{margin-bottom:var(--space-8)}
+  .jogi-lista li:last-child{margin-bottom:0}
+  /* Számozott jogi felsorolás — a hivatkozhatóság miatt látszania kell a
+     sorszámnak, ezért nem `list-style:none`. */
+  ol.jogi-lista{list-style:decimal}
+  ul.jogi-lista{list-style:disc}
+  /* Kiemelt doboz: figyelmeztetés, határidő, vagy a felülvizsgálat dátuma. */
+  .jogi-kiemelt{
+    margin:var(--space-24) 0;padding:var(--space-24);
+    background:var(--panel-bg);border-left:3px solid var(--primary);
+    border-radius:0 var(--r-md) var(--r-md) 0;color:var(--text-secondary);
+  }
+  .jogi-kiemelt > :last-child{margin-bottom:0}
+
   .compare-colhead{display:flex;flex-direction:column;align-items:center;gap:var(--space-16);color:var(--text-primary)}
   /* A fejléc alatti elválasztó a teljes táblaszélességen végigfut — a sorfejléc
      oszlopa alatt is, ahogy a vizuális terven. */
@@ -1509,13 +1536,11 @@
   .lablec-link:focus-visible,.lablec-cim-link:focus-visible,.lablec-jogi-link:focus-visible{
     outline:2px solid var(--primary);outline-offset:3px;border-radius:2px;
   }
-  /* A helyőrző LÁTHATÓAN ideiglenes: cégadatot nem lehet kitalálni, és a
-     tévesen közölt adat jogi kockázat. Élesítés előtt keresendő. */
-  .lablec-helyorzo{
-    display:inline-block;margin-left:var(--space-8);padding:0 var(--space-8);
-    border:1px dashed color-mix(in srgb,var(--text-on-dark) 45%,transparent);
-    border-radius:var(--r-md);color:var(--text-on-dark-muted);
-  }
+  /* Cégadat a záró sávban. Korábban `.lablec-helyorzo` volt, szaggatott
+     kerettel — az adatok azóta megvannak a cég impresszumából, ezért a
+     helyőrző-kinézet elmaradt. */
+  .lablec-adat{display:inline-block;margin-left:var(--space-16);
+    color:var(--text-on-dark-muted)}
   .lablec-zaro{border-top:1px solid color-mix(in srgb,var(--text-on-dark) 18%,transparent)}
   .lablec-zaro-inner{
     display:flex;flex-wrap:wrap;gap:var(--space-16);
