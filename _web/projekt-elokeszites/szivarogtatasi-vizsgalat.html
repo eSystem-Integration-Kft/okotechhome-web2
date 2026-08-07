@@ -6,20 +6,20 @@
      minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projekt-előkészítés — mit kell tisztázni a döntés előtt | ÖkoTech Home</title>
-<meta name="description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
-<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/">
+<title>Szivárogtatási vizsgálat — a méretezés bemeneti adata | ÖkoTech Home</title>
+<meta name="description" content="Mit mér, hol és milyen mélységben, mikor érdemes elvégezni, és mi következik gyenge eredményből. Nem formalitás — a szikkasztó mérete ezen múlik.">
+<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/szivarogtatasi-vizsgalat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Projekt-előkészítés">
-<meta property="og:description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
-<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-attekintes.webp">
+<meta property="og:title" content="Szivárogtatási vizsgálat">
+<meta property="og:description" content="Mit mér, hol és milyen mélységben, mikor érdemes elvégezni, és mi következik gyenge eredményből. Nem formalitás — a szikkasztó mérete ezen múlik.">
+<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-telekvasarlas.webp">
 <meta property="og:locale" content="hu_HU">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../assets/css/app.css?v=68">
-<link rel="preload" as="image" href="../assets/img/oldalak/hero-attekintes.webp"
-      imagesrcset="../assets/img/oldalak/hero-attekintes-1024.webp 1100w, ../assets/img/oldalak/hero-attekintes.webp 1800w"
+<link rel="preload" as="image" href="../assets/img/oldalak/hero-telekvasarlas.webp"
+      imagesrcset="../assets/img/oldalak/hero-telekvasarlas-1024.webp 1100w, ../assets/img/oldalak/hero-telekvasarlas.webp 1800w"
       imagesizes="100vw">
 </head>
 <body>
@@ -217,109 +217,121 @@
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
-            <li aria-current="page">Projekt-előkészítés</li>
+            <li><a href="./">Előkészítés</a></li>
+            <li><a href="tisztitott-viz-elhelyezese">Tisztított víz elhelyezése</a></li>
+            <li aria-current="page">Szivárogtatási vizsgálat</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Projekt-előkészítés</h1>
-        <p class="type-ui-body-strong hero-lead">A rendszer kiválasztása nem a berendezésnél kezdődik. Előbb az derül ki, mi valósítható meg a telken, hová kerül a tisztított víz, és mekkora terhelésre kell méretezni. Ez a szakasz ebben vezet végig.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Szivárogtatási vizsgálat</h1>
+        <p class="type-ui-body-strong hero-lead">Ez méri közvetlenül azt, amit a méretezéshez tudni kell: milyen sebességgel nyeli el a talaj a vizet a tervezett mélységben. A talaj megnevezése ezt nem helyettesíti.</p>
       </div>
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-attekintes-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
-        <img src="../assets/img/oldalak/hero-attekintes.webp"
-             srcset="../assets/img/oldalak/hero-attekintes-1024.webp 1100w, ../assets/img/oldalak/hero-attekintes.webp 1800w"
-             sizes="100vw" width="1800" height="771" alt="Kiterített műszaki rajzok és jegyzetfüzet egy asztalon, mellette mérőszalag és ceruza" fetchpriority="high" decoding="async">
+        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-telekvasarlas-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
+        <img src="../assets/img/oldalak/hero-telekvasarlas.webp"
+             srcset="../assets/img/oldalak/hero-telekvasarlas-1024.webp 1100w, ../assets/img/oldalak/hero-telekvasarlas.webp 1800w"
+             sizes="100vw" width="1800" height="771" alt="Vizsgálati gödör a telken, benne mérőléc és vízszintjelölés a szivárgás méréséhez" fetchpriority="high" decoding="async">
       </picture>
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="a-dontes-elotti-munka-cim">
+  <section class="section" aria-labelledby="ez-a-meretezes-legfontosabb-bemenete-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Miről szól ez a szakasz</p>
-        <h2 class="type-display-section-title section-title" id="a-dontes-elotti-munka-cim">A döntés előtti munka</h2>
+        <p class="type-data-eyebrow section-eyebrow">Nem formalitás</p>
+        <h2 class="type-display-section-title section-title" id="ez-a-meretezes-legfontosabb-bemenete-cim">Ez a méretezés legfontosabb bemenete</h2>
       </header>
-      <p class="type-ui-body section-lead">A szennyvízrendszer kiválasztása nem a berendezésnél kezdődik. Előbb ki kell derülnie, hogy mi valósítható meg a telken, hová kerül a tisztított víz, mekkora terhelésre kell méretezni, és milyen dokumentumok szükségesek.</p>
-      <p class="type-ui-body section-lead">Ez a szakasz ezt a munkát bontja lépésekre. Nem terméket ajánl: azt mutatja meg, milyen kérdésekre kell választ találni, honnan szerezhetők meg az adatok, és mikor elég a saját tájékozódás — illetve mikor kell mérés vagy szakértő.</p>
-      <p class="type-ui-body section-lead">A sorrend nem kötelező, de van logikája. A telek adottságai a legtöbb továbbit meghatározzák, ezért érdemes ott kezdeni.</p>
+      <p class="type-ui-body section-lead">A szivárogtatási vizsgálat nem adminisztratív lépés, hanem a szikkasztó méretezésének <strong>legfontosabb telekspecifikus bemeneti adata</strong>. Ez méri közvetlenül azt, amit tudni kell: milyen sebességgel nyeli el a talaj a vizet a tervezett mélységben.</p>
+      <p class="type-ui-body section-lead">A talaj megnevezése — homokos, agyagos, kötött — ezt nem helyettesíti. Két egymás melletti telek ugyanúgy nevezhető homokosnak, miközben a rétegződésük miatt egészen másképp viselkednek. A vizsgálat éppen ezt a különbséget méri.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="hol-tart-most-cim">
+  <section class="section" aria-labelledby="mit-kell-tudni-rola-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Elérhető szakaszok</p>
-        <h2 class="type-display-section-title section-title" id="hol-tart-most-cim">Hol tart most?</h2>
-        <p class="type-ui-body section-lead">Ami már elkészült. A többi hamarosan követi — alább felsorolva.</p>
-      </header>
-      <ul class="situation-grid" role="list">
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-talaj"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Telekalkalmasság</h3>
-          <p class="type-ui-body situation-text">Talaj, talajvíz, szabad terület, csőszint, kút és hozzáférés — mi dönti el, hogy megvalósítható-e a rendszer, és milyen kialakítással.</p>
-          <a class="text-link situation-action" href="telekalkalmassag"><span class="link-label">Telekalkalmasság<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-vizelvezetes"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Tisztított víz elhelyezése</h3>
-          <p class="type-ui-body situation-text">Elszivárogtatás, tisztítómező, gyökérzónás elhelyezés — hová kerül a naponta kilépő vízmennyiség, és mitől függ, melyik irány jöhet szóba.</p>
-          <a class="text-link situation-action" href="tisztitott-viz-elhelyezese"><span class="link-label">Vízelhelyezés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="a-szakasz-tovabbi-reszei-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Ami készül</p>
-        <h2 class="type-display-section-title section-title" id="a-szakasz-tovabbi-reszei-cim">A szakasz további részei</h2>
-        <p class="type-ui-body section-lead">Ezek a témák a fejléc menüjében már szerepelnek, de a tartalmuk még készül. Amíg nem érhetők el, a kérdéseivel közvetlenül is fordulhat hozzánk.</p>
+        <p class="type-data-eyebrow section-eyebrow">A vizsgálat</p>
+        <h2 class="type-display-section-title section-title" id="mit-kell-tudni-rola-cim">Mit kell tudni róla?</h2>
       </header>
       <ul class="numbered-grid" role="list">
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text">Terhelés és kapacitás — mekkora rendszer kell valójában</p>
+          <p class="type-ui-body card-text"><strong>Hol.</strong> A szikkasztó <em>tervezett helyén</em>, nem a telek egy tetszőleges pontján. Ha a hely még nem dőlt el, előbb az elrendezést kell tisztázni.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text">Engedélyezés és dokumentumok — mit kell bejelenteni, és mikor</p>
+          <p class="type-ui-body card-text"><strong>Milyen mélységben.</strong> A tervezett elhelyezési mélységben. Egy felszín közeli mérés mást mutathat, mint a másfél méterrel lejjebb lévő réteg.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text">Helyszíni felmérés — mikor indokolt, és mit ad</p>
+          <p class="type-ui-body card-text"><strong>Mikor.</strong> Lehetőleg olyan időszakban, amikor a talaj nem telített csapadéktól — vagy a mérés mellett rögzíteni kell az előzményt, mert az eredményt befolyásolja.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">04</span>
-          <p class="type-ui-body card-text">Költségek és ajánlatok — mi befolyásolja az árat</p>
+          <p class="type-ui-body card-text"><strong>A talajvízzel együtt.</strong> A szivárgási eredmény jó talajvíz nélkül félrevezető: a szezonális maximum a szikkasztó szintjéig felérhet, és akkor a mért érték nem érvényes.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">05</span>
-          <p class="type-ui-body card-text">Telepítés és beüzemelés — mi történik a helyszínen</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">06</span>
-          <p class="type-ui-body card-text">Projektkészültségi ellenőrzés — készen áll-e a projekt</p>
+          <p class="type-ui-body card-text"><strong>Dokumentálva.</strong> Egy laikus által kiásott gödörben végzett házi próba és egy szakmailag dokumentált mérés nem azonos bizonyító erejű. A méretezéshez az utóbbi kell.</p>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+  <section class="section" aria-labelledby="nem-osztalyzat-bemeneti-adat-cim">
     <div class="section-inner">
-      <aside class="panel-dark" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Mi lesz az eredményből?</p>
+        <h2 class="type-display-section-title section-title" id="nem-osztalyzat-bemeneti-adat-cim">Nem osztályzat — bemeneti adat</h2>
+      </header>
+      <p class="type-ui-body section-lead">A vizsgálat eredményét nem „jó” vagy „rossz” talajként érdemes értelmezni. Egy szám, amely a napi elhelyezendő vízmennyiséggel együtt megadja a szükséges szikkasztófelületet — vagy megmutatja, hogy a szükséges felület nem fér el, és más elhelyezési irányt kell keresni.</p>
+      <p class="type-ui-body section-lead">Jó eredmény sem elegendő önmagában: a talajvíz, a rendelkezésre álló terület, a kút közelsége és a terület érzékenységi besorolása ugyanúgy feltétel. A vizsgálat egy kérdést zár le a több közül — de azt véglegesen.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="idozites-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Mikor érdemes elvégezni</p>
+        <h2 class="type-display-section-title section-title" id="idozites-cim">Időzítés</h2>
+      </header>
+      <div class="split">
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Ekkor van értelme</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Ha a helyi elszivárogtatás a valószínű irány</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Ha a szikkasztó tervezett helye már körvonalazódott</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Telekvásárlás előtt, ha a szennyvízkezelés kockázati tényező</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Ha korábbi talajadat régi, vagy más pontra vonatkozik</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Mielőtt bárki konkrét szikkasztóméretet ígér</span></li>
+          </ul>
+        </div>
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Ekkor várjon vele</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Amíg nem tudni, hová kerül a ház és a berendezés</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Ha a közcsatorna helyzete még nem tisztázott</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Ha a telek vízbázisvédelmi helyzete bizonytalan — előbb az derüljön ki</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Ha a projekt nagyságrendje miatt úgyis mérnöki tervezés következik</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Ha friss, dokumentált mérés áll rendelkezésre ugyanarra a helyre</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- ADATHIÁNY: az ÖkoTech által elfogadott vizsgálati módszer és protokoll: hány mérési pont, milyen mélységben, milyen mértékegységben, és milyen mért értékhez milyen szikkasztó-konfiguráció tartozik
+     Forrás: ÖkoTech műszaki csapat — hivatalos mérési és méretezési protokoll. Amíg ez nincs rögzítve, a látogatónak nem mondható meg, milyen vizsgálati eredményt fogadunk el, és ez az oldal a célt írja le, nem a módszert. Addig konkrét értékkel nem publikálható. -->
+  <section class="section" aria-labelledby="ha-az-eredmeny-nem-eleg-jo-cim">
+    <div class="section-inner">
+      <aside class="panel-dark" aria-labelledby="ha-az-eredmeny-nem-eleg-jo-cim">
         <div class="panel-dark-head">
-          <p class="type-data-eyebrow panel-dark-eyebrow">Ha most kell válasz</p>
-          <h2 class="type-display-highlight-title panel-dark-title" id="beszeljunk-a-konkret-projektrol-cim">Beszéljünk a konkrét projektről</h2>
+          <p class="type-data-eyebrow panel-dark-eyebrow">Következő lépés</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="ha-az-eredmeny-nem-eleg-jo-cim">Ha az eredmény nem elég jó</h2>
         </div>
         <div class="panel-dark-body">
-          <p class="type-ui-body panel-dark-text">Ha a szakasz még nem tartalmazza, amit keres, írja meg a település nevét, a háztartás létszámát és amit a telekről tud — a többit megkérdezzük.</p>
-          <p class="panel-dark-actions"><a class="btn btn-inverse" href="../kapcsolat">Kapcsolatfelvétel</a></p>
+          <p class="type-ui-body panel-dark-text">Gyenge szivárgási eredmény nem a projekt vége. Ilyenkor nagyobb felület, más kialakítás vagy más elhelyezési irány jöhet szóba — de a döntéshez jellemzően szakértő kell. A következő oldal megmutatja, melyik esetben ki.</p>
+          <p class="type-ui-body panel-dark-text"><a href="tisztitott-viz-elhelyezese">Tisztított víz elhelyezése</a></p>
+          <p class="panel-dark-actions"><a class="btn btn-inverse" href="mikor-szukseges-szakerto">Mikor szükséges szakértő?</a></p>
         </div>
       </aside>
     </div>
@@ -333,17 +345,29 @@
       </header>
       <div class="faq">
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Hol kezdjem, ha még semmit nem tudok?</summary>
-          <div class="faq-a"><p class="type-ui-body">A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni.</p></div>
+          <summary class="faq-q type-ui-card-title">Elvégezhetem magam?</summary>
+          <div class="faq-a"><p class="type-ui-body">Tájékozódásra végezhet egyszerű próbát — kiásott gödörbe vizet töltve, a süllyedést mérve —, és ez sokat elárul. A méretezéshez azonban dokumentált, szakmailag elvégzett mérés kell: a mélység, a víztelítettség, az előzmény és a mérési mód mind befolyásolja az eredményt.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell ehhez ajánlatot kérnem?</summary>
-          <div class="faq-a"><p class="type-ui-body">Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak.</p></div>
+          <summary class="faq-q type-ui-card-title">Mennyibe kerül?</summary>
+          <div class="faq-a"><p class="type-ui-body">Konkrét árat itt nem adunk, mert szolgáltatás, és a helyszíntől és a vizsgálati mélységtől függ. Ami biztos: lényegesen kevesebb, mint egy alulméretezett szikkasztó utólagos újraépítése.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Van már talajmechanikai szakvéleményem. Az elég?</summary>
+          <div class="faq-a"><p class="type-ui-body">Sokszor jó kiindulás, de két dolgot ellenőrizni kell: a telek melyik pontjára és milyen mélységre vonatkozik, és tartalmaz-e vízbefogadó képességre vonatkozó adatot. Az alapozáshoz készült feltárás nem feltétlenül tartalmaz szivárgási értéket.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mi van, ha rossz az eredmény?</summary>
+          <div class="faq-a"><p class="type-ui-body">Az azt jelenti, hogy a helyi elhelyezéshez nagyobb felület kell, vagy más kialakítás, esetleg más irány. Ez nem elutasítás, hanem információ — és jóval olcsóbb most megtudni, mint a szikkasztó megépítése után.</p></div>
         </details>
       </div>
     </div>
   </section>
-
+<!-- JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT. Érintett: 147/2010. Korm. rendelet 25–26. § ·
+     27/2004. KvVM rendelet érzékenységi besorolása (2026-ban módosult melléklet) ·
+     219/2004. Korm. rendelet · felszíni befogadónál vízjogi és kibocsátási
+     követelmények · víz-újrahasználásnál az EU 2020/741 hatálya. Dátumozott
+     felülvizsgálat kell hozzá. -->
 </main>
 
 <!-- ==========================================================================
@@ -467,14 +491,18 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
       {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"},
-      {"@type":"ListItem","position":2,"name":"Projekt-előkészítés","item":"https://okoth.hu/projekt-elokeszites/"}
+      {"@type":"ListItem","position":2,"name":"Előkészítés","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":3,"name":"Tisztított víz elhelyezése","item":"https://okoth.hu/tisztitott-viz-elhelyezese"},
+      {"@type":"ListItem","position":4,"name":"Szivárogtatási vizsgálat","item":"https://okoth.hu/projekt-elokeszites/szivarogtatasi-vizsgalat"}
       ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Hol kezdjem, ha még semmit nem tudok?","acceptedAnswer":{"@type":"Answer","text":"A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni."}},
-      {"@type":"Question","name":"Kell ehhez ajánlatot kérnem?","acceptedAnswer":{"@type":"Answer","text":"Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak."}}
+      {"@type":"Question","name":"Elvégezhetem magam?","acceptedAnswer":{"@type":"Answer","text":"Tájékozódásra végezhet egyszerű próbát — kiásott gödörbe vizet töltve, a süllyedést mérve —, és ez sokat elárul. A méretezéshez azonban dokumentált, szakmailag elvégzett mérés kell: a mélység, a víztelítettség, az előzmény és a mérési mód mind befolyásolja az eredményt."}},
+      {"@type":"Question","name":"Mennyibe kerül?","acceptedAnswer":{"@type":"Answer","text":"Konkrét árat itt nem adunk, mert szolgáltatás, és a helyszíntől és a vizsgálati mélységtől függ. Ami biztos: lényegesen kevesebb, mint egy alulméretezett szikkasztó utólagos újraépítése."}},
+      {"@type":"Question","name":"Van már talajmechanikai szakvéleményem. Az elég?","acceptedAnswer":{"@type":"Answer","text":"Sokszor jó kiindulás, de két dolgot ellenőrizni kell: a telek melyik pontjára és milyen mélységre vonatkozik, és tartalmaz-e vízbefogadó képességre vonatkozó adatot. Az alapozáshoz készült feltárás nem feltétlenül tartalmaz szivárgási értéket."}},
+      {"@type":"Question","name":"Mi van, ha rossz az eredmény?","acceptedAnswer":{"@type":"Answer","text":"Az azt jelenti, hogy a helyi elhelyezéshez nagyobb felület kell, vagy más kialakítás, esetleg más irány. Ez nem elutasítás, hanem információ — és jóval olcsóbb most megtudni, mint a szikkasztó megépítése után."}}
       ]
     }
   ]

@@ -23,10 +23,13 @@ KESZ = [
      'Talaj, talajvíz, szabad terület, csőszint, kút és hozzáférés — mi dönti el, hogy '
      'megvalósítható-e a rendszer, és milyen kialakítással.',
      'telekalkalmassag', 'Telekalkalmasság'),
+    ('nav-vizelvezetes', 'Tisztított víz elhelyezése',
+     'Elszivárogtatás, tisztítómező, gyökérzónás elhelyezés — hová kerül a naponta kilépő '
+     'vízmennyiség, és mitől függ, melyik irány jöhet szóba.',
+     'tisztitott-viz-elhelyezese', 'Vízelhelyezés'),
 ]
 
 TERVEZETT = [
-    'Tisztított víz elhelyezése — hová kerül a naponta kilépő vízmennyiség',
     'Terhelés és kapacitás — mekkora rendszer kell valójában',
     'Engedélyezés és dokumentumok — mit kell bejelenteni, és mikor',
     'Helyszíni felmérés — mikor indokolt, és mit ad',
