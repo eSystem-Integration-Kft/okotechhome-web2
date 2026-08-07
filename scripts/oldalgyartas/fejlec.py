@@ -13,11 +13,11 @@ mutatta: a látogató a menüből nem látta, hogy egy hub alatt hét aloldal va
 hogy azok alatt még egy termékcsalád is. Most a hub alatt ott a saját
 aloldallistája, a termékcsaládok pedig külön oszlopot kapnak.
 
-A PANEL EZÉRT TELJES SZÉLESSÉGŰ. Egy nav-elemhez horgonyzott, tartalomra
-méretezett doboz öt-hat hasábbal kilógna a képernyőről — a szélső menüpontoknál
-biztosan. A panel ezért a fejléc konténeréhez igazodik, nem a menüponthoz; a
-korábbi kis csúcs (a menüpontra mutató háromszög) emiatt elmarad, mert egy
-teljes szélességű panelnél nincs mire mutatnia.
+A PANEL ELHELYEZÉSE. A panel rögzített, 48rem szélességű, három hasábbal, és a
+NAVIGÁCIÓS BLOKKHOZ igazodik, nem az egyes menüponthoz: 1280 képpontos ablakban
+a középső menüponthoz kötve se balra, se jobbra nem férne el. Így viszont
+minden menüpontnál ugyanott nyílik, és a nyitó gombon ülő csúcs mondja meg,
+melyikből. A rendezés az app.css 5.12b szakaszában él.
 
 SORREND: a lablec.py után is futtatható, a kettő nem érinti egymást. A
 `sablon.py` a fejlécet egy meglévő oldalból emeli ki, ezért ha ITT módosítasz,
@@ -249,11 +249,13 @@ def epit(elo=''):
             </button>
             <div class="mega" id="mega-{az}" hidden>
               <div class="mega-inner">
-                <p class="type-data-eyebrow mega-eyebrow">{cim}</p>
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">{cim}</p>
+                  <a class="text-link mega-attekintes" href="{h(katurl)}"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
                 <ul class="mega-oszlopok" role="list">
 {chr(10).join(oszlopok)}
                 </ul>
-                <p class="mega-foot"><a class="text-link" href="{h(katurl)}"><span class="link-label">Áttekintés: {cim}<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
               </div>
             </div>
           </li>''')
@@ -270,7 +272,10 @@ def epit(elo=''):
             </button>
             <div class="mega" id="mega-{az}" hidden>
               <div class="mega-inner">
-                <p class="type-data-eyebrow mega-eyebrow">{cim}</p>
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">{cim}</p>
+                  <span class="type-ui-caption mega-keszul">Ez a szakasz még készül. Kérdésével addig is fordulhat hozzánk.</span>
+                </div>
                 <ul class="mega-oszlopok" role="list">
                   <li class="mega-oszlop">
                     <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">A szakasz készül</span></p>
@@ -279,7 +284,6 @@ def epit(elo=''):
                     </ul>
                   </li>
                 </ul>
-                <p class="mega-foot"><span class="type-ui-caption mega-keszul">Ez a szakasz még készül. Kérdésével addig is fordulhat hozzánk.</span></p>
               </div>
             </div>
           </li>''')

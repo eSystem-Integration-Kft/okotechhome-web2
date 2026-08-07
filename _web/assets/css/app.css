@@ -233,6 +233,16 @@
     --card-radius:var(--r-lg);
     --card-padding:var(--space-24);
 
+    /* VÉSET — a logó jelrajza háttérdíszként (megamenü, 5.12b). A mélyedés a
+       felület alá vág, a kiemelés fölé emel: a kettő egy képponttal eltolva
+       adja a belevésett hatást. Világos témán a fény balról-fentről esik,
+       ezért a mélyedés sötét, a kiemelés majdnem fehér. */
+    --veset-jel:url(../img/logo-jel.svg);
+    --veset-melyedes:var(--color-forest);
+    --veset-melyedes-alfa:.085;
+    --veset-kiemeles:#FFFFFF;
+    --veset-kiemeles-alfa:.62;
+
     /* kiemelt panel */
     --panel-bg:var(--surface-muted);
     --panel-border:var(--border);
@@ -370,6 +380,14 @@
        szemantikus tokenre hivatkozó komponens-tokent itt is deklarálni kell. */
     --section-bg:var(--canvas);
     --section-alt-bg:var(--surface-muted);
+
+    /* A véset iránya nem fordul meg — a fény sötét témán is balról-fentről
+       esik. A színek viszont igen: a mélyedés fekete, a kiemelés a Lime egy
+       leheletnyi fátyla, különben a sötét felületen nem látszana semmi. */
+    --veset-melyedes:#000000;
+    --veset-melyedes-alfa:.30;
+    --veset-kiemeles:var(--color-lime);
+    --veset-kiemeles-alfa:.07;
 
     --card-bg:var(--surface);
     --card-border:var(--border);
@@ -959,23 +977,27 @@
   .nav-link:hover{background:var(--canvas);text-decoration:none}
   .nav-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:4px}
   .nav-link[aria-current="page"]{background:var(--surface-muted)}
-  /* A GYIK és a Karrier asztali nézetben a kontaktsávban él; a menüben csak
-     akkor jelenik meg, amikor a kontaktsáv rövidül (≤640px). */
-  .nav-item-secondary{display:none}
   .header-cta{flex:none}
 
 
   /* ===== 5.12b Megamenü (ÚJ) =====
-     A sitemap 2. szintje a fejlécből érhető el. A nyitó elem `button`
+     A sitemap 2. és 3. szintje a fejlécből érhető el. A nyitó elem `button`
      (művelet, nem navigáció — 7.2), a panel `hidden` attribútummal zár, így
-     JS nélkül sem marad nyitva lógva. A panel LEBEG: a nyitó menüponthoz
-     igazodik, szélességét a tartalma adja, és egy csúcs mutatja, honnan
-     nyílt — nem a fejléc teljes szélességén ül. */
+     JS nélkül sem marad nyitva lógva.
+
+     A panel LEBEG: a nyitó menüponthoz igazodik, rögzített szélességű, és egy
+     csúcs mutatja, melyik menüpontból nyílt. */
   .header-main{position:relative}
-  /* A panel a fejléc konténeréhez igazodik, ezért a nav-elem NEM viszonyítási
-     pont — lásd a .mega magyarázatát. */
+  /* A PANEL viszonyítási pontja a teljes navigációs blokk, a CSÚCS-é a nyitó
+     gomb. Ezért `.nav-item` static marad: ha viszonyítási pont lenne, a panel
+     is hozzá igazodna, és 1280 képpontos ablakban a középső menüpontnál se
+     balra, se jobbra nem férne el (a 768 képpontos panel szélesebb, mint a
+     menüponttól bármelyik képernyőszélig tartó táv). A navigációs blokkhoz
+     kötve viszont MINDEN menüpontnál ugyanott nyílik, és sehol nem lóg ki —
+     a csúcs mondja meg, melyikből. */
+  .nav-drawer{position:relative}
   .nav-item{position:static}
-  .nav-trigger{
+  .nav-trigger{position:relative;
     display:inline-flex;align-items:center;gap:var(--space-8);
     border:0;background:none;cursor:pointer;
     font-family:var(--font-body);font-size:var(--type-ui-button-size);
@@ -1000,41 +1022,106 @@
   @starting-style{
     .mega:not([hidden]){opacity:0;transform:translateY(calc(-1 * var(--space-8)))}
   }
-  /* A PANEL TELJES SZÉLESSÉGŰ: a fejléc konténeréhez igazodik, nem a
-     menüponthoz. Háromszintű tartalommal (hub + aloldalak) öt-hat hasáb áll
-     egymás mellett; egy nav-elemhez horgonyzott, tartalomra méretezett doboz
-     ilyenkor kilógna a képernyőről — a szélső menüpontoknál biztosan.
+  /* KACSACSŐR. A csúcs a NYITÓ GOMBON ül, nem a panelen: a `.mega` görgethető
+     és lekerekített, tehát bármit levágna, ami a szélén kilóg. Elforgatott
+     négyzet két szomszédos szegéllyel — a panel fölé emelve (z-index 26)
+     takarja annak felső szegélyét, így a csúcs és a panel egyetlen összefüggő
+     formává olvad. */
+  .nav-trigger[aria-expanded="true"]::after{
+    content:'';position:absolute;z-index:26;pointer-events:none;
+    left:50%;bottom:calc(-1 * var(--space-24));
+    width:var(--space-16);height:var(--space-16);
+    background:var(--surface);
+    border-left:1px solid var(--border);border-top:1px solid var(--border);
+    /* Külön `translate` és `transform`: a böngésző előbb tolja, aztán forgatja.
+       Egyetlen `transform`-ban a forgatás a tolás tengelyeit is elfordítaná. */
+    translate:-50% 0;transform:rotate(45deg);
+  }
 
-     Ezért `.nav-item` static, a viszonyítási pont a `.header-inner`. A korábbi
-     kis csúcs (a menüpontra mutató háromszög) emiatt elmarad: egy teljes
-     szélességű panelnek nincs mire mutatnia. */
+  /* A PANEL LEBEG a navigáció alatt, rögzített szélességgel. Három hasáb fér el
+     benne; a hubok több sorban rendeződnek, nem egyetlen hosszú sorban.
+     (Korábban a panel a fejléc teljes szélességét felvette, hét hasábbal —
+     nagy, széles és üres volt.) */
   .mega{
     opacity:1;transform:none;
     transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),
                display 180ms var(--ease-out) allow-discrete;
+    /* A 16 képpontos rés a CSÚCS mérete miatt kell: a 16×16-os négyzet 45°-ban
+       elforgatva 22,6 képpont átlójú, és a csúcsa akkor látszik teljes
+       hosszában, ha a négyzet KÖZEPE éppen a panel felső élén ül. */
     position:absolute;top:calc(100% + var(--space-16));
-    left:var(--page-gutter);right:var(--page-gutter);
+    left:calc(-1 * var(--space-8));
+    width:min(48rem,calc(100vw - 2 * var(--page-gutter)));
     z-index:25;
-    background:var(--surface);
+    /* A jobb alsó sarokban halvány tónusmosás — ebbe simul bele a véset. */
+    background:
+      radial-gradient(115% 85% at 100% 100%,
+        color-mix(in srgb,var(--surface-muted) 60%,transparent) 0%,
+        transparent 60%),
+      var(--surface);
     border:1px solid var(--border);border-radius:var(--panel-radius);
     box-shadow:var(--shadow-2);
-    /* Hosszú kategóriánál (Helyzetem: hét hasáb) a panel magasabb lehet, mint
-       a képernyő. Görgethető, de a fejléc alatt marad. */
+    /* Hosszú kategóriánál a panel magasabb lehet, mint a képernyő.
+       Görgethető, de a fejléc alatt marad. */
     max-height:calc(100vh - var(--topbar-h) - var(--space-96));
     overflow-y:auto;overscroll-behavior:contain;
   }
+  /* VÉSET. A logó jelrajza nagyon halványan a panel jobb alsó sarkában, két
+     egymáshoz képest egy képponttal eltolt sziluettből: alul a mélyedés
+     (sötétebb), fölötte a kiemelés (világosabb). Együtt adják a belevésett
+     hatást — a felső réteg majdnem teljesen letakarja az alsót, csak a
+     bal-felső élen marad látszó vonal.
 
-  .mega-inner{padding:var(--space-24)}
-  .mega-eyebrow{color:var(--text-tertiary);margin-bottom:var(--space-16)}
+     Maszkkal rajzoljuk, nem képként: így a szín tokenből jön és témát vált. */
+  .mega-inner{position:relative;isolation:isolate;padding:var(--space-24)}
+  .mega-inner::before,.mega-inner::after{
+    content:'';position:absolute;z-index:-1;pointer-events:none;
+    right:calc(-1 * var(--space-24));bottom:calc(-1 * var(--space-24));
+    width:clamp(10rem,26%,15rem);aspect-ratio:387.49 / 289.93;
+    -webkit-mask:var(--veset-jel) no-repeat center/contain;
+            mask:var(--veset-jel) no-repeat center/contain;
+  }
+  .mega-inner::before{background:var(--veset-melyedes);opacity:var(--veset-melyedes-alfa)}
+  .mega-inner::after{
+    background:var(--veset-kiemeles);opacity:var(--veset-kiemeles-alfa);
+    translate:1px 1px;
+  }
+
+  /* PANELFEJ: egyetlen sorban a kategória neve és az áttekintő hivatkozás.
+     Korábban a felirat fölül, a hivatkozás alul állt, két teljes szélességű
+     sorban — ez ~50 képpont magasságot vitt el úgy, hogy mindkettő félig üres
+     volt. */
+  .mega-fej{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:var(--space-16);
+    margin-bottom:var(--space-16);padding-bottom:var(--space-8);
+    border-bottom:1px solid var(--border);
+  }
+  .mega-eyebrow{color:var(--text-tertiary);margin:0}
+  .mega-attekintes{flex:none}
 
   /* HASÁBOK. Minden hub egy hasáb: fölül a hub hivatkozása ikonnal, alatta a
-     saját aloldallistája. `auto-fit` + minimum szélesség: hét hasáb szűkebb
-     képernyőn magától két sorba tördel, nem présel össze olvashatatlanra. */
+     saját aloldallistája. Három rögzített hasáb RÁCSBAN — nem folyó hasábban.
+     A folyó hasáb tömörebben pakolna, de elszakítaná a termékcsaládot a
+     technológiától: az A.B.Clear a következő hasáb tetejére kerülne, a
+     „Biológiai szennyvíztisztítás" pedig az előző aljára maradna. A rácsban a
+     szülő és a `↳` gyereke egymás mellett áll. */
   .mega-oszlopok{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
     gap:var(--space-24) var(--space-16);
   }
   .mega-oszlop{display:flex;flex-direction:column;gap:var(--space-8);min-width:0}
+  /* A még nem létező szakaszok panelje EGYETLEN hasábból áll: a tervezett hubok
+     listája. Így a panel kétharmada üresen maradna, a lista pedig keskeny és
+     hosszú lenne — ezért ott az egyetlen hasáb a teljes szélességet kapja, és
+     maga a lista fut három hasábban. */
+  .mega-oszlopok:has(> :only-child){grid-template-columns:minmax(0,1fr)}
+  .mega-oszlopok:has(> :only-child) .mega-alista{
+    display:block;columns:3;column-gap:var(--space-24);
+  }
+  .mega-oszlopok:has(> :only-child) .mega-alista > li{
+    break-inside:avoid;margin-bottom:var(--space-4);
+  }
   /* A hub feliratának két sorban is olvashatónak kell maradnia — hét hasábnál
      a hosszabb nevek („Vállalkozás vagy intézmény…") tördelnek. */
   .mega-oszlop .mega-link{align-items:flex-start}
@@ -1043,11 +1130,14 @@
   .mega-link-passziv{cursor:default;color:var(--text-tertiary);margin:0}
   .mega-link-passziv:hover{background:none}
 
-  /* Az aloldallista behúzva ül az ikon szélességéhez igazítva, így a hub és a
-     hozzá tartozó oldalak összetartozása a rácsból is látszik. */
+  /* Az aloldallista behúzva ül, az ikon szélességéhez igazítva — így a hub és a
+     hozzá tartozó oldalak összetartozása a rácsból is látszik.
+     A behúzás az ikonnal ér véget, nem a felirat kezdeténél: három hasábon a
+     nagyobb behúzás annyira elvinné a sorhosszat, hogy a legtöbb aloldalcím két
+     sorba törne, és ez adná a panel magasságának a felét. */
   .mega-alista{
     display:flex;flex-direction:column;gap:var(--space-4);
-    margin:0 0 0 calc(var(--space-32) + var(--space-8) + var(--space-16));
+    margin:0 0 0 var(--space-16);
     padding-left:var(--space-16);
     border-left:1px solid var(--border);
   }
@@ -1086,7 +1176,6 @@
   .mega-label{line-height:var(--type-ui-body-line-height)}
   .mega-link:hover{background:var(--canvas);color:var(--text-primary)}
   .mega-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px}
-  .mega-foot{margin-top:var(--space-16);padding-top:var(--space-16);border-top:1px solid var(--border)}
 
 
 
@@ -2804,16 +2893,24 @@
     .nav-item{position:relative}
     /* Szűk nézetben a panel nem lebeg: a lenyitott menü részeként, egy
        oszlopban áll. A magasságkorlát és a saját görgetés is elmarad — a
-       lapot görgeti a látogató, nem a panelt. */
+       lapot görgeti a látogató, nem a panelt. Csúcs és véset sincs: az egyik
+       a lebegéshez tartozik, a másik ekkora felületen csak zajt vinne. */
+    .nav-drawer{position:static}
     .mega{position:static;box-shadow:none;border:0;background:none;
-      max-width:none;max-height:none;overflow:visible}
+      width:auto;max-width:none;max-height:none;overflow:visible}
+    .nav-trigger[aria-expanded="true"]::after{display:none}
     .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
+    .mega-inner::before,.mega-inner::after{content:none}
     .mega-oszlopok{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
     /* Az aloldallista behúzása kisebb: szűk nézetben a nagy behúzás elviszi
        a sorhosszat. */
     .mega-alista{margin-left:var(--space-16);padding-left:var(--space-16)}
+    /* Szűk nézetben a kategória neve fölösleges: közvetlenül a menüpont alatt
+       áll, amelyik ugyanezt írja ki. A panelfej így csak az áttekintő
+       hivatkozást tartja, keret nélkül. */
+    .mega-fej{display:block;margin-bottom:var(--space-8);
+      padding-bottom:0;border-bottom:0}
     .mega-eyebrow{display:none}
-    .mega-foot{margin-top:var(--space-8);padding-top:var(--space-8)}
 
     /* Szűk nézetben a médiasáv a szűk kivágat arányát veszi fel, és nem
        feszül a képernyő maradékára. */
@@ -2911,10 +3008,10 @@
     .section-head{text-align:left}
     .product-grid{grid-template-columns:minmax(0,1fr)}
 
-    /* A kontaktsáv szűkül: a cím és a másodlagos hivatkozások a menübe,
-       illetve a láblécbe kerülnek — a telefon és az e-mail marad. */
+    /* A kontaktsáv szűkül: a cím elmarad, a telefon és az e-mail marad. A
+       másodlagos hivatkozások (Ügyféltámogatás, Partnereknek, ÖkoTech-Home)
+       a sávban maradnak, mert még nincs mögöttük oldal — csak feliratok. */
     .topbar-hide-narrow{display:none}
-    .nav-item-secondary{display:block}
 
     /* A fejléc három eleme (logó, menügomb, CTA) 640px alatt nem fér ki egy
        sorba: a CTA a második sorba kerül, teljes szélességben. Tördelés nélkül
