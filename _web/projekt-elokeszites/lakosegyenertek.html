@@ -6,12 +6,12 @@
      minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projekt-előkészítés — mit kell tisztázni a döntés előtt | ÖkoTech Home</title>
-<meta name="description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
-<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/">
+<title>Lakosegyenérték (LE) — mit jelent, és mit nem | ÖkoTech Home</title>
+<meta name="description" content="1 LE = napi 60 g BOI5 szerves terhelés — nem személy és nem liter. Miért fontos a különbség, és mikor elég helyette a személyszám.">
+<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/lakosegyenertek">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Projekt-előkészítés">
-<meta property="og:description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
+<meta property="og:title" content="Lakosegyenérték">
+<meta property="og:description" content="1 LE = napi 60 g BOI5 szerves terhelés — nem személy és nem liter. Miért fontos a különbség, és mikor elég helyette a személyszám.">
 <meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-attekintes.webp">
 <meta property="og:locale" content="hu_HU">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,11 +217,13 @@
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
-            <li aria-current="page">Projekt-előkészítés</li>
+            <li><a href="./">Előkészítés</a></li>
+            <li><a href="terheles-es-kapacitas">Terhelés és kapacitás</a></li>
+            <li aria-current="page">Lakosegyenérték</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Projekt-előkészítés</h1>
-        <p class="type-ui-body-strong hero-lead">A rendszer kiválasztása nem a berendezésnél kezdődik. Előbb az derül ki, mi valósítható meg a telken, hová kerül a tisztított víz, és mekkora terhelésre kell méretezni. Ez a szakasz ebben vezet végig.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Lakosegyenérték</h1>
+        <p class="type-ui-body-strong hero-lead">A leggyakrabban félreértett fogalom ezen a területen — és a félreértés konkrét méretezési hibához vezet. Az LE nem egy ember, és nem is liter.</p>
       </div>
     </div>
     <figure class="hero-media page-hero-media">
@@ -229,101 +231,112 @@
         <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-attekintes-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
         <img src="../assets/img/oldalak/hero-attekintes.webp"
              srcset="../assets/img/oldalak/hero-attekintes-1024.webp 1100w, ../assets/img/oldalak/hero-attekintes.webp 1800w"
-             sizes="100vw" width="1800" height="771" alt="Kiterített műszaki rajzok és jegyzetfüzet egy asztalon, mellette mérőszalag és ceruza" fetchpriority="high" decoding="async">
+             sizes="100vw" width="1800" height="771" alt="Laboratóriumi lombikok és mérőhenger egy világos asztalon, mellett jegyzetlap számításokkal" fetchpriority="high" decoding="async">
       </picture>
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="a-dontes-elotti-munka-cim">
+  <section class="section" aria-labelledby="az-le-nem-egy-ember-es-nem-is-liter-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Miről szól ez a szakasz</p>
-        <h2 class="type-display-section-title section-title" id="a-dontes-elotti-munka-cim">A döntés előtti munka</h2>
+        <p class="type-data-eyebrow section-eyebrow">A definíció</p>
+        <h2 class="type-display-section-title section-title" id="az-le-nem-egy-ember-es-nem-is-liter-cim">Az LE nem egy ember, és nem is liter</h2>
       </header>
-      <p class="type-ui-body section-lead">A szennyvízrendszer kiválasztása nem a berendezésnél kezdődik. Előbb ki kell derülnie, hogy mi valósítható meg a telken, hová kerül a tisztított víz, mekkora terhelésre kell méretezni, és milyen dokumentumok szükségesek.</p>
-      <p class="type-ui-body section-lead">Ez a szakasz ezt a munkát bontja lépésekre. Nem terméket ajánl: azt mutatja meg, milyen kérdésekre kell választ találni, honnan szerezhetők meg az adatok, és mikor elég a saját tájékozódás — illetve mikor kell mérés vagy szakértő.</p>
-      <p class="type-ui-body section-lead">A sorrend nem kötelező, de van logikája. A telek adottságai a legtöbb továbbit meghatározzák, ezért érdemes ott kezdeni.</p>
+      <p class="type-ui-body section-lead">A lakosegyenérték (LE) a szennyvíz biológiailag lebontható szerves terhelésének szabványosított mértékegysége. A hivatalos európai meghatározás szerint <strong>1 LE olyan szerves, biológiailag bontható terhelés, amelynek ötnapos biokémiai oxigénigénye — a BOI5 — napi 60 gramm oxigénnek felel meg.</strong></p>
+      <p class="type-ui-body section-lead">Ebből két dolog következik. Az egyik: az LE nem személy, hanem terhelés. A másik: az LE nem vízmennyiség — nem liter, nem köbméter.</p>
+      <p class="type-ui-body section-lead">A magyar szabályozásban az egyedi szennyvíztisztítás fogalma legalább 1, legfeljebb 50 LE terhelésig terjed, ezért az LE nem pusztán műszaki adat: a projekt szabályozási kategóriáját is meghatározza.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="hol-tart-most-cim">
+  <section class="section" aria-labelledby="az-1-le-135-liter-fo-nap-allitas-teves-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Elérhető szakaszok</p>
-        <h2 class="type-display-section-title section-title" id="hol-tart-most-cim">Hol tart most?</h2>
-        <p class="type-ui-body section-lead">Ami már elkészült. A többi hamarosan követi — alább felsorolva.</p>
+        <p class="type-data-eyebrow section-eyebrow">Egy korrekció</p>
+        <h2 class="type-display-section-title section-title" id="az-1-le-135-liter-fo-nap-allitas-teves-cim">Az „1 LE = 135 liter/fő/nap” állítás téves</h2>
       </header>
-      <ul class="situation-grid" role="list">
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-talaj"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Telekalkalmasság</h3>
-          <p class="type-ui-body situation-text">Talaj, talajvíz, szabad terület, csőszint, kút és hozzáférés — mi dönti el, hogy megvalósítható-e a rendszer, és milyen kialakítással.</p>
-          <a class="text-link situation-action" href="telekalkalmassag"><span class="link-label">Telekalkalmasság<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-vizelvezetes"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Tisztított víz elhelyezése</h3>
-          <p class="type-ui-body situation-text">Elszivárogtatás, tisztítómező, gyökérzónás elhelyezés — hová kerül a naponta kilépő vízmennyiség, és mitől függ, melyik irány jöhet szóba.</p>
-          <a class="text-link situation-action" href="tisztitott-viz-elhelyezese"><span class="link-label">Vízelhelyezés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-terheles"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Terhelés és kapacitás</h3>
-          <p class="type-ui-body situation-text">A „hány fő?” csak az első kérdés. Vízmennyiség, szerves terhelés, csúcsok és időbeli eloszlás — ebből áll össze a terhelési profil.</p>
-          <a class="text-link situation-action" href="terheles-es-kapacitas"><span class="link-label">Terhelés és kapacitás<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-      </ul>
+      <p class="type-ui-body section-lead">A jelenlegi ÖkoTech-tartalom egy helyen úgy fogalmaz, hogy „1 lakosegyenérték napi 135 liter/fő/nap vízfogyasztást jelent”. Ezt pontosítjuk: ez <strong>nem az LE definíciója</strong>.</p>
+      <p class="type-ui-body section-lead">A 135 liter/fő/nap érték használható lehet saját <strong>hidraulikai tervezési feltételezésként</strong> — vagyis feltevésként arról, mennyi víz keletkezik naponta fejenként —, de a lakosegyenérték attól függetlenül a szerves terhelés egysége marad.</p>
+      <p class="type-ui-body section-lead">A kettő szétválasztása nem szőrszálhasogatás. Egy étterem napi vízfogyasztása és szerves terhelése egészen máshogy arányulnak egymáshoz, mint egy családi házé — ha a kettőt ugyanannak vesszük, a méretezés hibás lesz.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="a-szakasz-tovabbi-reszei-cim">
+  <section class="section" aria-labelledby="mikor-melyiket-hasznaljuk-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Ami készül</p>
-        <h2 class="type-display-section-title section-title" id="a-szakasz-tovabbi-reszei-cim">A szakasz további részei</h2>
-        <p class="type-ui-body section-lead">Ezek a témák a fejléc menüjében már szerepelnek, de a tartalmuk még készül. Amíg nem érhetők el, a kérdéseivel közvetlenül is fordulhat hozzánk.</p>
+        <p class="type-data-eyebrow section-eyebrow">A két fogalom</p>
+        <h2 class="type-display-section-title section-title" id="mikor-melyiket-hasznaljuk-cim">Mikor melyiket használjuk</h2>
+      </header>
+      <div class="split">
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">LE — szerves terhelés</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Mértékegysége: napi 60 g BOI5 = 1 LE</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">A biológiai fokozat méretezésének alapja</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Laborvizsgálattal mérhető</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">A jogi kategóriát is ez határozza meg (1–50 LE)</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Intézménynél és üzemnél ez a mérvadó</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Mérési adatból: napi BOI5-terhelés osztva 60 g/nap értékkel</span></li>
+          </ul>
+        </div>
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">l/fő/nap — hidraulikai feltételezés</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Mértékegysége: liter naponta, személyenként</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">A vízmennyiség tervezésének alapja</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">A vízszámláról közelíthető</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Tervezési feltevés, nem jogi kategória</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Családi háznál praktikus kiindulás</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">A naponta elhelyezendő vízmennyiséget is ez adja</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="es-mikor-nem-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Mikor elég a személyszám?</p>
+        <h2 class="type-display-section-title section-title" id="es-mikor-nem-cim">És mikor nem</h2>
+        <p class="type-ui-body section-lead">A közelítés annál pontosabb, minél inkább „szokásos háztartási” a vízhasználat.</p>
       </header>
       <ul class="numbered-grid" role="list">
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text">Engedélyezés és dokumentumok — mit kell bejelenteni, és mikor</p>
+          <p class="type-ui-body card-text"><strong>Családi ház, állandó lakhatás.</strong> Itt 1 fő ≈ 1 LE ésszerű közelítés, mert a háztartási szennyvíz összetétele nagyjából egységes. A létszámmal érdemes kezdeni.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text">Helyszíni felmérés — mikor indokolt, és mit ad</p>
+          <p class="type-ui-body card-text"><strong>Nyaraló, szezonális ingatlan.</strong> A létszám még jó kiindulás, de a használat időbeli eloszlása legalább annyira számít.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text">Költségek és ajánlatok — mi befolyásolja az árat</p>
+          <p class="type-ui-body card-text"><strong>Panzió, szálláshely.</strong> A férőhely nem azonos a terheléssel: a kihasználtság, a mosoda és a konyha külön tételek. A létszám itt már csak belépő adat.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">04</span>
-          <p class="type-ui-body card-text">Telepítés és beüzemelés — mi történik a helyszínen</p>
+          <p class="type-ui-body card-text"><strong>Iskola, iroda, intézmény.</strong> A névleges létszám nem egész napos jelenlétet jelent. A jelenléti idő és az éves üzemnapok nélkül a szám félrevezető.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">05</span>
-          <p class="type-ui-body card-text">Projektkészültségi ellenőrzés — készen áll-e a projekt</p>
+          <p class="type-ui-body card-text"><strong>Étterem, üzem, technológiai szennyvíz.</strong> Itt a személyszám érdemben nem használható: a szerves terhelés a tevékenységből ered, és laboradat kell hozzá.</p>
         </li>
       </ul>
     </div>
   </section>
-
-  <section class="section" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+<!-- ADATHIÁNY: honnan származik az ÖkoTech által használt 135 l/fő/nap tervezési érték, mely termékadatlapok és ajánlati kalkulációk használják, és hogyan kapcsolódik a hidraulikai feltételezés a BOI5-alapú méretezéshez
+     Forrás: ÖkoTech műszaki csapat. Amíg ez nincs dokumentálva, a 135 l/fő/nap nem közölhető sem tényként, sem az LE definíciójaként. Addig konkrét értékkel nem publikálható. -->
+  <section class="section" aria-labelledby="a-gyakorlatban-a-vizszamlaval-kezdunk-cim">
     <div class="section-inner">
-      <aside class="panel-dark" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+      <aside class="panel-dark" aria-labelledby="a-gyakorlatban-a-vizszamlaval-kezdunk-cim">
         <div class="panel-dark-head">
-          <p class="type-data-eyebrow panel-dark-eyebrow">Ha most kell válasz</p>
-          <h2 class="type-display-highlight-title panel-dark-title" id="beszeljunk-a-konkret-projektrol-cim">Beszéljünk a konkrét projektről</h2>
+          <p class="type-data-eyebrow panel-dark-eyebrow">Következő lépés</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="a-gyakorlatban-a-vizszamlaval-kezdunk-cim">A gyakorlatban a vízszámlával kezdünk</h2>
         </div>
         <div class="panel-dark-body">
-          <p class="type-ui-body panel-dark-text">Ha a szakasz még nem tartalmazza, amit keres, írja meg a település nevét, a háztartás létszámát és amit a telekről tud — a többit megkérdezzük.</p>
-          <p class="panel-dark-actions"><a class="btn btn-inverse" href="../kapcsolat">Kapcsolatfelvétel</a></p>
+          <p class="type-ui-body panel-dark-text">A fogalom tisztázása után jön a konkrét adat. Meglévő háznál a vízszámla a legmegbízhatóbb kiindulás, új építésnél becslés — a következő oldal megmutatja, hogyan lesz belőlük használható terhelési adat.</p>
+          <p class="type-ui-body panel-dark-text"><a href="terheles-es-kapacitas">Terhelés és kapacitás</a></p>
+          <p class="panel-dark-actions"><a class="btn btn-inverse" href="szemelyszam-es-vizfogyasztas">Személyszám és vízfogyasztás</a></p>
         </div>
       </aside>
     </div>
@@ -337,17 +350,25 @@
       </header>
       <div class="faq">
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Hol kezdjem, ha még semmit nem tudok?</summary>
-          <div class="faq-a"><p class="type-ui-body">A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni.</p></div>
+          <summary class="faq-q type-ui-card-title">Nekem is tudnom kell, mi az az LE?</summary>
+          <div class="faq-a"><p class="type-ui-body">Családi házas projektnél nem feltétlenül — ott a létszám és a vízfogyasztás elegendő. Akkor válik fontossá, ha panzióról, intézményről vagy nagyobb projektről van szó, mert ott a személyszám már nem írja le a valós terhelést, és a jogi kategória is az LE-től függ.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell ehhez ajánlatot kérnem?</summary>
-          <div class="faq-a"><p class="type-ui-body">Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak.</p></div>
+          <summary class="faq-q type-ui-card-title">Hogyan számítható ki az LE mérésből?</summary>
+          <div class="faq-a"><p class="type-ui-body">Ha van laboratóriumi vizsgálat, a napi BOI5-terhelést kell elosztani 60 g/nap értékkel. Ehhez ismerni kell a napi szennyvízmennyiséget és a mért BOI5-koncentrációt. Mérés nélkül becsülni lehet, de az becslés marad.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Miért fontos az 50 LE-s határ?</summary>
+          <div class="faq-a"><p class="type-ui-body">Mert az egyedi szennyvíztisztítás jogi kategóriája eddig terjed. E fölött a projekt más szabályozási úton halad, más engedélyezési és üzemeltetési követelményekkel — és a tervezés is jogosult tervező feladata lesz.</p></div>
         </details>
       </div>
     </div>
   </section>
-
+<!-- JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT. Érintett: 147/2010. Korm. rendelet
+     (egyedi szennyvíztisztítás 1–50 LE) · 26/2002. Korm. rendelet
+     (LE-számítás BOI5 alapján) · 220/2004. és 28/2004. rendelet (termelési és
+     szolgáltatási szennyvíz) · a 2024/3019/EU átdolgozott települési
+     szennyvíz-irányelv magyar átültetése. Dátumozott felülvizsgálat kell. -->
 </main>
 
 <!-- ==========================================================================
@@ -471,14 +492,17 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
       {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"},
-      {"@type":"ListItem","position":2,"name":"Projekt-előkészítés","item":"https://okoth.hu/projekt-elokeszites/"}
+      {"@type":"ListItem","position":2,"name":"Előkészítés","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":3,"name":"Terhelés és kapacitás","item":"https://okoth.hu/terheles-es-kapacitas"},
+      {"@type":"ListItem","position":4,"name":"Lakosegyenérték","item":"https://okoth.hu/projekt-elokeszites/lakosegyenertek"}
       ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Hol kezdjem, ha még semmit nem tudok?","acceptedAnswer":{"@type":"Answer","text":"A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni."}},
-      {"@type":"Question","name":"Kell ehhez ajánlatot kérnem?","acceptedAnswer":{"@type":"Answer","text":"Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak."}}
+      {"@type":"Question","name":"Nekem is tudnom kell, mi az az LE?","acceptedAnswer":{"@type":"Answer","text":"Családi házas projektnél nem feltétlenül — ott a létszám és a vízfogyasztás elegendő. Akkor válik fontossá, ha panzióról, intézményről vagy nagyobb projektről van szó, mert ott a személyszám már nem írja le a valós terhelést, és a jogi kategória is az LE-től függ."}},
+      {"@type":"Question","name":"Hogyan számítható ki az LE mérésből?","acceptedAnswer":{"@type":"Answer","text":"Ha van laboratóriumi vizsgálat, a napi BOI5-terhelést kell elosztani 60 g/nap értékkel. Ehhez ismerni kell a napi szennyvízmennyiséget és a mért BOI5-koncentrációt. Mérés nélkül becsülni lehet, de az becslés marad."}},
+      {"@type":"Question","name":"Miért fontos az 50 LE-s határ?","acceptedAnswer":{"@type":"Answer","text":"Mert az egyedi szennyvíztisztítás jogi kategóriája eddig terjed. E fölött a projekt más szabályozási úton halad, más engedélyezési és üzemeltetési követelményekkel — és a tervezés is jogosult tervező feladata lesz."}}
       ]
     }
   ]

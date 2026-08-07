@@ -6,20 +6,20 @@
      minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projekt-előkészítés — mit kell tisztázni a döntés előtt | ÖkoTech Home</title>
-<meta name="description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
-<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/">
+<title>Személyszám és vízfogyasztás — hogyan lesz belőle adat | ÖkoTech Home</title>
+<meta name="description" content="A létszám jó kiindulás, a vízszámla pontosabb. Hogyan számoljon napi átlagot, mit vonjon le belőle, és mit jelezzen külön.">
+<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/szemelyszam-es-vizfogyasztas">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Projekt-előkészítés">
-<meta property="og:description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
-<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-attekintes.webp">
+<meta property="og:title" content="Személyszám és vízfogyasztás">
+<meta property="og:description" content="A létszám jó kiindulás, a vízszámla pontosabb. Hogyan számoljon napi átlagot, mit vonjon le belőle, és mit jelezzen külön.">
+<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-csaladi-haz.webp">
 <meta property="og:locale" content="hu_HU">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../assets/css/app.css?v=68">
-<link rel="preload" as="image" href="../assets/img/oldalak/hero-attekintes.webp"
-      imagesrcset="../assets/img/oldalak/hero-attekintes-1024.webp 1100w, ../assets/img/oldalak/hero-attekintes.webp 1800w"
+<link rel="preload" as="image" href="../assets/img/oldalak/hero-csaladi-haz.webp"
+      imagesrcset="../assets/img/oldalak/hero-csaladi-haz-1024.webp 1100w, ../assets/img/oldalak/hero-csaladi-haz.webp 1800w"
       imagesizes="100vw">
 </head>
 <body>
@@ -217,113 +217,124 @@
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
-            <li aria-current="page">Projekt-előkészítés</li>
+            <li><a href="./">Előkészítés</a></li>
+            <li><a href="terheles-es-kapacitas">Terhelés és kapacitás</a></li>
+            <li aria-current="page">Személyszám és vízfogyasztás</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Projekt-előkészítés</h1>
-        <p class="type-ui-body-strong hero-lead">A rendszer kiválasztása nem a berendezésnél kezdődik. Előbb az derül ki, mi valósítható meg a telken, hová kerül a tisztított víz, és mekkora terhelésre kell méretezni. Ez a szakasz ebben vezet végig.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Személyszám és vízfogyasztás</h1>
+        <p class="type-ui-body-strong hero-lead">Családi háznál a lakók száma jó első közelítés — de a tényleges vízhasználat pontosabb, és jellemzően már rendelkezésre áll.</p>
       </div>
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-attekintes-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
-        <img src="../assets/img/oldalak/hero-attekintes.webp"
-             srcset="../assets/img/oldalak/hero-attekintes-1024.webp 1100w, ../assets/img/oldalak/hero-attekintes.webp 1800w"
-             sizes="100vw" width="1800" height="771" alt="Kiterített műszaki rajzok és jegyzetfüzet egy asztalon, mellette mérőszalag és ceruza" fetchpriority="high" decoding="async">
+        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-csaladi-haz-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
+        <img src="../assets/img/oldalak/hero-csaladi-haz.webp"
+             srcset="../assets/img/oldalak/hero-csaladi-haz-1024.webp 1100w, ../assets/img/oldalak/hero-csaladi-haz.webp 1800w"
+             sizes="100vw" width="1800" height="771" alt="Vízszámla és számológép egy konyhaasztalon, mellette toll és jegyzetfüzet" fetchpriority="high" decoding="async">
       </picture>
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="a-dontes-elotti-munka-cim">
+  <section class="section" aria-labelledby="a-letszam-jo-a-vizszamla-jobb-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Miről szól ez a szakasz</p>
-        <h2 class="type-display-section-title section-title" id="a-dontes-elotti-munka-cim">A döntés előtti munka</h2>
+        <p class="type-data-eyebrow section-eyebrow">A gyakorlati kiindulás</p>
+        <h2 class="type-display-section-title section-title" id="a-letszam-jo-a-vizszamla-jobb-cim">A létszám jó — a vízszámla jobb</h2>
       </header>
-      <p class="type-ui-body section-lead">A szennyvízrendszer kiválasztása nem a berendezésnél kezdődik. Előbb ki kell derülnie, hogy mi valósítható meg a telken, hová kerül a tisztított víz, mekkora terhelésre kell méretezni, és milyen dokumentumok szükségesek.</p>
-      <p class="type-ui-body section-lead">Ez a szakasz ezt a munkát bontja lépésekre. Nem terméket ajánl: azt mutatja meg, milyen kérdésekre kell választ találni, honnan szerezhetők meg az adatok, és mikor elég a saját tájékozódás — illetve mikor kell mérés vagy szakértő.</p>
-      <p class="type-ui-body section-lead">A sorrend nem kötelező, de van logikája. A telek adottságai a legtöbb továbbit meghatározzák, ezért érdemes ott kezdeni.</p>
+      <p class="type-ui-body section-lead">Családi háznál a lakók száma jó első közelítés a szükséges kapacitáshoz. A pontosabb döntést viszont a <strong>tényleges vízhasználat</strong> segíti, mert ugyanaz a négyfős háztartás jelentősen eltérő vízmennyiséget termelhet.</p>
+      <p class="type-ui-body section-lead">Meglévő háznál ezért érdemes a vízszámlából vagy a mérőóráról származó valós havi vagy éves fogyasztást használni. Ez nem becslés, hanem mért adat — és jellemzően már rendelkezésre áll.</p>
+      <p class="type-ui-body section-lead">Új építésnél nincs mit leolvasni, ott a létszám, a várható életmód és a vízhasználó berendezések alapján becslés szükséges. Ezt később, az első év fogyasztási adatai alapján lehet pontosítani.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="hol-tart-most-cim">
+  <section class="section" aria-labelledby="hogyan-lesz-belole-napi-atlag-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Elérhető szakaszok</p>
-        <h2 class="type-display-section-title section-title" id="hol-tart-most-cim">Hol tart most?</h2>
-        <p class="type-ui-body section-lead">Ami már elkészült. A többi hamarosan követi — alább felsorolva.</p>
-      </header>
-      <ul class="situation-grid" role="list">
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-talaj"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Telekalkalmasság</h3>
-          <p class="type-ui-body situation-text">Talaj, talajvíz, szabad terület, csőszint, kút és hozzáférés — mi dönti el, hogy megvalósítható-e a rendszer, és milyen kialakítással.</p>
-          <a class="text-link situation-action" href="telekalkalmassag"><span class="link-label">Telekalkalmasság<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-vizelvezetes"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Tisztított víz elhelyezése</h3>
-          <p class="type-ui-body situation-text">Elszivárogtatás, tisztítómező, gyökérzónás elhelyezés — hová kerül a naponta kilépő vízmennyiség, és mitől függ, melyik irány jöhet szóba.</p>
-          <a class="text-link situation-action" href="tisztitott-viz-elhelyezese"><span class="link-label">Vízelhelyezés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-terheles"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Terhelés és kapacitás</h3>
-          <p class="type-ui-body situation-text">A „hány fő?” csak az első kérdés. Vízmennyiség, szerves terhelés, csúcsok és időbeli eloszlás — ebből áll össze a terhelési profil.</p>
-          <a class="text-link situation-action" href="terheles-es-kapacitas"><span class="link-label">Terhelés és kapacitás<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="a-szakasz-tovabbi-reszei-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Ami készül</p>
-        <h2 class="type-display-section-title section-title" id="a-szakasz-tovabbi-reszei-cim">A szakasz további részei</h2>
-        <p class="type-ui-body section-lead">Ezek a témák a fejléc menüjében már szerepelnek, de a tartalmuk még készül. Amíg nem érhetők el, a kérdéseivel közvetlenül is fordulhat hozzánk.</p>
+        <p class="type-data-eyebrow section-eyebrow">A vízszámla használata</p>
+        <h2 class="type-display-section-title section-title" id="hogyan-lesz-belole-napi-atlag-cim">Hogyan lesz belőle napi átlag?</h2>
+        <p class="type-ui-body section-lead">Néhány perc, és lényegesen pontosabb adat lesz belőle, mint a puszta létszámból.</p>
       </header>
       <ul class="numbered-grid" role="list">
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text">Engedélyezés és dokumentumok — mit kell bejelenteni, és mikor</p>
+          <p class="type-ui-body card-text"><strong>Vegyen egy teljes évet.</strong> Legalább négy negyedéves vagy tizenkét havi számlát. Egyetlen hónap félrevezető: a nyári és a téli fogyasztás jelentősen eltér.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text">Helyszíni felmérés — mikor indokolt, és mit ad</p>
+          <p class="type-ui-body card-text"><strong>Ossza el 365-tel.</strong> Az éves köbméter osztva 365-tel adja a napi átlagos vízfogyasztást m³-ben; ezerrel szorozva literben.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text">Költségek és ajánlatok — mi befolyásolja az árat</p>
+          <p class="type-ui-body card-text"><strong>Vonja le, ami nem lesz szennyvíz.</strong> A kerti öntözés, a medencefeltöltés és az állatitatás nem terheli a rendszert. Ha külön mérőóra van rá, egyszerű; ha nincs, a nyári többletfogyasztásból nagyjából becsülhető.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">04</span>
-          <p class="type-ui-body card-text">Telepítés és beüzemelés — mi történik a helyszínen</p>
+          <p class="type-ui-body card-text"><strong>Nézzen rá a szélsőségekre.</strong> Ha egy időszak kiugróan magas, annak lehet oka: csőtörés, szivárgás, vagy egyszeri feltöltés. Az ilyen érték nem a tényleges használatot mutatja, ezért ki kell venni.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">05</span>
-          <p class="type-ui-body card-text">Projektkészültségi ellenőrzés — készen áll-e a projekt</p>
+          <p class="type-ui-body card-text"><strong>Rögzítse a létszámot is.</strong> A napi átlagot elosztva a létszámmal megkapja a fajlagos fogyasztást — ez mutatja meg, hogy a háztartás a szokásos sávban van-e, vagy attól eltér.</p>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+  <section class="section" aria-labelledby="negyfele-letszam-ne-keverje-oket-cim">
     <div class="section-inner">
-      <aside class="panel-dark" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Ki számít, és hogyan</p>
+        <h2 class="type-display-section-title section-title" id="negyfele-letszam-ne-keverje-oket-cim">Négyféle létszám, ne keverje őket</h2>
+      </header>
+      <div class="split">
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Ezt kell megadni</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Állandó lakók száma — akik nap mint nap ott laknak</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Jellemző napi használói létszám, ha ez ettől eltér</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Maximális alkalmi létszám, a gyakoriságával együtt</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Tervezett tartós létszámváltozás — gyerek, beköltöző szülő</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Éves vízfogyasztás m³-ben, számláról</span></li>
+          </ul>
+        </div>
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Ezt külön jelezze</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Kerti öntözés vagy medence — ez nem lesz szennyvíz</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Nagy vízfogyasztású berendezés — jacuzzi, több mosógép</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Otthonról dolgozók: több napközbeni vízhasználat</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Rendszeres hétvégi vendégek, nem alkalmi</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Korábbi csőtörés vagy szivárgás a számlázott időszakban</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- ADATHIÁNY: az ÖkoTech saját lakossági vízfogyasztási projektadatai, az új építésnél alkalmazott tervezési fajlagos érték, és hogy mekkora eltérésnél írja felül a mért vízfogyasztás a puszta személyszámot
+     Forrás: ÖkoTech műszaki csapat + megvalósult projektek fogyasztási adatai. Amíg ez nincs meg, konkrét liter/fő/nap érték nem publikálható tervezési szabályként. Addig konkrét értékkel nem publikálható. -->
+  <section class="section" aria-labelledby="a-vizmennyiseg-es-a-szennyezes-ket-kulon-adat-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Amit a víz nem mutat meg</p>
+        <h2 class="type-display-section-title section-title" id="a-vizmennyiseg-es-a-szennyezes-ket-kulon-adat-cim">A vízmennyiség és a szennyezés két külön adat</h2>
+      </header>
+      <p class="type-ui-body section-lead">Nagy vízfogyasztás nem jelent automatikusan arányosan nagy szervesanyag-terhelést. Aki sokat zuhanyzik és sokat mos, sok vizet használ, de a szennyezőanyag-mennyisége ettől nem lesz arányosan nagyobb — a szennyvize hígabb lesz.</p>
+      <p class="type-ui-body section-lead">Fordítva is igaz: viszonylag kevés vízzel is érkezhet nagy szerves terhelés — jellemzően ott, ahol konyhai vagy technológiai szennyvíz is van a rendszerben.</p>
+      <p class="type-ui-body section-lead">Ezért kérdezünk rá a szokatlan vízhasználatra külön. Szokásos háztartásnál a kettő együtt mozog, és a vízfogyasztásból jól közelíthető a terhelés — de rendhagyó használatnál a két adatot külön kell kezelni.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="az-atlag-meg-nem-a-teljes-kep-cim">
+    <div class="section-inner">
+      <aside class="panel-dark" aria-labelledby="az-atlag-meg-nem-a-teljes-kep-cim">
         <div class="panel-dark-head">
-          <p class="type-data-eyebrow panel-dark-eyebrow">Ha most kell válasz</p>
-          <h2 class="type-display-highlight-title panel-dark-title" id="beszeljunk-a-konkret-projektrol-cim">Beszéljünk a konkrét projektről</h2>
+          <p class="type-data-eyebrow panel-dark-eyebrow">Következő lépés</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="az-atlag-meg-nem-a-teljes-kep-cim">Az átlag még nem a teljes kép</h2>
         </div>
         <div class="panel-dark-body">
-          <p class="type-ui-body panel-dark-text">Ha a szakasz még nem tartalmazza, amit keres, írja meg a település nevét, a háztartás létszámát és amit a telekről tud — a többit megkérdezzük.</p>
-          <p class="panel-dark-actions"><a class="btn btn-inverse" href="../kapcsolat">Kapcsolatfelvétel</a></p>
+          <p class="type-ui-body panel-dark-text">Az átlagos napi terhelés mellett az is számít, hogy mikor és mennyivel tér el ettől a valóság. A vendégcsúcs, a hosszabb távollét és a tartós túlterhelés más-más kockázatot jelent.</p>
+          <p class="type-ui-body panel-dark-text"><a href="terheles-es-kapacitas">Terhelés és kapacitás</a></p>
+          <p class="panel-dark-actions"><a class="btn btn-inverse" href="atlag-es-csucsterheles">Átlag- és csúcsterhelés</a></p>
         </div>
       </aside>
     </div>
@@ -337,17 +348,29 @@
       </header>
       <div class="faq">
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Hol kezdjem, ha még semmit nem tudok?</summary>
-          <div class="faq-a"><p class="type-ui-body">A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni.</p></div>
+          <summary class="faq-q type-ui-card-title">Nincs meg a vízszámlám. Mit tegyek?</summary>
+          <div class="faq-a"><p class="type-ui-body">A szolgáltatói ügyfélportálon jellemzően visszanézhető a fogyasztási előzmény. Ha ez sem elérhető, a létszám és a használati szokások alapján becslés készíthető — csak jelezze, hogy becslésről van szó, mert a méretezésben ez számít.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell ehhez ajánlatot kérnem?</summary>
-          <div class="faq-a"><p class="type-ui-body">Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak.</p></div>
+          <summary class="faq-q type-ui-card-title">Új házat építünk, még nincs fogyasztásunk.</summary>
+          <div class="faq-a"><p class="type-ui-body">Ilyenkor a létszámból és a tervezett életmódból indulunk ki: hány fő, hány fürdőszoba, van-e otthon dolgozó, terveznek-e medencét vagy jelentős kerti vízhasználatot. Ez becslés, ezért a bővítési tartalékot is érdemes átgondolni.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Beleszámít a kerti öntözés?</summary>
+          <div class="faq-a"><p class="type-ui-body">A szennyvízterhelésbe nem: az a víz nem jut a rendszerbe. A vízszámlában viszont benne van, ezért ki kell venni belőle. Ha nincs külön mérőóra, a nyári és a téli fogyasztás különbségéből nagyjából becsülhető.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Havonta változik a létszámunk. Mit írjak?</summary>
+          <div class="faq-a"><p class="type-ui-body">Adja meg az állandó lakók számát, és külön a jellemző maximumot a gyakoriságával együtt — például „négyen lakunk, minden második hétvégén hatan”. A méretezésnél éppen ez a két adat együtt számít.</p></div>
         </details>
       </div>
     </div>
   </section>
-
+<!-- JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT. Érintett: 147/2010. Korm. rendelet
+     (egyedi szennyvíztisztítás 1–50 LE) · 26/2002. Korm. rendelet
+     (LE-számítás BOI5 alapján) · 220/2004. és 28/2004. rendelet (termelési és
+     szolgáltatási szennyvíz) · a 2024/3019/EU átdolgozott települési
+     szennyvíz-irányelv magyar átültetése. Dátumozott felülvizsgálat kell. -->
 </main>
 
 <!-- ==========================================================================
@@ -471,14 +494,18 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
       {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"},
-      {"@type":"ListItem","position":2,"name":"Projekt-előkészítés","item":"https://okoth.hu/projekt-elokeszites/"}
+      {"@type":"ListItem","position":2,"name":"Előkészítés","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":3,"name":"Terhelés és kapacitás","item":"https://okoth.hu/terheles-es-kapacitas"},
+      {"@type":"ListItem","position":4,"name":"Személyszám és vízfogyasztás","item":"https://okoth.hu/projekt-elokeszites/szemelyszam-es-vizfogyasztas"}
       ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Hol kezdjem, ha még semmit nem tudok?","acceptedAnswer":{"@type":"Answer","text":"A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni."}},
-      {"@type":"Question","name":"Kell ehhez ajánlatot kérnem?","acceptedAnswer":{"@type":"Answer","text":"Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak."}}
+      {"@type":"Question","name":"Nincs meg a vízszámlám. Mit tegyek?","acceptedAnswer":{"@type":"Answer","text":"A szolgáltatói ügyfélportálon jellemzően visszanézhető a fogyasztási előzmény. Ha ez sem elérhető, a létszám és a használati szokások alapján becslés készíthető — csak jelezze, hogy becslésről van szó, mert a méretezésben ez számít."}},
+      {"@type":"Question","name":"Új házat építünk, még nincs fogyasztásunk.","acceptedAnswer":{"@type":"Answer","text":"Ilyenkor a létszámból és a tervezett életmódból indulunk ki: hány fő, hány fürdőszoba, van-e otthon dolgozó, terveznek-e medencét vagy jelentős kerti vízhasználatot. Ez becslés, ezért a bővítési tartalékot is érdemes átgondolni."}},
+      {"@type":"Question","name":"Beleszámít a kerti öntözés?","acceptedAnswer":{"@type":"Answer","text":"A szennyvízterhelésbe nem: az a víz nem jut a rendszerbe. A vízszámlában viszont benne van, ezért ki kell venni belőle. Ha nincs külön mérőóra, a nyári és a téli fogyasztás különbségéből nagyjából becsülhető."}},
+      {"@type":"Question","name":"Havonta változik a létszámunk. Mit írjak?","acceptedAnswer":{"@type":"Answer","text":"Adja meg az állandó lakók számát, és külön a jellemző maximumot a gyakoriságával együtt — például „négyen lakunk, minden második hétvégén hatan”. A méretezésnél éppen ez a két adat együtt számít."}}
       ]
     }
   ]

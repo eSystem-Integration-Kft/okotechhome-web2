@@ -37,6 +37,21 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Hozzáadva
 
+- **Előkészítés → Terhelés és kapacitás hub — nyolc aloldal.** Lakosegyenérték ·
+  Személyszám és vízfogyasztás · Átlag- és csúcsterhelés · Szezonális használat ·
+  Panziók és vendéglátás · Intézményi terhelés · Speciális vagy ipari szennyvíz ·
+  Terhelési profil és kapacitás-előminősítő. A hub **javítja** a korábbi
+  LE-meghatározást: az „1 lakosegyenérték = 135 liter/fő/nap" téves — az LE a
+  biológiailag bontható szerves terhelés egysége (1 LE = napi 60 g BOI5), a
+  135 l/fő/nap legfeljebb saját hidraulikai tervezési feltételezés. A két fogalom
+  külön oszlopban, külön mértékegységgel szerepel.
+- **Előkészítés → Tisztított víz elhelyezése hub — hat aloldal.** Elszivárogtatás ·
+  Tisztítómező · Gyökérzónás elhelyezés · Magas talajvízi helyzetek · Szivárogtatási
+  vizsgálat · Mikor szükséges szakértő. Az „elszivárogtatás" és a „tisztítómező"
+  **nem szinonima**: aktív rendszer után a szikkasztó befogad, oldómedence után a
+  talajban kialakított mező maga a tisztítás része. A „gyökérzónás öntözés"
+  fogalommá és használati korlátokká alakítva — a szabályozott mezőgazdasági
+  víz-újrahasználat (EU 2020/741) külön kategóriaként elkülönítve.
 - **Előkészítés → Telekalkalmasság hub — a brief szerinti kilenc aloldal**, plusz a
   szakasz áttekintő oldala (`projekt-elokeszites/`). Áttekintés · Talaj és
   szivárgóképesség · Talajvíz · Kút és védőtávolság · Telekméret és szabad terület ·

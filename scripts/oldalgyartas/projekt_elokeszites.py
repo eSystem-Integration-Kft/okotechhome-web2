@@ -27,10 +27,13 @@ KESZ = [
      'Elszivárogtatás, tisztítómező, gyökérzónás elhelyezés — hová kerül a naponta kilépő '
      'vízmennyiség, és mitől függ, melyik irány jöhet szóba.',
      'tisztitott-viz-elhelyezese', 'Vízelhelyezés'),
+    ('nav-terheles', 'Terhelés és kapacitás',
+     'A „hány fő?” csak az első kérdés. Vízmennyiség, szerves terhelés, csúcsok és '
+     'időbeli eloszlás — ebből áll össze a terhelési profil.',
+     'terheles-es-kapacitas', 'Terhelés és kapacitás'),
 ]
 
 TERVEZETT = [
-    'Terhelés és kapacitás — mekkora rendszer kell valójában',
     'Engedélyezés és dokumentumok — mit kell bejelenteni, és mikor',
     'Helyszíni felmérés — mikor indokolt, és mit ad',
     'Költségek és ajánlatok — mi befolyásolja az árat',

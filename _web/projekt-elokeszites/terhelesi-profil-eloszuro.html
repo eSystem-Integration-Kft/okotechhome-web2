@@ -6,20 +6,20 @@
      minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projekt-előkészítés — mit kell tisztázni a döntés előtt | ÖkoTech Home</title>
-<meta name="description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
-<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/">
+<title>Terhelési profil és kapacitás-előminősítő | ÖkoTech Home</title>
+<meta name="description" content="Strukturált terhelési profil a használati adatokból: átlag, csúcs, bizonytalanságok, és hogy becsülhető-e standard kapacitástartomány.">
+<link rel="canonical" href="https://okoth.hu/projekt-elokeszites/terhelesi-profil-eloszuro">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Projekt-előkészítés">
-<meta property="og:description" content="Telekalkalmasság, vízelhelyezés, terhelés, engedélyezés és felmérés — a szennyvízrendszer kiválasztása előtti munka lépésekre bontva.">
-<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-attekintes.webp">
+<meta property="og:title" content="Terhelési profil és kapacitás-előminősítő">
+<meta property="og:description" content="Strukturált terhelési profil a használati adatokból: átlag, csúcs, bizonytalanságok, és hogy becsülhető-e standard kapacitástartomány.">
+<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-mar-van-rendszerem.webp">
 <meta property="og:locale" content="hu_HU">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../assets/css/app.css?v=68">
-<link rel="preload" as="image" href="../assets/img/oldalak/hero-attekintes.webp"
-      imagesrcset="../assets/img/oldalak/hero-attekintes-1024.webp 1100w, ../assets/img/oldalak/hero-attekintes.webp 1800w"
+<link rel="preload" as="image" href="../assets/img/oldalak/hero-mar-van-rendszerem.webp"
+      imagesrcset="../assets/img/oldalak/hero-mar-van-rendszerem-1024.webp 1100w, ../assets/img/oldalak/hero-mar-van-rendszerem.webp 1800w"
       imagesizes="100vw">
 </head>
 <body>
@@ -217,112 +217,141 @@
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
-            <li aria-current="page">Projekt-előkészítés</li>
+            <li><a href="./">Előkészítés</a></li>
+            <li><a href="terheles-es-kapacitas">Terhelés és kapacitás</a></li>
+            <li aria-current="page">Terhelési profil és kapacitás-előminősítő</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Projekt-előkészítés</h1>
-        <p class="type-ui-body-strong hero-lead">A rendszer kiválasztása nem a berendezésnél kezdődik. Előbb az derül ki, mi valósítható meg a telken, hová kerül a tisztított víz, és mekkora terhelésre kell méretezni. Ez a szakasz ebben vezet végig.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Terhelési profil és kapacitás-előminősítő</h1>
+        <p class="type-ui-body-strong hero-lead">Terhelési profilt állít össze, nem árat számol. Megmondja, becsülhető-e standard kapacitástartomány, vagy mérés, labor, illetve szakértő szükséges.</p>
       </div>
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-attekintes-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
-        <img src="../assets/img/oldalak/hero-attekintes.webp"
-             srcset="../assets/img/oldalak/hero-attekintes-1024.webp 1100w, ../assets/img/oldalak/hero-attekintes.webp 1800w"
-             sizes="100vw" width="1800" height="771" alt="Kiterített műszaki rajzok és jegyzetfüzet egy asztalon, mellette mérőszalag és ceruza" fetchpriority="high" decoding="async">
+        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-mar-van-rendszerem-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
+        <img src="../assets/img/oldalak/hero-mar-van-rendszerem.webp"
+             srcset="../assets/img/oldalak/hero-mar-van-rendszerem-1024.webp 1100w, ../assets/img/oldalak/hero-mar-van-rendszerem.webp 1800w"
+             sizes="100vw" width="1800" height="771" alt="Táblagép a kezekben, képernyőjén használati adatokat bekérő űrlappal" fetchpriority="high" decoding="async">
       </picture>
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="a-dontes-elotti-munka-cim">
+  <section class="section" aria-labelledby="terhelesi-profil-nem-arkalkulator-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Miről szól ez a szakasz</p>
-        <h2 class="type-display-section-title section-title" id="a-dontes-elotti-munka-cim">A döntés előtti munka</h2>
+        <p class="type-data-eyebrow section-eyebrow">Mi ez, és mi nem</p>
+        <h2 class="type-display-section-title section-title" id="terhelesi-profil-nem-arkalkulator-cim">Terhelési profil, nem árkalkulátor</h2>
       </header>
-      <p class="type-ui-body section-lead">A szennyvízrendszer kiválasztása nem a berendezésnél kezdődik. Előbb ki kell derülnie, hogy mi valósítható meg a telken, hová kerül a tisztított víz, mekkora terhelésre kell méretezni, és milyen dokumentumok szükségesek.</p>
-      <p class="type-ui-body section-lead">Ez a szakasz ezt a munkát bontja lépésekre. Nem terméket ajánl: azt mutatja meg, milyen kérdésekre kell választ találni, honnan szerezhetők meg az adatok, és mikor elég a saját tájékozódás — illetve mikor kell mérés vagy szakértő.</p>
-      <p class="type-ui-body section-lead">A sorrend nem kötelező, de van logikája. A telek adottságai a legtöbb továbbit meghatározzák, ezért érdemes ott kezdeni.</p>
+      <p class="type-ui-body section-lead">Ez a modul a megadott használati adatokból strukturált <strong>terhelési profilt</strong> állít össze, és eldönti, hogy standard kapacitási tartomány becsülhető-e, vagy további mérés, laborvizsgálat, illetve szakértő szükséges.</p>
+      <p class="type-ui-body section-lead">Amit <strong>nem</strong> ad: konkrét árat, garantált kapacitást hiányos adatokból, automatikus ipari méretezést és jogi engedélyezhetőségi ígéretet.</p>
+      <p class="type-ui-body section-lead">A kemény termék- és méretezési szabályok jóváhagyott adatbázisból származnak. Generatív modell legfeljebb a szabad szöveg, a számlaadatok vagy a feltöltött dokumentum strukturálásában segít — a szükséges kapacitást nem ő találja ki.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="hol-tart-most-cim">
+  <section class="section" aria-labelledby="eloszor-a-projekt-tipusa-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Elérhető szakaszok</p>
-        <h2 class="type-display-section-title section-title" id="hol-tart-most-cim">Hol tart most?</h2>
-        <p class="type-ui-body section-lead">Ami már elkészült. A többi hamarosan követi — alább felsorolva.</p>
-      </header>
-      <ul class="situation-grid" role="list">
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-talaj"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Telekalkalmasság</h3>
-          <p class="type-ui-body situation-text">Talaj, talajvíz, szabad terület, csőszint, kút és hozzáférés — mi dönti el, hogy megvalósítható-e a rendszer, és milyen kialakítással.</p>
-          <a class="text-link situation-action" href="telekalkalmassag"><span class="link-label">Telekalkalmasság<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-vizelvezetes"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Tisztított víz elhelyezése</h3>
-          <p class="type-ui-body situation-text">Elszivárogtatás, tisztítómező, gyökérzónás elhelyezés — hová kerül a naponta kilépő vízmennyiség, és mitől függ, melyik irány jöhet szóba.</p>
-          <a class="text-link situation-action" href="tisztitott-viz-elhelyezese"><span class="link-label">Vízelhelyezés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-terheles"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Terhelés és kapacitás</h3>
-          <p class="type-ui-body situation-text">A „hány fő?” csak az első kérdés. Vízmennyiség, szerves terhelés, csúcsok és időbeli eloszlás — ebből áll össze a terhelési profil.</p>
-          <a class="text-link situation-action" href="terheles-es-kapacitas"><span class="link-label">Terhelés és kapacitás<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="a-szakasz-tovabbi-reszei-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Ami készül</p>
-        <h2 class="type-display-section-title section-title" id="a-szakasz-tovabbi-reszei-cim">A szakasz további részei</h2>
-        <p class="type-ui-body section-lead">Ezek a témák a fejléc menüjében már szerepelnek, de a tartalmuk még készül. Amíg nem érhetők el, a kérdéseivel közvetlenül is fordulhat hozzánk.</p>
+        <p class="type-data-eyebrow section-eyebrow">A menet</p>
+        <h2 class="type-display-section-title section-title" id="eloszor-a-projekt-tipusa-cim">Először a projekt típusa</h2>
+        <p class="type-ui-body section-lead">Mert családi háznál, nyaralónál, panziónál, intézménynél és ipari projektnél más kérdésekből áll össze a használható profil.</p>
       </header>
       <ul class="numbered-grid" role="list">
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text">Engedélyezés és dokumentumok — mit kell bejelenteni, és mikor</p>
+          <p class="type-ui-body card-text"><strong>Lakossági.</strong> Állandó létszám, vízfogyasztás, vendégcsúcs, távollét, tervezett bővítés.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text">Helyszíni felmérés — mikor indokolt, és mit ad</p>
+          <p class="type-ui-body card-text"><strong>Szezonális.</strong> Ugyanez, plusz a használati hónapok, a leghosszabb nulla terhelés és a visszatérési csúcs.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text">Költségek és ajánlatok — mi befolyásolja az árat</p>
+          <p class="type-ui-body card-text"><strong>Panzió, vendéglátás.</strong> Férőhely, kihasználtság, szezon, étkeztetés, mosoda, wellness, rendezvények.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">04</span>
-          <p class="type-ui-body card-text">Telepítés és beüzemelés — mi történik a helyszínen</p>
+          <p class="type-ui-body card-text"><strong>Intézmény.</strong> Névleges és tényleges jelenlét, jelenléti idő, nyitvatartás, szünetek, konyha, vízfogyasztás.</p>
         </li>
         <li class="card">
           <span class="card-badge type-data-value" aria-hidden="true">05</span>
-          <p class="type-ui-body card-text">Projektkészültségi ellenőrzés — készen áll-e a projekt</p>
+          <p class="type-ui-body card-text"><strong>Ipari vagy speciális.</strong> Technológia, munkarend, m³/nap, laboradat, meglévő előkezelés — itt a modul nem méretez, hanem szakértői ágra irányít.</p>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+  <section class="section" aria-labelledby="amit-kulon-jelol-cim">
     <div class="section-inner">
-      <aside class="panel-dark" aria-labelledby="beszeljunk-a-konkret-projektrol-cim">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A kimenet</p>
+        <h2 class="type-display-section-title section-title" id="amit-kulon-jelol-cim">Amit külön jelöl</h2>
+      </header>
+      <div class="split">
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Terhelési adatok</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Hidraulikai átlag — napi vízmennyiség</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Hidraulikai csúcs — rövid idő alatt beérkező mennyiség</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Szerves terhelés, ahol megalapozottan becsülhető</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Rövid túlterhelés: nagysága, időtartama, gyakorisága</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Tartós túlterhelés, ha van</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Alulterhelési időszakok hossza</span></li>
+          </ul>
+        </div>
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Következtetés</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Becsült kapacitási tartomány, ahol megalapozott</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">LE-kategória, ahol az adat ezt megengedi</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">A hiányzó adatok listája</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Szakértői eszkaláció, ha indokolt</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">50 LE feletti ág, ha a terhelés ezt jelzi</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Laborigény, ha a szennyvíz nem kommunális jellegű</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="negy-kimenet-negy-kulonbozo-ut-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A lehetséges eredmények</p>
+        <h2 class="type-display-section-title section-title" id="negy-kimenet-negy-kulonbozo-ut-cim">Négy kimenet, négy különböző út</h2>
+      </header>
+      <ul class="numbered-grid" role="list">
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">01</span>
+          <p class="type-ui-body card-text"><strong>Standard lakossági kapacitástartomány.</strong> Az adatok elegendők, a terhelés a szokásos sávban van. A tervezés folytatható.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">02</span>
+          <p class="type-ui-body card-text"><strong>Határhelyzet — szakértői ellenőrzés.</strong> A terhelés a kategóriahatár közelében van, vagy a szórás szokatlanul nagy. Emberi ellenőrzés következik.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">03</span>
+          <p class="type-ui-body card-text"><strong>50 LE feletti ág.</strong> A projekt kikerül az egyedi szennyvíztisztítás kategóriájából; más tervezési és engedélyezési úton halad.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">04</span>
+          <p class="type-ui-body card-text"><strong>Speciális szennyvíz — labor és mérnöki vizsgálat.</strong> A terhelés nem kommunális jellegű. Mintavétel és megvalósíthatósági vizsgálat következik, nem kapacitásbecslés.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+<!-- ADATHIÁNY: maga a szabálymotor: a teljes modell–terhelés adatbázis, a hidraulikai és BOI5 névleges értékek modellenként, a rövid és tartós túlterhelési szabályok, az alulterhelési szabályok, az 50–100 LE közötti projektút, a panzió- és intézményi méretezési szabály, valamint az ipari eszkaláció feltételei
+     Forrás: ÖkoTech műszaki workshop, majd legalább 100–200 korábbi projekt visszatesztelése — külön vizsgálva, hol tért el az ajánlott és a végül telepített modell. A modul addig nem kapcsolható élesre. Addig konkrét értékkel nem publikálható. -->
+  <section class="section" aria-labelledby="vegyuk-vegig-egyutt-cim">
+    <div class="section-inner">
+      <aside class="panel-dark" aria-labelledby="vegyuk-vegig-egyutt-cim">
         <div class="panel-dark-head">
-          <p class="type-data-eyebrow panel-dark-eyebrow">Ha most kell válasz</p>
-          <h2 class="type-display-highlight-title panel-dark-title" id="beszeljunk-a-konkret-projektrol-cim">Beszéljünk a konkrét projektről</h2>
+          <p class="type-data-eyebrow panel-dark-eyebrow">Addig is</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="vegyuk-vegig-egyutt-cim">Vegyük végig együtt</h2>
         </div>
         <div class="panel-dark-body">
-          <p class="type-ui-body panel-dark-text">Ha a szakasz még nem tartalmazza, amit keres, írja meg a település nevét, a háztartás létszámát és amit a telekről tud — a többit megkérdezzük.</p>
+          <p class="type-ui-body panel-dark-text">Amíg az előminősítő nem üzemel, ugyanezt élőben végigvesszük. Írja meg a projekt típusát, a létszámot vagy a férőhelyet, a használat módját és — ha van — az éves vízfogyasztást.</p>
+          <p class="type-ui-body panel-dark-text">Ha van vízszámlája, laboreredménye vagy korábbi terv, csatolja: azokkal lényegesen gyorsabban jutunk kapacitási irányig.</p>
+          <p class="type-ui-body panel-dark-text"><a href="terheles-es-kapacitas">Terhelés és kapacitás</a></p>
           <p class="panel-dark-actions"><a class="btn btn-inverse" href="../kapcsolat">Kapcsolatfelvétel</a></p>
         </div>
       </aside>
@@ -337,17 +366,25 @@
       </header>
       <div class="faq">
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Hol kezdjem, ha még semmit nem tudok?</summary>
-          <div class="faq-a"><p class="type-ui-body">A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni.</p></div>
+          <summary class="faq-q type-ui-card-title">Kapok konkrét berendezésmodellt a végén?</summary>
+          <div class="faq-a"><p class="type-ui-body">Kapacitási tartományt igen, konkrét modellt nem. A végleges modellválasztás a telek adottságait, a vízelhelyezést és a telepítési körülményeket is figyelembe veszi — ezek nem ebből a modulból jönnek.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Kell ehhez ajánlatot kérnem?</summary>
-          <div class="faq-a"><p class="type-ui-body">Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak.</p></div>
+          <summary class="faq-q type-ui-card-title">Miért nem ad árat?</summary>
+          <div class="faq-a"><p class="type-ui-body">Mert a beruházási költséget nem csak a kapacitás határozza meg: a telepítési körülmények, a szükséges kiegészítők, a vízelhelyezés kialakítása és a földmunka is befolyásolja. Kapacitásból árat becsülni félrevezető lenne.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Elmenthető az eredmény?</summary>
+          <div class="faq-a"><p class="type-ui-body">Igen, a kimenet menthető terhelési brief: a profil, a becsült kapacitási tartomány, a hiányzó adatok és a javasolt következő lépés. Ez közvetlenül felhasználható a telekalkalmassági és a műszaki egyeztetéshez.</p></div>
         </details>
       </div>
     </div>
   </section>
-
+<!-- JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT. Érintett: 147/2010. Korm. rendelet
+     (egyedi szennyvíztisztítás 1–50 LE) · 26/2002. Korm. rendelet
+     (LE-számítás BOI5 alapján) · 220/2004. és 28/2004. rendelet (termelési és
+     szolgáltatási szennyvíz) · a 2024/3019/EU átdolgozott települési
+     szennyvíz-irányelv magyar átültetése. Dátumozott felülvizsgálat kell. -->
 </main>
 
 <!-- ==========================================================================
@@ -471,14 +508,17 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
       {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"},
-      {"@type":"ListItem","position":2,"name":"Projekt-előkészítés","item":"https://okoth.hu/projekt-elokeszites/"}
+      {"@type":"ListItem","position":2,"name":"Előkészítés","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":3,"name":"Terhelés és kapacitás","item":"https://okoth.hu/terheles-es-kapacitas"},
+      {"@type":"ListItem","position":4,"name":"Terhelési profil és kapacitás-előminősítő","item":"https://okoth.hu/projekt-elokeszites/terhelesi-profil-eloszuro"}
       ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Hol kezdjem, ha még semmit nem tudok?","acceptedAnswer":{"@type":"Answer","text":"A telekalkalmasságnál. Az ott vizsgált adatok — talaj, talajvíz, szabad terület, csőszint — a későbbi döntések nagy részét meghatározzák, és többségük megszerezhető anélkül, hogy bárkit ki kellene hívni."}},
-      {"@type":"Question","name":"Kell ehhez ajánlatot kérnem?","acceptedAnswer":{"@type":"Answer","text":"Nem. A szakasz oldalai tájékozódásra készültek, és az előszűrők sem kérnek kapcsolati adatot a használatukhoz. Ajánlatkérésnek akkor van értelme, ha a telek és a terhelés kérdései már tisztázottak."}}
+      {"@type":"Question","name":"Kapok konkrét berendezésmodellt a végén?","acceptedAnswer":{"@type":"Answer","text":"Kapacitási tartományt igen, konkrét modellt nem. A végleges modellválasztás a telek adottságait, a vízelhelyezést és a telepítési körülményeket is figyelembe veszi — ezek nem ebből a modulból jönnek."}},
+      {"@type":"Question","name":"Miért nem ad árat?","acceptedAnswer":{"@type":"Answer","text":"Mert a beruházási költséget nem csak a kapacitás határozza meg: a telepítési körülmények, a szükséges kiegészítők, a vízelhelyezés kialakítása és a földmunka is befolyásolja. Kapacitásból árat becsülni félrevezető lenne."}},
+      {"@type":"Question","name":"Elmenthető az eredmény?","acceptedAnswer":{"@type":"Answer","text":"Igen, a kimenet menthető terhelési brief: a profil, a becsült kapacitási tartomány, a hiányzó adatok és a javasolt következő lépés. Ez közvetlenül felhasználható a telekalkalmassági és a műszaki egyeztetéshez."}}
       ]
     }
   ]
