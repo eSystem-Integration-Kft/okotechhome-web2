@@ -1944,8 +1944,14 @@
     .projekt-link{margin-top:0;justify-self:start;align-self:start}
     /* A chip a hasáb teljes szélességét kitölti. Tartalomra szabva három eltérő
        szélességű folt lenne egymás mellett — a rendezett sáv nyugodtabb, és a
-       szám így is kiemelkedik. */
-    .projekt-chip{align-self:start;justify-self:stretch}
+       szám így is kiemelkedik.
+
+       MAGASSÁGBAN IS kitölti a sort (`align-self:stretch`). A közös sorrács
+       magassága a legmagasabb chiphez igazodik; `start` igazítással a rövidebb
+       tartalmú folt alacsonyabb maradt, és a három lime téglalap alja
+       lépcsőzött. A szöveg belül felül marad — a chip oszlopirányú flex,
+       tehát a tartalom a tetejéhez tapad. */
+    .projekt-chip{align-self:stretch;justify-self:stretch}
   }
 
   .velemeny-keret{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);
