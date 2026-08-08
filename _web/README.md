@@ -231,11 +231,20 @@ logója is `fill`-lel dolgozik.)
 
 ### Az adat nem kerül a szerverre
 
-A jelentés tartalmát a 11. szekció `sessionStorage`-ban adja át a `/jelentes` oldalnak.
-Szándékos: az ajánlatok a látogató dokumentumaiból származnak, tehát a nyomtatáshoz és a
-letöltéshez **semmi nem megy a szerverre**, és a lap bezárása után semmi nem marad.
-Közvetlenül megnyitva a `/jelentes` ezért üres — az oldal ezt meg is mondja, és
-visszairányít, ahelyett hogy csupa „—" táblát mutatna.
+A jelentés tartalmát a 11. szekció a böngésző tárolóján keresztül adja át a `/jelentes`
+oldalnak. Szándékos: az ajánlatok a látogató dokumentumaiból származnak, tehát a
+nyomtatáshoz és a letöltéshez **semmi nem megy a szerverre**. Közvetlenül megnyitva a
+`/jelentes` ezért üres — az oldal ezt meg is mondja, és visszairányít, ahelyett hogy
+csupa „—" táblát mutatna.
+
+> **Miért `localStorage`, ha egyszer semmit nem akarunk tárolni.** A jelentés ÚJ FÜLÖN
+> nyílik meg, a `sessionStorage` viszont fülönként külön él: a `noopener`-rel nyitott lap
+> **üres tárolóval indul**, és a jelentés helyén az „ehhez a nézethez még nincs
+> összehasonlítás" üzenet jelent meg. A `localStorage` fülök között közös — az adat mégsem
+> marad ott, mert a fogadó oldal az **olvasás pillanatában törli**. Így csak a kattintás és
+> a lap betöltése közötti másodpercig létezik. (`sessionStorage`-ba is írunk, tartalékként:
+> ha a `localStorage` tiltott — privát mód, sütikorlát —, az azonos fülön történő
+> megnyitás így is működik.)
 
 E-mailnél az adat természetesen felmegy: ott a szerver **idegen adatként** kezeli —
 minden mező hosszra vágva és escape-elve kerül a levéltörzsbe és a mellékletbe is.

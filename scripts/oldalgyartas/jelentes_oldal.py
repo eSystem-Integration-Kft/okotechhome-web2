@@ -81,7 +81,7 @@ OLDAL = f'''<!DOCTYPE html>
 </main>
 
 <script src="assets/js/site.js?v=3" defer></script>
-<script src="assets/js/jelentes.js?v=1" defer></script>
+<script src="assets/js/jelentes.js?v=2" defer></script>
 <script src="assets/js/jelentes-oldal.js?v=1" defer></script>
 
 </body>

@@ -338,7 +338,11 @@
                + 'Töltse le HTML-ben, és onnan nyomtassa ki.', 'hiba');
           return;
         }
-        window.open('jelentes?nyomtat=1', '_blank', 'noopener');
+        /* Ha a böngésző letiltja az új lapot (felugróablak-blokkoló), inkább
+           EBBEN a lapban nyitjuk meg: a néma semmi rosszabb, mint a
+           lapváltás — a jelentésoldalról egy kattintás a visszaút. */
+        const ablak = window.open('jelentes?nyomtat=1', '_blank', 'noopener');
+        if (!ablak) window.location.href = 'jelentes?nyomtat=1';
       });
     }
 

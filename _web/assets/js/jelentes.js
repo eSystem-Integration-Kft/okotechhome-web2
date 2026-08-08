@@ -273,20 +273,41 @@ ${css}
     markup,
     datum,
 
-    /** Elmenti az adatot, hogy a /jelentes oldal fel tudja venni. */
+    /**
+     * Átadás a /jelentes oldalnak.
+     *
+     * MIÉRT `localStorage`, ha egyszer semmit nem akarunk tárolni. A jelentés
+     * ÚJ FÜLÖN nyílik meg, a `sessionStorage` viszont fülönként külön él: a
+     * `window.open(..., 'noopener')`-rel nyitott lap ÜRES tárolóval indul, és a
+     * jelentés helyén az „ehhez a nézethez még nincs összehasonlítás" üzenet
+     * jelenne meg. (Opener nélkül a böngésző nem másolja át a munkamenetet.)
+     *
+     * A `localStorage` viszont fülök között közös. Az adat mégsem marad ott: a
+     * fogadó oldal az olvasás pillanatában TÖRLI. Így csak a kattintás és a
+     * lap betöltése közötti másodpercig létezik — utána semmi nem marad a
+     * böngészőben, ahogy ígértük.
+     */
     tarol(adat) {
-      try {
-        sessionStorage.setItem(TAR_KULCS, JSON.stringify(adat));
-        return true;
-      } catch (_) {
-        return false;
-      }
+      const j = JSON.stringify(adat);
+      let siker = false;
+      try { localStorage.setItem(TAR_KULCS, j); siker = true; } catch (_) { /* privát mód */ }
+      /* A `sessionStorage` tartalék: ha a `localStorage` tiltott (privát mód,
+         sütikorlát), az AZONOS fülön történő megnyitás így is működik. */
+      try { sessionStorage.setItem(TAR_KULCS, j); siker = true; } catch (_) { /* nincs mit tenni */ }
+      return siker;
     },
 
+    /** Kiolvassa ÉS azonnal törli — az adat nem maradhat a böngészőben. */
     olvas() {
+      let nyers = null;
+      try { nyers = localStorage.getItem(TAR_KULCS); } catch (_) { /* nincs elérés */ }
+      if (nyers === null) {
+        try { nyers = sessionStorage.getItem(TAR_KULCS); } catch (_) { /* nincs elérés */ }
+      }
+      try { localStorage.removeItem(TAR_KULCS); } catch (_) { /* nincs elérés */ }
+      try { sessionStorage.removeItem(TAR_KULCS); } catch (_) { /* nincs elérés */ }
       try {
-        const s = sessionStorage.getItem(TAR_KULCS);
-        return s ? JSON.parse(s) : null;
+        return nyers ? JSON.parse(nyers) : null;
       } catch (_) {
         return null;
       }
