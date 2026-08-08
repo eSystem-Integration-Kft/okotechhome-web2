@@ -262,6 +262,35 @@ az **első érdemi szempont** (elsősorban az ár) megy ki.
 > számít, nem értéknek**: nem kerül összefoglalóba, és a csupa hiányból álló összegzősor
 > is kimarad.
 
+### Az összegzősor számított — és miért fontos ez
+
+A „Hiányzó / tisztázandó tétel" sor **nem a szervertől jön**: a kliens számolja a fölötte
+lévő sorokból, hány szempontról nincs adat az adott ajánlatban, és ki is írja, **melyekről**.
+
+> **Amit ez javított.** A sor korábban ugyanúgy a szerver szempontjaiból próbált
+> feltöltődni, mint a többi — csakhogy hozzá nem tartozik szempont, így mindhárom
+> oszlopában „—" állt, miközben fölötte több sorban is „nincs adat" szerepelt. A modul
+> legfontosabb állítása maradt üresen.
+
+### A sorok kulcs szerint párosulnak, nem sorrend szerint
+
+Minden táblasor `data-ofc-sor="<kulcs>"` attribútumot visel, és a kliens ez alapján keresi
+meg a szerver válaszában a hozzá tartozó szempontot. Korábban a párosítás **sorrend**
+alapján ment (`Math.floor(i / 3)`): egyetlen beszúrt sor némán elcsúsztatta az összes
+cellát — az ár a technológia oszlopába került volna, hibaüzenet nélkül.
+
+A két lista — a markup `ROWS` és az `api/ajanlat-elemzes.php` `$SZEMPONTOK` — **egymástól
+függetlenül szerkeszthető**, ezért a generátor minden futáskor összeveti őket, és eltérés
+esetén megáll:
+
+```
+! A táblasorok kulcsai nem egyeznek a szerver szempontjaival.
+  szerver: [... 'meretezes', 'extra_uj', 'telepites' ...]
+  markup:  [... 'meretezes', 'telepites' ...]
+```
+
+Ha új szempont kell, **mindkét helyen** fel kell venni — és a generátor ezt kikényszeríti.
+
 ### Több címzett
 
 A mező vesszővel (vagy pontosvesszővel) elválasztott listát fogad, **legfeljebb ötöt** —

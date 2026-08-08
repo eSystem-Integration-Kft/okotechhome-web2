@@ -204,7 +204,6 @@
   const steps = document.querySelectorAll('.ofc-step');
 
 
-  const OFFER_INDEX = { a: 0, b: 1, c: 2 };
 
   const uploaded = () =>
     Array.from(document.querySelectorAll('[data-ofc-card] [data-ofc-input]'))
@@ -240,19 +239,69 @@
     return ertek.outerHTML;
   };
 
-  const fillState = (adat) => {
-    const kulcsok = Object.keys(adat.szempontok || {});
-    const jelek = ['A', 'B', 'C'];
+  /** „nincs adat" — a szerver pontosan ezt írja, ha a dokumentum nem tartalmazta. */
+  const NINCS_ADAT = /^\s*nincs\s+adat\s*$/i;
 
-    valueCells.forEach((td, i) => {
-      const jel = jelek[td.cellIndex - 1];
-      const sor = kulcsok[Math.floor(i / 3)];
-      const a = adat.ajanlatok[jel];
-      td.innerHTML = a ? cella(a.szempontok[sor]) : '<span class="ofc-dash">—</span>';
+  /**
+   * Az ÖSSZEGZŐSOR számított érték, nem a szervertől jön: a fölötte lévő
+   * sorokból számoljuk, hány szempontról nincs adat az adott ajánlatban.
+   *
+   * Korábban ez a sor is a szerver szempontjaiból próbált feltöltődni, csak
+   * éppen nincs hozzá tartozó szempont — ezért mindhárom oszlopában „—" állt,
+   * miközben fölötte több sorban is „nincs adat" szerepelt. A modul legfontosabb
+   * állítása maradt üresen.
+   */
+  const osszegzes = (hianyzok) => {
+    const n = hianyzok.length;
+    const el = document.createElement('span');
+    el.className = 'ofc-st ' + (n === 0 ? 'ofc-st-yes' : n <= 2 ? 'ofc-st-warn' : 'ofc-st-bad');
+    el.textContent = n === 0 ? 'Nincs hiány' : n + (n === 1 ? ' tétel' : ' tétel');
+    if (n) {
+      /* Nem elég a SZÁM: a látogatónak az a használható, hogy MI hiányzik.
+         Háromnál többet nem sorolunk, mert a cella olvashatatlanná válna. */
+      const kis = document.createElement('small');
+      kis.textContent = hianyzok.slice(0, 3).join(', ') + (n > 3 ? ' +' + (n - 3) : '');
+      el.append(kis);
+    }
+    return el.outerHTML;
+  };
+
+  const fillState = (adat) => {
+    const jelek = ['A', 'B', 'C'];
+    const sorok = Array.from(compare.querySelectorAll('[data-ofc-table] tbody tr'));
+    const hianyzok = jelek.map(() => []);
+
+    /* A sor és a szempont párosítása KULCS alapján megy (`data-ofc-sor`), nem
+       sorrend alapján. Sorrenddel egyetlen beszúrt sor némán elcsúsztatná az
+       összes cellát — az árat a technológia oszlopába írnánk. */
+    sorok.forEach((tr) => {
+      const kulcs = tr.getAttribute('data-ofc-sor');
+      if (!kulcs || kulcs === 'osszegzes') return;
+      const cimke = (adat.szempontok && adat.szempontok[kulcs]) || kulcs;
+
+      Array.from(tr.querySelectorAll('td')).forEach((td, oszlop) => {
+        const a = adat.ajanlatok[jelek[oszlop]];
+        if (!a) { td.innerHTML = '<span class="ofc-dash">&mdash;</span>'; return; }
+        const mezo = a.szempontok && a.szempontok[kulcs];
+        td.innerHTML = cella(mezo);
+        if (!mezo || NINCS_ADAT.test(mezo.ertek || '')) hianyzok[oszlop].push(cimke);
+      });
     });
-    headSubs.forEach((s, i) => {
+
+    const osszegSor = sorok.find((tr) => tr.getAttribute('data-ofc-sor') === 'osszegzes');
+    if (osszegSor) {
+      Array.from(osszegSor.querySelectorAll('td')).forEach((td, oszlop) => {
+        /* Ahol nincs feltöltött ajánlat, ott nincs mit összegezni sem — a „10
+           tétel hiányzik" ott félrevezető volna. */
+        td.innerHTML = adat.ajanlatok[jelek[oszlop]]
+          ? osszegzes(hianyzok[oszlop])
+          : '<span class="ofc-dash">&mdash;</span>';
+      });
+    }
+
+    headSubs.forEach((sub, i) => {
       const a = adat.ajanlatok[jelek[i]];
-      s.textContent = a ? a.cimke : '—';
+      sub.textContent = a ? a.cimke : '—';
     });
 
     if (aiList) {

@@ -106,6 +106,13 @@ def card(letter, extra, placeholder, muted):
 
 
 # --- az összehasonlító tábla ------------------------------------------------
+# A SOR ELSŐ ELEME A KULCS, és pontosan egyeznie kell az
+# api/ajanlat-elemzes.php `$SZEMPONTOK` kulcsaival. Korábban a kliens SORREND
+# alapján párosította a sorokat a szerver szempontjaival — ilyenkor egyetlen
+# beszúrt sor az összes cellát elcsúsztatja, némán. A kulcs ezt kizárja.
+#
+# Az utolsó sor (`osszegzes`) NEM a szervertől jön: a kliens SZÁMOLJA a fölötte
+# lévő sorokból, hány szempontról nincs adat az adott ajánlatban.
 # (jelölés, szöveg, ikon-kulcs vagy None, alszöveg vagy None)
 def st(kind, text, icon=None, sub=None):
     ic = ' ' + svg(icon) if icon else ''
@@ -115,46 +122,46 @@ def st(kind, text, icon=None, sub=None):
 NODATA = st('nodata', 'Nincs adat', 'dashi')
 
 ROWS = [
-    ('tag', 'Teljes ár (bruttó)',
+    ('teljes_ar', 'tag', 'Teljes ár (bruttó)',
      ['1&nbsp;250&nbsp;000&nbsp;Ft', '2&nbsp;890&nbsp;000&nbsp;Ft', '1&nbsp;690&nbsp;000&nbsp;Ft']),
-    ('funnel', 'Milyen technológia?',
+    ('technologia', 'funnel', 'Milyen technológia?',
      [st('muted', 'Gyűjt', None, 'zárt tároló'),
       st('muted', 'Tisztít', None, 'biológiai'),
       st('muted', 'Ülepít', None, '+ elszivárogtat')]),
-    ('users', 'Mire van méretezve?',
+    ('meretezes', 'users', 'Mire van méretezve?',
      [NODATA,
       st('yes', 'Méretezve', 'tick', '5 fő · állandó lakás'),
       st('warn', 'Feltételezett', None, 'kb. 4 fő')]),
-    ('wrench', 'Telepítés tartalma',
+    ('telepites', 'wrench', 'Telepítés tartalma',
      [st('no', 'Csak berendezés', 'cross'),
       st('yes', 'Teljes', 'tick', 'földmunka + bekötés + beüzemelés'),
       st('unclear', 'Részleges', 'unclear', 'földmunka nélkül')]),
-    ('drop', 'Tisztított víz elvezetése',
+    ('vizelvezetes', 'drop', 'Tisztított víz elvezetése',
      [st('muted', 'Nem releváns', None, 'gyűjtő rendszer'),
       st('unclear', 'Nincs megadva', 'unclear'),
       st('yes', 'Elszivárogtatás', 'tick', 'benne van')]),
-    ('doc', 'Engedélyezéshez',
+    ('engedelyezes', 'doc', 'Engedélyezéshez',
      [NODATA,
       st('yes', 'CE / EN 12566-3', 'tick', 'dokumentáció + helyszínrajz'),
       NODATA]),
-    ('map', 'Telekadottságok',
+    ('telekadottsag', 'map', 'Telekadottságok',
      [st('warn', 'Nem vették figyelembe'),
       st('yes', 'Helyszíni felmérés', 'tick', 'talaj + talajvíz'),
       st('warn', 'Feltételezésekre épül')]),
-    ('card', 'Éves üzemeltetési költség',
+    ('uzemeltetes', 'card', 'Éves üzemeltetési költség',
      [st('bad', 'Magas', None, 'rendszeres szippantás (4–6 hetente)'),
       st('yes', 'Alacsony', 'tick', 'áram + évi 1 szerviz'),
       st('warn', 'Közepes', None, 'időszakos szippantás')]),
-    ('resp', 'Felelősség',
+    ('felelosseg', 'resp', 'Felelősség',
      [NODATA,
       st('yes', 'Egy felelős', 'tick', 'gyártó = kivitelező = szerviz'),
       st('warn', 'Több szereplő')]),
-    ('guard', 'Garancia és szerviz',
+    ('garancia', 'guard', 'Garancia és szerviz',
      [NODATA,
       st('yes', 'Hazai szerviz', 'tick', 'alkatrész-háttérrel'),
       NODATA]),
 ]
-TOTAL = ('warn', 'Hiányzó / tisztázandó tétel',
+TOTAL = ('osszegzes', 'warn', 'Hiányzó / tisztázandó tétel',
          [st('bad', '6 tétel'), st('warn', '1 tétel'), st('bad', '4 tétel')])
 
 HEADS = [('Ajánlat A', 'Zárt tároló'), ('Ajánlat B', 'Biológiai tisztító'),
@@ -185,17 +192,17 @@ def build():
     ths = '\n'.join(f'                  <th scope="col">{a}<span class="type-ui-caption ofc-th-sub">{b}</span></th>'
                     for a, b in HEADS)
 
-    def row(icon, label, cells, cls=''):
+    def row(kulcs, icon, label, cells, cls=''):
         tds = '\n'.join(f'                  <td class="type-ui-subtitle">{c}</td>' for c in cells)
-        return f'''                <tr{cls}>
+        return f'''                <tr data-ofc-sor="{kulcs}"{cls}>
                   <th scope="row" class="type-ui-subtitle">
                     <span class="ofc-cell-label">{svg(icon)}{label}</span>
                   </th>
 {tds}
                 </tr>'''
 
-    body = '\n'.join(row(i, l, c) for i, l, c in ROWS)
-    body += '\n' + row(TOTAL[0], TOTAL[1], TOTAL[2], ' class="ofc-row-total"')
+    body = '\n'.join(row(k, i, l, c) for k, i, l, c in ROWS)
+    body += '\n' + row(TOTAL[0], TOTAL[1], TOTAL[2], TOTAL[3], ' class="ofc-row-total"')
 
     ai = '\n'.join(f'''            <li class="type-ui-subtitle" data-ofc-for="{key}">
               <span class="ofc-ai-{kind}" aria-hidden="true">{svg(kind)}</span>
@@ -452,7 +459,29 @@ def build():
 '''
 
 
+def ellenorzes():
+    """A táblasorok kulcsai egyeznek-e a szerver szempontjaival.
+
+    A kliens KULCS alapján párosítja a sorokat a szerver válaszával. Ha a két
+    lista elcsúszik — mert valaki csak az egyik helyen szúr be szempontot —, a
+    tábla NÉMÁN hibás adatot mutat: a cellák a helyükön maradnak, csak épp nem
+    az kerül beléjük, ami odavaló. Ezt nem szabad futásidőre hagyni.
+    """
+    php = (WEB / 'api' / 'ajanlat-elemzes.php').read_text(encoding='utf-8')
+    blokk = re.search(r"\$SZEMPONTOK = \[(.*?)\];", php, re.S)
+    if not blokk:
+        raise SystemExit('! nem találom a $SZEMPONTOK blokkot az api/ajanlat-elemzes.php-ban')
+    szerver = re.findall(r"'([a-z_]+)'\s*=>", blokk.group(1))
+    markup = [r[0] for r in ROWS]
+    if szerver != markup:
+        raise SystemExit(
+            '! A táblasorok kulcsai nem egyeznek a szerver szempontjaival.\n'
+            f'  szerver: {szerver}\n  markup:  {markup}')
+    print(f'kulcsellenőrzés rendben — {len(markup)} szempont + összegzősor')
+
+
 if __name__ == '__main__':
+    ellenorzes()
     p = WEB / 'index.html'
     s = p.read_text(encoding='utf-8')
     sec = build()
