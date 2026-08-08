@@ -2565,6 +2565,90 @@
     100%  {background-position:-60% 0}
   }
 
+  /* ---- FOLYAMATJELZŐ. A kiolvasás fél perctől percekig tart; ennyi ideig egy
+     pörgő gomb nem elég visszajelzés. Három szakasz, valós eltelt idő, és egy
+     sáv, ami a FELTÖLTÉS alatt determinisztikus (a böngésző jelenti a
+     bájtokat), utána határozatlan — kitalált százalék nem kerül ki. */
+  .ofc-halad{
+    margin-top:var(--space-16);padding:var(--space-24);
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--panel-radius);
+  }
+  .ofc-halad[hidden]{display:none}
+
+  .ofc-halad-lepesek{
+    display:grid;gap:var(--space-8);margin:0 0 var(--space-16);padding:0;list-style:none;
+  }
+  .ofc-halad-lepes{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;gap:var(--space-8);color:var(--text-tertiary);
+  }
+  /* A szakasz állapotát NEM csak a szín jelzi: a jel alakja is változik
+     (üres kör → pulzáló pont → pipa), különben színtévesztéssel nem olvasható. */
+  .ofc-halad-jel{
+    width:var(--space-16);height:var(--space-16);flex:none;border-radius:50%;
+    border:2px solid var(--border-strong);
+  }
+  .ofc-halad-lepes[data-allapot="fut"]{color:var(--text-primary)}
+  .ofc-halad-lepes[data-allapot="fut"] .ofc-halad-jel{
+    border-color:var(--primary);background:var(--primary);
+    animation:ofc-halad-dobog 1.4s var(--ease-out) infinite;
+  }
+  .ofc-halad-lepes[data-allapot="kesz"]{color:var(--text-secondary)}
+  .ofc-halad-lepes[data-allapot="kesz"] .ofc-halad-jel{
+    border-color:var(--primary);background:var(--primary);
+    /* Pipa a körben: két elforgatott szegély, kép nélkül. */
+    position:relative;
+  }
+  .ofc-halad-lepes[data-allapot="kesz"] .ofc-halad-jel::after{
+    content:'';position:absolute;left:4px;top:1px;width:4px;height:8px;
+    border:solid var(--on-primary);border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+  }
+  @keyframes ofc-halad-dobog{
+    0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--primary) 45%,transparent)}
+    70%    {box-shadow:0 0 0 6px color-mix(in srgb,var(--primary) 0%,transparent)}
+  }
+  .ofc-halad-szazalek{font-family:var(--font-mono);color:var(--text-secondary)}
+
+  .ofc-halad-sav{
+    height:var(--space-8);border-radius:999px;overflow:hidden;
+    background:var(--surface-sunken);
+  }
+  .ofc-halad-toltes{
+    display:block;height:100%;width:0;border-radius:inherit;
+    background:var(--primary);
+    transition:width var(--dur-fast) linear;
+  }
+  /* HATÁROZATLAN szakasz: a szerver nem jelent haladást, ezért a sáv nem
+     százalékot mutat, hanem azt, hogy dolgozik. */
+  .ofc-halad-sav[data-allapot="hatarozatlan"] .ofc-halad-toltes{
+    width:38%;transition:none;
+    animation:ofc-halad-fut 1.6s var(--ease-out) infinite;
+  }
+  @keyframes ofc-halad-fut{
+    0%  {transform:translateX(-100%)}
+    100%{transform:translateX(300%)}
+  }
+
+  .ofc-halad-lab{
+    display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--space-8) var(--space-16);
+    margin:var(--space-16) 0 0;
+  }
+  .ofc-halad-ido{
+    font-variant-numeric:tabular-nums;color:var(--text-primary);
+    padding:var(--space-4) var(--space-8);border-radius:var(--r-md);
+    background:var(--surface-muted);
+  }
+  .ofc-halad-varhato{flex:1 1 16rem;min-width:0;color:var(--text-tertiary)}
+  .ofc-halad-megszakit{
+    margin-left:auto;border:0;background:none;padding:var(--space-4);
+    color:var(--text-secondary);cursor:pointer;text-decoration:underline;
+    text-underline-offset:.18em;
+  }
+  .ofc-halad-megszakit:hover{color:var(--text-primary)}
+  .ofc-halad-megszakit:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+
   /* ---- JELENTÉS-KIVITEL. Az összehasonlítás a lapon él; ez a blokk viszi el
      magával: letöltve, kinyomtatva vagy e-mailben. A blokk `hidden`, amíg
      nincs mit jelenteni — az üres tábláról készült jelentés azt sugallná,
@@ -2933,6 +3017,22 @@
     border:1px solid var(--border);color:var(--secondary);
   }
   .aidt-av svg,.aidt-av-lg svg{width:var(--space-24);height:var(--space-24);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  /* AVATAR-JEL. A márka jelrajza CSS-maszkkal, nem vonalrajz: a korábbi
+     1,8 képpontos házikó 24 képpontra zsugorítva alig látszott. A tömör forma
+     kis méretben is olvasható, a színt a token adja.
+
+     A KÖR MÉRETE VÁLTOZATLAN (48 / 32 képpont) — csak a benne ülő jel nőtt és
+     lett kontrasztosabb, így az elrendezés nem mozdul. */
+  .aidt-av,.aidt-av-lg,.aidt-av-sm{background:var(--surface-muted);border-color:var(--primary-soft)}
+  .aidt-jel{
+    display:block;background:var(--primary);
+    aspect-ratio:387.49 / 289.93;
+    -webkit-mask:url("../img/logo-jel.svg?v=1") no-repeat center/contain;
+            mask:url("../img/logo-jel.svg?v=1") no-repeat center/contain;
+  }
+  .aidt-av .aidt-jel,.aidt-av-lg .aidt-jel{width:calc(var(--space-24) + var(--space-8))}
+  .aidt-av-sm .aidt-jel{width:var(--space-24)}
   .aidt-chat-id{flex:1;display:flex;flex-direction:column;line-height:var(--type-ui-label-line-height)}
   .aidt-chat-id b{
     font-family:var(--font-body);font-size:var(--type-ui-card-title-size);

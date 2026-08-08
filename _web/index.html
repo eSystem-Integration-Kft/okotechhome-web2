@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=87">
+<link rel="stylesheet" href="assets/css/app.css?v=89">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -1196,6 +1196,47 @@
               <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
             </button>
           </p>
+          <!-- FOLYAMATJELZŐ. A kiolvasás fél perctől néhány percig tart, ezért a
+               várakozás alatt meg kell mondani, HOL TARTUNK és MENNYI IDEJE.
+
+               A feltöltés MÉRHETŐ (a böngésző jelenti a feltöltött bájtokat),
+               ezért ott valódi százalék áll. Utána a szerver dolgozik, és onnan
+               semmilyen visszajelzés nem érkezik a válaszig — ott a sáv
+               HATÁROZATLAN. Kitalált százalék nem kerül ki: az hazugság volna,
+               és pont akkor bukna le, amikor a látogató türelme fogy.
+
+               `aria-live="polite"`: a szakaszváltást a képernyőolvasó is
+               megkapja, de nem szakítja félbe az olvasást. -->
+          <div class="ofc-halad" data-ofc-halad hidden aria-live="polite">
+            <ol class="ofc-halad-lepesek" role="list">
+              <li class="ofc-halad-lepes" data-ofc-fazis="feltoltes">
+                <span class="ofc-halad-jel" aria-hidden="true"></span>
+                <span class="type-ui-subtitle">Ajánlatok feltöltése</span>
+                <span class="type-ui-caption ofc-halad-szazalek" data-ofc-szazalek></span>
+              </li>
+              <li class="ofc-halad-lepes" data-ofc-fazis="kiolvasas">
+                <span class="ofc-halad-jel" aria-hidden="true"></span>
+                <span class="type-ui-subtitle">Dokumentumok kiolvasása</span>
+              </li>
+              <li class="ofc-halad-lepes" data-ofc-fazis="osszevetes">
+                <span class="ofc-halad-jel" aria-hidden="true"></span>
+                <span class="type-ui-subtitle">Összehasonlítás és összegzés</span>
+              </li>
+            </ol>
+
+            <div class="ofc-halad-sav" data-ofc-sav>
+              <span class="ofc-halad-toltes" data-ofc-toltes></span>
+            </div>
+
+            <p class="ofc-halad-lab">
+              <span class="type-data-value ofc-halad-ido" data-ofc-ido>0:00</span>
+              <span class="type-ui-caption ofc-halad-varhato">A feldolgozás jellemzően
+                30–90 másodperc; sok oldalas vagy szkennelt dokumentumnál tovább tart.</span>
+              <button type="button" class="ofc-halad-megszakit type-ui-caption"
+                      data-ofc-megszakit>Megszakítás</button>
+            </p>
+          </div>
+
           <p class="type-ui-caption ofc-disclaimer">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 7.7 8 9 4.6-1.3 8-4 8-9V6l-8-3Z"/></svg>Az elemzés tájékoztató jellegű, nem helyettesíti a helyszíni
             felmérést és a szakértői véleményt.
@@ -2563,9 +2604,9 @@
 <!-- A modul árértékei külön, a cég által szerkeszthető fájlban élnek — a
      konfigurációnak a modul ELŐTT kell betöltődnie. -->
 <script src="assets/data/aidt-konfig.js?v=2" defer></script>
-<script src="assets/js/ai-advisor.js?v=3" defer></script>
+<script src="assets/js/ai-advisor.js?v=4" defer></script>
 <script src="assets/js/jelentes.js?v=2" defer></script>
-<script src="assets/js/ofc.js?v=12" defer></script>
+<script src="assets/js/ofc.js?v=14" defer></script>
 <script src="assets/js/velemeny.js?v=1" defer></script>
 <script src="assets/js/folyamat.js?v=2" defer></script>
 <script src="assets/js/gyik.js?v=1" defer></script>

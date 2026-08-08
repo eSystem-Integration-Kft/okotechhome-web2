@@ -246,6 +246,47 @@ def build():
               <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
             </button>
           </p>
+          <!-- FOLYAMATJELZŐ. A kiolvasás fél perctől néhány percig tart, ezért a
+               várakozás alatt meg kell mondani, HOL TARTUNK és MENNYI IDEJE.
+
+               A feltöltés MÉRHETŐ (a böngésző jelenti a feltöltött bájtokat),
+               ezért ott valódi százalék áll. Utána a szerver dolgozik, és onnan
+               semmilyen visszajelzés nem érkezik a válaszig — ott a sáv
+               HATÁROZATLAN. Kitalált százalék nem kerül ki: az hazugság volna,
+               és pont akkor bukna le, amikor a látogató türelme fogy.
+
+               `aria-live="polite"`: a szakaszváltást a képernyőolvasó is
+               megkapja, de nem szakítja félbe az olvasást. -->
+          <div class="ofc-halad" data-ofc-halad hidden aria-live="polite">
+            <ol class="ofc-halad-lepesek" role="list">
+              <li class="ofc-halad-lepes" data-ofc-fazis="feltoltes">
+                <span class="ofc-halad-jel" aria-hidden="true"></span>
+                <span class="type-ui-subtitle">Ajánlatok feltöltése</span>
+                <span class="type-ui-caption ofc-halad-szazalek" data-ofc-szazalek></span>
+              </li>
+              <li class="ofc-halad-lepes" data-ofc-fazis="kiolvasas">
+                <span class="ofc-halad-jel" aria-hidden="true"></span>
+                <span class="type-ui-subtitle">Dokumentumok kiolvasása</span>
+              </li>
+              <li class="ofc-halad-lepes" data-ofc-fazis="osszevetes">
+                <span class="ofc-halad-jel" aria-hidden="true"></span>
+                <span class="type-ui-subtitle">Összehasonlítás és összegzés</span>
+              </li>
+            </ol>
+
+            <div class="ofc-halad-sav" data-ofc-sav>
+              <span class="ofc-halad-toltes" data-ofc-toltes></span>
+            </div>
+
+            <p class="ofc-halad-lab">
+              <span class="type-data-value ofc-halad-ido" data-ofc-ido>0:00</span>
+              <span class="type-ui-caption ofc-halad-varhato">A feldolgozás jellemzően
+                30–90 másodperc; sok oldalas vagy szkennelt dokumentumnál tovább tart.</span>
+              <button type="button" class="ofc-halad-megszakit type-ui-caption"
+                      data-ofc-megszakit>Megszakítás</button>
+            </p>
+          </div>
+
           <p class="type-ui-caption ofc-disclaimer">
             {svg('shield')}Az elemzés tájékoztató jellegű, nem helyettesíti a helyszíni
             felmérést és a szakértői véleményt.

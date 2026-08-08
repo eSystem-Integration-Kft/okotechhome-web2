@@ -387,10 +387,16 @@
                + 'Töltse le HTML-ben, és onnan nyomtassa ki.', 'hiba');
           return;
         }
-        /* Ha a böngésző letiltja az új lapot (felugróablak-blokkoló), inkább
-           EBBEN a lapban nyitjuk meg: a néma semmi rosszabb, mint a
-           lapváltás — a jelentésoldalról egy kattintás a visszaút. */
-        const ablak = window.open('jelentes?nyomtat=1', '_blank', 'noopener');
+        /* `noopener` NÉLKÜL nyitjuk, szándékosan. A `window.open` `noopener`
+           mellett MINDIG `null`-t ad vissza — sikeres nyitáskor is —, tehát a
+           „blokkolva" ág minden alkalommal lefutott: az új fül kiolvasta és
+           törölte az adatot, ez a fül pedig utána navigált az immár üres
+           jelentésre. A látogató ezért az „ehhez a nézethez még nincs
+           összehasonlítás" üzenetet látta, holott a jelentés megnyílt mellette.
+
+           Saját, azonos eredetű oldalról van szó, ezért az opener-hivatkozás
+           itt nem kockázat — cserébe megbízhatóan felismerjük a blokkolást. */
+        const ablak = window.open('jelentes?nyomtat=1', '_blank');
         if (!ablak) window.location.href = 'jelentes?nyomtat=1';
       });
     }
@@ -556,13 +562,52 @@
       return;
     }
 
+    /* ------------------------------------------------------ folyamatjelző */
+    const halad = document.querySelector('[data-ofc-halad]');
+    const sav = halad && halad.querySelector('[data-ofc-sav]');
+    const toltes = halad && halad.querySelector('[data-ofc-toltes]');
+    const szazalekMezo = halad && halad.querySelector('[data-ofc-szazalek]');
+    const idoMezo = halad && halad.querySelector('[data-ofc-ido]');
+    const fazisok = halad ? Array.from(halad.querySelectorAll('[data-ofc-fazis]')) : [];
+
+    let oraId = null;
+
+    const mmss = (mp) => Math.floor(mp / 60) + ':' + String(mp % 60).padStart(2, '0');
+
+    /** A szakaszok állapota: az aktuális előttiek készek, utána még várnak. */
+    const fazis = (nev) => {
+      const i = fazisok.findIndex((f) => f.dataset.ofcFazis === nev);
+      fazisok.forEach((f, j) => {
+        f.dataset.allapot = j < i ? 'kesz' : (j === i ? 'fut' : 'var');
+      });
+    };
+
+    const haladIndit = () => {
+      if (!halad) return;
+      halad.hidden = false;
+      fazis('feltoltes');
+      if (sav) sav.dataset.allapot = 'meghatarozott';
+      if (toltes) toltes.style.width = '0%';
+      if (szazalekMezo) szazalekMezo.textContent = '0%';
+      const kezdet = Date.now();
+      if (idoMezo) idoMezo.textContent = '0:00';
+      oraId = setInterval(() => {
+        if (idoMezo) idoMezo.textContent = mmss(Math.floor((Date.now() - kezdet) / 1000));
+      }, 1000);
+    };
+
+    const haladVeg = () => {
+      if (oraId) { clearInterval(oraId); oraId = null; }
+      if (halad) halad.hidden = true;
+    };
+
     cta.classList.add('is-loading');
     cta.setAttribute('aria-busy', 'true');
-    /* A felirat is változik: a mozgó ikon önmagában nem mondja meg, mi tart —
-       a dokumentumok kiolvasása fél percig is eltarthat. */
     const felirat = cta.querySelector('[data-ofc-felirat]');
     const eredetiFelirat = felirat ? felirat.textContent : '';
-    if (felirat) felirat.textContent = 'Dokumentumok kiolvasása…';
+    if (felirat) felirat.textContent = 'Feldolgozás…';
+    uzenet('', null);
+    haladIndit();
 
     const adatok = new FormData();
     Array.from(document.querySelectorAll('[data-ofc-card]')).forEach((c, i) => {
@@ -573,42 +618,94 @@
       if (sel && sel.selectedIndex > 0) adatok.append('tipus_' + jel, sel.value);
     });
 
-    /* Kliensoldali időkorlát. Enélkül a gomb a végtelenségig pörög, ha a
-       szerver válasz nélkül elesik — márpedig megosztott tárhelyen ez a
-       leggyakoribb kimenet. A határ bővebb, mint a szerveré, hogy annak
-       saját hibaüzenete elsőbbséget élvezzen. */
-    const megszakito = new AbortController();
-    const ora = setTimeout(() => megszakito.abort(), 180000);
+    /* XMLHttpRequest, nem `fetch`. Egyetlen okból: a `fetch` NEM ad feltöltési
+       haladást. A feltöltés az egyetlen szakasz, amiről valós adatunk van (a
+       böngésző jelenti a bájtokat) — enélkül a látogató percekig nézne egy
+       határozatlan sávot úgy, hogy közben a saját feltöltésére vár.
 
-    fetch('api/ajanlat-elemzes', {
-      method: 'POST', headers: { Accept: 'application/json' },
-      body: adatok, signal: megszakito.signal,
-    })
-      /* A válasz nem biztos, hogy JSON: ha a szerver hibaoldalt vagy üres
-         törzset ad, a json() elszállna egy értelmetlen üzenettel. */
-      .then((r) => r.text().then((t) => {
-        let j = {};
-        try { j = JSON.parse(t); } catch (_) {
-          throw new Error('A kiszolgáló nem értelmezhető választ adott'
-            + (r.status ? ' (' + r.status + ')' : '') + '. Kérjük, próbálja újra.');
-        }
-        return { ok: r.ok, j };
-      }))
-      .then(({ ok, j }) => {
-        if (!ok || !j.ok) throw new Error(j.uzenet || 'Az elemzés nem sikerült.');
-        fillState(j);
-        compare.scrollIntoView({ block: 'start', behavior: 'smooth' });
-      })
-      .catch((e) => uzenet(
-        e.name === 'AbortError'
-          ? 'A kiolvasás túl sokáig tartott, ezért megszakítottuk. Próbálja kevesebb '
-            + 'vagy kisebb fájllal, vagy küldje el nekünk az ajánlatokat.'
-          : e.message, 'hiba'))
-      .finally(() => {
-        clearTimeout(ora);
-        cta.classList.remove('is-loading');
-        cta.removeAttribute('aria-busy');
-        if (felirat) felirat.textContent = eredetiFelirat;
-      });
+       Kliensoldali időkorlát: enélkül a jelző a végtelenségig pörögne, ha a
+       szerver válasz nélkül elesik. A határ bővebb, mint a szerveré, hogy
+       annak saját hibaüzenete elsőbbséget élvezzen. */
+    const xhr = new XMLHttpRequest();
+    let megszakitva = false;
+
+    const megszakitGomb = halad && halad.querySelector('[data-ofc-megszakit]');
+    const megszakit = () => { megszakitva = true; xhr.abort(); };
+    if (megszakitGomb) megszakitGomb.addEventListener('click', megszakit, { once: true });
+
+    xhr.open('POST', 'api/ajanlat-elemzes');
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.timeout = 180000;
+
+    xhr.upload.addEventListener('progress', (e) => {
+      if (!e.lengthComputable) return;
+      const p = Math.min(100, Math.round((e.loaded / e.total) * 100));
+      if (toltes) toltes.style.width = p + '%';
+      if (szazalekMezo) szazalekMezo.textContent = p + '%';
+    });
+
+    /* A feltöltés vége az EGYETLEN pont, ahol a szerver átveszi a munkát.
+       Innentől semmilyen haladásjelzés nem érkezik a válaszig, ezért a sáv
+       határozatlanra vált — kitalált százalék helyett. */
+    xhr.upload.addEventListener('load', () => {
+      if (toltes) toltes.style.width = '100%';
+      if (szazalekMezo) szazalekMezo.textContent = '100%';
+      fazis('kiolvasas');
+      if (sav) sav.dataset.allapot = 'hatarozatlan';
+      if (felirat) felirat.textContent = 'Dokumentumok kiolvasása…';
+    });
+
+    /* A válasz első bájtja azt jelenti, hogy a kiolvasás lefutott, és a
+       szerver már az összegzést küldi. */
+    xhr.addEventListener('readystatechange', () => {
+      if (xhr.readyState === 3) {
+        fazis('osszevetes');
+        if (felirat) felirat.textContent = 'Összegzés…';
+      }
+    });
+
+    const lezar = () => {
+      haladVeg();
+      cta.classList.remove('is-loading');
+      cta.removeAttribute('aria-busy');
+      if (felirat) felirat.textContent = eredetiFelirat;
+      if (megszakitGomb) megszakitGomb.removeEventListener('click', megszakit);
+    };
+
+    xhr.addEventListener('load', () => {
+      lezar();
+      let j = {};
+      try { j = JSON.parse(xhr.responseText); } catch (_) {
+        uzenet('A kiszolgáló nem értelmezhető választ adott'
+          + (xhr.status ? ' (' + xhr.status + ')' : '') + '. Kérjük, próbálja újra.', 'hiba');
+        return;
+      }
+      if (xhr.status < 200 || xhr.status >= 300 || !j.ok) {
+        uzenet(j.uzenet || 'Az elemzés nem sikerült.', 'hiba');
+        return;
+      }
+      fillState(j);
+      compare.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+
+    xhr.addEventListener('error', () => {
+      lezar();
+      uzenet('A kiszolgáló nem válaszolt. Ellenőrizze az internetkapcsolatot, és '
+           + 'próbálja újra.', 'hiba');
+    });
+
+    xhr.addEventListener('timeout', () => {
+      lezar();
+      uzenet('A kiolvasás túl sokáig tartott, ezért megszakítottuk. Próbálja kevesebb '
+           + 'vagy kisebb fájllal, vagy küldje el nekünk az ajánlatokat.', 'hiba');
+    });
+
+    xhr.addEventListener('abort', () => {
+      lezar();
+      /* A látogató saját döntése nem hiba: nem piros sávval közöljük. */
+      if (megszakitva) uzenet('Az elemzést megszakította. Bármikor újraindíthatja.', 'ok');
+    });
+
+    xhr.send(adatok);
   });
 })();

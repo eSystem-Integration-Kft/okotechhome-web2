@@ -211,9 +211,13 @@
   function svg(paths, extra) {
     return `<svg viewBox="0 0 24 24" aria-hidden="true" ${extra || ""}>${paths}</svg>`;
   }
+  /* Az asszisztens avatarja a MÁRKA JELRAJZÁT viseli, nem egy általános
+     házikó-vonalrajzot: az utóbbi 1,8 képpontos vonalakból állt, és 24
+     képpontra zsugorítva alig látszott. A jelrajzot CSS-maszkkal rajzoljuk
+     (app.css `.aidt-jel`), mert tömör forma — kis méretben is olvasható —, és
+     a színét a tokenkészlet adja. */
   const ICON = {
     check: '<path d="M20 6 9 17l-5-5"/>',
-    logo: '<path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.3V19.5h12V10.3"/><path d="M12 19.5v-4.6"/><path d="M12 14.9c-1.9 0-3-1.1-3-3 1.9 0 3 1.1 3 3Z"/><path d="M12 14.9c1.9 0 3-1.1 3-3-1.9 0-3 1.1-3 3Z"/>',
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/>',
     warn: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
@@ -299,7 +303,7 @@
       </div>`;
     }
     return `<div class="aidt-row is-bot${active ? " is-active-q" : ""}">
-      <span class="aidt-av-sm">${svg(ICON.logo)}</span>
+      <span class="aidt-av-sm"><span class="aidt-jel" aria-hidden="true"></span></span>
       <div class="aidt-bubble bot aidt-qwrap">
         <p class="aidt-q">${esc(q.q)}${q.multi ? ` <span class="aidt-multi-badge">${svg(ICON.multi)}Több is választható</span>` : ""}</p>
         ${opts}
@@ -384,7 +388,7 @@
     bodyEl.innerHTML = `
       <div class="aidt-result">
         <div class="aidt-res-head">
-          <span class="aidt-av-lg">${svg(ICON.logo)}</span>
+          <span class="aidt-av-lg"><span class="aidt-jel" aria-hidden="true"></span></span>
           <div>
             <p class="aidt-eyebrow small">Az Ön előzetes összefoglalója</p>
             <h3>Íme, amit a válaszaiból látunk</h3>
@@ -564,7 +568,7 @@
         <div class="aidt-chat">
           <span class="aidt-rail" aria-hidden="true"><span class="aidt-rail-fill"></span></span>
           <div class="aidt-chat-head">
-            <span class="aidt-av">${svg(ICON.logo)}</span>
+            <span class="aidt-av"><span class="aidt-jel" aria-hidden="true"></span></span>
             <div class="aidt-chat-id"><b>ÖkoTechHome AI Asszisztens</b><span>Előzetes ársáv · 6 rövid kérdés</span></div>
             <span class="aidt-count"><b>${Math.min(state.step + 1, QUESTIONS.length)}</b> / ${QUESTIONS.length}</span>
           </div>
