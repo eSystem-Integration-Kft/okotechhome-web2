@@ -2441,51 +2441,128 @@
   }
   .ofc-expert-text{display:flex;align-items:center;gap:var(--space-8);color:var(--text-primary)}
 
-  /* ---- AI-JEL. A feltöltő panel jobb felső sarkában jelzi, hogy itt gépi
-     feldolgozás történik. Két, egymást váltó gyűrű fut ki a jelből — lassan,
-     folyamatosan: a jel a JELENLÉTET mondja, nem eseményt, ezért nem villog és
-     nem ugrik. A `--ofc-aijel-ido` egy helyen tartja az ütemet.
+  /* ===== 5.11b AI-JEL =====
+     A feltöltő panel jobb felső sarkában jelzi, hogy itt gépi feldolgozás
+     történik. NÉGY réteg mozog egyszerre, mind lassan és eltérő ütemben:
 
-     A panelnek `overflow:hidden`-je nincs, ezért a jel kilóghat a sarkon: így
-     ül a keret peremén, nem a tartalom fölött. */
+       1. forgó fénygyűrű a mag körül (kúpos színátmenet, gyűrűvé maszkolva),
+       2. lélegző fényudvar a mag alatt,
+       3. a csillag ikon halk csillanása,
+       4. ritkán végigfutó fénycsík a pirulán.
+
+     Egyik sem villog: a jel a JELENLÉTET mondja, nem eseményt. A `--aijel-ido`
+     egy helyen tartja az alapütemet, és elemzés közben ez az egy érték
+     gyorsítja fel az egészet — így a jel nem dísz, hanem állapotot mutat.
+
+     A panelnek nincs `overflow:hidden`-je, ezért a jel kilóghat a sarkán: a
+     keret peremén ül, nem a tartalom fölött. */
   .ofc-panel{position:relative}
   .ofc-aijel{
-    --ofc-aijel-ido:2.8s;
-    position:absolute;top:calc(-1 * var(--space-8));right:var(--space-24);
+    --aijel-ido:3.4s;
+    --aijel-mag:calc(var(--space-32) + var(--space-8));
+    /* Fölfelé csak 16 képponttal lóg ki: a panel fölött a lépéssáv áll, és
+       24-nél a jel hozzáért. */
+    position:absolute;top:calc(-1 * var(--space-16));right:var(--space-32);
     z-index:2;margin:0;
-    display:flex;align-items:center;gap:var(--space-8);
-    padding:var(--space-4) var(--space-16) var(--space-4) var(--space-4);
+    display:flex;align-items:center;gap:var(--space-16);
+    padding:var(--space-8) var(--space-24) var(--space-8) var(--space-8);
     background:var(--surface);border:1px solid var(--border);
-    border-radius:999px;box-shadow:var(--shadow-1);
+    border-radius:999px;box-shadow:var(--shadow-2);
+    overflow:hidden;
   }
+
+  /* MAG: a csillag ikon zöld korongon. Ez a jel súlypontja, ezért a
+     legerősebb kontrasztú elem a pirulán. */
   .ofc-aijel-mag{
-    position:relative;z-index:1;
-    display:grid;place-items:center;flex:none;
-    width:var(--space-24);height:var(--space-24);border-radius:50%;
+    position:relative;flex:none;
+    width:var(--aijel-mag);height:var(--aijel-mag);border-radius:50%;
+    display:grid;place-items:center;
     background:var(--primary);color:var(--on-primary);
   }
-  .ofc-aijel-mag svg{width:var(--space-16);height:var(--space-16)}
-  .ofc-aijel-felirat{
+  /* 2. LÉLEGZŐ FÉNYUDVAR. A mag mögött ül, ezért `z-index:-1` — a szülő
+     `position:relative`, tehát a rétegzés a pirulán belül marad. */
+  .ofc-aijel-mag::before{
+    content:'';position:absolute;inset:calc(-1 * var(--space-8));
+    border-radius:50%;z-index:-1;
+    background:radial-gradient(circle,
+      color-mix(in srgb,var(--primary) 34%,transparent) 0%,transparent 68%);
+    animation:aijel-lelegzet var(--aijel-ido) var(--ease-out) infinite;
+  }
+  /* ÁLLANDÓ SÁV. A forgó ív enélkül a semmiben úszna: a halvány, teljes kör
+     adja meg a pályát, amin végigfut — így a mozgás iránya és üteme egyetlen
+     pillanatképből is olvasható. */
+  .ofc-aijel-mag::after{
+    content:'';position:absolute;inset:calc(-1 * var(--space-4));
+    border-radius:50%;
+    border:3px solid color-mix(in srgb,var(--primary) 18%,transparent);
+  }
+  /* 1. FORGÓ FÉNYÍV. Kúpos színátmenet gyűrűvé maszkolva, a sáv fölött. Maszk
+     nélkül tömör korong lenne, és eltakarná a magot. */
+  .ofc-aijel-gyuru{
+    position:absolute;inset:calc(-1 * var(--space-4));border-radius:50%;
+    z-index:1;
+    background:conic-gradient(from 0turn,
+      transparent 0 44%,
+      color-mix(in srgb,var(--color-skyblue) 75%,transparent) 60%,
+      var(--primary) 78%,
+      var(--secondary) 92%,
+      transparent 100%);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));
+            mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));
+    animation:aijel-forog var(--aijel-ido) linear infinite;
+  }
+  /* 3. CSILLANÁS. Kicsit késleltetve indul a gyűrűhöz képest, hogy a két
+     mozgás ne egyszerre érje el a csúcspontját — az egyszerre lüktetés
+     gépiesnek hat. */
+  .ofc-aijel-ikon{
+    display:grid;place-items:center;
+    animation:aijel-csillam var(--aijel-ido) var(--ease-out) infinite;
+    animation-delay:calc(var(--aijel-ido) / -3);
+  }
+  .ofc-aijel-ikon svg{width:var(--space-24);height:var(--space-24)}
+
+  .ofc-aijel-szoveg{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .ofc-aijel-cim{
+    font-family:var(--font-body);font-size:var(--type-ui-body-size);
+    font-weight:600;line-height:1.2;color:var(--text-primary);
+  }
+  .ofc-aijel-alcim{
     font-family:var(--font-mono);font-size:var(--type-data-eyebrow-size);
-    font-weight:var(--type-data-eyebrow-weight);letter-spacing:.14em;
-    color:var(--text-secondary);
+    letter-spacing:.12em;text-transform:uppercase;color:var(--text-tertiary);
+    line-height:1.3;white-space:nowrap;
   }
-  /* A gyűrű a magból indul. Egyetlen elem két késleltetett animációval: két
-     külön elemhez nem tartozna külön jelentés, csak több markup. */
-  .ofc-aijel-gyuru,
-  .ofc-aijel-gyuru::after{
-    position:absolute;left:calc(var(--space-4) + var(--space-8) + 1px);top:50%;
-    width:var(--space-24);height:var(--space-24);
-    margin:calc(-1 * var(--space-8) - var(--space-4)) 0 0 calc(-1 * var(--space-8) - var(--space-4));
-    border-radius:50%;border:1.5px solid var(--primary);
-    animation:ofc-aijel-hullam var(--ofc-aijel-ido) var(--ease-out) infinite;
+
+  /* 4. FÉNYCSÍK. Ritkán fut végig a pirulán — a mozgás nagyobb részében áll,
+     ezért nem válik idegesítővé. A pirula `overflow:hidden`-je vágja. */
+  .ofc-aijel::after{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    pointer-events:none;
+    background:linear-gradient(105deg,transparent 38%,
+      color-mix(in srgb,var(--primary) 16%,transparent) 50%,transparent 62%);
+    background-size:240% 100%;background-repeat:no-repeat;
+    animation:aijel-fenycsik calc(var(--aijel-ido) * 1.8) var(--ease-out) infinite;
   }
-  .ofc-aijel-gyuru::after{content:'';left:0;top:0;margin:-1.5px 0 0 -1.5px;
-    animation-delay:calc(var(--ofc-aijel-ido) / 2)}
-  @keyframes ofc-aijel-hullam{
-    0%   {transform:scale(1);opacity:.55}
-    70%  {opacity:0}
-    100% {transform:scale(2.1);opacity:0}
+
+  /* ELEMZÉS KÖZBEN. Egyetlen érték gyorsítja fel mind a négy réteget: a jel
+     ilyenkor láthatóan dolgozik, nem csak jelen van. A `:has()` a bal hasábban
+     álló gombot köti össze a jobb hasábban álló jellel. */
+  .ofc:has(.ofc-cta.is-loading) .ofc-aijel{--aijel-ido:1.1s}
+  .ofc:has(.ofc-cta.is-loading) .ofc-aijel-mag{
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 22%,transparent);
+  }
+
+  @keyframes aijel-forog{to{transform:rotate(1turn)}}
+  @keyframes aijel-lelegzet{
+    0%,100%{transform:scale(.92);opacity:.5}
+    50%    {transform:scale(1.12);opacity:1}
+  }
+  @keyframes aijel-csillam{
+    0%,100%{transform:scale(1);opacity:.88}
+    46%    {transform:scale(1.16);opacity:1}
+  }
+  @keyframes aijel-fenycsik{
+    0%,58%{background-position:150% 0}
+    100%  {background-position:-60% 0}
   }
 
   /* ---- JELENTÉS-KIVITEL. Az összehasonlítás a lapon él; ez a blokk viszi el
@@ -2493,24 +2570,31 @@
      nincs mit jelenteni — az üres tábláról készült jelentés azt sugallná,
      hogy az elemzés lefutott és nem talált semmit. */
   .ofc-export{
-    margin-top:var(--space-24);padding:var(--space-24);
+    margin-top:var(--space-32);padding:var(--space-32);
     background:var(--surface);border:1px solid var(--border);
     border-radius:var(--panel-radius);box-shadow:var(--card-shadow);
   }
   .ofc-export[hidden]{display:none}
-  .ofc-export-fej{margin-bottom:var(--space-16)}
+  .ofc-export-fej{margin-bottom:var(--space-24)}
   .ofc-export-cim{display:flex;align-items:center;gap:var(--space-8);margin:0}
   .ofc-export-alcim{margin:var(--space-4) 0 0;color:var(--text-tertiary)}
   .ofc-export-gombok{
-    display:flex;flex-wrap:wrap;gap:var(--space-8);margin:0;
+    display:flex;flex-wrap:wrap;gap:var(--space-16);margin:0;
   }
 
+  /* A levélűrlap saját, elkülönült sávot kap: a gombok alatt közvetlenül
+     kezdve összeragadna velük, és nem látszana, hogy a „Küldés e-mailben"
+     nyitotta ki. */
   .ofc-lev{
-    margin-top:var(--space-16);padding-top:var(--space-16);
-    border-top:1px solid var(--border);max-width:32rem;
+    margin-top:var(--space-32);padding-top:var(--space-32);
+    border-top:1px solid var(--border);max-width:34rem;
   }
   .ofc-lev[hidden]{display:none}
-  .ofc-lev-allapot{margin:var(--space-8) 0 0;color:var(--text-secondary);min-height:1.4em}
+  .ofc-lev .urlap-mezo{margin:0}
+  .ofc-lev .urlap-jelolo{margin:var(--space-24) 0 0}
+  .ofc-lev .urlap-akcio{margin:var(--space-24) 0 0}
+  .ofc-lev-sugo{margin:var(--space-4) 0 0;color:var(--text-tertiary)}
+  .ofc-lev-allapot{margin:var(--space-16) 0 0;color:var(--text-secondary);min-height:1.4em}
   .ofc-lev-hiba{color:var(--danger)}
 
   /* ---- A /jelentes oldal kerete. Maga a jelentés a jelentes.css-ből

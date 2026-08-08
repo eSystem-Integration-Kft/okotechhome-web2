@@ -372,8 +372,13 @@
 
         const email = levUrlap.querySelector('input[name="email"]');
         const hozzajarul = levUrlap.querySelector('input[name="hozzajarul"]');
-        if (!email.value.trim() || !email.checkValidity()) {
-          kiir('Kérjük, adjon meg érvényes e-mail-címet.', true);
+        /* A mező `multiple`, tehát a böngésző a vesszővel elválasztott listát
+           is érvényesnek fogadja el, és minden címet külön ellenőriz. A
+           pontosvesszőt viszont nem ismeri, ezért vesszőre cseréljük — a
+           látogatók fele így írja, és nem az ő hibája. */
+        email.value = email.value.replace(/;/g, ',').trim();
+        if (!email.value || !email.checkValidity()) {
+          kiir('Kérjük, adjon meg érvényes e-mail-címet. Több címzettet vesszővel válasszon el.', true);
           email.focus();
           return;
         }

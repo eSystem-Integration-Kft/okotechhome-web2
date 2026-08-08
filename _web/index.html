@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=81">
+<link rel="stylesheet" href="assets/css/app.css?v=84">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -1231,14 +1231,26 @@
           </ol>
 
           <div class="ofc-panel">
-            <!-- AI-JEL. A panel sarkában jelzi, hogy itt gépi feldolgozás
-                 történik — a mozgás finom és folyamatos, nem villog: a cél a
-                 jelenlét jelzése, nem a figyelem elterelése. `aria-hidden`,
-                 mert a mondanivalóját a mellette álló felirat hordozza. -->
+            <!-- AI-JEL. A panel jobb felső sarkában jelzi, hogy itt gépi
+                 feldolgozás történik. Négy réteg mozog egyszerre, mind lassan:
+                 a mag körül forgó fénygyűrű, alatta lélegző fényudvar, a
+                 csillag ikon halk csillanása, és egy ritkán végigfutó fénycsík
+                 a pirulán. A cél a jelenlét jelzése, nem a figyelem elvonása,
+                 ezért egyik réteg sem villog.
+
+                 Elemzés közben a gyűrű és a csillanás felgyorsul (app.css
+                 5.11b) — így a jel nemcsak dísz: megmutatja, hogy DOLGOZIK.
+
+                 `aria-hidden`: a mondanivalóját a panel felirata hordozza. -->
             <p class="ofc-aijel" aria-hidden="true">
-              <span class="ofc-aijel-gyuru"></span>
-              <span class="ofc-aijel-mag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span>
-              <span class="ofc-aijel-felirat">AI</span>
+              <span class="ofc-aijel-mag">
+                <span class="ofc-aijel-gyuru"></span>
+                <span class="ofc-aijel-ikon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span>
+              </span>
+              <span class="ofc-aijel-szoveg">
+                <b class="ofc-aijel-cim">AI-elemzés</b>
+                <span class="ofc-aijel-alcim">gépi kiolvasás</span>
+              </span>
             </p>
             <div class="ofc-uphead">
               <div>
@@ -1465,14 +1477,17 @@
             <form class="ofc-lev" id="ofc-lev" data-ofc-lev hidden novalidate>
               <p class="urlap-mezo">
                 <label class="type-ui-caption urlap-cimke" for="ofc-lev-email">E-mail-cím <span aria-hidden="true">*</span></label>
-                <input class="urlap-input" type="email" id="ofc-lev-email" name="email" required
-                       autocomplete="email" placeholder="pelda@email.hu">
+                <!-- `multiple`: a böngésző így a vesszővel elválasztott listát is
+                     érvényesnek fogadja el, és minden címet külön ellenőriz. -->
+                <input class="urlap-input" type="email" id="ofc-lev-email" name="email" required multiple
+                       autocomplete="email" placeholder="pelda@email.hu, masik@email.hu">
+                <small class="type-ui-caption ofc-lev-sugo">Több címzett vesszővel elválasztva, legfeljebb öt.</small>
               </p>
               <p class="urlap-jelolo">
                 <input type="checkbox" id="ofc-lev-hozzajarul" name="hozzajarul" value="1" required>
                 <label class="type-ui-subtitle" for="ofc-lev-hozzajarul">Hozzájárulok, hogy a megadott
-                  e-mail-címemre elküldjék a jelentést.
-                  <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> <span aria-hidden="true">*</span></label>
+                  címekre elküldjék a jelentést. <a href="adatkezelesi-tajekoztato">Adatkezelési
+                  tájékoztató</a> <span aria-hidden="true">*</span></label>
               </p>
               <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
                    megnyitás időpontja — a túl gyors beküldés is robotra utal. -->
@@ -2480,7 +2495,7 @@
 <script src="assets/data/aidt-konfig.js?v=2" defer></script>
 <script src="assets/js/ai-advisor.js?v=3" defer></script>
 <script src="assets/js/jelentes.js?v=1" defer></script>
-<script src="assets/js/ofc.js?v=8" defer></script>
+<script src="assets/js/ofc.js?v=9" defer></script>
 <script src="assets/js/velemeny.js?v=1" defer></script>
 <script src="assets/js/folyamat.js?v=2" defer></script>
 <script src="assets/js/gyik.js?v=1" defer></script>

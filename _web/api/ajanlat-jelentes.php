@@ -24,12 +24,43 @@ require __DIR__ . '/lib/indit.php';
 
 OthVedelem::sebessegkorlat('jelentes', 5, (int) $CFG['vedelem']['ablak_perc']);
 
-$email      = OthVedelem::email($BE, 'email');
+/* TÖBB CÍMZETT. A jelentést jellemzően nem egyedül nézi meg az ember: a
+   házastárs, a tervező vagy a kivitelező is megkapja. A mező ezért vesszővel
+   (vagy pontosvesszővel) elválasztott listát fogad.
+
+   Nem az `OthVedelem::email()`-t használjuk, mert az EGY címet vár, és a listát
+   üresre értékelné — a látogató pedig azt látná, hogy a beírt címe „érvénytelen".
+   Minden címet külön ellenőrzünk, az ismétlődéseket kiszűrjük, és ötnél
+   megállunk: a végpont a saját jelentés elküldésére való, nem körlevélre. */
+const MAX_CIMZETT = 5;
+
+$cimzettek = [];
+$rosszCimek = [];
+foreach (preg_split('/[,;]+/', (string) ($BE['email'] ?? '')) as $nyers) {
+    $c = trim($nyers);
+    if ($c === '') { continue; }
+    $ervenyes = filter_var($c, FILTER_VALIDATE_EMAIL);
+    if ($ervenyes === false) {
+        $rosszCimek[] = mb_substr($c, 0, 80);
+    } elseif (!in_array($ervenyes, $cimzettek, true)) {
+        $cimzettek[] = $ervenyes;
+    }
+}
+
 $hozzajarul = !empty($BE['hozzajarul']);
 $jelentes   = $BE['jelentes'] ?? null;
 
 $hibak = [];
-if ($email === '')  { $hibak['email'] = 'Kérjük, adjon meg érvényes e-mail-címet.'; }
+if ($rosszCimek) {
+    /* A HIBÁS CÍMET VISSZAMONDJUK. „Érvénytelen e-mail-cím" önmagában
+       használhatatlan öt cím közül: a látogató nem tudja, melyiket javítsa. */
+    $hibak['email'] = 'Ezt a címet nem tudjuk értelmezni: '
+        . implode(', ', array_map(fn($c) => '„' . $c . '”', $rosszCimek)) . '.';
+} elseif (!$cimzettek) {
+    $hibak['email'] = 'Kérjük, adjon meg érvényes e-mail-címet.';
+} elseif (count($cimzettek) > MAX_CIMZETT) {
+    $hibak['email'] = 'Egyszerre legfeljebb ' . MAX_CIMZETT . ' címre küldjük el a jelentést.';
+}
 if (!$hozzajarul)   { $hibak['hozzajarul'] = 'A küldéshez a hozzájárulás szükséges.'; }
 if (!is_array($jelentes) || empty($jelentes['sorok']) || !is_array($jelentes['sorok'])) {
     $hibak['jelentes'] = 'Nincs mit elküldeni: futtassa le az összehasonlítást.';
@@ -193,26 +224,43 @@ $html = OthLevel::html(
     'Mellékeltük a teljes összehasonlítást HTML-fájlként — böngészőben megnyitva ugyanúgy '
     . 'néz ki, mint a webhelyen, és onnan nyomtatható vagy menthető PDF-be.',
     $adatok,
-    ['felirat' => 'Szakértői átnézés kérése', 'url' => rtrim((string) $CFG['webhely']['url'], '/') . '/kapcsolat'],
+    ['felirat' => 'Szakértői átnézés kérése',
+     'url' => rtrim((string) $CFG['webhely']['url'], '/') . '/kapcsolat'],
     'Az összehasonlítás tájékoztató jellegű, nem helyettesíti a helyszíni felmérést és a '
     . 'szakértői véleményt. Készült: ' . $keszult . '.'
 );
 $szoveg = OthLevel::szoveg($CFG['webhely'], 'A jelentése elkészült',
     'Mellékeltük a teljes ajánlat-összehasonlítást HTML-fájlként.', $adatok);
 
-oth_kuld(
-    $CFG,
-    [$email],
-    'Ajánlat-összehasonlítás — ' . $CFG['webhely']['nev'],
-    $szoveg,
-    $html,
-    [[
-        'nev'  => 'okotech-ajanlat-osszehasonlitas.html',
-        'mime' => 'text/html',
-        'adat' => $melleklet,
-    ]]
-);
+/* A KÜLDÉST KÜLÖN KAPJUK EL. Enélkül az indit.php általános kivételkezelője
+   „Váratlan hiba történt" üzenetet ad, ami a látogatónak semmit nem mond, és
+   nekünk sem: nem derül ki, hogy a jelentés összeállításával volt-e baj, vagy
+   a levélszerverrel. A részlet a naplóba megy, a látogató pedig megtudja,
+   hogy nem ő rontott el valamit. */
+try {
+    oth_kuld(
+        $CFG,
+        $cimzettek,
+        'Ajánlat-összehasonlítás — ' . $CFG['webhely']['nev'],
+        $szoveg,
+        $html,
+        [[
+            'nev'  => 'okotech-ajanlat-osszehasonlitas.html',
+            'mime' => 'text/html',
+            'adat' => $melleklet,
+        ]]
+    );
+} catch (Throwable $e) {
+    error_log('OTH jelentés: a levélküldés nem sikerült — ' . $e->getMessage());
+    OthVedelem::valasz(502, ['ok' => false,
+        'uzenet' => 'A jelentés elkészült, de a levélszerver nem vette át. Töltse le HTML-ben, '
+                  . 'vagy próbálja újra néhány perc múlva — ha továbbra sem megy, jelezze nekünk.']);
+}
 
+$db = count($cimzettek);
 OthVedelem::valasz(200, ['ok' => true,
-    'uzenet' => 'Elküldtük a jelentést a megadott címre. Ha nem érkezik meg pár percen belül, '
-              . 'nézze meg a levélszemét mappát is.']);
+    'uzenet' => $db === 1
+        ? 'Elküldtük a jelentést a megadott címre. Ha pár percen belül nem érkezik meg, '
+        . 'nézze meg a levélszemét mappát is.'
+        : 'Elküldtük a jelentést mind a ' . $db . ' címre. Ha pár percen belül nem érkezik meg, '
+        . 'nézzék meg a levélszemét mappát is.']);

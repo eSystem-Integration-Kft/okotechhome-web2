@@ -263,14 +263,26 @@ def build():
           </ol>
 
           <div class="ofc-panel">
-            <!-- AI-JEL. A panel sarkában jelzi, hogy itt gépi feldolgozás
-                 történik — a mozgás finom és folyamatos, nem villog: a cél a
-                 jelenlét jelzése, nem a figyelem elterelése. `aria-hidden`,
-                 mert a mondanivalóját a mellette álló felirat hordozza. -->
+            <!-- AI-JEL. A panel jobb felső sarkában jelzi, hogy itt gépi
+                 feldolgozás történik. Négy réteg mozog egyszerre, mind lassan:
+                 a mag körül forgó fénygyűrű, alatta lélegző fényudvar, a
+                 csillag ikon halk csillanása, és egy ritkán végigfutó fénycsík
+                 a pirulán. A cél a jelenlét jelzése, nem a figyelem elvonása,
+                 ezért egyik réteg sem villog.
+
+                 Elemzés közben a gyűrű és a csillanás felgyorsul (app.css
+                 5.11b) — így a jel nemcsak dísz: megmutatja, hogy DOLGOZIK.
+
+                 `aria-hidden`: a mondanivalóját a panel felirata hordozza. -->
             <p class="ofc-aijel" aria-hidden="true">
-              <span class="ofc-aijel-gyuru"></span>
-              <span class="ofc-aijel-mag">{svg('spark')}</span>
-              <span class="ofc-aijel-felirat">AI</span>
+              <span class="ofc-aijel-mag">
+                <span class="ofc-aijel-gyuru"></span>
+                <span class="ofc-aijel-ikon">{svg('spark')}</span>
+              </span>
+              <span class="ofc-aijel-szoveg">
+                <b class="ofc-aijel-cim">AI-elemzés</b>
+                <span class="ofc-aijel-alcim">gépi kiolvasás</span>
+              </span>
             </p>
             <div class="ofc-uphead">
               <div>
@@ -331,14 +343,17 @@ def build():
             <form class="ofc-lev" id="ofc-lev" data-ofc-lev hidden novalidate>
               <p class="urlap-mezo">
                 <label class="type-ui-caption urlap-cimke" for="ofc-lev-email">E-mail-cím <span aria-hidden="true">*</span></label>
-                <input class="urlap-input" type="email" id="ofc-lev-email" name="email" required
-                       autocomplete="email" placeholder="pelda@email.hu">
+                <!-- `multiple`: a böngésző így a vesszővel elválasztott listát is
+                     érvényesnek fogadja el, és minden címet külön ellenőriz. -->
+                <input class="urlap-input" type="email" id="ofc-lev-email" name="email" required multiple
+                       autocomplete="email" placeholder="pelda@email.hu, masik@email.hu">
+                <small class="type-ui-caption ofc-lev-sugo">Több címzett vesszővel elválasztva, legfeljebb öt.</small>
               </p>
               <p class="urlap-jelolo">
                 <input type="checkbox" id="ofc-lev-hozzajarul" name="hozzajarul" value="1" required>
                 <label class="type-ui-subtitle" for="ofc-lev-hozzajarul">Hozzájárulok, hogy a megadott
-                  e-mail-címemre elküldjék a jelentést.
-                  <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> <span aria-hidden="true">*</span></label>
+                  címekre elküldjék a jelentést. <a href="adatkezelesi-tajekoztato">Adatkezelési
+                  tájékoztató</a> <span aria-hidden="true">*</span></label>
               </p>
               <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
                    megnyitás időpontja — a túl gyors beküldés is robotra utal. -->

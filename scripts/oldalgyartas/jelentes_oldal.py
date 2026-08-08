@@ -21,7 +21,7 @@ párbeszédet — innen menthető PDF-be.
 import pathlib, re
 
 WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
-CSS_V = 'v=81'
+CSS_V = 'v=82'
 
 OLDAL = f'''<!DOCTYPE html>
 <html lang="hu">
