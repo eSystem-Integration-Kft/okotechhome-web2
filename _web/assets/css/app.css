@@ -2414,8 +2414,24 @@
   .ofc-cell-label{display:flex;align-items:center;gap:var(--space-8)}
   /* Állapotjel a cellában: a SZÍN önmagában nem hordozhat jelentést (WCAG 1.4.1),
      ezért minden állapot szöveget is kap, több esetben ikont is. */
-  .ofc-st{display:inline-flex;flex-wrap:wrap;align-items:center;gap:var(--space-4)}
-  .ofc-st small{display:block;flex-basis:100%;color:var(--text-tertiary)}
+  /* AZ ÖSSZEHASONLÍTÓ TÁBLA BALRA IGAZÍT. A `.compare-table` alapból középre
+     rendez — az a designrendszerben rövid, chipszerű értékekre készült. Itt
+     viszont valódi, több soros mondatok állnak a cellákban, és ilyenkor a
+     középre zárás nemcsak nehezen olvasható: KÖVETKEZETLEN is. A `.ofc-st`
+     `inline-flex` doboz, tehát rövid értéknél középen ül, hosszúnál viszont
+     kitölti a cella szélességét, és a szöveg a bal széléhez ugrik — ugyanaz a
+     cella hol középre, hol balra rendezettnek látszik. */
+  /* A három ajánlat AZONOS SZÉLESSÉGET kap. Automatikus elrendezésnél a
+     hosszabb szöveget tartalmazó oszlop kitágul, a másik kettő összenyomódik —
+     összehasonlító táblánál ez azt sugallja, hogy az egyik ajánlat „többet ér".
+     A szempont-oszlop szűkebb: ott rövid címkék állnak. */
+  [data-ofc-table]{text-align:left;table-layout:fixed}
+  [data-ofc-table] thead th{text-align:left}
+  [data-ofc-table] thead th:first-child{width:22%}
+  [data-ofc-table] thead th:not(:first-child){width:26%}
+  .ofc-st{display:inline-flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);
+    justify-content:flex-start;text-align:left}
+  .ofc-st small{display:block;flex-basis:100%;color:var(--text-tertiary);text-align:left}
   .ofc-st-yes{color:var(--success-text)}
   .ofc-st-warn{color:var(--warning-text)}
   .ofc-st-bad,.ofc-st-no{color:var(--danger-text)}
@@ -3018,21 +3034,26 @@
   }
   .aidt-av svg,.aidt-av-lg svg{width:var(--space-24);height:var(--space-24);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-  /* AVATAR-JEL. A márka jelrajza CSS-maszkkal, nem vonalrajz: a korábbi
-     1,8 képpontos házikó 24 képpontra zsugorítva alig látszott. A tömör forma
-     kis méretben is olvasható, a színt a token adja.
+  /* AVATAR-JEL: ház + hajtás, CSS-maszkkal rajzolva.
+
+     A korábbi rajzolat ugyanez volt, csak 1,8 képpontos vonalakkal és kisebben
+     — 24 képpontra zsugorítva alig látszott. Az új jel vastagabb vonalú, a
+     levél tömör (vékony vonalas levél ekkora méretben szétesne), és kitölti a
+     rendelkezésre álló négyzetet.
+
+     A márka teljes jelrajza NEM való ide: az egy tájszerű sziluett, ami korong
+     belsejében, 30 képpanton zöld foltnak látszik, nem jelnek.
 
      A KÖR MÉRETE VÁLTOZATLAN (48 / 32 képpont) — csak a benne ülő jel nőtt és
      lett kontrasztosabb, így az elrendezés nem mozdul. */
   .aidt-av,.aidt-av-lg,.aidt-av-sm{background:var(--surface-muted);border-color:var(--primary-soft)}
   .aidt-jel{
-    display:block;background:var(--primary);
-    aspect-ratio:387.49 / 289.93;
-    -webkit-mask:url("../img/logo-jel.svg?v=1") no-repeat center/contain;
-            mask:url("../img/logo-jel.svg?v=1") no-repeat center/contain;
+    display:block;aspect-ratio:1;background:var(--secondary);
+    -webkit-mask:url("../icon/ui-aidt-jel.svg?v=1") no-repeat center/contain;
+            mask:url("../icon/ui-aidt-jel.svg?v=1") no-repeat center/contain;
   }
   .aidt-av .aidt-jel,.aidt-av-lg .aidt-jel{width:calc(var(--space-24) + var(--space-8))}
-  .aidt-av-sm .aidt-jel{width:var(--space-24)}
+  .aidt-av-sm .aidt-jel{width:calc(var(--space-16) + var(--space-8))}
   .aidt-chat-id{flex:1;display:flex;flex-direction:column;line-height:var(--type-ui-label-line-height)}
   .aidt-chat-id b{
     font-family:var(--font-body);font-size:var(--type-ui-card-title-size);
