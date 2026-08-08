@@ -162,10 +162,14 @@ if __name__ == '__main__':
         uj = epit(elo)
         if '<footer class="lablec">' in s:
             s = re.sub(r'\n<!-- =+\n     LÁBLÉC.*?\n</footer>\n', uj, s, flags=re.S)
-        elif '\n<script src=' in s:
-            # A lábléc a betöltött szkriptek ELÉ kerül — a szkriptek maradjanak
-            # a törzs végén, hogy ne blokkolják a megjelenítést.
-            s = s.replace('\n<script src=', uj + '\n<script src=', 1)
+        elif '\n</main>' in s:
+            # A lábléc a főtartalom UTÁN kerül — ez a szerkezetből következik,
+            # és nem függ attól, hol állnak a szkriptek.
+            #
+            # Korábban itt az első `<script src=` elé szúrtunk be. Az a minta
+            # azóta hibás, hogy a fejléc-generátor a témaváltó szkriptjét a
+            # `<head>`-be teszi: a lábléc egy új oldalon a fejrészbe került.
+            s = s.replace('\n</main>', '\n</main>\n' + uj.lstrip('\n'), 1)
         elif '</body>' in s:
             # Ha az oldal nem tölt be külső szkriptet (a kapcsolat oldal utolsó
             # eleme például egy beágyazott JSON-LD blokk), a fenti minta nem

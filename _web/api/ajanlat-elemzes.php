@@ -152,9 +152,12 @@ foreach ($dokumentumok as $jel => $d) {
         $content[] = ['type' => 'document', 'source' => [
             'type' => 'base64', 'media_type' => 'application/pdf',
             'data' => base64_encode($f['adat'])]];
-    } elseif ($f['mime'] === 'image/png') {
+    } elseif ($f['mime'] === 'image/png' || $f['mime'] === 'image/jpeg') {
+        /* Fényképezett vagy szkennelt ajánlat. A MIME-ot a szerver állapította
+           meg a fájl tartalmából (OthVedelem::fajl), nem a kiterjesztésből,
+           ezért itt már biztonsággal továbbadható a modellnek. */
         $content[] = ['type' => 'image', 'source' => [
-            'type' => 'base64', 'media_type' => 'image/png',
+            'type' => 'base64', 'media_type' => $f['mime'],
             'data' => base64_encode($f['adat'])]];
     } else {
         /* A DOCX és az XLSX ZIP-archívum: a szöveget kibontjuk, és úgy küldjük.

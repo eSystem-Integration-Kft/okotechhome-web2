@@ -2441,6 +2441,102 @@
   }
   .ofc-expert-text{display:flex;align-items:center;gap:var(--space-8);color:var(--text-primary)}
 
+  /* ---- AI-JEL. A feltöltő panel jobb felső sarkában jelzi, hogy itt gépi
+     feldolgozás történik. Két, egymást váltó gyűrű fut ki a jelből — lassan,
+     folyamatosan: a jel a JELENLÉTET mondja, nem eseményt, ezért nem villog és
+     nem ugrik. A `--ofc-aijel-ido` egy helyen tartja az ütemet.
+
+     A panelnek `overflow:hidden`-je nincs, ezért a jel kilóghat a sarkon: így
+     ül a keret peremén, nem a tartalom fölött. */
+  .ofc-panel{position:relative}
+  .ofc-aijel{
+    --ofc-aijel-ido:2.8s;
+    position:absolute;top:calc(-1 * var(--space-8));right:var(--space-24);
+    z-index:2;margin:0;
+    display:flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-4) var(--space-16) var(--space-4) var(--space-4);
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;box-shadow:var(--shadow-1);
+  }
+  .ofc-aijel-mag{
+    position:relative;z-index:1;
+    display:grid;place-items:center;flex:none;
+    width:var(--space-24);height:var(--space-24);border-radius:50%;
+    background:var(--primary);color:var(--on-primary);
+  }
+  .ofc-aijel-mag svg{width:var(--space-16);height:var(--space-16)}
+  .ofc-aijel-felirat{
+    font-family:var(--font-mono);font-size:var(--type-data-eyebrow-size);
+    font-weight:var(--type-data-eyebrow-weight);letter-spacing:.14em;
+    color:var(--text-secondary);
+  }
+  /* A gyűrű a magból indul. Egyetlen elem két késleltetett animációval: két
+     külön elemhez nem tartozna külön jelentés, csak több markup. */
+  .ofc-aijel-gyuru,
+  .ofc-aijel-gyuru::after{
+    position:absolute;left:calc(var(--space-4) + var(--space-8) + 1px);top:50%;
+    width:var(--space-24);height:var(--space-24);
+    margin:calc(-1 * var(--space-8) - var(--space-4)) 0 0 calc(-1 * var(--space-8) - var(--space-4));
+    border-radius:50%;border:1.5px solid var(--primary);
+    animation:ofc-aijel-hullam var(--ofc-aijel-ido) var(--ease-out) infinite;
+  }
+  .ofc-aijel-gyuru::after{content:'';left:0;top:0;margin:-1.5px 0 0 -1.5px;
+    animation-delay:calc(var(--ofc-aijel-ido) / 2)}
+  @keyframes ofc-aijel-hullam{
+    0%   {transform:scale(1);opacity:.55}
+    70%  {opacity:0}
+    100% {transform:scale(2.1);opacity:0}
+  }
+
+  /* ---- JELENTÉS-KIVITEL. Az összehasonlítás a lapon él; ez a blokk viszi el
+     magával: letöltve, kinyomtatva vagy e-mailben. A blokk `hidden`, amíg
+     nincs mit jelenteni — az üres tábláról készült jelentés azt sugallná,
+     hogy az elemzés lefutott és nem talált semmit. */
+  .ofc-export{
+    margin-top:var(--space-24);padding:var(--space-24);
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--panel-radius);box-shadow:var(--card-shadow);
+  }
+  .ofc-export[hidden]{display:none}
+  .ofc-export-fej{margin-bottom:var(--space-16)}
+  .ofc-export-cim{display:flex;align-items:center;gap:var(--space-8);margin:0}
+  .ofc-export-alcim{margin:var(--space-4) 0 0;color:var(--text-tertiary)}
+  .ofc-export-gombok{
+    display:flex;flex-wrap:wrap;gap:var(--space-8);margin:0;
+  }
+
+  .ofc-lev{
+    margin-top:var(--space-16);padding-top:var(--space-16);
+    border-top:1px solid var(--border);max-width:32rem;
+  }
+  .ofc-lev[hidden]{display:none}
+  .ofc-lev-allapot{margin:var(--space-8) 0 0;color:var(--text-secondary);min-height:1.4em}
+  .ofc-lev-hiba{color:var(--danger)}
+
+  /* ---- A /jelentes oldal kerete. Maga a jelentés a jelentes.css-ből
+     formázódik (az a stíluslap a letöltött fájlba is beépül); itt csak az őt
+     körülvevő webhely-elemek élnek. Nyomtatáskor mindkettő elmarad. */
+  .jelentes-eszkoztar{
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-16);margin-bottom:var(--space-24);
+  }
+  .jelentes-eszkoztar[hidden]{display:none}
+  .jelentes-eszkoztar-cim{
+    margin:0;color:var(--text-tertiary);letter-spacing:.12em;text-transform:uppercase;
+  }
+  .jelentes-gombok{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+  .jelentes-ures{max-width:52ch;padding-block:var(--space-48)}
+  .jelentes-ures[hidden]{display:none}
+  .jelentes-ures-szoveg{margin-top:var(--space-16);color:var(--text-secondary)}
+  .jelentes-ures-gomb{margin-top:var(--space-24)}
+  .jel[hidden]{display:none}
+  @media print{
+    /* Nyomtatásban csak a jelentés marad: a fejléc, a lábléc, az eszköztár és
+       a szekció térközei a képernyős nézethez tartoznak. */
+    .site-header,.lablec,.skip-link,.jelentes-eszkoztar{display:none}
+    .jelentes-lap,.jelentes-lap .section-inner{padding:0;margin:0;max-width:none}
+  }
+
   /* A modul ikonjai vonalrajzok: közös méret és vonalvastagság. */
   /* Az alapméret 16px volt: a 24-es viewBoxban rajzolt vonalak ekkorára
      zsugorítva elmosódnak, és a jelentésük elvész. 20px a legkisebb méret,

@@ -1,17 +1,23 @@
-# =============================================================================
-#  /api — a webhely levélküldő végpontjai
-# -----------------------------------------------------------------------------
-#  Csak a három végpont hívható kívülről. A konfiguráció (benne az SMTP-jelszó),
-#  a könyvtárak és a naplók NEM érhetők el a weben.
+# ============================================================================
+#  api/.htaccess — a végpontok könyvtárának védelme
+# ----------------------------------------------------------------------------
+#  Ebben a könyvtárban a PHP-végpontokon kívül olyan állományok is élnek,
+#  amelyeket a böngészőnek SOHA nem szabad megkapnia: a konfiguráció, a
+#  hibanapló, a sebességkorlát nyilvántartása és — ha ide teszed — az
+#  API-kulcsot tartalmazó szövegfájl.
 #
-#  FONTOS: ha a tárhelyen nem fut mod_php (pl. a PHP FPM/CGI alatt van), a
-#  <Files> tiltás akkor is érvényes — a szabály a KISZOLGÁLÁST tiltja, nem a
-#  végrehajtást. A config.php így akkor sem tölthető le, ha a PHP kikapcsolna
-#  és a szerver nyers szövegként adná ki a fájlt. Ez a legfontosabb sor itt.
-# =============================================================================
+#  A PHP-fájlokat a szerver futtatja, tehát a forrásuk nem jut ki; a .txt, a
+#  .log és a .example.php viszont sima szövegként letölthető volna. Ez a fájl
+#  ezt tiltja meg.
+#
+#  ⚠️ EZ A VÉDELEM CSAK APACHE ALATT MŰKÖDIK. Ha a tárhely nginx-et használ (a
+#  .htaccess-t nem olvassa), akkor a kulcsfájlt a webgyökér FÖLÉ tedd —
+#  `oth-titkok/ai-kulcs.txt` —, ahogy a config.php első keresési helye mutatja.
+#  Ami nincs a dokumentumgyökérben, azt a szerver nem tudja kiszolgálni.
+# ============================================================================
 
-# --- Titkos és belső fájlok: teljes tiltás -----------------------------------
-<FilesMatch "^(config\.php|config\.example\.php|.*\.log)$">
+# Titkok és belső állományok: semmilyen körülmények között nem szolgálhatók ki.
+<FilesMatch "\.(txt|log|json|ini|example\.php)$">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>
@@ -21,25 +27,31 @@
   </IfModule>
 </FilesMatch>
 
-# --- A könyvtárak és a sebességkorlát-állományok nem kérhetők le -------------
-RedirectMatch 404 ^/api/(lib|\.ratelimit)/
+# A config.php-t a PHP futtatja, de ha a PHP-feldolgozó valaha kiesne, a
+# forrása nyersen kimenne. Közvetlen kérésre soha nincs rá szükség.
+<Files "config.php">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</Files>
 
-# --- Könyvtárlista kikapcsolva ----------------------------------------------
-Options -Indexes
-
-# --- A végpontok tiszta URL-t is kapnak (/api/kapcsolat) --------------------
+# Rejtett fájlok és könyvtárak (.ratelimit, .ai-kulcs, szerkesztői maradványok).
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME}.php -f
-  RewriteRule ^(kapcsolat|dontestamogato|ajanlat-atnezes|ajanlat-elemzes)$ $1.php [L]
+  RewriteRule (^|/)\. - [F]
 </IfModule>
 
-# --- A válasz sosem gyorstárazódik ------------------------------------------
-<IfModule mod_headers.c>
-  Header always set Cache-Control "no-store"
-  Header always set X-Content-Type-Options "nosniff"
-  # A végpontok nem HTML-t adnak, itt a szigorú CSP fölösleges, de a
-  # keretbe ágyazás tiltása maradjon.
-  Header always set X-Frame-Options "DENY"
+# A végpontok kiterjesztés nélkül is hívhatók (api/ajanlat-jelentes), ahogy a
+# kliens hivatkozik rájuk.
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}\.php -f
+  RewriteRule ^([^/.]+)$ $1.php [L]
 </IfModule>
+
+# A könyvtár tartalma nem listázható.
+Options -Indexes

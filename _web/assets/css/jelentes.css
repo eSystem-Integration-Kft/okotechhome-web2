@@ -1,0 +1,270 @@
+/* =============================================================================
+   ÖkoTech Home — jelentes.css
+   Az ajánlat-összehasonlítási jelentés stíluslapja
+   -----------------------------------------------------------------------------
+   MIÉRT KÜLÖN FÁJL, ÉS MIÉRT NEM AZ app.css. Ez a lap kétféleképpen él:
+
+     1. a webhely /jelentes oldalán, `<link>`-kel behúzva;
+     2. a LETÖLTÖTT, önhordó HTML-fájlban, ahová a jelentes.js beépíti.
+
+   A letöltött fájl a látogató gépén, `file://` alatt nyílik meg, ahol nincs
+   webhely és nincs app.css. Ezért a jelentésnek saját, teljes stíluslapja van,
+   és ezért állnak itt a márkaszínek nyers értékkel: a tokenkészletet nem lehet
+   „magával vinni" egy különálló dokumentumba. A palettát a designrendszerből
+   másoljuk, és a fájl elején egy helyen deklaráljuk — innentől minden szabály
+   `var()`-ral hivatkozik rá, ugyanúgy, mint a webhelyen.
+
+   NYOMTATÁS. A jelentés elsődlegesen dokumentum: a képernyős nézet csak az
+   előnézete. A `@media print` blokk viszi el a webhely keretét (fejléc, lábléc,
+   eszköztár), és A4-re rendezi a lapot.
+   ============================================================================= */
+
+.jel {
+  /* ---- márkapaletta (designrendszer 2.1) ---- */
+  --jel-forest: #133216;
+  --jel-oliveleaf: #56642B;
+  --jel-fern: #80A640;
+  --jel-lime: #E5EBBB;
+  --jel-drizzle: #F3F2EC;
+  --jel-stardust: #FAFAFA;
+  --jel-seamist: #DEECEA;
+  --jel-vonal: #E2E1D6;
+  --jel-warning: #C98A1D;
+  --jel-danger: #B23B2B;
+
+  --jel-fej: 'Zilla Slab', Georgia, serif;
+  --jel-torzs: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --jel-adat: 'IBM Plex Mono', ui-monospace, monospace;
+
+  max-width: 62rem;
+  margin-inline: auto;
+  background: var(--jel-stardust);
+  color: var(--jel-forest);
+  font-family: var(--jel-torzs);
+  font-size: 15px;
+  line-height: 1.55;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--jel-vonal);
+  border-radius: 16px;
+}
+
+.jel *, .jel *::before, .jel *::after { box-sizing: border-box }
+
+/* ---------------------------------------------------------------- fejléc */
+.jel-fejlec {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--jel-forest);
+}
+.jel-logo { display: block; width: 200px; max-width: 45vw }
+.jel-logo svg { display: block; width: 100%; height: auto }
+.jel-ceg {
+  margin: 0;
+  text-align: right;
+  font-family: var(--jel-adat);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--jel-oliveleaf);
+}
+
+.jel-cimsor { margin-top: 1.75rem }
+.jel-eyebrow {
+  margin: 0 0 .5rem;
+  font-family: var(--jel-adat);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--jel-oliveleaf);
+}
+.jel-cim {
+  margin: 0;
+  font-family: var(--jel-fej);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 4vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+.jel-datum {
+  margin: .6rem 0 0;
+  font-family: var(--jel-adat);
+  font-size: 12px;
+  color: var(--jel-oliveleaf);
+}
+
+/* ------------------------------------------------------- összehasonlítottak */
+.jel-blokk { margin-top: 2.5rem }
+.jel-blokk-cim {
+  margin: 0 0 1rem;
+  font-family: var(--jel-fej);
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--jel-vonal);
+}
+
+.jel-ajanlatok {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1px;
+  background: var(--jel-vonal);
+  border: 1px solid var(--jel-vonal);
+}
+.jel-ajanlat { background: var(--jel-stardust); padding: 1rem 1.1rem }
+.jel-ajanlat-fej { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem }
+.jel-jel {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--jel-fern);
+  color: var(--jel-forest);
+  font-weight: 600;
+  font-size: 13px;
+}
+.jel-ajanlat-nev { margin: 0; font-weight: 600; font-size: .95rem; line-height: 1.3 }
+.jel-ajanlat-cimke {
+  margin: 0;
+  font-family: var(--jel-adat);
+  font-size: 11px;
+  color: var(--jel-oliveleaf);
+}
+.jel-ajanlat-fajl {
+  margin: .5rem 0 0;
+  font-size: .8125rem;
+  color: var(--jel-oliveleaf);
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------------------- tábla */
+.jel-tabla-keret { overflow-x: auto }
+.jel-tabla {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .875rem;
+  background: var(--jel-stardust);
+}
+.jel-tabla th, .jel-tabla td {
+  padding: .7rem .8rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--jel-vonal);
+}
+.jel-tabla thead th {
+  background: var(--jel-drizzle);
+  border-bottom: 2px solid var(--jel-forest);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.jel-tabla thead th span {
+  display: block;
+  margin-top: .2rem;
+  font-family: var(--jel-adat);
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--jel-oliveleaf);
+}
+.jel-tabla tbody th {
+  font-weight: 500;
+  width: 22%;
+  color: var(--jel-oliveleaf);
+}
+.jel-tabla tbody tr:nth-child(even) td,
+.jel-tabla tbody tr:nth-child(even) th { background: color-mix(in srgb, var(--jel-drizzle) 45%, transparent) }
+.jel-tabla .jel-osszeg th, .jel-tabla .jel-osszeg td {
+  background: var(--jel-lime);
+  border-bottom: 0;
+  font-weight: 600;
+}
+.jel-ertek { display: block }
+.jel-reszlet {
+  display: block;
+  margin-top: .15rem;
+  font-size: .8125rem;
+  font-weight: 400;
+  color: var(--jel-oliveleaf);
+}
+
+/* Az állapotot NEM csak szín jelöli: minden érték elé kerül egy jel is, mert
+   nyomtatásban (és színtévesztéssel) a szín önmagában nem hordoz információt. */
+.jel-ertek::before { font-family: var(--jel-adat); margin-right: .45em }
+.jel-a-yes::before   { content: '✓'; color: var(--jel-fern) }
+.jel-a-no::before    { content: '✕'; color: var(--jel-danger) }
+.jel-a-bad::before   { content: '!'; color: var(--jel-danger) }
+.jel-a-warn::before  { content: '!'; color: var(--jel-warning) }
+.jel-a-unclear::before { content: '?'; color: var(--jel-warning) }
+.jel-a-nodata::before  { content: '–'; color: var(--jel-oliveleaf) }
+.jel-a-nodata { color: var(--jel-oliveleaf) }
+
+/* -------------------------------------------------------------- megjegyzés */
+.jel-lista { margin: 0; padding: 0; list-style: none }
+.jel-lista li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-bottom: .6rem;
+  line-height: 1.5;
+}
+.jel-lista li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .55em;
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: var(--jel-fern);
+}
+
+.jel-zaro {
+  margin-top: 2rem;
+  padding: 1rem 1.15rem;
+  background: var(--jel-seamist);
+  border-left: 3px solid var(--jel-oliveleaf);
+  font-size: .875rem;
+  line-height: 1.55;
+}
+
+.jel-lab {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--jel-vonal);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.5rem;
+  font-family: var(--jel-adat);
+  font-size: 11px;
+  color: var(--jel-oliveleaf);
+}
+
+/* ------------------------------------------------------------------ nyomtatás */
+@media print {
+  @page { size: A4; margin: 14mm }
+  .jel {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    font-size: 10.5pt;
+  }
+  /* A táblát nem szabad hasábon belül kettévágni sor közepén. */
+  .jel-tabla tr { break-inside: avoid }
+  .jel-blokk { break-inside: avoid-page }
+  .jel-tabla-keret { overflow: visible }
+  .jel-ajanlatok { break-inside: avoid }
+  /* Színes háttereket a legtöbb böngésző alapból nem nyomtat; ezek nélkül a
+     fejléc és az összegzősor elveszne, ezért kérjük a megtartásukat. */
+  .jel-tabla thead th, .jel-tabla .jel-osszeg th, .jel-tabla .jel-osszeg td,
+  .jel-zaro, .jel-jel {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

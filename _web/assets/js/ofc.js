@@ -27,14 +27,14 @@
 
   /* Csak ezek a formátumok mehetnek be — tallózásnál ÉS behúzásnál is.
      A szerveroldali ellenőrzést ez nem váltja ki, csak a felhasználót segíti. */
-  const ALLOWED_EXT = ['pdf', 'docx', 'xlsx', 'png'];
+  const ALLOWED_EXT = ['pdf', 'docx', 'xlsx', 'png', 'jpg', 'jpeg'];
   const MAX_SIZE = 10 * 1024 * 1024;
 
   const extOf = (file) => (file.name.split('.').pop() || '').toLowerCase();
 
   const rejectReason = (file) => {
     if (!ALLOWED_EXT.includes(extOf(file))) {
-      return 'Ezt a formátumot nem tudjuk kiolvasni. Engedélyezett: PDF, DOCX, XLSX, PNG. '
+      return 'Ezt a formátumot nem tudjuk kiolvasni. Engedélyezett: PDF, DOCX, XLSX, JPG, PNG. '
            + 'Régi .doc vagy .xls fájlt mentsen el PDF-ként, és úgy töltse fel.';
     }
     if (file.size > MAX_SIZE) return 'A fájl túl nagy (legfeljebb 10 MB).';
@@ -279,10 +279,147 @@
 
     /* A tájékoztató szöveg a szerverről jön, hogy egy helyen legyen karbantartva. */
     uzenet(adat.tajekoztato || '', 'ok');
+
+    /* Innentől van mit jelenteni. Előtte a gombok rejtve vannak: üres tábláról
+       készült jelentés azt sugallná, hogy az elemzés lefutott és nem talált
+       semmit — pedig el sem indult. */
+    const ex = document.querySelector('[data-ofc-export]');
+    if (ex) ex.hidden = false;
   };
 
   emptyState();
   uzenet('', null);
+
+  /* ------------------------------------------------------------- jelentés */
+  /* Az összehasonlítás a lapon él: ha a látogató bezárja, elveszik. Ez a rész
+     viszi el magával — letöltve, kinyomtatva vagy e-mailben.
+
+     A gombok addig REJTVE maradnak, amíg nincs mit jelenteni: üres tábláról
+     készült „jelentés" félrevezető lenne, mert azt sugallná, hogy az elemzés
+     lefutott és nem talált semmit. A `fillState` kapcsolja be őket. */
+  const exportBlokk = document.querySelector('[data-ofc-export]');
+  const levUrlap = document.querySelector('[data-ofc-lev]');
+
+  const jelentesAdat = () => (window.OthJelentes ? window.OthJelentes.gyujt() : null);
+
+  const jelentesHiba = (gomb, eredeti) => {
+    gomb.disabled = false;
+    gomb.textContent = eredeti;
+    uzenet('A jelentés összeállítása nem sikerült. Kérjük, próbálja újra.', 'hiba');
+  };
+
+  if (exportBlokk) {
+    exportBlokk.hidden = true;
+
+    const letolt = exportBlokk.querySelector('[data-ofc-letolt]');
+    if (letolt) {
+      letolt.addEventListener('click', () => {
+        const adat = jelentesAdat();
+        if (!adat) return;
+        const eredeti = letolt.textContent;
+        letolt.disabled = true;
+        letolt.textContent = 'Összeállítás…';
+        window.OthJelentes.letoltes(adat, '')
+          .then(() => { letolt.disabled = false; letolt.textContent = eredeti; })
+          .catch(() => jelentesHiba(letolt, eredeti));
+      });
+    }
+
+    /* A nyomtatás VALÓDI, azonos eredetű oldalon fut. Egy `blob:` URL-en
+       megnyitott dokumentum a lap CSP-jét örökli (`style-src 'self'`), ami
+       kiszűrné a beágyazott stílusblokkot — a jelentés formázás nélkül
+       jelenne meg. Lásd assets/js/jelentes.js. */
+    const pdf = exportBlokk.querySelector('[data-ofc-pdf]');
+    if (pdf) {
+      pdf.addEventListener('click', () => {
+        const adat = jelentesAdat();
+        if (!adat || !window.OthJelentes.tarol(adat)) {
+          uzenet('A böngésző nem engedi a jelentés átadását (privát mód?). '
+               + 'Töltse le HTML-ben, és onnan nyomtassa ki.', 'hiba');
+          return;
+        }
+        window.open('jelentes?nyomtat=1', '_blank', 'noopener');
+      });
+    }
+
+    const levelNyit = exportBlokk.querySelector('[data-ofc-levelnyit]');
+    if (levelNyit && levUrlap) {
+      levelNyit.addEventListener('click', () => {
+        const nyit = levUrlap.hidden;
+        levUrlap.hidden = !nyit;
+        levelNyit.setAttribute('aria-expanded', String(nyit));
+        if (nyit) {
+          const ido = levUrlap.querySelector('[data-urlap-ido]');
+          if (ido) ido.value = String(Math.floor(Date.now() / 1000));
+          const mezo = levUrlap.querySelector('input[type="email"]');
+          if (mezo) mezo.focus();
+        }
+      });
+    }
+
+    if (levUrlap) {
+      const allapot = levUrlap.querySelector('[data-ofc-lev-allapot]');
+      const kiir = (szoveg, hiba) => {
+        if (!allapot) return;
+        allapot.textContent = szoveg;
+        allapot.classList.toggle('ofc-lev-hiba', Boolean(hiba));
+      };
+
+      levUrlap.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const adat = jelentesAdat();
+        if (!adat) return;
+
+        const email = levUrlap.querySelector('input[name="email"]');
+        const hozzajarul = levUrlap.querySelector('input[name="hozzajarul"]');
+        if (!email.value.trim() || !email.checkValidity()) {
+          kiir('Kérjük, adjon meg érvényes e-mail-címet.', true);
+          email.focus();
+          return;
+        }
+        if (!hozzajarul.checked) {
+          kiir('A jelentés küldéséhez a hozzájárulás szükséges.', true);
+          hozzajarul.focus();
+          return;
+        }
+
+        const kuldes = levUrlap.querySelector('button[type="submit"]');
+        kuldes.disabled = true;
+        kuldes.setAttribute('aria-busy', 'true');
+        kiir('Küldés folyamatban…', false);
+
+        fetch('api/ajanlat-jelentes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            email: email.value.trim(),
+            hozzajarul: 1,
+            weboldal: levUrlap.querySelector('input[name="weboldal"]').value,
+            nyitva: Number(levUrlap.querySelector('[data-urlap-ido]').value) || 0,
+            jelentes: adat,
+          }),
+        })
+          .then((r) => r.text().then((t) => {
+            let j = {};
+            try { j = JSON.parse(t); } catch (_) {
+              throw new Error('A kiszolgáló nem értelmezhető választ adott'
+                + (r.status ? ' (' + r.status + ')' : '') + '.');
+            }
+            if (!r.ok || !j.ok) throw new Error(j.uzenet || 'A küldés nem sikerült.');
+            return j;
+          }))
+          .then((j) => {
+            kiir(j.uzenet || 'Elküldtük a jelentést a megadott címre.', false);
+            levUrlap.reset();
+          })
+          .catch((err) => kiir(err.message, true))
+          .finally(() => {
+            kuldes.disabled = false;
+            kuldes.removeAttribute('aria-busy');
+          });
+      });
+    }
+  }
 
   const cta = document.querySelector('.ofc-cta');
   if (!cta) return;

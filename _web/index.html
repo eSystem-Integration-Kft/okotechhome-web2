@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=80">
+<link rel="stylesheet" href="assets/css/app.css?v=81">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -1231,6 +1231,15 @@
           </ol>
 
           <div class="ofc-panel">
+            <!-- AI-JEL. A panel sarkában jelzi, hogy itt gépi feldolgozás
+                 történik — a mozgás finom és folyamatos, nem villog: a cél a
+                 jelenlét jelzése, nem a figyelem elterelése. `aria-hidden`,
+                 mert a mondanivalóját a mellette álló felirat hordozza. -->
+            <p class="ofc-aijel" aria-hidden="true">
+              <span class="ofc-aijel-gyuru"></span>
+              <span class="ofc-aijel-mag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span>
+              <span class="ofc-aijel-felirat">AI</span>
+            </p>
             <div class="ofc-uphead">
               <div>
                 <h3 class="type-ui-card-title">Töltsön fel 2–3 ajánlatot
@@ -1255,9 +1264,9 @@
               <button type="button" class="ofc-drop" data-ofc-drop>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4"/><path d="M4 14v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
                 <b class="type-ui-subtitle ofc-drop-title">Húzza ide a fájlt, vagy kattintson a tallózáshoz</b>
-                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, PNG · legfeljebb 10&nbsp;MB</small>
+                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, JPG, PNG · legfeljebb 10&nbsp;MB</small>
               </button>
-              <input type="file" data-ofc-input accept=".pdf,.docx,.xlsx,.png,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png"
+              <input type="file" data-ofc-input accept=".pdf,.docx,.xlsx,.png,.jpg,.jpeg,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png,image/jpeg"
                      aria-label="Ajánlat A fájlja" hidden>
             </div>
             <label class="type-ui-caption ofc-label" for="ofc-tipus-a">Megoldás típusa</label>
@@ -1281,9 +1290,9 @@
               <button type="button" class="ofc-drop" data-ofc-drop>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4"/><path d="M4 14v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
                 <b class="type-ui-subtitle ofc-drop-title">Húzza ide a fájlt, vagy kattintson a tallózáshoz</b>
-                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, PNG · legfeljebb 10&nbsp;MB</small>
+                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, JPG, PNG · legfeljebb 10&nbsp;MB</small>
               </button>
-              <input type="file" data-ofc-input accept=".pdf,.docx,.xlsx,.png,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png"
+              <input type="file" data-ofc-input accept=".pdf,.docx,.xlsx,.png,.jpg,.jpeg,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png,image/jpeg"
                      aria-label="Ajánlat B fájlja" hidden>
             </div>
             <label class="type-ui-caption ofc-label" for="ofc-tipus-b">Megoldás típusa</label>
@@ -1307,9 +1316,9 @@
               <button type="button" class="ofc-drop" data-ofc-drop>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4"/><path d="M4 14v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
                 <b class="type-ui-subtitle ofc-drop-title">Húzza ide a fájlt, vagy kattintson a tallózáshoz</b>
-                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, PNG · legfeljebb 10&nbsp;MB</small>
+                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, JPG, PNG · legfeljebb 10&nbsp;MB</small>
               </button>
-              <input type="file" data-ofc-input accept=".pdf,.docx,.xlsx,.png,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png"
+              <input type="file" data-ofc-input accept=".pdf,.docx,.xlsx,.png,.jpg,.jpeg,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png,image/jpeg"
                      aria-label="Ajánlat C fájlja" hidden>
             </div>
             <label class="type-ui-caption ofc-label" for="ofc-tipus-c">Megoldás típusa</label>
@@ -1434,6 +1443,49 @@
                 </table>
               </div>
             </div>
+          </div>
+
+          <!-- JELENTÉS. Az összehasonlítás magában a lapban él; ha a látogató
+               bezárja, elveszik. Ez a blokk viszi el magával: letölthető
+               HTML-fájlként, kinyomtatható PDF-be, vagy elküldhető e-mailben.
+               A jelentés a képernyőn látható táblából épül, tehát nem mondhat
+               mást, mint amit a látogató lát (assets/js/jelentes.js). -->
+          <div class="ofc-export" data-ofc-export>
+            <div class="ofc-export-fej">
+              <h3 class="type-ui-card-title ofc-export-cim"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="M9 3h6v3H9z"/><path d="M8 13h8M8 17h5"/></svg>Jelentés az összehasonlításról</h3>
+              <p class="type-ui-caption ofc-export-alcim">Céges fejléccel, nyomtatásra rendezve.</p>
+            </div>
+            <p class="ofc-export-gombok">
+              <button type="button" class="btn btn-secondary" data-ofc-letolt>HTML letöltése</button>
+              <button type="button" class="btn btn-secondary" data-ofc-pdf>PDF / nyomtatás</button>
+              <button type="button" class="btn btn-secondary" data-ofc-levelnyit
+                      aria-expanded="false" aria-controls="ofc-lev">Küldés e-mailben</button>
+            </p>
+
+            <form class="ofc-lev" id="ofc-lev" data-ofc-lev hidden novalidate>
+              <p class="urlap-mezo">
+                <label class="type-ui-caption urlap-cimke" for="ofc-lev-email">E-mail-cím <span aria-hidden="true">*</span></label>
+                <input class="urlap-input" type="email" id="ofc-lev-email" name="email" required
+                       autocomplete="email" placeholder="pelda@email.hu">
+              </p>
+              <p class="urlap-jelolo">
+                <input type="checkbox" id="ofc-lev-hozzajarul" name="hozzajarul" value="1" required>
+                <label class="type-ui-subtitle" for="ofc-lev-hozzajarul">Hozzájárulok, hogy a megadott
+                  e-mail-címemre elküldjék a jelentést.
+                  <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> <span aria-hidden="true">*</span></label>
+              </p>
+              <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
+                   megnyitás időpontja — a túl gyors beküldés is robotra utal. -->
+              <p class="urlap-csapda" aria-hidden="true">
+                <label for="ofc-lev-weboldal">Weboldal</label>
+                <input type="text" id="ofc-lev-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
+              </p>
+              <input type="hidden" name="nyitva" value="" data-urlap-ido>
+              <p class="urlap-akcio">
+                <button class="btn btn-primary" type="submit">Jelentés küldése</button>
+              </p>
+              <p class="type-ui-caption ofc-lev-allapot" data-ofc-lev-allapot role="status"></p>
+            </form>
           </div>
 
           <div class="ofc-expert">
@@ -2427,7 +2479,8 @@
      konfigurációnak a modul ELŐTT kell betöltődnie. -->
 <script src="assets/data/aidt-konfig.js?v=2" defer></script>
 <script src="assets/js/ai-advisor.js?v=3" defer></script>
-<script src="assets/js/ofc.js?v=6" defer></script>
+<script src="assets/js/jelentes.js?v=1" defer></script>
+<script src="assets/js/ofc.js?v=8" defer></script>
 <script src="assets/js/velemeny.js?v=1" defer></script>
 <script src="assets/js/folyamat.js?v=2" defer></script>
 <script src="assets/js/gyik.js?v=1" defer></script>

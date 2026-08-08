@@ -67,9 +67,10 @@ FEATURES = [
 # A régi, bináris .doc és .xls KIMARAD: azokat nem tudjuk megbízhatóan
 # kiolvasni, és a félig sikerült kiolvasás téves adatot vinne az
 # összehasonlításba. Jobb a tallózásnál elutasítani, mint utólag közölni.
-ACCEPT = ('.pdf,.docx,.xlsx,.png,application/pdf,'
+ACCEPT = ('.pdf,.docx,.xlsx,.png,.jpg,.jpeg,application/pdf,'
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document,'
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/png')
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,'
+          'image/png,image/jpeg')
 TYPES = ['Válasszon típust', 'Zárt szennyvíztároló', 'Biológiai szennyvíztisztító',
          'Oldómedence', 'Egyéb']
 CARDS = [('A', '', 'pl. Kivitelező 1', False),
@@ -90,7 +91,7 @@ def card(letter, extra, placeholder, muted):
               <button type="button" class="ofc-drop" data-ofc-drop>
                 {svg('upload')}
                 <b class="type-ui-subtitle ofc-drop-title">Húzza ide a fájlt, vagy kattintson a tallózáshoz</b>
-                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, PNG · legfeljebb 10&nbsp;MB</small>
+                <small class="type-ui-caption ofc-drop-hint">PDF, DOCX, XLSX, JPG, PNG · legfeljebb 10&nbsp;MB</small>
               </button>
               <input type="file" data-ofc-input accept="{ACCEPT}"
                      aria-label="Ajánlat {letter} fájlja" hidden>
@@ -262,6 +263,15 @@ def build():
           </ol>
 
           <div class="ofc-panel">
+            <!-- AI-JEL. A panel sarkában jelzi, hogy itt gépi feldolgozás
+                 történik — a mozgás finom és folyamatos, nem villog: a cél a
+                 jelenlét jelzése, nem a figyelem elterelése. `aria-hidden`,
+                 mert a mondanivalóját a mellette álló felirat hordozza. -->
+            <p class="ofc-aijel" aria-hidden="true">
+              <span class="ofc-aijel-gyuru"></span>
+              <span class="ofc-aijel-mag">{svg('spark')}</span>
+              <span class="ofc-aijel-felirat">AI</span>
+            </p>
             <div class="ofc-uphead">
               <div>
                 <h3 class="type-ui-card-title">Töltsön fel 2–3 ajánlatot
@@ -301,6 +311,49 @@ def build():
             </div>
           </div>
 
+          <!-- JELENTÉS. Az összehasonlítás magában a lapban él; ha a látogató
+               bezárja, elveszik. Ez a blokk viszi el magával: letölthető
+               HTML-fájlként, kinyomtatható PDF-be, vagy elküldhető e-mailben.
+               A jelentés a képernyőn látható táblából épül, tehát nem mondhat
+               mást, mint amit a látogató lát (assets/js/jelentes.js). -->
+          <div class="ofc-export" data-ofc-export>
+            <div class="ofc-export-fej">
+              <h3 class="type-ui-card-title ofc-export-cim">{svg('doc')}Jelentés az összehasonlításról</h3>
+              <p class="type-ui-caption ofc-export-alcim">Céges fejléccel, nyomtatásra rendezve.</p>
+            </div>
+            <p class="ofc-export-gombok">
+              <button type="button" class="btn btn-secondary" data-ofc-letolt>HTML letöltése</button>
+              <button type="button" class="btn btn-secondary" data-ofc-pdf>PDF / nyomtatás</button>
+              <button type="button" class="btn btn-secondary" data-ofc-levelnyit
+                      aria-expanded="false" aria-controls="ofc-lev">Küldés e-mailben</button>
+            </p>
+
+            <form class="ofc-lev" id="ofc-lev" data-ofc-lev hidden novalidate>
+              <p class="urlap-mezo">
+                <label class="type-ui-caption urlap-cimke" for="ofc-lev-email">E-mail-cím <span aria-hidden="true">*</span></label>
+                <input class="urlap-input" type="email" id="ofc-lev-email" name="email" required
+                       autocomplete="email" placeholder="pelda@email.hu">
+              </p>
+              <p class="urlap-jelolo">
+                <input type="checkbox" id="ofc-lev-hozzajarul" name="hozzajarul" value="1" required>
+                <label class="type-ui-subtitle" for="ofc-lev-hozzajarul">Hozzájárulok, hogy a megadott
+                  e-mail-címemre elküldjék a jelentést.
+                  <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> <span aria-hidden="true">*</span></label>
+              </p>
+              <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
+                   megnyitás időpontja — a túl gyors beküldés is robotra utal. -->
+              <p class="urlap-csapda" aria-hidden="true">
+                <label for="ofc-lev-weboldal">Weboldal</label>
+                <input type="text" id="ofc-lev-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
+              </p>
+              <input type="hidden" name="nyitva" value="" data-urlap-ido>
+              <p class="urlap-akcio">
+                <button class="btn btn-primary" type="submit">Jelentés küldése</button>
+              </p>
+              <p class="type-ui-caption ofc-lev-allapot" data-ofc-lev-allapot role="status"></p>
+            </form>
+          </div>
+
           <div class="ofc-expert">
             <p class="type-ui-body ofc-expert-text">{svg('leaf')}Bizonytalan? Szakértőnk átnézi az
               ajánlatokat, és személyre szabott tanácsot ad.</p>
@@ -326,5 +379,11 @@ if __name__ == '__main__':
         s = s.replace('<script src="assets/js/ai-advisor.js?v=3" defer></script>',
                       '<script src="assets/js/ai-advisor.js?v=3" defer></script>\n'
                       '<script src="assets/js/ofc.js?v=1" defer></script>')
+    # A jelentés motorja az ofc.js ELŐTT töltődik: az ofc.js a gombok
+    # lenyomásakor a `window.OthJelentes`-t hívja. Mindkettő `defer`, tehát a
+    # sorrendjük a dokumentumbeli sorrend.
+    if '<script src="assets/js/jelentes.js' not in s:
+        s = re.sub(r'(<script src="assets/js/ofc\.js[^"]*" defer></script>)',
+                   '<script src="assets/js/jelentes.js?v=1" defer></script>\n\\1', s, count=1)
     p.write_text(s, encoding='utf-8')
     print('index.html — 11. szekció beírva')

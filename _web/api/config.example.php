@@ -23,6 +23,34 @@ function oth_env(string $key, string $fallback = ''): string
     return ($v === false || $v === '') ? $fallback : $v;
 }
 
+/**
+ * Titok beolvasása FÁJLBÓL — hogy a kulcsot ne kelljen a config.php-ba írni.
+ *
+ * Sorrend: az első LÉTEZŐ és nem üres fájl nyer, utána a környezeti változó,
+ * végül a megadott alapérték. A fájl tartalmát trimeljük, tehát a szerkesztő
+ * által odabiggyesztett sorvég nem rontja el a kulcsot.
+ *
+ * HOVA TEDD A FÁJLT. Elsődlegesen a webgyökér FÖLÉ (`oth-titkok/`): ami nincs
+ * a dokumentumgyökérben, azt a webszerver ki sem tudja szolgálni, tehát nem
+ * kell védeni. A második hely az `api/` könyvtár — ez kényelmesebb, de csak
+ * azért biztonságos, mert az api/.htaccess tiltja a .txt fájlok letöltését.
+ * Ha a tárhelyed nem olvassa a .htaccess-t (nginx), CSAK az első helyet hasznld.
+ *
+ * Jogosultság: chmod 600, a tulajdonos a webszerver felhasználója.
+ */
+function oth_titok(array $utvonalak, string $envKulcs = '', string $fallback = ''): string
+{
+    foreach ($utvonalak as $u) {
+        if (is_file($u) && is_readable($u)) {
+            $t = trim((string) @file_get_contents($u));
+            if ($t !== '') {
+                return $t;
+            }
+        }
+    }
+    return $envKulcs !== '' ? oth_env($envKulcs, $fallback) : $fallback;
+}
+
 return [
     /* --- SMTP ------------------------------------------------------------ */
     'smtp' => [
@@ -40,7 +68,14 @@ return [
     // Az API-kulcs SOHA nem kerül a böngészőbe: az api/ajanlat-elemzes.php a
     // proxy, a kliens csak azt a végpontot látja.
     'ai' => [
-        'kulcs'   => oth_env('OTH_AI_KULCS', 'IDE_JON_AZ_API_KULCS'),
+        // A kulcs FÁJLBÓL is jöhet, hogy ne kelljen ebbe az állományba írni —
+        // így a config.php szerkesztés nélkül másolható, és a kulcs cseréjéhez
+        // elég egy szövegfájlt felülírni. A sorrend: fájl → környezeti változó →
+        // az itteni alapérték.
+        'kulcs'   => oth_titok([
+            __DIR__ . '/../../oth-titkok/ai-kulcs.txt',   // a webgyökér FÖLÖTT — ez az ajánlott
+            __DIR__ . '/ai-kulcs.txt',                    // az api/ könyvtárban — az api/.htaccess védi
+        ], 'OTH_AI_KULCS', 'IDE_JON_AZ_API_KULCS'),
         // A modellazonosítót az Anthropic konzol modell-listája adja. Dokumentum-
         // kiolvasáshoz a pontosság a fontos: egy félreolvasott ár többe kerül,
         // mint amit egy kisebb modellel megspórol. Ha mégis vált, ugyanazokkal a
@@ -81,12 +116,13 @@ return [
         'max_meret'  => 10 * 1024 * 1024,
         'max_darab'  => 3,
         // A régi, bináris .doc és .xls kimarad — nem olvasható ki megbízhatóan.
-        'kiterjesztes' => ['pdf', 'docx', 'xlsx', 'png'],
+        'kiterjesztes' => ['pdf', 'docx', 'xlsx', 'png', 'jpg', 'jpeg'],
         'mime' => [
             'application/pdf',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'image/png',
+            'image/jpeg',
         ],
     ],
 
