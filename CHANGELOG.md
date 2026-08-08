@@ -29,13 +29,54 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
-## [Kiadatlan]
+## [0.02.00] — 2026-08-08
 
-A főoldal fejléce és 1–5. szekciója, a hozzájuk tartozó designrendszer-implementációval.
-Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át kell nevezni
-`## [0.02.00] — ÉÉÉÉ-HH-NN` alakra).
+A főoldal fejléce és 1–5. szekciója a designrendszer-implementációval, a háromszintű
+megamenü, a témaváltó, a sitemap szerinti aloldalak (118 oldal), a jogi réteg, és az
+ajánlat-összehasonlító teljes jelentés-kimenete.
+
+**VISSZAÁLLÁSI PONT.** Ez a kiadás a következő designfeldolgozás előtti utolsó stabil
+állapot. Ha a folytatás félresikerül, ide lehet visszaállni:
+`git checkout v0.02.00` — a csomag pedig a `_files/` alatt van.
 
 ### Hozzáadva
+
+- **Háromszintű megamenü, egyetlen forrásból.** A menü szerkezete
+  `scripts/oldalgyartas/fejlec.py`-ban adatként él, és onnan kerül mind a 118 oldalba —
+  eddig a `sablon.py` egy meglévő aloldalból emelte ki, ezért csak kézi szerkesztéssel
+  volt módosítható. A panel a navigációs blokkhoz igazodik, nem az egyes menüponthoz:
+  1280 képpontos ablakban a középső menüponthoz kötve se balra, se jobbra nem férne el.
+  A nyitó gombon ülő csúcs mondja meg, melyikből nyílt. (`92e93fd`, `4f44d74`)
+- **Világos/sötét témaváltó a fejlécben.** Csúszkakapcsoló, nap és hold jellel. A témát a
+  `<html data-theme>` hordozza, amit a `tema.js` ír ki — ez az **egyetlen halasztás
+  nélkül** töltődő szkript, különben minden oldalbetöltéskor felvillanna a világos oldal.
+  Első látogatáskor a rendszerbeállítás, utána a látogató választása. JS nélkül az oldal
+  világos marad, és a kapcsoló meg sem jelenik. (`27f6c46`)
+- **Ajánlat-összehasonlítási jelentés — három kimenet, egy adatból.** Letölthető önhordó
+  HTML, nyomtatható `/jelentes` oldal (PDF), és e-mailben küldhető változat. Mindhárom az
+  élő táblából épül, tehát nem mondhat mást, mint amit a látogató lát. A nyomtatás valódi
+  oldalon fut, nem `blob:` URL-en: az örökölné a lap CSP-jét, és `style-src 'self'` mellett
+  a jelentés formázás nélkül nyomtatódna. (`e3bb12a`)
+- **Siker-párbeszéd elmosott háttérrel.** A küldés a modul vége; ilyenkor kell megmondani,
+  hova ment a levél (a címek kiírva) és mi a következő lépés. Natív `dialog` — a
+  fókuszcsapdát és az Esc-kezelést a platform adja. (`2fca62d`)
+- **Folyamatjelző az elemzéshez.** Három szakasz, eltelt idő, megszakítás. A feltöltés
+  **mérhető**, ott valódi százalék áll; utána a sáv határozatlan, mert a szerver a
+  válaszig néma — kitalált százalék nem kerül ki. Emiatt ennél az egy hívásnál
+  `XMLHttpRequest` fut `fetch` helyett: a `fetch` nem ad feltöltési haladást. (`9c692d2`)
+- **JPG-feltöltés az ajánlat-összehasonlítóban.** Fényképezett és szkennelt ajánlat gyakori.
+  Végigvezetve a láncon: tallózó, kliensoldali ellenőrzés, szerveroldali kiterjesztés- és
+  MIME-lista, és az elemző végpont, ami a JPEG-et ugyanúgy képként adja a modellnek, mint
+  a PNG-t. (`e3bb12a`)
+- **Öt jogi oldal** (adatkezelési tájékoztató, cookie-tájékoztató, ÁSZF, jogi nyilatkozat,
+  akadálymentességi nyilatkozat), a régi webhely tartalmából és a hiányzó részek pótlásával,
+  a láblécbe kötve. (`7bef207`)
+- **Oldaltérkép-export** (`scripts/oldalgyartas/sitemap_export.py`): a tényleges menüadatból
+  Markdown-fa és önhordó HTML. Minden csomópontnál ellenőrzi, létezik-e a HTML. (`05b86fe`)
+- **Titkok fájlból** — `oth_titok()`: fájl → környezeti változó → beírt érték, az első
+  találat nyer. Az AI-kulcs cseréjéhez így nem kell a `config.php`-t szerkeszteni. Az új
+  `api/.htaccess` védi az `api/` alatti `.txt`, `.log`, `.json` és `config.php` fájlokat.
+  (`e3bb12a`)
 
 - **Előkészítés → Terhelés és kapacitás hub — nyolc aloldal.** Lakosegyenérték ·
   Személyszám és vízfogyasztás · Átlag- és csúcsterhelés · Szezonális használat ·
@@ -241,6 +282,19 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
 
 ### Módosítva
 
+- **A levél logója beágyazva megy** (`Content-ID`), nem távoli URL-ről: a kliensek
+  többsége nem tölt le távoli képet, és a webhely még nem él a configban álló néven. Ehhez
+  valódi `multipart/related` szint kellett — e nélkül a logó külön csatolmányként jelent
+  volna meg, a fejléc meg törötten. (`d4c8f8d`)
+- **Az összehasonlító tábla balra igazít**, és a három ajánlat azonos szélességet kap.
+  A `.compare-table` középre zárása rövid, chipszerű értékekre készült; itt valódi, több
+  soros mondatok állnak. (`09b0346`)
+- **Az AI-asszisztens jele** vastagabb vonallal, tömör levéllel újrarajzolva, 22–30
+  képpontra tervezve. A márka teljes jelrajza nem való ide: korong belsejében foltnak
+  látszik, nem jelnek. (`09b0346`)
+- **Nincs aláhúzás a hivatkozásokon** alapállapotban; hoverre és fókuszra jelenik meg.
+  (`5b742a4`)
+
 - **A hivatkozások alapállapotban nem aláhúzottak** (`a{text-decoration:none}`), egérrel
   és billentyűzet-fókuszban igen. A böngésző alapértelmezett aláhúzása vastag, a
   betűtalpakat elvágó vonal, ami a felületen — ahol a linkek jellemzően külön sorban
@@ -258,6 +312,32 @@ Kiadásra kész — `./scripts/release.sh 0.02.00` (előtte ezt a szekciót át 
   alsó él a helyén marad, így az attribúció végig látszik.
 
 ### Javítva
+
+- **Az összegzősor („Hiányzó / tisztázandó tétel") sosem töltődött ki.** A sor a szerver
+  szempontjaiból próbált feltöltődni, de hozzá nem tartozik szempont — mindhárom oszlopában
+  „—" állt, miközben fölötte több sorban is „nincs adat" szerepelt. Ez **származtatott
+  érték**: a kliens számolja, és meg is nevezi a hiányzó szempontokat. (`e22ef87`)
+- **A táblasorok sorrend alapján párosultak a szerver szempontjaival** (`Math.floor(i / 3)`).
+  Egyetlen beszúrt sor némán elcsúsztatta volna az összes cellát — az ár a technológia
+  oszlopába került volna, szabályosan formázva és teljesen rosszul. A párosítás mostantól
+  `data-ofc-sor` kulcs alapján megy, és a generátor minden futáskor összeveti a két listát.
+  (`e22ef87`)
+- **PDF/nyomtatás mindig az üres állapotot mutatta.** Két ok: a `sessionStorage` fülönként
+  külön él, a `noopener`-rel nyitott lap üres tárolóval indul (`a770b62`); majd a
+  `window.open(..., 'noopener')` **mindig `null`-t ad vissza**, ezért a „blokkolva" tartalék
+  minden alkalommal lefutott, és az eredeti fül a már kiürített jelentésre navigált.
+  (`9c692d2`)
+- **A levéltörzs „nincs adat"-ot írt** két ajánlat mellé, miközben a mellékletben végig
+  volt adat: az oszlopcímkét foglalta össze, ami gyakran „nincs adat". Mostantól a fájlnév
+  és az első érdemi szempont (elsősorban az ár) megy ki, a hiány pedig hiánynak számít,
+  nem értéknek. (`2fca62d`)
+- **Több címzett vesszővel** nem működött, és „váratlan hibát" adott. A végpont egy címet
+  váró ellenőrzőt használt; most vesszőre és pontosvesszőre bont, ötig, és megnevezi a
+  hibás címet. Az SMTP-hibát külön kapjuk el, beszédes üzenettel. (`dc11c55`)
+- **A lábléc a `<head>`-be került** új oldalon: a beszúrási pont az első `<script src=` volt,
+  ami a témaváltó szkriptje óta a fejrészben áll. Most a `</main>`-hez igazodik. (`e3bb12a`)
+- **A kapcsolat oldalról hiányzott a lábléc** — a beszúró minta nem illeszkedett, és a
+  szkript némán sikert jelentett. (`ce85a46`)
 
 - **A kapcsolat oldalról hiányzott a lábléc.** A `lablec.py` a `\n<script src=` minta
   elé szúrta be a láblécet; ezen az oldalon az utolsó elem egy beágyazott JSON-LD blokk,
