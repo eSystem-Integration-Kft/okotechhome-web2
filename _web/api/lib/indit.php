@@ -56,6 +56,15 @@ function oth_kuld(array $CFG, array $cimzettek, string $targy, string $szoveg,
                   string $html, array $csatolmanyok = [], string $valaszCim = '',
                   string $valaszNev = ''): void
 {
+    /* A LOGÓ MINDEN LEVÉLBE BEÁGYAZVA MEGY. Itt tesszük hozzá, nem a hívó
+       végpontokban: a fejléc a márkasablon része, nem az egyes üzeneteké — így
+       egyetlen végpontról sem maradhat le. Ha a képfájl hiányzik, a sablon
+       visszaesik a configban álló URL-re, és ez a rész elmarad. */
+    $logo = OthLevel::logoResz();
+    if ($logo) {
+        array_unshift($csatolmanyok, $logo);
+    }
+
     [$torzs, $fejlecek] = OthLevel::mime($szoveg, $html, $csatolmanyok);
 
     if ($valaszCim !== '') {
