@@ -369,6 +369,76 @@ def build():
             </form>
           </div>
 
+          <!-- SIKER-PÁRBESZÉD. Natív `dialog`: a fókuszcsapdát, az Esc-et és a
+               háttér inaktiválását a platform adja — nem építjük újra (0.7).
+               A visszaigazolás azért ablak, és nem egy sor a gomb alatt: a
+               küldés a modul VÉGE, és a látogatónak ilyenkor kell megmondani,
+               hova ment a levél, és mi a következő lépés. Egy halk sornyi
+               szöveg ezt nem tudja elmondani.
+
+               A címzettek listáját és a szöveget a JS tölti ki (ofc.js). -->
+          <dialog class="siker" data-ofc-siker aria-labelledby="ofc-siker-cim">
+            <div class="siker-lap">
+              <p class="siker-pipa" aria-hidden="true">
+                <svg viewBox="0 0 52 52">
+                  <circle class="siker-pipa-kor" cx="26" cy="26" r="23"/>
+                  <path class="siker-pipa-jel" d="M15 27l8 8 15-16"/>
+                </svg>
+              </p>
+
+              <h2 class="type-display-section-title siker-cim" id="ofc-siker-cim">Elküldtük a jelentést</h2>
+              <p class="type-ui-body siker-lead" data-ofc-siker-lead></p>
+
+              <ul class="siker-cimzettek" data-ofc-siker-cimzettek role="list"></ul>
+
+              <p class="type-ui-caption siker-megjegyzes">Ha pár percen belül nem érkezik meg,
+                érdemes a levélszemét mappát is megnézni — a mellékletes levelek gyakran oda kerülnek.</p>
+
+              <div class="siker-tovabb">
+                <p class="type-data-eyebrow siker-tovabb-cim">Mi a következő lépés?</p>
+                <ul class="siker-lepesek" role="list">
+                  <li>
+                    <a class="siker-lepes" href="kapcsolat">
+                      <span class="siker-lepes-ico" aria-hidden="true">{svg('resp')}</span>
+                      <span>
+                        <b class="type-ui-card-title">Kérjen szakértői átnézést</b>
+                        <span class="type-ui-caption siker-lepes-szoveg">Átnézzük az ajánlatokat, és
+                          megmondjuk, mit érdemes még bekérni a kivitelezőtől.</span>
+                      </span>
+                      <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="siker-lepes" href="megoldasok/kizaro-es-korlatozo-feltetelek">
+                      <span class="siker-lepes-ico" aria-hidden="true">{svg('warn')}</span>
+                      <span>
+                        <b class="type-ui-card-title">Nézze át a kizáró feltételeket</b>
+                        <span class="type-ui-caption siker-lepes-szoveg">Van, amit a legjobb ajánlat
+                          sem old meg: ezek a telek és a terhelés korlátai.</span>
+                      </span>
+                      <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="siker-lepes" href="projekt-elokeszites/telekalkalmassag">
+                      <span class="siker-lepes-ico" aria-hidden="true">{svg('map')}</span>
+                      <span>
+                        <b class="type-ui-card-title">Ellenőrizze a telekalkalmasságot</b>
+                        <span class="type-ui-caption siker-lepes-szoveg">Talaj, talajvíz, védőtávolság —
+                          ezek döntik el, melyik ajánlat valósítható meg egyáltalán.</span>
+                      </span>
+                      <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <p class="siker-zaro">
+                <button type="button" class="btn btn-secondary" data-ofc-siker-zar>Bezárás</button>
+              </p>
+            </div>
+          </dialog>
+
           <div class="ofc-expert">
             <p class="type-ui-body ofc-expert-text">{svg('leaf')}Bizonytalan? Szakértőnk átnézi az
               ajánlatokat, és személyre szabott tanácsot ad.</p>

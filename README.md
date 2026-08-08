@@ -89,17 +89,25 @@ _OkoTechHome2/
 ├─ VERSION                    # 0.01.01 — gépi olvasásra, single source of truth
 ├─ .gitignore                 # mi marad ki a verziózásból és miért
 ├─ scripts/release.sh         # kiadás-automatizálás (bump + annotált tag)
+├─ scripts/oldalgyartas/      # 25 Python-generátor: az ISMÉTLŐDŐ markup egyetlen forrása
+│                             #   fejlec.py · lablec.py — a fejléc/lábléc MINDEN oldalba
+│                             #   *_hub.py            — a sitemap szerinti aloldalak
+│                             #   sitemap_export.py   — oldaltérkép a menüadatból (MD + HTML)
 ├─ .github/banner.*           # README-banner (nem kerül élesre)
 ├─ _web/                      # 🌐 WEBKIMENET — ez megy élesre
-│  ├─ index.html              #    főoldal — 3., 4. és 5. szekció
+│  ├─ index.html              #    főoldal — fejléc + 1–5., 8. és 11. szekció
+│  ├─ jelentes.html           #    az ajánlat-összehasonlítási jelentés nyomtatható nézete
 │  ├─ .htaccess               #    clean URL rewrite, biztonsági fejlécek, cache
 │  ├─ serve.py                #    lokális preview szerver (a .htaccess-t emulálja)
+│  ├─ api/                    #    PHP-végpontok: levélküldés, AI-proxy (+ saját .htaccess)
 │  ├─ COMPONENTS.md           #    ÚJ komponensek — javaslat a designrendszerhez
 │  ├─ README.md
 │  └─ assets/
 │     ├─ css/app.css          #    a teljes designrendszer @layer architektúrában
+│     ├─ css/jelentes.css     #    a jelentés stíluslapja — a letöltött fájlba is beépül
+│     ├─ js/                  #    11 vanilla modul (téma, megamenü, AI-modulok, jelentés)
 │     ├─ icon/                #    technológiai ikonok (currentColor)
-│     └─ img/                 #    WebP kivágatok (alfa)
+│     └─ img/                 #    WebP kivágatok (alfa) + négy logóváltozat
 │  └───────────────────────────────────────────────────────────────────────────┘
 │
 │  ┌─ ❌ HELYI — nem kerül a távoli repóba ────────────────────────────────────┐

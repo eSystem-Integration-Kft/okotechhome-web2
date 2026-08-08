@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=84">
+<link rel="stylesheet" href="assets/css/app.css?v=87">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -1503,6 +1503,76 @@
             </form>
           </div>
 
+          <!-- SIKER-PÁRBESZÉD. Natív `dialog`: a fókuszcsapdát, az Esc-et és a
+               háttér inaktiválását a platform adja — nem építjük újra (0.7).
+               A visszaigazolás azért ablak, és nem egy sor a gomb alatt: a
+               küldés a modul VÉGE, és a látogatónak ilyenkor kell megmondani,
+               hova ment a levél, és mi a következő lépés. Egy halk sornyi
+               szöveg ezt nem tudja elmondani.
+
+               A címzettek listáját és a szöveget a JS tölti ki (ofc.js). -->
+          <dialog class="siker" data-ofc-siker aria-labelledby="ofc-siker-cim">
+            <div class="siker-lap">
+              <p class="siker-pipa" aria-hidden="true">
+                <svg viewBox="0 0 52 52">
+                  <circle class="siker-pipa-kor" cx="26" cy="26" r="23"/>
+                  <path class="siker-pipa-jel" d="M15 27l8 8 15-16"/>
+                </svg>
+              </p>
+
+              <h2 class="type-display-section-title siker-cim" id="ofc-siker-cim">Elküldtük a jelentést</h2>
+              <p class="type-ui-body siker-lead" data-ofc-siker-lead></p>
+
+              <ul class="siker-cimzettek" data-ofc-siker-cimzettek role="list"></ul>
+
+              <p class="type-ui-caption siker-megjegyzes">Ha pár percen belül nem érkezik meg,
+                érdemes a levélszemét mappát is megnézni — a mellékletes levelek gyakran oda kerülnek.</p>
+
+              <div class="siker-tovabb">
+                <p class="type-data-eyebrow siker-tovabb-cim">Mi a következő lépés?</p>
+                <ul class="siker-lepesek" role="list">
+                  <li>
+                    <a class="siker-lepes" href="kapcsolat">
+                      <span class="siker-lepes-ico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V21"/><circle cx="9" cy="7" r="3.5"/><path d="m16 11 2 2 4-4"/></svg></span>
+                      <span>
+                        <b class="type-ui-card-title">Kérjen szakértői átnézést</b>
+                        <span class="type-ui-caption siker-lepes-szoveg">Átnézzük az ajánlatokat, és
+                          megmondjuk, mit érdemes még bekérni a kivitelezőtől.</span>
+                      </span>
+                      <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="siker-lepes" href="megoldasok/kizaro-es-korlatozo-feltetelek">
+                      <span class="siker-lepes-ico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg></span>
+                      <span>
+                        <b class="type-ui-card-title">Nézze át a kizáró feltételeket</b>
+                        <span class="type-ui-caption siker-lepes-szoveg">Van, amit a legjobb ajánlat
+                          sem old meg: ezek a telek és a terhelés korlátai.</span>
+                      </span>
+                      <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="siker-lepes" href="projekt-elokeszites/telekalkalmassag">
+                      <span class="siker-lepes-ico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4-6 2.5V21l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4Z"/><path d="M9 4v14.5M15 6.5V21"/></svg></span>
+                      <span>
+                        <b class="type-ui-card-title">Ellenőrizze a telekalkalmasságot</b>
+                        <span class="type-ui-caption siker-lepes-szoveg">Talaj, talajvíz, védőtávolság —
+                          ezek döntik el, melyik ajánlat valósítható meg egyáltalán.</span>
+                      </span>
+                      <span class="action-arrow-end" aria-hidden="true">&rarr;</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <p class="siker-zaro">
+                <button type="button" class="btn btn-secondary" data-ofc-siker-zar>Bezárás</button>
+              </p>
+            </div>
+          </dialog>
+
           <div class="ofc-expert">
             <p class="type-ui-body ofc-expert-text"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2.5 1 5.5.5 8-1 5-5.5 8-8.5 10z"/><path d="M2 22c3-3 5.5-4.5 9-6"/></svg>Bizonytalan? Szakértőnk átnézi az
               ajánlatokat, és személyre szabott tanácsot ad.</p>
@@ -2495,7 +2565,7 @@
 <script src="assets/data/aidt-konfig.js?v=2" defer></script>
 <script src="assets/js/ai-advisor.js?v=3" defer></script>
 <script src="assets/js/jelentes.js?v=1" defer></script>
-<script src="assets/js/ofc.js?v=9" defer></script>
+<script src="assets/js/ofc.js?v=10" defer></script>
 <script src="assets/js/velemeny.js?v=1" defer></script>
 <script src="assets/js/folyamat.js?v=2" defer></script>
 <script src="assets/js/gyik.js?v=1" defer></script>

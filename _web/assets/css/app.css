@@ -2597,6 +2597,99 @@
   .ofc-lev-allapot{margin:var(--space-16) 0 0;color:var(--text-secondary);min-height:1.4em}
   .ofc-lev-hiba{color:var(--danger)}
 
+  /* ---- SIKER-PÁRBESZÉD. A sikeres küldés a modul VÉGE: itt kell megmondani,
+     hova ment a levél, és mi a következő lépés. Egy sornyi szöveg a gomb alatt
+     ezt nem tudja elmondani, és a látogató el is nézhet fölötte.
+
+     Natív `dialog`: a fókuszcsapdát, az Esc-kezelést és a háttér
+     inaktiválását a platform adja (designrendszer 0.7). */
+  .siker{
+    /* `margin:auto` KÉZZEL: a natív `dialog` közepre igazítását a böngésző
+       stíluslapja adná, de a reset `margin:0`-ja felülírja — enélkül a
+       párbeszéd a képernyő bal felső sarkába tapad. */
+    margin:auto;
+    max-width:44rem;width:calc(100% - 2 * var(--page-gutter));
+    max-height:calc(100vh - 2 * var(--space-32));
+    padding:0;border:1px solid var(--border);border-radius:var(--panel-radius);
+    background:var(--surface);color:var(--text-primary);
+    box-shadow:var(--shadow-3);overflow:hidden;
+  }
+  /* Az elmosás a háttéren: a párbeszéd alatt a lap látszik, de nem versenyez
+     az olvasásért. A `background` a tartalék, ha a böngésző nem ismeri a
+     `backdrop-filter`-t — sötétítés nélkül a panel a lapba olvadna. */
+  .siker::backdrop{
+    background:rgba(19,50,22,.42);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  }
+  .siker-lap{padding:var(--space-48) var(--space-32) var(--space-32)}
+
+  /* A pipa körvonala és a jel egymás után rajzolódik ki — a mozgás maga a
+     visszaigazolás, ezért egyszeri és rövid, nem ismétlődő. */
+  .siker-pipa{margin:0 auto var(--space-24);width:var(--space-96);height:var(--space-96)}
+  /* A választó a `.ofc svg` (0,1,1) fajsúlyát is meghaladja: a párbeszéd a
+     modulon BELÜL áll, ezért a modul közös 24 képpontos ikonmérete
+     alapértelmezésben ezt is összenyomná. */
+  .siker .siker-pipa svg{
+    display:block;width:100%;height:100%;
+    fill:none;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .siker-pipa-kor{
+    stroke:var(--primary);stroke-width:2.5;
+    stroke-dasharray:145;stroke-dashoffset:145;
+    animation:siker-rajz 620ms var(--ease-out) forwards;
+  }
+  .siker-pipa-jel{
+    stroke:var(--secondary);stroke-width:3.5;
+    stroke-dasharray:36;stroke-dashoffset:36;
+    animation:siker-rajz 380ms var(--ease-out) 420ms forwards;
+  }
+  @keyframes siker-rajz{to{stroke-dashoffset:0}}
+
+  .siker-cim{margin:0;text-align:center;text-wrap:balance}
+  .siker-lead{margin:var(--space-16) 0 0;text-align:center;color:var(--text-secondary)}
+
+  /* A CÍMZETTEK KIÍRVA. „Elküldtük" önmagában nem ellenőrizhető állítás — a
+     látogató csak akkor tudja, hogy jó helyre ment, ha látja a címeket. */
+  .siker-cimzettek{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:var(--space-8);
+    margin:var(--space-24) 0 0;padding:0;list-style:none;
+  }
+  .siker-cimzettek li{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-4) var(--space-16);border-radius:999px;
+    background:var(--surface-muted);color:var(--text-primary);
+    font-family:var(--font-mono);font-size:var(--type-data-value-size);
+    overflow-wrap:anywhere;
+  }
+  .siker-megjegyzes{
+    margin:var(--space-16) auto 0;max-width:46ch;text-align:center;
+    color:var(--text-tertiary);
+  }
+
+  .siker-tovabb{
+    margin-top:var(--space-32);padding-top:var(--space-24);
+    border-top:1px solid var(--border);
+  }
+  .siker-tovabb-cim{margin:0 0 var(--space-16);color:var(--text-tertiary)}
+  .siker-lepesek{display:grid;gap:var(--space-8);margin:0;padding:0;list-style:none}
+  .siker-lepes{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;gap:var(--space-16);
+    padding:var(--space-16);border-radius:var(--r-lg);
+    background:var(--canvas);color:var(--text-primary);text-decoration:none;
+    transition:background var(--dur-fast) var(--ease-out);
+  }
+  .siker-lepes:hover{background:var(--surface-muted);text-decoration:none}
+  .siker-lepes:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .siker-lepes-ico{
+    display:grid;place-items:center;flex:none;
+    width:calc(var(--space-32) + var(--space-8));height:calc(var(--space-32) + var(--space-8));
+    border-radius:var(--r-md);background:var(--surface);color:var(--secondary);
+  }
+  .siker-lepes-ico svg{width:var(--space-24);height:var(--space-24)}
+  .siker-lepes-szoveg{display:block;margin-top:2px;color:var(--text-secondary)}
+  .siker-zaro{margin:var(--space-32) 0 0;text-align:center}
+
   /* ---- A /jelentes oldal kerete. Maga a jelentés a jelentes.css-ből
      formázódik (az a stíluslap a letöltött fájlba is beépül); itt csak az őt
      körülvevő webhely-elemek élnek. Nyomtatáskor mindkettő elmarad. */

@@ -100,6 +100,8 @@ Három végpont a `_web/api/` alatt, PHP-ben (a tárhely Apache + PHP):
 | `api/kapcsolat` | a Kapcsolat oldal űrlapja |
 | `api/dontestamogato` | a 8. szekció összefoglalója (JSON) |
 | `api/ajanlat-atnezes` | a 11. szekció szakértői átnézése, csatolmánnyal |
+| `api/ajanlat-elemzes` | a feltöltött ajánlatok gépi kiolvasása (AI-proxy) |
+| `api/ajanlat-jelentes` | az összehasonlítási jelentés elküldése e-mailben |
 
 **A jelszó nincs a repóban.** A valódi értékek az `api/config.php`-ban élnek,
 ami a `.gitignore`-ban van; a repóban csak az `api/config.example.php` minta.
@@ -110,8 +112,67 @@ cd api && cp config.example.php config.php && chmod 600 config.php
 # majd beírni az SMTP-adatokat (vagy környezeti változóban megadni — az erősebb)
 ```
 
-Az `api/.htaccess` letiltja a `config.php`, a `lib/` és a naplók kiszolgálását.
+Az `api/.htaccess` letiltja a `config.php`, a `lib/`, a naplók és a `.txt` fájlok
+kiszolgálását, blokkolja a rejtett fájlokat, és kikapcsolja a könyvtárlistázást.
 Ez akkor is véd, ha a PHP kiesne és a szerver nyers szövegként adná ki a fájlt.
+
+> ⚠️ **Ez a védelem Apache-specifikus.** Ha a tárhely nginx-et használ, a `.htaccess`
+> nem érvényesül — ilyenkor a titkokat a webgyökér **fölé** kell tenni (lásd lent).
+
+### Titkok fájlból — az API-kulcs cseréje szerkesztés nélkül
+
+A `config.php` minden környezetben ugyanaz, egyetlen dolog kivételével: a titkok.
+Ha a kulcs a fájlban áll, akkor a config nem másolható környezetek között, és minden
+kulcscsere fájlszerkesztés — ami épp azért kockázatos, mert a titkot kézzel kell egy
+kódfájlba illeszteni.
+
+Ezért az `oth_titok()` **sorrendben** keresi az értéket, és az első találat nyer:
+
+| Sorrend | Hely | Mikor használd |
+|---|---|---|
+| 1. | `../oth-titkok/ai-kulcs.txt` — a **webgyökér fölött** | ez az ajánlott: amit a szerver nem lát, azt nem is tudja kiszolgálni |
+| 2. | `api/ai-kulcs.txt` | kényelmesebb, de **csak Apache alatt** biztonságos (az `api/.htaccess` védi) |
+| 3. | `OTH_AI_KULCS` környezeti változó | ha a tárhely enged `SetEnv`-et vagy panelből állítható |
+| 4. | a `config.php`-ba írt érték | végső tartalék |
+
+A beolvasott érték **trimelve** kerül felhasználásra: a szerkesztő által odabiggyesztett
+sorvég nem rontja el a kulcsot — ez a leggyakoribb „miért nem működik" ok.
+
+```bash
+mkdir -p ../oth-titkok && chmod 700 ../oth-titkok
+printf '%s' 'sk-ant-…' > ../oth-titkok/ai-kulcs.txt
+chmod 600 ../oth-titkok/ai-kulcs.txt
+```
+
+Az SMTP-jelszó ugyanezt a segédfüggvényt használhatja; egyelőre csak az AI-kulcs van
+rákötve, mert azt kell rendszeresen cserélni.
+
+### A logó a levélben — miért beágyazva
+
+A levélsablon fejléce **nem hivatkozik távoli képre**. Két okból nem működne:
+
+1. a levelezőkliensek többsége alapból **nem tölt le távoli képet**;
+2. ha a webhely még nem él azon a néven, ami a configban áll, akkor **nincs is mit**
+   letölteni — és a fejléc helyén törött kép marad.
+
+A logó ezért a levél **részeként** utazik, `Content-ID`-vel; a sablon `cid:oth-logo`-ra
+hivatkozik. Ehhez valódi `multipart/related` szint kell, mert a beágyazott kép a HTML
+*belsejébe* tartozik, a melléklet pedig *mellé* — e nélkül a logó külön csatolmányként
+jelenne meg a levél alján, a fejléc meg maradna törött. A szerkezet a levélhez igazodik:
+
+```text
+csak szöveg        multipart/alternative [ text/plain , text/html ]
++ beágyazott kép   multipart/related     [ alternative , kép(ek) ]
++ melléklet        multipart/mixed       [ related|alternative , fájlok ]
+```
+
+A csatolást az `oth_kuld()` végzi, **nem az egyes végpontok**: a fejléc a márkasablon
+része, nem az üzeneteké, így egyetlen végpontról sem maradhat le. Ha a képfájl hiányzik,
+a sablon visszaesik a configban álló URL-re.
+
+A `<img>` magassága **rögzített** (69 px), nem `auto`: kép nélkül az `auto` az alt-szöveg
+dobozát a 220 px-es szélességhez nyújtaná, és a fejléc helyén egy óriási üres négyzet
+maradna. Rögzített magassággal a helyettesítő szöveg egy logónyi sávban ül.
 
 **Négy védelmi réteg** minden végponton: origin-ellenőrzés (CSRF), mézesbödön
 mező, kitöltési idő, és IP-alapú sebességkorlát. A fejléc-injekció ellen minden
@@ -120,6 +181,105 @@ válna.
 
 **Az űrlapok JS nélkül is működnek:** sima POST megy a végpontra. Az
 `assets/js/urlap.js` csak annyit tesz, hogy a választ helyben jeleníti meg.
+
+## Ajánlat-összehasonlítási jelentés
+
+A 11. szekció összehasonlítása korábban **csak a képernyőn létezett**: a lap bezárásával
+elveszett. A jelentés ezt viszi el — három kimenetben, de **egyetlen adatból**, amit a
+modul az élő táblából olvas ki. Ez a lényeg: a jelentés nem mondhat mást, mint amit a
+látogató lát.
+
+| Kimenet | Hogyan | Hol él |
+|---|---|---|
+| **HTML letöltése** | önhordó fájl, beépített stíluslappal és logóval | `assets/js/jelentes.js` |
+| **PDF / nyomtatás** | valódi oldal (`/jelentes`), onnan `print()` | `jelentes.html` + `jelentes-oldal.js` |
+| **Küldés e-mailben** | márkás levéltörzs + a teljes jelentés mellékletként | `api/ajanlat-jelentes` |
+
+### Miért nem `blob:` URL a nyomtatás
+
+Kézenfekvő volna a kész HTML-t `blob:` URL-en megnyitni és kinyomtatni. **Nem működik:**
+a `blob:` dokumentum a létrehozó lap tartalombiztonsági szabályát (CSP) örökli, a
+webhelyé pedig `style-src 'self'` — a beágyazott `<style>` blokkot a böngésző kiszűrné, és
+a jelentés formázás nélkül, csupasz szövegként nyomtatódna ki.
+
+Ezért a nyomtatás **azonos eredetű, valódi oldalon** fut, külső stíluslappal. A letöltött
+fájlra viszont ez nem vonatkozik: azt a látogató `file://` alatt nyitja meg, ahol nincs
+CSP — oda tehát beépíthető a stíluslap és a logó.
+
+### Egy stíluslap, két felhasználás
+
+Az `assets/css/jelentes.css` **kétféleképpen él**: a `/jelentes` oldalon `<link>`-kel, a
+letöltött fájlba pedig beépítve. Így a kettő nem tud elcsúszni egymástól. A márkaszínek
+itt nyers értékkel állnak (a fájl elején, egy helyen deklarálva) — a tokenkészletet nem
+lehet „magával vinni" egy különálló dokumentumba.
+
+### A logó harmadik változata
+
+A `logo-jelentes.svg` a teljes logó, de a színek **`fill` attribútumban**, nem `<style>`
+blokkban. A jelentés a rajzot a lapba illeszti, a CSP pedig a beágyazott stílusblokkot
+kiszűrné — a logó szín nélkül, feketén jelenne meg. (Ugyanez az oka, amiért a hibaoldalak
+logója is `fill`-lel dolgozik.)
+
+Így **három logóváltozat** él a repóban, mindegyiknek külön oka van:
+
+| Fájl | Mire |
+|---|---|
+| `logo-okotechhome.svg` | fejléc, világos téma |
+| `logo-okotechhome-sotet.svg` | fejléc, sötét téma — `img`-ként betöltve az SVG nem látja a lap `data-theme`-jét |
+| `logo-jelentes.svg` | beágyazásra (jelentés, hibaoldalak) — `<style>` nélkül |
+| `logo-email.png` | levélfejléc, `Content-ID`-vel beágyazva |
+
+### Az adat nem kerül a szerverre
+
+A jelentés tartalmát a 11. szekció `sessionStorage`-ban adja át a `/jelentes` oldalnak.
+Szándékos: az ajánlatok a látogató dokumentumaiból származnak, tehát a nyomtatáshoz és a
+letöltéshez **semmi nem megy a szerverre**, és a lap bezárása után semmi nem marad.
+Közvetlenül megnyitva a `/jelentes` ezért üres — az oldal ezt meg is mondja, és
+visszairányít, ahelyett hogy csupa „—" táblát mutatna.
+
+E-mailnél az adat természetesen felmegy: ott a szerver **idegen adatként** kezeli —
+minden mező hosszra vágva és escape-elve kerül a levéltörzsbe és a mellékletbe is.
+
+### Mi kerül a levéltörzsbe, és mi a mellékletbe
+
+600 képpont szélességben egy négyoszlopos összehasonlítás olvashatatlan, ezért a
+levéltörzs **összefoglaló**, a teljes tábla a mellékletben van. Ajánlatonként a fájlnév és
+az **első érdemi szempont** (elsősorban az ár) megy ki.
+
+> **Amit ez javít:** korábban a törzsben az oszlopcímke állt. Az viszont gyakran
+> „nincs adat", mert az elemzés nem mindig tudja megnevezni a technológiát a
+> dokumentumból — így a levélben három ajánlatból kettő mellett „nincs adat" jelent meg,
+> holott a mellékelt táblában végig volt adat. A `nincs adat` mostantól **hiánynak
+> számít, nem értéknek**: nem kerül összefoglalóba, és a csupa hiányból álló összegzősor
+> is kimarad.
+
+### Több címzett
+
+A mező vesszővel (vagy pontosvesszővel) elválasztott listát fogad, **legfeljebb ötöt** —
+ez a saját jelentés elküldésére való, nem körlevélre. Minden címet külön ellenőrzünk, és
+ha egy nem értelmezhető, **megnevezzük, melyik**: öt cím közül az „érvénytelen e-mail-cím"
+használhatatlan visszajelzés.
+
+A levél **kizárólag a megadott címekre** megy — néma másolat nem készül az irodának. A
+látogató a saját összehasonlítását kéri el, nem megkeresést küld.
+
+### Visszaigazolás — párbeszédben
+
+A sikeres küldés natív `<dialog>`-ban jelenik meg, elmosott háttérrel: a küldés a modul
+**vége**, és ilyenkor kell megmondani, **hova** ment a levél (a címek kiírva — az
+„elküldtük" önmagában nem ellenőrizhető állítás), és **mi a következő lépés**. A
+fókuszcsapdát, az Esc-kezelést és a háttér inaktiválását a platform adja (0.7. alapszabály).
+
+Ha a böngésző nem ismeri a `dialog`-ot, marad a gomb alatti szöveges visszajelzés.
+
+### Amit tudni kell róla
+
+- A **letöltött fájl** a betűket a Google Fontsról hivatkozza — beágyazva ~270 kB-tal
+  hizlalná. Hálózat nélkül a tartalék Georgia / rendszerbetű lép be: a szedés kicsit más,
+  a tartalom változatlan.
+- A gombok addig **rejtve** vannak, amíg nincs mit jelenteni. Üres tábláról készült
+  „jelentés" azt sugallná, hogy az elemzés lefutott és nem talált semmit.
+- A `/jelentes` `noindex` — nem tartalomoldal, és üresen semmit nem mond.
 
 ## Jelenlegi állapot
 
@@ -131,14 +291,17 @@ válna.
 | **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
 | **Hiányzik** | lábléc, a sitemap 5 további főkategóriája, `sitemap.xml`, főoldali 6–7. és 9–15. szekció |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
-| **JS** | `assets/js/site.js` (2 KB) — menüpanel, hero videó · `assets/js/ai-advisor.js` (566 sor) — a 8. szekció interaktív modulja, a Test1-ből átvéve. Minden más HTML + CSS. |
+| **JS** | 11 modul, összesen ~2200 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
+| **Téma** | világos/sötét, csúszkakapcsolóval a fejlécben. Első látogatáskor a rendszerbeállítás, utána a látogató választása (`localStorage`). JS nélkül világos marad, és a kapcsoló meg sem jelenik. |
+| **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
 
 ## Szerkezet
 
 ```text
 _web/
-├─ index.html                    # főoldal — fejléc + 1–5. és 8. szekció
+├─ index.html                    # főoldal — fejléc + 1–5., 8. és 11. szekció
 ├─ kapcsolat.html                # a webhely egyetemes CTA-célpontja
+├─ jelentes.html                 # az ajánlat-összehasonlítási jelentés nyomtatható nézete
 ├─ megoldasok/                   # index + 4 technológia-oldal
 ├─ helyzetem/                    # index + 7 helyzet-oldal
 ├─ .htaccess                     # clean URL rewrite, 301-ek, biztonsági fejlécek, cache
@@ -147,11 +310,17 @@ _web/
 ├─ favicon.ico                   # a gyökérben kell: a böngészők kérés nélkül is kérik
 ├─ site.webmanifest              # PWA-ikonok és téma
 ├─ serve.py                      # lokális preview szerver (a .htaccess-t emulálja)
+├─ api/                          # PHP-végpontok (levélküldés, AI-proxy) + .htaccess
 ├─ COMPONENTS.md                 # ÚJ komponensek — javaslat a designrendszerhez
 └─ assets/
    ├─ css/app.css                # a teljes designrendszer @layer architektúrában
+   ├─ css/jelentes.css           # a jelentés stíluslapja — a letöltött fájlba is BEÉPÜL
    ├─ js/site.js                 # menüpanel + hero videó (progressive enhancement)
+   ├─ js/tema.js                 # világos/sötét téma — `<head>`-ben, HALASZTÁS NÉLKÜL fut
    ├─ js/ai-advisor.js           # 8. szekció — AI döntéstámogató (Test1-ből, változatlan)
+   ├─ js/ofc.js                  # 11. szekció — feltöltés, elemzés, jelentés-kivitel
+   ├─ js/jelentes.js             # a jelentés motorja: adatgyűjtés, kirajzolás, önhordó fájl
+   ├─ js/jelentes-oldal.js       # a /jelentes oldal vezérlése (nyomtatás, letöltés)
    ├─ icon/                      # ikonok, currentColor-ra állítva (CSS-maszk)
    │  ├─ tech-{zart-tarolo,oldomedence,biologiai}.svg      # technológiák (ügyféleszköz)
    │  ├─ ui-{helyszin,email,telefon}.svg                   # kontaktsáv (ügyféleszköz)
@@ -159,7 +328,9 @@ _web/
    ├─ video/                     # hero-felvétel, WebM (VP9) + MP4 (H.264), hang nélkül
    │  └─ hero-rendszer.{webm,mp4}
    └─ img/                       # WebP, alfacsatornás kivágatok
-      ├─ logo-okotechhome.svg
+      ├─ logo-okotechhome{,-sotet}.svg             # fejléc — világos és sötét téma
+      ├─ logo-jelentes.svg                         # beágyazható (fill-lel, <style> nélkül)
+      ├─ logo-email.png                            # levélfejléc, Content-ID-vel beágyazva
       ├─ hero-rendszer-allokep{,-1024}.webp        # 16:9 — asztali
       ├─ hero-rendszer-allokep-szuk{,-800}.webp    # 3:2  — tablet és mobil kivágat
       ├─ helyzet-{uj-epitkezes,emeszto-kivaltasa,nyaralo,telekvasarlas}.webp

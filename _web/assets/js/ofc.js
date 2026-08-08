@@ -342,6 +342,50 @@
       });
     }
 
+    /* ---------------------------------------------------------- siker-ablak */
+    const siker = document.querySelector('[data-ofc-siker]');
+
+    /** @returns {boolean} sikerült-e megnyitni; ha nem, marad a szöveges sor. */
+    const sikerNyit = (cimzettek) => {
+      if (!siker || typeof siker.showModal !== 'function') return false;
+
+      const lead = siker.querySelector('[data-ofc-siker-lead]');
+      if (lead) {
+        lead.textContent = cimzettek.length > 1
+          ? 'A teljes összehasonlítást elküldtük mellékletként az alábbi címekre.'
+          : 'A teljes összehasonlítást elküldtük mellékletként az alábbi címre.';
+      }
+
+      const lista = siker.querySelector('[data-ofc-siker-cimzettek]');
+      if (lista) {
+        lista.innerHTML = '';
+        cimzettek.forEach((c) => {
+          const li = document.createElement('li');
+          /* `textContent`: a cím a látogatótól jön, HTML-ként értelmezve
+             beszúrás lenne. */
+          li.textContent = c;
+          lista.append(li);
+        });
+      }
+
+      siker.showModal();
+      return true;
+    };
+
+    if (siker) {
+      const zar = siker.querySelector('[data-ofc-siker-zar]');
+      if (zar) zar.addEventListener('click', () => siker.close());
+      /* Kattintás a párbeszéden KÍVÜLRE is zár. A `dialog` maga a teljes
+         képernyőt lefedi, ezért a belső lapon kívüli kattintás számít
+         „kívülinek" — a `.siker-lap` határai adják a valódi dobozt. */
+      siker.addEventListener('click', (e) => {
+        const d = siker.querySelector('.siker-lap').getBoundingClientRect();
+        const kivul = e.clientX < d.left || e.clientX > d.right
+                   || e.clientY < d.top || e.clientY > d.bottom;
+        if (kivul) siker.close();
+      });
+    }
+
     const levelNyit = exportBlokk.querySelector('[data-ofc-levelnyit]');
     if (levelNyit && levUrlap) {
       levelNyit.addEventListener('click', () => {
@@ -414,8 +458,17 @@
             return j;
           }))
           .then((j) => {
-            kiir(j.uzenet || 'Elküldtük a jelentést a megadott címre.', false);
+            /* A SIKER PÁRBESZÉDBEN jelenik meg, nem egy sorban a gomb alatt: a
+               küldés a modul vége, és ilyenkor kell megmondani, hova ment a
+               levél, és mi a következő lépés. A gomb alatti sor csak tartalék,
+               ha a böngésző nem ismeri a `dialog`-ot. */
+            const cimzettek = email.value.split(',').map((c) => c.trim()).filter(Boolean);
             levUrlap.reset();
+            if (!sikerNyit(cimzettek)) {
+              kiir(j.uzenet || 'Elküldtük a jelentést a megadott címre.', false);
+            } else {
+              kiir('', false);
+            }
           })
           .catch((err) => kiir(err.message, true))
           .finally(() => {

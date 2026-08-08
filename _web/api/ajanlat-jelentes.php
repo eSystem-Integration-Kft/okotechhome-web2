@@ -196,25 +196,71 @@ $melleklet = '<!DOCTYPE html>
 </article></body></html>';
 
 /* --- levél a látogatónak ------------------------------------------------- */
-/* A törzsbe a legfontosabb sorok kerülnek, nem a teljes tábla: 600 képpont
-   szélességben egy négyoszlopos összehasonlítás olvashatatlan. A teljes
-   jelentés a mellékletben van. */
-$adatok = [];
-foreach ($ajanlatok as $a) {
-    $ertek = $a['cimke'] !== '' ? $h($a['cimke']) : '—';
-    if ($a['fajl'] !== '') {
-        $ertek .= '<br><span style="color:#4A4F49;font-size:13px;">' . $h($a['fajl']) . '</span>';
+/* A törzs ÖSSZEFOGLALÓ, nem másolat: 600 képpont szélességben egy
+   négyoszlopos összehasonlítás olvashatatlan. A teljes tábla a mellékletben van.
+ *
+ * MIT MUTATUNK AJÁNLATONKÉNT. A fájlnevet — erről ismerhető fel a postaládában,
+ * melyik ajánlatról van szó —, és az első ÉRDEMI szempontot, elsősorban az árat.
+ *
+ * Korábban itt az oszlopcímke (`cimke`) állt. Az viszont gyakran „nincs adat",
+ * mert az elemzés nem mindig tudja megnevezni a technológiát a dokumentumból —
+ * és akkor a levélben három ajánlatból kettő mellett „nincs adat" állt, holott
+ * a mellékelt táblában végig volt adat. A levél nem hazudott, csak a
+ * legrosszabb mezőt választotta összefoglalónak. */
+
+/** „nincs adat" NEM érték: hiány. Összefoglalóba nem való. */
+$ures = static fn(string $v): bool =>
+    $v === '' || $v === '—' || preg_match('/^\s*nincs\s+adat\s*$/iu', $v) === 1;
+
+/** Az ajánlathoz tartozó első érdemi szempont — az árat előnyben részesítve. */
+$elsoErdemi = static function (int $oszlop) use ($sorok, $ures): ?array {
+    $tartalek = null;
+    foreach ($sorok as $s) {
+        $c = $s['ertekek'][$oszlop] ?? null;
+        if (!$c || $ures((string) $c['ertek'])) { continue; }
+        if (preg_match('/\bár\b|\bára\b|költség|díj/iu', $s['cimke']) === 1) {
+            return ['cimke' => $s['cimke'], 'ertek' => $c['ertek']];
+        }
+        $tartalek ??= ['cimke' => $s['cimke'], 'ertek' => $c['ertek']];
     }
-    $adatok[$a['cim'] !== '' ? $a['cim'] : ('Ajánlat ' . $a['jel'])] = $ertek;
+    return $tartalek;
+};
+
+$adatok = [];
+foreach ($ajanlatok as $i => $a) {
+    $reszek = [];
+    if ($a['fajl'] !== '') {
+        $reszek[] = '<span style="color:#4A4F49;font-size:13px;">' . $h($a['fajl']) . '</span>';
+    }
+    $fo = $elsoErdemi($i);
+    if ($fo) {
+        $reszek[] = $h($fo['cimke']) . ': <strong>' . $h($fo['ertek']) . '</strong>';
+    }
+    /* A technológiacímke csak akkor kerül ki, ha az elemzés tényleg megnevezte. */
+    if (!$ures($a['cimke'])) {
+        $reszek[] = '<span style="color:#4A4F49;font-size:13px;">' . $h($a['cimke']) . '</span>';
+    }
+    if (!$reszek) {
+        $reszek[] = '<span style="color:#4A4F49;font-size:13px;">a részletek a mellékletben</span>';
+    }
+    $adatok[$a['cim'] !== '' ? $a['cim'] : ('Ajánlat ' . $a['jel'])] = implode('<br>', $reszek);
 }
+
+/* Az összegzősor csak akkor kerül a levélbe, ha legalább egy oszlopában van
+   érték — egy csupa „—" sor semmit nem mond, csak zajt visz a levélbe. */
 foreach ($sorok as $s) {
     if (!$s['osszeg']) { continue; }
     $reszek = [];
+    $vanErtek = false;
     foreach ($s['ertekek'] as $i => $c) {
         $jel = $ajanlatok[$i]['jel'] ?? (string) ($i + 1);
-        $reszek[] = $h($jel) . ': ' . $h($c['ertek']);
+        $ertek = (string) $c['ertek'];
+        if (!$ures($ertek)) { $vanErtek = true; }
+        $reszek[] = $h($jel) . ': ' . $h($ertek);
     }
-    $adatok[$s['cimke']] = implode(' &nbsp;·&nbsp; ', $reszek);
+    if ($vanErtek) {
+        $adatok[$s['cimke']] = implode(' &nbsp;·&nbsp; ', $reszek);
+    }
 }
 
 $html = OthLevel::html(
