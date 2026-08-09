@@ -699,5 +699,5 @@ belső munkaanyag **szándékosan helyben marad**, és nincs a git-történetben
 ---
 
 <p align="center">
-  <sub>Ökotech-Home Kft. · fejlesztő: eSystem-Integration Kft. (eSI), Érd</sub>
+  <sub>Ökotech-Home Kft. · fejlesztő: eSystem-Integration Kft. (eSI Kft.), Érd</sub>
 </p>

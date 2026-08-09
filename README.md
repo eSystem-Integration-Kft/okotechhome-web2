@@ -40,7 +40,7 @@ webkimenet (`_web/`) és a hozzá tartozó verziókezelési réteg, saját verzi
 
 <table>
   <tr><td><b>Ügyfél</b></td><td>Ökotech-Home Kft. · Esztergom · 2004 óta · 3800+ telepítés</td></tr>
-  <tr><td><b>Fejlesztő</b></td><td>eSystem-Integration Kft. (eSI), Érd</td></tr>
+  <tr><td><b>Fejlesztő</b></td><td>eSystem-Integration Kft. (eSI Kft.), Érd</td></tr>
   <tr><td><b>Távoli repó</b></td><td><code>github.com/eSystem-Integration-Kft/okotechhome-web2</code> (privát)</td></tr>
   <tr><td><b>Kezdőverzió</b></td><td><code>v0.01.01</code></td></tr>
   <tr><td><b>Designrendszer</b></td><td><code>OTH-design-system-Teszt.v2</code> <b>v0.5</b> — a HTML-referencia az igazságforrás</td></tr>
@@ -221,7 +221,7 @@ git archive v0.02.00 --prefix=okotechhome2/ -o /tmp/okotechhome2.tar.gz _web
 
 ## 🏛️ Tulajdonjog és forráskód-folytonosság
 
-A weboldalt az **eSystem-Integration Kft.** (eSI) fejleszti az **Ökotech-Home Kft.** részére.
+A weboldalt az **eSystem-Integration Kft.** (eSI Kft.) fejleszti az **Ökotech-Home Kft.** részére.
 A forráskód **vagyonijog-átruházás + ügyfél-tulajdonú privát repó** („A” konstrukció) alapú
 **forráskód-folytonossági (escrow)** megállapodás szerint kerül átadásra, hogy a fejlesztés
 a szolgáltató kiesése esetén is folytatható legyen (Szjt. 1999. évi LXXVI. tv.; Ptk. 6:238. §).
@@ -264,7 +264,7 @@ a szolgáltató kiesése esetén is folytatható legyen (Szjt. 1999. évi LXXVI.
 
 <p align="center">
   <sub>Belső dokumentum · Ökotech-Home Kft. · 2509 Esztergom, Strázsa utca 12.<br>
-  Fejlesztés: eSystem-Integration Kft. (eSI), Érd</sub>
+  Fejlesztés: eSystem-Integration Kft. (eSI Kft.), Érd</sub>
 </p>
 
 ## Skillek — projekt-tudás a munkához
