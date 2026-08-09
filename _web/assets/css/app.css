@@ -2061,7 +2061,11 @@
     content:"";position:absolute;inset:-1px;border-radius:50%;
     border:1px solid transparent;transition:border-color var(--dur-ui) var(--ease-out);
   }
-  .folyamat-korong{position:relative}
+  /* A korong a SÍN FÖLÖTT áll. Enélkül sötét témában a mögötte futó vonal
+     átlátszott rajta: a korong és a sáv háttere ott közel azonos, világos
+     témában viszont a kontraszt elrejtette a hibát. A rétegsorrend nem
+     bízható a színekre. */
+  .folyamat-korong{position:relative;z-index:1}
   .folyamat-gomb[aria-expanded="true"] .folyamat-szam,
   .folyamat-gomb[aria-expanded="true"] .folyamat-cimke{color:var(--text-primary)}
 
