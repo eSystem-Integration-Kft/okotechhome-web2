@@ -3118,7 +3118,31 @@
   }
   .aidt-opt:not(:disabled):not(.is-sel):hover{border-color:var(--primary);background:var(--surface-muted)}
   .aidt-opt:focus-visible{outline:3px solid var(--button-focus);outline-offset:3px}
-  .aidt-opt.is-sel{background:var(--secondary);border-color:var(--secondary);color:var(--on-secondary)}
+  /* KIVÁLASZTOTT ÁLLAPOT. Korábban tömör sötétzöld tömb volt: erős, de nehéz —
+     három kijelölt válasz után a panel fele sötét blokk lett, és a szöveg
+     kontrasztja is megfordult a nem választottakhoz képest.
+
+     Most világos marad, és a kiemelést a KERET viszi: kétszeres vastagságú
+     Fern szegély + halvány Lime felület. A jelentés így is egyértelmű, de a
+     kártya olvasható és könnyű marad — a pipa pedig valódi jelöléssé válik,
+     nem csak a sötét blokk kísérőjévé.
+
+     A keret `box-shadow`-val vastagszik, nem `border-width`-tel: az utóbbi
+     elmozdítaná a tartalmat, és a gomb megugrana kiválasztáskor. */
+  .aidt-opt.is-sel{
+    background:var(--primary-soft);
+    border-color:var(--primary);
+    color:var(--text-primary);
+    box-shadow:inset 0 0 0 1px var(--primary);
+  }
+  .aidt-opt.is-sel:hover{background:color-mix(in srgb,var(--primary-soft) 70%,var(--surface))}
+  /* Kiválasztáskor egyetlen, rövid megnyomás — visszajelzés, nem dísz. */
+  .aidt-opt.is-sel{animation:aidt-valaszt 260ms var(--ease-out)}
+  @keyframes aidt-valaszt{
+    0%  {transform:scale(1)}
+    45% {transform:scale(.975)}
+    100%{transform:scale(1)}
+  }
   .aidt-opt:disabled{cursor:default}
   .aidt-opt-ck{display:inline-grid;place-items:center;width:var(--space-16);height:var(--space-16);border-radius:50%;background:color-mix(in srgb,var(--on-secondary) 25%,transparent)}
   .aidt-opt-ck svg{width:var(--space-8);height:var(--space-8);fill:none;stroke:currentColor;stroke-width:2.2}
@@ -3150,9 +3174,21 @@
     border-radius:var(--space-4);border:2px solid var(--border);background:var(--surface);
     display:grid;place-items:center;transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);
   }
-  .aidt-opt--cb.is-sel .aidt-cbx{background:var(--surface);border-color:var(--surface)}
-  .aidt-cbx svg{width:var(--space-8);height:var(--space-8);fill:none;stroke:var(--secondary);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity var(--dur-fast) var(--ease-out)}
-  .aidt-opt--cb.is-sel .aidt-cbx svg{opacity:1}
+  .aidt-opt--cb.is-sel .aidt-cbx{background:var(--primary);border-color:var(--primary)}
+  /* A pipa KIRAJZOLÓDIK, nem beúszik: a vonal végigfutása mutatja meg, hogy a
+     kattintás megtörtént. Az áthúzás hossza (24) a rajzolat TELJES hosszához
+     igazodik: a `M20 6 9 17l-5-5` út ~22,7 egység, ezért 16-tal a vonal vége
+     kilátszott a nem választott dobozokban is. */
+  .aidt-cbx svg{
+    width:calc(var(--space-8) + var(--space-4));height:calc(var(--space-8) + var(--space-4));
+    fill:none;stroke:var(--on-primary);stroke-width:3;
+    stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:24;stroke-dashoffset:24;
+  }
+  .aidt-opt--cb.is-sel .aidt-cbx svg{
+    animation:aidt-pipa 240ms var(--ease-out) 60ms forwards;
+  }
+  @keyframes aidt-pipa{to{stroke-dashoffset:0}}
 
   /* a felhasználó válaszának visszajelzése */
   .aidt-echo-wrap{display:flex;flex-wrap:wrap;gap:var(--space-8);justify-content:flex-end;align-items:center;max-width:86%}
@@ -3622,6 +3658,10 @@
     .btn[aria-busy="true"]::before{animation:none}
     /* A hero videóját ilyenkor a JS be sem tölti; ez a szabály a biztosíték. */
     .hero-video{display:none}
+    /* A kiválasztás azonnal látszik, megnyomás és kirajzolás nélkül. */
+    .aidt-opt.is-sel{animation:none}
+    .aidt-opt--cb.is-sel .aidt-cbx svg{animation:none;stroke-dashoffset:0}
+
     /* A megamenü átmenet nélkül vált állapotot. */
     .mega{transition:none}
   }
