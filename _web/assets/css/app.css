@@ -2083,8 +2083,16 @@
     -webkit-mask:url("../icon/lepes-beuzemeles.svg") center/72% no-repeat;
     mask:url("../icon/lepes-beuzemeles.svg") center/72% no-repeat;
   }
-  /* A hátralévők halványabbak: a szem így a jelenlegi lépésen áll meg. */
-  .folyamat-lepes[data-allapot="hatra"] .folyamat-korong{opacity:.55}
+  /* A hátralévők halványabbak: a szem így a jelenlegi lépésen áll meg.
+     ⚠️ NEM `opacity`-vel. Az az egész korongot áttetszővé teszi, a HÁTTERÉT is,
+     és a mögötte futó sín keresztülüt rajta — sötét témában ez jól látszott,
+     világosban a kontraszt elfedte. A halványítás ezért a kereten és a
+     tartalmon történik, a háttér átlátszatlan marad, hogy takarjon. */
+  .folyamat-lepes[data-allapot="hatra"] .folyamat-korong{
+    border-color:color-mix(in srgb,var(--border) 55%,transparent);
+    color:var(--text-tertiary);
+  }
+  .folyamat-lepes[data-allapot="hatra"] .folyamat-korong .icon{opacity:.55}
   .folyamat-lepes[data-allapot="hatra"] .folyamat-cimke{color:var(--text-tertiary)}
 
   .folyamat-panelek{padding-left:var(--space-32);border-left:2px solid var(--border);max-width:44rem;margin-left:auto}
