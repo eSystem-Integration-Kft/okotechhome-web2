@@ -134,6 +134,36 @@ is adhat 4–5× jelet, azt szemre kell eldönteni.
 Két további tiltás ugyanebből a családból: a *„soft-focus"* a bal oldalra életlen sávot
 eredményez éles határral, a *„several situations side by side"* pedig filmszalagot.
 
+### A fejlécképek is forráskép-szabály alá esnek
+
+A 11.1 forráskép-szabály nem csak a főoldali fejlécképre vonatkozik: **minden** aloldali
+fejlécképnél az `assets/img/alapkepek/` megfelelő darabja megy be referenciának, és a
+prompt csak a környezetet, a fényt és a kameraállást írja le. Ami ebből következik:
+
+- **Kitalált műszaki tartalom nincs.** A képen csak olyan berendezés szerepelhet, amelyik
+  a könyvtárban is megvan. A tiltólistára külön ki kell írni, mit ne találjon ki:
+  `no invented equipment or pipework, no perforated drainage pipes, no gravel trench
+  drainfield, no soakaway pit`. Enélkül a modell a tartály mellé odarajzol egy
+  kavicságyas, perforált csöves szikkasztómezőt — az elvezetés valódi eleme a
+  könyvtárban a fekete szikkasztóblokk.
+- **A felirat marad.** Referenciával a termék saját `A.B.CLEAR` felirata hibátlanul
+  átjön, még 1800px-es kivágatban is olvashatóan. A „no lettering" tiltás helyett
+  `no added text, captions or labels, no logos other than the product's own printed
+  marking` kell — a régi, általános tiltás letörölné a termékről a feliratot.
+- **Belső nézetnél mondd ki a kameraállást.** A könyvtár metszetrajzai felülnézetiek;
+  ha a prompt nem mondja meg, hogy a kamera lefelé néz a nyitott aknába, a modell a
+  berendezést oldalára fektetve a gyepre teszi. Kell hozzá: a kamera szöge, hogy a
+  perem *a fűvel egy szintben* van, és hogy `nothing protrudes above the lawn`.
+- **Régi épület csak ott, ahol a téma az.** Az emésztő kiváltásánál a repedt betongyűrű
+  a tartalom lényege — a ház viszont ott is mai és felújított.
+
+**Méretre vágás.** A mester 16:9-ben, 4K-ban készül; ebből jön a három méret
+(`1800×764` · `1100×467` · `1100×718`). A széles kivágat az égboltból vesz el többet
+(≈480px fentről az 5504×3072-es mesteren), a szűk `gravity east`, hogy a jobb
+kétharmadban álló megoldás egészben megmaradjon. A lekicsinyítés **Mitchell**
+újramintavételezéssel — az alapértelmezett Lanczos annyi fűtextúrát tart meg, hogy a
+WebP ~25%-kal nehezebb lesz látható nyereség nélkül, és a fejléckép az LCP-elem.
+
 ## Amit tilos
 
 - Tailwind vagy bármilyen CSS-keretrendszer
