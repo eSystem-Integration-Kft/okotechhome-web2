@@ -36,34 +36,53 @@
      fordul, a szemhéj pislog. Külső fájlból ezek nem volnának elérhetők. */
   const FIGURA = `
 <svg class="oko-figura" viewBox="0 0 100 108" role="img" aria-hidden="true" focusable="false">
-  <ellipse class="oko-arnyek" cx="50" cy="103" rx="30" ry="4.5"/>
+  <ellipse class="oko-arnyek" cx="50" cy="102" rx="29" ry="4.5"/>
   <g class="oko-test-csoport">
-    <!-- narancs be- és kimenő csonk, ahogy a terméken -->
-    <rect class="oko-csonk" x="6" y="52" width="16" height="9" rx="4.5"/>
-    <rect class="oko-csonk" x="78" y="45" width="16" height="9" rx="4.5"/>
-    <!-- kúpos felsőrész -->
-    <path class="oko-kup" d="M35 16h30l9 25H26z"/>
+    <!-- narancs csonkok: a jobb oldali magasabban, ahogy a terméken -->
+    <rect class="oko-csonk-arny" x="6" y="53.5" width="16" height="8" rx="4"/>
+    <rect class="oko-csonk" x="6" y="52" width="16" height="8" rx="4"/>
+    <rect class="oko-csonk-arny" x="78" y="46.5" width="16" height="8" rx="4"/>
+    <rect class="oko-csonk" x="78" y="45" width="16" height="8" rx="4"/>
+
+    <!-- kúpos felsőrész, lekerekített felső élekkel -->
+    <path class="oko-kup" d="M37.5 15h25a4 4 0 0 1 3.7 2.5L74 39H26l7.8-21.5A4 4 0 0 1 37.5 15z"/>
+    <!-- a kúp bal oldalán fény, jobb oldalán árnyék: ettől lesz kúp, nem háromszög -->
+    <path class="oko-kup-feny" d="M37.5 15h7l-6 24H26l7.8-21.5A4 4 0 0 1 37.5 15z"/>
+    <path class="oko-kup-arny" d="M62.5 15h-6l6 24H74l-7.8-21.5A4 4 0 0 0 62.5 15z"/>
+
     <!-- perem a kúp és a henger között -->
-    <rect class="oko-perem" x="21" y="40" width="58" height="6" rx="3"/>
-    <!-- hengeres test -->
-    <path class="oko-test" d="M23 46h54v40a10 10 0 0 1-10 10H33a10 10 0 0 1-10-10z"/>
-    <!-- a test bal oldali íve: ettől lesz henger, nem doboz -->
-    <path class="oko-test-arny" d="M23 46h9v50h-1a8 8 0 0 1-8-8z"/>
+    <rect class="oko-perem" x="20" y="38.5" width="60" height="7" rx="3.5"/>
+    <rect class="oko-perem-vonal" x="20" y="44.5" width="60" height="1.6" rx=".8"/>
+
+    <!-- hengeres test, enyhén domború oldalakkal -->
+    <path class="oko-test"
+          d="M23.5 45.5c-.8 14-.9 27.5 0 40.5.4 6 4.6 10 10.5 10h32c5.9 0 10.1-4 10.5-10 .9-13 .8-26.5 0-40.5z"/>
+    <!-- fény a bal oldalon, árnyék a jobb szélen -->
+    <path class="oko-test-feny" d="M23.5 45.5c-.8 14-.9 27.5 0 40.5.2 3.2 1.5 5.8 3.5 7.6-1.6-16-1.7-32.1-.5-48.1z"/>
+    <path class="oko-test-arny" d="M76.5 45.5c.8 14 .9 27.5 0 40.5-.3 4.3-2.5 7.5-5.8 9.1 2.3-16.4 2.6-33 1.3-49.6z"/>
+
     <!-- szemek -->
     <g class="oko-szem">
-      <ellipse class="oko-szemfeher" cx="41" cy="62" rx="10.5" ry="11.5"/>
-      <circle class="oko-pupilla" data-oko-pupilla cx="41" cy="62" r="5.2"/>
-      <circle class="oko-csillanas" cx="38.8" cy="59.2" r="1.8"/>
-      <rect class="oko-hej" data-oko-hej x="29.5" y="48" width="23" height="0" rx="2"/>
+      <ellipse class="oko-szemfeher" cx="40.5" cy="66" rx="11.5" ry="12.5"/>
+      <circle class="oko-pupilla" data-oko-pupilla cx="40.5" cy="66" r="5.6"/>
+      <circle class="oko-csillanas" cx="38" cy="63" r="2"/>
+      <rect class="oko-hej" data-oko-hej x="28.5" y="51" width="25" height="0" rx="2"/>
     </g>
     <g class="oko-szem">
-      <ellipse class="oko-szemfeher" cx="62" cy="62" rx="10.5" ry="11.5"/>
-      <circle class="oko-pupilla" data-oko-pupilla cx="62" cy="62" r="5.2"/>
-      <circle class="oko-csillanas" cx="59.8" cy="59.2" r="1.8"/>
-      <rect class="oko-hej" data-oko-hej x="50.5" y="48" width="23" height="0" rx="2"/>
+      <ellipse class="oko-szemfeher" cx="62.5" cy="66" rx="11.5" ry="12.5"/>
+      <circle class="oko-pupilla" data-oko-pupilla cx="62.5" cy="66" r="5.6"/>
+      <circle class="oko-csillanas" cx="60" cy="63" r="2"/>
+      <rect class="oko-hej" data-oko-hej x="50.5" y="51" width="25" height="0" rx="2"/>
     </g>
-    <!-- száj: egy nyugodt ív, nem vigyor -->
-    <path class="oko-szaj" d="M43 82q8 7 16 0"/>
+
+    <!-- KONTÚR. A fény- és árnyékrétegek FÖLÉ kerül, különben azok kitakarnák
+         a széleket. Enélkül a törtfehér test beleolvad a világos zöld fejlécbe
+         és a lap halvány felületeibe. -->
+    <g class="oko-kontur">
+      <path d="M37.5 15h25a4 4 0 0 1 3.7 2.5L74 39H26l7.8-21.5A4 4 0 0 1 37.5 15z"/>
+      <rect x="20" y="38.5" width="60" height="7" rx="3.5"/>
+      <path d="M23.5 45.5c-.8 14-.9 27.5 0 40.5.4 6 4.6 10 10.5 10h32c5.9 0 10.1-4 10.5-10 .9-13 .8-26.5 0-40.5z"/>
+    </g>
   </g>
 </svg>`;
 

@@ -2853,7 +2853,7 @@
   /* A „szikra" az AI-jelzés: márkaszínt kap és vastagabb vonalat, különben
      halványszürke szövegszínnel gyakorlatilag láthatatlan. */
   .ofc-compare-title svg,.ofc-eyebrow svg{
-    color:var(--primary);stroke-width:2.2;
+    color:var(--primary);stroke-width:1.6;
   }
   .ofc-compare-title svg{width:var(--space-32);height:var(--space-32)}
 
@@ -3341,7 +3341,7 @@
   .aidt-muted{font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height)}
   .aidt-prep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-8) var(--space-24)}
   .aidt-prep li{display:flex;align-items:flex-start;gap:var(--space-8);font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height)}
-  .aidt-prep svg{flex:none;width:var(--space-16);height:var(--space-16);margin-top:2px;fill:none;stroke:var(--secondary);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .aidt-prep svg{flex:none;width:var(--space-16);height:var(--space-16);margin-top:2px;fill:none;stroke:var(--secondary);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
   .aidt-res-actions{display:grid;grid-template-columns:1.3fr .7fr;gap:var(--space-24);margin-top:var(--space-24);padding-top:var(--space-24);border-top:1px solid var(--border)}
   .aidt-act{display:flex;gap:var(--space-16)}
@@ -3945,6 +3945,8 @@
     --oko-szem:#FBFBF7;
     --oko-pupilla:#22261F;
     --oko-szaj:#9A9384;
+    --oko-feny:#F7F4EA;
+    --oko-kontur:#9C947F;
     --oko-meret:72px;
     /* A gyökér a teljes képernyőt fedi, de nem fog kattintást — a benne álló
        elemek igen. Így a figura a sarok és az oldalsó fül között EGYETLEN
@@ -4003,17 +4005,30 @@
   .oko-gomb:hover .oko-test-csoport{transform:translateY(-2px) scale(1.03)}
   .oko-test-csoport{transform-origin:50% 90%;transition:transform 260ms var(--ease-out)}
 
+  /* A test egyszínű, a formát a rátett fény- és árnyékréteg adja — így a
+     figura minden méretben tiszta marad, és nincs szükség színátmenetre. */
   .oko-test{fill:var(--oko-test)}
+  .oko-test-feny{fill:var(--oko-feny)}
   .oko-test-arny{fill:var(--oko-test-arny)}
   .oko-kup{fill:var(--oko-kup)}
+  .oko-kup-feny{fill:var(--oko-feny)}
+  .oko-kup-arny{fill:var(--oko-test-arny);opacity:.4}
   .oko-perem{fill:var(--oko-perem)}
+  .oko-perem-vonal{fill:var(--oko-test-arny);opacity:.5}
   .oko-csonk{fill:var(--oko-csonk)}
+  .oko-csonk-arny{fill:var(--oko-csonk);opacity:.45}
+  /* Vékony sziluett-kontúr: a figura így minden háttéren elválik — a világos
+     zöld fejlécen, a fehér panelon és fotó fölött is. */
+  .oko-kontur > *{fill:none;stroke:var(--oko-kontur);stroke-width:1.6;
+    stroke-linejoin:round;stroke-linecap:round}
   .oko-akna-test{fill:var(--oko-akna)}
   .oko-akna-fedel{fill:var(--oko-akna-fedel)}
   .oko-szaj{
     fill:none;stroke:var(--oko-szaj);stroke-width:2.4;stroke-linecap:round;
   }
-  .oko-szemfeher{fill:var(--oko-szem)}
+  /* A szemfehér halvány pereme: enélkül a világos test és a világos szem
+     összemosódik, és a tekintet elveszti a formáját. */
+  .oko-szemfeher{fill:var(--oko-szem);stroke:var(--oko-kontur);stroke-width:1.1;opacity:1}
   .oko-pupilla{fill:var(--oko-pupilla);transition:cx 90ms linear,cy 90ms linear}
   .oko-csillanas{fill:#fff;opacity:.9}
   /* A szemhéj felülről csukódik: nulla magasságról nő a szem fölé. */
@@ -4091,13 +4106,15 @@
     /* Nagy és a JOBB oldalon: a fejléc fölé ülve ez lett a panel arca. Kicsiben
        és balra dísznek látszott, ebben a méretben viszont ő nyitja meg a
        dobozt — a szemek a cím fölött vannak, nem mellette. */
-    display:block;width:68px;height:72px;flex:none;
+    display:block;width:84px;height:90px;flex:none;
     order:2;margin-left:auto;
     /* A fejléc FÜGGŐLEGES KÖZEPÉN ül, jobb oldalt: felül lógva átfedte a záró
        gombot, és a szövegre is rátenyerelt. Kilógni csak annyit lóg, hogy a
        tartály teteje kiemelkedjen a fejlécből. */
     align-self:center;
-    margin-top:calc(-1 * var(--space-16));
+    /* A feje túllóg a fejléc kontúrján — ettől ül a panelen, nem benne.
+       Kilenc képpont még véletlennek látszott; ennyi már szándék. */
+    margin-top:calc(-1 * var(--space-48) - var(--space-8));
     position:relative;top:0;
     /* Halvány fénykoszorú és egy puha árnyék: a figura sötét, és a fejléc
        fölött bármilyen háttér lehet mögötte (fotó, sötét sáv). Enélkül
@@ -4211,7 +4228,7 @@
   :root[data-theme="dark"] .oko{
     --oko-test:#CFC9B8;--oko-test-arny:#B7B09D;--oko-kup:#DAD5C6;
     --oko-perem:#C4BDAA;--oko-akna:#CFC9B8;--oko-szaj:#7E7768;
-    --oko-szem:#FBFBF7;--oko-pupilla:#1B1F1A;
+    --oko-szem:#FBFBF7;--oko-pupilla:#1B1F1A;--oko-feny:#E3DECE;--oko-kontur:#6E6857;
   }
 }
 
