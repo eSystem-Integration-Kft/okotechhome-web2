@@ -208,12 +208,18 @@
       varakozik = true;
       requestAnimationFrame(() => {
         varakozik = false;
-        const d = gomb.getBoundingClientRect();
-        const kx = d.left + d.width / 2;
-        const ky = d.top + d.height / 2;
-        const szog = Math.atan2(e.clientY - ky, e.clientX - kx);
-        const tav = Math.min(2.6, Math.hypot(e.clientX - kx, e.clientY - ky) / 60);
+        /* Minden figura a SAJÁT középpontjából néz — eddig mindegyik a sarokban
+           álló gombhoz igazodott, így a panel fejlécében ülő Öko folyton
+           félrenézett. */
         pupillak.forEach((p, i) => {
+          const svg = p.closest('svg');
+          if (!svg) return;
+          const d = svg.getBoundingClientRect();
+          if (!d.width) return;
+          const kx = d.left + d.width / 2;
+          const ky = d.top + d.height / 2;
+          const szog = Math.atan2(e.clientY - ky, e.clientX - kx);
+          const tav = Math.min(2.6, Math.hypot(e.clientX - kx, e.clientY - ky) / 60);
           p.setAttribute('cx', String(alap[i].x + Math.cos(szog) * tav));
           p.setAttribute('cy', String(alap[i].y + Math.sin(szog) * tav));
         });

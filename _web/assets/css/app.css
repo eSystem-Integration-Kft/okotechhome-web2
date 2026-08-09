@@ -4076,11 +4076,18 @@
     /* Nagy és a JOBB oldalon: a fejléc fölé ülve ez lett a panel arca. Kicsiben
        és balra dísznek látszott, ebben a méretben viszont ő nyitja meg a
        dobozt — a szemek a cím fölött vannak, nem mellette. */
-    display:block;width:56px;height:60px;flex:none;
+    display:block;width:68px;height:72px;flex:none;
     order:2;margin-left:auto;
     align-self:flex-start;
-    margin-top:calc(-1 * var(--space-48));
-    position:relative;top:-2px;
+    /* Nagyobb és LEJJEBB: így a bordázott test is a fejlécre kerül, nem csak a
+       feje kandikál ki — a tartály formája ettől ismerhető fel. */
+    margin-top:calc(-1 * var(--space-32));
+    position:relative;top:4px;
+    /* Halvány fénykoszorú és egy puha árnyék: a figura sötét, és a fejléc
+       fölött bármilyen háttér lehet mögötte (fotó, sötét sáv). Enélkül
+       beleolvad. */
+    filter:drop-shadow(0 0 3px rgb(255 255 255 / .75))
+           drop-shadow(0 3px 8px rgb(0 0 0 / .3));
   }
   .oko-panel-cimek{order:1}
   .oko-panel-zar{order:3}
@@ -4426,5 +4433,35 @@
 @layer motion{
   @media (prefers-reduced-motion:reduce){
     .oko-ful{animation:none;transition:none}
+  }
+}
+
+@layer components {
+  /* A panelfej figurája is ÉL: beugrik, amikor a panel nyílik, aztán lassan
+     billeg. A pislogás közös a többi példánnyal (ugyanaz a szemhéj-elem), a
+     tekintet pedig a saját középpontjából követi a kurzort. */
+  .oko-panel-jel .oko-test-csoport{
+    animation:oko-fej-be 520ms cubic-bezier(.22,1.3,.36,1) both,
+              oko-fej-leng 5.5s ease-in-out 620ms infinite;
+    transform-origin:50% 80%;
+  }
+  @keyframes oko-fej-be{
+    from{transform:translateY(14px) scale(.72)}
+    60%{transform:translateY(-3px) scale(1.05)}
+    to{transform:none}
+  }
+  @keyframes oko-fej-leng{
+    0%,100%{transform:rotate(-2deg) translateY(0)}
+    50%{transform:rotate(2deg) translateY(-2px)}
+  }
+  /* Kérdés közben a fej is figyel: gyorsabb billegés. */
+  .oko.is-gondolkodik .oko-panel-jel .oko-test-csoport{
+    animation:oko-fej-leng 1.5s ease-in-out infinite;
+  }
+}
+@layer motion{
+  @media (prefers-reduced-motion:reduce){
+    .oko-panel-jel .oko-test-csoport,
+    .oko.is-gondolkodik .oko-panel-jel .oko-test-csoport{animation:none}
   }
 }
