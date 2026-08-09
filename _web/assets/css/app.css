@@ -4073,12 +4073,17 @@
      feje és a szemei kandikálnak ki fölülre. Így a panel az ő panelja lesz,
      nem egy külön ikonnal díszített doboz. Kisebb is: itt a szöveg a fontos. */
   .oko-panel-jel{
-    display:block;width:26px;height:28px;flex:none;
-    /* A fejléc fölé emeljük, hogy a feje határozottan kilógjon — a nyolc
-       képpontos kandikálás még véletlennek látszott. */
-    margin-top:calc(-1 * var(--space-32));align-self:flex-start;
-    position:relative;top:-6px;
+    /* Nagy és a JOBB oldalon: a fejléc fölé ülve ez lett a panel arca. Kicsiben
+       és balra dísznek látszott, ebben a méretben viszont ő nyitja meg a
+       dobozt — a szemek a cím fölött vannak, nem mellette. */
+    display:block;width:56px;height:60px;flex:none;
+    order:2;margin-left:auto;
+    align-self:flex-start;
+    margin-top:calc(-1 * var(--space-48));
+    position:relative;top:-2px;
   }
+  .oko-panel-cimek{order:1}
+  .oko-panel-zar{order:3}
   .oko-panel-jel .oko-arnyek{display:none}
   .oko-panel-cimek{min-width:0;flex:1}
   .oko-panel-cim{margin:0;color:var(--text-primary)}
@@ -4393,4 +4398,33 @@
   .oko-javaslat:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
   /* Gondolkodás közben a beviteli sor jelezze, hogy dolgozik. */
   .oko.is-gondolkodik .oko-kuld{opacity:.6;pointer-events:none}
+}
+
+@layer components {
+  /* --- a FÜL: külön elem, saját pozícióval ---------------------------------
+     A jobb képernyőszél közepén ül, félig kilógva: a teste kicsúszik, a szemek
+     bent maradnak. Ez jelzi, hogy Öko félrehúzódott, de ott van. Saját
+     `position:fixed`, tehát semmit nem örököl a sarokban álló gombtól. */
+  .oko-ful{
+    position:fixed;right:0;top:50%;z-index:61;
+    appearance:none;border:0;padding:0;cursor:pointer;
+    width:64px;height:68px;
+    background:var(--surface);
+    border:1px solid var(--border);border-right:0;
+    border-radius:var(--r-lg) 0 0 var(--r-lg);
+    box-shadow:var(--shadow-2);
+    transform:translate(26%,-50%);
+    transition:transform 260ms var(--ease-out);
+    animation:oko-ful-be 420ms cubic-bezier(.22,1.2,.36,1) both;
+  }
+  @keyframes oko-ful-be{from{transform:translate(110%,-50%)}}
+  .oko-ful:hover{transform:translate(12%,-50%)}
+  .oko-ful:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+  .oko-ful .oko-figura{width:100%;height:100%}
+  .oko-ful .oko-arnyek{display:none}
+}
+@layer motion{
+  @media (prefers-reduced-motion:reduce){
+    .oko-ful{animation:none;transition:none}
+  }
 }

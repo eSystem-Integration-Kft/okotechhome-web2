@@ -122,6 +122,16 @@
       <span class="oko-rejtett">Öko — segéd megnyitása</span>
     </button>
 
+    <!-- A FÜL. Nem a sarokban álló gomb utazik ide: az ottani helyzetét a
+         böngésző semmilyen úton nem engedte átírni (inline !important sem
+         mozdította), ezért a fül külön elem, saját fix pozícióval. Így semmit
+         sem örököl, és a becsúszása egyetlen transform. -->
+    <button type="button" class="oko-ful" data-oko-ful
+            aria-expanded="false" aria-controls="oko-panel" hidden>
+      ${FIGURA}
+      <span class="oko-rejtett">Öko — segéd (félrehúzva, megnyitás)</span>
+    </button>
+
     <div class="oko-panel" id="oko-panel" data-oko-panel role="dialog"
          aria-label="Öko — segéd" hidden>
       <div class="oko-panel-fej">
@@ -241,16 +251,16 @@
      többi `.oko-gomb` deklarációval versenyzett és alulmaradt, a figura pedig
      a sarokban ragadt. Az elemre írt érték minden szabályt megelőz, a CSS
      `transition` viszont ugyanúgy animálja a két helyzet között. */
-  const MERET = 72;
+  /* A sarokban álló figura és a szélen ülő fül két KÜLÖN elem: egyszerre
+     mindig csak az egyik látszik. A váltás így nem pozíció-animáció, hanem
+     megjelenés — és az működik ott is, ahol a helyzet átírása nem. */
+  const ful = gyoker.querySelector('[data-oko-ful]');
   function fulre(be) {
     gyoker.classList.toggle('is-ful', be);
-    gomb.style.top = be
-      ? `calc(50vh - ${Math.round(MERET * 0.5)}px)`
-      : `calc(100vh - ${MERET + 28}px)`;
-    gomb.style.right = be ? `-${Math.round(MERET * 0.42)}px` : '';
-    gomb.querySelector('.oko-rejtett').textContent =
-      be ? 'Öko — segéd megnyitása (félrehúzva)' : 'Öko — segéd megnyitása';
+    gomb.hidden = be;
+    ful.hidden = !be;
   }
+  ful.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
   gyoker.querySelector('[data-oko-panel-zar]').addEventListener('click', zar);
   gyoker.querySelector('[data-oko-zar]').addEventListener('click', () => {
     buborek.hidden = true;
