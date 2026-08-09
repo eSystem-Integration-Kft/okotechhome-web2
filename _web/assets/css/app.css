@@ -3933,11 +3933,18 @@
 @layer components {
 
   .oko{
-    --oko-test:#2C302C;         /* a tartály teste — közel fekete, de nem az */
-    --oko-borda:#454B45;
-    --oko-nyak:#1F221F;
+    /* A figura az A.B.Clear tartály: törtfehér test, kúpos felsőrész, narancs
+       csonkok, elöl a kis akna fekete fedéllel. */
+    --oko-test:#E7E2D3;
+    --oko-test-arny:#D3CCB8;
+    --oko-kup:#EFEBE0;
+    --oko-perem:#DCD6C4;
+    --oko-csonk:#E4703A;
+    --oko-akna:#E7E2D3;
+    --oko-akna-fedel:#2C302C;
     --oko-szem:#FBFBF7;
     --oko-pupilla:#22261F;
+    --oko-szaj:#9A9384;
     --oko-meret:72px;
     /* A gyökér a teljes képernyőt fedi, de nem fog kattintást — a benne álló
        elemek igen. Így a figura a sarok és az oldalsó fül között EGYETLEN
@@ -3997,12 +4004,20 @@
   .oko-test-csoport{transform-origin:50% 90%;transition:transform 260ms var(--ease-out)}
 
   .oko-test{fill:var(--oko-test)}
-  .oko-nyak,.oko-fedel,.oko-csonk{fill:var(--oko-nyak)}
-  .oko-bordak path{stroke:var(--oko-borda);stroke-width:3;stroke-linecap:round;fill:none}
+  .oko-test-arny{fill:var(--oko-test-arny)}
+  .oko-kup{fill:var(--oko-kup)}
+  .oko-perem{fill:var(--oko-perem)}
+  .oko-csonk{fill:var(--oko-csonk)}
+  .oko-akna-test{fill:var(--oko-akna)}
+  .oko-akna-fedel{fill:var(--oko-akna-fedel)}
+  .oko-szaj{
+    fill:none;stroke:var(--oko-szaj);stroke-width:2.4;stroke-linecap:round;
+  }
   .oko-szemfeher{fill:var(--oko-szem)}
   .oko-pupilla{fill:var(--oko-pupilla);transition:cx 90ms linear,cy 90ms linear}
   .oko-csillanas{fill:#fff;opacity:.9}
   /* A szemhéj felülről csukódik: nulla magasságról nő a szem fölé. */
+  /* A szemhéj a TEST színét viszi, hogy csukott szemnél összeolvadjon vele. */
   .oko-hej{fill:var(--oko-test);transition:height 90ms var(--ease-out)}
   .oko-hej.is-csukva{height:26px}
   .oko-arnyek{fill:rgb(0 0 0 / .16)}
@@ -4191,9 +4206,12 @@
 /* Sötét téma: a test világosodik, hogy ne olvadjon a háttérbe, a szem viszont
    marad a legvilágosabb felület — a tekintet így ott is olvasható. */
 @layer components {
+  /* Sötét témában a törtfehér test tompul, hogy ne világítson ki a lapból;
+     a szem marad a legvilágosabb felület. */
   :root[data-theme="dark"] .oko{
-    --oko-test:#3A403A;--oko-borda:#5A625A;--oko-nyak:#2A2F2A;
-    --oko-szem:#F2F4EC;--oko-pupilla:#1B1F1A;
+    --oko-test:#CFC9B8;--oko-test-arny:#B7B09D;--oko-kup:#DAD5C6;
+    --oko-perem:#C4BDAA;--oko-akna:#CFC9B8;--oko-szaj:#7E7768;
+    --oko-szem:#FBFBF7;--oko-pupilla:#1B1F1A;
   }
 }
 
@@ -4430,6 +4448,7 @@
   .oko-ful:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
   .oko-ful .oko-figura{width:100%;height:100%}
   .oko-ful .oko-arnyek{display:none}
+  .oko-panel-jel .oko-arnyek{display:none}
 }
 @layer motion{
   @media (prefers-reduced-motion:reduce){

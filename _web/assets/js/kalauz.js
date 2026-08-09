@@ -35,36 +35,35 @@
   /* Egyetlen inline SVG, mert a szemek külön mozognak: a pupilla a kurzor felé
      fordul, a szemhéj pislog. Külső fájlból ezek nem volnának elérhetők. */
   const FIGURA = `
-<svg class="oko-figura" viewBox="0 0 100 104" role="img" aria-hidden="true" focusable="false">
-  <ellipse class="oko-arnyek" cx="50" cy="98" rx="30" ry="5"/>
+<svg class="oko-figura" viewBox="0 0 100 108" role="img" aria-hidden="true" focusable="false">
+  <ellipse class="oko-arnyek" cx="50" cy="103" rx="30" ry="4.5"/>
   <g class="oko-test-csoport">
-    <!-- aknanyakak: a tartály két búvónyílása, egyben a figura „füle" -->
-    <rect class="oko-nyak" x="24" y="10" width="16" height="14" rx="4"/>
-    <rect class="oko-nyak" x="60" y="10" width="16" height="14" rx="4"/>
-    <rect class="oko-fedel" x="21" y="6" width="22" height="7" rx="3.5"/>
-    <rect class="oko-fedel" x="57" y="6" width="22" height="7" rx="3.5"/>
-    <!-- test: a bordázott tartály lekerekítve -->
-    <rect class="oko-test" x="10" y="20" width="80" height="74" rx="24"/>
-    <!-- bordák: a termék legjellegzetesebb jegye, halványan -->
-    <g class="oko-bordak">
-      <path d="M20 40v34M28 34v46M72 34v46M80 40v34"/>
-    </g>
+    <!-- narancs be- és kimenő csonk, ahogy a terméken -->
+    <rect class="oko-csonk" x="6" y="52" width="16" height="9" rx="4.5"/>
+    <rect class="oko-csonk" x="78" y="45" width="16" height="9" rx="4.5"/>
+    <!-- kúpos felsőrész -->
+    <path class="oko-kup" d="M35 16h30l9 25H26z"/>
+    <!-- perem a kúp és a henger között -->
+    <rect class="oko-perem" x="21" y="40" width="58" height="6" rx="3"/>
+    <!-- hengeres test -->
+    <path class="oko-test" d="M23 46h54v40a10 10 0 0 1-10 10H33a10 10 0 0 1-10-10z"/>
+    <!-- a test bal oldali íve: ettől lesz henger, nem doboz -->
+    <path class="oko-test-arny" d="M23 46h9v50h-1a8 8 0 0 1-8-8z"/>
     <!-- szemek -->
-    <g class="oko-szem" data-oko-szem>
-      <ellipse class="oko-szemfeher" cx="38" cy="52" rx="11" ry="12"/>
-      <circle class="oko-pupilla" data-oko-pupilla cx="38" cy="52" r="5.4"/>
-      <circle class="oko-csillanas" cx="35.6" cy="49" r="1.9"/>
-      <rect class="oko-hej" data-oko-hej x="26" y="38" width="24" height="0" rx="2"/>
+    <g class="oko-szem">
+      <ellipse class="oko-szemfeher" cx="41" cy="62" rx="10.5" ry="11.5"/>
+      <circle class="oko-pupilla" data-oko-pupilla cx="41" cy="62" r="5.2"/>
+      <circle class="oko-csillanas" cx="38.8" cy="59.2" r="1.8"/>
+      <rect class="oko-hej" data-oko-hej x="29.5" y="48" width="23" height="0" rx="2"/>
     </g>
-    <g class="oko-szem" data-oko-szem>
-      <ellipse class="oko-szemfeher" cx="62" cy="52" rx="11" ry="12"/>
-      <circle class="oko-pupilla" data-oko-pupilla cx="62" cy="52" r="5.4"/>
-      <circle class="oko-csillanas" cx="59.6" cy="49" r="1.9"/>
-      <rect class="oko-hej" data-oko-hej x="50" y="38" width="24" height="0" rx="2"/>
+    <g class="oko-szem">
+      <ellipse class="oko-szemfeher" cx="62" cy="62" rx="10.5" ry="11.5"/>
+      <circle class="oko-pupilla" data-oko-pupilla cx="62" cy="62" r="5.2"/>
+      <circle class="oko-csillanas" cx="59.8" cy="59.2" r="1.8"/>
+      <rect class="oko-hej" data-oko-hej x="50.5" y="48" width="23" height="0" rx="2"/>
     </g>
-    <!-- a be- és kimenő csonk: a tartály oldalán, apró jelzésként -->
-    <rect class="oko-csonk" x="4" y="44" width="8" height="7" rx="3.5"/>
-    <rect class="oko-csonk" x="88" y="44" width="8" height="7" rx="3.5"/>
+    <!-- száj: egy nyugodt ív, nem vigyor -->
+    <path class="oko-szaj" d="M43 82q8 7 16 0"/>
   </g>
 </svg>`;
 
