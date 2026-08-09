@@ -1296,7 +1296,11 @@
     transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
   }
   .mega-link:hover .mega-ico{background:var(--surface-muted);color:var(--text-primary)}
-  .mega-label{line-height:var(--type-ui-body-line-height)}
+  /* A menücímke navigáció, nem cím: egy sor a cél, kettő a felső határ. A
+     hosszú, mondatszerű változat az oldalon marad (H1, morzsamenü). Ahol mégis
+     törik, a `balance` egyenlő hosszú sorokra oszt, hogy ne maradjon egyetlen
+     szó a második sorban. */
+  .mega-label{line-height:var(--type-ui-body-line-height);text-wrap:balance}
   .mega-link:hover{background:var(--canvas);color:var(--text-primary)}
   .mega-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px}
 
