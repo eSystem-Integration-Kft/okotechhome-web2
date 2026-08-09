@@ -4051,7 +4051,10 @@
     max-height:min(32rem,calc(100vh - 8rem));
     display:flex;flex-direction:column;
     background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--panel-radius);box-shadow:var(--shadow-2);overflow:hidden;
+    border-radius:var(--panel-radius);box-shadow:var(--shadow-2);
+    /* `visible`, hogy a fejlécből KIKANDIKÁLÓ fej ne vágódjon le. A görgetést
+       a társalgás doboza intézi, nem a panel. */
+    overflow:visible;
     animation:oko-panel-be 260ms var(--ease-out) both;
   }
   @keyframes oko-panel-be{from{opacity:0;transform:translateY(12px) scale(.98)}}
@@ -4064,8 +4067,19 @@
     display:flex;align-items:center;gap:var(--space-8);
     padding:var(--space-16);border-bottom:1px solid var(--border);
     background:var(--surface-muted);
+    border-radius:var(--panel-radius) var(--panel-radius) 0 0;
   }
-  .oko-panel-jel{display:block;width:34px;height:36px;flex:none}
+  /* NEM egy második Öko: ugyanaz a figura, félig a fejlécbe süllyesztve — a
+     feje és a szemei kandikálnak ki fölülre. Így a panel az ő panelja lesz,
+     nem egy külön ikonnal díszített doboz. Kisebb is: itt a szöveg a fontos. */
+  .oko-panel-jel{
+    display:block;width:26px;height:28px;flex:none;
+    /* A fejléc fölé emeljük, hogy a feje határozottan kilógjon — a nyolc
+       képpontos kandikálás még véletlennek látszott. */
+    margin-top:calc(-1 * var(--space-32));align-self:flex-start;
+    position:relative;top:-6px;
+  }
+  .oko-panel-jel .oko-arnyek{display:none}
   .oko-panel-cimek{min-width:0;flex:1}
   .oko-panel-cim{margin:0;color:var(--text-primary)}
   .oko-panel-alcim{margin:0;color:var(--text-secondary)}
@@ -4101,6 +4115,7 @@
   .oko-urlap{
     display:flex;gap:var(--space-8);padding:var(--space-16);
     border-top:1px solid var(--border);background:var(--surface);
+    border-radius:0 0 var(--panel-radius) var(--panel-radius);
   }
   .oko-input{
     flex:1;min-width:0;min-height:44px;padding:var(--space-8) var(--space-16);
