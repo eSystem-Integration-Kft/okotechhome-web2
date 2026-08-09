@@ -150,15 +150,10 @@
       <span class="oko-rejtett">Öko — segéd (félrehúzva, megnyitás)</span>
     </button>
 
-    <button type="button" class="oko-panel-jel" data-oko-kicsire hidden
-            title="Félrehúzom">
-      ${FIGURA}
-      <span class="oko-rejtett">Öko félrehúzása a képernyő szélére</span>
-    </button>
-
     <div class="oko-panel" id="oko-panel" data-oko-panel role="dialog"
          aria-label="Öko — segéd" hidden>
       <div class="oko-panel-fej">
+        <span class="oko-panel-jel" aria-hidden="true">${FIGURA}</span>
         <div class="oko-panel-cimek">
           <p class="type-ui-subtitle oko-panel-cim">Öko</p>
           <p class="type-ui-caption oko-panel-alcim" data-oko-alcim></p>
@@ -255,7 +250,6 @@
   function nyit() {
     buborek.hidden = true;
     fulre(true);                       // előbb félrevonul, hogy legyen helye
-    fejGomb.hidden = false;
     panel.hidden = false;
     gomb.setAttribute('aria-expanded', 'true');
     gyoker.classList.add('is-nyitva');
@@ -267,7 +261,6 @@
   }
   function zar() {
     panel.hidden = true;
-    fejGomb.hidden = true;
     gomb.setAttribute('aria-expanded', 'false');
     gyoker.classList.remove('is-nyitva');
     fulre(false);                      // visszasétál a sarokba
@@ -286,19 +279,6 @@
      mindig csak az egyik látszik. A váltás így nem pozíció-animáció, hanem
      megjelenés — és az működik ott is, ahol a helyzet átírása nem. */
   const ful = gyoker.querySelector('[data-oko-ful]');
-  const fejGomb = gyoker.querySelector('[data-oko-kicsire]');
-  /* A fej a KICSIRE CSUKÁS: a panel eltűnik, de Öko a szélen MARAD fülként —
-     ezért nem a zar()-t hívja, az ugyanis visszasétáltatná a sarokba. A panel
-     × gombja az, ami mindent visszaállít. */
-  function kicsire() {
-    panel.hidden = true;
-    fejGomb.hidden = true;
-    gomb.setAttribute('aria-expanded', 'false');
-    gyoker.classList.remove('is-nyitva');
-    reflektorLe();
-    ful.focus();
-  }
-  fejGomb.addEventListener('click', kicsire);
   function fulre(be) {
     gyoker.classList.toggle('is-ful', be);
     gomb.hidden = be;

@@ -4082,9 +4082,9 @@
     display:flex;flex-direction:column;
     background:var(--surface);border:1px solid var(--border);
     border-radius:var(--panel-radius);box-shadow:var(--shadow-2);
-    /* Újra vág: a fej kikerült a panelből, viszont az overflow:visible mellett
-       a társalgás kicsúszott és a kísérő blokk alá futott. */
-    overflow:hidden;
+    /* `visible`, hogy a fejlécből KIKANDIKÁLÓ fej ne vágódjon le. A görgetést
+       a társalgás doboza intézi, nem a panel. */
+    overflow:visible;
     animation:oko-panel-be 260ms var(--ease-out) both;
   }
   @keyframes oko-panel-be{from{opacity:0;transform:translateY(12px) scale(.98)}}
@@ -4108,19 +4108,23 @@
        dobozt — a szemek a cím fölött vannak, nem mellette. */
     display:block;width:84px;height:90px;flex:none;
     order:2;margin-left:auto;
-
+    /* A fejléc FÜGGŐLEGES KÖZEPÉN ül, jobb oldalt: felül lógva átfedte a záró
+       gombot, és a szövegre is rátenyerelt. Kilógni csak annyit lóg, hogy a
+       tartály teteje kiemelkedjen a fejlécből. */
+    align-self:center;
+    /* A feje túllóg a fejléc kontúrján — ettől ül a panelen, nem benne.
+       Kilenc képpont még véletlennek látszott; ennyi már szándék. */
+    margin-top:calc(-1 * var(--space-48) - var(--space-8));
+    position:relative;top:0;
     /* Halvány fénykoszorú és egy puha árnyék: a figura sötét, és a fejléc
        fölött bármilyen háttér lehet mögötte (fotó, sötét sáv). Enélkül
        beleolvad. */
     filter:drop-shadow(0 0 3px rgb(255 255 255 / .75))
            drop-shadow(0 3px 8px rgb(0 0 0 / .3));
   }
-  .oko-panel-zar{margin-left:auto;z-index:1}
-  /* Hely a fejnek a fejléc jobb oldalán. */
-  .oko-panel-fej{padding-right:calc(var(--space-96) + var(--space-32))}
+  .oko-panel-cimek{order:1}
+  .oko-panel-zar{order:3;margin-left:var(--space-8);z-index:1}
   .oko-panel-jel .oko-arnyek{display:none}
-  .oko-panel-jel:hover{transform:translateY(-2px)}
-  .oko-panel-jel:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:var(--r-md)}
   .oko-panel-cimek{min-width:0;flex:1}
   .oko-panel-cim{margin:0;color:var(--text-primary)}
   .oko-panel-alcim{margin:0;color:var(--text-secondary)}
@@ -4462,8 +4466,6 @@
   .oko-ful .oko-figura{width:100%;height:100%}
   .oko-ful .oko-arnyek{display:none}
   .oko-panel-jel .oko-arnyek{display:none}
-  .oko-panel-jel:hover{transform:translateY(-2px)}
-  .oko-panel-jel:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:var(--r-md)}
 }
 @layer motion{
   @media (prefers-reduced-motion:reduce){
