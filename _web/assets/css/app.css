@@ -175,15 +175,27 @@
     --space-16:16px;
     --space-24:24px;
     --space-32:32px;
+    /* A 40 / 56 / 70 KIZÁRÓLAG a --space-section mögött áll (designrendszer
+       5.1): közvetlenül nem választható. Azért primitív mégis, hogy a
+       szereptoken ne nyers px-re hivatkozzon. */
+    --space-40:40px;
     --space-48:48px;
+    --space-56:56px;
     --space-64:64px;
+    --space-70:70px;
     --space-96:96px;
     --space-128:128px;
 
     /* ---- LAYOUT ROLE ---- */
-    --space-section:var(--space-128);  /* desktop ≥1025px */
+    /* v0.9: 128 → 70px. A régi érték két sáv között 256px látható közt adott,
+       ami a mai webes ritmushoz képest szétesően tág volt. A token a
+       `padding-block`, tehát a látható köz ennek a kétszerese: 140px. */
+    --space-section:var(--space-70);   /* desktop ≥1025px */
     --page-gutter:var(--space-48);     /* desktop ≥1025px */
     --topbar-h:60px;
+    /* A folyó szöveg maximális sorhossza. Egyedi `max-width` szövegblokkra
+       nem adható — ami hosszabb sort igényelne, az nem folyó szöveg. */
+    --measure:68ch;
     /* ELTÉRÉS a designrendszer 5.2-től: 1180 helyett 1280px.
        Indok: a fejléc és a hero 1440px-es konténere mellett az 1180 260px-kel
        keskenyebb volt, és ez a különbség elcsúszásnak látszott, nem szándékos
@@ -3356,7 +3368,7 @@
   /* Tablet 641–1024px */
   @media (max-width:1024px){
     :root{
-      --space-section:var(--space-96);
+      --space-section:var(--space-56);
       --page-gutter:var(--space-32);
       --panel-padding:var(--space-32);
       --split-padding:var(--space-24);
@@ -3493,7 +3505,7 @@
   /* Mobil ≤640px */
   @media (max-width:640px){
     :root{
-      --space-section:var(--space-64);
+      --space-section:var(--space-40);
       --page-gutter:20px;
       --panel-padding:var(--space-24);
       --split-padding:var(--space-24);

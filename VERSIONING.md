@@ -264,5 +264,5 @@ ami a NIS2 szerinti változáskövetés miatt is elvárás.
 ---
 
 <p align="center">
-  <sub>Ökotech-Home Kft. · fejlesztő: eSystem-Integration Kft. / IEM — Industrial Electric &amp; Mechanic Kft., Érd</sub>
+  <sub>Ökotech-Home Kft. · fejlesztő: eSystem-Integration Kft. (eSI), Érd</sub>
 </p>
