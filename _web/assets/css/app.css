@@ -4112,9 +4112,10 @@
        gombot, és a szövegre is rátenyerelt. Kilógni csak annyit lóg, hogy a
        tartály teteje kiemelkedjen a fejlécből. */
     align-self:center;
-    /* A feje túllóg a fejléc kontúrján — ettől ül a panelen, nem benne.
-       Kilenc képpont még véletlennek látszott; ennyi már szándék. */
-    margin-top:calc(-1 * var(--space-48) - var(--space-8));
+    /* A feje túllóg a fejléc FELSŐ kontúrján — ettől ül a panelen, nem benne. */
+    margin-top:calc(-1 * var(--space-64) - var(--space-8));
+    /* És kicsit jobbra, a záró gombok közelébe. */
+    margin-right:calc(-1 * var(--space-16));
     position:relative;top:0;
     /* Halvány fénykoszorú és egy puha árnyék: a figura sötét, és a fejléc
        fölött bármilyen háttér lehet mögötte (fotó, sötét sáv). Enélkül
@@ -4127,7 +4128,9 @@
   .oko-panel-jel .oko-arnyek{display:none}
   .oko-panel-cimek{min-width:0;flex:1}
   .oko-panel-cim{margin:0;color:var(--text-primary)}
-  .oko-panel-alcim{margin:0;color:var(--text-secondary)}
+  /* Az alcím legfeljebb két sor: négy sortól a zöld fejléc túl vastag lett. */
+  .oko-panel-alcim{margin:0;color:var(--text-secondary);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
   .oko-tarsalgas{
     flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;

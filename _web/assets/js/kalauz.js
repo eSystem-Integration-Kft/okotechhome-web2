@@ -89,6 +89,7 @@
   const SZOVEG = {
     kalauz: {
       koszon: 'Segítsek megtalálni, amit keres?',
+      alcim: 'Megmutatom, hol a válasz.',
       sug: 'Mondja el, hol tart — megmutatom, melyik oldalon van a válasz, és mi a következő lépés.',
       helyorzo: 'Például: mekkora telek kell hozzá?',
       /* Kiindulás kattintásra. A legtöbb látogató nem tudja, mit kérdezzen —
@@ -102,6 +103,7 @@
     },
     urlap: {
       koszon: 'Ha elakad a kitöltésben, szóljon.',
+      alcim: 'Segítek a kitöltésben.',
       sug: 'Kérdezzen bátran bármelyik mezőről — azt is megmondom, mit érdemes előkészíteni.',
       helyorzo: 'Például: mit írjak a csúcsterheléshez?',
       inditok: [
@@ -112,6 +114,7 @@
     },
     jelentes: {
       koszon: 'Segítek értelmezni az összehasonlítást.',
+      alcim: 'Elmagyarázom az összehasonlítást.',
       sug: 'Kérdezzen a jelentés bármelyik soráról — elmondom, mit jelent és mire érdemes figyelni.',
       helyorzo: 'Például: miért tér el a két ár?',
       inditok: [
@@ -185,7 +188,7 @@
   const tarsalgas = gyoker.querySelector('[data-oko-tarsalgas]');
   const urlap = gyoker.querySelector('[data-oko-urlap]');
   const input = gyoker.querySelector('[data-oko-input]');
-  gyoker.querySelector('[data-oko-alcim]').textContent = SZOVEG.sug || '';
+  gyoker.querySelector('[data-oko-alcim]').textContent = SZOVEG.alcim || '';
   input.placeholder = SZOVEG.helyorzo || '';
 
   /* ------------------------------------------------------------- bejövetel */
