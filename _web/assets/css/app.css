@@ -4061,7 +4061,7 @@
   /* Fül-módban a panel a fül mellé, a szél közepére ül. */
   .oko.is-ful .oko-panel{
     bottom:auto;top:50%;transform:translateY(-50%);
-    right:calc(var(--oko-meret) * .55 + var(--space-8));
+    right:calc(var(--oko-meret) * .8 + var(--space-8));
   }
   .oko-panel-fej{
     display:flex;align-items:center;gap:var(--space-8);
@@ -4078,11 +4078,12 @@
        dobozt — a szemek a cím fölött vannak, nem mellette. */
     display:block;width:68px;height:72px;flex:none;
     order:2;margin-left:auto;
-    align-self:flex-start;
-    /* Nagyobb és LEJJEBB: így a bordázott test is a fejlécre kerül, nem csak a
-       feje kandikál ki — a tartály formája ettől ismerhető fel. */
-    margin-top:calc(-1 * var(--space-32));
-    position:relative;top:4px;
+    /* A fejléc FÜGGŐLEGES KÖZEPÉN ül, jobb oldalt: felül lógva átfedte a záró
+       gombot, és a szövegre is rátenyerelt. Kilógni csak annyit lóg, hogy a
+       tartály teteje kiemelkedjen a fejlécből. */
+    align-self:center;
+    margin-top:calc(-1 * var(--space-16));
+    position:relative;top:0;
     /* Halvány fénykoszorú és egy puha árnyék: a figura sötét, és a fejléc
        fölött bármilyen háttér lehet mögötte (fotó, sötét sáv). Enélkül
        beleolvad. */
@@ -4090,7 +4091,7 @@
            drop-shadow(0 3px 8px rgb(0 0 0 / .3));
   }
   .oko-panel-cimek{order:1}
-  .oko-panel-zar{order:3}
+  .oko-panel-zar{order:3;margin-left:var(--space-8);z-index:1}
   .oko-panel-jel .oko-arnyek{display:none}
   .oko-panel-cimek{min-width:0;flex:1}
   .oko-panel-cim{margin:0;color:var(--text-primary)}
@@ -4413,7 +4414,7 @@
      bent maradnak. Ez jelzi, hogy Öko félrehúzódott, de ott van. Saját
      `position:fixed`, tehát semmit nem örököl a sarokban álló gombtól. */
   .oko-ful{
-    position:fixed;right:0;top:50%;z-index:61;
+    position:fixed;right:0;top:50%;z-index:70;
     appearance:none;border:0;padding:0;cursor:pointer;
     width:64px;height:68px;
     background:var(--surface);
