@@ -214,16 +214,6 @@
      egy sarokban feltűnő segéd elvenne belőle — ezért Öko csak akkor lép elő,
      amikor a hero java már kigördült felfelé. A `.hero` a főoldalé; az
      aloldalak fejléce `.page-hero` is, azokon marad az azonnali megjelenés. */
-  /* A megjelenés egyszerű késleltetés: a lap előbb nyugodjon meg, hogy a
-     figura ne a betöltés zajába érkezzen.
-
-     A FŐOLDALON a hero elgörgetéséhez kötött megjelenést megkíséreltem, de nem
-     működött: sem IntersectionObserverrel (a hero magasabb a nézetablaknál,
-     ezért a figyelő már az első hívásán megszólalt), sem görgetéspozícióval —
-     az utóbbinál a feltétel egyszerűen nem futott le, és Öko rejtve maradt.
-     Rejtve maradó segéd rosszabb, mint korán érkező, ezért ez visszaáll, és a
-     feltételes megjelenés külön menetben, nyugodtan nézendő meg. */
-  setTimeout(megerkezik, csokkentett ? 200 : 1600);
 
   /* ------------------------------------------------------------ pislogás */
   const hejak = [...gyoker.querySelectorAll('[data-oko-hej]')];
@@ -309,17 +299,23 @@
     ful.hidden = !be;
   }
   ful.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
-  gyoker.querySelector('[data-oko-panel-zar]').addEventListener('click', zar);
-
-  /* KICSIRE CSUKÁS: csak a panel tűnik el, Öko a szélen marad fülként. Nem a
-     zar(), mert az visszasétáltatná a sarokba — ez a különbség a kettő közt. */
-  gyoker.querySelector('[data-oko-kicsire]').addEventListener('click', () => {
-    panel.hidden = true;
-    gomb.setAttribute('aria-expanded', 'false');
-    gyoker.classList.remove('is-nyitva');
-    reflektorLe();
-    ful.focus();
+  /* ESEMÉNYDELEGÁLÁS a gyökéren. Az egyes gombokra kötött kezelők közül a
+     kicsinyítőé néma maradt — a gomb ott volt, a kattintás rá is ment, kezelő
+     viszont nem tartozott hozzá. Egyetlen figyelő a gyökéren ezt a hibaosztályt
+     megszünteti: nem számít, mikor és hányszor épül újra a panel belseje. */
+  gyoker.addEventListener('click', (e) => {
+    if (e.target.closest('[data-oko-panel-zar]')) { zar(); return; }
+    if (e.target.closest('[data-oko-kicsire]')) {
+      /* KICSIRE: csak a panel tűnik el, Öko a szélen marad fülként — a zar()
+         ezzel szemben visszasétáltatja a sarokba. */
+      panel.hidden = true;
+      gomb.setAttribute('aria-expanded', 'false');
+      gyoker.classList.remove('is-nyitva');
+      reflektorLe();
+      ful.focus();
+    }
   });
+
   gyoker.querySelector('[data-oko-zar]').addEventListener('click', () => {
     buborek.hidden = true;
     try { sessionStorage.setItem(TAROLO, '1'); } catch { /* privát mód */ }
@@ -540,5 +536,37 @@
       gyoker.classList.remove('is-gondolkodik');
       input.focus();
     }
+  }
+
+  /* ---------------------------------------------------- mikor lépjen elő */
+  /* A FŐOLDALON megvárjuk a hero-t: ott a nagy fejléckép viszi a figyelmet, és
+     egy sarokban feltűnő segéd elvenne belőle. Öko akkor jön elő, amikor a
+     hero fele már kigördült felfelé. Az aloldalakon (`.page-hero`) marad az
+     azonnali megjelenés.
+
+     A GÖRGETÉS POZÍCIÓJÁT nézzük, nem IntersectionObservert: a hero magasabb a
+     nézetablaknál, ezért a látható aránya betöltéskor is 0.5 alatt van, és a
+     figyelő rögtön az első hívásán megszólalt.
+
+     EZ A BLOKK A FÁJL VÉGÉN ÁLL, szándékosan: korábban a felület konstansai
+     (`panel`, `ful`) még nem léteztek, a `megerkezik()` viszont hivatkozott
+     rájuk — a dobott hiba pedig csendben megállította a szkript hátralévő
+     részét, és a gombok kezelői sem épültek fel. */
+  const fooldaliHero = document.querySelector('.hero:not(.page-hero)');
+  if (fooldaliHero) {
+    const gorgetesre = () => {
+      if (scrollY > fooldaliHero.offsetHeight * 0.5) {
+        removeEventListener('scroll', gorgetesre);
+        clearTimeout(vegso);
+        megerkezik();
+      }
+    };
+    /* Ha a látogató nem görget, húsz másodperc után akkor is előlép: a soha
+       meg nem jelenő segéd rosszabb, mint a korán érkező. */
+    const vegso = setTimeout(megerkezik, 20000);
+    addEventListener('scroll', gorgetesre, { passive: true });
+    gorgetesre();                    // horgonnyal érkezőnek már görgetve van
+  } else {
+    setTimeout(megerkezik, csokkentett ? 200 : 1600);
   }
 })();
