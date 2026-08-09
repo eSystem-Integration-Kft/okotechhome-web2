@@ -157,6 +157,48 @@ prompt csak a környezetet, a fényt és a kameraállást írja le. Ami ebből k
 - **Régi épület csak ott, ahol a téma az.** Az emésztő kiváltásánál a repedt betongyűrű
   a tartalom lényege — a ház viszont ott is mai és felújított.
 
+### Egy fejléckép — egy téma — egy alt
+
+A fejlécképet nem szabad témák között újrahasznosítani. Tizennyolc kép szolgált ki
+116 oldalt, és ez oda vezetett, hogy az éttermek oldalán szippantóautó, a
+cookie-tájékoztatón naplementés falu állt; a képhez tartozó `alt` oldalanként
+elkezdett elcsúszni, és ugyanaz a fotó kilenc különböző leírást kapott. **A helyes
+irány nem az alt egységesítése, hanem új kép az adott témára.** Két oldal csak
+akkor oszthat képet, ha ténylegesen ugyanarról szól — akkor viszont az `alt`-juk is
+azonos. Jelenlegi arány: 63 kép / 116 oldal.
+
+### A varratcsapda visszatér — és mit kell hozzáírni
+
+A 4.4-ben leírt recept sem elég önmagában: negyvenöt új képből négyen újra
+megjelent a függőleges varrat, mindannyiszor pontosan a bal harmad határán. Amit
+hozzá kell tenni, hogy megszűnjön:
+
+```
+ONE single continuous seamless photograph taken with ONE lens in ONE exposure …
+It is all one lawn: the same mown grass fills the frame from the far left edge
+to the far right edge, in the SAME focus, the SAME light and the SAME
+perspective throughout … The left third simply has nothing standing on that
+grass.
+… NO VERTICAL DIVIDING LINE ANYWHERE, no panel edge,
+no change of focus or exposure across the frame.
+```
+
+Két fogás számít: (1) *ONE lens in ONE exposure* + *the SAME focus, the SAME
+light* — a varrat ugyanis fókusz- és expozícióváltásként jelentkezik, nem csak
+vágásként; (2) a bal harmadot **ne** tulajdonságként írjuk le („nyugodt", „üres"),
+hanem tagadásként: *simply has nothing standing on that grass*. Így a modell nem
+külön felületet tervez oda.
+
+### Szöveg a képen — a „no readable text" nem elég
+
+Dokumentumot, szerződést, adatlapot ábrázoló képnél a modell magabiztosan ír a
+lapra angol címsort (`CONTRACT`, `BUILDING PERMIT APPLICATION`) akkor is, ha a
+tiltólistán ott a *no readable text*. Ami működik: pozitívan megmondani, mi legyen
+a lapon — *ONLY uniform grey blocks of illegible fine print — no heading, no
+title, no bold line, no larger type anywhere, every line the same small unreadable
+grey texture* —, és külön kimondani, hogy *absolutely no readable word or letter
+anywhere in the frame*. A magyar oldalon az angol címsor a legfeltűnőbb hiba.
+
 **Méretre vágás.** A mester 16:9-ben, 4K-ban készül; ebből jön a három méret
 (`1800×764` · `1100×467` · `1100×718`). A széles kivágat az égboltból vesz el többet
 (≈480px fentről az 5504×3072-es mesteren), a szűk `gravity east`, hogy a jobb
