@@ -92,6 +92,7 @@ return [
     'from'      => ['cim' => 'nev@example.hu', 'nev' => 'ÖkoTech Home — weboldal'],
     'cimzettek' => [
         'kapcsolat'       => ['kapcsolat@example.hu'],
+        'konzultacio'     => ['kapcsolat@example.hu'],
         'dontestamogato'  => ['kapcsolat@example.hu'],
         'ajanlat-atnezes' => ['kapcsolat@example.hu'],
     ],

@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=97">
+<link rel="stylesheet" href="assets/css/app.css?v=98">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -393,7 +393,7 @@
             data-tema-tipp>Váltás sötét témára</span>
     </div>
 
-    <a class="btn btn-primary header-cta" href="kapcsolat">
+    <a class="btn btn-primary header-cta" href="konzultacio">
       <span class="action-arrow" aria-hidden="true">&rarr;</span>Konzultációt kérek</a>
   </div>
   </div>
@@ -514,6 +514,12 @@
       <!-- Az űrlap JS NÉLKÜL is működik: sima POST az api/kapcsolat végpontra,
            amely ilyenkor JSON-t ad vissza. A JS ezt fogja el, és helyben
            jeleníti meg a választ — de a küldés nem függ tőle. -->
+      <div class="konzv-folytatas konzv-atvezeto">
+        <p class="type-ui-body konzv-folytatas-szoveg">Konkrét projekthez inkább a részletes kérdőívet ajánljuk — abból már szakmai javaslat készül.</p>
+        <div class="konzv-folytatas-gombok">
+          <a class="btn btn-primary btn-kicsi" href="konzultacio">Konzultációkérés</a>
+        </div>
+      </div>
       <form class="urlap" method="post" action="api/kapcsolat" data-urlap>
         <div class="urlap-sor">
           <p class="urlap-mezo">

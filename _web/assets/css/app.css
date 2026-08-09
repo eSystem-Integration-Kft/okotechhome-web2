@@ -3670,3 +3670,256 @@
     .mega{transition:none}
   }
 }
+
+/* ============================================================================
+   8. KONZULTÁCIÓS VARÁZSLÓ — `.konzv-*`
+   A `@layer components` ismételhető: ezek a szabályok ugyanabba a rétegbe
+   kerülnek, tehát a 6. RESPONSIVE réteg továbbra is felülírja őket.
+   A prefix szándékosan `konzv-` és nem `konz-`: az utóbbi a FŐOLDAL
+   konzultációs szekciójáé, és a kettő nem ugyanaz a komponens.
+   ========================================================================== */
+@layer components {
+
+  /* --- bevezető előnysáv ------------------------------------------------- */
+  .konzv-elonyok{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-32);
+  }
+  .konzv-elony{display:flex;flex-direction:column;gap:var(--space-8)}
+  .konzv-elony-ikon{
+    display:grid;place-items:center;width:var(--space-48);height:var(--space-48);
+    border-radius:var(--r-md);background:var(--surface-muted);color:var(--secondary);
+    margin-bottom:var(--space-8);
+  }
+  .konzv-elony-ikon svg{width:var(--space-24);height:var(--space-24);fill:none;
+    stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .konzv-elony-cim{color:var(--text-primary)}
+  .konzv-elony-szoveg{color:var(--text-secondary)}
+
+  /* --- az űrlap kerete ---------------------------------------------------- */
+  .konzv{
+    max-width:52rem;padding:var(--space-32);
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--panel-radius);box-shadow:var(--card-shadow);
+  }
+
+  /* Félbehagyott kitöltés — csak JS mellett jelenik meg. */
+  .konzv-folytatas{
+    display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);
+    flex-wrap:wrap;margin-bottom:var(--space-24);padding:var(--space-16);
+    background:var(--surface-muted);border-radius:var(--r-md);
+  }
+  .konzv-folytatas-szoveg{margin:0;color:var(--text-primary)}
+  .konzv-folytatas-gombok{display:flex;gap:var(--space-8)}
+  /* Ugyanaz a sáv a kapcsolat oldalon, átvezetőként a részletes útra. */
+  .konzv-atvezeto{margin-bottom:var(--space-24)}
+  .btn-kicsi{min-height:36px;padding:6px 14px;font-size:var(--type-ui-caption-size)}
+
+  /* --- haladásjelző ------------------------------------------------------- */
+  .konzv-lepcso{
+    list-style:none;margin:0 0 var(--space-32);padding:0;
+    display:flex;align-items:flex-start;gap:var(--space-8);
+  }
+  .konzv-lepcso-elem{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:var(--space-4);
+    text-align:center;color:var(--text-tertiary);position:relative;
+  }
+  /* A lépéseket összekötő vonal a SZÁM mögött fut, nem az egész elem mögött —
+     különben a felirat alatt is átmenne. */
+  .konzv-lepcso-elem::before{
+    content:"";position:absolute;top:calc(var(--space-16) - 1px);
+    left:calc(-50% + var(--space-16));width:calc(100% - var(--space-32));
+    height:2px;background:var(--border);
+  }
+  .konzv-lepcso-elem:first-child::before{content:none}
+  .konzv-lepcso-szam{
+    display:grid;place-items:center;width:var(--space-32);height:var(--space-32);
+    border-radius:50%;background:var(--surface);border:2px solid var(--border);
+    font-family:var(--font-mono);font-size:var(--type-ui-caption-size);
+    color:var(--text-tertiary);position:relative;z-index:1;
+    transition:background var(--dur-fast) var(--ease-out),
+               border-color var(--dur-fast) var(--ease-out),
+               color var(--dur-fast) var(--ease-out);
+  }
+  .konzv-lepcso-nev{color:inherit}
+  .konzv-lepcso-elem.is-aktiv{color:var(--text-primary)}
+  .konzv-lepcso-elem.is-aktiv .konzv-lepcso-szam{
+    background:var(--secondary);border-color:var(--secondary);color:var(--surface);
+  }
+  .konzv-lepcso-elem.is-kesz{color:var(--text-secondary)}
+  .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{
+    background:var(--surface-muted);border-color:var(--secondary);color:var(--secondary);
+  }
+  .konzv-lepcso-elem.is-kesz::before{background:var(--secondary)}
+
+  /* --- egy lap ------------------------------------------------------------ */
+  .konzv-lap{border:0;margin:0;padding:0;min-width:0}
+  .konzv-lap + .konzv-lap{margin-top:var(--space-48)}
+  /* JS mellett a lapok egyesével látszanak; ilyenkor a térköz a lapon belül van. */
+  .konzv.is-lapozo .konzv-lap + .konzv-lap{margin-top:0}
+  .konzv-lap-cim{display:block;color:var(--text-primary);margin-bottom:var(--space-8)}
+  .konzv-lap-lead{color:var(--text-secondary);margin:0 0 var(--space-24);max-width:56ch}
+  .konzv-rejtett{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;
+  }
+  .konzv-opcionalis{color:var(--text-tertiary)}
+
+  /* --- kártyás választó --------------------------------------------------- */
+  .konzv-valasztok{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:var(--space-16);margin-bottom:var(--space-24);
+  }
+  .konzv-valasztok-tomor{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .konzv-valasztok-harmas{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .konzv-valaszto{display:block;cursor:pointer;min-width:0}
+  /* A natív rádiógomb nem tűnik el (fókusz és képernyőolvasó kell hozzá),
+     csak a kártya alá kerül. */
+  .konzv-valaszto input{
+    position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;
+  }
+  .konzv-valaszto-test{
+    display:flex;flex-direction:column;gap:var(--space-4);height:100%;
+    padding:var(--space-16);border-radius:var(--r-md);
+    background:var(--surface);border:1px solid var(--border);
+    transition:border-color var(--dur-fast) var(--ease-out),
+               background var(--dur-fast) var(--ease-out);
+  }
+  .konzv-valaszto:hover .konzv-valaszto-test{border-color:var(--secondary)}
+  .konzv-valaszto input:focus-visible + .konzv-valaszto-test{
+    outline:3px solid var(--border-focus);outline-offset:2px;
+  }
+  .konzv-valaszto input:checked + .konzv-valaszto-test{
+    border-color:var(--secondary);background:var(--surface-muted);
+  }
+  .konzv-valaszto-ikon{
+    display:grid;place-items:center;width:var(--space-32);height:var(--space-32);
+    border-radius:var(--r-md);background:var(--canvas);color:var(--secondary);
+    margin-bottom:var(--space-4);
+  }
+  .konzv-valaszto-ikon svg{width:var(--space-16);height:var(--space-16);fill:none;
+    stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .konzv-valaszto-cim{color:var(--text-primary)}
+  .konzv-valaszto-szoveg{color:var(--text-secondary)}
+
+  /* --- jelölőnégyzet-rács -------------------------------------------------- */
+  .konzv-jelolok{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+  .konzv-jelolo{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-8) var(--space-16);min-height:44px;
+    border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--surface);color:var(--text-secondary);cursor:pointer;
+    transition:border-color var(--dur-fast) var(--ease-out),
+               background var(--dur-fast) var(--ease-out);
+  }
+  .konzv-jelolo:hover{border-color:var(--secondary)}
+  .konzv-jelolo:has(input:checked){
+    border-color:var(--secondary);background:var(--surface-muted);color:var(--text-primary);
+  }
+  .konzv-jelolo:has(input:focus-visible){outline:3px solid var(--border-focus);outline-offset:2px}
+
+  /* --- feltételes blokk ---------------------------------------------------- */
+  .konzv-felteteles{
+    margin-top:var(--space-16);padding-left:var(--space-16);
+    border-left:2px solid var(--border);
+  }
+
+  /* --- kitöltéssegéd ------------------------------------------------------- */
+  .konzv-ai{
+    margin-top:var(--space-24);padding:var(--space-16);
+    background:var(--surface-muted);border-radius:var(--r-md);
+  }
+  .konzv-ai-fej{display:flex;align-items:center;gap:var(--space-8);margin-bottom:var(--space-8)}
+  .konzv-ai-jel{
+    display:grid;place-items:center;width:var(--space-24);height:var(--space-24);
+    border-radius:50%;background:var(--secondary);color:var(--surface);flex:none;
+  }
+  .konzv-ai-jel svg{width:14px;height:14px;fill:currentColor;stroke:none}
+  .konzv-ai-cim{margin:0;color:var(--text-primary);font-weight:600}
+  .konzv-ai-szoveg{margin:0 0 var(--space-16);color:var(--text-secondary)}
+  .konzv-ai-allapot{margin:var(--space-8) 0 0;color:var(--text-secondary);min-height:1.4em}
+  .konzv-ai-allapot.is-kesz{color:var(--secondary)}
+  .konzv-ai-allapot.is-hiba{color:var(--warning-text)}
+
+  /* --- naptár -------------------------------------------------------------- */
+  .konzv-naptar{margin:var(--space-24) 0}
+  .konzv-naptar-fej{margin-bottom:var(--space-16)}
+  .konzv-naptar-cim{margin:0;color:var(--text-primary)}
+  .konzv-naptar-sug{margin:var(--space-4) 0 0;color:var(--text-tertiary)}
+  .konzv-naptar-racs{
+    display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:var(--space-8);margin-bottom:var(--space-16);
+  }
+  .konzv-nap{display:flex;flex-direction:column;gap:var(--space-4)}
+  .konzv-nap-fej{
+    text-align:center;padding:var(--space-4);color:var(--text-secondary);
+    font-family:var(--font-mono);font-size:var(--type-ui-caption-size);
+  }
+  .konzv-sav{
+    display:block;width:100%;min-height:36px;padding:var(--space-4);
+    border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--surface);color:var(--text-secondary);cursor:pointer;
+    font-family:var(--font-body);font-size:var(--type-ui-caption-size);
+    transition:border-color var(--dur-fast) var(--ease-out),
+               background var(--dur-fast) var(--ease-out);
+  }
+  .konzv-sav:hover:not(:disabled){border-color:var(--secondary)}
+  .konzv-sav:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .konzv-sav[aria-pressed="true"]{
+    border-color:var(--secondary);background:var(--secondary);color:var(--surface);
+  }
+  .konzv-sav:disabled{opacity:.45;cursor:not-allowed}
+
+  /* --- összegzés ----------------------------------------------------------- */
+  .konzv-osszegzes{
+    margin-top:var(--space-32);padding:var(--space-24);
+    background:var(--surface-muted);border-radius:var(--r-md);
+  }
+  .konzv-osszegzes-cim{margin:0 0 var(--space-16);color:var(--text-primary)}
+  .konzv-osszegzes-lista{
+    margin:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);
+    gap:var(--space-8) var(--space-16);
+  }
+  .konzv-osszegzes-lista dt{color:var(--text-tertiary);font-size:var(--type-ui-caption-size)}
+  .konzv-osszegzes-lista dd{margin:0;color:var(--text-primary);font-size:var(--type-ui-caption-size)}
+
+  /* --- vezérlősor ---------------------------------------------------------- */
+  .konzv-vezerlo{
+    display:flex;align-items:center;gap:var(--space-16);
+    margin-top:var(--space-32);padding-top:var(--space-24);
+    border-top:1px solid var(--border);flex-wrap:wrap;
+  }
+  /* Lapozó módban a „Tovább" viszi a fókuszt, a beküldés csak az utolsó lapon
+     látszik — de a DOM-ból nem vesszük ki, hogy JS nélkül is elérhető legyen. */
+  .konzv-vezerlo .konzv-vissza{margin-right:auto}
+  /* ⚠️ Jelzett ütközés: a `.btn` `display:inline-flex`-et ad, ami ERŐSEBB a
+     `[hidden]` attribútum alapértelmezett `display:none`-jánál — a gomb tehát
+     rejtve is látszana. Osztály + attribútum együtt már specifikusabb, ezért
+     `!important` nem kell. */
+  .konzv-vezerlo .btn[hidden]{display:none}
+  .konzv-jogi-lab{margin:var(--space-16) 0 0;color:var(--text-tertiary);max-width:60ch}
+}
+
+@layer responsive {
+  @media (max-width:1024px){
+    .konzv-elonyok{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .konzv{padding:var(--space-24)}
+    .konzv-naptar-racs{grid-template-columns:repeat(3,minmax(0,1fr))}
+    /* A lépcső feliratai tableten már nem férnek el egymás mellett: marad a
+       szám, a nevet a lap címe mondja ki úgyis. */
+    .konzv-lepcso-nev{display:none}
+  }
+  @media (max-width:640px){
+    .konzv-elonyok{grid-template-columns:minmax(0,1fr);gap:var(--space-24)}
+    .konzv-valasztok,
+    .konzv-valasztok-tomor,
+    .konzv-valasztok-harmas{grid-template-columns:minmax(0,1fr)}
+    .konzv{padding:var(--space-16)}
+    .konzv-naptar-racs{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .konzv-osszegzes-lista{grid-template-columns:minmax(0,1fr);gap:var(--space-4)}
+    .konzv-osszegzes-lista dd{margin-bottom:var(--space-8)}
+    .konzv-vezerlo{flex-direction:column;align-items:stretch}
+    .konzv-vezerlo .btn{width:100%}
+    .konzv-vezerlo .konzv-vissza{margin-right:0;order:2}
+  }
+}
