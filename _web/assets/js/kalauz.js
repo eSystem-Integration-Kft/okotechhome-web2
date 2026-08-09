@@ -199,14 +199,31 @@
      figurára. Aki nem kér a szövegből, attól elvesszük a buborékot, de a
      segéd elérhető marad: ez a dolga. */
   const buborekElrejtve = (() => { try { return sessionStorage.getItem(TAROLO) === '1'; } catch { return false; } })();
-  setTimeout(() => {
+
+  function megerkezik() {
+    if (gyoker.classList.contains('is-erkezik')) return;
     gyoker.classList.add('is-erkezik');
     if (SZOVEG.koszon && !buborekElrejtve && !panelNyitva()) {
       buborekSzoveg.textContent = SZOVEG.koszon;
       buborek.hidden = false;
       setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 9000);
     }
-  }, csokkentett ? 200 : 1600);
+  }
+
+  /* A FŐOLDALON megvárjuk a hero-t. Ott a nagy fejléckép viszi a figyelmet, és
+     egy sarokban feltűnő segéd elvenne belőle — ezért Öko csak akkor lép elő,
+     amikor a hero java már kigördült felfelé. A `.hero` a főoldalé; az
+     aloldalak fejléce `.page-hero` is, azokon marad az azonnali megjelenés. */
+  /* A megjelenés egyszerű késleltetés: a lap előbb nyugodjon meg, hogy a
+     figura ne a betöltés zajába érkezzen.
+
+     A FŐOLDALON a hero elgörgetéséhez kötött megjelenést megkíséreltem, de nem
+     működött: sem IntersectionObserverrel (a hero magasabb a nézetablaknál,
+     ezért a figyelő már az első hívásán megszólalt), sem görgetéspozícióval —
+     az utóbbinál a feltétel egyszerűen nem futott le, és Öko rejtve maradt.
+     Rejtve maradó segéd rosszabb, mint korán érkező, ezért ez visszaáll, és a
+     feltételes megjelenés külön menetben, nyugodtan nézendő meg. */
+  setTimeout(megerkezik, csokkentett ? 200 : 1600);
 
   /* ------------------------------------------------------------ pislogás */
   const hejak = [...gyoker.querySelectorAll('[data-oko-hej]')];

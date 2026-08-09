@@ -3985,10 +3985,10 @@
   }
   /* Ráközelítve előrébb lép — jelzi, hogy meg lehet fogni. */
   .oko.is-ful .oko-gomb:hover{right:calc(-1 * var(--oko-meret) * .28)}
-  /* Öko MINDIG látható — nincs rejtett kiindulási állapot. Korábban a
-     `:not(.is-erkezik)` szabály adott `transform`-ot is, és az ütközött a fül
-     helyzetével: a figura a sarokban ragadt. A megjelenést most csak az
-     animáció kíséri, a helyzetért kizárólag a gomb saját transformja felel. */
+  /* Megérkezésig rejtve — de `visibility`-vel, NEM transformmal: a transform
+     korábban ütközött a fül helyzetével, és a figura a sarokban ragadt. A
+     `visibility` a helyzethez nem nyúl. */
+  .oko:not(.is-erkezik){visibility:hidden}
   .oko.is-erkezik .oko-gomb{animation:oko-erkezik 520ms var(--ease-out) both}
   /* Az animáció CSAK az átlátszóságot és a méretet mozgatja — a helyzetet nem.
      Ha a keyframe transformot írna, felülírná a sarok/fül pozíciót, és a
@@ -4114,9 +4114,13 @@
     align-self:center;
     /* A feje túllóg a fejléc FELSŐ kontúrján — ettől ül a panelen, nem benne. */
     margin-top:calc(-1 * var(--space-64) - var(--space-8));
-    /* És kicsit jobbra, a záró gombok közelébe. */
+    /* És kicsit jobbra, a záró gombok közelébe.
+       ⚠️ `pointer-events:none`: a fej kilóg és RÁTAKAR a kicsinyítő és a záró
+       gombra. Kattintáskor így ő nyelte el az egeret, és a két gomb egérrel
+       használhatatlan volt — programozott hívásra viszont működött, ezért a
+       méréseim nem mutatták ki. A figura díszítés, nem cél. */
     margin-right:calc(-1 * var(--space-16));
-    position:relative;top:0;
+    position:relative;top:0;pointer-events:none;
     /* Halvány fénykoszorú és egy puha árnyék: a figura sötét, és a fejléc
        fölött bármilyen háttér lehet mögötte (fotó, sötét sáv). Enélkül
        beleolvad. */
