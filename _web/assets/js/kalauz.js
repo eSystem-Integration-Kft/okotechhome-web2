@@ -158,6 +158,10 @@
           <p class="type-ui-subtitle oko-panel-cim">Öko</p>
           <p class="type-ui-caption oko-panel-alcim" data-oko-alcim></p>
         </div>
+        <button type="button" class="oko-panel-zar" data-oko-kicsire
+                aria-label="Félrehúzás a képernyő szélére" title="Félrehúzom">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>
+        </button>
         <button type="button" class="oko-panel-zar" data-oko-panel-zar aria-label="Bezárás">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
         </button>
@@ -286,6 +290,16 @@
   }
   ful.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
   gyoker.querySelector('[data-oko-panel-zar]').addEventListener('click', zar);
+
+  /* KICSIRE CSUKÁS: csak a panel tűnik el, Öko a szélen marad fülként. Nem a
+     zar(), mert az visszasétáltatná a sarokba — ez a különbség a kettő közt. */
+  gyoker.querySelector('[data-oko-kicsire]').addEventListener('click', () => {
+    panel.hidden = true;
+    gomb.setAttribute('aria-expanded', 'false');
+    gyoker.classList.remove('is-nyitva');
+    reflektorLe();
+    ful.focus();
+  });
   gyoker.querySelector('[data-oko-zar]').addEventListener('click', () => {
     buborek.hidden = true;
     try { sessionStorage.setItem(TAROLO, '1'); } catch { /* privát mód */ }
