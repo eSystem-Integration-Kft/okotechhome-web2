@@ -71,18 +71,36 @@
   const SZOVEG = {
     kalauz: {
       koszon: 'Segítsek megtalálni, amit keres?',
-      sug: 'Írja be, mi a kérdése — megmutatom, melyik oldalon van a válasz.',
+      sug: 'Mondja el, hol tart — megmutatom, melyik oldalon van a válasz, és mi a következő lépés.',
       helyorzo: 'Például: mekkora telek kell hozzá?',
+      /* Kiindulás kattintásra. A legtöbb látogató nem tudja, mit kérdezzen —
+         ezért Öko kínálja fel a négy leggyakoribb belépőt. */
+      inditok: [
+        'Nincs közcsatorna nálunk — mik a lehetőségeim?',
+        'Honnan induljak el? Még csak tájékozódom.',
+        'Alkalmas-e a telkem egyedi rendszerre?',
+        'Meglévő emésztőt szeretnék kiváltani.',
+      ],
     },
     urlap: {
       koszon: 'Ha elakad a kitöltésben, szóljon.',
       sug: 'Kérdezzen bátran bármelyik mezőről — azt is megmondom, mit érdemes előkészíteni.',
       helyorzo: 'Például: mit írjak a csúcsterheléshez?',
+      inditok: [
+        'Mit írjak, ha nem tudom a telek méretét?',
+        'Mit jelent a csúcsterhelés?',
+        'Milyen adatokat készítsek elő a konzultációra?',
+      ],
     },
     jelentes: {
       koszon: 'Segítek értelmezni az összehasonlítást.',
       sug: 'Kérdezzen a jelentés bármelyik soráról — elmondom, mit jelent és mire érdemes figyelni.',
       helyorzo: 'Például: miért tér el a két ár?',
+      inditok: [
+        'Mire figyeljek az ajánlatok összevetésénél?',
+        'Mi az, ami gyakran kimarad egy ajánlatból?',
+        'Mit jelent, ha nagyon eltér a két ár?',
+      ],
     },
   }[mod] || {};
 
@@ -201,7 +219,10 @@
     panel.hidden = false;
     gomb.setAttribute('aria-expanded', 'true');
     gyoker.classList.add('is-nyitva');
-    if (!tarsalgas.children.length && SZOVEG.sug) uzenet('oko', SZOVEG.sug);
+    if (!tarsalgas.children.length && SZOVEG.sug) {
+      const sor = uzenet('oko', SZOVEG.sug);
+      javaslatok(SZOVEG.inditok, sor);
+    }
     input.focus();
   }
   function zar() {
@@ -279,6 +300,24 @@
     tarsalgas.appendChild(sor);
     tarsalgas.scrollTop = tarsalgas.scrollHeight;
     return sor;
+  }
+
+  /* Kattintható folytatás. A látogatónak nem kell kitalálnia, mit kérdezzen
+     legközelebb — Öko megmutatja, merre érdemes tovább menni. */
+  function javaslatok(lista, sor) {
+    if (!lista || !lista.length) return;
+    const doboz = document.createElement('div');
+    doboz.className = 'oko-javaslatok';
+    lista.slice(0, 3).forEach((szoveg) => {
+      const gomb = document.createElement('button');
+      gomb.type = 'button';
+      gomb.className = 'oko-javaslat';
+      gomb.textContent = szoveg;
+      gomb.addEventListener('click', () => { doboz.remove(); kerdez(szoveg); });
+      doboz.appendChild(gomb);
+    });
+    (sor || tarsalgas).appendChild(doboz);
+    tarsalgas.scrollTop = tarsalgas.scrollHeight;
   }
 
   /* --------------------------------------------------------- kiemelés */
@@ -397,11 +436,17 @@
 
   /* --------------------------------------------------------------- kérdés */
   let dolgozik = false;
-  urlap.addEventListener('submit', async (e) => {
+  const naplo = [];                  // a párbeszéd, hogy Öko építeni tudjon rá
+
+  urlap.addEventListener('submit', (e) => {
     e.preventDefault();
-    const kerdes = input.value.trim();
+    kerdez(input.value.trim());
+  });
+
+  async function kerdez(kerdes) {
     if (!kerdes || dolgozik) return;
     uzenet('en', kerdes);
+    naplo.push({ kitol: 'en', szoveg: kerdes });
     input.value = '';
     dolgozik = true;
     gyoker.classList.add('is-gondolkodik');
@@ -411,12 +456,14 @@
       const valasz = await fetch('/api/kalauz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kerdes, mod, oldal: location.pathname }),
+        body: JSON.stringify({ kerdes, mod, oldal: location.pathname, elozmeny: naplo.slice(-6) }),
       });
       const eredmeny = await valasz.json();
       varakozo.remove();
       if (!valasz.ok || !eredmeny.ok) throw new Error(eredmeny.uzenet || '');
-      uzenet('oko', eredmeny.valasz || '', eredmeny.talalatok);
+      const sor = uzenet('oko', eredmeny.valasz || '', eredmeny.talalatok);
+      naplo.push({ kitol: 'oko', szoveg: eredmeny.valasz || '' });
+      javaslatok(eredmeny.javaslatok, sor);
     } catch {
       varakozo.remove();
       uzenet('oko', 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.');
@@ -425,5 +472,5 @@
       gyoker.classList.remove('is-gondolkodik');
       input.focus();
     }
-  });
+  }
 })();

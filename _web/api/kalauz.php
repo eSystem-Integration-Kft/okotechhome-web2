@@ -28,6 +28,17 @@ OthVedelem::sebessegkorlat('kalauz', 30, 60);
 
 $kerdes = OthVedelem::szoveg($BE, 'kerdes', 300);
 $mod    = OthVedelem::szoveg($BE, 'mod', 20);
+
+/* A párbeszéd eddigi menete. Enélkül Öko minden kérdést nulláról kezdene, és
+   a látogatónak újra el kellene mondania, amit már elmondott — ettől érződött
+   a segéd gépnek. Legfeljebb hat forduló megy vissza: ennél többet a kérdés
+   megválaszolásához úgysem használ, a promptot viszont hízlalná. */
+$elozmeny = '';
+foreach (array_slice((array) ($BE['elozmeny'] ?? []), -6) as $sor) {
+    $kitol = (($sor['kitol'] ?? '') === 'en') ? 'Látogató' : 'Öko';
+    $szoveg = mb_substr(OthSmtp::tisztit((string) ($sor['szoveg'] ?? '')), 0, 400);
+    if ($szoveg !== '') { $elozmeny .= $kitol . ': ' . $szoveg . "\n"; }
+}
 if (mb_strlen($kerdes) < 3) {
     OthVedelem::valasz(422, ['ok' => false, 'uzenet' => 'Írja le, mit keres.']);
 }
@@ -98,9 +109,34 @@ nagyobb, közösségi rendszereket.
 
 $SZEREP
 
+AMIT TUDNOD KELL A SZAKMÁRÓL (ezt használd a válaszhoz)
+- Négy irány létezik ott, ahol nincs közcsatorna: (1) aktív biológiai
+  tisztítóberendezés, (2) oldómedence tisztítómezővel, (3) zárt gyűjtőtartály
+  szippantással, (4) rákötés a közcsatornára, ha van. A választást nem a
+  berendezés dönti el, hanem az ingatlan, a terhelés, a telek és a helyi
+  szabályozás EGYÜTT.
+- A méretezés alapja a terhelés: az állandó létszám és a csúcs. Nyaralónál az
+  időszakosság, vendéglátásnál a vendégszám és a konyhai víz külön kérdés.
+- A telek oldaláról három dolog dönt: a talaj MÉRT szivárgóképessége, a
+  talajvíz szezonális maximuma, és a rendelkezésre álló szabad terület. A kút
+  védőtávolsága korlátoz.
+- Oldómedencénél a tisztítómező a technológia RÉSZE, nem kiegészítő — ezért
+  nagyobb a területigény. Aktív biológiai rendszer után a szikkasztó már csak
+  elhelyez, nem tisztít.
+- Magas talajvíz, szűk telek, ipari vagy különleges szennyvíz, hatósági ügy:
+  ezek mind olyan helyzetek, ahol szakértő kell.
+- A cég terméke az A.B.Clear (aktív biológiai) és az EPURECO (oldómedence),
+  valamint nagyobb, közösségi rendszerek.
+
 HOGYAN VÁLASZOLJ
 - Magyarul, magázódva, legfeljebb 3 rövid mondatban. Barátságos, de tárgyilagos.
 - A válasz a KÉRDÉSRE feleljen, ne a témáról tartson előadást.
+- VEZESD a látogatót. Ha a kérdés általános vagy hiányos, tegyél fel EGY
+  pontosító kérdést — azt, amelyik a legtöbbet dönt (jellemzően: hol tart a
+  projekt, hányan használják, milyen a telek). Ne kérdezz kettőt egyszerre.
+- Ha a látogató nem tudja, hol kezdje, mondd meg. Nem „nézzen körül", hanem
+  konkrétan: melyik lap az első lépés az ő helyzetében.
+- Az előzményre építs: amit már elmondott, ne kérdezd újra.
 - Ha nem tudod, mondd meg. A telefon: +36 33 200 211.
 
 AMIT SOHA
@@ -120,6 +156,13 @@ $ESZKOZ = [
         'type' => 'object',
         'properties' => [
             'valasz' => ['type' => 'string', 'description' => 'Legfeljebb 3 rövid mondat magyarul.'],
+            'javaslatok' => [
+                'type' => 'array',
+                'description' => 'Legfeljebb 3 rövid, KATTINTHATÓ következő kérdés a látogató nevében, '
+                    . 'egyes szám első személyben, kérdőjellel. Olyanok, amiket ő tenne fel legközelebb. '
+                    . 'Mindig adj legalább kettőt, még akkor is, ha a válasz teljes volt.',
+                'items' => ['type' => 'string'],
+            ],
             'talalatok' => [
                 'type' => 'array',
                 'description' => 'Legfeljebb 3 oldal a katalógusból, a leghasznosabb elöl. Ha egyik sem illik, üres.',
@@ -135,11 +178,15 @@ $ESZKOZ = [
                 ],
             ],
         ],
-        'required' => ['valasz'],
+        'required' => ['valasz', 'javaslatok'],
     ],
 ];
 
-$eredmeny = OthAi::keres($CFG['ai'] ?? [], $SYSTEM, $kerdes, $ESZKOZ, 900);
+$uzenet = $elozmeny !== ''
+    ? "A beszélgetés eddig:\n" . $elozmeny . "\nA látogató most ezt kérdezi: " . $kerdes
+    : $kerdes;
+
+$eredmeny = OthAi::keres($CFG['ai'] ?? [], $SYSTEM, $uzenet, $ESZKOZ, 1100);
 if (!is_array($eredmeny) || !isset($eredmeny['valasz'])) {
     OthVedelem::valasz(503, ['ok' => false,
         'uzenet' => 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat.']);
@@ -169,8 +216,15 @@ foreach ((array) ($eredmeny['talalatok'] ?? []) as $t) {
     ];
 }
 
+$javaslatok = [];
+foreach ((array) ($eredmeny['javaslatok'] ?? []) as $j) {
+    $j = mb_substr(OthSmtp::tisztit((string) $j), 0, 90);
+    if ($j !== '' && count($javaslatok) < 3) { $javaslatok[] = $j; }
+}
+
 OthVedelem::valasz(200, [
     'ok' => true,
     'valasz' => mb_substr(OthSmtp::tisztit((string) $eredmeny['valasz']), 0, 600),
     'talalatok' => $talalatok,
+    'javaslatok' => $javaslatok,
 ]);
