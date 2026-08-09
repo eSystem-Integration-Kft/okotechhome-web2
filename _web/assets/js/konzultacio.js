@@ -64,6 +64,11 @@
       osszegzes.hidden = !utolso;
       if (utolso) osszegzesFrissit();
     }
+    /* A kísérő (kalauz.js) ebből tudja, melyik lapon állunk. Esemény, nem
+       közvetlen hívás: a két szkript egymás nélkül is működik. */
+    document.dispatchEvent(new CustomEvent('konzv:lap', {
+      detail: { lap: aktiv + 1, utolso: aktiv === lapok.length - 1 }
+    }));
     if (fokusz) {
       const cim = lapok[aktiv].querySelector('.konzv-lap-cim');
       if (cim) { cim.setAttribute('tabindex', '-1'); cim.focus({ preventScroll: true }); }

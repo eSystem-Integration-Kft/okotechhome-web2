@@ -3938,29 +3938,56 @@
     --oko-nyak:#1F221F;
     --oko-szem:#FBFBF7;
     --oko-pupilla:#22261F;
-    position:fixed;right:var(--space-24);bottom:var(--space-24);z-index:60;
-    display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-8);
-    /* A gyökér nem fog kattintást: csak a benne álló elemek. Így a sarok
-       szabadon marad a lap tartalmának. */
-    pointer-events:none;
+    --oko-meret:72px;
+    /* A gyökér a teljes képernyőt fedi, de nem fog kattintást — a benne álló
+       elemek igen. Így a figura a sarok és az oldalsó fül között EGYETLEN
+       transformmal utazik, ami animálható; `right`/`bottom` váltással nem
+       lenne az. */
+    position:fixed;inset:0;z-index:60;pointer-events:none;
   }
-  .oko > *{pointer-events:auto}
+  .oko > *{pointer-events:auto;position:absolute}
 
   /* --- a figura gombja ---------------------------------------------------- */
   .oko-gomb{
     appearance:none;border:0;background:none;padding:0;cursor:pointer;
-    width:72px;height:76px;border-radius:var(--r-lg);
+    width:var(--oko-meret);height:calc(var(--oko-meret) + 4px);
+    border-radius:var(--r-lg);
+    /* A helyzetet `top`/`right` adja, NEM transform: a transformot az érkezés
+       és a lebegés animációi használják, és a kettő felülírta volna egymást —
+       a figura emiatt nem indult el a sarokból. Két konkrét érték között a
+       böngésző simán animál. */
+    right:var(--space-24);
+    top:calc(100vh - var(--oko-meret) - var(--space-24) - 4px);
+    transition:top 560ms cubic-bezier(.5,.05,.2,1),
+               right 560ms cubic-bezier(.5,.05,.2,1);
   }
-  /* A LÁTHATÓSÁG az alapállapot, a rejtettség a kivétel — fordítva a figura
-     ott ragadt az `opacity:0`-nál, ha az érkezés bármi miatt nem futott le.
-     Egy segéd, aki nem jelenik meg, rosszabb, mint egy animáció nélküli. */
-  .oko:not(.is-erkezik) .oko-gomb{opacity:0;transform:translateY(24px) scale(.9)}
-  .oko.is-erkezik .oko-gomb{
-    animation:oko-erkezik 520ms cubic-bezier(.22,1.2,.36,1) forwards;
+  /* FÜL: a jobb képernyőszél közepén, félig kilógva. A test nagyobb része
+     kicsúszik, a szemek viszont bent maradnak — ez jelzi, hogy Öko ott van és
+     figyel, anélkül hogy elvenné a helyet a tartalomtól. */
+  .oko.is-ful .oko-gomb{
+    top:calc(50vh - var(--oko-meret) * .5);
+    right:calc(-1 * var(--oko-meret) * .42);
   }
+  .oko.is-ful .oko-gomb::before{
+    content:"";position:absolute;inset:-6px 0 -6px -14px;
+    background:var(--surface);border:1px solid var(--border);border-right:0;
+    border-radius:var(--r-lg) 0 0 var(--r-lg);
+    box-shadow:var(--shadow-2);z-index:-1;
+  }
+  /* Ráközelítve előrébb lép — jelzi, hogy meg lehet fogni. */
+  .oko.is-ful .oko-gomb:hover{right:calc(-1 * var(--oko-meret) * .28)}
+  /* Öko MINDIG látható — nincs rejtett kiindulási állapot. Korábban a
+     `:not(.is-erkezik)` szabály adott `transform`-ot is, és az ütközött a fül
+     helyzetével: a figura a sarokban ragadt. A megjelenést most csak az
+     animáció kíséri, a helyzetért kizárólag a gomb saját transformja felel. */
+  .oko.is-erkezik .oko-gomb{animation:oko-erkezik 520ms var(--ease-out) both}
+  /* Az animáció CSAK az átlátszóságot és a méretet mozgatja — a helyzetet nem.
+     Ha a keyframe transformot írna, felülírná a sarok/fül pozíciót, és a
+     figura az animáció idejére a képernyő sarkába ugrana. */
   @keyframes oko-erkezik{
-    from{opacity:0;transform:translateY(24px) scale(.9)}
-    to{opacity:1;transform:none}
+    from{scale:.7}
+    60%{scale:1.06}
+    to{scale:1}
   }
   .oko-gomb:focus-visible{outline:3px solid var(--border-focus);outline-offset:4px}
   .oko-figura{display:block;width:100%;height:100%;overflow:visible}
@@ -3989,7 +4016,9 @@
 
   /* --- bejelentkező buborék ------------------------------------------------ */
   .oko-buborek{
-    position:relative;max-width:16rem;
+    right:calc(var(--space-24) + var(--oko-meret) * .2);
+    bottom:calc(var(--space-24) + var(--oko-meret) + var(--space-16));
+    max-width:16rem;
     padding:var(--space-16) var(--space-32) var(--space-16) var(--space-16);
     background:var(--surface);border:1px solid var(--border);
     border-radius:var(--r-lg);box-shadow:var(--shadow-2);
@@ -4017,6 +4046,7 @@
 
   /* --- párbeszédpanel ------------------------------------------------------ */
   .oko-panel{
+    right:var(--space-24);bottom:var(--space-24);
     width:min(23rem,calc(100vw - 2 * var(--space-24)));
     max-height:min(32rem,calc(100vh - 8rem));
     display:flex;flex-direction:column;
@@ -4025,6 +4055,11 @@
     animation:oko-panel-be 260ms var(--ease-out) both;
   }
   @keyframes oko-panel-be{from{opacity:0;transform:translateY(12px) scale(.98)}}
+  /* Fül-módban a panel a fül mellé, a szél közepére ül. */
+  .oko.is-ful .oko-panel{
+    bottom:auto;top:50%;transform:translateY(-50%);
+    right:calc(var(--oko-meret) * .55 + var(--space-8));
+  }
   .oko-panel-fej{
     display:flex;align-items:center;gap:var(--space-8);
     padding:var(--space-16);border-bottom:1px solid var(--border);
@@ -4233,5 +4268,88 @@
   }
   @media (max-width:640px){
     .konzv-bevezeto .konzv-elonyok{grid-template-columns:minmax(0,1fr);gap:var(--space-24)}
+  }
+}
+
+@layer components {
+  /* --- REFLEKTOR: a lap elhalványul, a megtalált rész marad élesen -----------
+     Öko nem csak odagörget: kiemeli, amit mutat, és a többit visszaveszi.
+     Így a látogató nem keresgél tovább a szövegben. A fedőréteg elnyeli a
+     kattintást is — egy koppintás bárhol elengedi a kiemelést. */
+  .oko-reflektor{
+    position:fixed;inset:0;z-index:55;
+    background:rgb(12 16 12 / .5);
+    backdrop-filter:blur(2.5px);-webkit-backdrop-filter:blur(2.5px);
+    animation:oko-fedo-be 320ms var(--ease-out) both;
+    cursor:pointer;
+  }
+  @keyframes oko-fedo-be{from{opacity:0}}
+  .oko-fokusz{
+    position:relative;z-index:56;
+    background:var(--surface);border-radius:var(--r-lg);
+    box-shadow:0 0 0 var(--space-16) var(--surface),0 24px 60px rgb(0 0 0 / .28);
+    animation:oko-fokusz-be 420ms var(--ease-out) both;
+  }
+  @keyframes oko-fokusz-be{from{transform:scale(.985)}}
+
+  /* A mutató: Öko keze. Nem kurzor, hanem jelzés — odaér, koppint, marad. */
+  .oko-mutato{
+    position:fixed;z-index:57;width:38px;height:38px;pointer-events:none;
+    animation:oko-mutat 900ms var(--ease-out) both;
+  }
+  .oko-mutato svg{width:100%;height:100%;filter:drop-shadow(0 4px 10px rgb(0 0 0 / .35))}
+  @keyframes oko-mutat{
+    from{opacity:0;transform:translate(18px,26px) scale(.7)}
+    60%{opacity:1;transform:translate(0,0) scale(1.06)}
+    to{opacity:1;transform:none}
+  }
+  .oko-mutato.is-koppint{animation:oko-koppint 1.4s var(--ease-out) infinite}
+  @keyframes oko-koppint{
+    0%,100%{transform:none}
+    50%{transform:translate(-4px,-6px)}
+  }
+
+  /* --- KÍSÉRŐ a konzultációs űrlapon ---------------------------------------
+     Itt Öko nem keres, hanem végigkísér: minden laphoz megmondja, mit várunk,
+     mit tud helyettünk kitölteni, és mutat rá példát. A keret is más — zöld
+     szegély jelzi, hogy ez nem társalgás, hanem kalauzolás. */
+  .oko.is-kisero .oko-panel{border-color:var(--secondary);border-width:2px}
+  .oko-kisero{
+    padding:var(--space-16);border-bottom:1px solid var(--border);
+    background:var(--surface-muted);
+  }
+  .oko-kisero-fej{display:flex;align-items:baseline;gap:var(--space-8);margin-bottom:var(--space-8)}
+  .oko-kisero-lepes{
+    font-family:var(--font-mono);font-size:var(--type-ui-caption-size);
+    color:var(--secondary);flex:none;
+  }
+  .oko-kisero-cim{margin:0;color:var(--text-primary)}
+  .oko-kisero-mit{margin:0 0 var(--space-8);color:var(--text-secondary)}
+  .oko-kisero-pelda{
+    margin:0;padding:var(--space-8) var(--space-16);
+    background:var(--surface);border-left:2px solid var(--secondary);
+    border-radius:0 var(--r-md) var(--r-md) 0;
+    color:var(--text-secondary);font-style:italic;
+  }
+  .oko-kisero-auto{
+    display:flex;align-items:flex-start;gap:var(--space-8);
+    margin-top:var(--space-8);color:var(--text-secondary);
+  }
+  .oko-kisero-auto svg{
+    width:14px;height:14px;flex:none;margin-top:.25em;
+    fill:var(--secondary);stroke:none;
+  }
+  /* Lapváltáskor a kísérő tartalma frissül — a váltást látni kell. */
+  .oko-kisero.is-valt{animation:oko-kisero-valt 420ms var(--ease-out)}
+  @keyframes oko-kisero-valt{
+    from{opacity:0;transform:translateX(10px)}
+  }
+}
+
+@layer motion{
+  @media (prefers-reduced-motion:reduce){
+    .oko-gomb{transition:none}
+    .oko-reflektor,.oko-fokusz,.oko-mutato,.oko-kisero.is-valt{animation:none}
+    .oko-mutato.is-koppint{animation:none}
   }
 }

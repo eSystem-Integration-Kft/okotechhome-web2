@@ -142,20 +142,18 @@
   /* Nem az első pillanatban jelenik meg: a lap előbb nyugodjon meg, hogy a
      figura ne a betöltés zajába érkezzen. Aki egyszer elküldte, annak a
      munkamenet végéig nem jelentkezik újra. */
-  const elrejtve = (() => { try { return sessionStorage.getItem(TAROLO) === '1'; } catch { return false; } })();
-  if (!elrejtve) {
-    setTimeout(() => {
-      gyoker.classList.add('is-erkezik');
-      if (SZOVEG.koszon && !panelNyitva()) {
-        buborekSzoveg.textContent = SZOVEG.koszon;
-        buborek.hidden = false;
-        // A buborék magától elmegy: aki nem foglalkozik vele, ne kelljen bezárnia.
-        setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 9000);
-      }
-    }, csokkentett ? 200 : 1600);
-  } else {
+  /* Öko MINDIG ott van — a bezárás a köszönő buborékra vonatkozik, nem a
+     figurára. Aki nem kér a szövegből, attól elvesszük a buborékot, de a
+     segéd elérhető marad: ez a dolga. */
+  const buborekElrejtve = (() => { try { return sessionStorage.getItem(TAROLO) === '1'; } catch { return false; } })();
+  setTimeout(() => {
     gyoker.classList.add('is-erkezik');
-  }
+    if (SZOVEG.koszon && !buborekElrejtve && !panelNyitva()) {
+      buborekSzoveg.textContent = SZOVEG.koszon;
+      buborek.hidden = false;
+      setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 9000);
+    }
+  }, csokkentett ? 200 : 1600);
 
   /* ------------------------------------------------------------ pislogás */
   const hejak = [...gyoker.querySelectorAll('[data-oko-hej]')];
@@ -199,19 +197,39 @@
   function panelNyitva() { return !panel.hidden; }
   function nyit() {
     buborek.hidden = true;
+    fulre(true);                       // előbb félrevonul, hogy legyen helye
     panel.hidden = false;
     gomb.setAttribute('aria-expanded', 'true');
     gyoker.classList.add('is-nyitva');
-    if (!tarsalgas.children.length) uzenet('oko', SZOVEG.sug || '');
+    if (!tarsalgas.children.length && SZOVEG.sug) uzenet('oko', SZOVEG.sug);
     input.focus();
   }
   function zar() {
     panel.hidden = true;
     gomb.setAttribute('aria-expanded', 'false');
     gyoker.classList.remove('is-nyitva');
+    fulre(false);                      // visszasétál a sarokba
+    reflektorLe();
     gomb.focus();
   }
   gomb.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
+
+  /* A figura a sarokból a jobb szél közepére vonul, és fül lesz belőle. A
+     sarok így felszabadul, Öko viszont látható marad — a szemei kilógnak. */
+  /* A helyzetet innen állítjuk, nem osztályból: a stíluslapon a szabály a
+     többi `.oko-gomb` deklarációval versenyzett és alulmaradt, a figura pedig
+     a sarokban ragadt. Az elemre írt érték minden szabályt megelőz, a CSS
+     `transition` viszont ugyanúgy animálja a két helyzet között. */
+  const MERET = 72;
+  function fulre(be) {
+    gyoker.classList.toggle('is-ful', be);
+    gomb.style.top = be
+      ? `calc(50vh - ${Math.round(MERET * 0.5)}px)`
+      : `calc(100vh - ${MERET + 28}px)`;
+    gomb.style.right = be ? `-${Math.round(MERET * 0.42)}px` : '';
+    gomb.querySelector('.oko-rejtett').textContent =
+      be ? 'Öko — segéd megnyitása (félrehúzva)' : 'Öko — segéd megnyitása';
+  }
   gyoker.querySelector('[data-oko-panel-zar]').addEventListener('click', zar);
   gyoker.querySelector('[data-oko-zar]').addEventListener('click', () => {
     buborek.hidden = true;
@@ -266,13 +284,115 @@
   /* --------------------------------------------------------- kiemelés */
   /* A megtalált szakaszt nem elég odagörgetni: a lapon meg is kell mutatni,
      különben a látogató a szöveg közepén találja magát és keresgél tovább. */
-  let kiemeltElem = null;
+  let fokuszElem = null;
+  let fedo = null;
+  let mutato = null;
+
+  function reflektorLe() {
+    if (fokuszElem) { fokuszElem.classList.remove('oko-fokusz'); fokuszElem = null; }
+    if (fedo) { fedo.remove(); fedo = null; }
+    if (mutato) { mutato.remove(); mutato = null; }
+  }
+
+  /* Nem elég odagörgetni: a lap többi részét visszavesszük, a megtalált
+     szakaszt kiemeljük, és a kéz oda is mutat. A látogatónak egy pillanat
+     alatt látnia kell, HOL a válasz. */
   function kiemel(cel) {
-    if (kiemeltElem) kiemeltElem.classList.remove('oko-kiemelt');
-    cel.classList.add('oko-kiemelt');
-    kiemeltElem = cel;
+    reflektorLe();
+
+    fedo = document.createElement('div');
+    fedo.className = 'oko-reflektor';
+    fedo.addEventListener('click', reflektorLe);
+    document.body.appendChild(fedo);
+
+    cel.classList.add('oko-fokusz');
+    fokuszElem = cel;
     cel.scrollIntoView({ behavior: csokkentett ? 'auto' : 'smooth', block: 'center' });
-    setTimeout(() => cel.classList.remove('oko-kiemelt'), 4000);
+
+    /* A kéz a görgetés UTÁN kerül a helyére: menet közben számolva mellétrafálna. */
+    setTimeout(() => {
+      if (!fokuszElem) return;
+      const d = cel.getBoundingClientRect();
+      mutato = document.createElement('div');
+      mutato.className = 'oko-mutato is-koppint';
+      mutato.innerHTML = '<svg viewBox="0 0 32 32" aria-hidden="true">'
+        + '<path fill="#FBFBF7" stroke="#2C302C" stroke-width="1.6" stroke-linejoin="round"'
+        + ' d="M11 5.5a2 2 0 0 1 4 0v8.2l1.2-2.1a2 2 0 0 1 3.5 2l-.6 1.1 1.6-.4a2 2 0 0 1 1 3.9l-1.2.3 1 .6a2 2 0 0 1-1.4 3.7l-4.4-1.1a7 7 0 0 1-4.6-4L11 14z"/>'
+        + '</svg>';
+      mutato.style.left = Math.max(8, Math.min(innerWidth - 46, d.right - 24)) + 'px';
+      mutato.style.top = Math.max(8, d.top + Math.min(d.height / 2, 120)) + 'px';
+      document.body.appendChild(mutato);
+    }, csokkentett ? 0 : 480);
+
+    /* Magától elenged: a reflektor nem maradhat a lapon. */
+    setTimeout(reflektorLe, 7000);
+  }
+
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') reflektorLe(); });
+
+  /* ------------------------------------------------------------- kísérő */
+  /* Az űrlapon Öko nem keres, hanem VÉGIGKÍSÉR: minden laphoz megmondja, mit
+     várunk, mit tud belőle automatikusan kitölteni, és mutat rá példát. A
+     szöveg a lapváltás eseményére frissül, és a váltás látszik is. */
+  const KISERO = [
+    null,
+    { cim: 'Ki keres megoldást?',
+      mit: 'Jelölje meg, magánszemélyként vagy szervezet nevében keres megoldást. Ettől függ minden további kérdés.',
+      pelda: 'Vállalkozásnál a létesítmény típusa is kell — panzió, étterem, iskola, üzem.',
+      auto: 'A leírásból ezt is felismerem, ha később szabad szöveggel írja le a helyzetet.' },
+    { cim: 'Hol tart a projekt?',
+      mit: 'A szakasz mondja meg, mi a következő lépés: tájékozódás, méretezés, engedélyeztetés vagy kivitelezés. A jelenlegi megoldást is kérdezzük.',
+      pelda: 'Ha most vásárolna telket, a „Telekvásárlás előtt" a jó — akkor a telek alkalmassága a fő kérdés.',
+      auto: 'Ha működő rendszerrel van gond, itt a tüneteket is bejelölheti.' },
+    { cim: 'Az ingatlan és a terhelés',
+      mit: 'A terhelés adja a méretet, a telek adottságai a típust. Amit nem tud, hagyja üresen — ez nem hiba.',
+      pelda: 'Négyfős család állandó lakhatással: állandó létszám 4, csúcsterhelés üres, ha nincs vendégjárás.',
+      auto: 'A talajvizet és a telekméretet a szabad szöveges leírásból is kitöltöm.' },
+    { cim: 'Írja le a saját szavaival',
+      mit: 'Néhány mondat elég. Ez az a pont, ahol a legtöbbet tudok segíteni.',
+      pelda: '„Négyfős család, új ház Esztergom mellett, nincs közcsatorna, a telek 1200 m², tavasszal magas a talajvíz."',
+      auto: 'Egy gombnyomásra kiolvasom belőle az ingatlantípust, a létszámot, a projektszakaszt és a telekadatokat, és kitöltöm az előző lapokat. Amit rosszul értek, Ön javítja.' },
+    { cim: 'Konzultáció módja és időpontja',
+      mit: 'Válassza ki, hogyan egyeztetne, és jelöljön több sávot, amikor elérhető. Ez még nem foglalás — egyet visszaigazolunk.',
+      pelda: 'Három sáv a jó arány: abból szinte biztosan találunk közöset.',
+      auto: 'A naptárból kiválasztott sávok automatikusan bekerülnek a szöveges mezőbe.' },
+    { cim: 'Elérhetőség',
+      mit: 'Név és e-mail kell a visszaigazoláshoz, a telefon gyorsítja az egyeztetést. Az adatkezelési hozzájárulás kötelező.',
+      pelda: 'A település vagy irányítószám azért fontos, mert a helyszíni felmérés útját ebből tervezzük.',
+      auto: 'A beküldés után szakmai összefoglalót kap arról, mit érdemes a konzultációig előkészítenie.' },
+  ];
+
+  if (mod === 'urlap') {
+    gyoker.classList.add('is-kisero');
+    const doboz = document.createElement('div');
+    doboz.className = 'oko-kisero';
+    doboz.hidden = true;
+    panel.insertBefore(doboz, tarsalgas);
+
+    document.addEventListener('konzv:lap', (e) => {
+      const adat = KISERO[e.detail.lap];
+      if (!adat) { doboz.hidden = true; return; }
+      doboz.hidden = false;
+      doboz.innerHTML = `
+        <div class="oko-kisero-fej">
+          <span class="oko-kisero-lepes">${e.detail.lap}/6</span>
+          <p class="type-ui-subtitle oko-kisero-cim"></p>
+        </div>
+        <p class="type-ui-caption oko-kisero-mit"></p>
+        <p class="type-ui-caption oko-kisero-pelda"></p>
+        <p class="type-ui-caption oko-kisero-auto">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 13.9 9l5.6 1.9-5.6 2L12 18.5l-1.9-5.6L4.5 11l5.6-2z"/></svg>
+          <span></span>
+        </p>`;
+      doboz.querySelector('.oko-kisero-cim').textContent = adat.cim;
+      doboz.querySelector('.oko-kisero-mit').textContent = adat.mit;
+      doboz.querySelector('.oko-kisero-pelda').textContent = adat.pelda;
+      doboz.querySelector('.oko-kisero-auto span').textContent = adat.auto;
+      /* Az animációt újra kell indítani: osztály le, reflow, osztály fel. */
+      doboz.classList.remove('is-valt');
+      void doboz.offsetWidth;
+      doboz.classList.add('is-valt');
+    });
   }
 
   /* --------------------------------------------------------------- kérdés */
