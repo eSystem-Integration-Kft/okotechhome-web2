@@ -29,6 +29,105 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.03.00] — 2026-08-09
+
+Az **Öko kalauz** (AI-alapú kísérő minden lapon), a **konzultációkérő varázsló**
+AI-támogatással, a fejlécképek teljes újragenerálása témánként, és az élő
+Google-térkép.
+
+### Hozzáadva
+
+- **Öko — AI-alapú kalauz minden lapon.** Kis figura a jobb alsó sarokban, aki
+  megkeresi a kérdésre a választ a webhely tartalmában, megmondja melyik lapon és
+  melyik szakaszban van, és **oda is viszi**: a lap többi része elhalványul és
+  elmosódik egy fedőréteg alatt, a megtalált szakasz élesen marad, egy rajzolt kéz
+  pedig rámutat. A kiemelés hét másodperc után, kattintásra vagy `Esc`-re elenged.
+  A figura maga a termék: az A.B.Clear tartály sziluettje, szemekkel — bordázott
+  test, kúpos tető, narancs csonkok. Pislog, a pupillái a kurzort követik (minden
+  példány a saját középpontjából), és rákérdezéskor billeg. (`86a8d5e`, `8da69bc`,
+  `ceb2726`, `1ddd7e0`, `b198053`)
+- **Öko három üzemmódja.** Az üzemmódot a `<body data-kalauz-mod>` mondja meg.
+  Alapértelmezésben tartalomban igazít el; a konzultációkérőn nem terel el, hanem a
+  kitöltésnél segít; az ajánlat-összehasonlítási jelentésen a saját eredményét
+  magyarázza. Minden módnak saját nyitó ajánlásai, súgószövege és példakérdései
+  vannak. (`86a8d5e`, `e861c5a`)
+- **Öko párbeszédvezetése.** Nyitáskor három kattintható belépőt kínál, mert a
+  látogatók többsége nem tudja, mit kérdezzen egy segédtől. Minden válasz alatt
+  két-három továbbkérdés jelenik meg a látogató saját hangján — ezt a séma
+  **kötelezővé** teszi, mert az a segéd, amelyik válaszol és elhallgat, pont a
+  megoldandó probléma. Hat forduló megy vissza a modellhez, így nem kell
+  megismételni, amit a látogató már elmondott. (`e861c5a`)
+- **Öko fül-üzemmódja.** A panel bezárása nem tünteti el a segédet: Öko a jobb
+  képernyőszél közepére húzódik félig kilógó fülként, `position:fixed`, tehát
+  görgetésre sem mozdul. Egy koppintás visszahozza. (`80f0335`, `d700350`,
+  `b198053`)
+- **Konzultációkérő varázsló — `/konzultacio`.** Hat lépés: ki keres megoldást
+  (magánszemély, vállalkozás szegmenssel, önkormányzat, tervező), hol tart a projekt,
+  az ingatlan és a terhelés, szabad szöveges leírás, a konzultáció módja
+  időpont-preferenciákkal, végül az elérhetőség és a jogi hozzájárulások.
+  JS nélkül is teljes értékű: minden lap egyszerre látszik, a natív ellenőrzés
+  működik, és egyetlen POST megy a végpontra. (`049e76d`)
+- **Időpont-preferencia, nem foglalás.** A látogató naptárrácsból legfeljebb három
+  sávot jelöl, és egyet e-mailben igazolunk vissza. Nincs külső naptárfiók, nincs
+  OAuth, és nem keletkezhet ütköző foglalás. A kijelölt sávok abba a szöveges mezőbe
+  íródnak, amit a JS nélküli út is használ — egyetlen igazság megy a szerverre.
+  (`049e76d`)
+- **AI-kitöltéssegéd.** A szabad szöveges leírásból kényszerített eszközhívással
+  kiolvassa az ingatlantípust, a létszámot, a projektszakaszt és a telekadatokat, és
+  beírja őket — **kizárólag üres mezőkbe**, hogy a látogató válaszát soha ne írja
+  felül a gép. A modell kimenete bemenetnek számít: az értékkészletet a szerver
+  újraellenőrzi. (`049e76d`)
+- **AI szakmai brief és személyre szabott visszaigazolás.** Beküldéskor két hívás
+  fut: az egyik nekünk ír előminősítést, hiánylistát és kockázatokat, a másik a
+  látogató visszaigazolásába fogalmazza meg, mit érdemes a konzultációig
+  előkészítenie. Mindkettő elhagyható — ha az API nem érhető el, a levelek nélkülük
+  mennek ki. (`049e76d`)
+- **Lépéskísérő a varázslón.** Öko panelje zöld keretet kap, és a társalgás fölött
+  egy blokk követi a lépéseket: mit várunk azon a lapon, egy konkrét példa, és mit
+  tud automatikusan kitölteni. A varázsló eseménnyel szól a lapváltásról, így a két
+  szkript egymás nélkül is működik. (`8da69bc`)
+- **Tartalomindex a kiadott lapokból.** A `scripts/kalauz-index.py` 118 lapból és 943
+  horgonyozott szakaszból épít katalógust. Öko **csak ebből választhat** találatot: a
+  séma útvonalat fogad el, és a végpont a válasz URL-jét, címét és horgonyát még
+  egyszer az indexhez méri. Kitalált hivatkozás így nem juthat ki. (`86a8d5e`)
+- **Élő Google-térkép a kapcsolat oldalon.** A kulccsal a beágyazott keret helyére
+  valódi Maps JavaScript API kerül, a logós jelölés valódi térképjelölővé válik, a
+  színezés pedig a designrendszer tokenjeiből jön — és a lap témájával együtt vált.
+  (`bae51a3`, `ed3e0ea`)
+- **Kapcsolat menüpont a főmenüben.** A fejléc CTA a konzultációkérőre mutat; a
+  kapcsolat ezért önálló menüpontot kapott. Aki csak kérdezni akar, annak is kell út.
+  (`ed3e0ea`)
+
+### Módosítva
+
+- **Mind a 63 fejléckép újragenerálva, témánként.** Tizennyolc kép szolgált ki 116
+  oldalt, ezért a legtöbb lapon nem a saját témája állt: az éttermek oldalán
+  szippantóautó, a cookie-tájékoztatón naplementés falu. Most 63 kép / 116 oldal,
+  átlag 1,8 oldal képenként, és 33 kép egyetlen oldalt szolgál. Minden kép a
+  `alapkepek/` könyvtár referenciáival készült — modern házak, valódi A.B.Clear és
+  Épureco egységek, kitalált műszaki tartalom nélkül. (`c4d4693`, `95a644c`)
+- **Egy fejléckép — egy alt.** Ugyanaz a fotó korábban kilenc különböző leírást
+  kapott, jórészt olyan képről, ami sosem volt ott. (`c4d4693`, `95a644c`)
+- **Rövidebb megamenü-címkék.** Három címke három-négy sorba tört a 157 képpontos
+  oszlopban. A menücímke navigáció, nem cím: a teljes mondat az oldal H1-ében, a
+  morzsamenüben és a JSON-LD-ben maradt. Most 14 címke egy sor, 4 kettő. (`a91aa3a`)
+
+### Javítva
+
+- **A térkép nem üresedik ki.** Hitelesítési hiba (lejárt kulcs, kimerült kvóta,
+  hiányzó domain a referrer-korlátozásból) nem betöltési hiba: a fájl megérkezik, a
+  térkép felépül, csempe viszont nem jön. A `tilesloaded` az egyetlen megbízható jel;
+  ha hat másodpercen belül nem érkezik, a beágyazott keret visszatér. (`bae51a3`)
+- **A folyamatsáv vonala átütött a korongokon** sötét témában. Két oka volt: a
+  rétegsorrend a színekre volt bízva, és a hátralévő lépések `opacity`-vel
+  halványodtak — az pedig a hátteret is áttetszővé teszi. (`1b3a780`, `239e85e`)
+- **Mondaton belüli hivatkozás.** A `.text-link` önálló hivatkozásnak készült (44
+  képpontos érintőcél, saját betűméret); mondat közepén szétfeszítette a sorközt. Az
+  új `.szoveg-link` örökli a méretet. (`ed3e0ea`)
+- **Öko gombjai kattinthatók.** A kilógó fej rátakart a záró gombra és elnyelte az
+  egeret; a kezelő pedig egy korábbi, csendben dobott hiba miatt nem is épült fel.
+  (`ad38bab`, `5f3ec71`, `b198053`)
+
 ## [0.02.00] — 2026-08-08
 
 A főoldal fejléce és 1–5. szekciója a designrendszer-implementációval, a háromszintű

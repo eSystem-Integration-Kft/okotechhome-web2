@@ -319,6 +319,140 @@ Ha a böngésző nem ismeri a `dialog`-ot, marad a gomb alatti szöveges visszaj
   „jelentés" azt sugallná, hogy az elemzés lefutott és nem talált semmit.
 - A `/jelentes` `noindex` — nem tartalomoldal, és üresen semmit nem mond.
 
+## Öko — a kísérő kalauz
+
+Kis figura a jobb alsó sarokban minden lapon. Nem chatbot: a dolga az, hogy a
+látogató **megtalálja, amit keres**, és oda is jusson.
+
+### Mit csinál
+
+1. **Válaszol** — legfeljebb három rövid mondatban, magázódva. Ha a kérdés
+   általános, **egy** pontosítót tesz fel: azt, amelyik a legtöbbet dönti el
+   (hol tart a projekt, hányan használják, milyen a telek). Sosem kettőt.
+2. **Megmondja, hol a válasz** — nem csak azt, melyik lapon, hanem melyik
+   szakaszban is.
+3. **Oda is viszi.** Ha a találat az aktuális lapon van, magától odagörget: a lap
+   többi része elhalványul és elmosódik egy fedőréteg alatt, a szakasz élesen
+   marad, egy rajzolt kéz pedig rámutat. Hét másodperc után, kattintásra vagy
+   `Esc`-re elenged.
+4. **Tovább is vezet** — minden válasz alatt két-három kattintható továbbkérdés áll
+   a látogató saját hangján. Ezt a séma kötelezővé teszi: az a segéd, amelyik
+   válaszol és elhallgat, épp a megoldandó problémát reprodukálja.
+
+### Három üzemmód
+
+A `<body data-kalauz-mod>` mondja meg; hiányában `kalauz`.
+
+| mód | hol | mit csinál |
+|---|---|---|
+| `kalauz` | minden lapon | keresés és útbaigazítás a tartalomban |
+| `urlap` | `/konzultacio` | nem terel el; a mezők kitöltésében segít, és lépésenként elmondja, mit várunk |
+| `jelentes` | `/jelentes` | a saját eredményét magyarázza, nem a webhely tartalmát keresi |
+
+Minden módnak saját belépői, súgószövege és példakérdései vannak.
+
+### Amit soha nem tesz
+
+- **Nem talál ki oldalt.** A találatokat a tartalomindexből választja, a séma csak
+  útvonalat fogad el, és a végpont a válasz URL-jét, címét és horgonyát még egyszer
+  az indexhez méri. Kitalált hivatkozás rosszabb, mint a „nem tudom".
+- **Nem méretez, nem mond árat, kapacitást vagy határidőt.** Ezek helyszíni felmérés
+  és konzultáció kérdései — oda irányít.
+- **Nem beszél magáról mint gépről**, és nem magyarázza a saját működését.
+
+### A tartalomindex
+
+`scripts/kalauz-index.py` → `api/kalauz-index.json` (118 lap, 943 szakasz).
+
+A **kiadott HTML-ből** épül, nem külön karbantartott listából: ha egy lap
+megszűnik, kiesik innen is. Lapon: útvonal, cím, meta-leírás, és a szakaszcímek a
+horgonyaikkal. A horgonyok a **címeken** ülnek, mert a lapok ott hordozzák az
+`id`-t — a kiemelés ezért a legközelebbi `<section>`-re emelkedik, ahol a válasz
+valójában van.
+
+**Fontos korlát:** a törzsszöveg NINCS az indexben. Öko megbízhatóan megmondja,
+melyik lapon és szakaszban van a válasz, és a rendszerpromptba írt szakmai tudásból
+beszél a témáról — de nem a lap konkrét mondataiból idéz.
+
+### A figura
+
+Az A.B.Clear tartály sziluettje szemekkel: bordázott test, kúpos tető, narancs
+csonkok. Inline SVG (nem képfájl), mert a pupillák a kurzort követik és a szemhéj
+pislog — szabálytalan ütemben, mert az egyenletes pislogás gépiesnek hat. Minden
+példány (sarokgomb, fül, panelfej) a **saját középpontjából** néz.
+
+Csökkentett mozgás mellett minden animáció elmarad: a figura egyszerűen ott van.
+
+### Fül-üzemmód
+
+A panel bezárása nem tünteti el: Öko a jobb képernyőszél közepére húzódik félig
+kilógó fülként — a teste kicsúszik, a szemek bent maradnak. `position:fixed`, tehát
+görgetésre sem mozdul. Egy koppintás visszahozza.
+
+A sarokban álló gomb és a fül **két külön elem**, egyszerre csak az egyik látszik.
+Egyetlen elem mozgatásával nem volt megoldható: az elem helyzete inline
+`!important` beállítással sem változott, és a stíluslapban semmi nem magyarázta.
+
+### Végpont
+
+`api/kalauz.php` — sebességkorlát 30/óra IP-nként. A kérés a kérdést, az üzemmódot
+és a párbeszéd utolsó hat fordulóját viszi. A prompt a szakmai alapokat is tartalmazza
+(a négy irány, a méretezés alapja, a telek három döntő tényezője, mikor kell szakértő),
+hogy Öko válaszolni tudjon, ne csak menüpontra mutasson.
+
+## Konzultációkérő varázsló — `/konzultacio`
+
+A kapcsolati űrlap név, e-mail és szabad szöveg volt. Projektmegkereséshez ez kevés:
+a méretezés a terheléstől, a telektől, a talajvíztől és a projekt szakaszától függ.
+
+### Hat lépés
+
+1. **Ki keres** — magánszemély · vállalkozás (létesítménytípussal) · önkormányzat ·
+   tervező/kivitelező
+2. **Hol tart** — projektszakasz és a jelenlegi megoldás; működési gondnál tünetlista
+3. **Az ingatlan** — használat, állandó létszám, csúcs, telekméret, talajvíz, kút,
+   meglévő adatok
+4. **Leírás** — szabad szöveg, mellette a kitöltéssegéd
+5. **Időpont** — telefonos, online vagy helyszíni; naptárból legfeljebb három sáv
+6. **Elérhetőség** — név, e-mail, telefon, település, GDPR és ÁSZF
+
+### Működési jellemzők
+
+- **JS nélkül teljes értékű.** Minden lap egyszerre látszik, a natív `required`
+  ellenőrzés működik, és egyetlen POST megy a végpontra. A JS teszi lapozóssá, adja
+  a haladásjelzőt, a feltételes blokkokat és az összegzést.
+- **A naptár preferenciát gyűjt, nem foglal.** Nincs külső naptárfiók, nincs OAuth,
+  nincs tokenkezelés — és nem keletkezhet ütköző foglalás. A kijelölt sávok abba a
+  szöveges mezőbe íródnak, amit a JS nélküli út is használ: egyetlen igazság megy a
+  szerverre.
+- **Vázlat a gépen.** A félbehagyott kitöltés `localStorage`-ban marad, és a
+  folytatás ott veszi fel a fonalat. Üres vázlatot nem mentünk, két hétnél régebbit
+  nem ajánlunk fel.
+- **A rejtett feltételes mezők ki is kapcsolódnak**, hogy ne küldjünk olyan értéket,
+  amit a látogató nem is látott.
+
+### Az AI három feladata
+
+| hol | mit csinál | ha nem érhető el |
+|---|---|---|
+| `api/konzultacio-kitoltes.php` | a szabad szöveges leírásból kiolvassa a mezőket | a látogató kézzel tölti ki |
+| `api/konzultacio.php` (brief) | nekünk ír előminősítést, hiánylistát, kockázatokat | a levél nélküle megy ki |
+| `api/konzultacio.php` (válasz) | a visszaigazolásba írja, mit érdemes előkészíteni | a levél nélküle megy ki |
+
+**A kitöltéssegéd csak ÜRES mezőbe ír.** A gép javaslata soha nem írja felül azt,
+amit a látogató maga adott meg — az ő válasza az erősebb. A modell kimenete
+bemenetnek számít: az értékkészletet a szerver újraellenőrzi, és a listán kívüli
+érték egyszerűen kimarad.
+
+**Egy megkeresés elvesztése drágább, mint egy hiányzó bekezdés** — ezért mindhárom
+AI-hívás elhagyható, és a levelek nélkülük is kimennek.
+
+### Kulcs és korlátok
+
+Az AI-kulcs a fájlból jön (`../oth-titkok/ai-kulcs.txt`, lásd fentebb), és **soha nem
+kerül a böngészőbe**: a kliens csak a saját végpontjainkat látja. Sebességkorlát a
+kitöltéssegédre 20/óra, a beküldésre a `config.php` általános korlátja.
+
 ## Jelenlegi állapot
 
 | | |
@@ -329,9 +463,12 @@ Ha a böngésző nem ismeri a `dialog`-ot, marad a gomb alatti szöveges visszaj
 | **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
 | **Hiányzik** | lábléc, a sitemap 5 további főkategóriája, `sitemap.xml`, főoldali 6–7. és 9–15. szekció |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
-| **JS** | 11 modul, összesen ~2200 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
+| **JS** | 13 modul, összesen ~3200 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
 | **Téma** | világos/sötét, csúszkakapcsolóval a fejlécben. Első látogatáskor a rendszerbeállítás, utána a látogató választása (`localStorage`). JS nélkül világos marad, és a kapcsoló meg sem jelenik. |
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
+| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban. Tartalomindex: 118 lap, 943 szakasz. Végpont: `api/kalauz.php` |
+| **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
+| **Fejlécképek** | 63 kép / 116 oldal, témánként; mind a `alapkepek/` referenciáival generálva |
 
 ## Szerkezet
 
