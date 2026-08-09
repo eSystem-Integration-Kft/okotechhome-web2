@@ -3950,11 +3950,18 @@
   .oko-gomb{
     appearance:none;border:0;background:none;padding:0;cursor:pointer;
     width:72px;height:76px;border-radius:var(--r-lg);
-    /* Érkezés előtt lent van és átlátszó — a `is-erkezik` hozza fel. */
-    opacity:0;transform:translateY(24px) scale(.9);
-    transition:opacity 420ms var(--ease-out),transform 520ms cubic-bezier(.22,1.2,.36,1);
   }
-  .oko.is-erkezik .oko-gomb{opacity:1;transform:none}
+  /* A LÁTHATÓSÁG az alapállapot, a rejtettség a kivétel — fordítva a figura
+     ott ragadt az `opacity:0`-nál, ha az érkezés bármi miatt nem futott le.
+     Egy segéd, aki nem jelenik meg, rosszabb, mint egy animáció nélküli. */
+  .oko:not(.is-erkezik) .oko-gomb{opacity:0;transform:translateY(24px) scale(.9)}
+  .oko.is-erkezik .oko-gomb{
+    animation:oko-erkezik 520ms cubic-bezier(.22,1.2,.36,1) forwards;
+  }
+  @keyframes oko-erkezik{
+    from{opacity:0;transform:translateY(24px) scale(.9)}
+    to{opacity:1;transform:none}
+  }
   .oko-gomb:focus-visible{outline:3px solid var(--border-focus);outline-offset:4px}
   .oko-figura{display:block;width:100%;height:100%;overflow:visible}
 
@@ -4109,7 +4116,8 @@
 @layer motion {
   @media (prefers-reduced-motion:reduce){
     /* A figura ott van, de nem mozog: se érkezés, se billegés, se pislogás. */
-    .oko-gomb{opacity:1;transform:none;transition:none}
+    .oko-gomb{opacity:1;transform:none}
+    .oko.is-erkezik .oko-gomb{animation:none;opacity:1;transform:none}
     .oko-test-csoport{transition:none;animation:none}
     .oko-pupilla,.oko-hej{transition:none}
     .oko-buborek,.oko-panel{animation:none}
@@ -4155,8 +4163,12 @@
      balra tapadt. */
   .konzv{margin-inline:auto}
 
-  /* A jogi blokk két jelölője egymásra csúszott: saját ritmus kell neki. */
-  .urlap-jog{display:grid;gap:var(--space-16)}
+  /* A jogi blokk két jelölője egymásra csúszott: saját ritmus kell neki.
+     CSAK a burkoló <div>-re! A `.urlap-jog` bekezdésként is használatban van
+     (kapcsolat oldal, „A *-gal jelölt mezők…"), és ott a `display:grid` a
+     bekezdés szövegcsomópontjait szedné külön rácselemekre — a mondat három
+     sorba esett szét. Az elemtípus a megkülönböztetés. */
+  div.urlap-jog{display:grid;gap:var(--space-16)}
   .konzv .urlap-jog{margin-top:var(--space-24)}
   /* A címke szövege a jelölő mellett folyjon, ne a sor tetejére ugorjon. */
   .konzv .urlap-jelolo{align-items:start;line-height:var(--type-ui-caption-line-height)}
@@ -4196,5 +4208,30 @@
 @layer motion{
   @media (prefers-reduced-motion:reduce){
     .konzv-lap,.konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{animation:none}
+  }
+}
+
+@layer components {
+  /* --- a konzultációs bevezető: két hasáb ---------------------------------
+     Egy hasábban a cím, a lead és a három pont egymás alá került, és a
+     látogató három képernyőnyit görgetett, mire az űrlaphoz ért. A szöveg
+     balra, a pontok mellé két oszlopba — a szekció így feleannyi helyet visz. */
+  .konzv-bevezeto{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);
+    gap:var(--space-48);align-items:start;
+  }
+  /* A cím a szűkebb hasábban legfeljebb két sor — ez adja a ritmust. */
+  .konzv-bevezeto-cim{margin:0 0 var(--space-16);max-width:16ch;text-wrap:balance}
+  .konzv-bevezeto-lead{margin:0;color:var(--text-secondary);max-width:46ch}
+  /* A három pont a jobb kétharmadban EGY sorban fér el. */
+  .konzv-bevezeto .konzv-elonyok{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
+}
+@layer responsive {
+  @media (max-width:1024px){
+    .konzv-bevezeto{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
+    .konzv-bevezeto-cim{max-width:28ch}
+  }
+  @media (max-width:640px){
+    .konzv-bevezeto .konzv-elonyok{grid-template-columns:minmax(0,1fr);gap:var(--space-24)}
   }
 }

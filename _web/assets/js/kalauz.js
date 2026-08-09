@@ -288,7 +288,7 @@
     const varakozo = uzenet('oko', 'Megnézem…');
 
     try {
-      const valasz = await fetch('api/kalauz', {
+      const valasz = await fetch('/api/kalauz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ kerdes, mod, oldal: location.pathname }),

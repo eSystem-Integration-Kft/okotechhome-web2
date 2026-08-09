@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=99">
+<link rel="stylesheet" href="assets/css/app.css?v=103">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -25,7 +25,7 @@
       imagesrcset="assets/img/oldalak/hero-projektbrief-1024.webp?v=2 1100w, assets/img/oldalak/hero-projektbrief.webp?v=2 1800w"
       imagesizes="100vw">
 </head>
-<body>
+<body data-kalauz-mod="urlap">
 
 <a class="skip-link" href="#fotartalom">Ugrás a tartalomra</a>
 
@@ -429,12 +429,13 @@
 
   <section class="section" aria-labelledby="miert-cim">
     <div class="section-inner">
-      <div class="section-fejlec">
-        <p class="type-data-eyebrow section-eyebrow">Miért kérdezünk ennyit</p>
-        <h2 class="type-display-section-title section-title" id="miert-cim">Egy jó javaslathoz adat kell, nem tipp</h2>
-        <p class="type-ui-body section-lead">A rendszer méretét és típusát nem a berendezés dönti el, hanem az ingatlan, a terhelés, a telek és a helyi szabályozás együtt. Az alábbi lapok ezeket veszik sorra — amit nem tud, azt nyugodtan hagyja üresen, a hiányzó adatokat a konzultáción pótoljuk.</p>
-      </div>
-      <ul class="konzv-elonyok" role="list">
+      <div class="konzv-bevezeto">
+        <div class="konzv-bevezeto-szoveg">
+          <p class="type-data-eyebrow section-eyebrow">Miért kérdezünk ennyit</p>
+          <h2 class="type-display-section-title konzv-bevezeto-cim" id="miert-cim">Egy jó javaslathoz adat kell, nem tipp</h2>
+          <p class="type-ui-body konzv-bevezeto-lead">A méretet és a típust az ingatlan, a terhelés és a telek együtt dönti el. Amit nem tud, hagyja üresen — a hiányzó adatokat a konzultáción pótoljuk.</p>
+        </div>
+        <ul class="konzv-elonyok" role="list">
         <li class="konzv-elony">
           <span class="konzv-elony-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>
           <p class="type-ui-subtitle konzv-elony-cim">5–7 perc</p>
@@ -450,7 +451,8 @@
           <p class="type-ui-subtitle konzv-elony-cim">Válasz két munkanapon belül</p>
           <p class="type-ui-caption konzv-elony-szoveg">A megadott időpontok közül visszaigazolunk egyet, vagy újat ajánlunk, ha egyik sem fér a naptárba.</p>
         </li>
-      </ul>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -899,6 +901,7 @@
 </footer>
 
 <script src="assets/js/site.js?v=3" defer></script>
+<script src="assets/js/kalauz.js?v=1" defer></script>
 <script src="assets/js/urlap.js?v=1" defer></script>
 <script src="assets/js/konzultacio.js?v=1" defer></script>
 
