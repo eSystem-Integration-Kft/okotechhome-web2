@@ -47,6 +47,9 @@
   if (tovabb) tovabb.hidden = false;
 
   function mutat(i, fokusz = true) {
+    /* Az irány vezérli a belépő animációt: előre jobbról, vissza balról.
+       Enélkül a lapok ugranak, és nem érződik, hogy egy folyamatban haladunk. */
+    urlap.classList.toggle('is-vissza', i < aktiv);
     aktiv = Math.max(0, Math.min(i, lapok.length - 1));
     lapok.forEach((l, n) => { l.hidden = n !== aktiv; });
     jelzok.forEach((j, n) => {

@@ -3923,3 +3923,278 @@
     .konzv-vezerlo .konzv-vissza{margin-right:0;order:2}
   }
 }
+
+/* ============================================================================
+   9. ÖKO — a kísérő segéd (`.oko-*`)
+   A figura a termékből jön: az Épureco tartály sziluettje, bordákkal és két
+   aknanyakkal. Sötét test, világos szem — a kontrasztot a szem adja, ezért az
+   marad a legvilágosabb felület mindkét témában.
+   ========================================================================== */
+@layer components {
+
+  .oko{
+    --oko-test:#2C302C;         /* a tartály teste — közel fekete, de nem az */
+    --oko-borda:#454B45;
+    --oko-nyak:#1F221F;
+    --oko-szem:#FBFBF7;
+    --oko-pupilla:#22261F;
+    position:fixed;right:var(--space-24);bottom:var(--space-24);z-index:60;
+    display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-8);
+    /* A gyökér nem fog kattintást: csak a benne álló elemek. Így a sarok
+       szabadon marad a lap tartalmának. */
+    pointer-events:none;
+  }
+  .oko > *{pointer-events:auto}
+
+  /* --- a figura gombja ---------------------------------------------------- */
+  .oko-gomb{
+    appearance:none;border:0;background:none;padding:0;cursor:pointer;
+    width:72px;height:76px;border-radius:var(--r-lg);
+    /* Érkezés előtt lent van és átlátszó — a `is-erkezik` hozza fel. */
+    opacity:0;transform:translateY(24px) scale(.9);
+    transition:opacity 420ms var(--ease-out),transform 520ms cubic-bezier(.22,1.2,.36,1);
+  }
+  .oko.is-erkezik .oko-gomb{opacity:1;transform:none}
+  .oko-gomb:focus-visible{outline:3px solid var(--border-focus);outline-offset:4px}
+  .oko-figura{display:block;width:100%;height:100%;overflow:visible}
+
+  /* A test enyhén megnő, ha rá lehet kattintani — ennyi elég jelzésnek. */
+  .oko-gomb:hover .oko-test-csoport{transform:translateY(-2px) scale(1.03)}
+  .oko-test-csoport{transform-origin:50% 90%;transition:transform 260ms var(--ease-out)}
+
+  .oko-test{fill:var(--oko-test)}
+  .oko-nyak,.oko-fedel,.oko-csonk{fill:var(--oko-nyak)}
+  .oko-bordak path{stroke:var(--oko-borda);stroke-width:3;stroke-linecap:round;fill:none}
+  .oko-szemfeher{fill:var(--oko-szem)}
+  .oko-pupilla{fill:var(--oko-pupilla);transition:cx 90ms linear,cy 90ms linear}
+  .oko-csillanas{fill:#fff;opacity:.9}
+  /* A szemhéj felülről csukódik: nulla magasságról nő a szem fölé. */
+  .oko-hej{fill:var(--oko-test);transition:height 90ms var(--ease-out)}
+  .oko-hej.is-csukva{height:26px}
+  .oko-arnyek{fill:rgb(0 0 0 / .16)}
+
+  /* Gondolkodás közben lassan billeg — nem pörög, nem ugrál. */
+  .oko.is-gondolkodik .oko-test-csoport{animation:oko-billeg 1.6s ease-in-out infinite}
+  @keyframes oko-billeg{
+    0%,100%{transform:rotate(-2.5deg)}
+    50%{transform:rotate(2.5deg)}
+  }
+
+  /* --- bejelentkező buborék ------------------------------------------------ */
+  .oko-buborek{
+    position:relative;max-width:16rem;
+    padding:var(--space-16) var(--space-32) var(--space-16) var(--space-16);
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--r-lg);box-shadow:var(--shadow-2);
+    animation:oko-buborek-be 380ms var(--ease-out) both;
+  }
+  @keyframes oko-buborek-be{from{opacity:0;transform:translateY(8px) scale(.96)}}
+  /* A buborék csücske a figura felé mutat. */
+  .oko-buborek::after{
+    content:"";position:absolute;right:26px;bottom:-7px;width:12px;height:12px;
+    background:var(--surface);border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);transform:rotate(45deg);
+  }
+  .oko-buborek-szoveg{margin:0;color:var(--text-primary)}
+  .oko-buborek-zar,.oko-panel-zar{
+    appearance:none;border:0;background:none;cursor:pointer;
+    display:grid;place-items:center;width:28px;height:28px;
+    border-radius:var(--r-md);color:var(--text-tertiary);
+  }
+  .oko-buborek-zar{position:absolute;top:6px;right:6px}
+  .oko-buborek-zar:hover,.oko-panel-zar:hover{background:var(--surface-muted);color:var(--text-primary)}
+  .oko-buborek-zar:focus-visible,.oko-panel-zar:focus-visible{
+    outline:3px solid var(--border-focus);outline-offset:-2px}
+  .oko-buborek-zar svg,.oko-panel-zar svg{
+    width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+
+  /* --- párbeszédpanel ------------------------------------------------------ */
+  .oko-panel{
+    width:min(23rem,calc(100vw - 2 * var(--space-24)));
+    max-height:min(32rem,calc(100vh - 8rem));
+    display:flex;flex-direction:column;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--panel-radius);box-shadow:var(--shadow-2);overflow:hidden;
+    animation:oko-panel-be 260ms var(--ease-out) both;
+  }
+  @keyframes oko-panel-be{from{opacity:0;transform:translateY(12px) scale(.98)}}
+  .oko-panel-fej{
+    display:flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-16);border-bottom:1px solid var(--border);
+    background:var(--surface-muted);
+  }
+  .oko-panel-jel{display:block;width:34px;height:36px;flex:none}
+  .oko-panel-cimek{min-width:0;flex:1}
+  .oko-panel-cim{margin:0;color:var(--text-primary)}
+  .oko-panel-alcim{margin:0;color:var(--text-secondary)}
+
+  .oko-tarsalgas{
+    flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+    padding:var(--space-16);display:flex;flex-direction:column;gap:var(--space-16);
+  }
+  .oko-uzenet{max-width:90%}
+  .oko-uzenet-en{align-self:flex-end}
+  .oko-uzenet-szoveg{
+    margin:0;padding:var(--space-8) var(--space-16);border-radius:var(--r-lg);
+    color:var(--text-primary);
+  }
+  .oko-uzenet-oko .oko-uzenet-szoveg{background:var(--surface-muted);border-bottom-left-radius:var(--r-md)}
+  .oko-uzenet-en .oko-uzenet-szoveg{
+    background:var(--secondary);color:var(--surface);border-bottom-right-radius:var(--r-md)}
+
+  .oko-talalatok{list-style:none;margin:var(--space-8) 0 0;padding:0;
+    display:flex;flex-direction:column;gap:var(--space-4)}
+  .oko-talalat{
+    display:block;padding:var(--space-8);border-radius:var(--r-md);
+    background:var(--surface);border:1px solid var(--border);
+    color:var(--text-primary);text-decoration:none;
+    font-size:var(--type-ui-caption-size);
+    transition:border-color var(--dur-fast) var(--ease-out),
+               background var(--dur-fast) var(--ease-out);
+  }
+  .oko-talalat:hover{border-color:var(--secondary);background:var(--surface-muted)}
+  .oko-talalat:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .oko-talalat-reszlet{display:block;margin-top:2px;color:var(--text-secondary)}
+
+  .oko-urlap{
+    display:flex;gap:var(--space-8);padding:var(--space-16);
+    border-top:1px solid var(--border);background:var(--surface);
+  }
+  .oko-input{
+    flex:1;min-width:0;min-height:44px;padding:var(--space-8) var(--space-16);
+    border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--canvas);color:var(--text-primary);
+    font-family:var(--font-body);font-size:var(--type-ui-caption-size);
+  }
+  .oko-input:focus-visible{outline:3px solid var(--border-focus);outline-offset:-1px}
+  .oko-kuld{
+    appearance:none;border:0;cursor:pointer;flex:none;
+    display:grid;place-items:center;width:44px;height:44px;
+    border-radius:var(--r-md);background:var(--secondary);color:var(--surface);
+  }
+  .oko-kuld svg{width:18px;height:18px;fill:none;stroke:currentColor;
+    stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .oko-kuld:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+
+  .oko-rejtett{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;
+  }
+
+  /* --- a lapon kiemelt szakasz --------------------------------------------- */
+  /* Nem sárga filctoll: a márkaszín halvány mezője és egy bal oldali jel. A
+     kiemelés magától elmúlik, hogy ne ragadjon a lapon. */
+  .oko-kiemelt{
+    position:relative;border-radius:var(--r-lg);
+    animation:oko-kiemel 4s var(--ease-out) both;
+  }
+  @keyframes oko-kiemel{
+    0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--secondary) 45%,transparent);
+       background:color-mix(in srgb,var(--secondary) 12%,transparent)}
+    18%{box-shadow:0 0 0 10px color-mix(in srgb,var(--secondary) 0%,transparent);
+        background:color-mix(in srgb,var(--secondary) 12%,transparent)}
+    100%{box-shadow:none;background:transparent}
+  }
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    .oko{right:var(--space-16);bottom:var(--space-16)}
+    .oko-gomb{width:60px;height:64px}
+    .oko-panel{width:calc(100vw - 2 * var(--space-16));max-height:70vh}
+    .oko-buborek{max-width:13rem}
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion:reduce){
+    /* A figura ott van, de nem mozog: se érkezés, se billegés, se pislogás. */
+    .oko-gomb{opacity:1;transform:none;transition:none}
+    .oko-test-csoport{transition:none;animation:none}
+    .oko-pupilla,.oko-hej{transition:none}
+    .oko-buborek,.oko-panel{animation:none}
+    .oko-kiemelt{animation:none;outline:3px solid var(--secondary);outline-offset:4px}
+  }
+}
+
+/* Sötét téma: a test világosodik, hogy ne olvadjon a háttérbe, a szem viszont
+   marad a legvilágosabb felület — a tekintet így ott is olvasható. */
+@layer components {
+  :root[data-theme="dark"] .oko{
+    --oko-test:#3A403A;--oko-borda:#5A625A;--oko-nyak:#2A2F2A;
+    --oko-szem:#F2F4EC;--oko-pupilla:#1B1F1A;
+  }
+}
+
+/* ============================================================================
+   10. JAVÍTÁSOK — folyó szövegbe ágyazott hivatkozás, és a varázsló rendezése
+   ========================================================================== */
+@layer components {
+
+  /* --- hivatkozás MONDATON BELÜL ------------------------------------------
+     A `.text-link` önálló hivatkozásnak készült: 44px magas érintőcél, saját
+     betűméret, vízszintes belső margó. Mondat közepén ez szétfeszíti a
+     sorközt, kiugrik a szövegből és rossz helyen tördel — pontosan ez történt
+     a jelölőnégyzetek jogi szövegében. Folyó szövegben ezért ez a változat
+     való: örökli a méretet, aláhúzással jelöli magát, és nem visz magával
+     térközt. Az érintőcél-szabály itt nem sérül: a jelölőnégyzet és a címke
+     együtt bőven 44px, a link pedig a mondat része, nem önálló cselekvés. */
+  .szoveg-link{
+    display:inline;min-height:0;padding:0;margin:0;
+    font-family:inherit;font-size:inherit;font-weight:600;line-height:inherit;
+    color:var(--link);text-decoration:underline;
+    text-underline-offset:.18em;text-decoration-thickness:.06em;
+    border-radius:2px;
+    transition:color var(--dur-fast) var(--ease-out);
+  }
+  .szoveg-link:hover{color:var(--link-hover)}
+  .szoveg-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+
+  /* --- a varázsló rendezése ------------------------------------------------ */
+  /* Középre: a lap többi szekciója is középre zárt sávban él, az űrlap eddig
+     balra tapadt. */
+  .konzv{margin-inline:auto}
+
+  /* A jogi blokk két jelölője egymásra csúszott: saját ritmus kell neki. */
+  .urlap-jog{display:grid;gap:var(--space-16)}
+  .konzv .urlap-jog{margin-top:var(--space-24)}
+  /* A címke szövege a jelölő mellett folyjon, ne a sor tetejére ugorjon. */
+  .konzv .urlap-jelolo{align-items:start;line-height:var(--type-ui-caption-line-height)}
+  .konzv .urlap-jelolo input{margin-top:.15em}
+
+  /* A lap címe programozott fókuszt kap lapváltáskor, hogy a képernyőolvasó
+     kövesse. A látható fókuszgyűrű viszont csak BILLENTYŰZETES fókusznál
+     indokolt — `tabindex="-1"` mellett a `:focus-visible` sem mindig hallgat,
+     ezért itt kifejezetten elvesszük. */
+  .konzv-lap-cim:focus{outline:none}
+  .konzv-lap-cim:focus-visible{outline:none}
+
+  /* Egységes függőleges ritmus a lapon belül: a mezőcsoportok azonos térközzel
+     követik egymást, függetlenül attól, sor vagy egyedi mező. */
+  .konzv-lap > .urlap-sor,
+  .konzv-lap > .urlap-mezo,
+  .konzv-lap > .konzv-jelolok,
+  .konzv-lap > .konzv-naptar{margin-top:var(--space-24)}
+  .konzv-lap > .urlap-sor:first-of-type,
+  .konzv-lap > .urlap-mezo:first-of-type{margin-top:0}
+  .konzv-jogi-lab{margin-top:var(--space-24)}
+
+  /* --- lapváltás animációja ------------------------------------------------
+     A váltás iránya számít: előre a következő lap jobbról érkezik, vissza
+     balról. Enélkül a lapok „ugranak", és nem érződik, hogy egy folyamatban
+     haladunk. A mozgás rövid és kicsi — kísérőjel, nem látványosság. */
+  .konzv-lap{animation:konzv-be 260ms var(--ease-out) both}
+  .konzv.is-vissza .konzv-lap{animation-name:konzv-be-vissza}
+  @keyframes konzv-be{from{opacity:0;transform:translateX(12px)}}
+  @keyframes konzv-be-vissza{from{opacity:0;transform:translateX(-12px)}}
+
+  /* A lépcső jelzője kapjon visszajelzést, amikor elkészül egy lap. */
+  .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{animation:konzv-pipa 320ms var(--ease-out)}
+  @keyframes konzv-pipa{from{transform:scale(.7)}60%{transform:scale(1.12)}}
+}
+
+@layer motion{
+  @media (prefers-reduced-motion:reduce){
+    .konzv-lap,.konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{animation:none}
+  }
+}

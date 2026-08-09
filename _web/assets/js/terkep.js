@@ -162,6 +162,19 @@
       keret.remove();
     });
 
+    /* TÉMAVÁLTÁS. A stílust a designrendszer tokenjeiből olvassuk ki, DE csak
+       egyszer, a térkép építésekor — így sötétre váltás után a lap sötét lett,
+       a térkép viszont világos maradt. Ez a legfeltűnőbb hiba a váltásnál,
+       mert a térkép a lap legnagyobb egybefüggő felülete.
+       A `data-theme` attribútumot figyeljük a gyökéren: a tema.js azt írja át,
+       és a tokenek is ahhoz kötődnek. Nem eseményre hallgatunk, mert a
+       témaváltó nem küld sajátot — az attribútum viszont mindig megváltozik. */
+    new MutationObserver(function () {
+      terkep.setOptions({ styles: stilus() });
+    }).observe(document.documentElement, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
+
     new Jeloles(terkep, new google.maps.LatLng(szel, hossz), jeloles);
   }
 
