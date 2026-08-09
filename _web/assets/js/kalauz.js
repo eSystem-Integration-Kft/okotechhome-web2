@@ -161,11 +161,8 @@
           <p class="type-ui-subtitle oko-panel-cim">Öko</p>
           <p class="type-ui-caption oko-panel-alcim" data-oko-alcim></p>
         </div>
-        <button type="button" class="oko-panel-zar" data-oko-kicsire
-                aria-label="Félrehúzás a képernyő szélére" title="Félrehúzom">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>
-        </button>
-        <button type="button" class="oko-panel-zar" data-oko-panel-zar aria-label="Bezárás">
+        <button type="button" class="oko-panel-zar" data-oko-panel-zar
+                aria-label="Bezárás — Öko a lap szélén marad" title="Becsukom">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
         </button>
       </div>
@@ -265,6 +262,7 @@
     buborek.hidden = true;
     fulre(true);                       // előbb félrevonul, hogy legyen helye
     panel.hidden = false;
+    bezarasBekotes();
     gomb.setAttribute('aria-expanded', 'true');
     gyoker.classList.add('is-nyitva');
     if (!tarsalgas.children.length && SZOVEG.sug) {
@@ -303,18 +301,25 @@
      kicsinyítőé néma maradt — a gomb ott volt, a kattintás rá is ment, kezelő
      viszont nem tartozott hozzá. Egyetlen figyelő a gyökéren ezt a hibaosztályt
      megszünteti: nem számít, mikor és hányszor épül újra a panel belseje. */
-  gyoker.addEventListener('click', (e) => {
-    if (e.target.closest('[data-oko-panel-zar]')) { zar(); return; }
-    if (e.target.closest('[data-oko-kicsire]')) {
-      /* KICSIRE: csak a panel tűnik el, Öko a szélen marad fülként — a zar()
-         ezzel szemben visszasétáltatja a sarokba. */
+  /* A bezárás FÜLRE CSUK: a panel eltűnik, Öko viszont a lap szélén marad,
+     egy koppintásra elérhetően.
+
+     A kezelő a NYITÁSKOR kerül a gombra, nem a modul betöltésekor: a
+     gyökérre kötött delegálás és a betöltéskori közvetlen kötés is némán
+     kimaradt, a gomb tehát halott volt. Így viszont akkor kötjük, amikor a
+     gomb bizonyítottan a DOM-ban van, és az `onclick` egyetlen kezelőt tart —
+     ismételt nyitásnál sem halmozódik. */
+  function bezarasBekotes() {
+    const x = panel.querySelector('[data-oko-panel-zar]');
+    if (!x) return;
+    x.onclick = () => {
       panel.hidden = true;
       gomb.setAttribute('aria-expanded', 'false');
       gyoker.classList.remove('is-nyitva');
       reflektorLe();
       ful.focus();
-    }
-  });
+    };
+  }
 
   gyoker.querySelector('[data-oko-zar]').addEventListener('click', () => {
     buborek.hidden = true;
@@ -401,6 +406,10 @@
      szakaszt kiemeljük, és a kéz oda is mutat. A látogatónak egy pillanat
      alatt látnia kell, HOL a válasz. */
   function kiemel(cel) {
+    /* A tartalomindex horgonyai a CÍMEKEN ülnek, mert a lapokon az `id` ott
+       van. Egy kiemelt címsor viszont semmit nem mond — a válasz a szakaszban
+       áll, tehát a legközelebbi szakaszt emeljük ki, ha van. */
+    cel = cel.closest('section') || cel;
     reflektorLe();
 
     fedo = document.createElement('div');
@@ -528,6 +537,17 @@
       const sor = uzenet('oko', eredmeny.valasz || '', eredmeny.talalatok);
       naplo.push({ kitol: 'oko', szoveg: eredmeny.valasz || '' });
       javaslatok(eredmeny.javaslatok, sor);
+
+      /* MEGMUTATJA MAGÁTÓL. Ha az első találat ezen a lapon van, nem várunk
+         kattintásra: odagörgetünk, a lap többi részét visszavesszük, és a kéz
+         rámutat. „Itt van" — ez a segéd dolga, nem egy újabb hivatkozás. */
+      const elso = (eredmeny.talalatok || [])[0];
+      if (elso && elso.horgony) {
+        const most = location.pathname.replace(/\/$/, '') || '/';
+        const oda = (elso.url || '').replace(/\/$/, '') || '/';
+        const cel = most === oda ? document.querySelector(elso.horgony) : null;
+        if (cel) setTimeout(() => kiemel(cel), 420);
+      }
     } catch {
       varakozo.remove();
       uzenet('oko', 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.');
