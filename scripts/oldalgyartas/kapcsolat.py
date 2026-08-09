@@ -254,7 +254,7 @@ TERKEP = '''
         # használja — a kulcs hiánya nem tör el semmit. A kulcs szándékosan
         # publikus (a böngészőben fut); HTTP-referrer-korlátozás védi, nem
         # titkosság. Lásd `_web/README.md` „Google-térkép" szakaszát.
-        terkep_kulcs='',
+        terkep_kulcs='AIzaSyB2CfkvqjCHU8MKNwbC5zYe2SIB9PVcMnU',
         terkep_cel='2509%20Esztergom%2C%20Str%C3%A1zsa%20u.%2012.')
 SECTIONS.append(TERKEP)
 SECTIONS.append(sec_faq([

@@ -617,7 +617,7 @@
        nyitott megfelelőségi pont.
   =========================================================================== -->
   <section class="terkep" aria-labelledby="terkep-cim"
-           data-terkep-kulcs=""
+           data-terkep-kulcs="AIzaSyB2CfkvqjCHU8MKNwbC5zYe2SIB9PVcMnU"
            data-terkep-szelesseg="47.7501283"
            data-terkep-hosszusag="18.73557"
            data-terkep-nagyitas="16">
@@ -671,8 +671,10 @@
       </span>
 
       <!-- Az élő térkép tárolója. ÜRESEN és REJTVE marad mindaddig, amíg a
-           `data-terkep-kulcs` üres: kulcs nélkül a fenti beágyazott keret
-           szolgál ki. A terkep.js veszi elő, ha a Maps API betöltött. -->
+           Maps API be nem töltött; a terkep.js akkor veszi elő, és a fenti
+           beágyazott keret helyére lép. Ha a kulcs hiányzik, lejár vagy a
+           referrer-korlátozás miatt elutasítják, a keret marad — a szekció
+           tehát sosem üresedik ki. -->
       <div class="terkep-elo" hidden></div>
     </div>
   </section>
@@ -817,7 +819,7 @@
 
 <script src="assets/js/site.js?v=3" defer></script>
 <script src="assets/js/urlap.js?v=1" defer></script>
-<script src="assets/js/terkep.js?v=1" defer></script>
+<script src="assets/js/terkep.js?v=2" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

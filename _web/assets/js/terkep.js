@@ -90,16 +90,34 @@
     var nev = 'okotechTerkepKesz';
     window[nev] = epit;
 
+    /* A Maps HITELESÍTÉSI hibát nem a script betöltésekor jelez, hanem ezen a
+       globális függvényen: a fájl rendben letöltődik, a callback lefut, a
+       térkép meg is épül — csak csempe nem érkezik hozzá. Ilyenkor a
+       `s.onerror` nem szólal meg, tehát enélkül a látogató üres foltot kapna.
+       Ez a leggyakoribb éles hiba: lejárt kulcs, kimerült kvóta, vagy a
+       domain hiányzik a HTTP-referrer korlátozásból. */
+    window.gm_authFailure = visszaKeretre;
+
     var s = document.createElement('script');
     s.src = 'https://maps.googleapis.com/maps/api/js'
           + '?key=' + encodeURIComponent(kulcs)
-          + '&callback=' + nev + '&language=hu&region=HU&v=weekly';
+          + '&callback=' + nev + '&language=hu&region=HU&v=weekly&loading=async';
     s.async = true;
-    // Ha a betöltés elhasal (rossz kulcs, hálózati hiba, letiltott API), a
-    // beágyazott keret a helyén marad, és a jelölés visszakapja az 1) módot —
-    // az oldalon nem keletkezik üres folt.
+    // Ha maga a betöltés hasal el (hálózati hiba, letiltott API), a beágyazott
+    // keret a helyén marad, és a jelölés visszakapja az 1) módot.
     s.onerror = beagyazottJeloles;
     document.head.appendChild(s);
+  }
+
+  /* Visszaállás a beágyazott keretre, ha az élő térkép nem tud megjelenni.
+     A keretet ezért NEM töröljük, csak elrejtjük — amíg nem láttunk egyetlen
+     kirajzolt csempét sem, addig szükség lehet rá. */
+  function visszaKeretre() {
+    szekcio.classList.remove('terkep-el');
+    elo.hidden = true;
+    elo.innerHTML = '';
+    keret.hidden = false;
+    beagyazottJeloles();
   }
 
   function epit() {
@@ -124,8 +142,25 @@
       keyboardShortcuts: true
     });
 
-    // A beágyazott keret innentől fölösleges — a helyét az élő térkép vette át.
-    keret.remove();
+    /* A keretet EGYELŐRE csak elrejtjük. Törölni csak akkor szabad, ha az élő
+       térkép bizonyítottan kirajzolt — addig ez a tartalék. A `tilesloaded`
+       az első olyan esemény, ami ezt igazolja: hitelesítési hiba esetén soha
+       nem következik be, és akkor a gm_authFailure hozza vissza a keretet. */
+    keret.hidden = true;
+
+    /* A `tilesloaded` az EGYETLEN megbízható jel arra, hogy az élő térkép
+       tényleg megjelent. A `gm_authFailure` nem elég: a Maps a
+       RefererNotAllowedMapError esetén nem mindig hívja meg — a hibaüzenet
+       kimegy a konzolra, a beépülő DOM felépül, csempe viszont nem érkezik,
+       és a látogató üres foltot lát. Ezért határidőt is szabunk: ha ennyi idő
+       alatt egyetlen csempe sem jött meg, visszaállunk a beágyazott keretre.
+       Így a szekció akkor sem üresedik ki, ha a kulcs lejár, a kvóta elfogy,
+       vagy a domain kimarad a referrer-korlátozásból. */
+    var hatarido = setTimeout(visszaKeretre, 6000);
+    google.maps.event.addListenerOnce(terkep, 'tilesloaded', function () {
+      clearTimeout(hatarido);
+      keret.remove();
+    });
 
     new Jeloles(terkep, new google.maps.LatLng(szel, hossz), jeloles);
   }
