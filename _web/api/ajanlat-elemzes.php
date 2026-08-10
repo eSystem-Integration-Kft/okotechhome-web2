@@ -51,6 +51,13 @@ $curlKorlat = $phpKorlat > 0 ? max(15, $phpKorlat - 10) : 150;
 /* Az elemzés drága művelet: szigorúbb korlát, mint a leveleknél. */
 OthVedelem::sebessegkorlat('elemzes', 5, 60);
 
+/* Webhelyszintű napi keret — a leghosszabb hívás a webhelyen (8000 token,
+   dokumentumokkal), ezért külön, kisebb kerete van, mint a kalauznak. */
+if (!OthVedelem::napiKeret('elemzes', (int) ($CFG['ai']['napi_keret_elemzes'] ?? 60))) {
+    OthVedelem::valasz(503, ['ok' => false,
+        'uzenet' => 'Az elemző mára elérte a napi keretét. Kérjük, próbálja meg holnap, vagy küldje el az ajánlatokat e-mailben: kapcsolat@okotechhome.hu.']);
+}
+
 $ai = $CFG['ai'] ?? [];
 if (empty($ai['kulcs']) || $ai['kulcs'] === 'IDE_JON_AZ_API_KULCS') {
     /* A naplóba MEGKÜLÖNBÖZTETVE írjuk, mi hiányzik — a két eset más javítást

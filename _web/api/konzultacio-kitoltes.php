@@ -21,6 +21,13 @@ require __DIR__ . '/lib/ai.php';
 
 OthVedelem::sebessegkorlat('konzultacio-kitoltes', 20, 60);
 
+/* Webhelyszintű napi keret — a kliens erre az üzenetre ugyanúgy a kézi
+   kitöltést ajánlja fel, az űrlap tehát nem sérül. */
+if (!OthVedelem::napiKeret('ai', (int) ($CFG['ai']['napi_keret'] ?? 400))) {
+    OthVedelem::valasz(503, ['ok' => false,
+        'uzenet' => 'A segéd mára elérte a keretét. A mezőket kézzel is kitöltheti.']);
+}
+
 $leiras = OthVedelem::szoveg($BE, 'leiras', 4000);
 if (mb_strlen($leiras) < 30) {
     OthVedelem::valasz(422, ['ok' => false, 'uzenet' => 'Írjon néhány mondatot a helyzetről.']);

@@ -136,7 +136,13 @@ foreach ($adatok as $k => $v) {
     $aiBemenet .= $k . ': ' . strip_tags($v) . "\n";
 }
 
-if ($aiBemenet !== '' && !empty($CFG['ai']['kulcs'])) {
+/* A napi keret itt NEM állítja meg a beküldést: a levél AI-brief nélkül is
+   kimegy. Egy elveszett megkeresés többe kerül, mint egy hiányzó bekezdés.
+   Egy beküldés két AI-hívás, ezért kettőt foglalunk. */
+$aiFer = OthVedelem::napiKeret('ai', (int) ($CFG['ai']['napi_keret'] ?? 400))
+      && OthVedelem::napiKeret('ai', (int) ($CFG['ai']['napi_keret'] ?? 400));
+
+if ($aiFer && $aiBemenet !== '' && !empty($CFG['ai']['kulcs'])) {
     $SYS_BRIEF = <<<'SYS'
 Egy magyar szennyvíztisztítási cég belső munkatársának készítesz rövid briefet
 egy beérkezett konzultációkérésről. A címzett szakember — neki tényekre és

@@ -84,6 +84,12 @@ return [
         // Elgépelt modellnév esetén a hiba a api/hiba.log-ban nevesítve jelenik meg.
         'modell'  => oth_env('OTH_AI_MODELL', 'claude-sonnet-5'),
         'timeout' => 120,
+        // WEBHELYSZINTŰ napi keretek — nem IP-nkénti: az IP-korlátot
+        // proxylistával meg lehet kerülni, ezt nem. Betelte után a kalauz és a
+        // kitöltéssegéd udvariasan elköszön, a konzultációkérés AI-összefoglaló
+        // nélkül is kimegy. 0 = nincs keret.
+        'napi_keret'         => 400,  // kalauz + kitöltéssegéd + beküldési brief
+        'napi_keret_elemzes' => 60,   // ajánlat-elemzés (a legdrágább hívás)
     ],
 
     /* --- Feladó és címzettek --------------------------------------------- */

@@ -111,6 +111,57 @@ final class OthVedelem
         }
     }
 
+    /**
+     * NAPI KERET — webhelyszintű, nem IP-nkénti. Az IP-korlátot elosztott
+     * támadás (botnet, proxylista) megkerüli: 30 hívás/óra szorozva ezer
+     * címmel már számla. Ez a számláló a NAPOT nézi, címtől függetlenül —
+     * a legrosszabb nap költsége így fix plafon alatt marad.
+     *
+     * NEM lép ki: igaz/hamis a válasza, mert a hívók nem egyformán reagálnak.
+     * A kalauz udvarias 503-at ad, a konzultációkérő viszont AI nélkül is
+     * kiküldi a levelet — a megkeresés elvesztése drágább minden keretnél.
+     */
+    public static function napiKeret(string $kulcs, int $limit): bool
+    {
+        if ($limit <= 0) { return true; }              // 0 vagy negatív: nincs keret
+        $dir = __DIR__ . '/../.ratelimit';
+        if (!is_dir($dir) && !@mkdir($dir, 0700, true) && !is_dir($dir)) {
+            return true;                               // írásképtelen tárhely: átengedjük
+        }
+        $f = $dir . '/keret-' . preg_replace('/[^a-z0-9_-]/', '', $kulcs)
+           . '-' . gmdate('Y-m-d') . '.txt';
+
+        /* Zárolt olvasás-írás: két egyidejű kérés ne számolhasson ugyanarra a
+           sorszámra. A c+ mód létrehozza a fájlt, ha még nincs. */
+        $h = @fopen($f, 'c+');
+        if ($h === false) { return true; }
+        flock($h, LOCK_EX);
+        $db = (int) stream_get_contents($h);
+        $enged = $db < $limit;
+        if ($enged) {
+            rewind($h);
+            ftruncate($h, 0);
+            fwrite($h, (string) ($db + 1));
+        }
+        flock($h, LOCK_UN);
+        fclose($h);
+
+        /* Egyszer naplózunk, a keret betelésekor — nem minden elutasításnál,
+           különben a napló maga válna a támadás felületévé. */
+        if ($enged && $db + 1 === $limit) {
+            error_log("OTH keret: a(z) „{$kulcs}\" napi keret ({$limit}) betelt.");
+        }
+        /* A tegnapi számlálófájlokat az alkalmi takarítás viszi el. */
+        if (random_int(1, 100) === 1) {
+            foreach ((array) glob($dir . '/keret-*.txt') as $regi) {
+                if (is_file($regi) && (time() - filemtime($regi)) > 3 * 86400) {
+                    @unlink($regi);
+                }
+            }
+        }
+        return $enged;
+    }
+
     /* ------------------------------------------------------- mezőellenőrzés */
 
     public static function szoveg(array $be, string $kulcs, int $max = 200): string
