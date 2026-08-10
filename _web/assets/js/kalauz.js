@@ -200,6 +200,14 @@
   function megerkezik() {
     if (gyoker.classList.contains('is-erkezik')) return;
     gyoker.classList.add('is-erkezik');
+    /* Ha fülként indul (konzultációkérő), a becsúszás animációja már az
+       érkezés ELŐTT, láthatatlanul lefutott — a gyökér addig visibility:hidden.
+       Itt újraindítjuk, hogy a belépés látsszon is. */
+    if (gyoker.classList.contains('is-ful') && !csokkentett) {
+      ful.style.animation = 'none';
+      void ful.offsetWidth;                        // reflow: az animáció újraindul
+      ful.style.animation = '';
+    }
     if (SZOVEG.koszon && !buborekElrejtve && !panelNyitva()) {
       buborekSzoveg.textContent = SZOVEG.koszon;
       buborek.hidden = false;
@@ -264,6 +272,7 @@
     panel.hidden = false;
     bezarasBekotes();
     gomb.setAttribute('aria-expanded', 'true');
+    ful.setAttribute('aria-expanded', 'true');
     gyoker.classList.add('is-nyitva');
     if (!tarsalgas.children.length && SZOVEG.sug) {
       const sor = uzenet('oko', SZOVEG.sug);
@@ -274,10 +283,14 @@
   function zar() {
     panel.hidden = true;
     gomb.setAttribute('aria-expanded', 'false');
+    ful.setAttribute('aria-expanded', 'false');
     gyoker.classList.remove('is-nyitva');
-    fulre(false);                      // visszasétál a sarokba
+    /* Bezárás után Öko NEM megy vissza a sarokba: a lap szélén marad, fülként.
+       A sarok az érkezés helye — akinek a panel most nem kell, annak a fül a
+       nyugalmi állapot. Korábban az Escape és a fül visszavitte a sarokba, a
+       fejléc X-e viszont a fülön hagyta: kétféle „bezárva" volt. Most egy van. */
     reflektorLe();
-    gomb.focus();
+    ful.focus();
   }
   gomb.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
 
@@ -297,6 +310,11 @@
     ful.hidden = !be;
   }
   ful.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
+
+  /* A KONZULTÁCIÓKÉRŐN Öko eleve a lap szélén ül, fülként — ott az űrlap a
+     főszereplő, a sarokban álló figura a Tovább gomb útjában állna. A fül a
+     jobb szél közepén jelzi, hogy itt van, és egy koppintásra kinyílik. */
+  if (mod === 'urlap') fulre(true);
   /* ESEMÉNYDELEGÁLÁS a gyökéren. Az egyes gombokra kötött kezelők közül a
      kicsinyítőé néma maradt — a gomb ott volt, a kattintás rá is ment, kezelő
      viszont nem tartozott hozzá. Egyetlen figyelő a gyökéren ezt a hibaosztályt
@@ -312,13 +330,9 @@
   function bezarasBekotes() {
     const x = panel.querySelector('[data-oko-panel-zar]');
     if (!x) return;
-    x.onclick = () => {
-      panel.hidden = true;
-      gomb.setAttribute('aria-expanded', 'false');
-      gyoker.classList.remove('is-nyitva');
-      reflektorLe();
-      ful.focus();
-    };
+    /* Ugyanaz a `zar()`, mint az Escape-é és a fülé: a bezárásnak EGY útja
+       van, és mindegyik a fülön hagyja Ökót. */
+    x.onclick = zar;
   }
 
   gyoker.querySelector('[data-oko-zar]').addEventListener('click', () => {
