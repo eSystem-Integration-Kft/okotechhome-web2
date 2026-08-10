@@ -380,6 +380,12 @@
     --surface-muted:#354B20;
     --surface-sunken:#455826;
     --border:#4F5F29;
+    /* Hibajelzés sötét alapon: a világos témás mélyvörös szöveg és rózsaszín
+       mezőháttér itt olvashatatlan volna — világos tégla szöveg, mély
+       vörösesbarna háttér, élénkebb él. */
+    --danger-text:#F0A497;
+    --danger-bg:#46231B;
+    --danger-border:#D96C57;
     --border-strong:var(--color-oliveleaf);
     --text-primary:var(--color-stardust);
     --text-secondary:#C7D0B8;
@@ -3735,6 +3741,10 @@
   .konzv-lepcso-elem{
     flex:1;display:flex;flex-direction:column;align-items:center;gap:var(--space-4);
     text-align:center;color:var(--text-tertiary);position:relative;
+    /* Saját halmozási kontextus: a szám z-index:1-e csak az összekötő vonal
+       fölé emeljen, ne az egész lap fölé — enélkül a körök a mezősúgó lebegő
+       buborékján is átütöttek. */
+    z-index:0;
   }
   /* A lépéseket összekötő vonal a SZÁM mögött fut, nem az egész elem mögött —
      különben a felirat alatt is átmenne. */
@@ -4342,11 +4352,120 @@
   /* A lépcső jelzője kapjon visszajelzést, amikor elkészül egy lap. */
   .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{animation:konzv-pipa 320ms var(--ease-out)}
   @keyframes konzv-pipa{from{transform:scale(.7)}60%{transform:scale(1.12)}}
+
+  /* A KÉSZ lépés száma helyére pipa kerül: a szám a hátralévő utat számolja,
+     a pipa a megtettet nyugtázza. A számjegyet a szín ejti el, a pipát külön
+     réteg rajzolja — így nem kell a DOM-hoz nyúlni. */
+  .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{color:transparent}
+  .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam::after{
+    content:"";position:absolute;left:10px;top:11px;width:11px;height:6px;
+    border-left:2px solid var(--secondary);border-bottom:2px solid var(--secondary);
+    transform:rotate(-45deg);transform-origin:center;
+    animation:konzv-pipa-huz 260ms var(--ease-out) both;
+  }
+  @keyframes konzv-pipa-huz{from{opacity:0;transform:rotate(-45deg) scale(.4)}}
+
+  /* Az összekötő vonal nem átszíneződik, hanem VÉGIGFUT: a haladás így mozgásnak
+     látszik, nem állapotcserének. Az aktív lépésig ér el, mert az odáig vezető
+     út már megvan. */
+  .konzv-lepcso-elem::before{
+    background-color:var(--border);
+    background-image:linear-gradient(90deg,var(--secondary),var(--secondary));
+    background-repeat:no-repeat;background-size:0% 100%;
+    transition:background-size 520ms var(--ease-out);
+  }
+  .konzv-lepcso-elem.is-kesz::before,
+  .konzv-lepcso-elem.is-aktiv::before{background-size:100% 100%}
+
+  /* A kijelölt idősáv egy aprót rugózik — nyugtázza, hogy megvan. */
+  .konzv-sav[aria-pressed="true"]{animation:konzv-sav-pop 240ms var(--ease-out)}
+  @keyframes konzv-sav-pop{from{transform:scale(.92)}60%{transform:scale(1.05)}}
+
+  /* --- lebegő mezősúgó ------------------------------------------------------
+     Minden kérdés mellett ott a „?": MIT írjon be, és MIÉRT kérdezzük. Tisztán
+     CSS-ből nyílik (rámutatás és fókusz), tehát JS nélkül is működik, a buborék
+     pedig nem fog kattintást — az űrlapot nem zavarja. */
+  .mezo-sugo{position:relative;display:inline-block;margin-left:var(--space-4);vertical-align:middle}
+  .mezo-sugo-gomb{
+    appearance:none;border:0;padding:0;cursor:help;background:none;
+    display:grid;place-items:center;width:22px;height:22px;border-radius:50%;
+    color:var(--text-tertiary);
+    transition:color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);
+  }
+  .mezo-sugo-gomb svg{width:17px;height:17px;fill:none;stroke:currentColor;
+    stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .mezo-sugo:hover .mezo-sugo-gomb,.mezo-sugo-gomb:focus-visible{color:var(--secondary);transform:scale(1.1)}
+  .mezo-sugo-gomb:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
+  .mezo-sugo-buborek{
+    position:absolute;bottom:calc(100% + 10px);left:50%;transform:translate(-50%,4px);
+    width:max-content;max-width:min(19rem,72vw);
+    padding:var(--space-8) var(--space-16);text-align:left;
+    background:var(--text-primary);color:var(--surface);
+    border-radius:var(--r-md);box-shadow:var(--shadow-2);
+    font-weight:400;text-transform:none;letter-spacing:normal;white-space:normal;
+    opacity:0;visibility:hidden;pointer-events:none;z-index:30;
+    transition:opacity var(--dur-fast) var(--ease-out),
+               transform var(--dur-fast) var(--ease-out),
+               visibility var(--dur-fast);
+  }
+  .mezo-sugo-buborek::after{
+    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:var(--text-primary);
+  }
+  .mezo-sugo:hover .mezo-sugo-buborek,
+  .mezo-sugo:focus-within .mezo-sugo-buborek{opacity:1;visibility:visible;transform:translate(-50%,0)}
+
+  /* --- beépített hibaüzenet -------------------------------------------------
+     A böngésző natív buborékja helyett a hiba a MEZŐNÉL jelenik meg, magyarul,
+     és ott is marad, amíg a látogató nem javítja. A buborék eltűnt, mielőtt
+     elolvasták volna — ez nem tűnik el. */
+  .mezo-hiba{
+    display:flex;align-items:flex-start;gap:var(--space-8);
+    margin:var(--space-8) 0 0;color:var(--danger-text);
+    animation:mezo-hiba-be 220ms var(--ease-out) both;
+  }
+  @keyframes mezo-hiba-be{from{opacity:0;transform:translateY(-4px)}}
+  .mezo-hiba::before{
+    content:"!";flex:none;display:grid;place-items:center;
+    width:16px;height:16px;margin-top:1px;border-radius:50%;
+    background:var(--danger-border);color:#FBFBF7;
+    font-family:var(--font-body);font-size:11px;font-weight:600;line-height:1;
+  }
+  .is-hibas .urlap-input{border-color:var(--danger-border);background:var(--danger-bg)}
+  .is-hibas .konzv-valaszto-test{border-color:var(--danger-border)}
+  .is-hibas.urlap-jelolo .type-ui-caption{color:var(--danger-text)}
+  .is-hibas.is-raz{animation:mezo-raz 360ms var(--ease-out)}
+  @keyframes mezo-raz{
+    0%,100%{transform:none}
+    20%,60%{transform:translateX(-5px)}
+    40%,80%{transform:translateX(5px)}
+  }
 }
 
 @layer motion{
   @media (prefers-reduced-motion:reduce){
     .konzv-lap,.konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{animation:none}
+    .konzv-lepcso-elem::before{transition:none}
+    .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam::after{animation:none}
+    .konzv-sav[aria-pressed="true"]{animation:none}
+    .mezo-hiba{animation:none}
+    .is-hibas.is-raz{animation:none}
+    .mezo-sugo-buborek{transition:none}
+  }
+}
+
+@layer responsive{
+  /* Szűk kijelzőn a lebegő buborék helyett a magyarázat a sorban nyílik ki:
+     az ujj alatt nincs „hover", a lebegő doboz pedig kilógna a képernyőről. */
+  @media (max-width:640px){
+    .mezo-sugo{position:static}
+    .mezo-sugo-buborek{
+      position:static;display:none;width:100%;max-width:none;
+      margin-top:var(--space-4);transform:none;
+    }
+    .mezo-sugo-buborek::after{content:none}
+    .mezo-sugo:hover .mezo-sugo-buborek,
+    .mezo-sugo:focus-within .mezo-sugo-buborek{display:block;transform:none}
   }
 }
 
@@ -4507,10 +4626,31 @@
   .oko-ful .oko-figura{width:100%;height:100%}
   .oko-ful .oko-arnyek{display:none}
   .oko-panel-jel .oko-arnyek{display:none}
+
+  /* IDŐNKÉNTI JELZÉS. A félretett fül percenként-kétpercenként előrébb lép és
+     megbillen — „itt vagyok, segítek". A billegés a FIGURÁN fut, nem a gombon:
+     a gomb `animation`-jét a becsúszás használja, és a kettő kioltaná egymást.
+     Az előrelépést a gomb meglévő transform-átmenete viszi. */
+  .oko-ful.is-int{transform:translate(6%,-50%)}
+  .oko-ful.is-int .oko-figura{
+    animation:oko-int-lenget 1.2s var(--ease-out);
+    transform-origin:50% 82%;
+  }
+  @keyframes oko-int-lenget{
+    0%,100%{transform:none}
+    25%{transform:rotate(-4deg)}
+    55%{transform:rotate(3deg)}
+    80%{transform:rotate(-1.5deg)}
+  }
+
+  /* A kísérő laponkénti javasolt kérdései — a chipek a meglévő javaslatstílust
+     hordják, csak a doboz a kísérőé. */
+  .oko-kisero-kerdesek{display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-8)}
 }
 @layer motion{
   @media (prefers-reduced-motion:reduce){
     .oko-ful{animation:none;transition:none}
+    .oko-ful.is-int .oko-figura{animation:none}
   }
 }
 

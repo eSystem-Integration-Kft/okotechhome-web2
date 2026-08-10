@@ -76,16 +76,94 @@
     }
   }
 
-  /* A natív ellenőrzést lapon belül kérjük el: így a hibaüzenet a saját
-     mezőjénél jelenik meg, nem egy rejtett lapon — ott a böngésző nem tudná
-     kirajzolni, és a beküldés némán elakadna. */
-  function lapErvenyes(lap) {
-    const mezok = [...lap.querySelectorAll('input,select,textarea')];
-    for (const m of mezok) {
-      if (m.disabled || m.closest('[hidden]')) continue;
-      if (!m.checkValidity()) { m.reportValidity(); return false; }
+  /* --------------------------------------------------------- hibaüzenetek */
+  /* NEM a böngésző natív buborékja: az pár másodperc után eltűnik, a szövege
+     böngészőnként más, és rejtett lapon meg sem jelenik. A saját üzenet a
+     mező ALATT áll, magyarul, és addig marad, amíg a hibát nem javítják. */
+  function hibaSzoveg(m) {
+    const v = m.validity;
+    if (v.valueMissing) {
+      if (m.type === 'radio') return 'Kérjük, válasszon egyet a lehetőségek közül.';
+      if (m.type === 'checkbox') return 'A folytatáshoz ezt be kell jelölni.';
+      if (m.tagName === 'SELECT') return 'Kérjük, válasszon a listából.';
+      if (m.type === 'email') return 'Kérjük, adja meg az e-mail-címét.';
+      return 'Ez a mező kötelező.';
     }
-    return true;
+    if (v.typeMismatch && m.type === 'email') return 'Kérjük, érvényes e-mail-címet adjon meg — például nev@pelda.hu.';
+    if (v.rangeUnderflow || v.rangeOverflow) return `${m.min}–${m.max} közötti szám lehet.`;
+    if (v.badInput) return 'Kérjük, számot írjon ide.';
+    return m.validationMessage || 'Kérjük, ellenőrizze a mezőt.';
+  }
+
+  /* A hiba nem a mezőn ül, hanem a mező DOBOZÁN: rádióknál a kártyacsoporton,
+     jelölőnél a soron — a látogató a csoportot látja egynek, nem az inputot. */
+  function hibaDoboz(m) {
+    return m.closest('.urlap-mezo') || m.closest('.konzv-valasztok')
+        || m.closest('.urlap-jelolo') || m.parentElement;
+  }
+
+  function hibaJelez(m) {
+    const doboz = hibaDoboz(m);
+    if (!doboz) return;
+    /* LABEL-be nem teszünk üzenetet: a szövegére kattintás átbillentené magát
+       a jelölőt — a hozzájárulást nem pipálhatja ki egy félrement kattintás.
+       Ott az üzenet a label UTÁN áll, testvérként. */
+    const cimkeE = doboz.tagName === 'LABEL';
+    let p = cimkeE
+      ? (doboz.nextElementSibling?.classList.contains('mezo-hiba') ? doboz.nextElementSibling : null)
+      : doboz.querySelector('.mezo-hiba');
+    if (!p) {
+      p = document.createElement('p');
+      p.className = 'type-ui-caption mezo-hiba';
+      if (cimkeE) doboz.after(p); else doboz.appendChild(p);
+    }
+    p.textContent = hibaSzoveg(m);
+    doboz.classList.add('is-hibas', 'is-raz');
+    setTimeout(() => doboz.classList.remove('is-raz'), 420);
+    m.setAttribute('aria-invalid', 'true');
+  }
+
+  function hibaTorol(kor) {
+    kor.querySelectorAll('.mezo-hiba').forEach((p) => p.remove());
+    kor.querySelectorAll('.is-hibas').forEach((d) => d.classList.remove('is-hibas', 'is-raz'));
+    kor.querySelectorAll('[aria-invalid]').forEach((m) => m.removeAttribute('aria-invalid'));
+  }
+
+  /* Javításkor a hiba magától tűnik el — nem kell hozzá újra a Tovább. */
+  urlap.addEventListener('input', hibaFigyel);
+  urlap.addEventListener('change', hibaFigyel);
+  function hibaFigyel(e) {
+    const m = e.target;
+    if (!(m instanceof Element)) return;
+    const doboz = m.closest('.is-hibas');
+    if (doboz && (typeof m.checkValidity !== 'function' || m.checkValidity())) {
+      doboz.classList.remove('is-hibas', 'is-raz');
+      doboz.querySelector('.mezo-hiba')?.remove();
+      if (doboz.nextElementSibling?.classList.contains('mezo-hiba')) doboz.nextElementSibling.remove();
+      doboz.querySelectorAll('[aria-invalid]').forEach((x) => x.removeAttribute('aria-invalid'));
+    }
+  }
+
+  /* A rejtettség vizsgálatában a LAP a határ: teljes-űrlap ellenőrzéskor a lap
+     maga is `hidden`, de a benne álló mezők attól még számítanak — csak a
+     feltételes (ki nem nyitott) blokkok mezői nem. */
+  function rosszMezok(lap) {
+    return [...lap.querySelectorAll('input,select,textarea')].filter((m) => {
+      const rejtett = m.closest('[hidden]');
+      if (m.disabled || (rejtett && rejtett !== lap)) return false;
+      return !m.checkValidity();
+    });
+  }
+
+  function lapErvenyes(lap) {
+    hibaTorol(lap);
+    const rossz = rosszMezok(lap);
+    if (!rossz.length) return true;
+    rossz.forEach(hibaJelez);
+    const elso = rossz[0];
+    (hibaDoboz(elso) || elso).scrollIntoView({ block: 'center', behavior: 'smooth' });
+    elso.focus({ preventScroll: true });
+    return false;
   }
 
   tovabb?.addEventListener('click', () => {
@@ -94,6 +172,20 @@
     ment();
   });
   vissza?.addEventListener('click', () => mutat(aktiv - 1));
+
+  /* BEKÜLDÉS ELŐTT a teljes űrlapot végignézzük, nem csak az utolsó lapot: a
+     vázlat-visszatöltés úgy is állhat a 6. lapon, hogy egy korábbi lap üres.
+     Az első hibás laphoz visszaugrunk, és ott mutatjuk meg, mi hiányzik —
+     a natív ellenőrzés egy rejtett lapon némán elakadna. */
+  kuldes?.addEventListener('click', (e) => {
+    for (let i = 0; i < lapok.length; i++) {
+      if (!rosszMezok(lapok[i]).length) continue;
+      e.preventDefault();
+      if (i !== aktiv) mutat(i, false);
+      lapErvenyes(lapok[i]);
+      return;
+    }
+  });
 
   jelzok.forEach((j, n) => {
     j.addEventListener('click', () => { if (n < aktiv) mutat(n); });

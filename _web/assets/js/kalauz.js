@@ -28,8 +28,14 @@
 
   if (document.querySelector('.oko')) return;                 // kétszer ne
   const TAROLO = 'oth-oko-elrejtve';
+  const FELRE = 'oth-oko-felre';
   const csokkentett = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mod = document.body.dataset.kalauzMod || 'kalauz';
+
+  /* Aki egyszer becsukta a panelt, az a munkamenet végéig maga dönt: Öko a
+     fülön marad, és nem nyílik ki magától egyetlen lapon sem. A fül időnkénti
+     jelzése emlékezteti, hogy elérhető. */
+  const felretve = (() => { try { return sessionStorage.getItem(FELRE) === '1'; } catch { return false; } })();
 
   /* --------------------------------------------------------------- a figura */
   /* Egyetlen inline SVG, mert a szemek külön mozognak: a pupilla a kurzor felé
@@ -208,7 +214,7 @@
       void ful.offsetWidth;                        // reflow: az animáció újraindul
       ful.style.animation = '';
     }
-    if (SZOVEG.koszon && !buborekElrejtve && !panelNyitva()) {
+    if (SZOVEG.koszon && !buborekElrejtve && !felretve && !panelNyitva()) {
       buborekSzoveg.textContent = SZOVEG.koszon;
       buborek.hidden = false;
       setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 9000);
@@ -266,7 +272,10 @@
 
   /* --------------------------------------------------------- nyit és zár */
   function panelNyitva() { return !panel.hidden; }
-  function nyit() {
+  /* `fokuszal:false` az automatikus nyitásé: amikor Öko magától szólal meg
+     (főoldal, konzultációkérő), nem veheti el a fókuszt — a látogató éppen
+     görget vagy űrlapot tölt, és a billentyűzete az övé. */
+  function nyit(fokuszal = true) {
     buborek.hidden = true;
     fulre(true);                       // előbb félrevonul, hogy legyen helye
     panel.hidden = false;
@@ -278,7 +287,7 @@
       const sor = uzenet('oko', SZOVEG.sug);
       javaslatok(SZOVEG.inditok, sor);
     }
-    input.focus();
+    if (fokuszal) input.focus();
   }
   function zar() {
     panel.hidden = true;
@@ -289,6 +298,9 @@
        A sarok az érkezés helye — akinek a panel most nem kell, annak a fül a
        nyugalmi állapot. Korábban az Escape és a fül visszavitte a sarokba, a
        fejléc X-e viszont a fülön hagyta: kétféle „bezárva" volt. Most egy van. */
+    /* A döntés a munkamenetre szól: több automatikus nyitás nincs, csak a fül
+       időnkénti jelzése. */
+    try { sessionStorage.setItem(FELRE, '1'); } catch { /* privát mód */ }
     reflektorLe();
     ful.focus();
   }
@@ -465,27 +477,40 @@
     { cim: 'Ki keres megoldást?',
       mit: 'Jelölje meg, magánszemélyként vagy szervezet nevében keres megoldást. Ettől függ minden további kérdés.',
       pelda: 'Vállalkozásnál a létesítmény típusa is kell — panzió, étterem, iskola, üzem.',
-      auto: 'A leírásból ezt is felismerem, ha később szabad szöveggel írja le a helyzetet.' },
+      auto: 'A leírásból ezt is felismerem, ha később szabad szöveggel írja le a helyzetet.',
+      kerdesek: ['Nyaralóra keresek megoldást — magánszemély vagyok?',
+        'Mi számít vállalkozási létesítménynek?'] },
     { cim: 'Hol tart a projekt?',
       mit: 'A szakasz mondja meg, mi a következő lépés: tájékozódás, méretezés, engedélyeztetés vagy kivitelezés. A jelenlegi megoldást is kérdezzük.',
       pelda: 'Ha most vásárolna telket, a „Telekvásárlás előtt" a jó — akkor a telek alkalmassága a fő kérdés.',
-      auto: 'Ha működő rendszerrel van gond, itt a tüneteket is bejelölheti.' },
+      auto: 'Ha működő rendszerrel van gond, itt a tüneteket is bejelölheti.',
+      kerdesek: ['Emésztőm van — melyik szakaszt jelöljem?',
+        'Nem tudom, mi van most a telken. Mit válasszak?'] },
     { cim: 'Az ingatlan és a terhelés',
       mit: 'A terhelés adja a méretet, a telek adottságai a típust. Amit nem tud, hagyja üresen — ez nem hiba.',
       pelda: 'Négyfős család állandó lakhatással: állandó létszám 4, csúcsterhelés üres, ha nincs vendégjárás.',
-      auto: 'A talajvizet és a telekméretet a szabad szöveges leírásból is kitöltöm.' },
+      auto: 'A talajvizet és a telekméretet a szabad szöveges leírásból is kitöltöm.',
+      kerdesek: ['Mit írjak a csúcsterheléshez?',
+        'Honnan tudom, magas-e a talajvíz?',
+        'Nem tudom a telek méretét — baj?'] },
     { cim: 'Írja le a saját szavaival',
       mit: 'Néhány mondat elég. Ez az a pont, ahol a legtöbbet tudok segíteni.',
       pelda: '„Négyfős család, új ház Esztergom mellett, nincs közcsatorna, a telek 1200 m², tavasszal magas a talajvíz."',
-      auto: 'Egy gombnyomásra kiolvasom belőle az ingatlantípust, a létszámot, a projektszakaszt és a telekadatokat, és kitöltöm az előző lapokat. Amit rosszul értek, Ön javítja.' },
+      auto: 'Egy gombnyomásra kiolvasom belőle az ingatlantípust, a létszámot, a projektszakaszt és a telekadatokat, és kitöltöm az előző lapokat. Amit rosszul értek, Ön javítja.',
+      kerdesek: ['Mit érdemes beleírnom a leírásba?',
+        'Mi történik a leírásommal beküldés után?'] },
     { cim: 'Konzultáció módja és időpontja',
       mit: 'Válassza ki, hogyan egyeztetne, és jelöljön több sávot, amikor elérhető. Ez még nem foglalás — egyet visszaigazolunk.',
       pelda: 'Három sáv a jó arány: abból szinte biztosan találunk közöset.',
-      auto: 'A naptárból kiválasztott sávok automatikusan bekerülnek a szöveges mezőbe.' },
+      auto: 'A naptárból kiválasztott sávok automatikusan bekerülnek a szöveges mezőbe.',
+      kerdesek: ['Melyik konzultációs formát válasszam?',
+        'Mi történik, ha egyik időpontom sem jó Önöknek?'] },
     { cim: 'Elérhetőség',
       mit: 'Név és e-mail kell a visszaigazoláshoz, a telefon gyorsítja az egyeztetést. Az adatkezelési hozzájárulás kötelező.',
       pelda: 'A település vagy irányítószám azért fontos, mert a helyszíni felmérés útját ebből tervezzük.',
-      auto: 'A beküldés után szakmai összefoglalót kap arról, mit érdemes a konzultációig előkészítenie.' },
+      auto: 'A beküldés után szakmai összefoglalót kap arról, mit érdemes a konzultációig előkészítenie.',
+      kerdesek: ['Miért kérik a települést?',
+        'Mi történik az adataimmal a beküldés után?'] },
   ];
 
   if (mod === 'urlap') {
@@ -496,6 +521,7 @@
     panel.insertBefore(doboz, tarsalgas);
 
     document.addEventListener('konzv:lap', (e) => {
+      aktualisLepes = e.detail.lap;                 // Öko válaszaihoz: hol áll épp
       const adat = KISERO[e.detail.lap];
       if (!adat) { doboz.hidden = true; return; }
       doboz.hidden = false;
@@ -514,6 +540,21 @@
       doboz.querySelector('.oko-kisero-mit').textContent = adat.mit;
       doboz.querySelector('.oko-kisero-pelda').textContent = adat.pelda;
       doboz.querySelector('.oko-kisero-auto span').textContent = adat.auto;
+      /* Laponkénti javasolt kérdések: a látogatónak nem kell kitalálnia, mit
+         kérdezhet — Öko az AKTUÁLIS lap buktatóit kínálja fel. */
+      (adat.kerdesek || []).length && (() => {
+        const sor = document.createElement('div');
+        sor.className = 'oko-kisero-kerdesek';
+        adat.kerdesek.forEach((k) => {
+          const g = document.createElement('button');
+          g.type = 'button';
+          g.className = 'oko-javaslat';
+          g.textContent = k;
+          g.addEventListener('click', () => kerdez(k));
+          sor.appendChild(g);
+        });
+        doboz.appendChild(sor);
+      })();
       /* Az animációt újra kell indítani: osztály le, reflow, osztály fel. */
       doboz.classList.remove('is-valt');
       void doboz.offsetWidth;
@@ -523,6 +564,7 @@
 
   /* --------------------------------------------------------------- kérdés */
   let dolgozik = false;
+  let aktualisLepes = 0;             // urlap módban: melyik lapon áll a látogató
   const naplo = [];                  // a párbeszéd, hogy Öko építeni tudjon rá
 
   urlap.addEventListener('submit', (e) => {
@@ -543,7 +585,7 @@
       const valasz = await fetch('/api/kalauz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kerdes, mod, oldal: location.pathname, elozmeny: naplo.slice(-6) }),
+        body: JSON.stringify({ kerdes, mod, oldal: location.pathname, lepes: aktualisLepes, elozmeny: naplo.slice(-6) }),
       });
       const eredmeny = await valasz.json();
       varakozo.remove();
@@ -586,21 +628,52 @@
      (`panel`, `ful`) még nem léteztek, a `megerkezik()` viszont hivatkozott
      rájuk — a dobott hiba pedig csendben megállította a szkript hátralévő
      részét, és a gombok kezelői sem épültek fel. */
+  /* Aki korábban félretette, annál minden lap fülként indul: Öko ott van, de
+     nem szólal meg magától. (A konzultációkérő eleve fülként indul.) */
+  if (felretve && mod !== 'urlap') fulre(true);
+
   const fooldaliHero = document.querySelector('.hero:not(.page-hero)');
-  if (fooldaliHero) {
+  if (mod === 'urlap') {
+    /* A KONZULTÁCIÓKÉRŐN Öko nem várat magára: nyitva érkezik, a kísérővel és
+       a lap kérdéseivel — itt ő a másodpilóta, nem díszlet. Fókuszt nem vesz
+       el: a látogató az űrlapot tölti. */
+    setTimeout(() => {
+      megerkezik();
+      if (!felretve) nyit(false);
+    }, csokkentett ? 200 : 900);
+  } else if (fooldaliHero) {
+    /* A FŐOLDALON idegenvezetőként dolgozik: amikor a hero fele kigördült —
+       tehát a látogató elindult lefelé, tájékozódik —, magától kinyílik és
+       felkínálja a belépő kérdéseket. Aki egyszer becsukta, annál csak a
+       figura érkezik meg. */
     const gorgetesre = () => {
       if (scrollY > fooldaliHero.offsetHeight * 0.5) {
         removeEventListener('scroll', gorgetesre);
         clearTimeout(vegso);
         megerkezik();
+        if (!felretve) nyit(false);
       }
     };
-    /* Ha a látogató nem görget, húsz másodperc után akkor is előlép: a soha
-       meg nem jelenő segéd rosszabb, mint a korán érkező. */
+    /* Ha a látogató nem görget, húsz másodperc után akkor is előlép — de csak
+       a figura: aki áll, annak nem ugrunk az arcába egy nyitott panellel. */
     const vegso = setTimeout(megerkezik, 20000);
     addEventListener('scroll', gorgetesre, { passive: true });
     gorgetesre();                    // horgonnyal érkezőnek már görgetve van
   } else {
     setTimeout(megerkezik, csokkentett ? 200 : 1600);
+  }
+
+  /* ------------------------------------------------------- a fül jelzése */
+  /* A félrehúzott fül időnként előrébb lép, megbillen és pislant: „itt
+     vagyok". A látogató becsukta — jogában áll —, de fél perc múlva már nem
+     biztos, hogy emlékszik rá, hol keresse. Csak akkor jelez, ha tényleg a
+     fül látszik, és sosem csökkentett mozgás mellett. */
+  if (!csokkentett) {
+    setInterval(() => {
+      if (ful.hidden || panelNyitva() || !gyoker.classList.contains('is-erkezik')) return;
+      ful.classList.add('is-int');
+      pislog();
+      setTimeout(() => ful.classList.remove('is-int'), 1400);
+    }, 38000);
   }
 })();

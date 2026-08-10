@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=126">
+<link rel="stylesheet" href="assets/css/app.css?v=127">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -487,7 +487,7 @@
 
         <!-- 1. KI KERES ------------------------------------------------------ -->
         <fieldset class="konzv-lap" data-konzv-lap="1">
-          <legend class="type-display-card-title konzv-lap-cim">Ki keres megoldást?</legend>
+          <legend class="type-display-card-title konzv-lap-cim">Ki keres megoldást?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-ki"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-ki">Ez dönti el, milyen kérdéseket teszünk fel, és melyik kollégánk hívja vissza. Ha bizonytalan, válassza a magánszemélyt — a konzultáción pontosítjuk.</span></span></legend>
           <p class="type-ui-body konzv-lap-lead">Ettől függ minden további kérdés — és az is, hogy ki veszi fel Önnel a kapcsolatot.</p>
 
           <div class="konzv-valasztok" role="radiogroup" aria-labelledby="ki-cim">
@@ -528,7 +528,7 @@
 
           <div class="konzv-felteteles" data-konzv-ha="ki=ceg" hidden>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-szegmens">Milyen létesítményről van szó?</label>
+              <label class="type-ui-caption urlap-cimke" for="f-szegmens">Milyen létesítményről van szó?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-szegmens"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-szegmens">A létesítmény típusa a terhelés jellegét adja: egy étterem konyhai szennyvize más előkezelést kíván, mint egy panzió szálláshelyi terhelése.</span></span></label>
               <select class="urlap-input" id="f-szegmens" name="szegmens">
                 <option value="">Válasszon…</option>
                 <option value="panzio">Panzió, apartman, vendégház</option>
@@ -549,7 +549,7 @@
 
         <!-- 2. HOL TART ------------------------------------------------------ -->
         <fieldset class="konzv-lap" data-konzv-lap="2">
-          <legend class="type-display-card-title konzv-lap-cim">Hol tart most a projekt?</legend>
+          <legend class="type-display-card-title konzv-lap-cim">Hol tart most a projekt?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-fazis"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-fazis">A szakasztól függ, mit hozunk a konzultációra: tájékozódásnál lehetőségeket és nagyságrendeket, tervezésnél méretezést és adatlapokat, működő rendszernél hibakeresést.</span></span></legend>
           <p class="type-ui-body konzv-lap-lead">A szakasz dönti el, mi a következő lépés: tájékozódás, méretezés, engedélyeztetés vagy kivitelezés.</p>
 
           <div class="konzv-valasztok konzv-valasztok-tomor" role="radiogroup" aria-labelledby="fazis-cim">
@@ -563,7 +563,7 @@
           </div>
 
           <div class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-jelenlegi">Mi a jelenlegi megoldás az ingatlanon?</label>
+            <label class="type-ui-caption urlap-cimke" for="f-jelenlegi">Mi a jelenlegi megoldás az ingatlanon?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-jelenlegi"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-jelenlegi">A meglévő megoldásból derül ki, mi hasznosítható újra — egy emésztő aknája néha átalakítható, a csövezés megmaradhat. Ha nem biztos benne, jó válasz a „Nem tudom pontosan" is.</span></span></label>
             <select class="urlap-input" id="f-jelenlegi" name="jelenlegi">
               <option value="">Válasszon…</option>
               <option value="nincs">Nincs semmi — új építés, üres telek</option>
@@ -607,24 +607,24 @@
               </select>
             </div>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-letszam">Állandó létszám (fő)</label>
+              <label class="type-ui-caption urlap-cimke" for="f-letszam">Állandó létszám (fő)<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-letszam"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-letszam">Akik életvitelszerűen használják az ingatlant. Ebből számoljuk az alapterhelést — egy fő nagyjából 100–150 liter szennyvizet ad naponta.</span></span></label>
               <input class="urlap-input" type="number" id="f-letszam" name="letszam" min="1" max="2000" inputmode="numeric">
             </div>
           </div>
 
           <div class="urlap-sor">
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-csucs">Csúcsterhelés (fő) <span class="konzv-opcionalis">(ha van)</span></label>
+              <label class="type-ui-caption urlap-cimke" for="f-csucs">Csúcsterhelés (fő) <span class="konzv-opcionalis">(ha van)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-csucs"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-csucs">A legnagyobb EGYSZERRE jelen lévő létszám — vendégek, ünnepek, teltház. Nyaralónál és panziónál ez méretez, nem az átlag. Ha nincs ilyen, hagyja üresen.</span></span></label>
               <input class="urlap-input" type="number" id="f-csucs" name="csucs" min="1" max="5000" inputmode="numeric">
             </div>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-telekmeret">Telekméret (m²) <span class="konzv-opcionalis">(ha tudja)</span></label>
+              <label class="type-ui-caption urlap-cimke" for="f-telekmeret">Telekméret (m²) <span class="konzv-opcionalis">(ha tudja)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-telekmeret"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-telekmeret">Elég a nagyságrend. A tisztított víz elhelyezéséhez szabad, beépítetlen terület kell — ezért számít a méret és a beépítettség.</span></span></label>
               <input class="urlap-input" type="number" id="f-telekmeret" name="telekmeret" min="1" max="1000000" inputmode="numeric">
             </div>
           </div>
 
           <div class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-adatok">Milyen adatok állnak már rendelkezésre? <span class="konzv-opcionalis">(több is lehet)</span></label>
+            <label class="type-ui-caption urlap-cimke" for="f-adatok">Milyen adatok állnak már rendelkezésre? <span class="konzv-opcionalis">(több is lehet)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-adatok"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-adatok">Az „Egyelőre semmi" is jó válasz. A konzultáción megmondjuk, mit érdemes beszerezni — és mi az, amit a helyszíni felmérésen mi mérünk fel.</span></span></label>
             <div class="konzv-jelolok" id="f-adatok">
               <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="helyszinrajz"><span class="type-ui-caption">Helyszínrajz, tulajdoni lap</span></label>
               <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="talajvizsgalat"><span class="type-ui-caption">Talajvizsgálat</span></label>
@@ -638,7 +638,7 @@
 
           <div class="urlap-sor">
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-talajviz">Magas talajvíz jellemző a területen?</label>
+              <label class="type-ui-caption urlap-cimke" for="f-talajviz">Magas talajvíz jellemző a területen?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-talajviz"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-talajviz">A talajvíz a legerősebb korlátozó tényező: eldöntheti a technológiát és a víz elhelyezésének módját. Jelek: tavasszal vizes pince, közeli patak, tartósan pangó víz a kertben.</span></span></label>
               <select class="urlap-input" id="f-talajviz" name="talajviz">
                 <option value="">Nem tudom</option>
                 <option value="nem">Nem jellemző</option>
@@ -647,7 +647,7 @@
               </select>
             </div>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-kut">Van ásott vagy fúrt kút a telken?</label>
+              <label class="type-ui-caption urlap-cimke" for="f-kut">Van ásott vagy fúrt kút a telken?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-kut"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-kut">A kút körül védőtávolság él, és ez behatárolja, hová kerülhet a berendezés és a tisztított víz. A szomszéd kútja is számít.</span></span></label>
               <select class="urlap-input" id="f-kut" name="kut">
                 <option value="">Nem tudom</option>
                 <option value="nincs">Nincs</option>
@@ -664,7 +664,7 @@
           <p class="type-ui-body konzv-lap-lead">Néhány mondat is elég. Ha megkéri rá, a segéd kiolvassa belőle az adatokat, és kitölti az előző lapokat — minden javaslatát ellenőrizni és felülírni tudja.</p>
 
           <div class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-leiras">A helyzet röviden</label>
+            <label class="type-ui-caption urlap-cimke" for="f-leiras">A helyzet röviden<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-leiras"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-leiras">Írja le úgy, ahogy egy ismerősnek mondaná: mi a helyzet, mi a cél, mi a bizonytalan. A jó leírásból a segéd a mezők többségét kitölti Ön helyett.</span></span></label>
             <textarea class="urlap-input urlap-terulet konzv-terulet" id="f-leiras" name="leiras" rows="6"
                       maxlength="4000" data-konzv-leiras
                       placeholder="Például: Négyfős család, új építésű ház Esztergom mellett, nincs közcsatorna. A telek 1200 m², lejt a patak felé. Tavasszal magas a talajvíz. Szeretnénk tudni, mi fér el és mennyibe kerül."></textarea>
@@ -683,7 +683,7 @@
 
         <!-- 5. IDŐPONT ------------------------------------------------------- -->
         <fieldset class="konzv-lap" data-konzv-lap="5">
-          <legend class="type-display-card-title konzv-lap-cim">Konzultáció módja és időpontja</legend>
+          <legend class="type-display-card-title konzv-lap-cim">Konzultáció módja és időpontja<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-mod"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-mod">Telefonon a legtöbb kérdés tisztázható. Az online alkalmas tervek közös átnézésére; a helyszíni felmérés a döntés előtti utolsó lépés — pontos ajánlatot az alapoz meg.</span></span></legend>
           <p class="type-ui-body konzv-lap-lead">Jelöljön meg több sávot, amikor elérhető — egyet visszaigazolunk. Ez még nem foglalás: a megerősítés e-mailben érkezik.</p>
 
           <div class="konzv-valasztok konzv-valasztok-harmas" role="radiogroup" aria-labelledby="mod-cim">
@@ -695,7 +695,7 @@
 
           <div class="konzv-naptar" data-konzv-naptar>
             <div class="konzv-naptar-fej">
-              <p class="type-ui-subtitle konzv-naptar-cim">Mikor érne rá?</p>
+              <p class="type-ui-subtitle konzv-naptar-cim">Mikor érne rá?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-naptar"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-naptar">Ez még nem foglalás: a bejelölt sávok preferenciák. Egyet e-mailben visszaigazolunk, vagy újat ajánlunk, ha egyik sem fér a naptárunkba.</span></span></p>
               <p class="type-ui-caption konzv-naptar-sug">Válasszon legfeljebb három sávot.</p>
             </div>
             <!-- A napokat és a sávokat a JS tölti fel a mai naptól. JS nélkül a
@@ -709,7 +709,7 @@
           </div>
 
           <div class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-surgosseg">Mennyire sürgős?</label>
+            <label class="type-ui-caption urlap-cimke" for="f-surgosseg">Mennyire sürgős?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-surgosseg"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-surgosseg">Csak az ütemezéshez kell: a sürgős megkereséseket előrébb vesszük. Az árat és a javaslatot nem befolyásolja.</span></span></label>
             <select class="urlap-input" id="f-surgosseg" name="surgosseg">
               <option value="">Válasszon…</option>
               <option value="azonnal">Sürgős — napokon belül döntenem kell</option>
@@ -738,12 +738,12 @@
 
           <div class="urlap-sor">
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-tel">Telefon</label>
+              <label class="type-ui-caption urlap-cimke" for="f-tel">Telefon<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-tel"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-tel">Nem kötelező, de az egyeztetést jelentősen gyorsítja: időpont-módosításnál nem e-mail-körökben egyezkedünk.</span></span></label>
               <input class="urlap-input" type="tel" id="f-tel" name="telefon" maxlength="40" autocomplete="tel"
                      placeholder="+36 30 123 4567">
             </div>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-telepules">Település vagy irányítószám</label>
+              <label class="type-ui-caption urlap-cimke" for="f-telepules">Település vagy irányítószám<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-telepules"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Magyarázat</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-telepules">A helyszíni felmérés útvonalát ebből tervezzük — és ebből látjuk, ismerjük-e már a környék talaj- és talajvízviszonyait.</span></span></label>
               <input class="urlap-input" type="text" id="f-telepules" name="telepules" maxlength="120" autocomplete="address-level2">
             </div>
           </div>
@@ -901,9 +901,9 @@
 </footer>
 
 <script src="assets/js/site.js?v=3" defer></script>
-<script src="assets/js/kalauz.js?v=26" defer></script>
+<script src="assets/js/kalauz.js?v=27" defer></script>
 <script src="assets/js/urlap.js?v=1" defer></script>
-<script src="assets/js/konzultacio.js?v=2" defer></script>
+<script src="assets/js/konzultacio.js?v=3" defer></script>
 
 </body>
 </html>

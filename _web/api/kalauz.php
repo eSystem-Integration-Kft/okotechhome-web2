@@ -29,6 +29,11 @@ OthVedelem::sebessegkorlat('kalauz', 30, 60);
 $kerdes = OthVedelem::szoveg($BE, 'kerdes', 300);
 $mod    = OthVedelem::szoveg($BE, 'mod', 20);
 
+/* Urlap módban a kliens azt is elküldi, HÁNYADIK lapon áll a látogató. Ettől
+   a válasz nem általánosság lesz, hanem az éppen nyitott kérdésekhez szól. */
+$lepes = (int) ($BE['lepes'] ?? 0);
+if ($lepes < 1 || $lepes > 6) { $lepes = 0; }
+
 /* A párbeszéd eddigi menete. Enélkül Öko minden kérdést nulláról kezdene, és
    a látogatónak újra el kellene mondania, amit már elmondott — ettől érződött
    a segéd gépnek. Legfeljebb hat forduló megy vissza: ennél többet a kérdés
@@ -101,6 +106,48 @@ $SZEREP = [
                 . 'tartalmát NEM látod, ezért ne állíts róla semmit — magyarázd el, mit jelentenek '
                 . 'az összehasonlítás szempontjai általában, és mire érdemes figyelnie.',
 ][$mod];
+
+/* Urlap módban Öko nem általánosságban segít, hanem EZT az űrlapot ismeri:
+   lapról lapra tudja, mi hol van, mit jelent, és mit szabad üresen hagyni.
+   Enélkül a válaszai jószándékú semmitmondások voltak — a látogató konkrét
+   mezőnél áll, konkrét választ vár. */
+if ($mod === 'urlap') {
+    $SZEREP .= "\n\nAZ ŰRLAP, AMIT A LÁTOGATÓ ÉPPEN TÖLT (6 lap):\n"
+        . "1. Ki keres — magánszemély / vállalkozás-intézmény / önkormányzat-közösség / "
+        . "tervező-kivitelező. Vállalkozásnál létesítménytípus is (panzió, étterem, kemping, "
+        . "iskola, üzem, iroda), a cégnév nem kötelező.\n"
+        . "2. Hol tart — projektszakasz: tájékozódás / telekvásárlás előtt / tervezés-"
+        . "engedélyeztetés / építkezés / meglévő kiváltása / működő rendszer hibája (ennél "
+        . "tünetek is bejelölhetők: szag, visszaduzzadás, gyakori telítődés, leállás, pangó "
+        . "víz, hatósági felszólítás). Külön kérdés a jelenlegi megoldás: nincs / emésztő / "
+        . "oldómedence / biológiai / közcsatorna gonddal / nem tudja.\n"
+        . "3. Az ingatlan — használat (állandó, szezonális, hétvégi, változó); állandó "
+        . "létszám: akik életvitelszerűen ott laknak; csúcsterhelés: a legnagyobb EGYSZERRE "
+        . "jelen lévő létszám (vendégjárás, teltház) — nyaralónál és panziónál ez méretez, "
+        . "nem az átlag; telekméret m²-ben, elég a nagyságrend; meglévő adatok "
+        . "(helyszínrajz, talajvizsgálat, szivárogtatási vizsgálat, talajvízadat, terv, "
+        . "másik ajánlat — az „egyelőre semmi\" is jó válasz); magas talajvíz; kút (a "
+        . "védőtávolság miatt kérdezzük, a szomszéd kútja is számít).\n"
+        . "4. Leírás — szabad szöveg a helyzetről. Az „Adatok kiolvasása a leírásból\" gomb "
+        . "a szövegből mezőket tölt ki az előző lapokon, de KIZÁRÓLAG az üresen hagyottakat "
+        . "— a látogató beírását sosem írja felül.\n"
+        . "5. Időpont — konzultáció módja: telefonos (15–30 perc, a legtöbb kérdéshez elég) "
+        . "/ online (képernyőmegosztás, tervek közös átnézése) / helyszíni felmérés (a "
+        . "döntés előtti utolsó lépés). Legfeljebb 3 idősáv jelölhető a naptárrácsból — ez "
+        . "PREFERENCIA, nem foglalás, egyet e-mailben igazolunk vissza. A sürgősség csak az "
+        . "ütemezéshez kell.\n"
+        . "6. Elérhetőség — név és e-mail kötelező; telefon nem, de gyorsítja az "
+        . "egyeztetést; település a helyszíni felmérés útvonalához. Az adatkezelési "
+        . "hozzájárulás kötelező, a hírlevél nem.\n"
+        . "\nKITÖLTÉSI TANÁCSOK, AMIKET BÁTRAN KIMONDHATSZ:\n"
+        . "- Amit a látogató nem tud, hagyja üresen — nem hiba, a konzultáción pótoljuk.\n"
+        . "- Négyfős család, állandó lakhatás: létszám 4, csúcs üresen, ha nincs vendégjárás.\n"
+        . "- A leírásba: mi a helyzet, mi a cél, mi bizonytalan — ebből a segéd mezőket tölt ki.\n"
+        . "- Ha mezőről kérdez, nevezd meg a lapot is (például: a 3. lapon, az ingatlannál).";
+    if ($lepes >= 1) {
+        $SZEREP .= "\nA látogató MOST a(z) {$lepes}. lapon áll — elsősorban ehhez igazítsd a választ.";
+    }
+}
 
 $SYSTEM = <<<SYS
 Öko vagy, az ÖkoTech Home weboldalának kísérője. A cég egyedi szennyvízkezelést
