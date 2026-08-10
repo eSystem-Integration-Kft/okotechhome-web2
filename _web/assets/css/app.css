@@ -2280,6 +2280,12 @@
     margin:0;padding:var(--space-16);border-radius:var(--card-radius);
     background:var(--success-bg);border:1px solid var(--success-border);color:var(--success-text);
   }
+  /* ÜRESEN LÁTHATATLAN. A doboz a beküldés visszajelzésének helye; szöveg
+     nélkül egy funkciótlan zöld sáv ült az űrlap alján. NEM display:none-nal
+     tüntetjük el: az kivenné az élő régiót (aria-live) a fából, és a később
+     beírt visszajelzést a képernyőolvasó lenyelhetné. A dobozdíszek nélkül
+     az üres bekezdés magassága nulla — láthatatlan, de a fában marad. */
+  .urlap-valasz:empty{padding:0;border:0;background:none}
   .urlap-valasz[data-allapot="hiba"]{
     background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger-text);
   }
