@@ -3749,30 +3749,43 @@
   /* A lépéseket összekötő vonal a SZÁM mögött fut, nem az egész elem mögött —
      különben a felirat alatt is átmenne. */
   .konzv-lepcso-elem::before{
-    content:"";position:absolute;top:calc(var(--space-16) - 1px);
-    left:calc(-50% + var(--space-16));width:calc(100% - var(--space-32));
-    height:2px;background:var(--border);
+    content:"";position:absolute;top:calc(var(--space-16) + 2.5px);
+    left:calc(-50% + var(--space-16) + 4px);width:calc(100% - var(--space-32) - 8px);
+    height:3px;border-radius:999px;background:var(--border);
   }
   .konzv-lepcso-elem:first-child::before{content:none}
   .konzv-lepcso-szam{
-    display:grid;place-items:center;width:var(--space-32);height:var(--space-32);
+    display:grid;place-items:center;width:var(--space-40);height:var(--space-40);
     border-radius:50%;background:var(--surface);border:2px solid var(--border);
-    font-family:var(--font-mono);font-size:var(--type-ui-caption-size);
+    font-family:var(--font-mono);font-size:var(--type-ui-body-size,1rem);
     color:var(--text-tertiary);position:relative;z-index:1;
     transition:background var(--dur-fast) var(--ease-out),
                border-color var(--dur-fast) var(--ease-out),
-               color var(--dur-fast) var(--ease-out);
+               color var(--dur-fast) var(--ease-out),
+               box-shadow var(--dur-fast) var(--ease-out);
   }
   .konzv-lepcso-nev{color:inherit}
   .konzv-lepcso-elem.is-aktiv{color:var(--text-primary)}
+  .konzv-lepcso-elem.is-aktiv .konzv-lepcso-nev{font-weight:600}
+  /* Az aktív lépés nem csak sötétebb: GYŰRŰT kap, és beérkezéskor egyet
+     dobban. A gyűrű a kör színéből van, áttetszőn — témafüggetlen. */
   .konzv-lepcso-elem.is-aktiv .konzv-lepcso-szam{
     background:var(--secondary);border-color:var(--secondary);color:var(--surface);
+    box-shadow:0 0 0 5px color-mix(in srgb, var(--secondary) 18%, transparent);
+    animation:konzv-dobban 420ms var(--ease-out);
+  }
+  @keyframes konzv-dobban{
+    from{transform:scale(.82)}
+    55%{transform:scale(1.08)}
+    to{transform:scale(1)}
   }
   .konzv-lepcso-elem.is-kesz{color:var(--text-secondary)}
   .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{
     background:var(--surface-muted);border-color:var(--secondary);color:var(--secondary);
   }
-  .konzv-lepcso-elem.is-kesz::before{background:var(--secondary)}
+  /* A kész elem vonalát NEM shorthand színezi: a `background:` egyben a
+     background-size-ot is visszaállítaná, és kilőné a lentebbi kitöltési
+     animációt. A zöldet ott a gradiens végigfutása adja. */
 
   /* --- egy lap ------------------------------------------------------------ */
   .konzv-lap{border:0;margin:0;padding:0;min-width:0}
@@ -3814,13 +3827,23 @@
   .konzv-valaszto input:checked + .konzv-valaszto-test{
     border-color:var(--secondary);background:var(--surface-muted);
   }
+  /* Az ikon a kártya arca — 32-es dobozban 16-os rajz bélyegnek hatott.
+     Nagyobb doboz, nagyobb rajz, vékonyabb relatív vonal: a strokes SVG így
+     lesz rajz, nem pixelfolt. Kijelöléskor együtt színeződik a kártyával. */
   .konzv-valaszto-ikon{
-    display:grid;place-items:center;width:var(--space-32);height:var(--space-32);
+    display:grid;place-items:center;width:var(--space-48);height:var(--space-48);
     border-radius:var(--r-md);background:var(--canvas);color:var(--secondary);
-    margin-bottom:var(--space-4);
+    margin-bottom:var(--space-8);
+    transition:background var(--dur-fast) var(--ease-out),
+               color var(--dur-fast) var(--ease-out),
+               transform var(--dur-fast) var(--ease-out);
   }
-  .konzv-valaszto-ikon svg{width:var(--space-16);height:var(--space-16);fill:none;
-    stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .konzv-valaszto-ikon svg{width:var(--space-24);height:var(--space-24);fill:none;
+    stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .konzv-valaszto:hover .konzv-valaszto-ikon{transform:translateY(-2px)}
+  .konzv-valaszto input:checked + .konzv-valaszto-test .konzv-valaszto-ikon{
+    background:var(--secondary);color:var(--surface);
+  }
   .konzv-valaszto-cim{color:var(--text-primary)}
   .konzv-valaszto-szoveg{color:var(--text-secondary)}
 
@@ -4373,8 +4396,8 @@
      réteg rajzolja — így nem kell a DOM-hoz nyúlni. */
   .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{color:transparent}
   .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam::after{
-    content:"";position:absolute;left:10px;top:11px;width:11px;height:6px;
-    border-left:2px solid var(--secondary);border-bottom:2px solid var(--secondary);
+    content:"";position:absolute;left:12px;top:13px;width:13px;height:7px;
+    border-left:2.5px solid var(--secondary);border-bottom:2.5px solid var(--secondary);
     transform:rotate(-45deg);transform-origin:center;
     animation:konzv-pipa-huz 260ms var(--ease-out) both;
   }
@@ -4460,6 +4483,7 @@
 @layer motion{
   @media (prefers-reduced-motion:reduce){
     .konzv-lap,.konzv-lepcso-elem.is-kesz .konzv-lepcso-szam{animation:none}
+    .konzv-lepcso-elem.is-aktiv .konzv-lepcso-szam{animation:none}
     .konzv-lepcso-elem::before{transition:none}
     .konzv-lepcso-elem.is-kesz .konzv-lepcso-szam::after{animation:none}
     .konzv-sav[aria-pressed="true"]{animation:none}

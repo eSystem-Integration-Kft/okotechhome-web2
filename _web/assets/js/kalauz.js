@@ -28,14 +28,15 @@
 
   if (document.querySelector('.oko')) return;                 // kétszer ne
   const TAROLO = 'oth-oko-elrejtve';
-  const FELRE = 'oth-oko-felre';
   const csokkentett = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mod = document.body.dataset.kalauzMod || 'kalauz';
 
-  /* Aki egyszer becsukta a panelt, az a munkamenet végéig maga dönt: Öko a
-     fülön marad, és nem nyílik ki magától egyetlen lapon sem. A fül időnkénti
-     jelzése emlékezteti, hogy elérhető. */
-  const felretve = (() => { try { return sessionStorage.getItem(FELRE) === '1'; } catch { return false; } })();
+  /* A bezárás hatóköre EGYETLEN lapnézet. Volt munkamenet-szintű is
+     (sessionStorage-zászlóval), de az félrevezetett: aki egyszer becsukta,
+     annál minden további lapon némán, fülként indult — élesben úgy tűnt,
+     Öko „kikapcsolt". Alapból mindig aktív; aki ezen a lapon csukta be,
+     azt ezen a lapon nem zargatjuk újra. */
+  let lezarta = false;
 
   /* --------------------------------------------------------------- a figura */
   /* Egyetlen inline SVG, mert a szemek külön mozognak: a pupilla a kurzor felé
@@ -293,7 +294,7 @@
       void ful.offsetWidth;                        // reflow: az animáció újraindul
       ful.style.animation = '';
     }
-    if (SZOVEG.koszon && !buborekTiltva && !felretve && !panelNyitva()) {
+    if (SZOVEG.koszon && !buborekTiltva && !lezarta && !panelNyitva()) {
       buborekSzoveg.textContent = SZOVEG.koszon;
       buborek.hidden = false;
       setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 9000);
@@ -375,9 +376,9 @@
     gyoker.classList.remove('is-nyitva');
     /* Bezárás után Öko NEM megy vissza a sarokba: a lap szélén marad, fülként.
        A sarok az érkezés helye — akinek a panel most nem kell, annak a fül a
-       nyugalmi állapot. A döntés a munkamenetre szól: több automatikus nyitás
-       nincs, csak a fül időnkénti jelzése. */
-    try { sessionStorage.setItem(FELRE, '1'); } catch { /* privát mód */ }
+       nyugalmi állapot. A döntés erre a lapnézetre szól: itt nem nyitunk rá
+       újra automatikusan — a következő lapon Öko megint alapból aktív. */
+    lezarta = true;
     reflektorLe();
     const lezar = () => {
       panel.classList.remove('is-zarul');
@@ -727,10 +728,6 @@
      (`panel`, `ful`) még nem léteztek, a `megerkezik()` viszont hivatkozott
      rájuk — a dobott hiba pedig csendben megállította a szkript hátralévő
      részét, és a gombok kezelői sem épültek fel. */
-  /* Aki korábban félretette, annál minden lap fülként indul: Öko ott van, de
-     nem szólal meg magától. (A konzultációkérő eleve fülként indul.) */
-  if (felretve && mod !== 'urlap') fulre(true);
-
   const hero = document.querySelector('.hero');
   if (mod === 'urlap') {
     /* A KONZULTÁCIÓKÉRŐN Öko nem várat magára: nyitva érkezik, a kísérővel és
@@ -738,7 +735,7 @@
        el: a látogató az űrlapot tölti. */
     setTimeout(() => {
       megerkezik();
-      if (!felretve) nyit(false);
+      if (!lezarta) nyit(false);
     }, csokkentett ? 200 : 900);
   } else if (hero) {
     /* MINDEN HERO-S LAPON idegenvezetőként dolgozik: amikor a fejléckép fele
@@ -752,7 +749,7 @@
         removeEventListener('scroll', gorgetesre);
         clearTimeout(vegso);
         megerkezik();
-        if (!felretve) nyit(false);
+        if (!lezarta) nyit(false);
       }
     };
     /* Ha a látogató nem görget, húsz másodperc után akkor is előlép — de csak
