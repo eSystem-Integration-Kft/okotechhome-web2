@@ -548,9 +548,13 @@
     fokuszElem = cel;
     cel.scrollIntoView({ behavior: csokkentett ? 'auto' : 'smooth', block: 'center' });
 
-    /* A kéz a görgetés UTÁN kerül a helyére: menet közben számolva mellétrafálna. */
-    setTimeout(() => {
-      if (!fokuszElem) return;
+    /* A kéz a görgetés UTÁN kerül a helyére: menet közben számolva mellétrafál.
+       Ahol van `scrollend`, ott arra várunk; a rögzített idő csak tartalék —
+       hosszú lapon a sima görgetés fél másodpercnél tovább tart, és a kéz a
+       félúton mért helyre esett. A kettő közül az első nyer, a másik nem fut
+       le még egyszer. */
+    const kezRa = () => {
+      if (!fokuszElem || mutato) return;
       const d = cel.getBoundingClientRect();
       mutato = document.createElement('div');
       mutato.className = 'oko-mutato is-koppint';
@@ -559,9 +563,15 @@
         + ' d="M11 5.5a2 2 0 0 1 4 0v8.2l1.2-2.1a2 2 0 0 1 3.5 2l-.6 1.1 1.6-.4a2 2 0 0 1 1 3.9l-1.2.3 1 .6a2 2 0 0 1-1.4 3.7l-4.4-1.1a7 7 0 0 1-4.6-4L11 14z"/>'
         + '</svg>';
       mutato.style.left = Math.max(8, Math.min(innerWidth - 46, d.right - 24)) + 'px';
-      mutato.style.top = Math.max(8, d.top + Math.min(d.height / 2, 120)) + 'px';
+      mutato.style.top = Math.max(8, Math.min(innerHeight - 46, d.top + Math.min(d.height / 2, 120))) + 'px';
       document.body.appendChild(mutato);
-    }, csokkentett ? 0 : 480);
+    };
+    if (!csokkentett && 'onscrollend' in window) {
+      addEventListener('scrollend', kezRa, { once: true });
+      setTimeout(kezRa, 1200);                       // ha nem kellett görgetni, scrollend nincs
+    } else {
+      setTimeout(kezRa, csokkentett ? 0 : 700);
+    }
 
     /* Magától elenged: a reflektor nem maradhat a lapon. */
     setTimeout(reflektorLe, 7000);

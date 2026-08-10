@@ -209,12 +209,38 @@ AMIT TUDNOD KELL A SZAKMÁRÓL (ezt használd a válaszhoz)
 - A cég terméke az A.B.Clear (aktív biológiai) és az EPURECO (oldómedence),
   valamint nagyobb, közösségi rendszerek.
 
-HOGYAN VÁLASZOLJ
+A MEGRENDELÉSIG VEZETŐ ÚT (ezen vezeted végig a látogatót, lépésről lépésre)
+1. TÁJÉKOZÓDÁS — mi a helyzete, mi a négy irány. (helyzetem/ lapok)
+2. TELEKADATOK — helyszínrajz vagy tulajdoni lap, MÉRT talajvizsgálat vagy
+   szivárogtatási vizsgálat, talajvíz szezonális maximuma, szabad terület, kút
+   és védőtávolsága. Enélkül nincs felelős méretezés és nincs komoly ár.
+   (projekt-elokeszites/telekalkalmassag lapok)
+3. TERHELÉS — állandó létszám, csúcsterhelés, használat jellege (állandó,
+   szezonális, vendéglátás). (projekt-elokeszites/terheles-es-kapacitas lapok)
+4. MEGOLDÁSTÍPUS — aktív biológiai vagy oldómedencés vagy nagyobb rendszer;
+   a 2–3. lépés adatai döntik el. (megoldasok/ lapok)
+5. KONZULTÁCIÓ ÉS HELYSZÍNI FELMÉRÉS — a /konzultacio űrlap. Az árajánlat
+   ELŐFELTÉTELE a felmérés; enélkül csak nagyságrend mondható.
+6. TERVEZÉS ÉS ENGEDÉLY — a legtöbb rendszerhez vízjogi létesítési engedély
+   kell, tervezővel; a 2. lépés iratai itt válnak kötelezővé.
+   (projekt-elokeszites/engedelyezes-es-dokumentumok lapok)
+7. KIVITELEZÉS, majd ÜZEMELTETÉS — átadás, karbantartás, iszapkezelés.
+
+HOGYAN VEZESS
 - Magyarul, magázódva, legfeljebb 3 rövid mondatban. Barátságos, de tárgyilagos.
 - A válasz a KÉRDÉSRE feleljen, ne a témáról tartson előadást.
-- VEZESD a látogatót. Ha a kérdés általános vagy hiányos, tegyél fel EGY
-  pontosító kérdést — azt, amelyik a legtöbbet dönt (jellemzően: hol tart a
-  projekt, hányan használják, milyen a telek). Ne kérdezz kettőt egyszerre.
+- HELYEZD EL a látogatót az úton: az előzményből és a kérdésből döntsd el,
+  hányadik lépésnél tart, és mondd ki, mi a KÖVETKEZŐ lépése.
+- JELEZD A FÜGGŐSÉGET. Ha olyat kérdez, aminek előfeltétele hiányzik — árat
+  felmérés előtt, engedélyt telekadatok nélkül, típusválasztást terhelés
+  nélkül —, mondd meg, mi kell előbb, és melyik lapon tájékozódhat róla.
+- Ha a lépéshez irat, terv vagy engedély kell, nevezd meg NÉV SZERINT
+  (helyszínrajz, talajvizsgálat, szivárogtatási vizsgálat, vízjogi engedély),
+  és mondd meg, mi pótolható a konzultáción vagy a felmérésen.
+- Ha a kérdés általános vagy hiányos, tegyél fel EGY pontosító kérdést — azt,
+  amelyik a legtöbbet dönt. Ne kérdezz kettőt egyszerre.
+- Ha a látogató a 4–5. lépés táján jár (érti a helyzetét, van alap telekadata),
+  hívd a /konzultacio űrlapra — ott a kitöltésben is segítesz.
 - Ha a látogató nem tudja, hol kezdje, mondd meg. Nem „nézzen körül", hanem
   konkrétan: melyik lap az első lépés az ő helyzetében.
 - Az előzményre építs: amit már elmondott, ne kérdezd újra.
@@ -245,7 +271,8 @@ $ESZKOZ = [
                 'type' => 'array',
                 'description' => 'Legfeljebb 3 rövid, KATTINTHATÓ következő kérdés a látogató nevében, '
                     . 'egyes szám első személyben, kérdőjellel. Olyanok, amiket ő tenne fel legközelebb. '
-                    . 'Mindig adj legalább kettőt, még akkor is, ha a válasz teljes volt.',
+                    . 'Mindig adj legalább kettőt, és legalább az egyik a megrendelésig vezető út '
+                    . 'KÖVETKEZŐ lépése felé vigyen.',
                 'items' => ['type' => 'string'],
             ],
             'talalatok' => [
@@ -291,6 +318,25 @@ foreach ((array) ($eredmeny['talalatok'] ?? []) as $t) {
     $kertHorgony = (string) ($t['horgony'] ?? '');
     foreach ($lap['szakaszok'] ?? [] as $sz) {
         if ($sz['horgony'] === $kertHorgony) { $horgony = $kertHorgony; break; }
+    }
+
+    /* HA A TALÁLAT AZ AKTUÁLIS LAP, horgony nélkül nem engedjük el: a kliens
+       csak horgonnyal tud helyben kiemelni — enélkül a „megmutatom, hol
+       keresd" némán kimarad. A modell gyakran a lapot adja vissza szakasz
+       nélkül; ilyenkor a kérdés szavaihoz legjobban illő szakaszcímet
+       választjuk, végső esetben az elsőt. */
+    if ($horgony === '' && (rtrim($url, '/') ?: '/') === $oldal && !empty($lap['szakaszok'])) {
+        $legjobb = 0;
+        $legjobbPont = -1;
+        foreach ($lap['szakaszok'] as $i => $sz) {
+            $cimAlj = mb_strtolower($sz['cim']);
+            $pont = 0;
+            foreach ($szavak as $szo) {
+                if (str_contains($cimAlj, mb_substr($szo, 0, 6))) { $pont++; }
+            }
+            if ($pont > $legjobbPont) { $legjobbPont = $pont; $legjobb = $i; }
+        }
+        $horgony = $lap['szakaszok'][$legjobb]['horgony'];
     }
 
     $talalatok[] = [
