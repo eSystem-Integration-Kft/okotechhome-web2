@@ -106,6 +106,11 @@
         'Alkalmas-e a telkem egyedi rendszerre?',
         'Meglévő emésztőt szeretnék kiváltani.',
       ],
+      /* A félretett fül időnkénti kérdései. */
+      jelzes: [
+        'Segítsek megtalálni, amit keres?',
+        'Kérdezhet — megmutatom, hol a válasz.',
+      ],
     },
     urlap: {
       koszon: 'Ha elakad a kitöltésben, szóljon.',
@@ -116,6 +121,10 @@
         'Mit írjak, ha nem tudom a telek méretét?',
         'Mit jelent a csúcsterhelés?',
         'Milyen adatokat készítsek elő a konzultációra?',
+      ],
+      jelzes: [
+        'Elakadt a kitöltésben? Segítek.',
+        'Kérdezzen — megmondom, mit hová írjon.',
       ],
     },
     jelentes: {
@@ -128,8 +137,75 @@
         'Mi az, ami gyakran kimarad egy ajánlatból?',
         'Mit jelent, ha nagyon eltér a két ár?',
       ],
+      jelzes: [
+        'Kérdése van az összehasonlítás valamelyik sorához?',
+      ],
     },
   }[mod] || {};
+
+  /* LAPTÉMÁK. Öko nem ugyanazt mondja a megoldások között, mint a referenciák
+     vagy az előkészítés lapjain: a köszönés, a belépő kérdések és a fül
+     időnkénti kérdései a webhely szakaszához igazodnak. Az útvonal dönt —
+     laponkénti kézi lista 119 oldalra nem volna karbantartható. */
+  if (mod === 'kalauz') {
+    const TEMAK = [
+      [/^\/helyzetem/, {
+        koszon: 'Segítek eldönteni, mi legyen a következő lépés.',
+        inditok: [
+          'Mi a következő lépés az én helyzetemben?',
+          'Milyen adatokat gyűjtsek össze?',
+          'Melyik megoldástípus való nekem?',
+        ],
+        jelzes: [
+          'Melyik lépésnél tart most?',
+          'Segítsek megtalálni a helyzetéhez illő utat?',
+        ],
+      }],
+      [/^\/megoldasok/, {
+        koszon: 'Kérdezzen bátran erről a megoldásról.',
+        inditok: [
+          'Kinek való ez a megoldás?',
+          'Mikor nem megfelelő ez a rendszer?',
+          'Miben tér el a többi megoldástól?',
+        ],
+        jelzes: [
+          'Segítsek eldönteni, ez való-e az Ön telkére?',
+          'Kíváncsi, mennyi helyet kér ez a rendszer?',
+        ],
+      }],
+      [/^\/projekt-elokeszites/, {
+        koszon: 'Segítek az előkészítésben eligazodni.',
+        inditok: [
+          'Milyen vizsgálatok kellenek a telkemhez?',
+          'Mit tudok előre elintézni?',
+          'Mikor kell szakértőt bevonni?',
+        ],
+        jelzes: [
+          'Tudja már, milyen a talaj a telkén?',
+          'Segítsek összeállítani a teendőlistát?',
+        ],
+      }],
+      [/^\/eredmenyek/, {
+        koszon: 'Referenciák között jár — segítek keresni.',
+        inditok: [
+          'Van hasonló projekt az én helyzetemhez?',
+          'Mit mutatnak a mérési eredmények?',
+          'Hol működik ilyen rendszer a környékemen?',
+        ],
+        jelzes: [
+          'Keressek az Önéhez hasonló projektet?',
+        ],
+      }],
+      [/^\/tudastar/, {
+        koszon: 'A tudástárban segítek eligazodni.',
+        jelzes: [
+          'Nem találja, amit keres? Segítek.',
+        ],
+      }],
+    ];
+    const tema = TEMAK.find(([minta]) => minta.test(location.pathname));
+    if (tema) Object.assign(SZOVEG, tema[1]);
+  }
 
   /* ------------------------------------------------------------ a felület */
   const gyoker = document.createElement('div');
@@ -201,7 +277,10 @@
   /* Öko MINDIG ott van — a bezárás a köszönő buborékra vonatkozik, nem a
      figurára. Aki nem kér a szövegből, attól elvesszük a buborékot, de a
      segéd elérhető marad: ez a dolga. */
-  const buborekElrejtve = (() => { try { return sessionStorage.getItem(TAROLO) === '1'; } catch { return false; } })();
+  /* Aki a buborékot bezárta, annak a munkamenetben nem szólunk többet — sem
+     köszönéssel, sem a fül időnkénti kérdéseivel. Futásidőben is billen, mert
+     a döntés az X-szel bármikor megszülethet. */
+  let buborekTiltva = (() => { try { return sessionStorage.getItem(TAROLO) === '1'; } catch { return false; } })();
 
   function megerkezik() {
     if (gyoker.classList.contains('is-erkezik')) return;
@@ -214,7 +293,7 @@
       void ful.offsetWidth;                        // reflow: az animáció újraindul
       ful.style.animation = '';
     }
-    if (SZOVEG.koszon && !buborekElrejtve && !felretve && !panelNyitva()) {
+    if (SZOVEG.koszon && !buborekTiltva && !felretve && !panelNyitva()) {
       buborekSzoveg.textContent = SZOVEG.koszon;
       buborek.hidden = false;
       setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 9000);
@@ -290,19 +369,32 @@
     if (fokuszal) input.focus();
   }
   function zar() {
-    panel.hidden = true;
+    if (panel.hidden || panel.classList.contains('is-zarul')) return;
     gomb.setAttribute('aria-expanded', 'false');
     ful.setAttribute('aria-expanded', 'false');
     gyoker.classList.remove('is-nyitva');
     /* Bezárás után Öko NEM megy vissza a sarokba: a lap szélén marad, fülként.
        A sarok az érkezés helye — akinek a panel most nem kell, annak a fül a
-       nyugalmi állapot. Korábban az Escape és a fül visszavitte a sarokba, a
-       fejléc X-e viszont a fülön hagyta: kétféle „bezárva" volt. Most egy van. */
-    /* A döntés a munkamenetre szól: több automatikus nyitás nincs, csak a fül
-       időnkénti jelzése. */
+       nyugalmi állapot. A döntés a munkamenetre szól: több automatikus nyitás
+       nincs, csak a fül időnkénti jelzése. */
     try { sessionStorage.setItem(FELRE, '1'); } catch { /* privát mód */ }
     reflektorLe();
-    ful.focus();
+    const lezar = () => {
+      panel.classList.remove('is-zarul');
+      panel.hidden = true;
+      ful.focus();
+    };
+    if (csokkentett) { lezar(); return; }
+    /* LÁTHATÓ kivonulás: a panel a fül felé húz össze — látszik, HOVÁ ment —,
+       a fül pedig nyugtázza: előrelép és pislant. Enélkül a panel egyszerűen
+       eltűnt, és a látogató nem tudta, hol keresse. */
+    panel.classList.add('is-zarul');
+    setTimeout(() => {
+      lezar();
+      ful.classList.add('is-int');
+      pislog();
+      setTimeout(() => ful.classList.remove('is-int'), 1200);
+    }, 230);
   }
   gomb.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
 
@@ -349,7 +441,14 @@
 
   gyoker.querySelector('[data-oko-zar]').addEventListener('click', () => {
     buborek.hidden = true;
+    buborekTiltva = true;
     try { sessionStorage.setItem(TAROLO, '1'); } catch { /* privát mód */ }
+  });
+  /* A buborék maga is meghívás: rákattintva a panel nyílik. Az X kivétel —
+     az a „köszönöm, nem" útja. */
+  buborek.addEventListener('click', (e) => {
+    if (e.target.closest('[data-oko-zar]')) return;
+    if (!panelNyitva()) nyit();
   });
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && panelNyitva()) zar(); });
 
@@ -632,7 +731,7 @@
      nem szólal meg magától. (A konzultációkérő eleve fülként indul.) */
   if (felretve && mod !== 'urlap') fulre(true);
 
-  const fooldaliHero = document.querySelector('.hero:not(.page-hero)');
+  const hero = document.querySelector('.hero');
   if (mod === 'urlap') {
     /* A KONZULTÁCIÓKÉRŐN Öko nem várat magára: nyitva érkezik, a kísérővel és
        a lap kérdéseivel — itt ő a másodpilóta, nem díszlet. Fókuszt nem vesz
@@ -641,13 +740,15 @@
       megerkezik();
       if (!felretve) nyit(false);
     }, csokkentett ? 200 : 900);
-  } else if (fooldaliHero) {
-    /* A FŐOLDALON idegenvezetőként dolgozik: amikor a hero fele kigördült —
-       tehát a látogató elindult lefelé, tájékozódik —, magától kinyílik és
-       felkínálja a belépő kérdéseket. Aki egyszer becsukta, annál csak a
+  } else if (hero) {
+    /* MINDEN HERO-S LAPON idegenvezetőként dolgozik: amikor a fejléckép fele
+       kigördült — tehát a látogató elindult lefelé, olvasni kezdett —,
+       magától kinyílik a lap témájához igazított belépő kérdésekkel. Az
+       aloldalak fejléce alacsonyabb, ott ez hamarabb jön el — pont jókor:
+       aki görget, az keres valamit. Aki egyszer becsukta, annál csak a
        figura érkezik meg. */
     const gorgetesre = () => {
-      if (scrollY > fooldaliHero.offsetHeight * 0.5) {
+      if (scrollY > hero.offsetHeight * 0.5) {
         removeEventListener('scroll', gorgetesre);
         clearTimeout(vegso);
         megerkezik();
@@ -664,16 +765,25 @@
   }
 
   /* ------------------------------------------------------- a fül jelzése */
-  /* A félrehúzott fül időnként előrébb lép, megbillen és pislant: „itt
-     vagyok". A látogató becsukta — jogában áll —, de fél perc múlva már nem
-     biztos, hogy emlékszik rá, hol keresse. Csak akkor jelez, ha tényleg a
-     fül látszik, és sosem csökkentett mozgás mellett. */
+  /* A félrehúzott fül nem hallgat el végleg: időnként előrébb lép, megbillen
+     és pislant — az első két alkalommal pedig KÉRDEZ is egyet, a lap
+     témájában, a fül melletti buborékban. Kétszer és nem többször: a segéd
+     jelen van, nem követelőzik. Aki a buborékot X-szel bezárta, annak csak a
+     néma jelzés marad. Csökkentett mozgás mellett semmi. */
+  let jelzesDb = 0;
   if (!csokkentett) {
     setInterval(() => {
       if (ful.hidden || panelNyitva() || !gyoker.classList.contains('is-erkezik')) return;
       ful.classList.add('is-int');
       pislog();
       setTimeout(() => ful.classList.remove('is-int'), 1400);
+      const kerdesek = SZOVEG.jelzes || [];
+      if (!buborekTiltva && kerdesek.length && jelzesDb < 2) {
+        buborekSzoveg.textContent = kerdesek[jelzesDb % kerdesek.length];
+        jelzesDb++;
+        buborek.hidden = false;
+        setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 8000);
+      }
     }, 38000);
   }
 })();

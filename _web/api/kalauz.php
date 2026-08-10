@@ -34,6 +34,12 @@ $mod    = OthVedelem::szoveg($BE, 'mod', 20);
 $lepes = (int) ($BE['lepes'] ?? 0);
 if ($lepes < 1 || $lepes > 6) { $lepes = 0; }
 
+/* Melyik lapon ÁLL a látogató. A kliens mindig elküldi az útvonalat; ha az
+   szerepel az indexben, Öko tudja, mi van a látogató szeme előtt — és a
+   választ ahhoz horgonyozhatja, amit a felület helyben ki tud emelni. */
+$oldal = rtrim(OthVedelem::szoveg($BE, 'oldal', 200), '/');
+if ($oldal === '') { $oldal = '/'; }
+
 /* A párbeszéd eddigi menete. Enélkül Öko minden kérdést nulláról kezdene, és
    a látogatónak újra el kellene mondania, amit már elmondott — ettől érződött
    a segéd gépnek. Legfeljebb hat forduló megy vissza: ennél többet a kérdés
@@ -86,6 +92,16 @@ foreach ($lapok as $l) {
 usort($pontozott, static fn($a, $b) => $b['p'] <=> $a['p']);
 $valogatott = array_slice(array_column($pontozott, 'l'), 0, 24);
 if (!$valogatott) { $valogatott = array_slice($lapok, 0, 24); }   // semmi találat: adjunk kiindulást
+
+/* Az AKTUÁLIS lap mindig legyen a katalógusban: a kulcsszavas előszűrő nem
+   tudja, hogy ez a lap a látogató szeme előtt van — a modellnek tudnia kell. */
+$itt = null;
+foreach ($lapok as $l) {
+    if ((rtrim($l['url'], '/') ?: '/') === $oldal) { $itt = $l; break; }
+}
+if ($itt !== null && !in_array($itt, $valogatott, true)) {
+    array_unshift($valogatott, $itt);
+}
 
 $katalogus = '';
 foreach ($valogatott as $l) {
@@ -147,6 +163,16 @@ if ($mod === 'urlap') {
     if ($lepes >= 1) {
         $SZEREP .= "\nA látogató MOST a(z) {$lepes}. lapon áll — elsősorban ehhez igazítsd a választ.";
     }
+}
+
+/* Az aktuális lap kontextusa: Öko tudja, mit néz éppen a látogató. Ha a
+   válasz EZEN a lapon van, az első találat ez legyen, horgonnyal — a felület
+   helyben kiemeli a szakaszt, ami többet ér, mint egy hivatkozás máshová. */
+if ($itt !== null && $mod === 'kalauz') {
+    $SZEREP .= "\n\nA látogató éppen ezen a lapon áll: „{$itt['cim']}\" ({$itt['url']}). "
+        . 'Ha a kérdésre ez a lap felel, EZT add első találatnak a megfelelő szakasz '
+        . 'horgonyával — a felület helyben kiemeli. Ha a válasz máshol van, mondd meg, '
+        . 'hová érdemes továbbmenni innen.';
 }
 
 $SYSTEM = <<<SYS

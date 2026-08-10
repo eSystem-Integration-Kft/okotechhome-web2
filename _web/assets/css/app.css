@@ -4126,6 +4126,14 @@
      pedig csak az állapotot állítanák át, a képet nem. Ugyanaz a hibaosztály,
      mint a `.konzv-vezerlo .btn[hidden]`-nél. */
   .oko-panel[hidden]{display:none}
+  /* Bezáráskor a panel a FÜL FELÉ húz össze — látszik, hová vonult. A panel
+     nyitva mindig fül módban áll, ezért a kiinduló transform a -50%-os
+     függőleges középre húzás. */
+  .oko-panel.is-zarul{
+    animation:oko-panel-ki 230ms var(--ease-out) both;
+    transform-origin:100% 50%;pointer-events:none;
+  }
+  @keyframes oko-panel-ki{to{opacity:0;transform:translate(34px,-50%) scale(.9)}}
   @keyframes oko-panel-be{from{opacity:0;transform:translateY(12px) scale(.98)}}
   /* Fül-módban a panel a fül mellé, a szél közepére ül. */
   .oko.is-ful .oko-panel{
@@ -4256,7 +4264,14 @@
        alsó lap, a fül fölé terítve. */
     .oko.is-ful .oko-panel{right:var(--space-16);top:auto;bottom:var(--space-16);transform:none}
     .oko.is-ful .oko-buborek{right:60px}
+    /* Alsó lapként a záró animáció is lefelé megy, nem a -50%-os középre. */
+    .oko-panel.is-zarul{animation-name:oko-panel-ki-mobil}
   }
+}
+@layer components{
+  @keyframes oko-panel-ki-mobil{to{opacity:0;transform:translateY(16px) scale(.96)}}
+  /* A buborék meghívás is: kattintásra a panel nyílik. */
+  .oko-buborek{cursor:pointer}
 }
 
 @layer motion {
