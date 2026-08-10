@@ -17,10 +17,11 @@
                    magyarázza, nem a webhely tartalmát keresi.
    Az üzemmódot a `<body data-kalauz-mod>` mondja meg; ha hiányzik, `kalauz`.
 
-   AMIT SZÁNDÉKOSAN NEM CSINÁL. Nem ugrik a látogató elé: első alkalommal
-   megvárja, amíg a lap megnyugszik, és egyetlen buborékkal jelentkezik be.
-   Aki bezárja, annak a munkamenet végéig nem szól újra. Csökkentett mozgás
-   mellett minden animáció elmarad — a figura akkor egyszerűen ott van.
+   MIKOR SZÓLAL MEG. Hero-s lapon a fejléckép felének kigördülése után magától
+   kinyílik (fókuszt nem vesz el), a konzultációkérőn nyitva érkezik. A bezárás
+   egy lapnézetre szól: ott fülre húzódik, a következő lapon újra aktív. A fül
+   időnként jelez, és kétszer kérdez is. Csökkentett mozgás mellett minden
+   animáció elmarad — a figura akkor egyszerűen ott van.
    ============================================================================= */
 
 (() => {

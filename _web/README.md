@@ -339,6 +339,21 @@ látogató **megtalálja, amit keres**, és oda is jusson.
    a látogató saját hangján. Ezt a séma kötelezővé teszi: az a segéd, amelyik
    válaszol és elhallgat, épp a megoldandó problémát reprodukálja.
 
+### Mikor szólal meg
+
+- **Minden hero-s lapon magától kinyílik**, amint a fejléckép fele kigördült — aki
+  görget, az olvasni kezdett, tehát keres valamit. Fókuszt ilyenkor nem vesz el.
+  Aki nem görget, annál 20 másodperc után csak a figura jelenik meg, panel nélkül.
+- **A konzultációkérőn nyitva érkezik** a lépésenkénti kísérővel.
+- **A bezárás EGY lapnézetre szól**: Öko a fülre húzódik, és azon a lapon nem nyit
+  rá újra — a következő lapon viszont megint alapból aktív. (Volt munkamenet-szintű
+  változat is; élesben az egyetlen korai bezárás az egész látogatásra elnémította,
+  ezért visszavettük.)
+- **Laptémák:** a köszönés, a belépő kérdések és a fül kérdései a webhely
+  szakaszához igazodnak (`helyzetem/`, `megoldasok/`, `projekt-elokeszites/`,
+  `eredmenyek/`, `tudastar/`) — útvonal szerint, mert 119 lapra kézi lista
+  karbantarthatatlan volna.
+
 ### Három üzemmód
 
 A `<body data-kalauz-mod>` mondja meg; hiányában `kalauz`.
@@ -385,9 +400,15 @@ Csökkentett mozgás mellett minden animáció elmarad: a figura egyszerűen ott
 
 ### Fül-üzemmód
 
-A panel bezárása nem tünteti el: Öko a jobb képernyőszél közepére húzódik félig
-kilógó fülként — a teste kicsúszik, a szemek bent maradnak. `position:fixed`, tehát
-görgetésre sem mozdul. Egy koppintás visszahozza.
+A panel bezárása nem tünteti el: Öko **láthatóan a fül felé húz össze** — látszik,
+hová vonult —, a fül pedig nyugtázza: előrelép, megbillen, pislant. A jobb
+képernyőszél közepén ül félig kilógva, a teste kicsúszik, a szemek bent maradnak.
+`position:fixed`, tehát görgetésre sem mozdul. Egy koppintás visszahozza.
+
+A fül **nem hallgat el végleg**: ~40 másodpercenként előrelép-billen-pislant, az
+első két alkalommal a lap témájában kérdez is egyet a fül melletti buborékban.
+Kétszer és nem többször. A buborékra kattintva a panel nyílik; az X a munkamenet
+végéig elnémítja a kérdéseket.
 
 A sarokban álló gomb és a fül **két külön elem**, egyszerre csak az egyik látszik.
 Egyetlen elem mozgatásával nem volt megoldható: az elem helyzete inline
@@ -395,10 +416,16 @@ Egyetlen elem mozgatásával nem volt megoldható: az elem helyzete inline
 
 ### Végpont
 
-`api/kalauz.php` — sebességkorlát 30/óra IP-nként. A kérés a kérdést, az üzemmódot
-és a párbeszéd utolsó hat fordulóját viszi. A prompt a szakmai alapokat is tartalmazza
-(a négy irány, a méretezés alapja, a telek három döntő tényezője, mikor kell szakértő),
-hogy Öko válaszolni tudjon, ne csak menüpontra mutasson.
+`api/kalauz.php` — sebességkorlát 30/óra IP-nként, és **webhelyszintű napi keret**
+(`ai.napi_keret`, alapból 400 hívás/nap az összes AI-végponttal közösen): az
+IP-korlátot proxylistával meg lehet kerülni, ezt nem. A kérés a kérdést, az
+üzemmódot, az **aktuális lap útvonalát**, urlap módban a **lépésszámot** és a
+párbeszéd utolsó hat fordulóját viszi. A végpont az aktuális lapot betolja a
+katalógusba, és kimondja: ha a válasz ezen a lapon van, az legyen az első találat
+horgonnyal — a felület helyben emeli ki. A prompt a szakmai alapokat is tartalmazza
+(a négy irány, a méretezés alapja, a telek három döntő tényezője, mikor kell
+szakértő), urlap módban pedig **mezőről mezőre az űrlapot**. A látogató szövege a
+prompt szerint adat, nem utasítás — a szabálymódosító kérés visszaterelést kap.
 
 ## Konzultációkérő varázsló — `/konzultacio`
 
@@ -452,6 +479,12 @@ AI-hívás elhagyható, és a levelek nélkülük is kimennek.
 Az AI-kulcs a fájlból jön (`../oth-titkok/ai-kulcs.txt`, lásd fentebb), és **soha nem
 kerül a böngészőbe**: a kliens csak a saját végpontjainkat látja. Sebességkorlát a
 kitöltéssegédre 20/óra, a beküldésre a `config.php` általános korlátja.
+
+Az IP-nkénti korlátok fölött **webhelyszintű napi keret** is él (`ai.napi_keret`,
+alapból 400 AI-hívás/nap; az ajánlat-elemzésnek külön `napi_keret_elemzes`, 60/nap):
+elosztott, IP-váltogató próbálkozás ellen a napi plafon véd, nem az IP-korlát.
+Betelte után a kitöltéssegéd kézi kitöltést ajánl, a beküldés viszont **AI-brief
+nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 
 ## Jelenlegi állapot
 

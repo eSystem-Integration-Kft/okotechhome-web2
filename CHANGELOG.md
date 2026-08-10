@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.01.01-36C5E6?style=flat-square" alt="verzió 0.01.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.04.00-36C5E6?style=flat-square" alt="verzió 0.04.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-1-6f42c1?style=flat-square" alt="1 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-4-6f42c1?style=flat-square" alt="4 kiadás">
 </p>
 
 ---
@@ -26,6 +26,85 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.04.00] — 2026-08-10
+
+Öko **idegenvezetővé** lép elő: minden hero-s lapon magától nyílik, laptémák
+szerint készül fel, láthatóan vonul a fülre, és a fül vissza is kérdez. A
+konzultációkérő **hülyebiztos** lett: lebegő mezősúgók, mezőnél maradó magyar
+hibaüzenetek, gazdagabb haladásjelző. Az AI-végpontok **webhelyszintű napi
+keretet** kaptak a kreditégetés ellen.
+
+### Hozzáadva
+
+- **16 lebegő mezősúgó a varázslóban** — minden kényes mezőnél „?": mit írjon be,
+  és miért kérdezzük. Tisztán CSS (hover + fókusz), JS nélkül is működik; szűk
+  kijelzőn a sorban nyílik ki, nem lebeg. (`86a1318`)
+- **Mezőnél maradó hibaüzenetek** a natív böngészőbuborék helyett: magyarul, a
+  mező dobozán, magától tűnik el javításkor; a csoport egyet ráz, az első hibához
+  görgetünk. Beküldés előtt a **teljes űrlap** újraellenőrzése — visszatöltött
+  vázlatnál visszaugrik az első hiányos lapra. (`86a1318`)
+- **Öko magától nyílik** — a főoldalon és minden hero-s lapon a fejléckép felének
+  kigördülésekor, a konzultációkérőn betöltéskor, fókuszlopás nélkül. Aki nem
+  görget, annál 20 mp után csak a figura jelenik meg. (`86a1318`, `1b735b9`)
+- **Laptémák útvonal szerint** — a köszönés, a belépő kérdések és a fül kérdései
+  a webhely szakaszához igazodnak (helyzetem / megoldások / előkészítés /
+  eredmények / tudástár). (`1b735b9`)
+- **A fül jelez és kérdez** — ~40 mp-enként előrelép-billen-pislant, az első két
+  alkalommal a lap témájában kérdez a fül melletti buborékban; a buborékra
+  kattintva nyílik a panel, az X a munkamenetre elnémítja. (`1b735b9`)
+- **Laponkénti javasolt kérdések a kísérőben** — a varázsló mind a hat lapjához
+  saját kérdés-chipek, lapváltáskor cserélődnek. (`86a1318`)
+- **Öko mezőről mezőre ismeri az űrlapot** — a `kalauz.php` urlap-módú promptja
+  a hat lap minden mezőjét, példaértékeit és kitöltési szabályait tartalmazza,
+  a kliens a lépésszámot is küldi. (`86a1318`)
+- **A végpont tudja, melyik lapon áll a látogató** — az aktuális lap bekerül a
+  katalógusba, és ha a válasz ott van, első találatként, horgonnyal jön vissza,
+  amit a felület helyben kiemel. (`1b735b9`)
+
+### Biztonság
+
+- **Webhelyszintű napi AI-keret** (`OthVedelem::napiKeret`, zárolt fájlalapú
+  számláló): az IP-nkénti korlátot proxylistával meg lehet kerülni, a napi
+  plafont nem. Kalauz + kitöltéssegéd + beküldési brief közösen 400 hívás/nap,
+  az ajánlat-elemzés külön 60/nap (`ai.napi_keret`, `ai.napi_keret_elemzes`).
+  Betelte után a kalauz elköszön a napra, a segéd kézi kitöltést ajánl, a
+  konzultációkérés **AI nélkül is kimegy** — megkeresés nem vész el. (`f9ba97c`)
+- **Prompt-injection őr** a kalauz promptjában: a látogató szövege adat, nem
+  utasítás — szabálymódosító, utasítás-kicsalogató kérés visszaterelést kap. (`f9ba97c`)
+
+### Módosítva
+
+- **Zárva = fül, mindenhol**: az Escape, a fejléc X-e és a fül kattintása
+  ugyanoda vezet — Öko a jobb szél közepén marad. A sarok csak az érkezés
+  helye. (`8903c9c`)
+- **A bezárás hatóköre egy lapnézet** — volt munkamenet-szintű, de élesben egy
+  korai bezárás az egész látogatásra elnémította a kalauzt („Öko kikapcsolt").
+  A következő lapon újra alapból aktív. (`8d01916`)
+- **Látható kivonulás**: a panel a fül felé húz össze, a fül nyugtázza —
+  előrelép, megbillen, pislant. Mobilon az alsó lap lefelé süllyed. (`1b735b9`)
+- **Nagyobb kártyaikonok** a varázslóban (32/16 → 48/24, vékonyabb vonal), a
+  kijelölt kártyán zöldre töltődnek. (`8d01916`)
+- **Gazdagabb haladásjelző**: 40-es körök, gyűrűs-dobbanó aktív lépés, berajzolt
+  pipa a készeken, vastagabb sín zölden végigfutó kitöltéssel. (`86a1318`, `8d01916`)
+- A fejlesztő megnevezése egységesen **eSystem-Integration Kft. (eSI Kft.)**. (`61a45b1`)
+
+### Javítva
+
+- **A panel képileg soha nem csukódott be** — a `.oko-panel{display:flex}`
+  felülírta a `hidden` attribútumot, a csukó gombok csak az állapotot állították.
+  Egy sor zárja: `.oko-panel[hidden]{display:none}`. Ez volt a visszatérő „nem
+  megy a becsukás" panasz valódi oka. (`8903c9c`)
+- **Cache-beragadás élesben**: a `kalauz.js` a kitett `?v=25` után is változott,
+  így a látogatók egy évig a régi JS-t kapták; a `jelentes.html` őskori
+  `app.css?v=82`-t kért. Teljes verzióléptetés mind a 119 lapon. (`8903c9c`)
+- A lépcső körei átütöttek a mezősúgó lebegő buborékán (halmozási kontextus a
+  lépéselemeken), és egy `background:` shorthand némán kilőtte a sín kitöltési
+  animációját. (`86a1318`, `8d01916`)
+- **Sötét témás hibaszínek**: a világos témás mélyvörös szöveg és rózsaszín
+  mezőháttér sötét alapon olvashatatlan volt — saját `--danger-*` tokenek. (`86a1318`)
 
 ---
 
