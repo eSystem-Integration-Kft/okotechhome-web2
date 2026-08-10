@@ -4289,6 +4289,8 @@
     .oko.is-ful .oko-buborek{right:60px}
     /* Alsó lapként a záró animáció is lefelé megy, nem a -50%-os középre. */
     .oko-panel.is-zarul{animation-name:oko-panel-ki-mobil}
+    /* Párbeszéd közben az alsó lap is magasabbra nyúlhat. */
+    .oko.is-tarsalog .oko-panel{max-height:min(80vh,calc(100vh - 4rem))}
   }
 }
 @layer components{
@@ -4305,6 +4307,8 @@
     .oko-test-csoport{transition:none;animation:none}
     .oko-pupilla,.oko-hej{transition:none}
     .oko-buborek,.oko-panel{animation:none}
+    .oko-panel{transition:none}
+    .oko-kisero-nyil{transition:none}
     .oko-kiemelt{animation:none;outline:3px solid var(--secondary);outline-offset:4px}
   }
 }
@@ -4579,8 +4583,39 @@
   .oko-kisero{
     padding:var(--space-16);border-bottom:1px solid var(--border);
     background:var(--surface-muted);
+    /* `flex:none`, különben a panel oszlopában ÖSSZENYOMÓDIK, a tartalma
+       pedig kicsúszik a doboza alól, rá a párbeszédre. */
+    flex:none;
   }
-  .oko-kisero-fej{display:flex;align-items:baseline;gap:var(--space-8);margin-bottom:var(--space-8)}
+  /* A fejléc gomb: párbeszéd közben erre kattintva nyílik-csukódik a kísérő. */
+  .oko-kisero-fej{
+    display:flex;align-items:baseline;gap:var(--space-8);margin-bottom:var(--space-8);
+    appearance:none;border:0;background:none;padding:0;width:100%;
+    color:inherit;font:inherit;text-align:left;cursor:pointer;
+  }
+  .oko-kisero-nyil{
+    display:none;margin-left:auto;flex:none;width:18px;height:18px;
+    align-self:center;fill:none;stroke:currentColor;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+
+  /* A MUNKATÉR NYÚLIK. Amint párbeszéd indul (`is-tarsalog`), a panel megnő —
+     szélesebb és magasabb —, a kísérő pedig egysoros fejlécre csukódik: a hely
+     az olvasásé. A fejlécre kattintva a kísérő újra kinyitható; lapváltásnál a
+     tartalma frissül, de csukva marad. Párbeszéd nélkül minden a default. */
+  .oko-panel{transition:width 320ms var(--ease-out),max-height 320ms var(--ease-out)}
+  .oko.is-tarsalog .oko-panel{
+    width:min(27rem,calc(100vw - 2 * var(--space-24)));
+    max-height:min(46rem,calc(100vh - 6rem));
+  }
+  .oko.is-tarsalog .oko-tarsalgas{min-height:14rem}
+  .oko.is-tarsalog .oko-kisero-nyil{display:block}
+  .oko.is-tarsalog .oko-kisero:not(.is-nyitott)
+    :is(.oko-kisero-mit,.oko-kisero-pelda,.oko-kisero-auto,.oko-kisero-kerdesek){display:none}
+  .oko.is-tarsalog .oko-kisero:not(.is-nyitott){padding-top:var(--space-8);padding-bottom:var(--space-8)}
+  .oko.is-tarsalog .oko-kisero:not(.is-nyitott) .oko-kisero-fej{margin-bottom:0}
+  .oko-kisero.is-nyitott .oko-kisero-nyil{transform:rotate(180deg)}
   .oko-kisero-lepes{
     font-family:var(--font-mono);font-size:var(--type-ui-caption-size);
     color:var(--secondary);flex:none;

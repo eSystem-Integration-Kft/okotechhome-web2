@@ -627,10 +627,12 @@
       if (!adat) { doboz.hidden = true; return; }
       doboz.hidden = false;
       doboz.innerHTML = `
-        <div class="oko-kisero-fej">
+        <button type="button" class="oko-kisero-fej" data-oko-kisero-valt
+                aria-expanded="true" title="A lépés súgójának nyitása-csukása">
           <span class="oko-kisero-lepes">${e.detail.lap}/6</span>
-          <p class="type-ui-subtitle oko-kisero-cim"></p>
-        </div>
+          <span class="type-ui-subtitle oko-kisero-cim"></span>
+          <svg class="oko-kisero-nyil" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
         <p class="type-ui-caption oko-kisero-mit"></p>
         <p class="type-ui-caption oko-kisero-pelda"></p>
         <p class="type-ui-caption oko-kisero-auto">
@@ -656,6 +658,15 @@
         });
         doboz.appendChild(sor);
       })();
+      /* Párbeszéd közben a kísérő csukva frissül — a fejléce nyitja. Az
+         aria-expanded a LÁTHATÓ állapotot mondja: párbeszéd nélkül minden
+         részlet látszik, tehát nyitott. */
+      doboz.classList.remove('is-nyitott');
+      const valt = doboz.querySelector('[data-oko-kisero-valt]');
+      const ariaFrissit = () => valt.setAttribute('aria-expanded',
+        String(!(gyoker.classList.contains('is-tarsalog') && !doboz.classList.contains('is-nyitott'))));
+      valt.onclick = () => { doboz.classList.toggle('is-nyitott'); ariaFrissit(); };
+      ariaFrissit();
       /* Az animációt újra kell indítani: osztály le, reflow, osztály fel. */
       doboz.classList.remove('is-valt');
       void doboz.offsetWidth;
@@ -675,6 +686,9 @@
 
   async function kerdez(kerdes) {
     if (!kerdes || dolgozik) return;
+    /* A MUNKATÉR MEGNYÚLIK: az első kérdéstől a panel nagyobb, a kísérő pedig
+       fejlécre csukódik — a hely az olvasásé. A CSS intézi, itt csak a jel. */
+    gyoker.classList.add('is-tarsalog');
     uzenet('en', kerdes);
     naplo.push({ kitol: 'en', szoveg: kerdes });
     input.value = '';
