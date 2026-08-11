@@ -86,6 +86,31 @@ def szoveggé(reszlet: str) -> str:
     return re.sub(r'\s+', ' ', html.unescape(s)).strip()
 
 
+def darabol(s: str) -> list:
+    """Hosszú szakaszt MONDATHATÁRON több részre — nem levágva.
+
+    A csonkolás némán vitte el a leghosszabb szakaszok végét: a
+    konzultációkérőnél például az egész űrlap egyetlen szakasz, tehát a
+    mezősúgók fele, a jogi szöveg és az utolsó lapok mezői ki sem kerültek az
+    indexbe. Ami nincs az indexben, arról Öko nem tud válaszolni.
+    """
+    if len(s) <= HOSSZ:
+        return [s]
+    reszek = []
+    while s:
+        if len(s) <= HOSSZ:
+            reszek.append(s)
+            break
+        vag = max(s.rfind('. ', 0, HOSSZ), s.rfind('! ', 0, HOSSZ), s.rfind('? ', 0, HOSSZ))
+        if vag < HOSSZ // 2:          # nincs mondathatár a plafon közelében
+            vag = s.rfind(' ', 0, HOSSZ)
+        if vag <= 0:
+            vag = HOSSZ
+        reszek.append(s[:vag + 1].strip())
+        s = s[vag + 1:].strip()
+    return [r for r in reszek if r]
+
+
 def lapok():
     for p in sorted(GYOKER.rglob('*.html')):
         rel = p.relative_to(GYOKER)
@@ -132,10 +157,12 @@ def lapok():
         # darabok[0] a legelső cím ELŐTTI rész: a hero és a bevezető.
         bevezeto = szoveggé(darabok[0])
         if len(bevezeto) > 60:
-            szoveg_tetelek.append({
-                'url': lap_url, 'lap': lap_cim, 'cim': 'Bevezető',
-                'horgony': '', 'szoveg': bevezeto[:HOSSZ],
-            })
+            for n, resz in enumerate(darabol(bevezeto)):
+                szoveg_tetelek.append({
+                    'url': lap_url, 'lap': lap_cim,
+                    'cim': 'Bevezető' + (f' ({n + 1}.)' if n else ''),
+                    'horgony': '', 'szoveg': resz,
+                })
         for i in range(1, len(darabok), 3):
             hid = darabok[i + 1]
             test = szoveggé(darabok[i + 2]) if i + 2 < len(darabok) else ''
@@ -144,10 +171,12 @@ def lapok():
             szakasz_cim = tiszta(re.sub(r'<[^>]+>', '', darabok[i + 2].split('</h2>')[0])) \
                 if '</h2>' in darabok[i + 2] else ''
             if len(test) > 60:
-                szoveg_tetelek.append({
-                    'url': lap_url, 'lap': lap_cim, 'cim': szakasz_cim,
-                    'horgony': '#' + hid, 'szoveg': test[:HOSSZ],
-                })
+                for n, resz in enumerate(darabol(test)):
+                    szoveg_tetelek.append({
+                        'url': lap_url, 'lap': lap_cim,
+                        'cim': szakasz_cim + (f' ({n + 1}. rész)' if n else ''),
+                        'horgony': '#' + hid, 'szoveg': resz,
+                    })
 
         yield {
             'url': lap_url,

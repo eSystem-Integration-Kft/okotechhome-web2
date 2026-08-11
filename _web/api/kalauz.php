@@ -89,13 +89,27 @@ foreach ($lapok as $l) { $ervenyes[$l['url']] = $l; }
 /* A teljes index minden kérdéshez sok volna, ezért előszűrünk szavakra. A
    szűrés nagyvonalú: inkább menjen be fölösleges lap, mint hogy a jó kimaradjon
    — a válogatás úgyis a modell dolga. */
+/* ÉKEZETLENÍTÉS a kereséshez. A magyar toldalékolás elviszi a hosszú
+   magánhangzót — „kút" → „kutat", „víz" → „vizet", „tűz" → „tüzet" —, ezért a
+   tőcsonkolás ékezetesen elhasal: a „kutat" szóra a „Kút és védőtávolság" lap
+   nem jött elő. Ékezet nélkül a „kut" előtag mindkettőben megvan. Csak a
+   PONTOZÁS fut ékezetlenül; a promptba és a válaszba az eredeti szöveg megy. */
+function oth_ekezettelen(string $s): string
+{
+    return strtr($s, [
+        'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ö' => 'o', 'ő' => 'o',
+        'ú' => 'u', 'ü' => 'u', 'ű' => 'u',
+    ]);
+}
+
 $szavak = preg_split('/[^\p{L}\p{N}]+/u', mb_strtolower($kerdes), -1, PREG_SPLIT_NO_EMPTY) ?: [];
 $szavak = array_filter($szavak, static fn($sz) => mb_strlen($sz) >= 4);
+$szavak = array_map('oth_ekezettelen', $szavak);
 
 $pontozott = [];
 foreach ($lapok as $l) {
-    $halom = mb_strtolower($l['cim'] . ' ' . $l['leiras'] . ' '
-        . implode(' ', array_column($l['szakaszok'] ?? [], 'cim')));
+    $halom = oth_ekezettelen(mb_strtolower($l['cim'] . ' ' . $l['leiras'] . ' '
+        . implode(' ', array_column($l['szakaszok'] ?? [], 'cim'))));
     $pont = 0;
     foreach ($szavak as $sz) {
         /* Tőcsonkolás magyarra: a teljes szó helyett az első hat betű, mert a
@@ -158,32 +172,44 @@ if ($szavak && is_readable($szovegFajl)) {
           többet ér — ez a klasszikus IDF.
        2. HOSSZNORMALIZÁLÁS. A találatszámot a szöveghossz gyökével osztjuk,
           különben a hosszabb szakasz pusztán a méreténél fogva nyer. */
-    $tovek = [];
-    foreach ($szavak as $sz) { $tovek[mb_substr($sz, 0, 6)] = 0; }
+    /* KETTŐS TŐ. A hat betűs csonkolás rövid tövű szavaknál elhasal: a „kutat"
+       töve hosszabb, mint maga a keresett „kút", ezért a Kút és védőtávolság
+       lap egyáltalán nem jött elő. Ezért minden szó KÉT tővel szerepel: a hat
+       betűssel (pontos, teljes súly) és egy rövidebbel (mentőöv, 0,7 súly).
+       A rövid tő zaját az IDF fogja vissza — a gyakori „tel" kevesebbet ér,
+       a ritka „kut" többet. Top-8 találat a próbakérdéseken: 9/10 → 10/10. */
+    $tovek = [];                                  // tő => súly
+    foreach ($szavak as $sz) {
+        $tovek[mb_substr($sz, 0, 6)] = 1.0;
+        $rovid = mb_substr($sz, 0, max(3, min(6, mb_strlen($sz) - 2)));
+        if (!isset($tovek[$rovid])) { $tovek[$rovid] = 0.7; }
+    }
 
+    $df = [];
     $halmok = [];
     foreach ($reszek as $i => $r) {
-        $halmok[$i] = mb_strtolower($r['lap'] . ' ' . $r['cim'] . ' ' . $r['szoveg']);
+        $halmok[$i] = oth_ekezettelen(mb_strtolower($r['lap'] . ' ' . $r['cim'] . ' ' . $r['szoveg']));
         foreach ($tovek as $to => $_) {
-            if (str_contains($halmok[$i], $to)) { $tovek[$to]++; }
+            $df[$to] = ($df[$to] ?? 0) + (str_contains($halmok[$i], (string) $to) ? 1 : 0);
         }
     }
     $osszes = max(1, count($reszek));
     $idf = [];
-    foreach ($tovek as $to => $df) { $idf[$to] = log($osszes / (1 + $df)); }
+    foreach ($df as $to => $d) { $idf[$to] = log($osszes / (1 + $d)); }
 
     $pontozottReszek = [];
     foreach ($reszek as $i => $r) {
         $halom = $halmok[$i];
         $hosszSuly = sqrt(max(120, mb_strlen($r['szoveg'])));
         $pont = 0.0;
-        foreach ($tovek as $to => $_) {
-            $db = substr_count($halom, $to);
+        $cimAlj = oth_ekezettelen(mb_strtolower($r['cim']));
+        foreach ($tovek as $to => $suly) {
+            $db = substr_count($halom, (string) $to);
             if (!$db) { continue; }
-            $pont += ($db / $hosszSuly) * $idf[$to] * 100;
+            $pont += ($db / $hosszSuly) * $idf[$to] * 100 * $suly;
             /* A címben álló találat erősebb: az mondja meg, MIRŐL szól a
                szakasz, nem csak azt, hogy a szó előfordul benne. */
-            if (str_contains(mb_strtolower($r['cim']), $to)) { $pont += 3 * $idf[$to]; }
+            if (str_contains($cimAlj, (string) $to)) { $pont += 3 * $idf[$to] * $suly; }
         }
         /* Az aktuális lap részletei előnyt kapnak: a látogató arról kérdez,
            ami előtte van. Kis szorzó, hogy a téma felülírhassa. */
@@ -482,7 +508,7 @@ foreach ((array) ($eredmeny['talalatok'] ?? []) as $t) {
         $legjobb = 0;
         $legjobbPont = -1;
         foreach ($lap['szakaszok'] as $i => $sz) {
-            $cimAlj = mb_strtolower($sz['cim']);
+            $cimAlj = oth_ekezettelen(mb_strtolower($sz['cim']));
             $pont = 0;
             foreach ($szavak as $szo) {
                 if (str_contains($cimAlj, mb_substr($szo, 0, 6))) { $pont++; }
