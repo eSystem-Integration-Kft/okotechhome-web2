@@ -409,6 +409,45 @@ foreach ((array) ($eredmeny['talalatok'] ?? []) as $t) {
     ];
 }
 
+/* --- SZÁMŐR: a tiltás kódban is, nem csak a promptban ---------------------- */
+/* A promptban álló „ne mondj árat, kapacitást, fogyasztást" utasítás EGY
+   valószínűségi modellre bízza a szabály betartását. A navigációt már kódban
+   védjük (kitalált URL nem megy ki) — a válasz SZÖVEGÉT eddig semmi nem mérte.
+   Ez a szűrő a mértékegységgel ellátott értékeket fogja meg: azok ugyanis
+   ellenőrizhetetlen ígéretként viselkednek, akkor is, ha a modell jóhiszeműen
+   általánosít.
+
+   AMI ÁTMEGY, szándékosan: jogszabály- és szabványszám (147/2010, EN 12566-3),
+   telefonszám, sorszám, dátum. Ezek hivatkozások, nem műszaki ígéretek. */
+$TILTOTT_MINTAK = [
+    '/\d[\d\s.,]*\s*(Ft|HUF|EUR|€|forint)/iu',            // ár
+    '/\d[\d\s.,]*\s*(kWh|kW|W\b)/u',                       // energia
+    '/\d[\d\s.,]*\s*(m³|m3)\s*\/\s*(nap|d)/iu',            // hidraulikai kapacitás
+    '/\d[\d\s.,]*\s*(mg\/l|g\/m³)/iu',                     // kibocsátási érték
+    '/\d[\d\s.,]*\s*(m²|m2)\b/u',                          // terület-méretezés
+    '/\d[\d\s.,]*\s*(LE|lakosegyenérték)\b/u',             // kapacitás
+    '/\d[\d\s.,]*\s*%/u',                                  // hatásfok, arány
+    '/\d[\d\s.,]*\s*év\s*(garanci|jótáll)/iu',             // garanciaidő
+    '/(garanci|jótáll)[^.]{0,40}\d[\d\s.,]*\s*év/iu',
+];
+
+function oth_szamot_igert(string $szoveg, array $mintak): bool
+{
+    foreach ($mintak as $m) {
+        if (preg_match($m, $szoveg)) { return true; }
+    }
+    return false;
+}
+
+$valaszSzoveg = mb_substr(OthSmtp::tisztit((string) $eredmeny['valasz']), 0, 600);
+if (oth_szamot_igert($valaszSzoveg, $TILTOTT_MINTAK)) {
+    /* A találatokat MEGTARTJUK: az útbaigazítás értékes, csak a szám nem az.
+       Így a látogató nem üres kézzel marad, hanem a helyes forrásnál köt ki. */
+    error_log('OTH kalauz: számot tartalmazó válasz visszatartva.');
+    $valaszSzoveg = 'Erre pontos értéket csak ellenőrzött adatból adunk — a konzultáción '
+        . 'vagy a műszaki adatlapon kapja meg. Addig itt találja a témát:';
+}
+
 $javaslatok = [];
 foreach ((array) ($eredmeny['javaslatok'] ?? []) as $j) {
     $j = mb_substr(OthSmtp::tisztit((string) $j), 0, 90);
@@ -417,7 +456,7 @@ foreach ((array) ($eredmeny['javaslatok'] ?? []) as $j) {
 
 OthVedelem::valasz(200, [
     'ok' => true,
-    'valasz' => mb_substr(OthSmtp::tisztit((string) $eredmeny['valasz']), 0, 600),
+    'valasz' => $valaszSzoveg,
     'talalatok' => $talalatok,
     'javaslatok' => $javaslatok,
 ]);
