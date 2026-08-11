@@ -227,7 +227,19 @@
         oszlop.className = 'konzv-nap';
         const fej = document.createElement('p');
         fej.className = 'konzv-nap-fej';
-        fej.textContent = `${NAPNEV[d]} ${nap.getMonth() + 1}.${nap.getDate()}.`;
+        /* A napnév és a dátum KÉT elem: a fejléc így oszlopcímkeként olvasható,
+           nem a sávgombok negyedik soraként. A szöveges címke (a mezőbe és a
+           levélbe kerülő alak) változatlan marad. */
+        const napNev = NAPNEV[d];
+        const napDatum = `${nap.getMonth() + 1}.${nap.getDate()}.`;
+        const fejCimke = `${napNev} ${napDatum}`;
+        const nevElem = document.createElement('span');
+        nevElem.className = 'konzv-nap-nev';
+        nevElem.textContent = napNev;
+        const datumElem = document.createElement('span');
+        datumElem.className = 'konzv-nap-datum';
+        datumElem.textContent = napDatum;
+        fej.append(nevElem, datumElem);
         oszlop.appendChild(fej);
         const datum = `${nap.getFullYear()}-${String(nap.getMonth() + 1).padStart(2, '0')}-${String(nap.getDate()).padStart(2, '0')}`;
         SAVOK.forEach(([kulcs, cimke]) => {
@@ -237,7 +249,7 @@
           gomb.textContent = cimke;
           gomb.setAttribute('aria-pressed', 'false');
           gomb.dataset.sav = `${datum}|${kulcs}`;
-          gomb.dataset.cimke = `${fej.textContent} ${cimke}`;
+          gomb.dataset.cimke = `${fejCimke} ${cimke}`;
           gomb.addEventListener('click', () => savValt(gomb));
           oszlop.appendChild(gomb);
         });
