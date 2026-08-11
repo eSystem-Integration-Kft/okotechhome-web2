@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.04.00-36C5E6?style=flat-square" alt="verzió 0.04.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.05.00-36C5E6?style=flat-square" alt="verzió 0.05.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-4-6f42c1?style=flat-square" alt="4 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-5-6f42c1?style=flat-square" alt="5 kiadás">
 </p>
 
 ---
@@ -26,6 +26,110 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.05.00] — 2026-08-11
+
+Öko **a lapok tényleges mondataiból** válaszol: teljes szöveges keresés
+(RAG) váltja fel a címindexet, és három kódszintű réteg zárja ki a
+kitalálást. A **helyzetem** és a **megoldások** szakasz három csatolt
+anyagból bővült — köztük a `147/2010. (IV. 29.) Korm. rendelet` ellenőrzött
+jogi alapjával, amely egy publikálást blokkoló adathiányt oldott fel.
+
+### Hozzáadva
+
+- **Szövegindex — Öko a lapok mondataiból válaszol.** `kalauz-szoveg.json`
+  (857 részlet, 512 ezer karakter): a `<h2 id>`-k mentén darabolt
+  szakaszszöveg. Kérdésenként a nyolc legjobban illő részlet **teljes
+  terjedelemben** kerül a promptba, azzal, hogy azon túl ne állítson semmit.
+  Kimarad az SVG-k `path` adata, a képernyőolvasónak szánt felirat, a
+  morzsamenü és a belső jegyzet. Mért költség: 1,8 ms betöltés, 8 ms
+  pontozás, 4 MB memória, ~2 450 token kérésenként. (`879c362`)
+- **A megrendelésig vezető hét lépés** a promptban: tájékozódás → telekadatok
+  → terhelés → megoldástípus → konzultáció és felmérés → tervezés és vízjogi
+  engedély → kivitelezés. Minden válasznak el kell helyeznie a látogatót az
+  úton, jeleznie a **függőségeket** (nincs ár felmérés előtt, nincs engedély
+  telekadat nélkül), és a felkínált kérdések közül legalább egynek előre kell
+  vinnie. (`8861031`)
+- **Öko szakmai tudása az új tartalmakhoz:** a jogi kapu két feltétele, a
+  vízminőségi paraméterek jelentése, a bizonyítékok nem egyenértékűsége, a
+  magas talajvíz mint telepítési kérdés, a „nem tudom" négy fokozata, a
+  nyaraló három esete. Két új laptéma-csomag (`ab-clear`, közcsatorna).
+  (`c32281d`)
+- **Jogi alap a közcsatorna-lapon.** A rendelet két nevesített feltétele —
+  a szennyvízelvezető mű **műszaki elérhetősége** és a **tisztítótelepi
+  kapacitás** —, és a következmény: ha mindkettő fennáll, új berendezés nem
+  telepíthető. Dátumozva (2026-08-09) és forrásra hivatkozva. Két új
+  táblázat, a kétkapus sorrend, négy GYIK. (`cf1d1d1`)
+- **A „nincs közcsatorna" fejezet hiányzó fele:** ötelemű fogalomtár, a hat
+  döntés előtti kérdés, „még nem tudja → honnan derül ki → mi a lépés"
+  tábla, a hat valódi költségelem, nyolc azonos vizsgálati szempont, a négy
+  kimenet **irányként, nem terméknévként**, az adatbiztonság négy fokozata,
+  az eszkalációs határ a projektindítón. (`cf1d1d1`)
+- **A biológiai HUB bizonyítékai:** a folyamat öt lépésben, az eleveniszap
+  mint élő közeg, „Mit bizonyítanak a műszaki vizsgálatok?" (EN 12566-3,
+  akkreditált vizsgálat, VITUKI — értékek nélkül, indoklással), az „nem
+  mindenkinek jó" pozicionálás, laikus fogalomtár a kibocsátási
+  paraméterekhez, a szezonalitás három esete, négy GYIK. (`db9d4a8`)
+- **A.B.Clear: bizonyíték-hierarchia és garancia-elv.** Öt bizonyítéktípus,
+  mindegyik mást igazol; a piacvezetői állítás elvetése indoklással. A
+  garancia négy kérdéssel megválaszolva évszám helyett, a feltételek az
+  írásos ajánlatban. Négy GYIK. (`4986a7b`)
+- **Nyúló munkatér a kalauzpanelben:** az első kérdéstől a panel szélesebb
+  és magasabb, a lépéskísérő egysoros fejlécre csukódik, és a fejlécre
+  kattintva újranyitható. (`7090b9f`)
+
+### Biztonság
+
+- **A tiltólista kódban is, nem csak a promptban.** Mintaillesztés méri a
+  kész választ: ár, kW/kWh, m³/nap, mg/l, m², LE, százalék és garanciaidő nem
+  hagyhatja el a végpontot. Találatkor **a találatok megmaradnak**, csak a
+  mondat cserélődik őszintére. Átmegy a jogszabály- és szabványszám, a
+  telefonszám, a lap- és lépésszám. 14 egységteszttel ellenőrizve. (`c5581b1`)
+
+### Módosítva
+
+- **A naptár dátumsora oszlopfejléc lett:** a napnév viszi a hangsúlyt, a
+  dátum halványabb kísérő, vékony vonal zárja le. A beküldött címke
+  változatlan — saját változóból épül, nem a DOM-ból olvasva. (`b1fc995`)
+- **A tartalomindex csak a `<main>`-ből épül**, laponként 14 szakaszig: a
+  lábléc hasábcímei tartalmi szakaszként kerültek be, és a nyolcas korlát a
+  bővebb lapok végét levágta. 943 felhígított helyett 686 valódi szakasz.
+  (`cf1d1d1`)
+
+### Javítva
+
+- **26 üres címsor 24 lapon.** `<h2 id="-cim"></h2>` — a cím a fölötte álló
+  eyebrow-ba csúszott, minden előfordulás ugyanazt az id-t viselte, a
+  dokumentumszerkezetben lyuk maradt, és Öko indexe nem látta ezeket a
+  szakaszokat. Mind megkapta a valódi címét és egyedi horgonyát. (`db9d4a8`)
+- **A varázsló mezősúgói nem jutottak el Ökóhoz.** A hatlépéses űrlap
+  egyetlen `<h2>` szakasz, a szakaszok pedig 1800 karakternél **csonkultak**
+  — a 16 súgó fele, a jogi szöveg és az utolsó lapok mezői ki sem kerültek az
+  indexbe. Mondathatáron darabolunk: a lap 1 csonka részből 4 teljes lett,
+  csonkolt szakasz sehol nem maradt (17 volt). (`5f2f494`)
+- **Két magyar-specifikus keresési hiba.** Ékezet: a toldalékolás elviszi a
+  hosszú magánhangzót („kút" → „kutat"), ezért a pontozás ott hasalt el, ahol
+  a látogató máshogy fogalmaz — most ékezet nélkül fut mindkét oldalon.
+  Rövid tövek: a hatbetűs csonkolás elromlik, ha a tő rövidebb a ragozott
+  alaknál — a Kút és védőtávolság lap **egyáltalán nem jött elő**. Kettős tő
+  (hosszú teljes, rövid 0,7 súllyal), a zajt az IDF fogja vissza. Top-8
+  találat tíz kérdésen: 9/10 → **10/10**. (`5f2f494`)
+- **A keresés a hosszú szakaszokat favorizálta** — „mit jelent a
+  csúcsterhelés?" a főoldal *véleményeire* talált. Ritkasági súly (IDF) és
+  hossznormalizálás; hat próbakérdés mind a helyes témalapra ér. (`879c362`)
+- **A „megmutatom, hol keresd" némán kimaradhatott:** ha a modell az aktuális
+  lapot horgony nélkül adta vissza, a kliensnek nem volt mit kiemelnie. A
+  végpont ilyenkor a kérdéshez legjobban illő szakasz horgonyát pótolja. A
+  rámutató kéz a görgetés **végét** várja meg (`scrollend`), nem félúton mér.
+  (`8861031`)
+- **Az üres visszajelzőmező zöld sávot festett** az űrlapok alá. `:empty`
+  állapotban a dobozdíszek lekerülnek — nem `display:none`, mert az kivenné
+  az `aria-live` régiót a fából. Mérve: 0 px üresen, 58 px szöveggel.
+  (`ba96b34`)
+- **Négy lap törött horgonyra mutatott** (`#dontestamogato`, miközben a
+  főoldalon `#ai-dontestamogato` áll). (`cf1d1d1`)
 
 ---
 

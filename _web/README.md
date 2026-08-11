@@ -339,6 +339,28 @@ látogató **megtalálja, amit keres**, és oda is jusson.
    a látogató saját hangján. Ezt a séma kötelezővé teszi: az a segéd, amelyik
    válaszol és elhallgat, épp a megoldandó problémát reprodukálja.
 
+### A megrendelésig vezető út
+
+A promptban nem csak a szakma áll, hanem az **út** is — enélkül Öko témákra
+válaszolt, de senkit nem vitt előre. A hét lépés:
+
+| # | Lépés | Hol |
+|---|---|---|
+| 1 | Tájékozódás — mi a helyzet, mi a négy irány | `helyzetem/` |
+| 2 | **Telekadatok** — helyszínrajz, mért talajvizsgálat, talajvíz-maximum, szabad terület, kút | `projekt-elokeszites/telekalkalmassag` |
+| 3 | **Terhelés** — állandó létszám, csúcs, használat jellege | `projekt-elokeszites/terheles-es-kapacitas` |
+| 4 | Megoldástípus — a 2–3. adatai döntik el | `megoldasok/` |
+| 5 | **Konzultáció és helyszíni felmérés** | `/konzultacio` |
+| 6 | Tervezés és vízjogi engedély | `projekt-elokeszites/engedelyezes-es-dokumentumok` |
+| 7 | Kivitelezés, majd üzemeltetés | — |
+
+Minden válasznak **el kell helyeznie a látogatót ezen az úton**, és ki kell
+mondania a következő lépést. A **függőségeket** is jeleznie kell: árat felmérés
+előtt, engedélyt telekadat nélkül, típusválasztást terhelés nélkül nem lehet
+— ilyenkor megmondja, mi kell előbb, és melyik lapon tájékozódhat róla. A séma
+kötelezővé teszi, hogy a felkínált továbbkérdések közül **legalább egy a
+tölcsérben előre vigyen**.
+
 ### Mikor szólal meg
 
 - **Minden hero-s lapon magától kinyílik**, amint a fejléckép fele kigördült — aki
@@ -365,6 +387,26 @@ A `<body data-kalauz-mod>` mondja meg; hiányában `kalauz`.
 | `jelentes` | `/jelentes` | a saját eredményét magyarázza, nem a webhely tartalmát keresi |
 
 Minden módnak saját belépői, súgószövege és példakérdései vannak.
+
+### Három réteg a kitalálás ellen — mind kódban
+
+A „ne találj ki semmit" utasítás önmagában egy valószínűségi modellre bízza a
+szabályt. Ezért mindhárom védelem a végpontban fut, nem a promptban:
+
+| Réteg | Mit zár ki | Hogyan |
+|---|---|---|
+| **Navigáció** | nem létező oldal, elcsúszott cím | az URL-t, a címet és a horgonyt a végpont **az indexből olvassa vissza**; ami nincs benne, kiesik |
+| **Tartalom** | forrás nélküli állítás a témáról | a kérdéshez legjobban illő **nyolc valódi szövegrész** megy a promptba, azzal, hogy azon túl ne állítson semmit |
+| **Számok** | kitalált ár, kapacitás, fogyasztás, garanciaidő | mintaillesztés a kész válaszon: ár, kW, m³/nap, mg/l, m², LE, %, garanciaév |
+
+A számőrnél a **találatok megmaradnak**, csak a mondat cserélődik — a látogató
+így nem üres kézzel marad, hanem a helyes forrásnál köt ki. Átmegy viszont a
+jogszabály- és szabványszám (147/2010, EN 12566-3), a telefonszám, a lap- és
+lépésszám: azok hivatkozások, nem műszaki ígéretek.
+
+**Ami ezek után is megmarad:** a részletekre támaszkodó, de szabadon fogalmazott
+mondat. A séma és a szűrők a hivatkozást, a számot és a forrást kötik meg — a
+stílust nem.
 
 ### Amit soha nem tesz
 
@@ -554,7 +596,7 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 | **JS** | 13 modul, összesen ~3200 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
 | **Téma** | világos/sötét, csúszkakapcsolóval a fejlécben. Első látogatáskor a rendszerbeállítás, utána a látogató választása (`localStorage`). JS nélkül világos marad, és a kapcsoló meg sem jelenik. |
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
-| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban. Tartalomindex: 118 lap, 717 szakasz (csak a `<main>`-ből). Végpont: `api/kalauz.php` |
+| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: 118 lap, 717 szakasz. **Szövegindex: 857 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` |
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
 | **Fejlécképek** | 63 kép / 116 oldal, témánként; mind a `alapkepek/` referenciáival generálva |
 
