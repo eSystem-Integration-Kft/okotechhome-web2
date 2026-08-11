@@ -151,6 +151,18 @@
      laponkénti kézi lista 119 oldalra nem volna karbantartható. */
   if (mod === 'kalauz') {
     const TEMAK = [
+      [/^\/helyzetem\/(kozcsatorna-vagy-egyedi|nincs-elerheto)/, {
+        koszon: 'Segítek tisztázni, melyik út áll nyitva.',
+        inditok: [
+          'Honnan tudom meg, elérhető-e nálam a közcsatorna?',
+          'Mi van, ha a szomszéd rá van kötve?',
+          'Milyen megoldások jöhetnek szóba nálam?',
+        ],
+        jelzes: [
+          'Tisztázta már a közcsatorna helyzetét?',
+          'Segítsek eldönteni, mi a következő lépés?',
+        ],
+      }],
       [/^\/helyzetem/, {
         koszon: 'Segítek eldönteni, mi legyen a következő lépés.',
         inditok: [
@@ -161,6 +173,18 @@
         jelzes: [
           'Melyik lépésnél tart most?',
           'Segítsek megtalálni a helyzetéhez illő utat?',
+        ],
+      }],
+      [/^\/megoldasok\/ab-clear/, {
+        koszon: 'Kérdezzen bátran a termékcsaládról.',
+        inditok: [
+          'Melyik modell illik az én terhelésemhez?',
+          'Milyen dokumentációt kapok a berendezéshez?',
+          'Mit jelent az iszapzsákos megoldás a gyakorlatban?',
+        ],
+        jelzes: [
+          'Segítsek eldönteni, melyik kapacitás illik Önhöz?',
+          'Kérdése van a garanciáról vagy a dokumentumokról?',
         ],
       }],
       [/^\/megoldasok/, {

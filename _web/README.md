@@ -375,9 +375,34 @@ Minden módnak saját belépői, súgószövege és példakérdései vannak.
   és konzultáció kérdései — oda irányít.
 - **Nem beszél magáról mint gépről**, és nem magyarázza a saját működését.
 
+### Amit a webhely szándékosan nem közöl — és Öko sem adhat ki
+
+A lapokon több adat **azért nincs kiírva, mert még nincs ellenőrzött forrásból
+megerősítve** (lásd az `ADATHIÁNY` jegyzeteket a HTML-ben). Ha ezeket a
+rendszerprompt nem sorolná fel tételesen, a modell a saját általános tudásából
+pótolná őket — és a látogató a cég állításának hinné. A tiltólista ezért a
+prompt része:
+
+| Nem adható ki | Amit helyette mond |
+|---|---|
+| Modellenkénti fogyasztás, kapacitás, méret, befolyási szint | mi dönti el, és hol kapja meg |
+| Garanciaidő | az elv: nem az évszám, hanem a terjedelem, a kizárások és az üzembe helyezés feltételei; a konkrét szöveg az ajánlatban |
+| Karbantartási és ürítési gyakoriságok, alkatrész-élettartam | hogy ezek dokumentumfüggők |
+| Telepítésszám, piacvezetőség | melyik bizonyíték mit igazol |
+| Mért kibocsátási értékek (KOI, BOI₅…) | mit *jelentenek* a paraméterek |
+| Ár, ársáv, határidő | a felmérés mint előfeltétel |
+
+A szabály nem tiltás-lista, hanem viselkedés: **nem kitérés és nem találgatás**
+— Öko megmondja, *mi dönti el* az értéket, és hol jut hozzá a látogató.
+
+Ugyanide tartozik a **jogi kapu**: a 147/2010. Korm. rendelet két feltétele
+(műszaki elérhetőség + tisztítótelepi kapacitás) a promptban is szerepel, mert
+ez a technológiaválasztás *előtti* kérdés — ha mindkettő teljesül, Ökónak a
+rákötést kell mondania, akkor is, ha az nem vezet vásárláshoz.
+
 ### A tartalomindex
 
-`scripts/kalauz-index.py` → `api/kalauz-index.json` (118 lap, 943 szakasz).
+`scripts/kalauz-index.py` → `api/kalauz-index.json` (118 lap, 717 szakasz).
 
 A **kiadott HTML-ből** épül, nem külön karbantartott listából: ha egy lap
 megszűnik, kiesik innen is. Lapon: útvonal, cím, meta-leírás, és a szakaszcímek a
@@ -499,7 +524,7 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 | **JS** | 13 modul, összesen ~3200 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
 | **Téma** | világos/sötét, csúszkakapcsolóval a fejlécben. Első látogatáskor a rendszerbeállítás, utána a látogató választása (`localStorage`). JS nélkül világos marad, és a kapcsoló meg sem jelenik. |
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
-| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban. Tartalomindex: 118 lap, 943 szakasz. Végpont: `api/kalauz.php` |
+| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban. Tartalomindex: 118 lap, 717 szakasz (csak a `<main>`-ből). Végpont: `api/kalauz.php` |
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
 | **Fejlécképek** | 63 kép / 116 oldal, témánként; mind a `alapkepek/` referenciáival generálva |
 
