@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -553,11 +553,10 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="mikor-eleg-a-dokumentum-es-mikor-kell-felmeres-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Mikor elég a dokumentum, és mikor kell felmérés</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="mikor-eleg-a-dokumentum-es-mikor-kell-felmeres-cim">Mikor elég a dokumentum, és mikor kell felmérés</h2>
       </header>
       <p class="type-ui-body section-lead">Ha a telek adatai — talajtípus, korábbi talajvizsgálat, a talajvíz ismert szintje, a szabad terület mérete — dokumentumból rendelkezésre állnak, sok esetben elegendő ezek megadása.</p>
       <p class="type-ui-body section-lead">Ha viszont a talaj szivárgóképessége nincs mérve, a talajvíz csak becslés, vagy a szabad terület szűkös, akkor szivárogtatási vizsgálat, illetve helyszíni felmérés szükséges. Ezt a projekt elején érdemes eldönteni — nem a kivitelezés hetében.</p>
@@ -741,9 +740,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Saját kivitelezővel is telepíthető?","acceptedAnswer":{"@type":"Answer","text":"A földmunka, az ágyazat, a visszatöltés és a csövezés végezhető saját kivitelezővel, a gyártói előírások betartásával. A rendszer méretezését — különösen a tisztítómezőt — viszont érdemes ránk bízni, mert ott a hibának hosszú távú következménye van."}},
-      {"@type":"Question","name":"Kell hozzá engedély?","acceptedAnswer":{"@type":"Answer","text":"Ez projekt- és helyszínfüggő, és az eljárási szabályok időről időre változnak. A projekt-előkészítés szakasz foglalkozik ezzel, aktuális forrásokkal."}},
-      {"@type":"Question","name":"Mennyi idő a telepítés?","acceptedAnswer":{"@type":"Answer","text":"A tartály elhelyezése önmagában rövid folyamat. A teljes kivitelezés — a tisztítómezővel együtt — jellemzően több nap, és erősen függ a mező méretétől és a talajviszonyoktól."}}
+        {
+          "@type": "Question",
+          "name": "Saját kivitelezővel is telepíthető?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A földmunka, az ágyazat, a visszatöltés és a csövezés végezhető saját kivitelezővel, a gyártói előírások betartásával. A rendszer méretezését — különösen a tisztítómezőt — viszont érdemes ránk bízni, mert ott a hibának hosszú távú következménye van."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kell hozzá engedély?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ez projekt- és helyszínfüggő, és az eljárási szabályok időről időre változnak. A projekt-előkészítés szakasz foglalkozik ezzel, aktuális forrásokkal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi idő a telepítés?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A tartály elhelyezése önmagában rövid folyamat. A teljes kivitelezés — a tisztítómezővel együtt — jellemzően több nap, és erősen függ a mező méretétől és a talajviszonyoktól."
+          }
+        }
       ]
     }
   ]

@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="a-reaktor-csak-egy-elem-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A reaktor csak egy elem</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="a-reaktor-csak-egy-elem-cim">A reaktor csak egy elem</h2>
       </header>
       <p class="type-ui-body section-lead">Nagyobb vagy összetettebb projektben a biológiai tisztítóegység <strong>előtt és után</strong> további műszaki elemekre lehet szükség a stabil működéshez. Ezek nem extrák, hanem sokszor a működés feltételei.</p>
       <p class="type-ui-body section-lead">Fontos viszont, hogy egyik sem automatikus kiegészítő. Mindegyiket a szennyvíz eredete, összetétele, hőmérséklete és terhelése alapján kell megítélni — projektadatból, nem sablonból.</p>
@@ -720,9 +719,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Minden étteremhez kell zsírfogó?","acceptedAnswer":{"@type":"Answer","text":"Nem állítjuk általánosan. A jogszabály bizonyos tevékenységek szennyvizénél előtisztítást ír elő, és a nagy konyhai zsírterhelés valóban jellemző ok — de hogy az adott üzemben szükséges-e és milyen méretben, azt a konyha működéséből és a mérési adatokból kell levezetni."}},
-      {"@type":"Question","name":"Mi az a kiegyenlítő tér?","acceptedAnswer":{"@type":"Answer","text":"Egy pufferként működő térfogat a biológiai fokozat előtt. Ha rövid idő alatt nagy vízmennyiség érkezik — például egy rendezvény után —, ez elosztja időben, így a biológia nem kap hirtelen sokkot."}},
-      {"@type":"Question","name":"Utólag beépíthető egy kiegészítő?","acceptedAnswer":{"@type":"Answer","text":"Sok esetben igen, de jellemzően drágábban és nehezebben, mint a tervezéskor. Különösen igaz ez a mintavételi pontra és a kiegyenlítő térre — ezeket érdemes az első körben megtervezni."}}
+        {
+          "@type": "Question",
+          "name": "Minden étteremhez kell zsírfogó?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem állítjuk általánosan. A jogszabály bizonyos tevékenységek szennyvizénél előtisztítást ír elő, és a nagy konyhai zsírterhelés valóban jellemző ok — de hogy az adott üzemben szükséges-e és milyen méretben, azt a konyha működéséből és a mérési adatokból kell levezetni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi az a kiegyenlítő tér?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Egy pufferként működő térfogat a biológiai fokozat előtt. Ha rövid idő alatt nagy vízmennyiség érkezik — például egy rendezvény után —, ez elosztja időben, így a biológia nem kap hirtelen sokkot."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Utólag beépíthető egy kiegészítő?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sok esetben igen, de jellemzően drágábban és nehezebben, mint a tervezéskor. Különösen igaz ez a mintavételi pontra és a kiegyenlítő térre — ezeket érdemes az első körben megtervezni."
+          }
+        }
       ]
     }
   ]

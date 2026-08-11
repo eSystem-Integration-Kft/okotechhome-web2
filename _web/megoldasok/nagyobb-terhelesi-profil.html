@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -711,9 +711,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Nincs vízfogyasztási adatunk, még nem épült meg a létesítmény.","acceptedAnswer":{"@type":"Answer","text":"Új létesítménynél becslés szükséges: a tervezett kapacitásból, a működési rendből és hasonló üzemek adataiból. Ilyenkor a bizonytalanságot külön jelöljük, és a tervezésbe nagyobb tartalékot kell beépíteni."}},
-      {"@type":"Question","name":"Kell laborvizsgálat?","acceptedAnswer":{"@type":"Answer","text":"Tisztán kommunális terhelésnél jellemzően nem előfeltétel. Nagykonyhánál, jelentős zsírterhelésnél és minden technológiai eredetű szennyvíznél viszont igen — enélkül a méretezés feltételezésen alapulna."}},
-      {"@type":"Question","name":"Mi az a terhelési görbe?","acceptedAnswer":{"@type":"Answer","text":"A terhelés időbeli lefutása: hogyan változik a napi vízmennyiség a hét, a hónap és az év során. Ebből látszik, mekkora a szórás az átlag körül — és éppen ez határozza meg, mekkora tartalék kell."}}
+        {
+          "@type": "Question",
+          "name": "Nincs vízfogyasztási adatunk, még nem épült meg a létesítmény.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Új létesítménynél becslés szükséges: a tervezett kapacitásból, a működési rendből és hasonló üzemek adataiból. Ilyenkor a bizonytalanságot külön jelöljük, és a tervezésbe nagyobb tartalékot kell beépíteni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kell laborvizsgálat?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tisztán kommunális terhelésnél jellemzően nem előfeltétel. Nagykonyhánál, jelentős zsírterhelésnél és minden technológiai eredetű szennyvíznél viszont igen — enélkül a méretezés feltételezésen alapulna."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi az a terhelési görbe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A terhelés időbeli lefutása: hogyan változik a napi vízmennyiség a hét, a hónap és az év során. Ebből látszik, mekkora a szórás az átlag körül — és éppen ez határozza meg, mekkora tartalék kell."
+          }
+        }
       ]
     }
   ]

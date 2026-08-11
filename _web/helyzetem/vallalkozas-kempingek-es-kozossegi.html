@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="a-legszelsosegesebb-terheles-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A legszélsőségesebb terhelés</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="a-legszelsosegesebb-terheles-cim">A legszélsőségesebb terhelés</h2>
       </header>
       <p class="type-ui-body section-lead">Kempingeknél és közösségi rendszereknél a terhelés gyakran sokkal szélsőségesebben változik, mint egy állandó lakóingatlanban: hosszú alacsony kihasználtság, majd rövid idő alatt teljes kapacitás.</p>
       <p class="type-ui-body section-lead">Ezért a tervezéshez nem a maximális személyszám kell, hanem a <strong>szezonális kihasználtsági görbe</strong>, a napi csúcsok, a vizesblokkok száma, az esetleges vendéglátás — és az, hogy több épületből vagy közös gyűjtőrendszerből érkezik-e a szennyvíz.</p>
@@ -709,10 +708,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"A maximális kapacitásra kell méretezni?","acceptedAnswer":{"@type":"Answer","text":"Nem feltétlenül — de a szezonális csúcsot nem lehet figyelmen kívül hagyni. A helyes megközelítés a szezonális görbéből indul: mennyi ideig tart a csúcs, milyen gyakran, és mekkora az alatta lévő átlag."}},
-      {"@type":"Question","name":"Több épületből érkezik a szennyvíz.","acceptedAnswer":{"@type":"Answer","text":"Ilyenkor a belső gyűjtőhálózat kialakítása önálló tervezési feladat, és a rendszerforma is kérdés: egy központi telep vagy több elosztott egység. Ez a projekt egyik korai döntése."}},
-      {"@type":"Question","name":"Ki lesz a felelős egy közös rendszernél?","acceptedAnswer":{"@type":"Answer","text":"Ezt a tulajdonosi körnek kell eldöntenie, és érdemes írásban rögzíteni: ki üzemeltet, ki vezeti a dokumentációt, és hogyan oszlik meg a költség. Sok közösségi projekt nem műszaki, hanem éppen ezen a ponton akad el."}},
-      {"@type":"Question","name":"Télen nem üzemelünk. Mi legyen a rendszerrel?","acceptedAnswer":{"@type":"Answer","text":"Ez tervezett szezonzárási és -nyitási eljárást igényel. A pontos lépések technológiafüggők — és éppen ezért a szezonalitás a technológiaválasztás egyik bemenete, nem utólagos kérdés."}}
+        {
+          "@type": "Question",
+          "name": "A maximális kapacitásra kell méretezni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem feltétlenül — de a szezonális csúcsot nem lehet figyelmen kívül hagyni. A helyes megközelítés a szezonális görbéből indul: mennyi ideig tart a csúcs, milyen gyakran, és mekkora az alatta lévő átlag."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Több épületből érkezik a szennyvíz.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ilyenkor a belső gyűjtőhálózat kialakítása önálló tervezési feladat, és a rendszerforma is kérdés: egy központi telep vagy több elosztott egység. Ez a projekt egyik korai döntése."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ki lesz a felelős egy közös rendszernél?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ezt a tulajdonosi körnek kell eldöntenie, és érdemes írásban rögzíteni: ki üzemeltet, ki vezeti a dokumentációt, és hogyan oszlik meg a költség. Sok közösségi projekt nem műszaki, hanem éppen ezen a ponton akad el."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Télen nem üzemelünk. Mi legyen a rendszerrel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ez tervezett szezonzárási és -nyitási eljárást igényel. A pontos lépések technológiafüggők — és éppen ezért a szezonalitás a technológiaválasztás egyik bemenete, nem utólagos kérdés."
+          }
+        }
       ]
     }
   ]

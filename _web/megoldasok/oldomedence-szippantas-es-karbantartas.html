@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="arammentes-karbantartasmentes-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Árammentes ≠ karbantartásmentes</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="arammentes-karbantartasmentes-cim">Árammentes ≠ karbantartásmentes</h2>
       </header>
       <p class="type-ui-body section-lead">Az, hogy a rendszer nem igényel villamos energiát, nem jelenti azt, hogy nem igényel figyelmet. Az oldómedencében felhalmozódó fenékiszapot és úszó réteget időszakosan el kell távolítani, a szűrő és a tisztítómező állapotát pedig ellenőrizni kell.</p>
       <p class="type-ui-body section-lead">Ehhez jön a <strong>baktériumadalék</strong> rendszeres adagolása, ami lényeges különbség az aktív biológiai rendszerhez képest — ott a kultúra önfenntartó. Ez visszatérő feladat és fogyóeszköz-költség.</p>
@@ -719,10 +718,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Milyen gyakran kell szippantani?","acceptedAnswer":{"@type":"Answer","text":"Erre most nem adunk számot, mert két saját forrásunk eltérően fogalmaz, és ezt gyártói útmutató és valós üzemeltetési adat alapján kell rendezni. Ami biztos: az iszapszint a mérvadó, nem a naptár, és a gyakoriságot a tartály mérete és a használat intenzitása határozza meg."}},
-      {"@type":"Question","name":"Mennyibe kerül a szippantás?","acceptedAnswer":{"@type":"Answer","text":"Konkrét összeget nem közlünk: a szippantási díjak helyenként és időben is eltérnek. Ami tervezhető: hogy ez visszatérő üzemeltetési költség, és a ritkábban használt ingatlanoknál lényegesen kevesebbszer jelentkezik."}},
-      {"@type":"Question","name":"Tényleg kell baktériumadalék?","acceptedAnswer":{"@type":"Answer","text":"A jelenlegi tájékoztatásunk rendszeres adagolást javasol, hosszabb kihagyás után ismételt frissítést. Ezt a berendezéshez tartozó gyártói útmutató rögzíti pontosan — a konkrét terméknél ezt kérje el."}},
-      {"@type":"Question","name":"Mit tegyek, ha szagot érzek?","acceptedAnswer":{"@type":"Answer","text":"Először ellenőrizze a szellőzést és a szűrőt. Ha a szag tartós, vagy a mező fölött nedvesedés is van, az telítődésre utalhat — ilyenkor érdemes szakemberrel megnézetni, mielőtt a mező tartósan károsodik."}}
+        {
+          "@type": "Question",
+          "name": "Milyen gyakran kell szippantani?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Erre most nem adunk számot, mert két saját forrásunk eltérően fogalmaz, és ezt gyártói útmutató és valós üzemeltetési adat alapján kell rendezni. Ami biztos: az iszapszint a mérvadó, nem a naptár, és a gyakoriságot a tartály mérete és a használat intenzitása határozza meg."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyibe kerül a szippantás?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Konkrét összeget nem közlünk: a szippantási díjak helyenként és időben is eltérnek. Ami tervezhető: hogy ez visszatérő üzemeltetési költség, és a ritkábban használt ingatlanoknál lényegesen kevesebbszer jelentkezik."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Tényleg kell baktériumadalék?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A jelenlegi tájékoztatásunk rendszeres adagolást javasol, hosszabb kihagyás után ismételt frissítést. Ezt a berendezéshez tartozó gyártói útmutató rögzíti pontosan — a konkrét terméknél ezt kérje el."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mit tegyek, ha szagot érzek?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Először ellenőrizze a szellőzést és a szűrőt. Ha a szag tartós, vagy a mező fölött nedvesedés is van, az telítődésre utalhat — ilyenkor érdemes szakemberrel megnézetni, mielőtt a mező tartósan károsodik."
+          }
+        }
       ]
     }
   ]

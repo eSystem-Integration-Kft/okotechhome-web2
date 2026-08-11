@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -508,11 +508,10 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="mikor-mit-erdemes-megnezni-helyette-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Mikor mit érdemes megnézni helyette</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="mikor-mit-erdemes-megnezni-helyette-cim">Mikor mit érdemes megnézni helyette</h2>
       </header>
       <p class="type-ui-body section-lead">Ha a probléma a <strong>hosszú kihagyás</strong> vagy a hiányzó áramellátás, az oldómedencés rendszer jöhet szóba: passzív működésű, nem igényel villamos energiát, és a szakaszos használatot jobban tűri. Cserébe nagyobb területet kér, mert a tisztítás jelentős része a talajban folyik.</p>
       <p class="type-ui-body section-lead">Ha a probléma a <strong>vízelhelyezés</strong>, akkor a technológiaváltás önmagában nem segít — az oldómedence még nagyobb felületet igényel. Ilyenkor a zárt tároló vagy más elhelyezési irány vizsgálata következik.</p>
@@ -697,9 +696,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Nyaralóba tényleg nem való?","acceptedAnswer":{"@type":"Answer","text":"Nem ilyen egyszerű. A rendszeresen — például minden hétvégén — használt ingatlan kezelhető. A csak nyáron használt, télen több hónapra elhagyott ingatlan viszont külön leállítási eljárást igényel, és ott érdemes a passzív rendszert is megvizsgálni."}},
-      {"@type":"Question","name":"Használhatok egyáltalán tisztítószert?","acceptedAnswer":{"@type":"Answer","text":"Igen, a szokásos háztartási mennyiségben. Amit kerülni kell: a nagy mennyiségű klóros és erősen fertőtlenítő szer, a savas lefolyótisztító és a sütőolaj lefolyóba öntése. Ez nem szigorúbb, mint amit a legtöbb háztartás egyébként is meg tud tenni."}},
-      {"@type":"Question","name":"Ha most nem megfelelő, később lehet az?","acceptedAnswer":{"@type":"Answer","text":"Igen, több feltételes eset megoldható. A vízelhelyezés kialakítható, az áramellátás kiépíthető, a nagykonyhai terhelés előkezeléssel kezelhető. Ezért különítjük el a feltételes és az abszolút kizárást — a kettő nem ugyanaz."}}
+        {
+          "@type": "Question",
+          "name": "Nyaralóba tényleg nem való?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem ilyen egyszerű. A rendszeresen — például minden hétvégén — használt ingatlan kezelhető. A csak nyáron használt, télen több hónapra elhagyott ingatlan viszont külön leállítási eljárást igényel, és ott érdemes a passzív rendszert is megvizsgálni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Használhatok egyáltalán tisztítószert?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen, a szokásos háztartási mennyiségben. Amit kerülni kell: a nagy mennyiségű klóros és erősen fertőtlenítő szer, a savas lefolyótisztító és a sütőolaj lefolyóba öntése. Ez nem szigorúbb, mint amit a legtöbb háztartás egyébként is meg tud tenni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ha most nem megfelelő, később lehet az?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen, több feltételes eset megoldható. A vízelhelyezés kialakítható, az áramellátás kiépíthető, a nagykonyhai terhelés előkezeléssel kezelhető. Ezért különítjük el a feltételes és az abszolút kizárást — a kettő nem ugyanaz."
+          }
+        }
       ]
     }
   ]

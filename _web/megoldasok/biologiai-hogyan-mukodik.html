@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -509,11 +509,39 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="mit-jelentenek-a-parameterek-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Automatika nem egyenlő felügyelet nélküli működés</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <p class="type-data-eyebrow section-eyebrow">A mérőszámok</p>
+        <h2 class="type-display-section-title section-title" id="mit-jelentenek-a-parameterek-cim">Mit jelentenek a vízminőségi paraméterek?</h2>
+        <p class="type-ui-body section-lead">A folyamat végén <strong>tisztított víz</strong> távozik. A szóhasználat itt fontos: nem általános értelemben vett „tiszta vízről”, és <strong>különösen nem ivóvízről</strong> beszélünk. Hogy mennyire tiszta, azt nem a szemünk dönti el, hanem mért paraméterek.</p>
+      </header>
+      <dl class="fogalomtar">
+        <div class="fogalom">
+          <dt class="type-ui-subtitle fogalom-nev">KOI — kémiai oxigénigény</dt>
+          <dd class="type-ui-body fogalom-leiras">Leegyszerűsítve azt mutatja meg számszerűen, mennyi <strong>oxigénigényt jelentő szennyezőanyag-terhelés</strong> marad a vízben. Minél kisebb, annál kevesebb lebontható szennyeződés maradt benne.</dd>
+        </div>
+        <div class="fogalom">
+          <dt class="type-ui-subtitle fogalom-nev">BOI₅ — biokémiai oxigénigény</dt>
+          <dd class="type-ui-body fogalom-leiras">Ugyanezt a terhelést méri, de a <strong>biológiailag lebontható</strong> részére szűkítve, öt nap alatt. A kettő együtt mutatja meg, mit végzett el a biológia, és mi maradt utána.</dd>
+        </div>
+        <div class="fogalom">
+          <dt class="type-ui-subtitle fogalom-nev">Lebegőanyag</dt>
+          <dd class="type-ui-body fogalom-leiras">Azt mutatja meg, mennyi <strong>szilárd, lebegő anyag</strong> maradt a vízben — vagyis mennyire vált szét az eleveniszap és a víz az ülepítés során.</dd>
+        </div>
+        <div class="fogalom">
+          <dt class="type-ui-subtitle fogalom-nev">Nitrogén és foszfor</dt>
+          <dd class="type-ui-body fogalom-leiras">Tápanyagok, amelyek a befogadót terhelik. A vizsgálatok ezekre is kiterjedhetnek; hogy melyik számít az adott projektnél, azt a kezelt víz elhelyezésének módja dönti el.</dd>
+        </div>
+      </dl>
+      <p class="type-ui-body">Ez sokkal többet mond annál, hogy a kifolyó víz <em>szemre</em> átlátszónak tűnik. A konkrét kibocsátási értékeket a mérési körülményekkel együtt érdemes olvasni — azokat a berendezés műszaki lapja tartalmazza: <a class="szoveg-link" href="ab-clear-muszaki-adatok">A.B.Clear műszaki adatok</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="automatika-nem-egyenlo-felugyelet-nelkuli-mukodes-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <h2 class="type-display-section-title section-title" id="automatika-nem-egyenlo-felugyelet-nelkuli-mukodes-cim">Automatika nem egyenlő felügyelet nélküli működés</h2>
       </header>
       <p class="type-ui-body section-lead">A berendezés vezérlése önműködő: a levegőztetési ciklusokat, az iszap visszavezetését és a fázisváltásokat automatika kezeli. Ettől viszont a rendszer még nem működik magától a végtelenségig.</p>
       <p class="type-ui-body section-lead">A használati utasítás rendszeres feladatokat ír elő: a levegőztetés ellenőrzését, az eleveniszap állapotának vizsgálatát, a kompresszor ellenőrzését, üzemeltetési napló vezetését és időszakos karbantartást. Ezek nem opcionálisak, és nem szerviz-feladatok — jelentős részük a tulajdonosé.</p>
@@ -698,9 +726,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Mennyi idő, míg beindul a tisztítás?","acceptedAnswer":{"@type":"Answer","text":"A baktériumközösség kialakulása időt vesz igénybe — a beüzemelés után nem az első naptól éri el a rendszer a szokásos kilépővíz-minőséget. A pontos időtartam a terheléstől és a hőmérséklettől függ, ezért ezt a beüzemelési dokumentáció rögzíti."}},
-      {"@type":"Question","name":"Mi az az iszappróba?","acceptedAnswer":{"@type":"Answer","text":"Egy egyszerű ülepedési vizsgálat: mérőhengerbe vett mintában megnézzük, mennyi idő alatt és milyen arányban ülepszik le az iszap. Ez mutatja meg az eleveniszap állapotát — tulajdonosi feladat, és néhány perc."}},
-      {"@type":"Question","name":"Télen is működik?","acceptedAnswer":{"@type":"Answer","text":"Igen. A berendezés a talajban van, ami hőmérsékleti szempontból kedvező, és a biológiai folyamat hőt is termel. A hidegebb időszakban a folyamat lassul, de nem áll le — feltéve, hogy a terhelés folyamatos."}}
+        {
+          "@type": "Question",
+          "name": "Mennyi idő, míg beindul a tisztítás?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A baktériumközösség kialakulása időt vesz igénybe — a beüzemelés után nem az első naptól éri el a rendszer a szokásos kilépővíz-minőséget. A pontos időtartam a terheléstől és a hőmérséklettől függ, ezért ezt a beüzemelési dokumentáció rögzíti."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi az az iszappróba?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Egy egyszerű ülepedési vizsgálat: mérőhengerbe vett mintában megnézzük, mennyi idő alatt és milyen arányban ülepszik le az iszap. Ez mutatja meg az eleveniszap állapotát — tulajdonosi feladat, és néhány perc."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Télen is működik?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. A berendezés a talajban van, ami hőmérsékleti szempontból kedvező, és a biológiai folyamat hőt is termel. A hidegebb időszakban a folyamat lassul, de nem áll le — feltéve, hogy a terhelés folyamatos."
+          }
+        }
       ]
     }
   ]

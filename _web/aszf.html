@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=132">
+<link rel="stylesheet" href="assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -636,11 +636,10 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="zaro-rendelkezesek-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Záró rendelkezések</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="zaro-rendelkezesek-cim">Záró rendelkezések</h2>
       </header>
       <div class="jogi-szoveg">
         <p class="type-ui-body">Az ÁSZF valamely rendelkezésének érvénytelensége a többi rendelkezés érvényességét nem érinti. Az itt nem szabályozott kérdésekben a magyar jog — különösen a Polgári Törvénykönyvről szóló 2013. évi V. törvény és a 45/2014. (II. 26.) Korm. rendelet — az irányadó.</p>
@@ -810,10 +809,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Ez a webhely webáruház?","acceptedAnswer":{"@type":"Answer","text":"Nem. Itt ajánlatot kérhet, de közvetlenül nem vásárolhat. A szerződés az ajánlat elfogadásával, külön jön létre — ezért az ÁSZF is elsősorban az adásvételi és szolgáltatási szerződésre vonatkozik."}},
-      {"@type":"Question","name":"Meddig érvényes az ajánlatuk?","acceptedAnswer":{"@type":"Answer","text":"Az ajánlat megküldésétől számított 48 óráig. Ez rövidnek tűnhet, de az ajánlat összeállításához használt árak és kapacitások ennyi ideig tarthatók. Ha több időre van szüksége, jelezze — jellemzően meg tudjuk hosszabbítani."}},
-      {"@type":"Question","name":"Mennyi a jótállás?","acceptedAnswer":{"@type":"Answer","text":"Fogyasztói szerződés esetén egy év az átadástól vagy a telepítéstől. A kellékszavatossági igény ettől függetlenül két évig érvényesíthető. A jótállás feltétele a dokumentált, rendeltetésszerű használat és karbantartás."}},
-      {"@type":"Question","name":"A baktériumkultúrára is jár jótállás?","acceptedAnswer":{"@type":"Answer","text":"Nem. A baktériumkultúra állapotát érdemben befolyásolja, hogy milyen anyagok kerülnek a rendszerbe — ez a használat során a Megrendelő ellenőrzése alatt áll. Ezért erre a jótállás nem terjed ki. Az üzemeltetési oldalon részletesen leírjuk, mit nem szabad a rendszerbe juttatni."}}
+        {
+          "@type": "Question",
+          "name": "Ez a webhely webáruház?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem. Itt ajánlatot kérhet, de közvetlenül nem vásárolhat. A szerződés az ajánlat elfogadásával, külön jön létre — ezért az ÁSZF is elsősorban az adásvételi és szolgáltatási szerződésre vonatkozik."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Meddig érvényes az ajánlatuk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Az ajánlat megküldésétől számított 48 óráig. Ez rövidnek tűnhet, de az ajánlat összeállításához használt árak és kapacitások ennyi ideig tarthatók. Ha több időre van szüksége, jelezze — jellemzően meg tudjuk hosszabbítani."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi a jótállás?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fogyasztói szerződés esetén egy év az átadástól vagy a telepítéstől. A kellékszavatossági igény ettől függetlenül két évig érvényesíthető. A jótállás feltétele a dokumentált, rendeltetésszerű használat és karbantartás."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "A baktériumkultúrára is jár jótállás?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem. A baktériumkultúra állapotát érdemben befolyásolja, hogy milyen anyagok kerülnek a rendszerbe — ez a használat során a Megrendelő ellenőrzése alatt áll. Ezért erre a jótállás nem terjed ki. Az üzemeltetési oldalon részletesen leírjuk, mit nem szabad a rendszerbe juttatni."
+          }
+        }
       ]
     }
   ]

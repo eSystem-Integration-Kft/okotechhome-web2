@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="a-ferohely-nem-terheles-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A férőhely nem terhelés</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="a-ferohely-nem-terheles-cim">A férőhely nem terhelés</h2>
       </header>
       <p class="type-ui-body section-lead">Egy húszférőhelyes panzió nem azonos terhelési helyzet akkor, ha folyamatosan 70–80%-os kihasználtsággal működik, és akkor, ha csak nyári hétvégéken telik meg.</p>
       <p class="type-ui-body section-lead">A terhelés meghatározásához a férőhely mellett szükséges a valós vagy tervezett <strong>kihasználtság</strong>, az éves nyitvatartás, a csúcsszezon hossza, a rövid idejű teljes telítettség, és lehetőség szerint a <strong>tényleges vízfogyasztási adat</strong>.</p>
@@ -713,10 +712,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Húsz férőhelyes a panzióm. Húsz fős rendszer kell?","acceptedAnswer":{"@type":"Answer","text":"Valószínűleg nem. A férőhely a maximumot mutatja, a méretezés viszont az átlagos kihasználtságból és a rendszeres csúcsokból indul. Adja meg az éves kihasználtságot és a csúcshétvégék számát — abból lényegesen pontosabb kép áll össze."}},
-      {"@type":"Question","name":"Rendezvényeket is tartunk.","acceptedAnswer":{"@type":"Answer","text":"A rendezvény rövid, nagyon nagy csúcs, amit jellemzően nem érdemes a berendezés méretével kezelni — az az év többi napján túlméretezést jelentene. Adja meg a gyakoriságot és a nagyságrendet, és megnézzük, mi a helyes megközelítés."}},
-      {"@type":"Question","name":"Van medencénk. Az beleszámít?","acceptedAnswer":{"@type":"Answer","text":"A medence feltöltése és a víz cseréje nagy, egyszeri vízmennyiség — ezt külön kell jelezni, mert ha a szennyvízrendszerbe kerül, hidraulikai sokkot okozhat. Sok esetben megoldható a külön kezelése."}},
-      {"@type":"Question","name":"Szezonálisan üzemelünk. Melyik technológia jobb?","acceptedAnswer":{"@type":"Answer","text":"Ez éppen az a helyzet, ahol a technológiaválasztás is kérdés, nem csak a méret. Adja meg a nyitvatartási hónapokat és a leghosszabb szünetet — ebből derül ki, hogy az aktív rendszer külön üzemmóddal, vagy a passzív megoldás a relevánsabb."}}
+        {
+          "@type": "Question",
+          "name": "Húsz férőhelyes a panzióm. Húsz fős rendszer kell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Valószínűleg nem. A férőhely a maximumot mutatja, a méretezés viszont az átlagos kihasználtságból és a rendszeres csúcsokból indul. Adja meg az éves kihasználtságot és a csúcshétvégék számát — abból lényegesen pontosabb kép áll össze."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Rendezvényeket is tartunk.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A rendezvény rövid, nagyon nagy csúcs, amit jellemzően nem érdemes a berendezés méretével kezelni — az az év többi napján túlméretezést jelentene. Adja meg a gyakoriságot és a nagyságrendet, és megnézzük, mi a helyes megközelítés."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Van medencénk. Az beleszámít?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A medence feltöltése és a víz cseréje nagy, egyszeri vízmennyiség — ezt külön kell jelezni, mert ha a szennyvízrendszerbe kerül, hidraulikai sokkot okozhat. Sok esetben megoldható a külön kezelése."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Szezonálisan üzemelünk. Melyik technológia jobb?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ez éppen az a helyzet, ahol a technológiaválasztás is kérdés, nem csak a méret. Adja meg a nyitvatartási hónapokat és a leghosszabb szünetet — ebből derül ki, hogy az aktív rendszer külön üzemmóddal, vagy a passzív megoldás a relevánsabb."
+          }
+        }
       ]
     }
   ]

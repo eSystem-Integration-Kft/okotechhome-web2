@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="az-atadas-nem-a-veg-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Az átadás nem a vég</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="az-atadas-nem-a-veg-cim">Az átadás nem a vég</h2>
       </header>
       <p class="type-ui-body section-lead">Nagyobb szennyvíztisztító telepnél az átadás nem a projekt vége, hanem egy <strong>szabályozott üzemeltetési folyamat kezdete</strong>. Ezt már az ajánlat előtt tisztázni kell, mert a technológia kiválasztását is befolyásolja.</p>
       <p class="type-ui-body section-lead">Meg kell nevezni a felelős üzemeltetőt, az ellenőrzések gyakoriságát, az üzemnapló tartalmát, a mintavételi és laborfeladatokat, a riasztások kezelését és a szerviz reakcióidejét.</p>
@@ -740,10 +739,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Kell hozzá szakképzett üzemeltető?","acceptedAnswer":{"@type":"Answer","text":"A követelmény projektfüggő, és az engedély is meghatározhatja. Ami biztos: nevesített felelős kell, betanítással, és a feladat nem melléktevékenység. A pontos kompetenciaszintet a konkrét projektnél egyeztetjük."}},
-      {"@type":"Question","name":"Van távfelügyelet?","acceptedAnswer":{"@type":"Answer","text":"A vezérlés képességeit és a távfelügyeleti lehetőséget jelenleg dokumentáljuk. A konkrét projektnél megmondjuk, mi érhető el — inkább pontosan, mint általánosságban."}},
-      {"@type":"Question","name":"Mennyi idő alatt jön ki a szerviz?","acceptedAnswer":{"@type":"Answer","text":"Konkrét reakcióidőt itt nem ígérünk, mert ez szerződéses kérdés, és a konstrukciótól függ. Nagyobb rendszernél viszont éppen ezt érdemes az ajánlatban rögzíteni — kérdezze meg, és megállapodunk benne."}},
-      {"@type":"Question","name":"Mi történik, ha eltér a kibocsátási határértéktől?","acceptedAnswer":{"@type":"Answer","text":"Ilyenkor okfeltárás következik: terhelés, előkezelés, biológia állapota, üzemeltetési eltérés. A hatósági következményeket az engedély és a jogszabály határozza meg — ezért fontos, hogy az önellenőrzés időben jelezze az eltérést."}}
+        {
+          "@type": "Question",
+          "name": "Kell hozzá szakképzett üzemeltető?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A követelmény projektfüggő, és az engedély is meghatározhatja. Ami biztos: nevesített felelős kell, betanítással, és a feladat nem melléktevékenység. A pontos kompetenciaszintet a konkrét projektnél egyeztetjük."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Van távfelügyelet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A vezérlés képességeit és a távfelügyeleti lehetőséget jelenleg dokumentáljuk. A konkrét projektnél megmondjuk, mi érhető el — inkább pontosan, mint általánosságban."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi idő alatt jön ki a szerviz?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Konkrét reakcióidőt itt nem ígérünk, mert ez szerződéses kérdés, és a konstrukciótól függ. Nagyobb rendszernél viszont éppen ezt érdemes az ajánlatban rögzíteni — kérdezze meg, és megállapodunk benne."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi történik, ha eltér a kibocsátási határértéktől?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ilyenkor okfeltárás következik: terhelés, előkezelés, biológia állapota, üzemeltetési eltérés. A hatósági következményeket az engedély és a jogszabály határozza meg — ezért fontos, hogy az önellenőrzés időben jelezze az eltérést."
+          }
+        }
       ]
     }
   ]

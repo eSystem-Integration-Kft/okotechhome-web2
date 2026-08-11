@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="mit-keresunk-egy-nagyprojektes-referenciaban-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Mit keresünk egy nagyprojektes referenciában</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="mit-keresunk-egy-nagyprojektes-referenciaban-cim">Mit keresünk egy nagyprojektes referenciában</h2>
       </header>
       <p class="type-ui-body section-lead">Ez az oldal kizárólag intézményi, közösségi vagy nagyobb kapacitású rendszereket mutat — nem keveredik össze a családi házas referenciákkal, mert azok más kérdésre válaszolnak.</p>
       <p class="type-ui-body section-lead">A telepítési fotón túl az számít, hogy a projekt <strong>hogyan jutott el az adatoktól a működő telepig</strong>: milyen terhelésre tervezték, mi lett a valós működési profil, hogyan oldották meg a vízelhelyezést, mi került a biológiai fokozat elé, és ki üzemelteti.</p>
@@ -737,8 +736,22 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Meglátogatható egy működő telep?","acceptedAnswer":{"@type":"Answer","text":"Az üzemeltető hozzájárulásán múlik, de intézményi és települési projekteknél több esetben megoldható. Kérdezze meg — egy működő telep megnézése többet mond, mint bármelyik dokumentum."}},
-      {"@type":"Question","name":"Van iparági referenciájuk?","acceptedAnswer":{"@type":"Answer","text":"Írja meg, melyik iparágról van szó, és megnézzük, van-e összevethető projektünk laboreredménnyel együtt. Ha nincs, azt megmondjuk — és akkor a projekt megvalósíthatósági vizsgálattal indul, nem referenciával."}}
+        {
+          "@type": "Question",
+          "name": "Meglátogatható egy működő telep?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Az üzemeltető hozzájárulásán múlik, de intézményi és települési projekteknél több esetben megoldható. Kérdezze meg — egy működő telep megnézése többet mond, mint bármelyik dokumentum."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Van iparági referenciájuk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Írja meg, melyik iparágról van szó, és megnézzük, van-e összevethető projektünk laboreredménnyel együtt. Ha nincs, azt megmondjuk — és akkor a projekt megvalósíthatósági vizsgálattal indul, nem referenciával."
+          }
+        }
       ]
     }
   ]

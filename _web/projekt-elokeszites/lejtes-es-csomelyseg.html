@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -501,11 +501,10 @@
   </section>
 <!-- ADATHIÁNY: a jelenlegi 30 cm-es magasító-korlát érvényessége az AKTUÁLIS A.B.Clear modellekre, valamint a modellenkénti pontos befolyási és kifolyási méretek
      Forrás: ÖkoTech műszaki dokumentáció + aktuális termékadatlapok. A megrendelőlapon szereplő szabály régebbi; modellenként ellenőrizni kell, mielőtt általános tervezési szabályként megjelenik. Addig konkrét értékkel nem publikálható. -->
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="uj-epitesnel-es-meglevo-haznal-mas-a-feladat-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Új építésnél és meglévő háznál más a feladat</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="uj-epitesnel-es-meglevo-haznal-mas-a-feladat-cim">Új építésnél és meglévő háznál más a feladat</h2>
       </header>
       <p class="type-ui-body section-lead"><strong>Új építésnél</strong> a csőkilépés helye és mélysége még befolyásolható. Ez a legolcsóbb pillanat: a gépész tervezővel egyeztetve a kilépési pont odakerülhet, ahol a berendezés is elfér, és olyan mélységbe, amely magasító és átemelő nélkül megoldható. Érdemes a szennyvízrendszert még a kiviteli terv véglegesítése előtt átbeszélni.</p>
       <p class="type-ui-body section-lead"><strong>Meglévő háznál</strong> a csőkilépés adott, tehát mérni kell. A legmegbízhatóbb, ha megbontják vagy megkeresik a meglévő aknát, és a folyásfeneket a terepszinthez viszonyítva lemérik. Ha ez nem megoldható, a helyszíni felmérés része lehet.</p>
@@ -719,10 +718,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Mi az a folyásfenék?","acceptedAnswer":{"@type":"Answer","text":"A cső belsejének legalsó pontja — ahol a víz ténylegesen folyik. A méretezéshez nem a cső teteje vagy a földfelszín számít, hanem ez. Ezért kérünk mindig folyásfenék-mélységet, terepszinthez viszonyítva."}},
-      {"@type":"Question","name":"Sík telken nincs gond a lejtéssel?","acceptedAnswer":{"@type":"Answer","text":"Nem feltétlenül. Sík terepen fordulhat elő leggyakrabban, hogy a berendezés kifolyója a szikkasztó szintje alá kerül, és emiatt szivattyú válik szükségessé. A sík terep nem azonos a problémamentes szintviszonnyal."}},
-      {"@type":"Question","name":"Mennyivel drágább az átemelős megoldás?","acceptedAnswer":{"@type":"Answer","text":"Konkrét árat itt nem adunk, mert az a berendezéstől, a szükséges emelési magasságtól és a kivitelezési körülményektől függ. Ami biztosan igaz: az átemelő beruházási költséget, áramfogyasztást és egy további karbantartandó gépészeti elemet jelent. Ezért érdemes új építésnél a szintekkel elkerülni."}},
-      {"@type":"Question","name":"Új házat tervezünk. Mikor kell ezt eldönteni?","acceptedAnswer":{"@type":"Answer","text":"A kiviteli terv véglegesítése előtt. Ekkor még szabadon megválasztható a szennyvízcső kilépési helye és mélysége, ami a legolcsóbb módja annak, hogy a rendszer magasító és átemelő nélkül működjön."}}
+        {
+          "@type": "Question",
+          "name": "Mi az a folyásfenék?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A cső belsejének legalsó pontja — ahol a víz ténylegesen folyik. A méretezéshez nem a cső teteje vagy a földfelszín számít, hanem ez. Ezért kérünk mindig folyásfenék-mélységet, terepszinthez viszonyítva."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Sík telken nincs gond a lejtéssel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem feltétlenül. Sík terepen fordulhat elő leggyakrabban, hogy a berendezés kifolyója a szikkasztó szintje alá kerül, és emiatt szivattyú válik szükségessé. A sík terep nem azonos a problémamentes szintviszonnyal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyivel drágább az átemelős megoldás?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Konkrét árat itt nem adunk, mert az a berendezéstől, a szükséges emelési magasságtól és a kivitelezési körülményektől függ. Ami biztosan igaz: az átemelő beruházási költséget, áramfogyasztást és egy további karbantartandó gépészeti elemet jelent. Ezért érdemes új építésnél a szintekkel elkerülni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Új házat tervezünk. Mikor kell ezt eldönteni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A kiviteli terv véglegesítése előtt. Ekkor még szabadon megválasztható a szennyvízcső kilépési helye és mélysége, ami a legolcsóbb módja annak, hogy a rendszer magasító és átemelő nélkül működjön."
+          }
+        }
       ]
     }
   ]

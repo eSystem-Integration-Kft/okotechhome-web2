@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -431,11 +431,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="egyetlen-forraspont-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Egyetlen forráspont</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="egyetlen-forraspont-cim">Egyetlen forráspont</h2>
       </header>
       <p class="type-ui-body section-lead">Ez az oldal az EPURECO termékcsalád műszaki adatainak egyetlen, naprakész forráspontja a webhelyünkön. Minden adat mellett szerepelnie kell a modellnek és a forrásverziónak.</p>
       <p class="type-ui-body section-lead">Az adatok elsődleges forrása a gyártó, a GRAF. Ahol az ÖkoTech saját kiegészítést vagy konfigurációt alkalmaz, azt külön jelöljük.</p>
@@ -716,8 +715,22 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Ráállhat autó a tartályra?","acceptedAnswer":{"@type":"Answer","text":"A jelenlegi tájékoztatásunk említ ilyen lehetőséget megfelelő földtakarással, de ezt az adott elosztóelem és rétegrend igazolt terhelhetőségével együtt kell megadni. Amíg ez nincs dokumentálva, nem ígérjük meg — a konkrét projektnél egyeztetve mondjuk meg."}},
-      {"@type":"Question","name":"Megkaphatom a teljesítménynyilatkozatot?","acceptedAnswer":{"@type":"Answer","text":"Igen. Írja meg, melyik modell érdekli, és megküldjük a gyártó aktuális dokumentumát. Tervezéshez és engedélyezési eljáráshoz ez gyakran szükséges is."}}
+        {
+          "@type": "Question",
+          "name": "Ráállhat autó a tartályra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A jelenlegi tájékoztatásunk említ ilyen lehetőséget megfelelő földtakarással, de ezt az adott elosztóelem és rétegrend igazolt terhelhetőségével együtt kell megadni. Amíg ez nincs dokumentálva, nem ígérjük meg — a konkrét projektnél egyeztetve mondjuk meg."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Megkaphatom a teljesítménynyilatkozatot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Írja meg, melyik modell érdekli, és megküldjük a gyártó aktuális dokumentumát. Tervezéshez és engedélyezési eljáráshoz ez gyakran szükséges is."
+          }
+        }
       ]
     }
   ]

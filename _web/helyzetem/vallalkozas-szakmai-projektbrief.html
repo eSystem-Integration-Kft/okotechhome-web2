@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="tobb-mint-ajanlatkero-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Több, mint ajánlatkérő</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="tobb-mint-ajanlatkero-cim">Több, mint ajánlatkérő</h2>
       </header>
       <p class="type-ui-body section-lead">Egy intézmény vagy vállalkozás szennyvízterhelése nem írható le néhány személyszám- és telekmezővel. Ezért ez az oldal nem általános ajánlatkérő, hanem strukturált <strong>projektadat-csomag</strong>.</p>
       <p class="type-ui-body section-lead">Ebből eldönthető, hogy a projekt standard konfiguráció, részletes mérnöki méretezés, helyszíni felmérés, laborvizsgálat vagy külön megvalósíthatósági vizsgálat irányába megy.</p>
@@ -736,9 +735,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Miért nem kapok azonnal árat?","acceptedAnswer":{"@type":"Answer","text":"Mert üzleti és intézményi projektnél a kapacitás vagy a férőhely alapján közölt ár félrevezető lenne. A teljes projekt- és életciklusköltséget a rendszerarchitektúra, az előkezelés, a telepítés, a monitoring és az üzemeltetés együtt határozza meg. Tisztázott projektterjedelemnél viszont adható ársáv."}},
-      {"@type":"Question","name":"Mennyi adat kell a megkereséshez?","acceptedAnswer":{"@type":"Answer","text":"A beszélgetéshez elég a létesítmény típusa és a nagyságrend. Ahhoz, hogy műszaki irányt tudjunk mondani, kell a terhelési profil és a szennyvíz jellege. Ajánlathoz ezeken felül a telek, a befogadó és az üzemeltetési modell is."}},
-      {"@type":"Question","name":"Beszerzési eljárásban vagyunk, műszaki leírás kell.","acceptedAnswer":{"@type":"Answer","text":"Ebben szívesen segítünk. A pontos műszaki tartalom éppen azért fontos, mert az ajánlatok összehasonlíthatósága ezen múlik — és hiányos leírásból nem összevethető ajánlatok születnek."}}
+        {
+          "@type": "Question",
+          "name": "Miért nem kapok azonnal árat?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mert üzleti és intézményi projektnél a kapacitás vagy a férőhely alapján közölt ár félrevezető lenne. A teljes projekt- és életciklusköltséget a rendszerarchitektúra, az előkezelés, a telepítés, a monitoring és az üzemeltetés együtt határozza meg. Tisztázott projektterjedelemnél viszont adható ársáv."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi adat kell a megkereséshez?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A beszélgetéshez elég a létesítmény típusa és a nagyságrend. Ahhoz, hogy műszaki irányt tudjunk mondani, kell a terhelési profil és a szennyvíz jellege. Ajánlathoz ezeken felül a telek, a befogadó és az üzemeltetési modell is."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Beszerzési eljárásban vagyunk, műszaki leírás kell.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ebben szívesen segítünk. A pontos műszaki tartalom éppen azért fontos, mert az ajánlatok összehasonlíthatósága ezen múlik — és hiányos leírásból nem összevethető ajánlatok születnek."
+          }
+        }
       ]
     }
   ]

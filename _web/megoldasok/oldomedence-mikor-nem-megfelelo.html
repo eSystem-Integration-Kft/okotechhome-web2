@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="az-arammentesseg-nem-mindenre-valasz-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Az árammentesség nem mindenre válasz</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="az-arammentesseg-nem-mindenre-valasz-cim">Az árammentesség nem mindenre válasz</h2>
       </header>
       <p class="type-ui-body section-lead">Az oldómedencés rendszer egyszerű és nem igényel villamos energiát. Ettől viszont még nem lesz minden közcsatorna nélküli ingatlan számára megfelelő — és a leggyakoribb korlát nem is a tartály, hanem a tisztítómező.</p>
       <p class="type-ui-body section-lead">Ez az oldal külön kezeli azt, ami <strong>kizárás</strong>, és azt, ami <strong>további vizsgálattal megfelelő</strong> lehet. A kettő nem ugyanaz, és a következmény sem.</p>
@@ -689,9 +688,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Kis telken kizárt?","acceptedAnswer":{"@type":"Answer","text":"Nem automatikusan, de ez a leggyakoribb korlát. A tisztítómező helyigénye jellemzően nagyobb, mint egy aktív rendszer szikkasztójáé — ezért kis telken gyakran az aktív rendszer marad reális. A döntéshez mérés kell, nem becslés."}},
-      {"@type":"Question","name":"Agyagos talajon működik?","acceptedAnswer":{"@type":"Answer","text":"Nehezebben, nagyobb mezővel, és van, ahol nem. Ezt szivárogtatási vizsgálat dönti el. Ha a talaj nem fogadja be a napi vízmennyiséget, a technológiaváltás önmagában nem segít — mert az aktív rendszer szikkasztójának is be kell fogadnia a vizet."}},
-      {"@type":"Question","name":"Nem akarok szippantással foglalkozni.","acceptedAnswer":{"@type":"Answer","text":"Ez érvényes szempont, és nem kell szégyellni. Ilyenkor érdemes az aktív biológiai rendszert megnézni: ott nincs rendszeres szippantás, viszont villamos energia és rendszeres ellenőrzés kell hozzá. A két rendszer más terhet ró a tulajdonosra."}}
+        {
+          "@type": "Question",
+          "name": "Kis telken kizárt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem automatikusan, de ez a leggyakoribb korlát. A tisztítómező helyigénye jellemzően nagyobb, mint egy aktív rendszer szikkasztójáé — ezért kis telken gyakran az aktív rendszer marad reális. A döntéshez mérés kell, nem becslés."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Agyagos talajon működik?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nehezebben, nagyobb mezővel, és van, ahol nem. Ezt szivárogtatási vizsgálat dönti el. Ha a talaj nem fogadja be a napi vízmennyiséget, a technológiaváltás önmagában nem segít — mert az aktív rendszer szikkasztójának is be kell fogadnia a vizet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Nem akarok szippantással foglalkozni.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ez érvényes szempont, és nem kell szégyellni. Ilyenkor érdemes az aktív biológiai rendszert megnézni: ott nincs rendszeres szippantás, viszont villamos energia és rendszeres ellenőrzés kell hozzá. A két rendszer más terhet ró a tulajdonosra."
+          }
+        }
       ]
     }
   ]

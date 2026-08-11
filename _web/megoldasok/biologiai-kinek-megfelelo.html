@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -502,13 +502,18 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="a-szezonalis-hasznalat-nem-igen-nem-kerdes-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A szezonális használat nem igen-nem kérdés</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="a-szezonalis-hasznalat-nem-igen-nem-kerdes-cim">A szezonális használat nem igen-nem kérdés</h2>
       </header>
-      <p class="type-ui-body section-lead">A nyaraló nem egyszerűen „alkalmas” vagy „nem alkalmas” kategória. A rövidebb vagy rendszeres távollét kezelhető — a vezérlés alulterheléses üzemmódot támogathat, és a baktériumközösség fennmarad.</p>
+      <p class="type-ui-body section-lead">A nyaraló jó példa arra, miért nem érdemes épülettípus alapján dönteni: <strong>két „nyaraló” használata között nagyobb különbség lehet, mint két teljesen eltérő típusú ingatlan között.</strong> Az egyiket egész évben szinte minden héten használják, a másik csak nyáron lakott, a harmadikban évente néhányszor fordulnak meg. Biológiai szempontból ez három különböző helyzet.</p>
+      <ul class="fit-list" role="list">
+        <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>Rövidebb távollét</strong> — az egyébként rendszeresen használt ingatlan átmenetileg üres.</span></li>
+        <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>Rendszeres, de nem folyamatos használat</strong> — ismétlődő ritmus, például hétvégenként.</span></li>
+        <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text"><strong>Hosszú, szezonális kihagyás</strong> — több hónapon át alig vagy egyáltalán nem érkezik szennyvíz. Ez az a helyzet, amely külön eljárást kíván.</span></li>
+      </ul>
+      <p class="type-ui-body section-lead">A rövidebb vagy rendszeres távollét kezelhető — a vezérlés alulterheléses üzemmódot támogathat, és a baktériumközösség fennmarad.</p>
       <p class="type-ui-body section-lead">A több hónapos, teljes kihagyás viszont már külön üzemeltetési vagy leállítási eljárást igényel. Ez tervezett folyamat, nem „kikapcsoljuk és jövőre visszajövünk”.</p>
       <p class="type-ui-body section-lead">Ha a használat erősen szakaszos, a kérdés már nem a kapacitás, hanem a technológiaválasztás: ilyenkor a passzív, oldómedencés rendszer relevánsabb lehet. Ezt a szezonális használat oldalán részletesen végigvesszük.</p>
     </div>
@@ -695,10 +700,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Hétvégi házba jó?","acceptedAnswer":{"@type":"Answer","text":"Rendszeres hétvégi használatnál igen, ha van tartós áramellátás és a vezérlés támogatja az alulterheléses üzemet. Ha a használat ennél szakaszosabb — hosszú, több hónapos szünetekkel —, érdemes a passzív rendszert is megvizsgálni."}},
-      {"@type":"Question","name":"Panzióhoz megfelelő?","acceptedAnswer":{"@type":"Answer","text":"Egész évben üzemelő szálláshelyhez jellemzően igen. A méretezés viszont nem a férőhelyből indul, hanem a kihasználtságból, és ha van saját étterem, a konyhai terhelés külön kérdés — előkezelést igényelhet."}},
-      {"@type":"Question","name":"Mi van, ha ritkán vagyunk otthon?","acceptedAnswer":{"@type":"Answer","text":"Az alkalmi néhány napos távollét nem probléma. A rendszeres, hosszabb távollét már üzemmódkérdés, a több hónapos pedig külön leállítási eljárást igényel. Adja meg a leghosszabb várható távollétet — abból derül ki, mi a teendő."}},
-      {"@type":"Question","name":"Két háztartás közösen használhatja?","acceptedAnswer":{"@type":"Answer","text":"Műszakilag megoldható, de tisztázni kell a terhelést, a bekötés kialakítását és azt, hogy ki felel az üzemeltetésért. A közös használat nem műszaki, hanem jellemzően felelősségi kérdésen szokott elakadni."}}
+        {
+          "@type": "Question",
+          "name": "Hétvégi házba jó?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rendszeres hétvégi használatnál igen, ha van tartós áramellátás és a vezérlés támogatja az alulterheléses üzemet. Ha a használat ennél szakaszosabb — hosszú, több hónapos szünetekkel —, érdemes a passzív rendszert is megvizsgálni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Panzióhoz megfelelő?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Egész évben üzemelő szálláshelyhez jellemzően igen. A méretezés viszont nem a férőhelyből indul, hanem a kihasználtságból, és ha van saját étterem, a konyhai terhelés külön kérdés — előkezelést igényelhet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi van, ha ritkán vagyunk otthon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Az alkalmi néhány napos távollét nem probléma. A rendszeres, hosszabb távollét már üzemmódkérdés, a több hónapos pedig külön leállítási eljárást igényel. Adja meg a leghosszabb várható távollétet — abból derül ki, mi a teendő."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Két háztartás közösen használhatja?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Műszakilag megoldható, de tisztázni kell a terhelést, a bekötés kialakítását és azt, hogy ki felel az üzemeltetésért. A közös használat nem műszaki, hanem jellemzően felelősségi kérdésen szokott elakadni."
+          }
+        }
       ]
     }
   ]

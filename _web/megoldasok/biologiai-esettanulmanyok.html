@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -534,11 +534,10 @@
   </section>
 <!-- ADATHIÁNY: a strukturált esetlapok adattartalma: CRM- és projektarchívum, telepítési és beüzemelési jegyzőkönyvek, laboreredmények, szerviztörténet, ügyfélhozzájárulások és fotók
      Forrás: ÖkoTech projektarchívum. A jelenlegi referenciák erősek, de a döntéshez szükséges műszaki adatok — terhelés, telek, vízelhelyezés, működési idő — nincsenek mellettük. Addig konkrét értékkel nem publikálható. -->
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="amit-a-dij-es-a-telepitesszam-bizonyit-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Amit a díj és a telepítésszám bizonyít</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="amit-a-dij-es-a-telepitesszam-bizonyit-cim">Amit a díj és a telepítésszám bizonyít</h2>
       </header>
       <p class="type-ui-body section-lead">A Construma Nagydíj és az összesített telepítésszám vállalati bizalmi elem: azt mutatják, hogy a cég régóta és széles körben jelen van a piacon.</p>
       <p class="type-ui-body section-lead">Amit <strong>nem</strong> bizonyítanak: hogy az Ön helyzetében is működni fog. Ahhoz azonos helyzetű projekt kell — hasonló terheléssel, hasonló telekkel és hasonló vízelhelyezéssel. Ezért nem díjakkal érvelünk, hanem projektekkel.</p>
@@ -717,8 +716,22 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Van a saját helyzetemhez hasonló referencia?","acceptedAnswer":{"@type":"Answer","text":"Írja meg, mi a helyzete — állandó lakhatás, emésztőkiváltás, nehezebb telek, szálláshely —, és megnézzük, van-e dokumentált, hasonló projektünk. Ha nincs, azt is megmondjuk."}},
-      {"@type":"Question","name":"Beszélhetek egy meglévő ügyféllel?","acceptedAnswer":{"@type":"Answer","text":"Ez az ügyfél hozzájárulásán múlik, de több esetben megoldható. Kérdezze meg — a működő rendszer tulajdonosa jellemzően többet tud mondani a mindennapokról, mint bármelyik adatlap."}}
+        {
+          "@type": "Question",
+          "name": "Van a saját helyzetemhez hasonló referencia?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Írja meg, mi a helyzete — állandó lakhatás, emésztőkiváltás, nehezebb telek, szálláshely —, és megnézzük, van-e dokumentált, hasonló projektünk. Ha nincs, azt is megmondjuk."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Beszélhetek egy meglévő ügyféllel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ez az ügyfél hozzájárulásán múlik, de több esetben megoldható. Kérdezze meg — a működő rendszer tulajdonosa jellemzően többet tud mondani a mindennapokról, mint bármelyik adatlap."
+          }
+        }
       ]
     }
   ]

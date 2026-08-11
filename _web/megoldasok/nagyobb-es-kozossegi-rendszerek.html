@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -582,11 +582,10 @@
   </section>
 <!-- ADATHIÁNY: a kapacitási határok. A jelenlegi kommunikáció ELLENTMONDÁSOS: a nagytelepi oldal címe 50 fő feletti rendszerekről szól, a törzsszöveg viszont 100 LE feletti, kb. 75–750 fős telepeket említ — miközben a lakossági ág 1–50 főig tart. Az 50–100 LE közötti sáv így nincs lefedve
      Forrás: ÖkoTech műszaki workshop. Tisztázandó: a standard A.B.Clear felső műszaki határa · az 50–100 LE ajánlati folyamat · a moduláris rendszerek összekapcsolási szabályai · a nagytelepi termékcsalád aktuális minimum- és maximumkapacitása · és hogy LE-ben vagy m³/nap-ban kommunikálunk-e. Addig konkrét értékkel nem publikálható. -->
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="amit-ez-a-szakasz-nem-tesz-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Amit ez a szakasz nem tesz</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="amit-ez-a-szakasz-nem-tesz-cim">Amit ez a szakasz nem tesz</h2>
       </header>
       <p class="type-ui-body section-lead">Nem ad automatikus termékjavaslatot és nem ad árat. Nagyobb rendszernél a kapacitás vagy a személyszám alapján közölt ár különösen félrevezető lenne: a projektköltséget a rendszerarchitektúra, az előkezelés, a földmunka, a vezérlés és monitoring, a vízelhelyezés, a tervezés és az üzemeltetés együtt határozza meg.</p>
       <p class="type-ui-body section-lead">És nem ígér engedélyezhetőséget. Az engedélyezési út projektfüggő, a hatósági rendszer pedig időről időre változik — ezt aktuális forrásból kell ellenőrizni, nem egy weboldalról.</p>
@@ -773,10 +772,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"50 fő fölött mi változik?","acceptedAnswer":{"@type":"Answer","text":"A 147/2010. Korm. rendelet szerinti egyedi szennyvíztisztítás kategóriája 1–50 LE terhelésig terjed. E fölött a projekt más szabályozási és engedélyezési úton halad, a méretezés jogosult tervező feladata lesz, és a monitoring meg az üzemeltetési felelősség is más szinten jelenik meg."}},
-      {"@type":"Question","name":"Több kisebb berendezés vagy egy nagy?","acceptedAnswer":{"@type":"Answer","text":"Mindkettő létező út, és a választás projektfüggő. A moduláris kialakítás fokozatos kapacitásépítést és leválasztható egységeket tesz lehetővé; a célzott nagytelep egységesebb technológiai és vezérlési rendszerként tervezhető. Az áttekintő oldal ezt veszi végig."}},
-      {"@type":"Question","name":"Vágóhídi vagy tejüzemi szennyvíz kezelhető?","acceptedAnswer":{"@type":"Answer","text":"Speciális terhelések egyedi mérnöki vizsgálat alapján kezelhetők. Ez nem automatikus alkalmasság: mintavétel, laboradat és megvalósíthatósági vizsgálat előzi meg. Egy standard telep nem alkalmas automatikusan bármilyen ipari szennyvízre."}},
-      {"@type":"Question","name":"Ki fogja üzemeltetni?","acceptedAnswer":{"@type":"Answer","text":"Ezt az ajánlat előtt kell tisztázni, nem az átadáskor. Nagyobb rendszernél nevesített felelős üzemeltető, rendszeres ellenőrzés, üzemnapló és jellemzően mintavétel is szükséges."}}
+        {
+          "@type": "Question",
+          "name": "50 fő fölött mi változik?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 147/2010. Korm. rendelet szerinti egyedi szennyvíztisztítás kategóriája 1–50 LE terhelésig terjed. E fölött a projekt más szabályozási és engedélyezési úton halad, a méretezés jogosult tervező feladata lesz, és a monitoring meg az üzemeltetési felelősség is más szinten jelenik meg."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Több kisebb berendezés vagy egy nagy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mindkettő létező út, és a választás projektfüggő. A moduláris kialakítás fokozatos kapacitásépítést és leválasztható egységeket tesz lehetővé; a célzott nagytelep egységesebb technológiai és vezérlési rendszerként tervezhető. Az áttekintő oldal ezt veszi végig."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vágóhídi vagy tejüzemi szennyvíz kezelhető?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Speciális terhelések egyedi mérnöki vizsgálat alapján kezelhetők. Ez nem automatikus alkalmasság: mintavétel, laboradat és megvalósíthatósági vizsgálat előzi meg. Egy standard telep nem alkalmas automatikusan bármilyen ipari szennyvízre."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ki fogja üzemeltetni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ezt az ajánlat előtt kell tisztázni, nem az átadáskor. Nagyobb rendszernél nevesített felelős üzemeltető, rendszeres ellenőrzés, üzemnapló és jellemzően mintavétel is szükséges."
+          }
+        }
       ]
     }
   ]

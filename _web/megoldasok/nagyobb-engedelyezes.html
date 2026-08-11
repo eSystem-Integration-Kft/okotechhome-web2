@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -430,11 +430,10 @@
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="nincs-egyetlen-lepessor-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Nincs egyetlen lépéssor</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="nincs-egyetlen-lepessor-cim">Nincs egyetlen lépéssor</h2>
       </header>
       <p class="type-ui-body section-lead">Nagyobb és közösségi szennyvíztisztító telepnél az engedélyezési út a <strong>kapacitástól</strong>, a <strong>szennyvíz eredetétől</strong>, a <strong>befogadótól</strong>, a <strong>kibocsátás módjától</strong> és a <strong>helyszíntől</strong> függ. Ezért nem írható le egyetlen, minden projektre érvényes lépéssorral — és aki mégis ezt ígéri, az egyszerűsít.</p>
       <p class="type-ui-body section-lead">Amit ez az oldal ad: döntési térkép arról, mely projektadatok, szakági tervek és szakértők szükségesek, és hol ágazik el az út.</p>
@@ -720,9 +719,30 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Vállalják az engedélyezést?","acceptedAnswer":{"@type":"Answer","text":"Azt, hogy pontosan mit vállalunk az engedélyezésből és mit készít külső jogosult tervező, projektfüggően egyeztetjük — és ezt a belső felelősségi rendet éppen most rögzítjük. Amit biztosan adunk: a technológiai leírást és a berendezés dokumentációját."}},
-      {"@type":"Question","name":"Mennyi idő az engedélyezés?","acceptedAnswer":{"@type":"Answer","text":"Erre nem adunk általános választ, mert az eljárás típusától, a befogadótól és a hatóság ügyintézésétől függ. Amit érdemes tudni: a hiánypótlás a leggyakoribb időveszteség, és ez jórészt az előkészítés minőségén múlik."}},
-      {"@type":"Question","name":"Melyik hatósághoz kell fordulni?","acceptedAnswer":{"@type":"Answer","text":"Szándékosan nem nevezünk meg konkrét szervezetet, mert a hatósági rendszer időről időre változik — a korábbi szövegünk éppen emiatt lett elavult. A projekt indításakor ezt aktuális forrásból ellenőrizzük."}}
+        {
+          "@type": "Question",
+          "name": "Vállalják az engedélyezést?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Azt, hogy pontosan mit vállalunk az engedélyezésből és mit készít külső jogosult tervező, projektfüggően egyeztetjük — és ezt a belső felelősségi rendet éppen most rögzítjük. Amit biztosan adunk: a technológiai leírást és a berendezés dokumentációját."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi idő az engedélyezés?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Erre nem adunk általános választ, mert az eljárás típusától, a befogadótól és a hatóság ügyintézésétől függ. Amit érdemes tudni: a hiánypótlás a leggyakoribb időveszteség, és ez jórészt az előkészítés minőségén múlik."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Melyik hatósághoz kell fordulni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Szándékosan nem nevezünk meg konkrét szervezetet, mert a hatósági rendszer időről időre változik — a korábbi szövegünk éppen emiatt lett elavult. A projekt indításakor ezt aktuális forrásból ellenőrizzük."
+          }
+        }
       ]
     }
   ]

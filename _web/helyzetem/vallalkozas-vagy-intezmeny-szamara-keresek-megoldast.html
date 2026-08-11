@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=132">
+<link rel="stylesheet" href="../assets/css/app.css?v=133">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -575,11 +575,10 @@
   </section>
 <!-- ADATHIÁNY: a kapacitási határaink. A lakossági ág 1–50 főig kommunikál és 50 fő felett a nagytelepi oldalra irányít; az viszont 100 LE feletti, kb. 75–750 fős rendszereket ír le. Az 50–100 LE közötti tényleges ajánlati logika nincs rögzítve
      Forrás: ÖkoTech műszaki és értékesítési workshop. Ugyanez a hiány szerepel a megoldasok/nagyobb-kapacitasi-kategoriak oldalon is — egy helyen kell rendezni, és mindkét helyen átvezetni. Addig konkrét értékkel nem publikálható. -->
-  <section class="section" aria-labelledby="-cim">
+  <section class="section" aria-labelledby="amit-ez-a-hub-nem-tesz-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Amit ez a hub nem tesz</p>
-        <h2 class="type-display-section-title section-title" id="-cim"></h2>
+        <h2 class="type-display-section-title section-title" id="amit-ez-a-hub-nem-tesz-cim">Amit ez a hub nem tesz</h2>
       </header>
       <p class="type-ui-body section-lead">Nem ad árat, és nem ígér engedélyezhetőséget. Üzleti és intézményi projektnél a kapacitás vagy a férőhely alapján közölt ár különösen félrevezető lenne — a teljes projekt- és életciklusköltséget a rendszerarchitektúra, az előkezelés, a telepítés, a monitoring és az üzemeltetés együtt határozza meg.</p>
       <p class="type-ui-body section-lead">És nem helyettesíti a mérnöki döntést. Ahol a szennyvíz nem kommunális jellegű, ott laboradat és megvalósíthatósági vizsgálat előzi meg az ajánlatot — nem fordítva.</p>
@@ -766,10 +765,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Elég, ha megmondom, hányan dolgozunk?","acceptedAnswer":{"@type":"Answer","text":"Belépő adatnak jó, de nem elegendő. Üzleti és intézményi terhelésnél a létszám különösen félrevezető: az számít, mennyi vizet használnak, mikor, és hogy a szennyvíz kommunális jellegű-e. Meglévő létesítménynél a vízszámla a legjobb kiindulás."}},
-      {"@type":"Question","name":"Vágóhídi vagy tejüzemi szennyvizet kezelnek?","acceptedAnswer":{"@type":"Answer","text":"Speciális terheléseket egyedi mérnöki vizsgálat alapján kezelünk. Ez nem automatikus alkalmasság: mintavétel, laboradat és megvalósíthatósági vizsgálat előzi meg. Egy standard telep nem alkalmas automatikusan bármilyen ipari szennyvízre — ezt előre megmondjuk."}},
-      {"@type":"Question","name":"Mennyi idő, míg ajánlatot kapok?","acceptedAnswer":{"@type":"Answer","text":"Attól függ, milyen adatok állnak rendelkezésre. Tisztán kommunális terhelésnél, ismert vízfogyasztással gyorsan. Technológiai szennyvíznél laborvizsgálat és megvalósíthatósági vizsgálat előzi meg — ott az első lépés a mintavétel, nem az ajánlat."}},
-      {"@type":"Question","name":"Kell hozzá engedély?","acceptedAnswer":{"@type":"Answer","text":"Üzleti és intézményi projektnél jellemzően igen, és az eljárás a kapacitástól, a szennyvíz eredetétől és a befogadótól függ. Az engedélyezési kérdéseket a Megoldások szakasz nagyobb rendszerekről szóló oldala tárgyalja részletesen."}}
+        {
+          "@type": "Question",
+          "name": "Elég, ha megmondom, hányan dolgozunk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Belépő adatnak jó, de nem elegendő. Üzleti és intézményi terhelésnél a létszám különösen félrevezető: az számít, mennyi vizet használnak, mikor, és hogy a szennyvíz kommunális jellegű-e. Meglévő létesítménynél a vízszámla a legjobb kiindulás."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vágóhídi vagy tejüzemi szennyvizet kezelnek?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Speciális terheléseket egyedi mérnöki vizsgálat alapján kezelünk. Ez nem automatikus alkalmasság: mintavétel, laboradat és megvalósíthatósági vizsgálat előzi meg. Egy standard telep nem alkalmas automatikusan bármilyen ipari szennyvízre — ezt előre megmondjuk."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi idő, míg ajánlatot kapok?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Attól függ, milyen adatok állnak rendelkezésre. Tisztán kommunális terhelésnél, ismert vízfogyasztással gyorsan. Technológiai szennyvíznél laborvizsgálat és megvalósíthatósági vizsgálat előzi meg — ott az első lépés a mintavétel, nem az ajánlat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kell hozzá engedély?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Üzleti és intézményi projektnél jellemzően igen, és az eljárás a kapacitástól, a szennyvíz eredetétől és a befogadótól függ. Az engedélyezési kérdéseket a Megoldások szakasz nagyobb rendszerekről szóló oldala tárgyalja részletesen."
+          }
+        }
       ]
     }
   ]
