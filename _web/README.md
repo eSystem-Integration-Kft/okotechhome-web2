@@ -410,9 +410,39 @@ horgonyaikkal. A horgonyok a **címeken** ülnek, mert a lapok ott hordozzák az
 `id`-t — a kiemelés ezért a legközelebbi `<section>`-re emelkedik, ahol a válasz
 valójában van.
 
-**Fontos korlát:** a törzsszöveg NINCS az indexben. Öko megbízhatóan megmondja,
-melyik lapon és szakaszban van a válasz, és a rendszerpromptba írt szakmai tudásból
-beszél a témáról — de nem a lap konkrét mondataiból idéz.
+### A szövegindex — amiből Öko válaszol
+
+`kalauz-szoveg.json` (835 szövegrész, 495 ezer karakter, 681 KB). Ugyanaz a
+script írja, ugyanabból a HTML-ből, egyetlen olvasással.
+
+Amíg csak a címindex létezett, Öko megmondta, **hol** a válasz, de a témáról a
+rendszerpromptba írt tudásból beszélt — így forrás nélküli, mégis hihető mondat
+bármikor keletkezhetett. Ez a fájl adja hozzá a **lapok tényleges szövegét**:
+kérdésenként a nyolc legjobban illő szakasz teljes szövege bekerül a promptba,
+azzal az utasítással, hogy elsősorban abból válaszoljon, és amit a részletek nem
+mondanak ki, arról ne állítson semmit.
+
+**A darabolás a `<h2 id>`-k mentén megy** — ugyanaz a határ, amit a felület ki
+tud emelni, tehát az idézett részlethez mindig tartozik horgony. Az inline SVG-k
+`path` adatai, a képernyőolvasónak szánt rejtett feliratok, a morzsamenü és a
+belső HTML-jegyzetek kimaradnak: mind rontanák a keresést, tartalmat pedig nem
+hordoznak.
+
+**A keresés súlyozott**, mert a nyers előfordulásszám a hosszú szakaszokat
+favorizálta — „mit jelent a csúcsterhelés?" a főoldal *véleményekre* talált rá.
+Két javítás kellett: **ritkasági súly** (a minden lapon előforduló „szennyvíz"
+keveset ér, a „csúcsterhelés" sokat) és **hossznormalizálás** (a találatszámot a
+szöveghossz gyöke osztja). Az aktuális lap részletei 1,35× szorzót kapnak.
+
+| Költség | Mért érték |
+|---|---|
+| a szövegindex betöltése | 1,8 ms |
+| pontozás 835 részleten | 8,0 ms |
+| csúcsmemória | 4 MB |
+| a promptba kerülő részletek | ~7 400 karakter (~2 450 token) |
+
+A `.json` kiszolgálását az `api/.htaccess` tiltja, tehát a fájl a böngészőből
+nem tölthető le — a végpont olvassa, nem a kliens.
 
 ### A figura
 

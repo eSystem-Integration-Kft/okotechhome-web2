@@ -11,6 +11,15 @@
  * Így Öko nem tud nem létező oldalra küldeni — ez a legfontosabb korlát, mert
  * egy kitalált hivatkozás rosszabb, mint a „nem tudom".
  *
+ * HÁROM RÉTEG VÉD A KITALÁLÁS ELLEN, és mind a három kódban él, nem a promptban:
+ *   1. NAVIGÁCIÓ — az URL, a cím és a horgony az indexből jön vissza, nem a
+ *      modelltől. Nem létező lapra nem tud küldeni.
+ *   2. TARTALOM — a kalauz-szoveg.json a lapok TÉNYLEGES mondatait adja a
+ *      promptba (a kérdéshez legjobban illő nyolc szakaszt), azzal az
+ *      utasítással, hogy azon túl ne állítson semmit.
+ *   3. SZÁMOK — a válasz szövegét mintaillesztés méri: ár, kW, m³/nap, mg/l,
+ *      m², LE, százalék és garanciaidő nem hagyhatja el a végpontot.
+ *
  * AMIT NEM CSINÁL: nem ad műszaki tanácsot, nem méretez, nem mond árat és nem
  * ígér határidőt. Ezek a konzultáció dolgai — a system prompt ezt tiltja, és a
  * válasz hossza is korlátozott, hogy ne csússzon szaktanácsadásba.
@@ -119,6 +128,76 @@ foreach ($valogatott as $l) {
         $katalogus .= "\n    " . $sz['horgony'] . ' ' . $sz['cim'];
     }
     $katalogus .= "\n";
+}
+
+/* --- IDÉZHETŐ RÉSZLETEK ---------------------------------------------------- */
+/* A katalógus megmondja, HOL a válasz. Ez a blokk azt adja hozzá, hogy MI a
+   válasz: a lapok tényleges mondatai. Enélkül a modell a saját általános
+   tudásából beszélt a témáról — a hivatkozás jó volt, az állítás mögött
+   viszont nem állt a webhely szövege.
+
+   A kiválasztás ugyanaz a tőcsonkolós pontozás, mint a lapoknál, csak a
+   szakasz TELJES szövegén fut. Kevés, de teljes részletet adunk: nyolc
+   szakasz ~1800 karakterig bőven belefér, és a modell egészben látja őket,
+   nem mondattöredékekben. */
+$RESZLET_DB = 8;
+$reszletek = '';
+$szovegFajl = __DIR__ . '/kalauz-szoveg.json';
+if ($szavak && is_readable($szovegFajl)) {
+    $szovegIndex = json_decode((string) file_get_contents($szovegFajl), true);
+    $reszek = is_array($szovegIndex['reszek'] ?? null) ? $szovegIndex['reszek'] : [];
+
+    /* PONTOZÁS. A nyers előfordulásszám nem működött: a hosszú szakaszokba
+       (jellemzően a főoldaléiba) egyszerűen több szó fér, ezért azok kerültek
+       előre olyan kérdéseknél is, amelyekre egy rövid, témába vágó lap felelt
+       volna. Két dolgot kellett hozzátenni.
+
+       1. RITKASÁGI SÚLY. A „szennyvíz" a webhely minden lapján ott van, tehát
+          semmit nem különböztet meg; a „csúcsterhelés" viszont keveset, és az
+          épp a kérdés lényege. Amelyik tő kevés részletben fordul elő, az
+          többet ér — ez a klasszikus IDF.
+       2. HOSSZNORMALIZÁLÁS. A találatszámot a szöveghossz gyökével osztjuk,
+          különben a hosszabb szakasz pusztán a méreténél fogva nyer. */
+    $tovek = [];
+    foreach ($szavak as $sz) { $tovek[mb_substr($sz, 0, 6)] = 0; }
+
+    $halmok = [];
+    foreach ($reszek as $i => $r) {
+        $halmok[$i] = mb_strtolower($r['lap'] . ' ' . $r['cim'] . ' ' . $r['szoveg']);
+        foreach ($tovek as $to => $_) {
+            if (str_contains($halmok[$i], $to)) { $tovek[$to]++; }
+        }
+    }
+    $osszes = max(1, count($reszek));
+    $idf = [];
+    foreach ($tovek as $to => $df) { $idf[$to] = log($osszes / (1 + $df)); }
+
+    $pontozottReszek = [];
+    foreach ($reszek as $i => $r) {
+        $halom = $halmok[$i];
+        $hosszSuly = sqrt(max(120, mb_strlen($r['szoveg'])));
+        $pont = 0.0;
+        foreach ($tovek as $to => $_) {
+            $db = substr_count($halom, $to);
+            if (!$db) { continue; }
+            $pont += ($db / $hosszSuly) * $idf[$to] * 100;
+            /* A címben álló találat erősebb: az mondja meg, MIRŐL szól a
+               szakasz, nem csak azt, hogy a szó előfordul benne. */
+            if (str_contains(mb_strtolower($r['cim']), $to)) { $pont += 3 * $idf[$to]; }
+        }
+        /* Az aktuális lap részletei előnyt kapnak: a látogató arról kérdez,
+           ami előtte van. Kis szorzó, hogy a téma felülírhassa. */
+        if ((rtrim($r['url'], '/') ?: '/') === $oldal) { $pont *= 1.35; }
+        if ($pont > 0) { $pontozottReszek[] = ['p' => $pont, 'r' => $r]; }
+    }
+    usort($pontozottReszek, static fn($a, $b) => $b['p'] <=> $a['p']);
+
+    foreach (array_slice($pontozottReszek, 0, $RESZLET_DB) as $x) {
+        $r = $x['r'];
+        $reszletek .= "\n--- " . $r['url'] . ($r['horgony'] ?: '') . ' · ' . $r['lap'];
+        if ($r['cim'] !== '' && $r['cim'] !== 'Bevezető') { $reszletek .= ' › ' . $r['cim']; }
+        $reszletek .= "\n" . $r['szoveg'] . "\n";
+    }
 }
 
 /* --- a feladat ------------------------------------------------------------- */
@@ -320,6 +399,18 @@ AMIT SOHA
 
 A KATALÓGUS (útvonal — cím | leírás, alatta a szakaszok horgonnyal):
 $katalogus
+RÉSZLETEK A LAPOK SZÖVEGÉBŐL
+Az alábbi részletek a webhely TÉNYLEGES szövegéből valók, a fenti lapokról.
+- ELSŐSORBAN EZEKBŐL válaszolj. Ha egy részlet felel a kérdésre, arra építs,
+  és arra a lapra mutass — a fejléc első sora adja az útvonalat és a horgonyt.
+- A saját szavaiddal foglald össze; szó szerinti hosszú átvétel nem kell.
+- Amit ezek a részletek NEM mondanak ki, arról ne állíts semmit. Ilyenkor
+  mondd meg, hogy erről a webhely nem ír, és irányíts a konzultációra vagy a
+  telefonszámra. A hihetően hangzó, de forrás nélküli mondat a legrosszabb,
+  amit adhatsz.
+- Ha a részletek üresek vagy nem illenek a kérdéshez, a katalógusból igazíts
+  útba, és mondd meg őszintén, hogy a pontos választ hol kapja meg.
+$reszletek
 SYS;
 
 $ESZKOZ = [
