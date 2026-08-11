@@ -58,10 +58,19 @@ def lapok():
         elif url == 'index':
             url = ''
 
+        # CSAK A FŐTARTALOMBÓL. A lábléc hasábcímei is `<h2 id>`-k („Helyzetem",
+        # „Megoldások"…), és bekerülve úgy néztek ki, mint tartalmi szakaszok —
+        # Öko a láblécbe irányított volna. A `<main>` a határ.
+        fo = re.search(r'<main\b.*?</main>', t, re.S)
+        torzs = fo.group(0) if fo else t
+
+        # A laponkénti felső korlát a prompt méretét fogja vissza, nem elvi
+        # határ. Nyolcnál a bővebb lapok VÉGE esett ki — épp a fogalomtár, a
+        # GYIK és a továbbvezető szakaszok, amikre a leggyakrabban kérdeznek rá.
         szakaszok = []
-        for hid, h2 in h2_re.findall(t):
+        for hid, h2 in h2_re.findall(torzs):
             szoveg = tiszta(h2)
-            if szoveg and len(szakaszok) < 8:
+            if szoveg and len(szakaszok) < 14:
                 szakaszok.append({'cim': szoveg, 'horgony': '#' + hid})
 
         d = desc_re.search(t)

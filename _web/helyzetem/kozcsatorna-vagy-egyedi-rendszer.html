@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=131">
+<link rel="stylesheet" href="../assets/css/app.css?v=132">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -434,16 +434,41 @@
     <div class="section-inner">
       <aside class="panel" aria-labelledby="figyelem-cim">
         <h2 class="type-ui-card-title" id="figyelem-cim">Ez az oldal jogi kérdést érint</h2>
-        <p class="type-ui-body">Az alábbi tájékoztatás általános, és a szabályozás változhat.
-          A saját ingatlanára vonatkozó választ <strong>a területi víziközmű-szolgáltatótól és
-          az illetékes önkormányzattól</strong> kell megkérnie — ezt semmilyen weboldal nem
-          helyettesíti, a miénk sem.</p>
+        <div>
+          <p class="type-ui-body">Az alábbi tájékoztatás általános, és a szabályozás változhat.
+            A saját ingatlanára vonatkozó választ <strong>a területi víziközmű-szolgáltatótól és
+            az illetékes önkormányzattól</strong> kell megkérnie — ezt semmilyen weboldal nem
+            helyettesíti, a miénk sem.</p>
+          <p class="type-ui-caption jogi-ellenorzes">Jogi tartalom utoljára szakmailag ellenőrizve:
+            <strong>2026. augusztus 9.</strong> Az ellenőrzés alapja a Nemzeti Jogszabálytárban
+            elérhető <strong>147/2010. (IV. 29.) Korm. rendelet</strong> aktuális szövege volt.</p>
+        </div>
       </aside>
-      <!-- JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT: a 147/2010. (IV. 29.) Korm. rendeletre
-     hivatkozó állítás. A brief kötelező friss ellenőrzést ír elő minden kiadás
-     előtt, és ehhez az oldalhoz szakmai tartalomgazdát is. -->
-      <!-- ADATHIÁNY: a hivatkozott jogszabályhelyek pontos megjelölése, a hatályos szöveg és a helyi engedélyezési gyakorlat. Az oldal dátumozás és nevesített szakmai tartalomgazda nélkül nem publikálható.
-     Forrás: jogi ellenőrzés. Addig konkrét értékkel nem publikálható. -->
+      <!-- JOGI TARTALOMGAZDA. A hivatkozott rendelet szövegét minden kiadás előtt újra
+     ellenőrizni kell, és a fenti dátumot frissíteni. A lap szándékosan a rendelet
+     FELTÉTELEIT nevezi meg (műszaki elérhetőség, tisztítótelepi kapacitás), nem
+     paragrafusszámot idéz: a számozás változhat, a feltételrendszer a döntést viszi. -->
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mit-mond-a-rendelet-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A jogi keret</p>
+        <h2 class="type-display-section-title section-title" id="mit-mond-a-rendelet-cim">Két feltétel, amit a rendelet nevesít</h2>
+        <p class="type-ui-body section-lead">A 147/2010. (IV. 29.) Korm. rendelet szerint annak van külön jelentősége, hogy az ingatlant határoló közterületen a szennyvízelvezető mű <strong>műszakilag elérhető-e</strong>, és rendelkezésre áll-e <strong>megfelelő szennyvíztisztító-telepi kapacitás</strong>.</p>
+      </header>
+      <div class="split">
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Ha mindkét feltétel teljesül</h3>
+          <p class="type-ui-body">A rendelet alapján <strong>új szennyvízkezelő berendezés nem telepíthető</strong>. Ez nem preferencia kérdése, és nem az ár dönti el: a rákötés az út. Ezt akkor is megmondjuk, ha ez azt jelenti, hogy nem tőlünk vásárol.</p>
+        </div>
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Ha valamelyik nem teljesül</h3>
+          <p class="type-ui-body">Megnyílik a következő kérdés: <strong>melyik helyi megoldás illik az ingatlanhoz?</strong> Ez még nem jelenti azt, hogy biológiai rendszer, oldómedence vagy bármely konkrét berendezés lesz megfelelő — a telek és a használat feltételeit ezután kell megvizsgálni.</p>
+        </div>
+      </div>
+      <p class="type-ui-body section-lead">A telepítés feltételeit a környezeti adottságok is befolyásolják: a szabályozás külön kezeli a <strong>felszín alatti vizek szempontjából fokozottan érzékeny</strong>, illetve a <strong>magas talajvízállású</strong> területeket. Bizonyos esetekben települési szennyvíztisztítási program, vízbázis-védelmi feltétel vagy további vizsgálat is szerepet kaphat — ezért konkrét ingatlannál önkormányzati, tervezői vagy hatósági információra is szükség lehet.</p>
     </div>
   </section>
 
@@ -456,6 +481,37 @@
       <p class="type-ui-body section-lead">A köznyelvben a „van csatorna" azt jelenti, hogy látszik egy akna a közelben. A szabályozás viszont más fogalommal dolgozik: a szennyvízelvezető mű <strong>műszaki elérhetősége</strong> és a megfelelő <strong>tisztítótelepi kapacitás</strong> együtt számít.</p>
       <p class="type-ui-body section-lead">Ez a különbség gyakorlati következménnyel jár: ha mindkettő fennáll, új egyedi szennyvízkezelő berendezés telepítése nem járható út — nem preferencia kérdése. Ha viszont nem áll fenn, az egyedi rendszer útja nyitva van.</p>
       <p class="type-ui-body section-lead">Ezért a helyes sorrend: <strong>előbb a közcsatornahelyzet tisztázása, utána a technológiaválasztás.</strong> Fordítva a projekt közepén derül ki, hogy nem megvalósítható.</p>
+
+      <div class="compare-scroll" role="region" aria-labelledby="latszat-tabla-cim" tabindex="0">
+        <table class="compare-table compare-table-start">
+          <caption class="type-ui-caption" id="latszat-tabla-cim">Amit elsőre lát, és amit valójában tisztázni kell</caption>
+          <thead>
+            <tr>
+              <th scope="col">Amit Ön elsőre lát</th>
+              <th scope="col">Amit valójában érdemes tisztázni</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Van vezeték az utcában?</th>
+              <td class="type-ui-subtitle">Az ingatlan szempontjából műszakilag elérhető-e?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">A szomszéd rá van kötve?</th>
+              <td class="type-ui-subtitle">Az Ön ingatlanára milyen feltételek vonatkoznak?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">A szomszédnak saját rendszere van?</th>
+              <td class="type-ui-subtitle">Mikor és milyen feltételekkel létesült?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Messzinek tűnik a csatorna?</th>
+              <td class="type-ui-subtitle">Mi a hivatalos műszaki csatlakozási helyzet?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="type-ui-body section-lead">Egy szomszédos ingatlan példája, egy közműtérkép vagy az, hogy szemmel láthatóan hol fut a vezeték, önmagában tehát nem ad biztos választ az Ön projektjére.</p>
     </div>
   </section>
 
@@ -534,6 +590,94 @@
           <p class="type-ui-body card-text"><strong>Az időtáv dönt.</strong> A szolgáltatási díj évtizedeken át fut; az egyedi rendszernél ez elmarad, cserébe üzemeltetési feladat marad. A két oldal csak azonos időtávon vethető össze.</p>
         </li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ket-kapu-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A sorrend</p>
+        <h2 class="type-display-section-title section-title" id="ket-kapu-cim">Két kapu, nem egy</h2>
+        <p class="type-ui-body section-lead">A közcsatornahelyzet tisztázása csak az első döntési kapu. Ha az egyedi rendszer útja nyitva áll, abból még nem következik, melyik rendszer kell.</p>
+      </header>
+      <ul class="numbered-grid" role="list">
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">01</span>
+          <p class="type-ui-body card-text"><strong>Vizsgálható-e egyáltalán az egyedi szennyvízkezelés?</strong> Erre a víziközmű-szolgáltató és az önkormányzat hivatalos információja ad választ — a műszaki elérhetőség és a tisztítótelepi kapacitás alapján.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">02</span>
+          <p class="type-ui-body card-text"><strong>Melyik egyedi megoldás illik a projekthez?</strong> Itt már az állandó vagy időszakos használat, a várható létszám és terhelés, a szabad telekterület, a talaj, a talajvíz és a kezelt víz elhelyezése dönt. A rendelet maga is nevesíti a talaj adottságait, a felszín alatti víz mélységét és a szennyvíz mennyiségét a méretezés és a létesítés kapcsán.</p>
+        </li>
+      </ul>
+      <p class="type-ui-body section-lead">Ha ezek az adatok még hiányoznak, korai lenne konkrét berendezést választani.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="koltseg-szerkezet-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Költség</p>
+        <h2 class="type-display-section-title section-title" id="koltseg-szerkezet-cim">A két út költsége máshogy épül fel</h2>
+        <p class="type-ui-body section-lead">A „melyik olcsóbb?” kérdésre az ingatlan adatainak ismerete nélkül nem lehet megbízható általános választ adni. Az összevetést az teszi értelmessé, ha ugyanazokat a tételeket nézzük végig mindkét úton.</p>
+      </header>
+      <div class="compare-scroll" role="region" aria-labelledby="koltseg-tabla-cim" tabindex="0">
+        <table class="compare-table compare-table-start">
+          <caption class="type-ui-caption" id="koltseg-tabla-cim">Mi tartozik az egyik és mi a másik útvonalhoz</caption>
+          <thead>
+            <tr>
+              <th scope="col">Közcsatorna útvonala</th>
+              <th scope="col">Egyedi rendszer útvonala</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Csatlakozás</th>
+              <td class="type-ui-subtitle">Berendezés vagy rendszer</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Szükséges kivitelezési munka</th>
+              <td class="type-ui-subtitle">Földmunka és telepítés</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Teleken belüli kialakítás</th>
+              <td class="type-ui-subtitle">A kezelt víz elhelyezésének kialakítása</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Hosszú távú szolgáltatási költségek</th>
+              <td class="type-ui-subtitle">Energia, szippantás vagy iszapkezelés, karbantartás, szerviz</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="type-ui-body section-lead">A tényleges költségeket mindkét esetben jelentősen befolyásolja az adott ingatlan és a szükséges műszaki kialakítás. Ezért sem azt nem érdemes általánosságban kijelenteni, hogy „a közcsatorna olcsóbb”, sem azt, hogy „a saját rendszerrel jobban jár”.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="kozcsatorna-gyik-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
+        <h2 class="type-display-section-title section-title" id="kozcsatorna-gyik-cim">Amit nem érdemes feltételezésből eldönteni</h2>
+      </header>
+      <div class="faq">
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Ha van csatorna az utcában, kötelező rákötni?</summary>
+          <div class="faq-a"><p class="type-ui-body">Erre az adott ingatlan aktuális műszaki és jogi helyzetének ismerete nélkül nem érdemes általános igen vagy nem választ adni. A közcsatorna tényleges rendelkezésre állását és a kapcsolódó feltételeket kell ellenőrizni — a szolgáltatónál és az önkormányzatnál.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Lehet saját szennyvíztisztítóm, ha van csatorna az utcában?</summary>
+          <div class="faq-a"><p class="type-ui-body">Önmagában az, hogy van vezeték az utcában, nem ad teljes választ. A szabályozás szempontjából a <strong>műszaki elérhetőség</strong> és a <strong>megfelelő tisztítótelepi kapacitás</strong> is lényeges: ha mindkettő fennáll, új berendezés telepítése nem járható út.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mi van, ha később épül ki a csatorna?</summary>
+          <div class="faq-a"><p class="type-ui-body">Érdemes ellenőrizni, mennyire konkrét és dokumentált a fejlesztés, illetve hogyan illeszkedik az Ön építkezésének vagy ingatlanhasználatának időzítéséhez. Egy általános fejlesztési terv vagy szóbeli ígéret nem jelent ugyanolyan bizonyosságot, mint egy dokumentált, ütemezett projekt.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mi van, ha túl messze van a csatorna?</summary>
+          <div class="faq-a"><p class="type-ui-body">A „túl messze” hétköznapi megfogalmazás, nem műszaki döntési kritérium. A tényleges csatlakozási lehetőséget hivatalos vagy szolgáltatói információ alapján érdemes megítélni, nem a látótávolság alapján.</p></div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -686,7 +830,38 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-
+        {
+          "@type": "Question",
+          "name": "Ha van csatorna az utcában, kötelező rákötni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Erre az adott ingatlan aktuális műszaki és jogi helyzetének ismerete nélkül nem érdemes általános igen vagy nem választ adni. A közcsatorna tényleges rendelkezésre állását és a kapcsolódó feltételeket kell ellenőrizni — a szolgáltatónál és az önkormányzatnál."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Lehet saját szennyvíztisztítóm, ha van csatorna az utcában?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Önmagában az, hogy van vezeték az utcában, nem ad teljes választ. A szabályozás szempontjából a műszaki elérhetőség és a megfelelő tisztítótelepi kapacitás is lényeges: ha mindkettő fennáll, új berendezés telepítése nem járható út."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi van, ha később épül ki a csatorna?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Érdemes ellenőrizni, mennyire konkrét és dokumentált a fejlesztés, illetve hogyan illeszkedik az Ön építkezésének vagy ingatlanhasználatának időzítéséhez. Egy általános fejlesztési terv vagy szóbeli ígéret nem jelent ugyanolyan bizonyosságot, mint egy dokumentált, ütemezett projekt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi van, ha túl messze van a csatorna?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A „túl messze” hétköznapi megfogalmazás, nem műszaki döntési kritérium. A tényleges csatlakozási lehetőséget hivatalos vagy szolgáltatói információ alapján érdemes megítélni, nem a látótávolság alapján."
+          }
+        }
       ]
     }
   ]

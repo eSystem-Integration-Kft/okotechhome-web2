@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=131">
+<link rel="stylesheet" href="../assets/css/app.css?v=132">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -442,6 +442,35 @@
     </div>
   </section>
 
+  <section class="section" aria-labelledby="honnan-tudja-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Adatminőség</p>
+        <h2 class="type-display-section-title section-title" id="honnan-tudja-cim">Nem minden adat egyformán biztos — jelölje azt is, honnan tudja</h2>
+        <p class="type-ui-body section-lead">Ugyanaz a szám egészen más súlyú attól függően, hogy emlékezetből becsülték, terven szerepel, vagy ténylegesen megmérték. Ezért érdemes minden fontos adat mellé a forrását is feljegyezni — ebből derül ki, mire elég.</p>
+      </header>
+      <ul class="numbered-grid" role="list">
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">01</span>
+          <p class="type-ui-body card-text"><strong>Becsült.</strong> Első tájékozódásra bizonyos adatoknál elegendő — a használat gyakorisága vagy a szabad terület hozzávetőleges mérete már megmutatja, milyen kérdéseket kell tisztázni. Azt viszont külön kell eldönteni, mely becslés használható későbbi műszaki döntéshez.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">02</span>
+          <p class="type-ui-body card-text"><strong>Dokumentált.</strong> Tervből, közműnyilatkozatból vagy más iratból származik. Jelezze, milyen dokumentumról van szó és mennyire aktuális — egy tíz éve kelt nyilatkozat nem ugyanaz, mint a tavalyi.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">03</span>
+          <p class="type-ui-body card-text"><strong>Mért.</strong> Tényleges mérési adat. Bizonyos döntésekhez — jellemzően a talajvíz és a szivárgóképesség kérdésénél — csak ez fogadható el; hogy pontosan hol, azt a projekt és az adott műszaki kérdés dönti el.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">04</span>
+          <p class="type-ui-body card-text"><strong>Nem tudom.</strong> Önmagában nem akadály. Abban segít, hogy ne bizonytalan becslésből induljunk ki, hanem megkeressük a következő helyes lépést. Ez a válasz is előrevisz.</p>
+        </li>
+      </ul>
+      <p class="type-ui-body">A megkülönböztetés különösen a <strong>talajvíznél, a talajnál, a csőmélységnél</strong> és a rendelkezésre álló dokumentumoknál számít. Ha ezeknél bizonytalan becslésből születik biztosnak tűnő műszaki következtetés, azt később a helyszín cáfolja meg — jellemzően a legdrágább pillanatban.</p>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="ingatlan-es-hasznalat-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
@@ -713,6 +742,22 @@
           <summary class="faq-q type-ui-card-title">A becsült adat elég az ajánlathoz?</summary>
           <div class="faq-a"><p class="type-ui-body">Nagyságrendi tájékoztatáshoz igen, végleges ajánlathoz nem. A telepítési körülmények — földmunka, bekötési mélység, vízelhelyezés — mozgatják leginkább a végösszeget, és ezeket mérni kell, nem becsülni.</p></div>
         </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Nem tudom, milyen mélyen lép ki a szennyvízcső.</summary>
+          <div class="faq-a"><p class="type-ui-body">Érdemes először a tervet vagy a kivitelezési dokumentációt megnézni. Ha az adat onnan sem derül ki, később mérésre lehet szükség. Nem Önnek kell eldöntenie, hogy kell-e például átemelés — ehhez elég az alapadatot pontosan megadni.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Nincs helyszínrajzom.</summary>
+          <div class="faq-a"><p class="type-ui-body">Ez önmagában nem jelenti, hogy nem tud továbbhaladni. Az első körben egy kézzel rajzolt vázlat is segít, ha látszik rajta az épület, a telekhatár, a szabad terület és a kút helye. A pontos rajz akkor válik szükségessé, amikor a méretezés és az elhelyezés konkréttá válik.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Nem tudom a vízfogyasztást.</summary>
+          <div class="faq-a"><p class="type-ui-body">Új építésnél gyakran nincs is ilyen adat — ilyenkor a létszám és a használat módja a kiindulás. Ha nem ismeri a fogyasztást, írja azt, hogy nem ismert: a találomra megadott szám rosszabb, mint a hiányzó.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mikor kell szakembert bevonni?</summary>
+          <div class="faq-a"><p class="type-ui-body">Nem minden ismeretlen adat miatt kell azonnal földmérő, hidrogeológus vagy tervező. Előbb azt érdemes tisztázni, mely információ hiányzik, és az milyen döntést befolyásol — ezután dönthető el, kell-e további mérés vagy szakértő. Erről külön oldalunk is szól: <a class="szoveg-link" href="../projekt-elokeszites/mikor-szukseges-szakerto">mikor szükséges szakértő</a>.</p></div>
+        </details>
       </div>
     </div>
   </section>
@@ -850,9 +895,62 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-      {"@type":"Question","name":"Mi van, ha a talajvizet nem ismerem?","acceptedAnswer":{"@type":"Answer","text":"Ez a leggyakoribb hiányzó adat, és nem akadály a tájékozódásban. A mértékadó talajvízszint méréssel állapítható meg; ha az építkezéshez amúgy is készül talajmechanikai szakvélemény, érdemes kérni, hogy a szennyvízkezelés szempontjait is vegye bele — egy vizsgálatból két kérdésre kap választ."}},
-      {"@type":"Question","name":"Meddig érdemes adatot gyűjteni, mielőtt megkeresem Önöket?","acceptedAnswer":{"@type":"Answer","text":"Nem kell megvárnia, amíg minden megvan. A település neve, a használat módja és a létszám elég ahhoz, hogy megmondjuk, mely irányok jöhetnek szóba. A részletes adatokra a méretezésnél lesz szükség."}},
-      {"@type":"Question","name":"A becsült adat elég az ajánlathoz?","acceptedAnswer":{"@type":"Answer","text":"Nagyságrendi tájékoztatáshoz igen, végleges ajánlathoz nem. A telepítési körülmények — földmunka, bekötési mélység, vízelhelyezés — mozgatják leginkább a végösszeget, és ezeket mérni kell, nem becsülni."}}
+        {
+          "@type": "Question",
+          "name": "Mi van, ha a talajvizet nem ismerem?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ez a leggyakoribb hiányzó adat, és nem akadály a tájékozódásban. A mértékadó talajvízszint méréssel állapítható meg; ha az építkezéshez amúgy is készül talajmechanikai szakvélemény, érdemes kérni, hogy a szennyvízkezelés szempontjait is vegye bele — egy vizsgálatból két kérdésre kap választ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Meddig érdemes adatot gyűjteni, mielőtt megkeresem Önöket?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem kell megvárnia, amíg minden megvan. A település neve, a használat módja és a létszám elég ahhoz, hogy megmondjuk, mely irányok jöhetnek szóba. A részletes adatokra a méretezésnél lesz szükség."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "A becsült adat elég az ajánlathoz?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nagyságrendi tájékoztatáshoz igen, végleges ajánlathoz nem. A telepítési körülmények — földmunka, bekötési mélység, vízelhelyezés — mozgatják leginkább a végösszeget, és ezeket mérni kell, nem becsülni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Nem tudom, milyen mélyen lép ki a szennyvízcső.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Érdemes először a tervet vagy a kivitelezési dokumentációt megnézni. Ha az adat onnan sem derül ki, később mérésre lehet szükség. Nem Önnek kell eldöntenie, hogy kell-e például átemelés — ehhez elég az alapadatot pontosan megadni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Nincs helyszínrajzom.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ez önmagában nem jelenti, hogy nem tud továbbhaladni. Az első körben egy kézzel rajzolt vázlat is segít, ha látszik rajta az épület, a telekhatár, a szabad terület és a kút helye. A pontos rajz akkor válik szükségessé, amikor a méretezés és az elhelyezés konkréttá válik."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Nem tudom a vízfogyasztást.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Új építésnél gyakran nincs is ilyen adat — ilyenkor a létszám és a használat módja a kiindulás. Ha nem ismeri a fogyasztást, írja azt, hogy nem ismert: a találomra megadott szám rosszabb, mint a hiányzó."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mikor kell szakembert bevonni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem minden ismeretlen adat miatt kell azonnal földmérő, hidrogeológus vagy tervező. Előbb azt érdemes tisztázni, mely információ hiányzik, és az milyen döntést befolyásol — ezután dönthető el, kell-e további mérés vagy szakértő. Erről külön oldalunk is szól: mikor szükséges szakértő."
+          }
+        }
       ]
     }
   ]

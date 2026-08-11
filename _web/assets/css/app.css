@@ -718,6 +718,15 @@
   .panel-media{aspect-ratio:var(--media-ratio-panel);display:flex;align-items:center;justify-content:center;min-height:0}
   .panel-media img{width:100%;height:100%;object-fit:contain}
 
+  /* JOGI ELLENŐRZÉS DÁTUMA. Jogi állítás mellett a dátum és a forrás nem
+     dísz: enélkül az olvasó nem tudja megítélni, mennyire friss, amit olvas.
+     Vékony felső vonal választja el az állítástól — hozzátartozik, de nem
+     ugyanaz a súlyú. */
+  .jogi-ellenorzes{
+    margin-top:var(--space-16);padding-top:var(--space-8);
+    border-top:1px solid var(--border);color:var(--text-tertiary);
+  }
+
   /* ===== 5.7 Sorszámozott kártya (ÚJ) ===== */
   .numbered-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
   /* Négy elemnél a hármas rács 3+1-re törik, és az árva kártya elrendezési
@@ -833,6 +842,11 @@
   .compare-scroll{overflow-x:auto}
   .compare-scroll:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:var(--r-md)}
 
+  /* Szöveg UTÁN álló tábla: a fejléc saját térközét itt nincs, aki hozza, és
+     a felirat különben az előző bekezdés sorai közé ragadt. */
+  p + .compare-scroll{margin-top:var(--space-32)}
+  .compare-scroll + .type-ui-body{margin-top:var(--space-32)}
+
   .compare-table{width:100%;border-collapse:collapse;text-align:center}
   .compare-table caption{
     text-align:left;color:var(--text-primary);
@@ -932,6 +946,10 @@
   /* align-items alapértelmezetten stretch: mindkét oszlop a magasabbikhoz igazodik,
      így a két oldal alja egy vonalban zár. */
   .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-24);margin-top:var(--space-32)}
+  /* Hármas változat: három EGYENRANGÚ továbbvezető út. Nem a kettős
+     szembeállítás variánsa — ott a két oszlop egymás ellentéte, itt három
+     párhuzamos ág áll egymás mellett. */
+  .split-harmas{grid-template-columns:repeat(3,minmax(0,1fr))}
   .split-col{display:flex;flex-direction:column}
   .split-panel{
     padding:var(--split-padding);
@@ -944,6 +962,19 @@
     box-shadow:var(--card-shadow);
   }
   .split-title{color:var(--text-primary);margin-bottom:var(--space-24)}
+
+  /* FOGALOMTÁR. Definíciós lista: a fogalom és a magyarázata egy sorban,
+     bal oldalon a név, jobb oldalon a jelentés — így a szem végig tudja
+     pásztázni a neveket anélkül, hogy minden magyarázatot elolvasna. */
+  .fogalomtar{margin:var(--space-32) 0 0;display:flex;flex-direction:column;gap:0}
+  .fogalom{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);
+    gap:var(--space-24);padding:var(--space-24) 0;
+    border-top:1px solid var(--border);
+  }
+  .fogalom:last-child{border-bottom:1px solid var(--border)}
+  .fogalom-nev{color:var(--text-primary)}
+  .fogalom-leiras{color:var(--text-secondary);margin:0}
 
   /* ===== 5.12 Oldalfejléc — kontaktsáv + fő navigáció (ÚJ) ===== */
   /* A fejléc EGÉSZE tapad, de a kontaktsáv magasságával feljebb: görgetéskor a
@@ -3557,7 +3588,10 @@
     /* Álló elrendezésben a kép a szöveg elé kerül — a vizuális horgony vezet be. */
     .panel-media{order:-1}
     .numbered-grid{grid-template-columns:minmax(0,1fr)}
-    .split{grid-template-columns:minmax(0,1fr)}
+    .split,.split-harmas{grid-template-columns:minmax(0,1fr)}
+    /* A fogalom neve a magyarázata FÖLÉ kerül: két hasábban a név elfér, egy
+       keskeny kijelzőn viszont mindkét oszlop olvashatatlanul szűk lenne. */
+    .fogalom{grid-template-columns:minmax(0,1fr);gap:var(--space-8)}
 
     /* Térkép: az átfedés marad, de a kártya keskenyebb — 768px-en a 27rem-es
        kártya mellett alig maradna látható térkép. */
