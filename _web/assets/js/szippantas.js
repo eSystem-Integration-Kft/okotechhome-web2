@@ -219,6 +219,13 @@
       tank.style.setProperty('--szip-toltes', String(Math.min(1, a.m3 / kocsi)));
       tank.style.setProperty('--szip-fizetett', String(Math.min(1, a.elszamoltM3 / kocsi)));
       tank.style.setProperty('--szip-minimum', String(Math.min(1, a.minimumM3 / kocsi)));
+      /* A jelölés csak akkor van kint, ha jelöl is valamit: nulla foglalt
+         mennyiségnél a tartály bal szélén állna, magyarázat nélkül. */
+      const jel = el('[data-szip-minimum-jel]', tank);
+      if (jel) jel.hidden = !(a.minimumM3 > 0);
+      const jelCimke = el('[data-szip-minimum-cimke]', tank);
+      if (jelCimke) jelCimke.textContent = kobmeter(a.minimumM3);
+
       tank.setAttribute('aria-label',
         'Szippantóautó tartálya ' + kobmeter(a.kocsiM3) + '. Elszállított mennyiség ' +
         kobmeter(a.m3) + ', kiszámlázott mennyiség ' + kobmeter(a.elszamoltM3) + '.');

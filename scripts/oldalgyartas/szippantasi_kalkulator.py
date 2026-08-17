@@ -295,8 +295,10 @@ def rajz(hero):
     `False`: a kalkulátor élő mérőműszere — ott a feliratokat a HTML adja."""
     uid = 'sza' if hero else 'szt'
     valtozat = 'szip-rajz-hero' if hero else 'szip-rajz-muszer'
-    # A műszer nézetéből kimarad a felirathely, ezért felül szűkebb a viewBox.
-    nezet = '0 0 560 300' if hero else '0 62 560 236'
+    # A műszer nézete felül szűkebb, mert nála csak EGY jelölő van felirattal —
+    # de a gombostűnek és az értéknek így is kell hely, különben a viewBox
+    # levágja őket (ez történt 62-nél).
+    nezet = '0 0 560 300' if hero else '0 38 560 260'
     horgony = '' if hero else ' data-szip-tank'
     felirat = ('Szippantóautó tartálya. Az elszállított és a kiszámlázott mennyiség '
                'a minimumdíj miatt eltérhet egymástól.') if hero else \
@@ -306,21 +308,31 @@ def rajz(hero):
         jelolok = '''
       <!-- A két jelölő a töltésrétegek élén áll, és velük együtt mozdul. -->
       <g class="szip-rajz-jelolo szip-rajz-jelolo-toltes">
+        <line class="szip-rajz-jelvonal-halo" x1="150" y1="44" x2="150" y2="208"></line>
         <line class="szip-rajz-jelvonal" x1="150" y1="44" x2="150" y2="208"></line>
-        <circle class="szip-rajz-jelpont" cx="150" cy="44" r="3.5"></circle>
-        <text class="szip-rajz-cimke" x="150" y="32" text-anchor="middle">ELVISZIK</text>
+        <path class="szip-rajz-jelpont" d="M144 32 L156 32 L150 44 Z"></path>
+        <text class="szip-rajz-cimke" x="150" y="24" text-anchor="middle">ELVISZIK</text>
       </g>
       <g class="szip-rajz-jelolo szip-rajz-jelolo-fizetett">
+        <line class="szip-rajz-jelvonal-halo" x1="150" y1="68" x2="150" y2="208"></line>
         <line class="szip-rajz-jelvonal" x1="150" y1="68" x2="150" y2="208"></line>
-        <circle class="szip-rajz-jelpont" cx="150" cy="68" r="3.5"></circle>
-        <text class="szip-rajz-cimke" x="150" y="56" text-anchor="middle">KIFIZETI</text>
+        <path class="szip-rajz-jelpont" d="M144 56 L156 56 L150 68 Z"></path>
+        <text class="szip-rajz-cimke" x="150" y="48" text-anchor="middle">KIFIZETI</text>
       </g>'''
     else:
         jelolok = '''
-      <!-- a minimumdíjban foglalt mennyiség jelölése -->
-      <g class="szip-rajz-jelolo szip-rajz-jelolo-minimum">
-        <line class="szip-rajz-jelvonal" x1="150" y1="76" x2="150" y2="212"></line>
-        <circle class="szip-rajz-jelpont" cx="150" cy="76" r="3.5"></circle>
+      <!-- A MINIMUMDÍJBAN FOGLALT MENNYISÉG jelölése. Két vonal egymáson: alul
+           tömör, a felület színével, fölötte a sötét szaggatott. Így a jelölés a
+           töltött (arany) és az üres (halvány) tartályrészen is olvasható —
+           egyetlen vonallal az egyik oldalon mindig elveszett.
+           A csoportot a JS elrejti, ha a foglalt mennyiség nulla: ott a vonal a
+           tartály bal szélén állna, és nem jelölne semmit. -->
+      <g class="szip-rajz-jelolo szip-rajz-jelolo-minimum" data-szip-minimum-jel>
+        <line class="szip-rajz-jelvonal-halo" x1="150" y1="74" x2="150" y2="208"></line>
+        <line class="szip-rajz-jelvonal" x1="150" y1="74" x2="150" y2="208"></line>
+        <path class="szip-rajz-jelpont" d="M144 62 L156 62 L150 74 Z"></path>
+        <text class="szip-rajz-cimke szip-rajz-jelcimke" x="150" y="54"
+              text-anchor="middle" data-szip-minimum-cimke></text>
       </g>'''
 
     return SVG_SABLON.format(

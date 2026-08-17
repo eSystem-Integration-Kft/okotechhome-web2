@@ -5203,11 +5203,26 @@
   .szip-rajz-paszma{opacity:0}
 
   /* --- jelölők --- */
-  .szip-rajz-jelvonal{
-    stroke:var(--rajz-cimke);stroke-width:1.5;stroke-dasharray:3 4;
+  /* A jelölővonal KÉT RÉTEG: alul tömör, a felület színével, fölötte a sötét
+     szaggatott. A szaggatás réseiben így a felület színe villan ki, és a
+     jelölés a töltött (arany) és az üres (halvány) tartályrészen is olvasható.
+     Egyetlen vonallal az egyik oldalon mindig elveszett. */
+  .szip-rajz-jelvonal-halo{
+    stroke:var(--rajz-halo);stroke-width:4;stroke-linecap:round;
     transform-box:fill-box;transform-origin:top center;
   }
+  .szip-rajz-jelvonal{
+    stroke:var(--rajz-cimke);stroke-width:2;stroke-dasharray:4 4;stroke-linecap:round;
+    transform-box:fill-box;transform-origin:top center;
+  }
+  /* Gombostűfej pont helyett: a lefelé mutató háromszög megmondja, MELYIK
+     pontra vonatkozik a felirat — a korong ezt nem mondta meg. */
   .szip-rajz-jelpont{fill:var(--rajz-cimke)}
+  /* A műszer jelölője a saját értékét is kiírja: enélkül a szaggatott vonal
+     csak az ábra alatti mondatból volt értelmezhető. */
+  .szip-rajz-jelcimke{font-size:var(--type-data-value-size);letter-spacing:0}
+  /* Nulla foglalt mennyiségnél a jelölés nem jelöl semmit. */
+  .szip-rajz-jelolo[hidden]{display:none}
   /* A felirat HALÓT kap: a kontúrt a felület színével húzzuk mögé
      (`paint-order: stroke fill`), így a szöveg akkor is olvasható marad, ha
      éppen a tartály vagy egy szerelvény fölé kerül. */
@@ -5632,7 +5647,8 @@
     }
     .szip-rajz-hero .szip-rajz-el{animation:szip-el-be 500ms var(--ease-out) 1500ms both}
 
-    .szip-rajz-hero .szip-rajz-jelvonal{animation:szip-jelvonal-le 480ms var(--ease-out) 1500ms both}
+    .szip-rajz-hero .szip-rajz-jelvonal,
+    .szip-rajz-hero .szip-rajz-jelvonal-halo{animation:szip-jelvonal-le 480ms var(--ease-out) 1500ms both}
     .szip-rajz-hero .szip-rajz-cimke,
     .szip-rajz-hero .szip-rajz-jelpont{animation:szip-halvanyul-be 420ms var(--ease-out) 1760ms both}
 

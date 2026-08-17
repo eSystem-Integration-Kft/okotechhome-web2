@@ -108,6 +108,10 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   tudja — a felirat ezért abszolút pozíciójú, saját, átlátszatlan háttérrel.
 - **A figyelmeztetés adatblokk lett:** négy szám egy tömött bekezdés helyett cím + négy
   adatcella.
+- **A jelölővonal láthatóbb és beszédesebb:** két réteg (tömör alsó a felület színével +
+  sötét szaggatott fölötte), lefelé mutató gombostűfej korong helyett, és a műszeren a
+  saját értéke is ki van írva. Nulla foglalt mennyiségnél a jelölés eltűnik — ott a
+  tartály bal szélén állt, magyarázat nélkül.
 - **Javított rajzhibák** (nagyításban derültek ki): a sárvédő íve keresztbe vágta a
   tartályt · az alváz beleolvadt a burkolatba, ezért a jármű darabokra esett · a tartály
   alsó árnyéka éles vízszintes vonalat húzott, ami folyadékszintnek látszott · a

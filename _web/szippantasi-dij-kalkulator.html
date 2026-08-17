@@ -619,14 +619,16 @@
 
       <!-- A két jelölő a töltésrétegek élén áll, és velük együtt mozdul. -->
       <g class="szip-rajz-jelolo szip-rajz-jelolo-toltes">
+        <line class="szip-rajz-jelvonal-halo" x1="150" y1="44" x2="150" y2="208"></line>
         <line class="szip-rajz-jelvonal" x1="150" y1="44" x2="150" y2="208"></line>
-        <circle class="szip-rajz-jelpont" cx="150" cy="44" r="3.5"></circle>
-        <text class="szip-rajz-cimke" x="150" y="32" text-anchor="middle">ELVISZIK</text>
+        <path class="szip-rajz-jelpont" d="M144 32 L156 32 L150 44 Z"></path>
+        <text class="szip-rajz-cimke" x="150" y="24" text-anchor="middle">ELVISZIK</text>
       </g>
       <g class="szip-rajz-jelolo szip-rajz-jelolo-fizetett">
+        <line class="szip-rajz-jelvonal-halo" x1="150" y1="68" x2="150" y2="208"></line>
         <line class="szip-rajz-jelvonal" x1="150" y1="68" x2="150" y2="208"></line>
-        <circle class="szip-rajz-jelpont" cx="150" cy="68" r="3.5"></circle>
-        <text class="szip-rajz-cimke" x="150" y="56" text-anchor="middle">KIFIZETI</text>
+        <path class="szip-rajz-jelpont" d="M144 56 L156 56 L150 68 Z"></path>
+        <text class="szip-rajz-cimke" x="150" y="48" text-anchor="middle">KIFIZETI</text>
       </g>
     </svg>
       </div>
@@ -910,7 +912,7 @@
         <legend class="type-ui-card-title szip-csoport-cim">A jármű és a tartály</legend>
         <div class="szip-jarmu-racs">
           <figure class="szip-jarmu-abra">
-            <svg class="szip-rajz szip-rajz-muszer" viewBox="0 62 560 236" role="img" data-szip-tank
+            <svg class="szip-rajz szip-rajz-muszer" viewBox="0 38 560 260" role="img" data-szip-tank
              aria-label="Szippantóautó tartálya">
       <defs>
         <clipPath id="szt-tank">
@@ -1080,10 +1082,18 @@
               fill="url(#szt-talaj)"></rect>
       </g>
 
-      <!-- a minimumdíjban foglalt mennyiség jelölése -->
-      <g class="szip-rajz-jelolo szip-rajz-jelolo-minimum">
-        <line class="szip-rajz-jelvonal" x1="150" y1="76" x2="150" y2="212"></line>
-        <circle class="szip-rajz-jelpont" cx="150" cy="76" r="3.5"></circle>
+      <!-- A MINIMUMDÍJBAN FOGLALT MENNYISÉG jelölése. Két vonal egymáson: alul
+           tömör, a felület színével, fölötte a sötét szaggatott. Így a jelölés a
+           töltött (arany) és az üres (halvány) tartályrészen is olvasható —
+           egyetlen vonallal az egyik oldalon mindig elveszett.
+           A csoportot a JS elrejti, ha a foglalt mennyiség nulla: ott a vonal a
+           tartály bal szélén állna, és nem jelölne semmit. -->
+      <g class="szip-rajz-jelolo szip-rajz-jelolo-minimum" data-szip-minimum-jel>
+        <line class="szip-rajz-jelvonal-halo" x1="150" y1="74" x2="150" y2="208"></line>
+        <line class="szip-rajz-jelvonal" x1="150" y1="74" x2="150" y2="208"></line>
+        <path class="szip-rajz-jelpont" d="M144 62 L156 62 L150 74 Z"></path>
+        <text class="szip-rajz-cimke szip-rajz-jelcimke" x="150" y="54"
+              text-anchor="middle" data-szip-minimum-cimke></text>
       </g>
     </svg>
             <figcaption class="type-ui-caption szip-egyseg">A tartály tetején minden vonalka egy köbméter.

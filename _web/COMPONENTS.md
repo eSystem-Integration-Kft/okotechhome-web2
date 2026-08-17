@@ -1057,6 +1057,14 @@ ott illusztráció, nem mérés. Ettől lesz a rajz mérőeszköz — és ettől
 járműméret-választás is, ami korábban jogos kifogás volt: „csak a rajzon nem változik
 semmi."
 
+**A jelölővonal két rétegű.** Egyetlen szaggatott vonal az egyik oldalon mindig elveszett:
+sötéten az arany töltésen, világosan a halvány üres részen. Most alul tömör vonal fut a
+felület színével, fölötte a sötét szaggatott — a szaggatás réseiben így a felület villan ki,
+és a jelölés mindkét zónában olvasható. A korong helyett **lefelé mutató gombostűfej** áll a
+vonal tetején: az megmondja, melyik pontra vonatkozik a felirat. A műszer jelölője a saját
+értékét is kiírja (`5 m³`), és **eltűnik, ha a foglalt mennyiség nulla** — ott a vonal a
+tartály bal szélén állna, és nem jelölne semmit.
+
 **Amit a rajz megtanult menet közben.** Négy hiba, ami nagyításban derült ki:
 a sárvédő íve a tartály alsó éle FÖLÉ nyúlt és keresztbe vágta (a csúcs 187 → 204); az
 alváz a burkolat tónusát viselte, ezért a jármű különálló darabokra esett (saját,
