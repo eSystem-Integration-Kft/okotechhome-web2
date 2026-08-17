@@ -130,6 +130,15 @@
     --text-tertiary:#5D6935;
     --text-disabled:#B9C0A8;
     --text-on-dark:var(--color-stardust);
+    /* HIÁNYZÓ KÖZÉPSŐ FOK. Világos felületen három szövegszint van
+       (`primary` / `secondary` / `tertiary`), sötét felületen eddig csak kettő:
+       a majdnem fehér Stardust és a jóval halványabb `muted`. Emiatt minden
+       folyó szöveg és minden hivatkozás a LEGVILÁGOSABB fokon állt, és a sötét
+       sávokon — leginkább a láblécben — a szöveg optikailag vastagabbnak,
+       „izzónak" látszott (irradiáció). Ez a fok a Stardustot viszi egy
+       leheletnyit a felület felé: a kontraszt 13,3:1-ről 10,2:1-re csökken,
+       tehát AAA-n belül marad, a szedés viszont megnyugszik. */
+    --text-on-dark-soft:color-mix(in srgb,var(--color-stardust) 86%,var(--color-forest));
     --text-on-dark-muted:#94A98D;
 
     --link:#2F6F82;
@@ -480,6 +489,9 @@
     color:var(--text-primary);
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
+    /* A WebKit-es párja már megvolt; Firefoxban macOS alatt ez a megfelelője.
+       Enélkül ugyanaz a lap más betűvastagságot mutat a két böngészőben. */
+    -moz-osx-font-smoothing:grayscale;
   }
   /* HIVATKOZÁSOK — alapállapotban NINCS aláhúzás, egérrel és billentyűzettel
      megérintve van. A böngésző alapértelmezett aláhúzása vastag, a betűtalpakat
@@ -1837,7 +1849,10 @@
   /* A hivatkozás világos felületen aláhúzás nélkül él, mert a hasáb egésze
      link — a kontextus egyértelmű. Hoverre a márkazöld emeli ki. */
   .lablec-link{
-    color:var(--text-on-dark);text-decoration:none;
+    color:var(--text-on-dark-soft);text-decoration:none;
+    /* A hasáblisták kétsorosra törnek („Nincs elérhető / közcsatorna"); sötét
+       alapon a szűk sorköz vibrálni látszik, ezért itt egy fokkal lazább. */
+    line-height:1.55;
     transition:color var(--dur-ui) var(--ease-out);
   }
   .lablec-link:hover{color:var(--primary)}
@@ -4834,5 +4849,849 @@
   @media (prefers-reduced-motion:reduce){
     .oko-panel-jel .oko-test-csoport,
     .oko.is-gondolkodik .oko-panel-jel .oko-test-csoport{animation:none}
+  }
+}
+
+/* =============================================================================
+   5.21 SZIPPANTÁSI DÍJ KALKULÁTOR (ÚJ) — `.szip-*`
+   -----------------------------------------------------------------------------
+   A `/szippantasi-dij-kalkulator` modul-oldal felülete: díjbeviteli mezők, élő
+   eredménykártya, költségsáv, tartálymérő és a megyei csempetérkép.
+
+   A blokk KIZÁRÓLAG szemantikus tokenre hivatkozik; a komponens-tokenek a
+   `@layer tokens` alábbi kiegészítésében állnak, és a sötét témában mind újra
+   van deklarálva (designrendszer 2.4).
+
+   Indoklás és a komponensek leírása: _web/COMPONENTS.md 20. pont.
+   ============================================================================= */
+
+/* A sávarány REGISZTRÁLT egyedi tulajdonság. Enélkül a böngésző a
+   `--szip-arany` változását ugrásként dolgozná fel, és a költségsáv szeletei
+   nem átúsznának az új arányra, hanem átpattannának. */
+@property --szip-arany   { syntax: '<number>'; inherits: false; initial-value: 0 }
+@property --szip-toltes  { syntax: '<number>'; inherits: true;  initial-value: 0 }
+@property --szip-fizetett{ syntax: '<number>'; inherits: true;  initial-value: 0 }
+@property --szip-minimum { syntax: '<number>'; inherits: true;  initial-value: 0 }
+
+@layer tokens {
+  :root{
+    /* modul-felület */
+    --szip-panel-bg:var(--surface);
+    --szip-panel-border:var(--border);
+    --szip-melyedes-bg:var(--surface-sunken);
+
+    /* költségsáv — öt tétel, öt megkülönböztethető felület.
+       A sáv sínje `--surface`, hogy a legvilágosabb szelet is elváljon tőle. */
+    --szip-sav-sin:var(--surface);
+    --szip-sav-valaszto:var(--canvas);
+    --szip-sav-kiszallas:var(--secondary);
+    --szip-sav-urites:var(--primary);
+    --szip-sav-minimum:var(--warning-border);
+    --szip-sav-km:var(--info-border);
+    --szip-sav-egyeb:var(--surface-sunken);
+
+    /* tartálymérő — a jármű tónusait a `.szip-rajz` maga keveri egyetlen
+       kontrasztszínből (5.21.4); itt csak a tartály ürege és a bordázat
+       hivatkozási alapja marad. */
+    --szip-tank-ur:var(--surface-sunken);
+
+    /* csempetérkép */
+    --szip-csempe-bg:var(--surface);
+    --szip-csempe-bg-van:var(--primary);
+    --szip-csempe-text:var(--text-primary);
+    --szip-csempe-text-van:var(--on-primary);
+    --szip-csempe-border:var(--border);
+    --szip-csempe-border-aktiv:var(--border-strong);
+  }
+
+  /* ---- KÖTELEZŐ ÚJRADEKLARÁLÁS (designrendszer 2.4) ----
+     A `var()` a deklaráció helyén oldódik fel: e nélkül a modul sötét témában
+     is a világos téma felületeit venné át. */
+  [data-theme="dark"]{
+    --szip-panel-bg:var(--surface);
+    --szip-panel-border:var(--border);
+    --szip-melyedes-bg:var(--surface-sunken);
+
+    --szip-sav-sin:var(--canvas);
+    --szip-sav-valaszto:var(--canvas);
+    --szip-sav-kiszallas:var(--secondary);
+    --szip-sav-urites:var(--primary);
+    --szip-sav-minimum:var(--warning-border);
+    --szip-sav-km:var(--info-border);
+    --szip-sav-egyeb:var(--surface-sunken);
+    --szip-tank-ur:var(--surface-sunken);
+
+    --szip-csempe-bg:var(--surface);
+    --szip-csempe-bg-van:var(--primary);
+    --szip-csempe-text:var(--text-primary);
+    --szip-csempe-text-van:var(--on-primary);
+    --szip-csempe-border:var(--border);
+    --szip-csempe-border-aktiv:var(--border-strong);
+  }
+}
+
+@layer components {
+
+  /* ---------------------------------------------------------- 5.21.1 VÁZ */
+  /* Bal oldalon a bevitel, jobb oldalon az eredmény — az eredménykártya
+     TAPAD, mert a látogató a mezőket állítva a számot nézi. */
+  .szip-racs{
+    display:grid;
+    grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+    gap:var(--space-32);
+    align-items:start;
+  }
+  .szip-bemenet{display:grid;gap:var(--space-24);min-width:0}
+  /* A `.btn` `display:inline-flex`-e erősebb, mint a `[hidden]` alapértelmezett
+     `display:none`-ja — a rejtett gomb enélkül LÁTSZANA. */
+  .szip-modul .btn[hidden]{display:none}
+  .szip-eredmeny{
+    position:sticky;
+    /* A tapadó fejléc alá csúszik be, nem alá. */
+    top:calc(var(--topbar-h) + var(--space-16));
+    display:grid;gap:var(--space-16);min-width:0;
+    padding:var(--card-padding);
+    background:var(--szip-panel-bg);
+    border:1px solid var(--szip-panel-border);
+    border-radius:var(--card-radius);
+    box-shadow:var(--card-shadow);
+  }
+
+  /* Mezőcsoport. `fieldset`, mert a mezők tartalmilag összetartoznak, és a
+     képernyőolvasó a `legend`-et minden mezőnél kimondja. */
+  .szip-csoport{
+    position:relative;
+    margin:0;padding:var(--space-24);
+    /* A cím a keretre ÜL, ezért felül egy fél sornyival több hely kell. */
+    padding-block-start:calc(var(--space-24) + var(--space-8));
+    border:1px solid var(--szip-panel-border);
+    border-radius:var(--card-radius);
+    background:var(--szip-panel-bg);
+    display:grid;gap:var(--space-16);
+  }
+  /* A csoportcím PIRULA: a két vége félkör, és a doboz kerete a pirula
+     TENGELYVONALÁBAN fut bele a két oldalába — ezért a cím pontosan a keretre
+     van középre igazítva (`translateY(-50%)`), a saját, átlátszatlan háttere
+     pedig eltakarja mögötte a vonalat.
+
+     Miért nem a natív `legend` keretkivágása: a böngésző a felirat teljes
+     dobozának szélességében szedi ki a vonalat, a vonal vége pedig a doboz
+     TETEJÉNÉL marad — ott, ahol a pirula íve még nem is kezdődik. Így a keret
+     nem a körívbe futna bele, hanem a semmibe. Abszolút pozícióval a felirat
+     kikerül a normál folyamból, a keret végigfut, és a pirula takarja el ott,
+     ahol takarnia kell. A `fieldset` címkézését ez nem érinti: a
+     hozzáférhetőségi fa az első `legend` gyereket veszi, a pozicionálástól
+     függetlenül. */
+  .szip-csoport-cim{
+    position:absolute;top:0;left:var(--space-24);
+    transform:translateY(-50%);
+    max-width:calc(100% - var(--space-48));
+    margin:0;padding:var(--space-4) var(--space-16);
+    color:var(--text-primary);
+    background:var(--szip-panel-bg);
+    border:1px solid var(--szip-panel-border);
+    border-radius:999px;
+  }
+  .szip-csoport-lead{color:var(--text-secondary);margin:0}
+  .szip-mezosor{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16);
+    align-items:start;
+  }
+  .szip-mezosor-harmas{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-16);
+    align-items:start;
+  }
+  /* A címke, a mező és a súgószöveg OSZLOPOK KÖZÖTT is egy vonalban áll.
+     Enélkül a kétsoros címke lelöki a szomszédja mezőjét egy sorral, és a
+     mezősor lépcsőzik. A `subgrid` a szülő sorait osztja a gyerekekkel; ahol
+     nincs támogatás, a mai (lépcsős, de működő) elrendezés marad. */
+  @supports (grid-template-rows: subgrid){
+    .szip-mezosor,
+    .szip-mezosor-harmas{grid-template-rows:auto auto 1fr}
+    .szip-mezosor > .urlap-mezo,
+    .szip-mezosor-harmas > .urlap-mezo{grid-row:span 3;grid-template-rows:subgrid}
+  }
+  /* A mértékegység a címke része, nem külön elem: így a képernyőolvasó együtt
+     mondja ki a mező nevével. */
+  .szip-egyseg{color:var(--text-tertiary)}
+
+  /* Példaérték-jelzés a mező mellett. Addig áll ott, amíg a látogató hozzá
+     nem nyúl a mezőhöz — utána a saját értéke van benne, és a jelzés hazudna. */
+  .szip-pelda-jel{
+    display:inline-block;margin-left:var(--space-4);
+    padding:0 var(--space-8);
+    border-radius:var(--r-md);
+    background:var(--tag-bg);color:var(--tag-text);
+  }
+  .szip-pelda-jel[hidden]{display:none}
+
+  /* -------------------------------------------------- 5.21.2 EREDMÉNYKÁRTYA */
+  .szip-fo{display:grid;gap:var(--space-4)}
+  .szip-fo-cimke{color:var(--text-secondary);margin:0}
+  /* A nagy számok a display-betűvel állnak: a rendszerben ez a méretszerep
+     való kiemelt értékre, az adatbetű 12px-es szerepe erre kicsi volna. */
+  .szip-fo-ertek{color:var(--text-primary);margin:0;font-variant-numeric:tabular-nums}
+  .szip-mellek{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:var(--space-16);
+    padding-top:var(--space-16);
+    border-top:1px solid var(--szip-panel-border);
+  }
+  .szip-mellek-tetel{display:grid;gap:var(--space-4);margin:0}
+  .szip-mellek-cimke{color:var(--text-secondary)}
+  .szip-mellek-ertek{color:var(--text-primary);font-variant-numeric:tabular-nums}
+
+  /* ------------------------------------------------------ 5.21.3 KÖLTSÉGSÁV */
+  .szip-sav{
+    display:flex;overflow:hidden;
+    height:var(--space-24);
+    border-radius:var(--r-md);
+    background:var(--szip-sav-sin);
+    border:1px solid var(--szip-panel-border);
+  }
+  .szip-sav-elem{
+    flex:var(--szip-arany) 1 0;
+    min-width:0;
+    transition:flex-grow var(--dur-ui) var(--ease-out),
+               --szip-arany var(--dur-ui) var(--ease-out);
+  }
+  .szip-sav-elem + .szip-sav-elem{border-left:1px solid var(--szip-sav-valaszto)}
+  .szip-sav-elem[hidden]{display:none}
+  .szip-sav-elem[data-szip-sav-elem="kiszallas"]{background:var(--szip-sav-kiszallas)}
+  .szip-sav-elem[data-szip-sav-elem="urites"]{background:var(--szip-sav-urites)}
+  .szip-sav-elem[data-szip-sav-elem="minimum"]{background:var(--szip-sav-minimum)}
+  .szip-sav-elem[data-szip-sav-elem="km"]{background:var(--szip-sav-km)}
+  .szip-sav-elem[data-szip-sav-elem="egyeb"]{background:var(--szip-sav-egyeb)}
+
+  .szip-jelmagyarazat{display:grid;gap:var(--space-8);margin:0;padding:0}
+  .szip-jm-sor{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    gap:var(--space-8);align-items:baseline;
+  }
+  .szip-jm-folt{
+    width:var(--space-16);height:var(--space-8);
+    border-radius:var(--r-md);align-self:center;
+    border:1px solid var(--szip-sav-valaszto);
+  }
+  .szip-jm-folt[data-szip-folt="kiszallas"]{background:var(--szip-sav-kiszallas)}
+  .szip-jm-folt[data-szip-folt="urites"]{background:var(--szip-sav-urites)}
+  .szip-jm-folt[data-szip-folt="minimum"]{background:var(--szip-sav-minimum)}
+  .szip-jm-folt[data-szip-folt="km"]{background:var(--szip-sav-km)}
+  .szip-jm-folt[data-szip-folt="egyeb"]{background:var(--szip-sav-egyeb)}
+  .szip-jm-nev{color:var(--text-secondary)}
+  .szip-jm-ertek{color:var(--text-primary);font-variant-numeric:tabular-nums}
+
+  /* A „kifizette, de nem vitték el" figyelmeztetés. Nem hiba, hanem
+     tájékoztatás — ezért a figyelmeztető, nem a hibapaletta.
+
+     Cím + négy adatcella, nem egyetlen bekezdés: négy szám egy tömött
+     mondatban olvashatatlan volt. */
+  .szip-jelzes{
+    display:grid;gap:var(--space-16);
+    margin:0;padding:var(--space-24);
+    border-radius:var(--card-radius);
+    background:var(--warning-bg);
+    border:1px solid var(--warning-border);
+    color:var(--warning-text);
+  }
+  .szip-jelzes[hidden]{display:none}
+  .szip-jelzes-cim{margin:0;color:var(--warning-text)}
+  .szip-jelzes-adatok{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:var(--space-16);margin:0;padding:0;list-style:none;
+  }
+  .szip-jelzes-tetel{display:grid;gap:var(--space-4)}
+  .szip-jelzes-nev{color:var(--warning-text)}
+  .szip-jelzes-ertek{color:var(--warning-text);font-variant-numeric:tabular-nums}
+  .szip-jelzes-labjegyzet{margin:0;color:var(--warning-text)}
+
+  /* --------------------------------------------- 5.21.4 A JÁRMŰRAJZ (közös) */
+  /* Egyetlen rajz, két felület: a fejléc sötét sávja és a kalkulátor világos
+     kártyája. A geometria és az osztálynevek azonosak; a paletta a
+     változatosztályon (`.szip-rajz-hero` / `.szip-rajz-muszer`) dől el, és
+     mindkettő MÁR MEGLÉVŐ komponens-tokenekből keveri a tónusait.
+
+     Miért így: két külön osztálykészlet esetén a két ábra idővel elcsúszott
+     volna egymástól — pedig épp az a lényeg, hogy a látogató a fejlécben látott
+     ábrát ismerje fel a kalkulátorban. */
+  .szip-rajz{
+    display:block;width:100%;height:auto;
+    /* Tónuslépcső EGY kontrasztszínből. A rajz így annyi mélységet kap, mint egy
+       háromtónusú illusztráció, de a paletta egyetlen tokenből származik. */
+    --rajz-vonal:color-mix(in srgb,var(--rajz-kontraszt) 55%,transparent);
+    --rajz-finom:color-mix(in srgb,var(--rajz-kontraszt) 30%,transparent);
+    --rajz-test:color-mix(in srgb,var(--rajz-kontraszt) 13%,transparent);
+    --rajz-halvany:color-mix(in srgb,var(--rajz-kontraszt) 7%,transparent);
+    --rajz-arny:color-mix(in srgb,var(--rajz-kontraszt) 20%,transparent);
+  }
+  .szip-rajz-sebesseg{
+    stroke:var(--rajz-finom);stroke-width:2;stroke-linecap:round;opacity:0;
+  }
+  .szip-rajz-hero{
+    max-width:38rem;
+    --rajz-kontraszt:var(--szip-hero-text);
+    --rajz-halo:var(--szip-hero-bg);
+    --rajz-ur:var(--szip-abra-ur);
+    --rajz-cimke:var(--szip-abra-cimke);
+    /* A tartály belső csillanása VILÁGOS, az árnyéka a sáv színe felé mélyül. */
+    --rajz-feny:color-mix(in srgb,var(--szip-hero-text) 18%,transparent);
+    --rajz-belso-arny:color-mix(in srgb,var(--surface-inverse) 46%,transparent);
+    /* Illusztratív töltésarányok — NEM egy konkrét település díjszabásából. */
+    --szip-toltes:.40;
+    --szip-fizetett:.66;
+  }
+  .szip-rajz-muszer{
+    --rajz-halo:var(--szip-panel-bg);
+    /* Az ábra nem nyúlhat a konténer teljes szélességéig: 1180px-en a rajz
+       négyszeres nagyításban állna, és a vonalvastagságok szétesnének. */
+    max-width:36rem;margin-inline:auto;
+    --rajz-kontraszt:var(--text-primary);
+    --rajz-ur:var(--szip-tank-ur);
+    --rajz-cimke:var(--text-secondary);
+    --rajz-feny:color-mix(in srgb,var(--surface) 52%,transparent);
+    --rajz-belso-arny:color-mix(in srgb,var(--text-primary) 16%,transparent);
+  }
+
+  /* --- a jármű elemei --- */
+  .szip-rajz-korvonal{fill:none;stroke:var(--rajz-vonal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .szip-rajz-korvonal-r{fill:none;stroke:var(--rajz-finom);stroke-width:1.5}
+  .szip-rajz-vonal{stroke:var(--rajz-finom);stroke-width:1.5;stroke-linecap:round}
+  .szip-rajz-test{fill:var(--rajz-test)}
+  /* Az alváz és a bölcsők tónusa erősebb: ezek tartják össze a járművet. */
+  .szip-rajz-vaz{fill:var(--rajz-arny)}
+  .szip-rajz-halvany{fill:var(--rajz-halvany)}
+  .szip-rajz-ur{fill:var(--rajz-ur)}
+  .szip-rajz-borda{fill:none;stroke:var(--rajz-finom);stroke-width:1.5;opacity:.55}
+  .szip-rajz-tomlo{
+    fill:none;stroke:var(--rajz-vonal);stroke-width:3;stroke-linecap:round;
+    transform-box:fill-box;transform-origin:top center;
+  }
+  /* A domború véglap alá nem rajzolunk kontúrt: a tónuskülönbség elég ahhoz,
+     hogy hengernek lássuk, a vonal viszont kapszulává tagolná. */
+  .szip-rajz-veglap{fill:var(--rajz-halvany)}
+  .szip-rajz-gumi{fill:none;stroke:var(--rajz-vonal);stroke-width:7}
+  .szip-rajz-felni{fill:var(--rajz-test);stroke:var(--rajz-finom);stroke-width:1.5}
+  .szip-rajz-kullo{stroke:var(--rajz-finom);stroke-width:1.5;stroke-linecap:round}
+  .szip-rajz-kupak{fill:var(--rajz-vonal)}
+  .szip-rajz-kerek,
+  .szip-rajz-dob{transform-box:fill-box;transform-origin:center}
+  .szip-rajz-arny-0{stop-color:var(--rajz-arny)}
+  .szip-rajz-arny-1{stop-color:transparent}
+  .szip-rajz-talaj-0{stop-color:transparent}
+  .szip-rajz-talaj-1{stop-color:var(--rajz-finom)}
+  .szip-rajz-paszma-0{stop-color:transparent}
+  .szip-rajz-paszma-1{stop-color:var(--rajz-feny)}
+
+  /* --- a tartály töltése --- */
+  /* A két réteg a tartály bal belső éléről (x=150) nyúlik ki. Nem az SVG
+     `width` változik, hanem a CSS `transform`: a geometriai tulajdonságok
+     CSS-ből való állítása nem egyformán támogatott, a transform viszont
+     mindenhol animálódik. */
+  .szip-rajz-fizetett,
+  .szip-rajz-toltes{transform-origin:150px 0}
+  .szip-rajz-fizetett{fill:var(--szip-sav-minimum);transform:scaleX(var(--szip-fizetett))}
+  .szip-rajz-toltes{fill:var(--szip-sav-urites);transform:scaleX(var(--szip-toltes))}
+  /* A tartály alsó árnyéka GRADIENS, nem tömör sáv: tömören éles vízszintes
+     vonalat húzott a tartály közepén, ami folyadékszintnek látszott. */
+  .szip-rajz-melyseg-0{stop-color:transparent}
+  .szip-rajz-melyseg-1{stop-color:var(--rajz-belso-arny)}
+  .szip-rajz-belso-feny{fill:var(--rajz-feny)}
+  /* Meniszkusz: a folyadék éle egy hajszálnyival világosabb, mint a törzse. */
+  .szip-rajz-el{fill:var(--rajz-feny)}
+  .szip-rajz-el-toltes{transform:translateX(calc(300px * var(--szip-toltes)))}
+  .szip-rajz-el-fizetett{transform:translateX(calc(300px * var(--szip-fizetett)))}
+  .szip-rajz-paszma{opacity:0}
+
+  /* --- jelölők --- */
+  .szip-rajz-jelvonal{
+    stroke:var(--rajz-cimke);stroke-width:1.5;stroke-dasharray:3 4;
+    transform-box:fill-box;transform-origin:top center;
+  }
+  .szip-rajz-jelpont{fill:var(--rajz-cimke)}
+  /* A felirat HALÓT kap: a kontúrt a felület színével húzzuk mögé
+     (`paint-order: stroke fill`), így a szöveg akkor is olvasható marad, ha
+     éppen a tartály vagy egy szerelvény fölé kerül. */
+  .szip-rajz-cimke{
+    paint-order:stroke fill;
+    stroke:var(--rajz-halo);stroke-width:4;stroke-linejoin:round;
+    fill:var(--rajz-cimke);
+    font-family:var(--font-mono);
+    font-size:var(--type-data-eyebrow-size);
+    font-weight:var(--type-data-eyebrow-weight);
+    letter-spacing:var(--type-data-eyebrow-letter-spacing);
+  }
+  .szip-rajz-jelolo-toltes{transform:translateX(calc(300px * var(--szip-toltes)))}
+  .szip-rajz-jelolo-fizetett{transform:translateX(calc(300px * var(--szip-fizetett)))}
+  .szip-rajz-jelolo-minimum{transform:translateX(calc(300px * var(--szip-minimum)))}
+  /* A műszer élőben követi a mezőket, ezért ott minden mozgó elem átmenetet kap. */
+  .szip-rajz-muszer .szip-rajz-fizetett,
+  .szip-rajz-muszer .szip-rajz-toltes,
+  .szip-rajz-muszer .szip-rajz-el,
+  .szip-rajz-muszer .szip-rajz-jelolo{transition:transform var(--dur-ui) var(--ease-out)}
+
+  /* --- köbméter-beosztás a tartály tetején --- */
+  /* A beosztásnak a TÖLTÖTT és az ÜRES tartályrészen is látszania kell: a
+     világos csillanásszín az üres részen eltűnne, a sötét kontúr a zöld
+     folyadékon veszne el. A közepes tónus mindkettőn olvasható. */
+  .szip-rajz-osztas{
+    stroke:color-mix(in srgb,var(--rajz-kontraszt) 45%,transparent);
+    stroke-width:1.5;stroke-linecap:round;
+  }
+  .szip-rajz-osztas-fo{stroke-width:2.5}
+
+  /* A műszer-változat járműve VÍZSZINTESEN NYÚLIK az űrtartalommal: egy
+     12 m³-es kocsi láthatóan hosszabb, mint egy 3 m³-es. A tartomány szűk
+     (0,94…1,06), mert ennél nagyobb nyújtás a kerekeket ellipszissé lapítaná.
+     A hero változaton NEM alkalmazzuk: ott ugyanezt a transformot a behajtás
+     animációja használja. */
+  .szip-rajz-muszer .szip-rajz-jarmu{
+    transform-origin:288px 0;
+    transform:scaleX(var(--szip-kocsi-arany,1));
+    transition:transform var(--dur-ui) var(--ease-out);
+  }
+  /* ELLENSKÁLÁZÁS. A jármű nyújtása a TARTÁLYRÓL szól; a fülke, a hátsó
+     szerelvény és a kerekek nem nyúlhatnak vele, különben a kerék ellipszissé
+     lapulna és a fülke elhúzódna. Ezek a csoportok ezért a saját középpontjuk
+     körül visszaskálázzák magukat — a HELYÜK viszont a szülő skálázásával
+     mozdul, tehát a hátsó tengely valóban hátrébb kerül a hosszabb kocsin. */
+  .szip-rajz-muszer .szip-rajz-fulke,
+  .szip-rajz-muszer .szip-rajz-hatso,
+  .szip-rajz-muszer .szip-rajz-kerek{
+    transform-box:fill-box;transform-origin:center;
+    transform:scaleX(calc(1 / var(--szip-kocsi-arany,1)));
+    transition:transform var(--dur-ui) var(--ease-out);
+  }
+
+  /* ------------------------------------------------ 5.21.4/b A JÁRMŰ BLOKKJA */
+  /* A méretválasztó és a rajz EGY blokkban: külön állva a látogató átállította
+     a járműméretet, és nem látta, mit csinál. */
+  .szip-jarmu{margin-top:var(--space-32)}
+  .szip-jarmu-racs{
+    display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
+    gap:var(--space-32);align-items:center;
+  }
+  .szip-jarmu-abra{margin:0;display:grid;gap:var(--space-8);min-width:0}
+  .szip-jarmu-vezerlo{display:grid;gap:var(--space-16);min-width:0}
+  .szip-jarmu .szip-tank-cimkek{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+  /* ------------------------------------------------ 5.21.4/c TARTÁLYMÉRŐ-DOBOZ */
+  /* A doboz felülete `--surface`, a tartály ürege `--surface-sunken`: ha a
+     kettő ugyanaz volna, a tartály üres része beleolvadna a háttérbe, és az
+     ábra fő állítása — a „meddig van tele" — eltűnne. */
+  .szip-tank-cimkek{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:var(--space-16);margin:0;padding:0;list-style:none;
+    padding-top:var(--space-16);
+    border-top:1px solid var(--szip-panel-border);
+  }
+  .szip-tank-cimke{display:grid;gap:var(--space-4)}
+  .szip-tank-cimke-nev{color:var(--text-secondary)}
+  .szip-tank-cimke-ertek{color:var(--text-primary);font-variant-numeric:tabular-nums}
+
+  /* ------------------------------------------------- 5.21.5 KOCSI-VÁLASZTÓK */
+  .szip-kocsi-sor{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+  .szip-kocsi-gomb{
+    display:grid;gap:var(--space-4);justify-items:start;
+    min-height:2.75rem;padding:var(--space-8) var(--space-16);
+    background:var(--szip-panel-bg);
+    border:1px solid var(--szip-panel-border);
+    border-radius:var(--r-md);
+    color:var(--text-primary);cursor:pointer;
+    transition:border-color var(--dur-ui) var(--ease-out),
+               background-color var(--dur-ui) var(--ease-out);
+  }
+  .szip-kocsi-gomb:hover{border-color:var(--szip-csempe-border-aktiv)}
+  .szip-kocsi-gomb:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
+  .szip-kocsi-gomb[aria-pressed="true"]{
+    background:var(--primary);color:var(--on-primary);border-color:var(--primary);
+  }
+  .szip-kocsi-jelzo{color:var(--text-tertiary)}
+  .szip-kocsi-gomb[aria-pressed="true"] .szip-kocsi-jelzo{color:var(--on-primary)}
+
+  /* ------------------------------------------------- 5.21.6 CSEMPETÉRKÉP */
+  /* NEM földrajzi térkép: azonos méretű csempék, a valós kelet–nyugati és
+     észak–déli sorrendben. Pontos határvonalat nem rajzolunk, mert arra nincs
+     hiteles forrásunk — a csempe viszont nem is állít ilyet. */
+  /* Bal oldalon az állapot és a részletek, jobb oldalon a térkép: a szöveg
+     sorhossza így nem nyúlik el, a rács pedig nem marad egy üres féloldal
+     mellett. */
+  .szip-terkep-doboz{
+    display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);
+    gap:var(--space-32);align-items:start;
+  }
+  .szip-terkep-oszlop{display:grid;gap:var(--space-16);min-width:0}
+  .szip-terkep-racs{
+    display:grid;
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:var(--space-8);
+    margin:0;padding:0;list-style:none;
+  }
+  .szip-terkep-cella{grid-row:var(--szip-sor);grid-column:var(--szip-oszlop)}
+  .szip-csempe{
+    display:grid;gap:var(--space-4);align-content:center;justify-items:center;
+    width:100%;min-height:2.75rem;aspect-ratio:6 / 5;
+    padding:var(--space-4);
+    background:var(--szip-csempe-bg);
+    color:var(--szip-csempe-text);
+    border:1px solid var(--szip-csempe-border);
+    border-radius:var(--r-md);
+    cursor:pointer;text-align:center;
+    transition:transform var(--dur-ui) var(--ease-out),
+               border-color var(--dur-ui) var(--ease-out),
+               box-shadow var(--dur-ui) var(--ease-out);
+  }
+  /* Üres hely: szaggatott keret és halvány felület. Így az „még nincs adat"
+     állapot szándékosnak látszik, nem hibának — és látszik rajta, hogy oda
+     tartozik valami, ami még hiányzik. */
+  .szip-csempe[data-allapot="nincs"]{
+    border-style:dashed;
+    border-color:color-mix(in srgb,var(--text-secondary) 45%,transparent);
+    background:color-mix(in srgb,var(--szip-csempe-bg) 72%,transparent);
+    color:var(--text-secondary);
+  }
+  .szip-csempe[data-allapot="van"]{
+    background:var(--szip-csempe-bg-van);
+    color:var(--szip-csempe-text-van);
+    border-color:var(--szip-csempe-bg-van);
+    border-style:solid;
+  }
+  .szip-csempe:hover{transform:translateY(-2px);box-shadow:var(--shadow-2)}
+  .szip-csempe:focus-visible{outline:3px solid var(--button-focus);outline-offset:2px}
+  .szip-csempe[aria-pressed="true"]{
+    border-color:var(--szip-csempe-border-aktiv);
+    box-shadow:0 0 0 2px var(--szip-csempe-border-aktiv);
+  }
+  .szip-csempe-nev{
+    /* A vármegyenév a legszűkebb csempén is elfér: ha nem, elválasztójellel
+       tördel, nem lóg ki. */
+    overflow-wrap:anywhere;hyphens:auto;line-height:1.15;
+  }
+  .szip-csempe-db{color:inherit;opacity:.6}
+  .szip-terkep-osszeg{color:var(--text-secondary);margin:0}
+  .szip-terkep-reszlet{
+    margin:0;padding:var(--space-16);
+    border-radius:var(--card-radius);
+    background:var(--szip-melyedes-bg);
+    color:var(--text-primary);
+  }
+  .szip-terkep-jelmagyarazat{
+    display:flex;flex-wrap:wrap;gap:var(--space-16);
+    margin:0;padding:0;list-style:none;
+  }
+  .szip-terkep-jm{display:flex;align-items:center;gap:var(--space-8);color:var(--text-secondary)}
+  .szip-terkep-jm-folt{
+    width:var(--space-16);height:var(--space-16);border-radius:var(--r-md);
+    border:1px solid var(--szip-csempe-border);
+  }
+  .szip-terkep-jm-folt[data-allapot="van"]{background:var(--szip-csempe-bg-van);border-color:var(--szip-csempe-bg-van)}
+  .szip-terkep-jm-folt[data-allapot="nincs"]{background:var(--szip-csempe-bg)}
+
+  /* -------------------------------------------------- 5.21.7 TALÁLATJELZÉS */
+  .szip-talalat{
+    margin:0;padding:var(--space-8) var(--space-16);
+    border-radius:var(--r-md);
+    background:var(--info-bg);border:1px solid var(--info-border);color:var(--info-text);
+  }
+  .szip-talalat[hidden]{display:none}
+  .szip-atmasolva{
+    margin:0;padding:var(--space-16);
+    border-radius:var(--card-radius);
+    background:var(--success-bg);border:1px solid var(--success-border);color:var(--success-text);
+  }
+  .szip-atmasolva[hidden]{display:none}
+
+  /* A számoló felület JS nélkül nem jelenik meg: az üres, működésképtelen
+     mezősor rosszabb, mint a helyette álló magyarázat. A jelölést a modul
+     indulásakor veszi le a JS. A BEKÜLDŐ ŰRLAP nem visel ilyen jelölést —
+     az sima POST-tal JS nélkül is működik. */
+  [data-szip-vart]{display:none}
+}
+
+@layer responsive {
+  @media (max-width:1024px){
+    .szip-racs{grid-template-columns:minmax(0,1fr)}
+    /* Szűk nézetben a tapadás nem segít: a kártya a mezők ALATT áll, tehát
+       ott ragadna be a képernyő tetején, elfedve a mezőket. */
+    .szip-eredmeny{position:static}
+    .szip-terkep-doboz{grid-template-columns:minmax(0,1fr)}
+    .szip-terkep-racs{gap:var(--space-4)}
+    .szip-jelzes-adatok{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .szip-jarmu-racs{grid-template-columns:minmax(0,1fr)}
+    .szip-jarmu .szip-tank-cimkek{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
+  @media (max-width:640px){
+    .szip-mezosor,
+    .szip-mezosor-harmas,
+    .szip-mellek,
+    .szip-tank-cimkek{grid-template-columns:minmax(0,1fr)}
+    .szip-csoport{padding:var(--space-16);padding-block-start:calc(var(--space-16) + var(--space-8))}
+    .szip-csoport-cim{left:var(--space-16);max-width:calc(100% - var(--space-32))}
+    .szip-jelzes{padding:var(--space-16)}
+    .szip-jelzes-adatok{grid-template-columns:minmax(0,1fr)}
+    /* A hatoszlopos rács 360px-en 56px-es csempét adna: a vármegyenév ott
+       olvashatatlan. A csempe ilyenkor négyzet helyett szélesebb, és a rács
+       vízszintesen görgethető — a földrajzi elrendezés így megmarad. */
+    .szip-terkep-gorgo{overflow-x:auto;padding-bottom:var(--space-8)}
+    .szip-terkep-racs{min-width:32rem}
+  }
+}
+
+@layer motion {
+  /* A csempék a görgetéssel épülnek fel, északnyugatról délkelet felé. A
+     lépcsőzést a rácshely adja (`--szip-lepcso`), nem külön késleltetés:
+     görgetésvezérelt animációnál a `animation-delay` nem értelmezhető. */
+  @supports (animation-timeline: view()){
+    @media (prefers-reduced-motion:no-preference){
+      .szip-terkep-cella{
+        animation:szip-csempe-be linear both;
+        animation-timeline:view();
+        animation-range:entry calc(var(--szip-lepcso,0) * 4%)
+                        entry calc(var(--szip-lepcso,0) * 4% + 45%);
+      }
+    }
+  }
+  @keyframes szip-csempe-be{
+    from{opacity:0;transform:translateY(var(--space-16)) scale(.86)}
+    to{opacity:1;transform:none}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .szip-sav-elem,
+    .szip-tank-fizetett,
+    .szip-tank-toltes,
+    .szip-tank-jel,
+    .szip-csempe,
+    .szip-kocsi-gomb{transition:none}
+    .szip-csempe:hover{transform:none}
+  }
+}
+
+/* =============================================================================
+   5.22 MODUL-HERO — `.szip-hero`
+   -----------------------------------------------------------------------------
+   ⚠️ JELZETT ELTÉRÉS a `.page-hero`-tól. A webhely 116 aloldala fényképes
+   fejlécet visel. Ezen az egy lapon nem: a rendelkezésre álló szippantásos
+   felvételen ott a designrendszer 4.4-ben leírt FÜGGŐLEGES VARRAT (a bal harmad
+   határán fókusz- és expozícióváltás látszik), és a lap ráadásul nem tartalmi,
+   hanem eszközoldal. A fejléc ezért a modul saját nyelvén szólal meg: sötét
+   felület, rajta az az ábra, amit a kalkulátor is használ.
+
+   Minden érték tokenből jön; a felület Forest, tehát a szöveg a sötét felületre
+   szánt szerepszíneket kapja (`--text-on-dark`, `--panel-dark-link`).
+   ============================================================================= */
+
+@layer tokens {
+  :root{
+    --szip-hero-bg:var(--surface-inverse);
+    --szip-hero-text:var(--text-on-dark);
+    --szip-hero-muted:var(--text-on-dark-muted);
+    --szip-hero-link:var(--panel-dark-link);
+    --szip-hero-jel:var(--primary);
+    /* A háttér két lágy fényfoltja és a mérőrács — mind a felület saját
+       színeiből kevert, hogy témaváltáskor együtt mozduljon vele. */
+    --szip-hero-fenyfolt:color-mix(in srgb,var(--primary) 26%,transparent);
+    --szip-hero-fenyfolt-2:color-mix(in srgb,var(--color-skyblue) 16%,transparent);
+    --szip-hero-racs:color-mix(in srgb,var(--text-on-dark) 8%,transparent);
+    /* ábra */
+    --szip-abra-ur:color-mix(in srgb,var(--surface-inverse) 84%,var(--text-on-dark));
+    --szip-abra-cimke:var(--text-on-dark-muted);
+  }
+  [data-theme="dark"]{
+    /* Sötét témában a Forest maga a sáv színe — a hero a felület-lépcső
+       következő fokára ül, ahogy a `.panel-dark` is. */
+    --szip-hero-bg:var(--surface-muted);
+    --szip-hero-text:var(--text-primary);
+    --szip-hero-muted:var(--text-secondary);
+    --szip-hero-link:var(--link);
+    --szip-hero-jel:var(--primary);
+    --szip-hero-fenyfolt:color-mix(in srgb,var(--primary) 20%,transparent);
+    --szip-hero-fenyfolt-2:color-mix(in srgb,var(--color-skyblue) 12%,transparent);
+    --szip-hero-racs:color-mix(in srgb,var(--text-primary) 7%,transparent);
+    --szip-abra-ur:color-mix(in srgb,var(--surface-muted) 84%,var(--canvas));
+    --szip-abra-cimke:var(--text-secondary);
+  }
+}
+
+@layer components {
+  .szip-hero{
+    position:relative;isolation:isolate;overflow:hidden;
+    background:var(--szip-hero-bg);
+    color:var(--szip-hero-text);
+  }
+  /* Két lágy fényfolt. Minden irányban a nulláig hal el, tehát nincs éle vagy
+     sávhatára — ugyanaz az elv, mint a főoldali hero foltjánál. */
+  .szip-hero::before{
+    content:"";position:absolute;inset:0;z-index:-2;
+    background:
+      radial-gradient(58% 70% at 78% 18%,var(--szip-hero-fenyfolt),transparent 70%),
+      radial-gradient(52% 64% at 6% 92%,var(--szip-hero-fenyfolt-2),transparent 72%);
+  }
+  /* Mérőrács: a lap eszköz, nem cikk — a finom vonalháló ezt mondja ki.
+     A maszk a széleken elhalványítja, hogy ne legyen kerete. */
+  .szip-hero::after{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background-image:
+      repeating-linear-gradient(to right,var(--szip-hero-racs) 0 1px,transparent 1px 72px),
+      repeating-linear-gradient(to bottom,var(--szip-hero-racs) 0 1px,transparent 1px 72px);
+    -webkit-mask-image:radial-gradient(72% 78% at 60% 44%,#000,transparent 78%);
+    mask-image:radial-gradient(72% 78% at 60% 44%,#000,transparent 78%);
+  }
+  .szip-hero-inner{
+    position:relative;
+    display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);
+    align-items:center;gap:var(--space-64);
+    max-width:var(--container-wide);margin-inline:auto;
+    padding-inline:var(--page-gutter);
+    padding-block:var(--space-64);
+  }
+  .szip-hero-copy{display:flex;flex-direction:column;align-items:flex-start}
+
+  .szip-hero-morzsa{margin-bottom:var(--space-24)}
+  .szip-hero-morzsa .breadcrumb-list{color:var(--szip-hero-muted)}
+  .szip-hero-morzsa a{color:var(--szip-hero-link)}
+  .szip-hero-morzsa [aria-current]{color:var(--szip-hero-text)}
+
+  .szip-hero-eyebrow{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    color:var(--szip-hero-jel);margin:0 0 var(--space-16);
+  }
+  /* Élő pont az eyebrow előtt: a lap egy MŰKÖDŐ eszköz, nem szöveg. */
+  .szip-hero-pont{
+    width:var(--space-8);height:var(--space-8);border-radius:50%;
+    background:var(--szip-hero-jel);flex:none;
+  }
+  .szip-hero-cim{color:var(--szip-hero-text);margin:0 0 var(--space-16);overflow-wrap:break-word}
+  .szip-hero-lead{color:var(--szip-hero-muted);max-width:56ch;margin:0 0 var(--space-32)}
+
+  /* A három díjtétel már a fejlécben megjelenik: a lap egész gondolatmenete
+     ezen a hármason áll, és így a látogató a görgetés előtt találkozik vele. */
+  .szip-hero-chipek{
+    display:flex;flex-wrap:wrap;gap:var(--space-8);
+    margin:0 0 var(--space-32);padding:0;list-style:none;
+  }
+  .szip-hero-chip{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-4) var(--space-16);
+    border-radius:var(--r-md);
+    border:1px solid color-mix(in srgb,var(--szip-hero-text) 20%,transparent);
+    background:color-mix(in srgb,var(--szip-hero-text) 6%,transparent);
+    color:var(--szip-hero-text);
+  }
+  .szip-hero-chip-folt{width:var(--space-8);height:var(--space-8);border-radius:var(--r-md);flex:none}
+  .szip-hero-chip-folt[data-szip-folt="kiszallas"]{background:var(--szip-sav-kiszallas)}
+  .szip-hero-chip-folt[data-szip-folt="urites"]{background:var(--szip-sav-urites)}
+  .szip-hero-chip-folt[data-szip-folt="minimum"]{background:var(--szip-sav-minimum)}
+
+  .szip-hero-akciok{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-24);margin:0}
+  .szip-hero-akciok .text-link{color:var(--szip-hero-link)}
+
+  /* ---------------------------------------------------------------- ÁBRA */
+  .szip-hero-abra{min-width:0;display:flex;justify-content:center}
+}
+
+@layer responsive {
+  @media (max-width:1024px){
+    .szip-hero-inner{
+      grid-template-columns:minmax(0,1fr);
+      gap:var(--space-32);
+      padding-block:var(--space-48);
+    }
+  }
+  @media (max-width:640px){
+    .szip-hero-akciok{align-items:flex-start;flex-direction:column;gap:var(--space-16)}
+    .szip-hero-akciok .btn{width:100%;justify-content:center}
+  }
+}
+
+@layer motion {
+  /* A fejléc ábrája BEHAJT és MEGTELIK — a lap első két másodpercében elmondja,
+     miről szól. Öt fázis, mind ugyanabból a rajzból:
+
+       0 ms    a jármű balról behúz, közben a kerekek és a tömlődob forognak
+       620 ms  a kiszámlázott mennyiség felfut (arany)
+       800 ms  az elszállított mennyiség felfut (zöld) — a KÉT ÉRTÉK KÜLÖN
+               ütemben indul, hogy a különbségük külön is látszódjon
+       1500 ms a két jelölő vonala lefut, a felirat megjelenik
+       2200 ms innentől 7 másodpercenként fénypászma fut végig a tartályon
+
+     Csökkentett mozgás mellett mindez elmarad, és a rajz a végállapotában áll. */
+  @media (prefers-reduced-motion:no-preference){
+    .szip-rajz-hero .szip-rajz-jarmu{animation:szip-behajt 900ms var(--ease-out) both}
+    .szip-rajz-hero .szip-rajz-kerek{animation:szip-kerek-forog 900ms var(--ease-out) both}
+    .szip-rajz-hero .szip-rajz-dob{animation:szip-dob-forog 1100ms var(--ease-out) both}
+    .szip-rajz-hero .szip-rajz-tomlo{animation:szip-tomlo-leng 1300ms var(--ease-out) 200ms both}
+
+    .szip-rajz-hero .szip-rajz-sebesseg{animation:szip-sebesseg 700ms var(--ease-out) both}
+    .szip-rajz-hero .szip-rajz-fizetett{animation:szip-tolt-fizetett 1100ms var(--ease-out) 620ms both}
+    /* A zöld réteg a feltöltés UTÁN még hármat lötyög, csillapodva: ettől lesz
+       folyadék, nem sáv. Két animáció ugyanazon a tulajdonságon — a második
+       akkor indul, amikor az első befejeződött. */
+    .szip-rajz-hero .szip-rajz-toltes{
+      animation:szip-tolt-valos 1100ms var(--ease-out) 800ms both,
+                szip-lotyog 2200ms var(--ease-out) 1900ms both;
+    }
+    .szip-rajz-hero .szip-rajz-el{animation:szip-el-be 500ms var(--ease-out) 1500ms both}
+
+    .szip-rajz-hero .szip-rajz-jelvonal{animation:szip-jelvonal-le 480ms var(--ease-out) 1500ms both}
+    .szip-rajz-hero .szip-rajz-cimke,
+    .szip-rajz-hero .szip-rajz-jelpont{animation:szip-halvanyul-be 420ms var(--ease-out) 1760ms both}
+
+    /* A pászma a mozgás nagy részében a képen KÍVÜL áll: a hurok 18%-ában fut
+       át, a maradék a szünet. Enélkül folyamatos csillogás volna, ami egy
+       műszaki ábrán zavaró. */
+    .szip-rajz-hero .szip-rajz-paszma{animation:szip-paszma-fut 7s linear 2.2s infinite}
+  }
+
+  @keyframes szip-behajt{
+    from{opacity:0;transform:translateX(-46px)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes szip-kerek-forog{
+    from{transform:rotate(-210deg)}
+    to{transform:none}
+  }
+  @keyframes szip-dob-forog{
+    from{transform:rotate(-140deg)}
+    to{transform:none}
+  }
+  @keyframes szip-tomlo-leng{
+    0%{transform:rotate(9deg)}
+    55%{transform:rotate(-4deg)}
+    100%{transform:none}
+  }
+  @keyframes szip-tolt-fizetett{
+    from{transform:scaleX(0)}
+    to{transform:scaleX(var(--szip-fizetett))}
+  }
+  @keyframes szip-tolt-valos{
+    from{transform:scaleX(0)}
+    to{transform:scaleX(var(--szip-toltes))}
+  }
+  @keyframes szip-sebesseg{
+    0%{opacity:0;transform:translateX(30px)}
+    25%{opacity:.9}
+    100%{opacity:0;transform:translateX(-70px)}
+  }
+  /* A lötyögés a TÖLTÉS végállapotából indul és oda tér vissza — a kitérés
+     köbméterben nagyjából negyed köbméternyi, épp csak érzékelhető. */
+  @keyframes szip-lotyog{
+    0%{transform:scaleX(var(--szip-toltes))}
+    22%{transform:scaleX(calc(var(--szip-toltes) + .022))}
+    48%{transform:scaleX(calc(var(--szip-toltes) - .013))}
+    74%{transform:scaleX(calc(var(--szip-toltes) + .006))}
+    100%{transform:scaleX(var(--szip-toltes))}
+  }
+  @keyframes szip-el-be{from{opacity:0}to{opacity:1}}
+  @keyframes szip-halvanyul-be{from{opacity:0}to{opacity:1}}
+  @keyframes szip-jelvonal-le{
+    from{opacity:0;transform:scaleY(0)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes szip-paszma-fut{
+    0%{opacity:0;transform:translateX(0)}
+    2%{opacity:1}
+    16%{opacity:1}
+    18%{opacity:0;transform:translateX(760px)}
+    100%{opacity:0;transform:translateX(760px)}
   }
 }

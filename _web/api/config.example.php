@@ -101,6 +101,10 @@ return [
         'konzultacio'     => ['kapcsolat@example.hu'],
         'dontestamogato'  => ['kapcsolat@example.hu'],
         'ajanlat-atnezes' => ['kapcsolat@example.hu'],
+        // A szippantási díjkalkulátor adatbeküldései. Kihagyva a 'kapcsolat'
+        // postafiókba mennek — a végpontnak van tartaléka, tehát a beküldés
+        // akkor sem vész el, ha ez a sor lemarad.
+        'szippantasi-dij' => ['kapcsolat@example.hu'],
     ],
 
     /* --- Visszaigazolás a látogatónak ------------------------------------ */

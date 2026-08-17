@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<!-- TESZT ÜZEMMÓD: az oldal fejlesztés alatt áll. ÉLESÍTÉSKOR ezt a sort
+     minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Szippantási díj kalkulátor — mennyibe kerül egy évben? | ÖkoTech Home</title>
+<meta name="description" content="Számolja ki, mennyibe kerül évente a szippantás: kiszállási díj, köbméter-alapú ürítési díj és minimumdíj együtt. A minimumdíjban foglalt mennyiség is beleszámít.">
+<link rel="canonical" href="https://okoth.hu/szippantasi-dij-kalkulator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Szippantási díj kalkulátor">
+<meta property="og:description" content="Számolja ki, mennyibe kerül évente a szippantás: kiszállási díj, köbméter-alapú ürítési díj és minimumdíj együtt. A minimumdíjban foglalt mennyiség is beleszámít.">
+<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-szippantas.webp?v=2">
+<meta property="og:locale" content="hu_HU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/app.css?v=137">
+<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
+     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
+<script src="assets/js/tema.js?v=1"></script>
+<!-- Fejlécképet ez a lap NEM tölt be: a fejléc rajzolt (lásd app.css 5.22).
+     Az LCP-elem így a főcím, tehát nincs mit előre tölteni. Az `og:image`
+     viszont marad — a megosztási kártyához kell egy felvétel. -->
+</head>
+<body>
+
+<a class="skip-link" href="#fotartalom">Ugrás a tartalomra</a>
+
+<!-- ==========================================================================
+     OLDALFEJLÉC — kontaktsáv + HÁROMSZINTŰ megamenü
+     A navigáció natív `details`/`summary`: szűk nézetben lenyitható panel,
+     asztali nézetben a lenyitó gomb elrejtve, a lista nyitva. JS csak annyit
+     tesz, hogy szűk nézetben becsukja az alapból nyitott panelt.
+
+     A menü SZERKEZETE a scripts/oldalgyartas/fejlec.py fájlban él, és onnan
+     kerül minden oldalba. NE ITT szerkeszd — a következő futtatás felülírja.
+     ========================================================================== -->
+<header class="site-header">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <ul class="topbar-list" role="list">
+        <li class="topbar-item type-ui-label topbar-hide-narrow">
+          <span class="icon icon-inline icon-helyszin topbar-icon" aria-hidden="true"></span>
+          2509 Esztergom, Strázsa u. 12.
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="mailto:kapcsolat@okotechhome.hu">
+            <span class="icon icon-inline icon-email topbar-icon" aria-hidden="true"></span>
+            kapcsolat@okotechhome.hu
+          </a>
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="tel:+3633200211">
+            <span class="icon icon-inline icon-telefon topbar-icon" aria-hidden="true"></span>
+            +36 33 200 211
+          </a>
+        </li>
+      </ul>
+
+      <!-- A sitemap nyolc főkategóriájából a három másodlagos itt kap helyet:
+           a fő sávban nyolc nagybetűs menüpont nem fér el a logó és a CTA mellett. -->
+      <ul class="topbar-list topbar-hide-narrow" role="list">
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">Ügyféltámogatás</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">Partnereknek</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">ÖkoTech-Home</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- A kontaktsáv elgörög, a fő sáv tapad (sticky), finom árnyékkal. -->
+  <div class="header-main">
+  <div class="header-inner">
+    <!-- Két rajz, a téma választ: az `img`-ként betöltött SVG nem látja a
+         dokumentum `data-theme` attribútumát, ezért a szóvédjegy színe nem
+         tudná követni a váltást. Az `alt` csak az egyiken van kitöltve, a
+         másik `alt=""` — különben a képernyőolvasó kétszer mondaná ki a
+         cégnevet, hiszen a hivatkozásnak már van `aria-label`-je. -->
+    <a class="site-logo" href="./" aria-label="ÖkoTech Home — főoldal">
+      <img class="site-logo-vilagos" src="assets/img/logo-okotechhome.svg"
+           width="928" height="290" alt="ÖkoTech Home" decoding="async">
+      <img class="site-logo-sotet" src="assets/img/logo-okotechhome-sotet.svg"
+           width="928" height="290" alt="" decoding="async">
+    </a>
+
+    <details class="nav-drawer" open>
+      <summary class="nav-toggle type-ui-button">Menü</summary>
+      <nav class="site-nav" aria-label="Fő navigáció">
+        <ul class="nav-list" role="list">
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-helyzetem">
+              Helyzetem<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-helyzetem" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Helyzetem</p>
+                  <a class="text-link mega-attekintes" href="helyzetem/"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="helyzetem/nincs-elerheto-kozcsatorna"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozcsatorna"></span></span><span class="mega-label type-ui-body">Nincs közcsatorna</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/milyen-megoldasi-lehetosegek-vannak">Milyen megoldási lehetőségek vannak?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/kozcsatorna-vagy-egyedi-rendszer">Közcsatorna vagy egyedi rendszer?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/milyen-adatokat-kell-osszegyujteni">Milyen adatokat kell összegyűjteni?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/projektindito">Projektindító / helyzetfelmérő</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="helyzetem/telekvasarlas-vagy-uj-epites-elott-allok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-telek"></span></span><span class="mega-label type-ui-body">Telekvásárlás, új építés</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/alkalmas-lehet-e-a-telek">Alkalmas lehet-e a telek?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/talaj-talajviz-es-vizelhelyezes">Talaj, talajvíz és vízelhelyezés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/milyen-dokumentumokra-lehet-szukseg">Milyen dokumentumokra lehet szükség?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/telekadat-ellenorzolista">Telekadat-ellenőrzőlista</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/helyszini-felmeres">Helyszíni felmérés</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="helyzetem/meglevo-emesztot-szeretnek-kivaltani"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-emeszto"></span></span><span class="mega-label type-ui-body">Emésztő kiváltása</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/mikor-indokolt-a-csere">Mikor indokolt a csere?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/emeszto-oldomedence-vagy-biologiai">Emésztő, oldómedence vagy biológiai?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/teljes-koltseg-es-megterules">Teljes költség és megtérülés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/meglevo-rendszer-felmerese">Meglévő rendszer felmérése</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/koltseg-es-projektbrief">Költség- és projektbrief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nyaralo"></span></span><span class="mega-label type-ui-body">Nyaraló, szezonális ház</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/mit-jelent-az-idoszakos-terheles">Mit jelent az időszakos terhelés?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/biologiai-rendszer-vagy-oldomedence">Biológiai rendszer vagy oldómedence?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/hosszabb-tavollet-es-ujrainditas">Hosszabb távollét és újraindítás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/szezonalis-esettanulmanyok">Szezonális esettanulmányok</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/hasznalati-profil">Használati profil elkészítése</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="helyzetem/csaladi-hazhoz-keresek-rendszert"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-epitkezes"></span></span><span class="mega-label type-ui-body">Családi ház</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/megoldastipus-kivalasztasa">Megoldástípus kiválasztása</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/telekalkalmassag">Telekalkalmasság</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/kapacitas-es-letszam">Kapacitás és létszám</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/koltseg-es-telepites">Költség és telepítés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/ajanlatkeresi-keszultseg">Ajánlatkérési készültség</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vallalkozas"></span></span><span class="mega-label type-ui-body">Vállalkozás, intézmény</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/vallalkozas-panziok-es-szallashelyek">Panziók és szálláshelyek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/vallalkozas-ettermek-es-nagykonyhak">Éttermek és nagykonyhák</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/vallalkozas-iskolak-es-intezmenyek">Iskolák és intézmények</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/vallalkozas-kempingek-es-kozossegi">Kempingek és közösségi létesítmények</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/vallalkozas-uzemek-es-specialis-terhelesek">Üzemek és speciális terhelések</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="helyzetem/vallalkozas-szakmai-projektbrief">Szakmai projektbrief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-szerviz"></span></span><span class="mega-label type-ui-body">Már van rendszerem</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-megoldasok">
+              Megoldások<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-megoldasok" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Megoldások</p>
+                  <a class="text-link mega-attekintes" href="megoldasok/"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="megoldasok/"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Áttekintés</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/melyik-megoldas-mikor-megfelelo">Melyik megoldás mikor megfelelő?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró és korlátozó feltételek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/megoldastipus-eloszuro">Megoldástípus-előszűrő</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="megoldasok/biologiai-szennyviztisztitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-biologiai"></span></span><span class="mega-label type-ui-body">Biológiai tisztítás</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/biologiai-hogyan-mukodik">Hogyan működik?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/biologiai-kinek-megfelelo">Kinek megfelelő?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/biologiai-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/biologiai-telek-es-terhelesi-feltetelek">Telek- és terhelési feltételek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/biologiai-uzemeltetes-es-karbantartas">Üzemeltetés és karbantartás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/biologiai-koltsegtenyezok">Költségtényezők</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/biologiai-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="megoldasok/ab-clear"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-biologiai"></span></span><span class="mega-label type-ui-body">↳ A.B.Clear</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/ab-clear-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/ab-clear-muszaki-adatok">Műszaki adatok</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/ab-clear-iszapzsakos-technologia">Iszapzsákos technológia</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/ab-clear-telepitesi-feltetelek">Telepítési feltételek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/ab-clear-dokumentumok">Dokumentumok és tanúsítványok</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/ab-clear-referenciak">Kapcsolódó referenciák</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="megoldasok/oldomedences-rendszer"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-mukodes"></span></span><span class="mega-label type-ui-body">Oldómedencés rendszer</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/oldomedence-hogyan-mukodik">Hogyan működik?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/oldomedence-kinek-megfelelo">Kinek megfelelő?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/oldomedence-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/oldomedence-tisztitomezo">Tisztítómező és területigény</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/oldomedence-szippantas-es-karbantartas">Szippantás és karbantartás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/oldomedence-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="megoldasok/epureco"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-oldomedence"></span></span><span class="mega-label type-ui-body">↳ EPURECO</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/epureco-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/epureco-muszaki-adatok">Műszaki adatok</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/epureco-telepitesi-feltetelek">Telepítési feltételek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/epureco-dokumentumok">Dokumentumok</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="megoldasok/nagyobb-es-kozossegi-rendszerek"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozossegi"></span></span><span class="mega-label type-ui-body">Nagyobb rendszerek</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/nagyobb-kapacitasi-kategoriak">Kapacitási és projektkategóriák</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/nagyobb-terhelesi-profil">Terhelési profil</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/nagyobb-elokezeles-es-kiegeszitok">Előkezelés és kiegészítők</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/nagyobb-monitoring-es-uzemeltetes">Monitoring és üzemeltetés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/nagyobb-engedelyezes">Engedélyezés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/nagyobb-esettanulmanyok">Intézményi esettanulmányok</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="megoldasok/nagyobb-szakmai-konzultacio">Szakmai konzultáció</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="megoldasok/alternativak"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-alternativak"></span></span><span class="mega-label type-ui-body">Alternatívák</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-elokeszites">
+              Előkészítés<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-elokeszites" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Előkészítés</p>
+                  <a class="text-link mega-attekintes" href="projekt-elokeszites/"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="projekt-elokeszites/telekalkalmassag"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-talaj"></span></span><span class="mega-label type-ui-body">Telekalkalmasság</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/telekalkalmassag-attekintese">Telekalkalmasság áttekintése</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/talaj-es-szivargokepesseg">Talaj és szivárgóképesség</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/talajviz">Talajvíz</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/kut-es-vedotavolsag">Kút és védőtávolság</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/telekmeret-es-szabad-terulet">Telekméret és rendelkezésre álló terület</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/lejtes-es-csomelyseg">Lejtés és csőmélység</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/jarmuterheles-es-hozzaferes">Járműterhelés és hozzáférés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/telekadatok-osszegyujtese">Hogyan gyűjtsem össze a telekadatokat?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/telek-es-vizelhelyezesi-eloszuro">Telek- és vízelhelyezési előszűrő</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="projekt-elokeszites/tisztitott-viz-elhelyezese"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vizelvezetes"></span></span><span class="mega-label type-ui-body">Víz elhelyezése</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/elszivarogtatas">Elszivárogtatás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/tisztitomezo">Tisztítómező</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/gyokerzonas-elhelyezes">Gyökérzónás elhelyezés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/magas-talajvizi-helyzetek">Magas talajvízi helyzetek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/szivarogtatasi-vizsgalat">Szivárogtatási vizsgálat</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/mikor-szukseges-szakerto">Mikor szükséges szakértő?</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="projekt-elokeszites/terheles-es-kapacitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-terheles"></span></span><span class="mega-label type-ui-body">Terhelés és kapacitás</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/lakosegyenertek">Lakosegyenérték</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/szemelyszam-es-vizfogyasztas">Személyszám és vízfogyasztás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/atlag-es-csucsterheles">Átlag- és csúcsterhelés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/szezonalis-hasznalat">Szezonális használat</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/panziok-es-vendeglatas">Panziók és vendéglátás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/intezmenyi-terheles">Intézményi terhelés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/specialis-vagy-ipari-szennyviz">Speciális vagy ipari szennyvíz</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="projekt-elokeszites/terhelesi-profil-eloszuro">Terhelési profil és előminősítő</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-tudastar">
+              Tudástár<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-tudastar" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Tudástár</p>
+                  <span class="type-ui-caption mega-keszul">Ez a szakasz még készül. Kérdésével addig is fordulhat hozzánk.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">A szakasz készül</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Tudástár kezdőoldal</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Megoldások és működés</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Telek, talaj és víz</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Terhelés és méretezés</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Engedélyezés és megfelelőség</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Költség és megvalósítás</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Üzemeltetés és hibamegelőzés</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Vízminőség és iszap</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Fogalomtár</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Gyakorlati útmutatók</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Kereshető GYIK</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-button"
+                    aria-expanded="false" aria-controls="mega-eredmenyek">
+              Eredmények<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-eredmenyek" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Eredmények</p>
+                  <span class="type-ui-caption mega-keszul">Ez a szakasz még készül. Kérdésével addig is fordulhat hozzánk.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">A szakasz készül</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Eredmények áttekintése</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Esettanulmányok</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Projektadatbázis</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Műszaki bizonyítékok</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Tanúsítványok és dokumentumok</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Ügyféltapasztalatok</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link type-ui-button" href="kapcsolat">Kapcsolat</a>
+          </li>
+</ul>
+      </nav>
+    </details>
+
+    <!-- TÉMAVÁLTÓ. `role="switch"`: a gomb NEVE állandó („Sötét téma"), az
+         állapotot az `aria-checked` hordozza — ez a kapcsolók ARIA-mintája. A
+         lebegő súgó a MŰVELETET mondja ki, és `aria-hidden`, hogy a
+         képernyőolvasó ne ismételje meg ugyanazt más szavakkal.
+         A gomb csak akkor látszik, ha a tema.js lefutott (app.css 5.12c). -->
+    <div class="tema-doboz">
+      <button type="button" class="tema-valto" role="switch" aria-checked="false"
+              data-tema-valto>
+        <span class="visually-hidden">Sötét téma</span>
+        <span class="tema-sin" aria-hidden="true">
+          <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+          <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          <span class="tema-fogo">
+            <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+            <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          </span>
+        </span>
+      </button>
+      <span class="tema-tipp type-ui-caption" aria-hidden="true"
+            data-tema-tipp>Váltás sötét témára</span>
+    </div>
+
+    <a class="btn btn-primary header-cta" href="konzultacio">
+      <span class="action-arrow" aria-hidden="true">&rarr;</span>Konzultációt kérek</a>
+  </div>
+  </div>
+
+</header>
+
+<main id="fotartalom">
+
+  <!-- MODUL-HERO — jelzett eltérés a fényképes `.page-hero`-tól.
+       Indoklás: app.css 5.22 és COMPONENTS.md 21. -->
+  <section class="szip-hero" aria-labelledby="oldal-cim">
+    <div class="szip-hero-inner">
+      <div class="szip-hero-copy">
+        <nav class="breadcrumb szip-hero-morzsa" aria-label="Morzsamenü">
+          <ol class="breadcrumb-list type-ui-caption" role="list">
+            <li><a href="./">Főoldal</a></li>
+            <li aria-current="page">Szippantási díj kalkulátor</li>
+          </ol>
+        </nav>
+        <p class="type-data-eyebrow szip-hero-eyebrow">
+          <span class="szip-hero-pont" aria-hidden="true"></span>Költségkalkulátor
+        </p>
+        <h1 class="type-display-hero szip-hero-cim" id="oldal-cim">Szippantási díj kalkulátor</h1>
+        <p class="type-ui-body szip-hero-lead">A szippantás díja településenként más, és ritkán áll egyetlen számból: kiszállási díj, köbméter-alapú ürítési díj és sok helyen minimumdíj is szerepel a számlán. Ez a kalkulátor a saját díjszabásából számol éves költséget — és megmutatja, mennyit fizet ki olyan mennyiségért, amit el sem visznek.</p>
+        <ul class="szip-hero-chipek" role="list">
+          <li class="type-data-value szip-hero-chip">
+            <span class="szip-hero-chip-folt" data-szip-folt="kiszallas" aria-hidden="true"></span>Kiszállási díj</li>
+          <li class="type-data-value szip-hero-chip">
+            <span class="szip-hero-chip-folt" data-szip-folt="urites" aria-hidden="true"></span>Ürítési díj Ft/m³</li>
+          <li class="type-data-value szip-hero-chip">
+            <span class="szip-hero-chip-folt" data-szip-folt="minimum" aria-hidden="true"></span>Minimumdíj</li>
+        </ul>
+        <p class="szip-hero-akciok">
+          <a class="btn btn-primary" href="#kalkulator">Számoljuk ki</a>
+          <a class="text-link" href="#adatbazis"><span class="link-label">A települési adatbázis<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+        </p>
+      </div>
+      <div class="szip-hero-abra">
+        <svg class="szip-rajz szip-rajz-hero" viewBox="0 0 560 300" role="img"
+             aria-label="Szippantóautó tartálya. Az elszállított és a kiszámlázott mennyiség a minimumdíj miatt eltérhet egymástól.">
+      <defs>
+        <clipPath id="sza-tank">
+          <rect x="150" y="96" width="300" height="104" rx="52"></rect>
+        </clipPath>
+        <!-- A gradiensszínek `stop-color` CSS-tulajdonságból jönnek
+             (osztályonként), hogy a témaváltást ezek is kövessék. -->
+        <radialGradient id="sza-arny" cx="50%" cy="50%" r="50%">
+          <stop class="szip-rajz-arny-0" offset="0%"></stop>
+          <stop class="szip-rajz-arny-1" offset="100%"></stop>
+        </radialGradient>
+        <linearGradient id="sza-talaj" x1="0%" x2="100%">
+          <stop class="szip-rajz-talaj-0" offset="0%"></stop>
+          <stop class="szip-rajz-talaj-1" offset="50%"></stop>
+          <stop class="szip-rajz-talaj-0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="sza-melyseg" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop class="szip-rajz-melyseg-0" offset="0%"></stop>
+          <stop class="szip-rajz-melyseg-1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="sza-paszma" x1="0%" x2="100%">
+          <stop class="szip-rajz-paszma-0" offset="0%"></stop>
+          <stop class="szip-rajz-paszma-1" offset="50%"></stop>
+          <stop class="szip-rajz-paszma-0" offset="100%"></stop>
+        </linearGradient>
+      </defs>
+
+      <g class="szip-rajz-jarmu">
+        <line class="szip-rajz-sebesseg" x1="-30" y1="152" x2="26" y2="152"></line>
+        <line class="szip-rajz-sebesseg" x1="-44" y1="186" x2="10" y2="186"></line>
+        <line class="szip-rajz-sebesseg" x1="-58" y1="220" x2="-6" y2="220"></line>
+
+        <!-- Talajra vetett árnyék: kifelé nullába halványuló gradiens, nem
+             tömör ellipszis — így nincs éle. -->
+        <ellipse class="szip-rajz-arny" cx="288" cy="258" rx="252" ry="10"
+                 fill="url(#sza-arny)"></ellipse>
+
+        <!-- Alváz. Erősebb tónus, mint a burkolati elemeké: ez köti össze a
+             fülkét és a tartályt, e nélkül a rajz különálló darabokra esik. -->
+        <rect class="szip-rajz-vaz" x="40" y="210" width="470" height="12" rx="5"></rect>
+        <rect class="szip-rajz-test" x="46" y="222" width="458" height="5" rx="2"></rect>
+
+        <!-- tartálybölcsők: a tartály nem lebeg, hanem nyeregben ül -->
+        <path class="szip-rajz-vaz" d="M198 196 L232 196 L227 211 L203 211 Z"></path>
+        <path class="szip-rajz-vaz" d="M366 196 L400 196 L395 211 L371 211 Z"></path>
+
+        <!-- Vezetőfülke: ferde szélvédő, ajtóvonal, kilincs, tükör, lökhárító.
+             SAJÁT CSOPORT, mert az űrtartalommal a TARTÁLY nyúlik, a fülke nem:
+             ez a csoport visszaskálázza magát, hogy megtartsa az arányait. -->
+        <g class="szip-rajz-fulke">
+          <path class="szip-rajz-test" d="M48 128 L126 128 Q142 128 142 144 L142 212 L26 212 L26 176 Q26 158 36 148 Z"></path>
+          <path class="szip-rajz-ur" d="M56 138 L120 138 Q130 138 130 148 L130 171 L42 171 L42 167 Q42 156 50 148 Z"></path>
+          <path class="szip-rajz-korvonal" d="M48 128 L126 128 Q142 128 142 144 L142 212 L26 212 L26 176 Q26 158 36 148 Z"></path>
+          <line class="szip-rajz-vonal" x1="106" y1="176" x2="106" y2="212"></line>
+          <line class="szip-rajz-vonal" x1="93" y1="185" x2="101" y2="185"></line>
+          <path class="szip-rajz-vonal" d="M143 150 L151 146"></path>
+          <rect class="szip-rajz-test" x="18" y="199" width="10" height="15" rx="3"></rect>
+        </g>
+
+        <!-- Hátsó szerelvény: vákuumpumpa-ház és tömlődob. Ugyanezért külön
+             csoport — a dob kör marad, nem lapul ellipszissé. -->
+        <g class="szip-rajz-hatso">
+          <rect class="szip-rajz-test" x="452" y="170" width="44" height="42" rx="8"></rect>
+          <rect class="szip-rajz-korvonal-r" x="452" y="170" width="44" height="42" rx="8"></rect>
+          <line class="szip-rajz-vonal" x1="460" y1="180" x2="488" y2="180"></line>
+          <line class="szip-rajz-vonal" x1="460" y1="189" x2="488" y2="189"></line>
+          <g class="szip-rajz-dob">
+            <circle class="szip-rajz-test" cx="506" cy="132" r="30"></circle>
+            <circle class="szip-rajz-korvonal" cx="506" cy="132" r="30"></circle>
+            <circle class="szip-rajz-korvonal-r" cx="506" cy="132" r="20"></circle>
+          <line class="szip-rajz-kullo" x1="513.0" y1="132.0" x2="526.0" y2="132.0"></line>
+          <line class="szip-rajz-kullo" x1="499.0" y1="132.0" x2="486.0" y2="132.0"></line>
+          <line class="szip-rajz-kullo" x1="509.5" y1="138.1" x2="516.0" y2="149.3"></line>
+          <line class="szip-rajz-kullo" x1="502.5" y1="125.9" x2="496.0" y2="114.7"></line>
+          <line class="szip-rajz-kullo" x1="502.5" y1="138.1" x2="496.0" y2="149.3"></line>
+          <line class="szip-rajz-kullo" x1="509.5" y1="125.9" x2="516.0" y2="114.7"></line>
+            <circle class="szip-rajz-kupak" cx="506" cy="132" r="6"></circle>
+          </g>
+          <path class="szip-rajz-tomlo" d="M506 162 C 506 208 526 226 542 252"></path>
+        </g>
+
+        <!-- ============================== TARTÁLY ============================== -->
+        <rect class="szip-rajz-ur" x="150" y="96" width="300" height="104" rx="52"></rect>
+        <g clip-path="url(#sza-tank)">
+          <rect class="szip-rajz-fizetett" x="150" y="96" width="300" height="104"></rect>
+          <rect class="szip-rajz-toltes" x="150" y="96" width="300" height="104"></rect>
+          <!-- A henger térbelisége: alul mélyülő árnyék, felül keskeny csillanás. -->
+          <rect class="szip-rajz-belso-arny" x="150" y="148" width="300" height="52"
+                fill="url(#sza-melyseg)"></rect>
+          <rect class="szip-rajz-belso-feny" x="158" y="104" width="284" height="10" rx="5"></rect>
+          <!-- A töltésrétegek éle: vékony világos sáv, mint a folyadék meniszkusza. -->
+          <rect class="szip-rajz-el szip-rajz-el-fizetett" x="148" y="96" width="3" height="104"></rect>
+          <rect class="szip-rajz-el szip-rajz-el-toltes" x="148" y="96" width="3" height="104"></rect>
+          <!-- Végigfutó fénypászma — csak a fejlécben, hurokban. -->
+          <rect class="szip-rajz-paszma" x="-140" y="92" width="140" height="112"
+                fill="url(#sza-paszma)"></rect>
+          <!-- SZINTBEOSZTÁS. A műszer-változatban a vonalkákat a JS rajzolja,
+               mert a számuk a megadott űrtartalomtól függ (egy 4 m³-es kocsin
+               négy osztás van, egy 11 m³-esen tizenegy). A fejléc ábráján
+               állandó, nyolcosztásos skála áll: ott illusztráció, nem mérés. -->
+          <g class="szip-rajz-skala" data-szip-skala aria-hidden="true">
+            <line class="szip-rajz-osztas" x1="187.5" x2="187.5" y1="98" y2="107"></line>
+            <line class="szip-rajz-osztas" x1="225.0" x2="225.0" y1="98" y2="107"></line>
+            <line class="szip-rajz-osztas" x1="262.5" x2="262.5" y1="98" y2="107"></line>
+            <line class="szip-rajz-osztas szip-rajz-osztas-fo" x1="300.0" x2="300.0" y1="98" y2="114"></line>
+            <line class="szip-rajz-osztas" x1="337.5" x2="337.5" y1="98" y2="107"></line>
+            <line class="szip-rajz-osztas" x1="375.0" x2="375.0" y1="98" y2="107"></line>
+            <line class="szip-rajz-osztas" x1="412.5" x2="412.5" y1="98" y2="107"></line>
+          </g>
+        </g>
+        <!-- Domború hátsó véglap: ettől henger a tartály, nem kapszula. -->
+        <ellipse class="szip-rajz-veglap" cx="424" cy="148" rx="24" ry="51"></ellipse>
+        <path class="szip-rajz-borda" d="M236 101 C 231 130 231 166 236 195"></path>
+        <path class="szip-rajz-borda" d="M296 101 C 291 130 291 166 296 195"></path>
+        <path class="szip-rajz-borda" d="M356 101 C 351 130 351 166 356 195"></path>
+        <rect class="szip-rajz-korvonal" x="150" y="96" width="300" height="104" rx="52"></rect>
+
+        <!-- Búvónyílás és szellőzőszelep a tartály ELEJÉN. Korábban középen
+             állt, és pont a „KIFIZETI" felirat alá esett — a kettő takarta
+             egymást. Elöl a töltésjelölők soha nem érik el. -->
+        <rect class="szip-rajz-test" x="196" y="80" width="52" height="18" rx="7"></rect>
+        <rect class="szip-rajz-korvonal-r" x="196" y="80" width="52" height="18" rx="7"></rect>
+        <line class="szip-rajz-vonal" x1="208" y1="75" x2="236" y2="75"></line>
+        <circle class="szip-rajz-test" cx="172" cy="90" r="8"></circle>
+        <circle class="szip-rajz-korvonal-r" cx="172" cy="90" r="8"></circle>
+        <line class="szip-rajz-vonal" x1="172" y1="81" x2="172" y2="99"></line>
+
+        <!-- alsó ürítőcsonk a tartály és a szivattyúház között -->
+        <path class="szip-rajz-tomlo" d="M410 198 L452 198"></path>
+
+        <!-- Sárvédők. A tartály alsó éle y=200; az ív csúcsa ezért 204 —
+             korábban 187-nél volt, és keresztbe vágta a tartályt. -->
+        <path class="szip-rajz-korvonal-r" d="M52 226 Q54 206 78 206 Q102 206 104 226"></path>
+        <path class="szip-rajz-korvonal-r" d="M298 226 Q300 204 361 204 Q422 204 424 226"></path>
+
+        <!-- kerekek -->
+        <g class="szip-rajz-kerek">
+          <circle class="szip-rajz-gumi" cx="78" cy="232" r="26"></circle>
+          <circle class="szip-rajz-felni" cx="78" cy="232" r="15"></circle>
+          <line class="szip-rajz-kullo" x1="84.8" y1="233.5" x2="91.2" y2="234.8"></line>
+          <line class="szip-rajz-kullo" x1="71.2" y1="230.5" x2="64.8" y2="229.2"></line>
+          <line class="szip-rajz-kullo" x1="81.8" y1="237.9" x2="85.4" y2="243.3"></line>
+          <line class="szip-rajz-kullo" x1="74.2" y1="226.1" x2="70.6" y2="220.7"></line>
+          <line class="szip-rajz-kullo" x1="76.5" y1="238.8" x2="75.2" y2="245.2"></line>
+          <line class="szip-rajz-kullo" x1="79.5" y1="225.2" x2="80.8" y2="218.8"></line>
+          <line class="szip-rajz-kullo" x1="72.1" y1="235.8" x2="66.7" y2="239.4"></line>
+          <line class="szip-rajz-kullo" x1="83.9" y1="228.2" x2="89.3" y2="224.6"></line>
+          <circle class="szip-rajz-kupak" cx="78" cy="232" r="5"></circle>
+        </g>
+        <g class="szip-rajz-kerek">
+          <circle class="szip-rajz-gumi" cx="330" cy="232" r="26"></circle>
+          <circle class="szip-rajz-felni" cx="330" cy="232" r="15"></circle>
+          <line class="szip-rajz-kullo" x1="336.8" y1="233.5" x2="343.2" y2="234.8"></line>
+          <line class="szip-rajz-kullo" x1="323.2" y1="230.5" x2="316.8" y2="229.2"></line>
+          <line class="szip-rajz-kullo" x1="333.8" y1="237.9" x2="337.4" y2="243.3"></line>
+          <line class="szip-rajz-kullo" x1="326.2" y1="226.1" x2="322.6" y2="220.7"></line>
+          <line class="szip-rajz-kullo" x1="328.5" y1="238.8" x2="327.2" y2="245.2"></line>
+          <line class="szip-rajz-kullo" x1="331.5" y1="225.2" x2="332.8" y2="218.8"></line>
+          <line class="szip-rajz-kullo" x1="324.1" y1="235.8" x2="318.7" y2="239.4"></line>
+          <line class="szip-rajz-kullo" x1="335.9" y1="228.2" x2="341.3" y2="224.6"></line>
+          <circle class="szip-rajz-kupak" cx="330" cy="232" r="5"></circle>
+        </g>
+        <g class="szip-rajz-kerek">
+          <circle class="szip-rajz-gumi" cx="392" cy="232" r="26"></circle>
+          <circle class="szip-rajz-felni" cx="392" cy="232" r="15"></circle>
+          <line class="szip-rajz-kullo" x1="398.8" y1="233.5" x2="405.2" y2="234.8"></line>
+          <line class="szip-rajz-kullo" x1="385.2" y1="230.5" x2="378.8" y2="229.2"></line>
+          <line class="szip-rajz-kullo" x1="395.8" y1="237.9" x2="399.4" y2="243.3"></line>
+          <line class="szip-rajz-kullo" x1="388.2" y1="226.1" x2="384.6" y2="220.7"></line>
+          <line class="szip-rajz-kullo" x1="390.5" y1="238.8" x2="389.2" y2="245.2"></line>
+          <line class="szip-rajz-kullo" x1="393.5" y1="225.2" x2="394.8" y2="218.8"></line>
+          <line class="szip-rajz-kullo" x1="386.1" y1="235.8" x2="380.7" y2="239.4"></line>
+          <line class="szip-rajz-kullo" x1="397.9" y1="228.2" x2="403.3" y2="224.6"></line>
+          <circle class="szip-rajz-kupak" cx="392" cy="232" r="5"></circle>
+        </g>
+
+        <!-- Talajvonal: a két vége nullába halványul, nincs levágott éle. -->
+        <rect class="szip-rajz-talaj" x="16" y="257" width="528" height="2"
+              fill="url(#sza-talaj)"></rect>
+      </g>
+
+      <!-- A két jelölő a töltésrétegek élén áll, és velük együtt mozdul. -->
+      <g class="szip-rajz-jelolo szip-rajz-jelolo-toltes">
+        <line class="szip-rajz-jelvonal" x1="150" y1="44" x2="150" y2="208"></line>
+        <circle class="szip-rajz-jelpont" cx="150" cy="44" r="3.5"></circle>
+        <text class="szip-rajz-cimke" x="150" y="32" text-anchor="middle">ELVISZIK</text>
+      </g>
+      <g class="szip-rajz-jelolo szip-rajz-jelolo-fizetett">
+        <line class="szip-rajz-jelvonal" x1="150" y1="68" x2="150" y2="208"></line>
+        <circle class="szip-rajz-jelpont" cx="150" cy="68" r="3.5"></circle>
+        <text class="szip-rajz-cimke" x="150" y="56" text-anchor="middle">KIFIZETI</text>
+      </g>
+    </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mit-ad-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Mit ad ez az oldal</p>
+        <h2 class="type-display-section-title section-title" id="mit-ad-cim">Mit mutat meg — és mit nem</h2>
+        <p class="type-ui-body section-lead">A szippantás nem a mi szolgáltatásunk, és nem a mi árunk. Ez a kalkulátor
+          azért van, hogy a saját díjszabásából átlátható legyen, mennyibe kerül ez évente, és min múlik.</p>
+      </header>
+      <div class="split">
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Amit megmutat</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Az alkalmankénti és az éves díjat a megadott díjszabás alapján</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Hogy miből áll össze az összeg — tételről tételre</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Mennyit fizet ki olyan mennyiségért, amit nem visznek el</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Hogyan változik a fajlagos díj, ha ritkábban, teltebb tartállyal szippantat</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Hol tartunk a települési díjadatbázis építésével</span></li>
+          </ul>
+        </div>
+        <div class="split-card">
+          <h3 class="type-ui-card-title split-title">Amit nem tud megmondani</h3>
+          <ul class="fit-list" role="list">
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Nem árlista: nem ismerjük minden település díjszabását, és nem is találjuk ki</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Nem helyettesíti a közszolgáltató árajánlatát vagy az önkormányzati rendeletet</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Nem mondja meg, milyen gyakran kell szippantatni — azt az iszapszint dönti el</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Nem számol áfát: azt írja be, ami a számláján szerepel</span></li>
+            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">Nem küld semmit sehova — a számítás a böngészőjében fut, adat nélkül</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" aria-labelledby="hogyan-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A képlet</p>
+        <h2 class="type-display-section-title section-title" id="hogyan-cim">Hogyan számol</h2>
+        <p class="type-ui-body section-lead">Öt lépés, és mindegyik ellenőrizhető papíron is. A kalkulátor nem tartalmaz
+          rejtett szorzót vagy „tapasztalati" korrekciót.</p>
+      </header>
+      <ul class="numbered-grid" role="list">
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">01</span>
+          <p class="type-ui-body card-text"><strong>Elszámolt mennyiség.</strong> A díj alapja nem mindig az, amennyit
+            ténylegesen elvisznek. Ha a minimumdíj tartalmaz egy adott mennyiséget, akkor az elszámolt mennyiség az
+            elszállított és a foglalt mennyiség közül a <strong>nagyobbik</strong>.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">02</span>
+          <p class="type-ui-body card-text"><strong>Alapdíj.</strong> Az ürítési díj szorozva az elszámolt mennyiséggel —
+            de legalább a minimumdíj. A minimumdíj alsó korlát: ha a mennyiségalapú összeg kisebb nála, a minimumdíj lép
+            a helyébe.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">03</span>
+          <p class="type-ui-body card-text"><strong>Kiszállási díj.</strong> Alkalmanként egyszer, a mennyiségtől
+            függetlenül. Nem minden szolgáltatónál külön tétel — ilyenkor nulla kerül a mezőbe, és a költségsávban meg
+            sem jelenik.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">04</span>
+          <p class="type-ui-body card-text"><strong>További tételek.</strong> Távolságarányos díj (Ft/km szorozva a
+            megteendő kilométerrel) és minden egyéb alkalmankénti tétel, ami a számláján szerepel. Mindkettő
+            elhagyható.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">05</span>
+          <p class="type-ui-body card-text"><strong>Éves költség.</strong> Az alkalmankénti díj szorozva az éves
+            alkalomszámmal. A gyakoriságot Ön adja meg — azt a kalkulátor nem becsüli meg, mert az az iszapszinttől és a
+            használattól függ, nem a díjszabástól.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+<div class="szip-modul" data-szip>
+
+  <section class="section" id="kalkulator" aria-labelledby="kalkulator-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Kalkulátor</p>
+        <h2 class="type-display-section-title section-title" id="kalkulator-cim">Számolja ki a saját éves szippantási költségét</h2>
+        <p class="type-ui-body section-lead">A díjmezők működő <strong>példaértékekkel</strong> indulnak, hogy legyen mit
+          nézni — ezek nem egy konkrét település díjai. Írja felül őket a saját számláján szereplő értékekkel: a
+          példajelzés minden mezőről lekerül, amint hozzányúl.</p>
+      </header>
+
+      <div class="szip-racs" data-szip-vart>
+        <div class="szip-bemenet">
+
+          <fieldset class="szip-csoport">
+            <legend class="type-ui-card-title szip-csoport-cim">Hol és mennyit</legend>
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="k-megye">Vármegye</label>
+              <select class="urlap-input" id="k-megye" name="megye">
+                <option value="">Válasszon vármegyét…</option>
+              </select>
+            </p>
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="k-telepules">Település</label>
+              <input class="urlap-input" type="text" id="k-telepules" name="telepules"
+                     list="szip-telepulesek" maxlength="120" autocomplete="off"
+                     placeholder="ahol az ingatlan van">
+              <!-- A javaslatlista KIZÁRÓLAG azokat a helyeket kínálja fel,
+                   amelyekről tényleg van adatunk. Teljes településlista azt
+                   sugallná, hogy mindegyikhez tartozik díjszabás. -->
+              <datalist id="szip-telepulesek"></datalist>
+            </p>
+            <p class="type-ui-caption szip-talalat" data-szip-talalat hidden></p>
+            <p class="urlap-akcio">
+              <button class="btn btn-secondary btn-kicsi" type="button" data-szip-betolt hidden>
+                Az ismert díjak betöltése
+              </button>
+            </p>
+            <div class="szip-mezosor">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-alkalom">Évente hány alkalommal szippantat?
+              <span class="szip-egyseg">(alkalom/év)</span><span class="type-data-value szip-pelda-jel" data-szip-pelda="alkalom">példa</span></label>
+            <input class="urlap-input" type="number" id="k-alkalom" name="alkalom"
+                   inputmode="decimal" min="0" max="52" step="1" aria-describedby="k-alkalom-sugo">
+            <span class="type-ui-caption szip-egyseg" id="k-alkalom-sugo">Ha nem tudja pontosan, a legutóbbi két szippantás közti idővel számoljon.</span>
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-m3">Alkalmanként hány m³-t szállítanak el?
+              <span class="szip-egyseg">(m³/alkalom)</span><span class="type-data-value szip-pelda-jel" data-szip-pelda="m3">példa</span></label>
+            <input class="urlap-input" type="number" id="k-m3" name="m3"
+                   inputmode="decimal" min="0" max="50" step="0.5" aria-describedby="k-m3-sugo">
+            <span class="type-ui-caption szip-egyseg" id="k-m3-sugo">A számlán szereplő mennyiség. Ha a szolgáltató a kocsi térfogatát írja ki, azt adja meg.</span>
+          </p>
+            </div>
+          </fieldset>
+
+          <fieldset class="szip-csoport">
+            <legend class="type-ui-card-title szip-csoport-cim">A település díjszabása</legend>
+            <p class="type-ui-caption szip-csoport-lead">Ezek nem a mi áraink. A nem közművel elvezetett háztartási
+              szennyvíz begyűjtése közszolgáltatás — a díjat a közszolgáltató és az önkormányzat állapítja meg. Azt írja
+              be, ami a számláján szerepel.</p>
+            <div class="szip-mezosor">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-kiszallas">Kiszállási / alapdíj
+              <span class="szip-egyseg">(Ft/alkalom)</span><span class="type-data-value szip-pelda-jel" data-szip-pelda="kiszallas">példa</span></label>
+            <input class="urlap-input" type="number" id="k-kiszallas" name="kiszallas"
+                   inputmode="decimal" min="0" max="1000000" step="1" aria-describedby="k-kiszallas-sugo">
+            <span class="type-ui-caption szip-egyseg" id="k-kiszallas-sugo">Lehet nulla is — nem minden szolgáltatónál külön tétel.</span>
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-uritesm3">Ürítési díj
+              <span class="szip-egyseg">(Ft/m³)</span><span class="type-data-value szip-pelda-jel" data-szip-pelda="uritesM3">példa</span></label>
+            <input class="urlap-input" type="number" id="k-uritesm3" name="uritesM3"
+                   inputmode="decimal" min="0" max="500000" step="1">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-minimumdij">Minimumdíj
+              <span class="szip-egyseg">(Ft/alkalom)</span><span class="type-data-value szip-pelda-jel" data-szip-pelda="minimumDij">példa</span></label>
+            <input class="urlap-input" type="number" id="k-minimumdij" name="minimumDij"
+                   inputmode="decimal" min="0" max="2000000" step="1" aria-describedby="k-minimumdij-sugo">
+            <span class="type-ui-caption szip-egyseg" id="k-minimumdij-sugo">Ha nincs minimumdíj, írjon nullát.</span>
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-minimumm3">Ebből mennyi elszállítását tartalmazza?
+              <span class="szip-egyseg">(m³)</span><span class="type-data-value szip-pelda-jel" data-szip-pelda="minimumM3">példa</span></label>
+            <input class="urlap-input" type="number" id="k-minimumm3" name="minimumM3"
+                   inputmode="decimal" min="0" max="50" step="0.5" aria-describedby="k-minimumm3-sugo">
+            <span class="type-ui-caption szip-egyseg" id="k-minimumm3-sugo">Nullától a kocsi űrtartalmáig. Ha a teljes kocsit ki kell fizetni, ide ugyanaz kerül, mint az űrtartalomhoz.</span>
+          </p>
+            </div>
+          </fieldset>
+
+          <fieldset class="szip-csoport">
+            <legend class="type-ui-card-title szip-csoport-cim">További költségek — ha a számlán szerepelnek</legend>
+            <p class="type-ui-caption szip-csoport-lead">Mindhárom mező elhagyható. Üresen hagyva nem kerülnek be a
+              számításba, és a költségsávban sem jelennek meg.</p>
+            <div class="szip-mezosor-harmas">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-kmdij">Távolságarányos díj
+              <span class="szip-egyseg">(Ft/km)</span></label>
+            <input class="urlap-input" type="number" id="k-kmdij" name="kmDij"
+                   inputmode="decimal" min="0" max="50000" step="1" aria-describedby="k-kmdij-sugo">
+            <span class="type-ui-caption szip-egyseg" id="k-kmdij-sugo">Csak ha a számlán külön szerepel.</span>
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-tavolsagkm">Megteendő távolság
+              <span class="szip-egyseg">(km)</span></label>
+            <input class="urlap-input" type="number" id="k-tavolsagkm" name="tavolsagKm"
+                   inputmode="decimal" min="0" max="2000" step="1" aria-describedby="k-tavolsagkm-sugo">
+            <span class="type-ui-caption szip-egyseg" id="k-tavolsagkm-sugo">Ahogy a szolgáltató számolja — oda-vissza vagy csak oda.</span>
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="k-egyeb">Egyéb tétel alkalmanként
+              <span class="szip-egyseg">(Ft)</span></label>
+            <input class="urlap-input" type="number" id="k-egyeb" name="egyeb"
+                   inputmode="decimal" min="0" max="1000000" step="1">
+          </p>
+            </div>
+          </fieldset>
+
+        </div>
+
+        <aside class="szip-eredmeny" aria-labelledby="eredmeny-cim">
+          <div class="szip-fo">
+            <p class="type-data-eyebrow szip-fo-cimke" id="eredmeny-cim">Éves szippantási költség</p>
+            <p class="type-display-page-title szip-fo-ertek" data-szip-ki="ev">—</p>
+          </div>
+          <div class="szip-fo">
+            <p class="type-ui-caption szip-fo-cimke">Alkalmanként</p>
+            <p class="type-display-section-title szip-fo-ertek" data-szip-ki="alkalom">—</p>
+          </div>
+
+          <div class="szip-sav" data-szip-sav role="img" aria-label="Az alkalmankénti díj összetétele">
+              <span class="szip-sav-elem" data-szip-sav-elem="kiszallas" hidden></span>
+              <span class="szip-sav-elem" data-szip-sav-elem="urites" hidden></span>
+              <span class="szip-sav-elem" data-szip-sav-elem="minimum" hidden></span>
+              <span class="szip-sav-elem" data-szip-sav-elem="km" hidden></span>
+              <span class="szip-sav-elem" data-szip-sav-elem="egyeb" hidden></span>
+          </div>
+          <ul class="szip-jelmagyarazat" role="list">
+            <li class="szip-jm-sor">
+              <span class="szip-jm-folt" data-szip-folt="kiszallas" aria-hidden="true"></span>
+              <span class="type-ui-caption szip-jm-nev">Kiszállási díj</span>
+              <span class="type-data-value szip-jm-ertek" data-szip-tetel="kiszallas">—</span>
+            </li>
+            <li class="szip-jm-sor">
+              <span class="szip-jm-folt" data-szip-folt="urites" aria-hidden="true"></span>
+              <span class="type-ui-caption szip-jm-nev">Ürítés — amit elvisznek</span>
+              <span class="type-data-value szip-jm-ertek" data-szip-tetel="urites">—</span>
+            </li>
+            <li class="szip-jm-sor">
+              <span class="szip-jm-folt" data-szip-folt="minimum" aria-hidden="true"></span>
+              <span class="type-ui-caption szip-jm-nev">Minimum-felár — amit nem visznek el</span>
+              <span class="type-data-value szip-jm-ertek" data-szip-tetel="minimum">—</span>
+            </li>
+            <li class="szip-jm-sor">
+              <span class="szip-jm-folt" data-szip-folt="km" aria-hidden="true"></span>
+              <span class="type-ui-caption szip-jm-nev">Távolsági díj</span>
+              <span class="type-data-value szip-jm-ertek" data-szip-tetel="km">—</span>
+            </li>
+            <li class="szip-jm-sor">
+              <span class="szip-jm-folt" data-szip-folt="egyeb" aria-hidden="true"></span>
+              <span class="type-ui-caption szip-jm-nev">Egyéb</span>
+              <span class="type-data-value szip-jm-ertek" data-szip-tetel="egyeb">—</span>
+            </li>
+          </ul>
+
+          <div class="szip-mellek">
+            <p class="szip-mellek-tetel">
+              <span class="szip-mellek-cimke type-ui-caption">Fajlagos díj arra, amit elvisznek</span>
+              <span class="szip-mellek-ertek type-ui-body-strong" data-szip-ki="fajlagos">—</span></p>
+            <p class="szip-mellek-tetel">
+              <span class="szip-mellek-cimke type-ui-caption">Elszámolt mennyiség alkalmanként</span>
+              <span class="szip-mellek-ertek type-ui-body-strong" data-szip-ki="elszamolt">—</span></p>
+          </div>
+
+          <p class="type-ui-caption szip-talalat" data-szip-pelda-sav hidden>
+            Példaértékekkel számol. Írja felül a díjmezőket a saját számlája alapján.</p>
+          <!-- EGYETLEN élő régió az egész kalkulátorra, késleltetve. A látható
+               számokon szándékosan NINCS `aria-live`: gépelés közben minden
+               leütésnél újra felolvasnák magukat, és a felület használhatatlan
+               lenne képernyőolvasóval. -->
+          <p class="visually-hidden" role="status" aria-live="polite" data-szip-elo></p>
+          <p class="urlap-akcio">
+            <button class="btn btn-secondary btn-kicsi" type="button" data-szip-pelda-gomb>
+              Példaértékek visszaállítása
+            </button>
+          </p>
+        </aside>
+      </div>
+
+
+      <!-- A JÁRMŰ: méretválasztó és ábra EGY blokkban.
+           Külön állva a két dolog nem beszélt egymással — a látogató átállította
+           a járműméretet, és nem látta, mit csinál. Így a választó mellett ott a
+           rajz: a tartály hossza és a köbméter-beosztása is követi a választást. -->
+      <fieldset class="szip-csoport szip-jarmu">
+        <legend class="type-ui-card-title szip-csoport-cim">A jármű és a tartály</legend>
+        <div class="szip-jarmu-racs">
+          <figure class="szip-jarmu-abra">
+            <svg class="szip-rajz szip-rajz-muszer" viewBox="0 62 560 236" role="img" data-szip-tank
+             aria-label="Szippantóautó tartálya">
+      <defs>
+        <clipPath id="szt-tank">
+          <rect x="150" y="96" width="300" height="104" rx="52"></rect>
+        </clipPath>
+        <!-- A gradiensszínek `stop-color` CSS-tulajdonságból jönnek
+             (osztályonként), hogy a témaváltást ezek is kövessék. -->
+        <radialGradient id="szt-arny" cx="50%" cy="50%" r="50%">
+          <stop class="szip-rajz-arny-0" offset="0%"></stop>
+          <stop class="szip-rajz-arny-1" offset="100%"></stop>
+        </radialGradient>
+        <linearGradient id="szt-talaj" x1="0%" x2="100%">
+          <stop class="szip-rajz-talaj-0" offset="0%"></stop>
+          <stop class="szip-rajz-talaj-1" offset="50%"></stop>
+          <stop class="szip-rajz-talaj-0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="szt-melyseg" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop class="szip-rajz-melyseg-0" offset="0%"></stop>
+          <stop class="szip-rajz-melyseg-1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="szt-paszma" x1="0%" x2="100%">
+          <stop class="szip-rajz-paszma-0" offset="0%"></stop>
+          <stop class="szip-rajz-paszma-1" offset="50%"></stop>
+          <stop class="szip-rajz-paszma-0" offset="100%"></stop>
+        </linearGradient>
+      </defs>
+
+      <g class="szip-rajz-jarmu">
+        <!-- Talajra vetett árnyék: kifelé nullába halványuló gradiens, nem
+             tömör ellipszis — így nincs éle. -->
+        <ellipse class="szip-rajz-arny" cx="288" cy="258" rx="252" ry="10"
+                 fill="url(#szt-arny)"></ellipse>
+
+        <!-- Alváz. Erősebb tónus, mint a burkolati elemeké: ez köti össze a
+             fülkét és a tartályt, e nélkül a rajz különálló darabokra esik. -->
+        <rect class="szip-rajz-vaz" x="40" y="210" width="470" height="12" rx="5"></rect>
+        <rect class="szip-rajz-test" x="46" y="222" width="458" height="5" rx="2"></rect>
+
+        <!-- tartálybölcsők: a tartály nem lebeg, hanem nyeregben ül -->
+        <path class="szip-rajz-vaz" d="M198 196 L232 196 L227 211 L203 211 Z"></path>
+        <path class="szip-rajz-vaz" d="M366 196 L400 196 L395 211 L371 211 Z"></path>
+
+        <!-- Vezetőfülke: ferde szélvédő, ajtóvonal, kilincs, tükör, lökhárító.
+             SAJÁT CSOPORT, mert az űrtartalommal a TARTÁLY nyúlik, a fülke nem:
+             ez a csoport visszaskálázza magát, hogy megtartsa az arányait. -->
+        <g class="szip-rajz-fulke">
+          <path class="szip-rajz-test" d="M48 128 L126 128 Q142 128 142 144 L142 212 L26 212 L26 176 Q26 158 36 148 Z"></path>
+          <path class="szip-rajz-ur" d="M56 138 L120 138 Q130 138 130 148 L130 171 L42 171 L42 167 Q42 156 50 148 Z"></path>
+          <path class="szip-rajz-korvonal" d="M48 128 L126 128 Q142 128 142 144 L142 212 L26 212 L26 176 Q26 158 36 148 Z"></path>
+          <line class="szip-rajz-vonal" x1="106" y1="176" x2="106" y2="212"></line>
+          <line class="szip-rajz-vonal" x1="93" y1="185" x2="101" y2="185"></line>
+          <path class="szip-rajz-vonal" d="M143 150 L151 146"></path>
+          <rect class="szip-rajz-test" x="18" y="199" width="10" height="15" rx="3"></rect>
+        </g>
+
+        <!-- Hátsó szerelvény: vákuumpumpa-ház és tömlődob. Ugyanezért külön
+             csoport — a dob kör marad, nem lapul ellipszissé. -->
+        <g class="szip-rajz-hatso">
+          <rect class="szip-rajz-test" x="452" y="170" width="44" height="42" rx="8"></rect>
+          <rect class="szip-rajz-korvonal-r" x="452" y="170" width="44" height="42" rx="8"></rect>
+          <line class="szip-rajz-vonal" x1="460" y1="180" x2="488" y2="180"></line>
+          <line class="szip-rajz-vonal" x1="460" y1="189" x2="488" y2="189"></line>
+          <g class="szip-rajz-dob">
+            <circle class="szip-rajz-test" cx="506" cy="132" r="30"></circle>
+            <circle class="szip-rajz-korvonal" cx="506" cy="132" r="30"></circle>
+            <circle class="szip-rajz-korvonal-r" cx="506" cy="132" r="20"></circle>
+          <line class="szip-rajz-kullo" x1="513.0" y1="132.0" x2="526.0" y2="132.0"></line>
+          <line class="szip-rajz-kullo" x1="499.0" y1="132.0" x2="486.0" y2="132.0"></line>
+          <line class="szip-rajz-kullo" x1="509.5" y1="138.1" x2="516.0" y2="149.3"></line>
+          <line class="szip-rajz-kullo" x1="502.5" y1="125.9" x2="496.0" y2="114.7"></line>
+          <line class="szip-rajz-kullo" x1="502.5" y1="138.1" x2="496.0" y2="149.3"></line>
+          <line class="szip-rajz-kullo" x1="509.5" y1="125.9" x2="516.0" y2="114.7"></line>
+            <circle class="szip-rajz-kupak" cx="506" cy="132" r="6"></circle>
+          </g>
+          <path class="szip-rajz-tomlo" d="M506 162 C 506 208 526 226 542 252"></path>
+        </g>
+
+        <!-- ============================== TARTÁLY ============================== -->
+        <rect class="szip-rajz-ur" x="150" y="96" width="300" height="104" rx="52"></rect>
+        <g clip-path="url(#szt-tank)">
+          <rect class="szip-rajz-fizetett" x="150" y="96" width="300" height="104"></rect>
+          <rect class="szip-rajz-toltes" x="150" y="96" width="300" height="104"></rect>
+          <!-- A henger térbelisége: alul mélyülő árnyék, felül keskeny csillanás. -->
+          <rect class="szip-rajz-belso-arny" x="150" y="148" width="300" height="52"
+                fill="url(#szt-melyseg)"></rect>
+          <rect class="szip-rajz-belso-feny" x="158" y="104" width="284" height="10" rx="5"></rect>
+          <!-- A töltésrétegek éle: vékony világos sáv, mint a folyadék meniszkusza. -->
+          <rect class="szip-rajz-el szip-rajz-el-fizetett" x="148" y="96" width="3" height="104"></rect>
+          <rect class="szip-rajz-el szip-rajz-el-toltes" x="148" y="96" width="3" height="104"></rect>
+          <!-- Végigfutó fénypászma — csak a fejlécben, hurokban. -->
+          <rect class="szip-rajz-paszma" x="-140" y="92" width="140" height="112"
+                fill="url(#szt-paszma)"></rect>
+          <!-- SZINTBEOSZTÁS. A műszer-változatban a vonalkákat a JS rajzolja,
+               mert a számuk a megadott űrtartalomtól függ (egy 4 m³-es kocsin
+               négy osztás van, egy 11 m³-esen tizenegy). A fejléc ábráján
+               állandó, nyolcosztásos skála áll: ott illusztráció, nem mérés. -->
+          <g class="szip-rajz-skala" data-szip-skala aria-hidden="true"></g>
+        </g>
+        <!-- Domború hátsó véglap: ettől henger a tartály, nem kapszula. -->
+        <ellipse class="szip-rajz-veglap" cx="424" cy="148" rx="24" ry="51"></ellipse>
+        <path class="szip-rajz-borda" d="M236 101 C 231 130 231 166 236 195"></path>
+        <path class="szip-rajz-borda" d="M296 101 C 291 130 291 166 296 195"></path>
+        <path class="szip-rajz-borda" d="M356 101 C 351 130 351 166 356 195"></path>
+        <rect class="szip-rajz-korvonal" x="150" y="96" width="300" height="104" rx="52"></rect>
+
+        <!-- Búvónyílás és szellőzőszelep a tartály ELEJÉN. Korábban középen
+             állt, és pont a „KIFIZETI" felirat alá esett — a kettő takarta
+             egymást. Elöl a töltésjelölők soha nem érik el. -->
+        <rect class="szip-rajz-test" x="196" y="80" width="52" height="18" rx="7"></rect>
+        <rect class="szip-rajz-korvonal-r" x="196" y="80" width="52" height="18" rx="7"></rect>
+        <line class="szip-rajz-vonal" x1="208" y1="75" x2="236" y2="75"></line>
+        <circle class="szip-rajz-test" cx="172" cy="90" r="8"></circle>
+        <circle class="szip-rajz-korvonal-r" cx="172" cy="90" r="8"></circle>
+        <line class="szip-rajz-vonal" x1="172" y1="81" x2="172" y2="99"></line>
+
+        <!-- alsó ürítőcsonk a tartály és a szivattyúház között -->
+        <path class="szip-rajz-tomlo" d="M410 198 L452 198"></path>
+
+        <!-- Sárvédők. A tartály alsó éle y=200; az ív csúcsa ezért 204 —
+             korábban 187-nél volt, és keresztbe vágta a tartályt. -->
+        <path class="szip-rajz-korvonal-r" d="M52 226 Q54 206 78 206 Q102 206 104 226"></path>
+        <path class="szip-rajz-korvonal-r" d="M298 226 Q300 204 361 204 Q422 204 424 226"></path>
+
+        <!-- kerekek -->
+        <g class="szip-rajz-kerek">
+          <circle class="szip-rajz-gumi" cx="78" cy="232" r="26"></circle>
+          <circle class="szip-rajz-felni" cx="78" cy="232" r="15"></circle>
+          <line class="szip-rajz-kullo" x1="84.8" y1="233.5" x2="91.2" y2="234.8"></line>
+          <line class="szip-rajz-kullo" x1="71.2" y1="230.5" x2="64.8" y2="229.2"></line>
+          <line class="szip-rajz-kullo" x1="81.8" y1="237.9" x2="85.4" y2="243.3"></line>
+          <line class="szip-rajz-kullo" x1="74.2" y1="226.1" x2="70.6" y2="220.7"></line>
+          <line class="szip-rajz-kullo" x1="76.5" y1="238.8" x2="75.2" y2="245.2"></line>
+          <line class="szip-rajz-kullo" x1="79.5" y1="225.2" x2="80.8" y2="218.8"></line>
+          <line class="szip-rajz-kullo" x1="72.1" y1="235.8" x2="66.7" y2="239.4"></line>
+          <line class="szip-rajz-kullo" x1="83.9" y1="228.2" x2="89.3" y2="224.6"></line>
+          <circle class="szip-rajz-kupak" cx="78" cy="232" r="5"></circle>
+        </g>
+        <g class="szip-rajz-kerek">
+          <circle class="szip-rajz-gumi" cx="330" cy="232" r="26"></circle>
+          <circle class="szip-rajz-felni" cx="330" cy="232" r="15"></circle>
+          <line class="szip-rajz-kullo" x1="336.8" y1="233.5" x2="343.2" y2="234.8"></line>
+          <line class="szip-rajz-kullo" x1="323.2" y1="230.5" x2="316.8" y2="229.2"></line>
+          <line class="szip-rajz-kullo" x1="333.8" y1="237.9" x2="337.4" y2="243.3"></line>
+          <line class="szip-rajz-kullo" x1="326.2" y1="226.1" x2="322.6" y2="220.7"></line>
+          <line class="szip-rajz-kullo" x1="328.5" y1="238.8" x2="327.2" y2="245.2"></line>
+          <line class="szip-rajz-kullo" x1="331.5" y1="225.2" x2="332.8" y2="218.8"></line>
+          <line class="szip-rajz-kullo" x1="324.1" y1="235.8" x2="318.7" y2="239.4"></line>
+          <line class="szip-rajz-kullo" x1="335.9" y1="228.2" x2="341.3" y2="224.6"></line>
+          <circle class="szip-rajz-kupak" cx="330" cy="232" r="5"></circle>
+        </g>
+        <g class="szip-rajz-kerek">
+          <circle class="szip-rajz-gumi" cx="392" cy="232" r="26"></circle>
+          <circle class="szip-rajz-felni" cx="392" cy="232" r="15"></circle>
+          <line class="szip-rajz-kullo" x1="398.8" y1="233.5" x2="405.2" y2="234.8"></line>
+          <line class="szip-rajz-kullo" x1="385.2" y1="230.5" x2="378.8" y2="229.2"></line>
+          <line class="szip-rajz-kullo" x1="395.8" y1="237.9" x2="399.4" y2="243.3"></line>
+          <line class="szip-rajz-kullo" x1="388.2" y1="226.1" x2="384.6" y2="220.7"></line>
+          <line class="szip-rajz-kullo" x1="390.5" y1="238.8" x2="389.2" y2="245.2"></line>
+          <line class="szip-rajz-kullo" x1="393.5" y1="225.2" x2="394.8" y2="218.8"></line>
+          <line class="szip-rajz-kullo" x1="386.1" y1="235.8" x2="380.7" y2="239.4"></line>
+          <line class="szip-rajz-kullo" x1="397.9" y1="228.2" x2="403.3" y2="224.6"></line>
+          <circle class="szip-rajz-kupak" cx="392" cy="232" r="5"></circle>
+        </g>
+
+        <!-- Talajvonal: a két vége nullába halványul, nincs levágott éle. -->
+        <rect class="szip-rajz-talaj" x="16" y="257" width="528" height="2"
+              fill="url(#szt-talaj)"></rect>
+      </g>
+
+      <!-- a minimumdíjban foglalt mennyiség jelölése -->
+      <g class="szip-rajz-jelolo szip-rajz-jelolo-minimum">
+        <line class="szip-rajz-jelvonal" x1="150" y1="76" x2="150" y2="212"></line>
+        <circle class="szip-rajz-jelpont" cx="150" cy="76" r="3.5"></circle>
+      </g>
+    </svg>
+            <figcaption class="type-ui-caption szip-egyseg">A tartály tetején minden vonalka egy köbméter.
+              A szaggatott jelölés a minimumdíjban foglalt mennyiséget mutatja: ami e között és az elszállított
+              mennyiség között van, azt kifizeti, de nem viszik el.</figcaption>
+          </figure>
+
+          <div class="szip-jarmu-vezerlo">
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="k-kocsim3">A szippantóautó űrtartalma
+                <span class="szip-egyseg">(m³)</span>
+                <span class="type-data-value szip-pelda-jel" data-szip-pelda="kocsiM3">példa</span></label>
+              <input class="urlap-input" type="number" id="k-kocsim3" name="kocsiM3"
+                     inputmode="decimal" min="1" max="20" step="0.5">
+            </p>
+            <div class="szip-kocsi-valaszto">
+              <p class="type-ui-caption urlap-cimke" id="k-kocsi-cimke">Gyakori járműméretek</p>
+              <div class="szip-kocsi-sor" data-szip-kocsi-sor role="group" aria-labelledby="k-kocsi-cimke"></div>
+            </div>
+
+            <ul class="szip-tank-cimkek" role="list">
+              <li class="szip-tank-cimke">
+                <span class="type-ui-caption szip-tank-cimke-nev">
+                  <span class="szip-jm-folt" data-szip-folt="urites" aria-hidden="true"></span>
+                  Amit elvisznek</span>
+                <span class="type-ui-body-strong szip-tank-cimke-ertek" data-szip-tank-cimke="m3">—</span>
+              </li>
+              <li class="szip-tank-cimke">
+                <span class="type-ui-caption szip-tank-cimke-nev">
+                  <span class="szip-jm-folt" data-szip-folt="minimum" aria-hidden="true"></span>
+                  Amit kiszámláznak</span>
+                <span class="type-ui-body-strong szip-tank-cimke-ertek" data-szip-tank-cimke="fizetett">—</span>
+              </li>
+              <li class="szip-tank-cimke">
+                <span class="type-ui-caption szip-tank-cimke-nev">Tartálykihasználás</span>
+                <span class="type-ui-body-strong szip-tank-cimke-ertek" data-szip-tank-cimke="kihasznalas">—</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="type-ui-caption szip-egyseg">A járműméret <strong>önmagában nem változtatja a díjat</strong>:
+          azt a foglalt mennyiség és az ürítési díj adja. Két helyen számít mégis. Egy: ha a szolgáltató a
+          <strong>teljes kocsit</strong> számlázza, akkor a foglalt mennyiséghez ugyanezt az értéket írja be —
+          onnantól minden járműméret más díjat ad. Kettő: a <strong>tartálykihasználás</strong> az, ami a fajlagos
+          díjat lenyomja, mert a kiszállási díj és a minimumdíj több köbméterre oszlik el.</p>
+      </fieldset>
+
+      <!-- A modul legfontosabb állítása. Korábban egyetlen tömött bekezdés
+           volt benne négy számmal — olvashatatlan. Most cím + négy adatcella:
+           a látogató ránézésre látja, mennyiről van szó. -->
+      <aside class="szip-jelzes" data-szip-jelzes hidden>
+        <p class="type-ui-card-title szip-jelzes-cim">Fizet olyan mennyiségért, amit nem visznek el</p>
+        <ul class="szip-jelzes-adatok" role="list">
+          <li class="szip-jelzes-tetel">
+            <span class="type-ui-caption szip-jelzes-nev">Amit kifizet, de nem visznek el</span>
+            <span class="type-ui-body-strong szip-jelzes-ertek" data-szip-jelzes-ertek="nemVitt">—</span>
+          </li>
+          <li class="szip-jelzes-tetel">
+            <span class="type-ui-caption szip-jelzes-nev">Ez alkalmanként</span>
+            <span class="type-ui-body-strong szip-jelzes-ertek" data-szip-jelzes-ertek="alkalom">—</span>
+          </li>
+          <li class="szip-jelzes-tetel">
+            <span class="type-ui-caption szip-jelzes-nev">Egy évben</span>
+            <span class="type-ui-body-strong szip-jelzes-ertek" data-szip-jelzes-ertek="ev">—</span>
+          </li>
+          <li class="szip-jelzes-tetel">
+            <span class="type-ui-caption szip-jelzes-nev">Fajlagos díj teltebb tartállyal</span>
+            <span class="type-ui-body-strong szip-jelzes-ertek" data-szip-jelzes-ertek="teli">—</span>
+          </li>
+        </ul>
+        <p class="type-ui-caption szip-jelzes-labjegyzet">Ha ritkábban hívja ki, de teltebb tartállyal,
+          ugyanannyi szennyvízre kevesebbet fizet — a kiszállási díj és a minimumdíj ilyenkor több
+          köbméterre oszlik el.</p>
+      </aside>
+
+      <noscript>
+        <div class="szip-jelzes type-ui-body">
+          <p>A kalkulátor JavaScript nélkül nem tud számolni — a képlet viszont papíron is elvégezhető:</p>
+          <p><strong>elszámolt mennyiség</strong> = a nagyobbik az elszállított és a minimumdíjban foglalt mennyiség
+            közül · <strong>alkalmankénti díj</strong> = kiszállási díj + a nagyobbik a minimumdíj és az
+            (ürítési díj × elszámolt mennyiség) közül + további tételek ·
+            <strong>éves díj</strong> = alkalmankénti díj × az éves alkalomszám.</p>
+          <p>Ha inkább megbeszélné: <a href="tel:+3633200211">+36 33 200 211</a> vagy
+            <a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a>.</p>
+        </div>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="adatbazis" aria-labelledby="adatbazis-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Adatbázis</p>
+        <h2 class="type-display-section-title section-title" id="adatbazis-cim">Hol tartunk a települési díjakkal</h2>
+        <p class="type-ui-body section-lead">A szippantási díj településenként és szolgáltatónként más, és nincs róla
+          nyilvános, összesített nyilvántartás. Ezt az adatbázist a beküldésekből építjük — kizárólag olyan sorral,
+          amelyet számla, szolgáltatói ártáblázat vagy önkormányzati rendelet igazol. Amíg egy településről nincs
+          igazolt adatunk, addig a térképen sem lesz.</p>
+      </header>
+
+      <div class="szip-terkep-doboz" data-szip-vart>
+        <div class="szip-terkep-oszlop">
+          <p class="type-ui-body-strong szip-terkep-osszeg" data-szip-terkep-osszeg></p>
+          <ul class="szip-terkep-jelmagyarazat" role="list">
+            <li class="szip-terkep-jm type-ui-caption">
+              <span class="szip-terkep-jm-folt" data-allapot="van" aria-hidden="true"></span>Van igazolt díjadatunk</li>
+            <li class="szip-terkep-jm type-ui-caption">
+              <span class="szip-terkep-jm-folt" data-allapot="nincs" aria-hidden="true"></span>Még nincs — gyűjtés alatt</li>
+          </ul>
+          <p class="type-ui-body szip-terkep-reszlet" data-szip-terkep-reszlet role="status" aria-live="polite"></p>
+          <p class="type-ui-caption szip-egyseg">A térkép csempékből áll, nem határvonalakból: minden vármegye azonos
+            méretű mezőt kap, a helyük a valós kelet–nyugati és észak–déli sorrendet követi. Pontos határvonalat
+            szándékosan nem rajzolunk — arra nincs hiteles térképi forrásunk.</p>
+          <p><a class="text-link" href="#bekuldes"><span class="link-label">Küldje be a saját települését<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
+        </div>
+        <div class="szip-terkep-gorgo">
+          <div data-szip-terkep></div>
+        </div>
+      </div>
+
+      <noscript>
+        <p class="type-ui-body">A vármegyei áttekintő JavaScript nélkül nem jelenik meg. Az adatbázis jelenlegi
+          állásáról és egy adott település díjszabásáról telefonon is tudunk tájékoztatást adni:
+          <a href="tel:+3633200211">+36 33 200 211</a>.</p>
+      </noscript>
+    </div>
+  </section>
+</div>
+
+  <section class="section" id="bekuldes" aria-labelledby="bekuldes-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Adatbeküldés</p>
+        <h2 class="type-display-section-title section-title" id="bekuldes-cim">Ismeri a saját településén érvényes díjakat?</h2>
+        <p class="type-ui-body section-lead">Küldje be — és a következő érdeklődő már készen kapja. Csak olyan sort
+          veszünk fel, amelyhez forrás is tartozik, és minden beküldést emberi ellenőrzés után rögzítünk, ezért az adat
+          nem jelenik meg azonnal a térképen. Nevet és e-mail-címet nem kérünk; e-mailt csak akkor adjon meg, ha
+          szeretné, hogy visszajelezzünk.</p>
+      </header>
+
+      <p class="urlap-akcio">
+        <button class="btn btn-secondary btn-kicsi" type="button" data-szip-atmasol>
+          A kalkulátorban megadott értékek átemelése
+        </button>
+      </p>
+
+      <!-- Az űrlap JS NÉLKÜL is működik: sima POST az api/szippantasi-dij
+           végpontra, amely ilyenkor JSON-t ad vissza. Az `urlap.js` csak annyit
+           tesz, hogy a választ helyben jeleníti meg. -->
+      <form class="urlap" method="post" action="api/szippantasi-dij" data-urlap data-szip-urlap>
+        <p class="szip-atmasolva type-ui-body" data-szip-atmasolva role="status" aria-live="polite" hidden></p>
+
+        <div class="urlap-sor">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-megye">Vármegye <span aria-hidden="true">*</span></label>
+            <select class="urlap-input" id="b-megye" name="megye" required>
+              <option value="">Válasszon vármegyét…</option>
+            </select>
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-telepules">Település <span aria-hidden="true">*</span></label>
+            <input class="urlap-input" type="text" id="b-telepules" name="telepules" required maxlength="120">
+          </p>
+        </div>
+
+        <p class="urlap-mezo">
+          <label class="type-ui-caption urlap-cimke" for="b-szolgaltato">Közszolgáltató neve</label>
+          <input class="urlap-input" type="text" id="b-szolgaltato" name="szolgaltato" maxlength="160"
+                 placeholder="ha szerepel a számlán">
+        </p>
+
+        <div class="szip-mezosor-harmas">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-kiszallas">Kiszállási / alapdíj
+              <span class="szip-egyseg">(Ft/alkalom)</span></label>
+            <input class="urlap-input" type="number" id="b-kiszallas" name="kiszallas"
+                   inputmode="decimal" min="0" max="1000000" step="1">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-uritesm3">Ürítési díj
+              <span class="szip-egyseg">(Ft/m³)</span></label>
+            <input class="urlap-input" type="number" id="b-uritesm3" name="uritesM3"
+                   inputmode="decimal" min="0" max="500000" step="1">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-minimumdij">Minimumdíj
+              <span class="szip-egyseg">(Ft/alkalom)</span></label>
+            <input class="urlap-input" type="number" id="b-minimumdij" name="minimumDij"
+                   inputmode="decimal" min="0" max="2000000" step="1">
+          </p>
+        </div>
+        <div class="szip-mezosor-harmas">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-minimumm3">Ebben foglalt mennyiség
+              <span class="szip-egyseg">(m³)</span></label>
+            <input class="urlap-input" type="number" id="b-minimumm3" name="minimumM3"
+                   inputmode="decimal" min="0" max="50" step="0.5">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-kocsim3">Kocsi űrtartalma
+              <span class="szip-egyseg">(m³)</span></label>
+            <input class="urlap-input" type="number" id="b-kocsim3" name="kocsiM3"
+                   inputmode="decimal" min="0" max="50" step="0.5">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-kmdij">Távolságarányos díj
+              <span class="szip-egyseg">(Ft/km)</span></label>
+            <input class="urlap-input" type="number" id="b-kmdij" name="kmDij"
+                   inputmode="decimal" min="0" max="50000" step="1">
+          </p>
+        </div>
+        <p class="type-ui-caption szip-egyseg">Amelyik tételt nem ismeri, hagyja üresen — az üres mező azt jelenti,
+          hogy nem tudjuk, a nulla viszont valódi érték (például: nincs kiszállási díj). A kettőt nem cseréljük fel.</p>
+
+        <div class="urlap-sor">
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-ervenyes">Mikortól érvényes</label>
+            <input class="urlap-input" type="text" id="b-ervenyes" name="ervenyes" maxlength="40"
+                   placeholder="például: 2026. január">
+          </p>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="b-forras">Honnan tudja? <span aria-hidden="true">*</span></label>
+            <select class="urlap-input" id="b-forras" name="forras" required>
+              <option value="">Válasszon forrást…</option>
+                <option value="szamla">Saját szippantási számla</option>
+                <option value="artablazat">Szolgáltatói ártáblázat vagy weboldal</option>
+                <option value="rendelet">Önkormányzati rendelet</option>
+                <option value="telefon">Telefonos tájékoztatás a szolgáltatótól</option>
+                <option value="egyeb">Egyéb</option>
+            </select>
+          </p>
+        </div>
+
+        <p class="urlap-mezo">
+          <label class="type-ui-caption urlap-cimke" for="b-megjegyzes">Megjegyzés</label>
+          <textarea class="urlap-input urlap-terulet" id="b-megjegyzes" name="megjegyzes" rows="4" maxlength="1500"
+                    placeholder="Bármi, ami a díjszabás megértéséhez kell — például hogy a szolgáltató a teljes kocsit számlázza."></textarea>
+        </p>
+
+        <p class="urlap-mezo">
+          <label class="type-ui-caption urlap-cimke" for="b-email">E-mail-cím — csak ha visszajelzést kér</label>
+          <input class="urlap-input" type="email" id="b-email" name="email" maxlength="254" autocomplete="email">
+        </p>
+
+        <p class="urlap-jelolo">
+          <input type="checkbox" id="b-hozzajarul" name="hozzajarul" value="1">
+          <label class="type-ui-subtitle" for="b-hozzajarul">Ha megadta az e-mail-címét: hozzájárulok, hogy azt a
+            beküldés visszajelzéséhez kezeljék.
+            <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a></label>
+        </p>
+
+        <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
+             megnyitás időpontja — a túl gyors beküldés is robotra utal. -->
+        <p class="urlap-csapda" aria-hidden="true">
+          <label for="b-weboldal">Weboldal</label>
+          <input type="text" id="b-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
+        </p>
+        <input type="hidden" name="nyitva" value="" data-urlap-ido>
+
+        <p class="urlap-akcio">
+          <button class="btn btn-primary" type="submit">Díjadat beküldése</button>
+        </p>
+        <p class="type-ui-caption urlap-jog">A <span aria-hidden="true">*</span>-gal jelölt mezők kitöltése kötelező.
+          A díjszabás önmagában nem személyes adat; e-mail-címet csak akkor kérünk, ha visszajelzést szeretne.</p>
+
+        <p class="urlap-valasz type-ui-body" role="status" aria-live="polite" data-urlap-valasz hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section-alt" aria-labelledby="tipusok-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Díjszabás-típusok</p>
+        <h2 class="type-display-section-title section-title" id="tipusok-cim">Három szerkezet, amivel találkozni fog</h2>
+        <p class="type-ui-body section-lead">Mindhárom ugyanabból a három tételből épül fel — a különbség az, mi
+          történik <strong>kis mennyiségnél</strong>. A kalkulátor mindhármat ugyanazzal a képlettel kezeli; Önnek csak
+          a mezőket kell helyesen kitöltenie.</p>
+      </header>
+      <div class="compare-scroll" role="region" aria-labelledby="tipusok-cim" tabindex="0">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th scope="col">Szempont</th>
+              <th scope="col">Csak mennyiség szerint</th>
+              <th scope="col">Minimumdíj alsó korlátként</th>
+              <th scope="col">A minimumdíj mennyiséget tartalmaz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Mi szerepel a számlán</th>
+              <td class="type-ui-subtitle">kiszállási díj (ha van) és ürítési díj köbméterenként</td>
+              <td class="type-ui-subtitle">ugyanez, plusz egy legkisebb számlázható összeg</td>
+              <td class="type-ui-subtitle">egy alapösszeg, amiért adott mennyiséget elvisznek, és e fölött köbméterár</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Mit fizet, ha keveset szippantat</th>
+              <td class="type-ui-subtitle">arányosan keveset</td>
+              <td class="type-ui-subtitle">a minimumdíjat, akkor is, ha a mennyiségalapú összeg kisebb volna</td>
+              <td class="type-ui-subtitle">a foglalt mennyiség árát — a különbözetet nem viszik el</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Mit fizet, ha megtelik a tartály</th>
+              <td class="type-ui-subtitle">a tényleges mennyiség árát</td>
+              <td class="type-ui-subtitle">a tényleges mennyiség árát — a minimum ilyenkor nem köt</td>
+              <td class="type-ui-subtitle">a foglalt mennyiséget, plusz a fölötte lévő köbmétereket</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Számít-e, hogy teltebb tartállyal hívja ki</th>
+              <td class="type-ui-subtitle">csak a kiszállási díj miatt</td>
+              <td class="type-ui-subtitle">igen, amíg a minimumdíj alatt jár</td>
+              <td class="type-ui-subtitle">igen, ez a legerősebb hatás — a foglalt mennyiséget mindenképp kifizeti</td>
+            </tr>
+            <tr>
+              <th scope="row" class="type-ui-subtitle">Mit írjon a kalkulátorba</th>
+              <td class="type-ui-subtitle">minimumdíj: 0 · foglalt mennyiség: 0</td>
+              <td class="type-ui-subtitle">minimumdíj: a számla szerint · foglalt mennyiség: 0</td>
+              <td class="type-ui-subtitle">minimumdíj és foglalt mennyiség is a számla szerint</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="type-ui-body">Van, ahol a szolgáltató a <strong>teljes kocsit</strong> számlázza akkor is, ha egyetlen
+        köbmétert visz el. Ez a harmadik eset szélső változata: a foglalt mennyiséghez a kocsi űrtartalmát írja be.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="kovetkezo-cim">
+    <div class="section-inner">
+      <aside class="panel-dark" aria-labelledby="kovetkezo-cim">
+        <div class="panel-dark-head">
+          <p class="type-data-eyebrow panel-dark-eyebrow">Következő lépés</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="kovetkezo-cim">A szippantás mennyisége technológiafüggő</h2>
+        </div>
+        <div class="panel-dark-body">
+          <p class="type-ui-body panel-dark-text">Ez a kalkulátor a díjszabást bontja szét — azt, hogy mennyit és
+            milyen gyakran kell elszállíttatni, a telepített rendszer dönti el. Zárt tárolónál a teljes szennyvíz
+            elszállítás tárgya; oldómedencés rendszernél az iszap; aktív biológiai berendezésnél megint más az
+            üzemeltetési profil. Melyik mit jelent, azt a megoldásoldalak írják le.</p>
+          <p class="type-ui-body panel-dark-text"><a href="megoldasok/oldomedence-szippantas-es-karbantartas">Szippantás és karbantartás oldómedencés rendszernél</a> ·
+            <a href="megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a></p>
+          <p class="panel-dark-actions"><a class="btn btn-inverse" href="konzultacio">Konzultációt kérek</a></p>
+        </div>
+      </aside>
+
+      <p class="type-ui-caption szip-egyseg">A kalkulátor eredménye <strong>tájékoztató jellegű</strong>: a megadott
+        értékekből számol, és nem minősül árajánlatnak. A szippantás nem az ÖkoTech-Home szolgáltatása — a díjat a
+        területileg illetékes közszolgáltató és az önkormányzat állapítja meg, és az időben változik. Kötelező érvényű
+        adatért a közszolgáltatóhoz vagy az önkormányzathoz forduljon. A számítás a böngészőjében fut: a beírt értékek
+        nem kerülnek szerverre, amíg Ön nem küldi be őket az adatbeküldő űrlapon.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt" aria-labelledby="gyik-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
+        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit a leggyakrabban kérdeznek</h2>
+      </header>
+      <div class="faq">
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Miért nem írják ki, mennyi a szippantás díja a településemen?</summary>
+          <div class="faq-a"><p class="type-ui-body">Mert nem tudjuk. A nem közművel elvezetett háztartási szennyvíz begyűjtése közszolgáltatás: a díjat a közszolgáltató és az önkormányzat állapítja meg, településenként külön, és nincs róla nyilvános, összesített nyilvántartás. Kitalált vagy „nagyjából ennyi" értéket pedig nem írunk ki — az rosszabb a semminél, mert a látogató elhinné. Ezért kéri be a kalkulátor a díjakat, és ezért gyűjtjük őket településenként.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mit jelent az, hogy a minimumdíj tartalmaz x m³-t?</summary>
+          <div class="faq-a"><p class="type-ui-body">Azt, hogy a minimumdíjért cserébe a szolgáltató egy adott mennyiség elszállítását vállalja — és ha ennél kevesebbet vitet el, akkor is ennyit fizet ki. Ha ez a mennyiség megegyezik a szippantóautó űrtartalmával, akkor a teljes kocsit kifizeti akkor is, ha egyetlen köbmétert szállíttat el. A kalkulátorban ezért külön mező a „minimumdíjban foglalt mennyiség": nullától a kocsi űrtartalmáig bármi lehet.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mi van, ha nincs kiszállási díj?</summary>
+          <div class="faq-a"><p class="type-ui-body">Akkor írjon a mezőbe nullát. A kiszállási díj nem minden szolgáltatónál külön tétel — van, ahol a mennyiségalapú díjba vagy a minimumdíjba van beépítve. A kalkulátor a nullát valódi értékként kezeli, és a költségsávban nem is jelenik meg ilyenkor ez a szelet.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Bruttó vagy nettó értéket írjak be?</summary>
+          <div class="faq-a"><p class="type-ui-body">Amelyik a számláján szerepel — a kalkulátor nem számol áfát, csak összead és szoroz. Lakossági számlán ez jellemzően bruttó érték. Ha nettó díjakkal dolgozik, az eredmény is nettó lesz; a kettőt viszont ne keverje egy számításon belül.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Honnan tudom meg a saját településem díjszabását?</summary>
+          <div class="faq-a"><p class="type-ui-body">Három helyről: a legutóbbi szippantási számláról, a közszolgáltató ártáblázatából, illetve az önkormányzat hulladékgazdálkodási vagy szennyvízszállítási rendeletéből. Ha bármelyik megvan, az űrlapon beküldheti — a következő érdeklődő már azt fogja látni a térképen.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Milyen gyakran kell szippantatni?</summary>
+          <div class="faq-a"><p class="type-ui-body">Erre a kalkulátor nem ad választ, mert ez nem díjkérdés: az iszapszint a mérvadó, nem a naptár, és a gyakoriságot a tartály mérete, a használói létszám és a használat intenzitása határozza meg. A gyakoriságot Ön adja meg a kalkulátorban — mi nem becsüljük meg Ön helyett.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==========================================================================
+     LÁBLÉC — egy sorban: márkablokk + öt hasáb.
+
+     A záró sáv cégadatai a cég impresszumából származnak. A láblécben az
+     ÜGYFÉLSZOLGÁLATI cím szerepel (2509 Esztergom, Strázsa u. 12.); a
+     bejegyzett SZÉKHELY ettől eltér, azt a jogi oldalak közlik.
+=========================================================================== -->
+<footer class="lablec">
+  <div class="lablec-inner">
+
+    <div class="lablec-marka">
+      <a class="lablec-logo" href="./" aria-label="ÖkoTech Home — főoldal">
+        <img src="assets/img/logo-email.png" width="220" height="69"
+             alt="ÖkoTech Home" loading="lazy" decoding="async">
+      </a>
+      <p class="type-ui-body lablec-lead">
+        Biológiai szennyvíztisztítás közcsatorna nélküli ingatlanokhoz — a telek
+        felmérésétől az üzemeltetésig, egy kézben.
+      </p>
+      <ul class="lablec-kapcsolat" role="list">
+        <li><a class="lablec-link" href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></li>
+        <li><a class="lablec-link" href="tel:+3633200211">+36 33 200 211</a></li>
+        <li class="lablec-halvany">2509 Esztergom, Strázsa u. 12.</li>
+      </ul>
+      <p class="lablec-masodlagos"><a class="lablec-link" href="ugyfeltamogatas/">Ügyféltámogatás</a> <a class="lablec-link" href="partnereknek/">Partnereknek</a> <a class="lablec-link" href="okotech-home/">ÖkoTech-Home</a> <a class="lablec-link" href="kapcsolat">Kapcsolat</a></p>
+    </div>
+
+      <nav class="lablec-hasab" aria-labelledby="lf-helyzetem">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-helyzetem">
+          <a class="lablec-cim-link" href="helyzetem/">Helyzetem</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="helyzetem/nincs-elerheto-kozcsatorna">Nincs elérhető közcsatorna</a></li>
+          <li><a class="lablec-link" href="helyzetem/telekvasarlas-vagy-uj-epites-elott-allok">Telekvásárlás, új építés</a></li>
+          <li><a class="lablec-link" href="helyzetem/meglevo-emesztot-szeretnek-kivaltani">Emésztő kiváltása</a></li>
+          <li><a class="lablec-link" href="helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan">Nyaraló, szezonális</a></li>
+          <li><a class="lablec-link" href="helyzetem/csaladi-hazhoz-keresek-rendszert">Családi ház</a></li>
+          <li><a class="lablec-link" href="helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast">Vállalkozás, intézmény</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-megoldasok">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-megoldasok">
+          <a class="lablec-cim-link" href="megoldasok/">Megoldások</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="megoldasok/biologiai-szennyviztisztitas">Biológiai szennyvíztisztítás</a></li>
+          <li><a class="lablec-link" href="megoldasok/oldomedences-rendszer">Oldómedencés rendszer</a></li>
+          <li><a class="lablec-link" href="megoldasok/nagyobb-es-kozossegi-rendszerek">Nagyobb és közösségi</a></li>
+          <li><a class="lablec-link" href="megoldasok/alternativak">Alternatívák</a></li>
+          <li><a class="lablec-link" href="megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összevetése</a></li>
+          <li><a class="lablec-link" href="megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró feltételek</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-projekt-elokeszites">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-projekt-elokeszites">
+          <a class="lablec-cim-link" href="projekt-elokeszites/">Előkészítés</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="projekt-elokeszites/telekalkalmassag">Telekalkalmasság</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/terheles-es-kapacitas">Terhelés és kapacitás</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/tisztitott-viz-elhelyezese">Tisztított víz elhelyezése</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/engedelyezes-es-dokumentumok">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/helyszini-felmeres">Helyszíni felmérés</a></li>
+          <li><a class="lablec-link" href="projekt-elokeszites/koltsegek-es-ajanlatok">Költségek és ajánlatok</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-tudastar">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-tudastar">
+          <a class="lablec-cim-link" href="tudastar/">Tudástár</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="tudastar/telek-talaj-es-viz">Telek, talaj és víz</a></li>
+          <li><a class="lablec-link" href="tudastar/terheles-es-meretezes">Terhelés és méretezés</a></li>
+          <li><a class="lablec-link" href="tudastar/engedelyezes-es-megfeleloseg">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="tudastar/uzemeltetes-es-hibamegelozes">Üzemeltetés</a></li>
+          <li><a class="lablec-link" href="tudastar/koltseg-es-megvalositas">Költség és megvalósítás</a></li>
+          <li><a class="lablec-link" href="tudastar/fogalomtar">Fogalomtár</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-eredmenyek">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-eredmenyek">
+          <a class="lablec-cim-link" href="eredmenyek/">Eredmények</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="eredmenyek/csikvand">Csikvánd — 128 berendezés</a></li>
+          <li><a class="lablec-link" href="eredmenyek/bakonypeterd">Bakonypéterd — központi telep</a></li>
+          <li><a class="lablec-link" href="eredmenyek/diosbereny">Diósberény — 90 berendezés</a></li>
+          <li><a class="lablec-link" href="eredmenyek/obudavar">Óbudavár — a kezdet</a></li>
+          <li><a class="lablec-link" href="eredmenyek/esettanulmanyok">Esettanulmányok</a></li>
+          <li><a class="lablec-link" href="eredmenyek/tanusitvanyok-es-dokumentumok">Tanúsítványok</a></li>
+        </ul>
+      </nav>
+
+  </div>
+
+  <div class="lablec-zaro">
+    <div class="lablec-inner lablec-zaro-inner">
+      <p class="type-ui-caption lablec-ceg">
+        © 2026 ÖkoTech-Home Kft. Minden jog fenntartva.
+        <span class="lablec-adat">Cégjegyzékszám: 11-09-008852</span>
+        <span class="lablec-adat">Adószám: 12268687-2-11</span>
+      </p>
+      <ul class="lablec-jogi" role="list">
+        <li><a class="lablec-jogi-link" href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="cookie-tajekoztato">Cookie-tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="jogi-nyilatkozat">Jogi nyilatkozat</a></li>
+        <li><a class="lablec-jogi-link" href="aszf">ÁSZF</a></li>
+        <li><a class="lablec-jogi-link" href="akadalymentessegi-nyilatkozat">Akadálymentesség</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- A KONFIG a modul ELŐTT tölt be, halasztás nélkül: a `szippantas.js` az
+     induláskor olvassa a `window.OTH_SZIPPANTAS` objektumot. Ha megfordulna a
+     sorrend, a modul példaértékek és vármegyelista nélkül indulna. -->
+<script src="assets/data/szippantas-konfig.js?v=1"></script>
+<script src="assets/js/site.js?v=3" defer></script>
+<script src="assets/js/kalauz.js?v=32" defer></script>
+<script src="assets/js/urlap.js?v=1" defer></script>
+<script src="assets/js/szippantas.js?v=1" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"},
+        {"@type":"ListItem","position":2,"name":"Szippantási díj kalkulátor","item":"https://okoth.hu/szippantasi-dij-kalkulator"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Miért nem írják ki, mennyi a szippantás díja a településemen?","acceptedAnswer":{"@type":"Answer","text":"Mert nem tudjuk. A nem közművel elvezetett háztartási szennyvíz begyűjtése közszolgáltatás: a díjat a közszolgáltató és az önkormányzat állapítja meg, településenként külön, és nincs róla nyilvános, összesített nyilvántartás. Kitalált vagy „nagyjából ennyi\" értéket pedig nem írunk ki — az rosszabb a semminél, mert a látogató elhinné. Ezért kéri be a kalkulátor a díjakat, és ezért gyűjtjük őket településenként."}},
+        {"@type":"Question","name":"Mit jelent az, hogy a minimumdíj tartalmaz x m³-t?","acceptedAnswer":{"@type":"Answer","text":"Azt, hogy a minimumdíjért cserébe a szolgáltató egy adott mennyiség elszállítását vállalja — és ha ennél kevesebbet vitet el, akkor is ennyit fizet ki. Ha ez a mennyiség megegyezik a szippantóautó űrtartalmával, akkor a teljes kocsit kifizeti akkor is, ha egyetlen köbmétert szállíttat el. A kalkulátorban ezért külön mező a „minimumdíjban foglalt mennyiség\": nullától a kocsi űrtartalmáig bármi lehet."}},
+        {"@type":"Question","name":"Mi van, ha nincs kiszállási díj?","acceptedAnswer":{"@type":"Answer","text":"Akkor írjon a mezőbe nullát. A kiszállási díj nem minden szolgáltatónál külön tétel — van, ahol a mennyiségalapú díjba vagy a minimumdíjba van beépítve. A kalkulátor a nullát valódi értékként kezeli, és a költségsávban nem is jelenik meg ilyenkor ez a szelet."}},
+        {"@type":"Question","name":"Bruttó vagy nettó értéket írjak be?","acceptedAnswer":{"@type":"Answer","text":"Amelyik a számláján szerepel — a kalkulátor nem számol áfát, csak összead és szoroz. Lakossági számlán ez jellemzően bruttó érték. Ha nettó díjakkal dolgozik, az eredmény is nettó lesz; a kettőt viszont ne keverje egy számításon belül."}},
+        {"@type":"Question","name":"Honnan tudom meg a saját településem díjszabását?","acceptedAnswer":{"@type":"Answer","text":"Három helyről: a legutóbbi szippantási számláról, a közszolgáltató ártáblázatából, illetve az önkormányzat hulladékgazdálkodási vagy szennyvízszállítási rendeletéből. Ha bármelyik megvan, az űrlapon beküldheti — a következő érdeklődő már azt fogja látni a térképen."}},
+        {"@type":"Question","name":"Milyen gyakran kell szippantatni?","acceptedAnswer":{"@type":"Answer","text":"Erre a kalkulátor nem ad választ, mert ez nem díjkérdés: az iszapszint a mérvadó, nem a naptár, és a gyakoriságot a tartály mérete, a használói létszám és a használat intenzitása határozza meg. A gyakoriságot Ön adja meg a kalkulátorban — mi nem becsüljük meg Ön helyett."}}
+      ]
+    }
+  ]
+}
+</script>
+
+</body>
+</html>

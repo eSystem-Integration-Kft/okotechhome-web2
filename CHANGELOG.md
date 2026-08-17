@@ -29,6 +29,127 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [Nem kiadott]
+
+**Szippantási díj kalkulátor** — új modul-oldal a `/szippantasi-dij-kalkulator`
+útvonalon, a megrendelői brief (Anna) alapján. A brief három díjszabás-szerkezetet
+ír le; a modul **egyetlen képlettel** kezeli mindhármat, és megmutatja azt a
+tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
+
+### Hozzáadva
+
+- **`/szippantasi-dij-kalkulator` — modul-oldal.** Élő kalkulátor (vármegye,
+  település, éves alkalomszám, m³/alkalom, kiszállási díj, ürítési díj,
+  minimumdíj, a minimumdíjban foglalt m³, kocsi űrtartalma, távolságarányos díj,
+  egyéb), animált költségsáv tételes jelmagyarázattal, tartálymérő ábra és
+  vármegyei csempetérkép. Nyolc szekció, hat GYIK-tétel `FAQPage` jelöléssel.
+  Generátor: `scripts/oldalgyartas/szippantasi_kalkulator.py`.
+- **Egy képlet mind a három díjszabásra.** `elszámolt m³ = max(elszállított,
+  foglalt)` · `alapdíj = max(minimumdíj, ürítési díj × elszámolt m³)` ·
+  `alkalmi díj = kiszállás + alapdíj + távolság + egyéb`. Lefedi a „csak
+  mennyiség szerint", a „minimumdíj alsó korlátként" és a „a minimumdíj X m³-t
+  tartalmaz" esetet — beleértve azt, amikor a **teljes kocsit** ki kell fizetni
+  egyetlen köbméterért. A látogatónak nem kell kategóriába sorolnia a számláját.
+- **Minimum-felár mint önálló kimenet.** Az az összeg, amit a látogató kifizet,
+  de nem visznek el érte semmit — alkalmanként és évesre vetítve is, azzal
+  együtt, hogy teltebb tartállyal mennyi lenne a fajlagos díj.
+- **Települési díjadatbázis — üresen indul.** `assets/data/szippantas-konfig.js`:
+  a `dijak` tömb szándékosan üres, mert egyetlen település díjszabását sem
+  ismerjük ellenőrzött forrásból. A `0` valódi érték (nincs kiszállási díj), a
+  `null` azt jelenti, hogy nem tudjuk — a kettő nem cserélhető fel.
+- **Csempetérkép — 19 vármegye + Budapest.** Nem földrajzi térkép: azonos méretű
+  csempék a valós kelet–nyugati és észak–déli sorrendben, mert pontos
+  határvonalhoz nincs hiteles térképi forrásunk. A rácshely a konfigban él.
+  Görgetésvezérelt animációval épül fel északnyugatról délkelet felé
+  (`animation-timeline: view()`).
+- **`api/szippantasi-dij` — díjbeküldő végpont.** Zárt vármegye- és
+  forrás-értékkészlet, elgépelés-szűrő felső korlátok, „12 000 Ft"-ként másolt
+  értékek normalizálása. Az adat **e-mailben** érkezik, és emberi ellenőrzés után
+  kerül a konfigba — az automatikus felvétel egy elgépelt nullát azonnal minden
+  látogatónak kiszolgálna. Nevet nem kér; e-mail-címet csak hozzájárulással.
+- **Rajzolt modul-hero (`.szip-hero`) — jelzett eltérés.** A lap nem fényképes
+  fejlécet kap: a rendelkezésre álló szippantásos felvételen ott a
+  designrendszer 4.4-ben leírt **függőleges varrat**, a lap pedig eszköz, nem
+  tartalom. A fejlécben ugyanaz a tartályábra áll, amit a kalkulátor is használ.
+  Következmény: nincs fejléckép, tehát nincs `preload` — az LCP-elem a főcím.
+
+### Módosítva
+
+- **`app.css`** két új komponensblokkal (5.21 kalkulátor, 5.22 modul-hero),
+  saját komponens-tokenekkel, mind újradeklarálva a `[data-theme="dark"]`
+  blokkban. Cache-busting: `app.css?v=136` mind a 120 lapon.
+- **`oldomedence-szippantas-es-karbantartas`** „Következő lépés" panelje a
+  kalkulátorra is hivatkozik — ez a lap egyetlen bejövő hivatkozása, mert a
+  szlug nincs a sitemapban, és menüpontot nem találunk ki hozzá.
+- **`api/config.example.php`**: új `cimzettek['szippantasi-dij']` kulcs. A
+  végpontnak van tartaléka, tehát a beküldés akkor sem vész el, ha a kulcs
+  lemarad az éles configból.
+
+### Vizuális átdolgozás (megrendelői visszajelzés nyomán)
+
+- **A járműrajz újraírva.** Vezetőfülke ferde szélvédővel és ajtóvonallal, alváz,
+  tartálybölcsők, domború hátsó véglap, bordázat, búvónyílás és szellőzőszelep,
+  vákuumpumpa-ház, küllős tömlődob, alsó ürítőcsonk, sárvédők, küllős kerekek,
+  gradienses talajárnyék. Egyetlen `--rajz-kontraszt` tokenből kevert ötfokú tónuslépcső
+  — a rajz így annyi mélységet kap, mint egy háromtónusú illusztráció, de a paletta
+  egyetlen tokenből jön, és követi a témaváltást.
+- **A méretválasztó, az ábra és az animáció egy blokk.** Külön állva a járműméret
+  átállítása nem látszott a rajzon. Most a rajz **vízszintesen nyúlik** az űrtartalommal
+  (a fülke, a hátsó szerelvény és a kerekek ellenskálázással tartják az arányukat), és a
+  tartály tetején **köbméterenként egy vonalka** fut — nyolc osztás nyolc köbmétert jelent.
+- **Új leolvasás: tartálykihasználás.** Ez az egyetlen szám, amit a járműméret önmagában
+  mozgat; a blokk lábjegyzete kimondja, hogy a díjat a foglalt mennyiség és az ürítési díj
+  adja, és megnevezi azt a két esetet, amikor a járműméret mégis számít.
+- **A fejléc animációja öt fázisú:** behajtás forgó kerekekkel és sebességvonalakkal →
+  a kiszámlázott mennyiség felfut → az elszállított mennyiség felfut → a zöld réteg
+  csillapodva hármat lötyög → a jelölők lefutnak; ezután 7 másodpercenként fénypászma.
+- **Mezőcsoport-cím pirulában:** a `fieldset` felirata félkörös végű pirula, és a keret a
+  pirula tengelyvonalában fut bele a két oldalába. A natív `legend` keretkivágása ezt nem
+  tudja — a felirat ezért abszolút pozíciójú, saját, átlátszatlan háttérrel.
+- **A figyelmeztetés adatblokk lett:** négy szám egy tömött bekezdés helyett cím + négy
+  adatcella.
+- **Javított rajzhibák** (nagyításban derültek ki): a sárvédő íve keresztbe vágta a
+  tartályt · az alváz beleolvadt a burkolatba, ezért a jármű darabokra esett · a tartály
+  alsó árnyéka éles vízszintes vonalat húzott, ami folyadékszintnek látszott · a
+  búvónyílás a „KIFIZETI" felirat alá esett. A feliratok azóta halót viselnek
+  (`paint-order: stroke fill`).
+
+### Designrendszer
+
+- **Új szemantikus token: `--text-on-dark-soft`** — a sötét felület hiányzó középső
+  szövegfoka. Világos felületen három szövegszint van, sötét felületen eddig csak kettő
+  volt, ezért minden hivatkozás és folyó szöveg a majdnem fehér Stardustra került. A
+  láblécben ez öt hasábnyi, maximális kontrasztú szöveget jelentett, ami optikailag
+  vastagabbnak és „izzónak" látszott (irradiáció). Az új fok 13,3:1-ről **10,2:1**-re
+  viszi a kontrasztot — AAA-n belül marad. Alkalmazva: a lábléc hasáblistái.
+  Címre és `:hover`-re marad a teljes világosság.
+- **`-moz-osx-font-smoothing: grayscale`** a `body`-n, a meglévő WebKit-es párja mellé:
+  enélkül ugyanaz a lap más betűvastagságot mutatott Firefoxban és Chrome-ban macOS alatt.
+- **A lábléc hasáblistái `line-height: 1.55`-öt kapnak** — a kétsorosra törő tételek
+  sötét alapon a szűkebb sorközzel vibrálni látszottak.
+- Cache-busting: `app.css?v=137` mind a 120 lapon.
+
+### Akadálymentesség
+
+- **Egyetlen, késleltetett élő régió.** A látható számokon nincs `aria-live`:
+  gépelés közben minden leütésnél újra felolvasnák magukat. Helyettük egy rejtett
+  `role="status"` régió mondja el az eredményt, 900 ms-mal az utolsó változás
+  után, egyetlen mondatban.
+- A csempék `<button>`-ok `aria-pressed`-del (szűrők, nem navigáció), és a
+  képernyőolvasó a **teljes** vármegyenevet kapja, nem a rövidítést.
+- 640px alatt a csempetérkép vízszintesen görgethető; a mezősorok `subgrid`-del
+  igazodnak, hogy a kétsoros címke ne lökje lépcsőbe a szomszéd oszlopot.
+
+### Amire adat kell — kérni
+
+- **Települési díjszabások** a `dijak` tömbhöz (számla, közszolgáltatói
+  ártáblázat vagy önkormányzati rendelet alapján). Enélkül a térkép üres marad.
+- **A példaértékek jóváhagyása** (`peldaDijak`): jelenleg a brief „Példa"
+  oszlopa. A felület végig jelzi, hogy példa, de a nagyságrendet a cégnek meg
+  kell erősítenie.
+
+---
+
 ## [0.05.00] — 2026-08-11
 
 Öko **a lapok tényleges mondataiból** válaszol: teljes szöveges keresés

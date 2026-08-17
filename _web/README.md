@@ -102,6 +102,7 @@ Három végpont a `_web/api/` alatt, PHP-ben (a tárhely Apache + PHP):
 | `api/ajanlat-atnezes` | a 11. szekció szakértői átnézése, csatolmánnyal |
 | `api/ajanlat-elemzes` | a feltöltött ajánlatok gépi kiolvasása (AI-proxy) |
 | `api/ajanlat-jelentes` | az összehasonlítási jelentés elküldése e-mailben |
+| `api/szippantasi-dij` | a szippantási díjkalkulátor adatbeküldései |
 
 **A jelszó nincs a repóban.** A valódi értékek az `api/config.php`-ban élnek,
 ami a `.gitignore`-ban van; a repóban csak az `api/config.example.php` minta.
@@ -318,6 +319,61 @@ Ha a böngésző nem ismeri a `dialog`-ot, marad a gomb alatti szöveges visszaj
 - A gombok addig **rejtve** vannak, amíg nincs mit jelenteni. Üres tábláról készült
   „jelentés" azt sugallná, hogy az elemzés lefutott és nem talált semmit.
 - A `/jelentes` `noindex` — nem tartalomoldal, és üresen semmit nem mond.
+
+## Szippantási díj kalkulátor — `/szippantasi-dij-kalkulator`
+
+Modul-oldal: a látogató a **saját** díjszabásából számol éves szippantási költséget, és
+közben épül a **települési díjadatbázis**. A szippantás nem a cég szolgáltatása — a lap ezt
+ki is mondja —, a kalkulátor mégis a cég kérdése: a szippantási igény technológiafüggő, és
+a látogató itt látja meg, mekkora visszatérő tétel ez.
+
+### Amit a modul megold
+
+A megrendelői brief három díjszabás-szerkezetet ír le. A modul **egyetlen képlettel** kezeli
+mindhármat, tehát a látogatónak nem kell besorolnia a számláját egy kategóriába:
+
+```
+elszámolt m³ = max(elszállított m³, a minimumdíjban foglalt m³)
+alapdíj      = max(minimumdíj, ürítési díj × elszámolt m³)
+alkalmi díj  = kiszállási díj + alapdíj + távolsági díj + egyéb
+```
+
+A modul legfontosabb kimenete a **minimum-felár**: az az összeg, amit a látogató kifizet, de
+nem szállítanak el érte semmit. Ez a szám indokolja a ritkább, teltebb tartállyal végzett
+szippantást — és ez az, amit egy sima „mennyibe kerül" kalkulátor elrejt.
+
+### Az adatbázis üres, és ez látszik is
+
+| | |
+|---|---|
+| **A `dijak` tömb** | `assets/data/szippantas-konfig.js` — induláskor **üres** |
+| **Miért** | egyetlen település díjszabását sem ismerjük ellenőrzött forrásból, becsültet pedig nem írunk ki |
+| **Mi kell egy sorhoz** | `megye`, `telepules`, `ervenyes`, `forras` — mind kötelező |
+| **`null` vs `0`** | a `0` valódi érték (nincs kiszállási díj), a `null` azt jelenti, hogy nem tudjuk. A kettő nem cserélhető fel |
+| **Hogyan töltődik** | a lap űrlapjáról → `api/szippantasi-dij` → e-mail → **emberi ellenőrzés** → a konfigba |
+
+Az automatikus felvétel szándékosan nincs: egy elgépelt nulla azonnal minden látogatónak
+kiszolgálódna. A felület ezt meg is mondja — a beküldés után kiírja, hogy az adat nem
+jelenik meg azonnal a térképen.
+
+### Ami HIÁNYZIK — kérni kell
+
+| Hiányzó adat | Mire kell | Honnan jöhet |
+|---|---|---|
+| **Települési díjszabások** (kiszállási, ürítési, minimumdíj, foglalt m³, kocsi űrtartalom, érvényesség, forrás) | a `dijak` tömb — a térkép és az előtöltés enélkül üres | ügyfélszámlák, közszolgáltatói ártáblázatok, önkormányzati rendeletek |
+| **A példaértékek jóváhagyása** | a kalkulátor kiinduló értékei (`peldaDijak`) | jelenleg a megrendelői brief „Példa" oszlopa — a cégnek meg kell erősítenie, hogy nagyságrendileg vállalható |
+
+### Navigáció — nyitott pont
+
+A lap **nincs benne a sitemapban** ezen a szlugon. A sitemap a *Költségek és ajánlatok*
+kategória alatt „Szippantási költség" tételt ismer; ez a lap ennél több (interaktív modul +
+adatbázis), és a megrendelő a gyökérbeli `/szippantasi-dij-kalkulator` útvonalat kérte.
+Ezért a lap **nem kapott megamenü-pontot** (a menü szerkezete a `fejlec.py`-ban adatként él,
+és onnan kerül mind a 120 lapra). Egyetlen bejövő hivatkozása van:
+`megoldasok/oldomedence-szippantas-es-karbantartas` → „Következő lépés" panel.
+
+Ha a lap a menübe kerül, a `fejlec.py` *Előkészítés › Költségek és ajánlatok* hasábja a
+helye — de azt a kategóriát előbb létre kell hozni.
 
 ## Öko — a kísérő kalauz
 
@@ -590,6 +646,7 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 | **Designrendszer** | `OTH-design-system-Teszt.v2` **v0.5** implementálva (`assets/css/app.css`) |
 | **Kész szekciók** | fejléc · 1. — *Hero* · 2. — *Bizalmi sáv* · 3. — *Kiinduló helyzet* · 4. — *Technológiák* · 5. — *Megoldásaink* · 8. — *AI-alapú döntéstámogató* |
 | **Kész aloldalak** | **Megoldások** (5) · **Helyzetem** (8) · **Kapcsolat** — összesen 14 aloldal |
+| **Szippantási kalkulátor** | `/szippantasi-dij-kalkulator` — egy képlet mind a három díjszabás-szerkezetre, csempetérkép a díjadatbázis állásáról, díjbeküldő űrlap. A díjadatbázis **üres**, a beküldés emberi ellenőrzés után kerül be |
 | **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
 | **Hiányzik** | lábléc, a sitemap 5 további főkategóriája, `sitemap.xml`, főoldali 6–7. és 9–15. szekció |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
@@ -598,7 +655,7 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
 | **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: 118 lap, 717 szakasz. **Szövegindex: 857 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` |
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
-| **Fejlécképek** | 63 kép / 116 oldal, témánként; mind a `alapkepek/` referenciáival generálva |
+| **Fejlécképek** | 63 kép / 116 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) |
 
 ## Szerkezet
 
@@ -607,6 +664,7 @@ _web/
 ├─ index.html                    # főoldal — fejléc + 1–5., 8. és 11. szekció
 ├─ kapcsolat.html                # a webhely egyetemes CTA-célpontja
 ├─ jelentes.html                 # az ajánlat-összehasonlítási jelentés nyomtatható nézete
+├─ szippantasi-dij-kalkulator.html  # díjkalkulátor + települési díjadatbázis (modul-oldal)
 ├─ megoldasok/                   # index + 4 technológia-oldal
 ├─ helyzetem/                    # index + 7 helyzet-oldal
 ├─ .htaccess                     # clean URL rewrite, 301-ek, biztonsági fejlécek, cache
@@ -626,6 +684,8 @@ _web/
    ├─ js/ofc.js                  # 11. szekció — feltöltés, elemzés, jelentés-kivitel
    ├─ js/jelentes.js             # a jelentés motorja: adatgyűjtés, kirajzolás, önhordó fájl
    ├─ js/jelentes-oldal.js       # a /jelentes oldal vezérlése (nyomtatás, letöltés)
+   ├─ js/szippantas.js           # szippantási díjkalkulátor + csempetérkép
+   ├─ data/szippantas-konfig.js  # díjak, vármegyék, példaértékek — a CÉG szerkeszti
    ├─ icon/                      # ikonok, currentColor-ra állítva (CSS-maszk)
    │  ├─ tech-{zart-tarolo,oldomedence,biologiai}.svg      # technológiák (ügyféleszköz)
    │  ├─ ui-{helyszin,email,telefon}.svg                   # kontaktsáv (ügyféleszköz)

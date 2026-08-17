@@ -896,6 +896,46 @@ a telefonos, illetve e-mailes utat — így JS nélkül sem zsákutca a szekció
 
 ---
 
+## 18/a. Sötét felület — a hiányzó középső szövegfok, `--text-on-dark-soft`
+
+**Világos** felületen három szövegszint él: `--text-primary` / `--text-secondary` /
+`--text-tertiary`. **Sötét** felületen eddig csak kettő: a majdnem fehér
+`--text-on-dark` (Stardust) és a jóval halványabb `--text-on-dark-muted`. A kettő között
+akkora a lépés, hogy minden folyó szöveg és minden hivatkozás a legvilágosabb fokra
+került — a láblécben ez öt hasábnyi, csupa maximális kontrasztú szöveget jelentett.
+
+**Amit ez okoz.** Világos szöveg sötét alapon optikailag vastagabbnak és „izzónak"
+látszik: a fényes felület a szemben túlnyúlik a betű határán (irradiáció), és a kijelző
+gammája ezt még fel is erősíti. Nem betűsimítási hiba — a `-webkit-font-smoothing:
+antialiased` a `body`-n eleve be van kapcsolva, tehát a WebKit már szürkeárnyalatosan
+rajzol. A jelenséget a KONTRASZT MÉRTÉKE okozza, nem a rajzolás módja.
+
+```
+--text-on-dark-soft: color-mix(in srgb, var(--color-stardust) 86%, var(--color-forest));
+```
+
+| | kontraszt Forest alapon |
+|---|---|
+| `--text-on-dark` (Stardust) | **13,3:1** |
+| `--text-on-dark-soft` | **10,2:1** — AAA-n belül (7:1) |
+| `--text-on-dark-muted` | 5,5:1 — AA |
+
+Mire való: **folyó szöveg és hivatkozáslista sötét felületen**. Címre, kiemelt értékre és
+`:hover`-re marad a teljes `--text-on-dark` — a visszakapott világosság maga is jelzés.
+
+Két kísérő beállítás ugyanitt:
+
+- **`-moz-osx-font-smoothing: grayscale`** a `body`-n, a meglévő WebKit-es párja mellé.
+  Enélkül ugyanaz a lap más betűvastagságot mutat Firefoxban és Chrome-ban macOS alatt.
+- **`line-height: 1.55`** a lábléc hasáblistáin. A tételek kétsorosra törnek
+  („Nincs elérhető / közcsatorna"); sötét alapon a szűk sorköz vibrálni látszik.
+
+> **Ami még hátravan:** a `--panel-dark-text` (a sötét kiemelt panelek törzsszövege) még
+> a teljes `--text-on-dark` fokon áll. Ott a szöveg rövid — két-három mondat —, tehát a
+> jelenség sokkal kevésbé zavaró; ha egységesíteni akarjuk, ez a token cserélendő.
+
+---
+
 ## 19. Amire még nincs megoldás
 
 - **Képaláírás** és `--media-tint` — a kép- és illusztrációs rendszer hiányzó része
@@ -917,3 +957,218 @@ a telefonos, illetve e-mailes utat — így JS nélkül sem zsákutca a szekció
 - **Betűtípus-önhosztolás** — a Google Fonts külső kérés; a CSP `style-src`/`font-src`
   emiatt engedi a `fonts.googleapis.com`/`fonts.gstatic.com` hosztot. Önhosztolt woff2
   esetén mindkettő szűkíthető `'self'`-re.
+
+---
+
+## 20. Szippantási díj kalkulátor — `.szip-*`
+
+A `/szippantasi-dij-kalkulator` modul-oldal felülete. Modul-oldal (oldaltípus 6.), tehát a
+**számérték nem a kódban él**, hanem szerkeszthető konfigban:
+`assets/data/szippantas-konfig.js`.
+
+| Réteg | Hol |
+|---|---|
+| felület (`.szip-*`, ~330 sor) | `assets/css/app.css` 5.21 |
+| logika | `assets/js/szippantas.js` |
+| adat és példaértékek | `assets/data/szippantas-konfig.js` |
+| beküldés | `api/szippantasi-dij.php` |
+| oldalgenerátor | `scripts/oldalgyartas/szippantasi_kalkulator.py` |
+
+### Egy képlet mind a három díjszabásra
+
+```
+elszámolt m³ = max(elszállított m³, a minimumdíjban foglalt m³)
+alapdíj      = max(minimumdíj, ürítési díj × elszámolt m³)
+alkalmi díj  = kiszállási díj + alapdíj + távolsági díj + egyéb
+```
+
+A megrendelői brief három szerkezetet ír le; ez az egy képlet mindhármat lefedi, ezért a
+felületen nincs „díjszabás-típus" választó — a látogatónak nem kell besorolnia a saját
+számláját egy kategóriába:
+
+| eset | mit ír be | mit ad a képlet |
+|---|---|---|
+| nincs minimumdíj | 0 Ft, 0 m³ | kiszállás + ürítés × m³ |
+| minimumdíj alsó korlát | minimumdíj, 0 m³ | a `max()` felemeli a kis mennyiséget |
+| a minimumdíj X m³-t tartalmaz | minimumdíj, X m³ | az elszámolt m³ sosem kevesebb X-nél |
+| a teljes kocsit ki kell fizetni | X = a kocsi űrtartalma | mindig a teljes kocsi |
+
+A **minimum-felár** (`alapdíj − ürítési díj × ténylegesen elszállított m³`) a modul
+legfontosabb kimenete: ezt fizeti ki a látogató úgy, hogy nem viszik el. Definíció szerint
+sosem negatív, mert az alapdíj nagyobb-egyenlő nála.
+
+### Az adatbázis üres — és ez látszik is
+
+A `dijak` tömb **szándékosan üres**: egyetlen település díjszabását sem ismerjük ellenőrzött
+forrásból. A csempetérkép ezért induláskor minden vármegyén „még nincs adat" állapotot mutat,
+szaggatott kerettel — az üres hely így szándékosnak látszik, nem hibának.
+
+Egy sor felvételéhez `megye`, `telepules`, `ervenyes` és `forras` kötelező. A díjmezőkben a
+**`null` és a `0` nem cserélhető fel**: a `0` valódi érték (nincs kiszállási díj), a `null`
+azt jelenti, hogy nem tudjuk. A felület és a levélsablon is külön kezeli a kettőt.
+
+A beküldés **nem ír közvetlenül a konfigba**: e-mailben érkezik, és emberi ellenőrzés után
+kerül be. Az automatikus felvétel egy elgépelt nullát azonnal minden látogatónak
+kiszolgálna.
+
+### Csempetérkép, nem földrajzi térkép — `.szip-terkep-racs`
+
+19 vármegye + Budapest, 6 oszlop × 5 sor rácsban. Minden egység **azonos méretű csempe**, a
+helyük a valós kelet–nyugati és észak–déli sorrendet követi. Pontos határvonalat
+szándékosan nem rajzolunk: arra nincs hiteles térképi forrásunk, a csempe viszont nem is
+állít ilyet. A rácshely a konfigban él (`sor`, `oszlop`), tehát átrendezhető kód nélkül.
+
+640px alatt a rács vízszintesen görgethető (`.szip-terkep-gorgo`), mert hatoszlopos rácsban
+360px-en a vármegyenév olvashatatlan lenne. A csempék `<button>`-ok (szűrők, nem
+navigáció), az állapotuk `aria-pressed`, és a képernyőolvasó a **teljes** vármegyenevet és a
+valódi állapotot kapja, nem a rövidítést és a gondolatjelet.
+
+### A járműrajz — egy geometria, két felület
+
+A jármű geometriája egyetlen helyen áll (`rajz()` a generátorban), és két helyen jelenik
+meg: a **fejlécben** illusztrációként (sötét felület, betöltéskor behajtó jármű), a
+**kalkulátorban** élőben (világos kártya, a mezőkhöz kötve). A megjelenést a
+`.szip-rajz-hero` / `.szip-rajz-muszer` változatosztály állítja; az osztálynevek és a
+koordináták azonosak. Két külön osztálykészlet esetén a két ábra idővel elcsúszott volna
+egymástól — pedig épp az a lényeg, hogy a látogató a fejlécben látott ábrát ismerje fel a
+kalkulátorban.
+
+**Tónuslépcső egy színből.** A változat egyetlen `--rajz-kontraszt` tokent állít, és a
+`.szip-rajz` ebből kever öt tónust (`--rajz-vonal` 55% … `--rajz-halvany` 7%). A rajz így
+annyi mélységet kap, mint egy háromtónusú illusztráció, de a paletta egyetlen tokenből
+származik, és a témaváltást automatikusan követi. A gradiensek (talajárnyék, talajvonal,
+fénypászma, a tartály mélységi árnyéka) `stop-color` CSS-tulajdonságon keresztül kapják a
+színüket — ezért ezek is témafüggők.
+
+**A töltésréteg CSS `transform: scaleX()`**, nem SVG `width`: az SVG geometriai
+tulajdonságok CSS-ből való állítása nem egyformán támogatott, a `transform` viszont
+mindenhol animálódik. A `transform-origin` a tartály bal belső éle (x=150).
+
+**Ellenskálázás.** A járműméret a TARTÁLYRÓL szól, ezért a műszer-változatban a jármű
+vízszintesen nyúlik (0,90…1,12 a konfigurált legkisebb és legnagyobb járműméret között), a
+**fülke, a hátsó szerelvény és a kerekek viszont visszaskálázzák magukat** a saját
+középpontjuk körül. Enélkül a kerék ellipszissé lapult volna. A helyük viszont a szülő
+skálázásával mozdul, tehát a hátsó tengely valóban hátrébb kerül a hosszabb kocsin.
+
+**Szintbeosztás.** A tartály tetején köbméterenként egy vonalka fut. A műszer-változatban
+ezt a JS rajzolja, mert a számuk a megadott űrtartalomtól függ (egy 4 m³-es kocsin négy
+osztás, egy 11 m³-esen tizenegy); a fejléc ábráján állandó, nyolcosztásos skála áll, mert
+ott illusztráció, nem mérés. Ettől lesz a rajz mérőeszköz — és ettől látszik a
+járműméret-választás is, ami korábban jogos kifogás volt: „csak a rajzon nem változik
+semmi."
+
+**Amit a rajz megtanult menet közben.** Négy hiba, ami nagyításban derült ki:
+a sárvédő íve a tartály alsó éle FÖLÉ nyúlt és keresztbe vágta (a csúcs 187 → 204); az
+alváz a burkolat tónusát viselte, ezért a jármű különálló darabokra esett (saját,
+erősebb `--rajz-arny` tónus); a tartály alsó árnyéka tömör sáv volt, és éles vízszintes
+vonalat húzott a tartály közepén, ami folyadékszintnek látszott (gradiens lett belőle);
+a búvónyílás középen állt, és pont a „KIFIZETI" felirat alá esett (a tartály elejére
+került). A feliratok azóta `paint-order: stroke fill` halót viselnek a felület színével,
+tehát bármi fölé kerülhetnek.
+
+A doboz felülete `--szip-panel-bg`, a tartály ürege `--surface-sunken`. Ha a kettő ugyanaz
+volna, a tartály üres része beleolvadna a háttérbe, és az ábra fő állítása — a „meddig van
+tele" — eltűnne.
+
+### A jármű blokkja — a választó és az ábra egy egység
+
+A járműméret-választó és a rajz **egy `fieldset`-ben** él, teljes szélességben a
+mezőrács alatt. Külön állva a kettő nem beszélt egymással: a látogató átállította a
+méretet, és nem látta, mit csinál. A blokk bal oldalán a rajz, jobb oldalán az űrtartalom
+mezője, a gyorsválasztók és a három leolvasás (elszállított · kiszámlázott ·
+tartálykihasználás).
+
+**A tartálykihasználás** azért került ide, mert ez az egyetlen szám, amit a járműméret
+önmagában mozgat — a díjat a foglalt mennyiség és az ürítési díj adja. A blokk lábjegyzete
+ezt ki is mondja: a járműméret két helyen számít, a „teljes kocsit számláznak" esetben és a
+fajlagos díjon keresztül.
+
+### Mezőcsoport-cím pirulában — `.szip-csoport-cim`
+
+A `fieldset` felirata pirula: a két vége félkör, és a doboz kerete a pirula
+**tengelyvonalában** fut bele a két oldalába. A natív `legend` keretkivágása ezt nem tudja:
+a böngésző a felirat teljes dobozának szélességében szedi ki a vonalat, a vonal vége pedig
+a doboz TETEJÉNÉL marad — ott, ahol a pirula íve még nem is kezdődik, tehát a keret nem a
+körívbe futna bele, hanem a semmibe. A felirat ezért abszolút pozíciójú, a keretre középre
+igazítva (`translateY(-50%)`), és a saját, átlátszatlan háttere takarja el mögötte a
+vonalat. A `fieldset` címkézését ez nem érinti: a hozzáférhetőségi fa az első `legend`
+gyereket veszi, a pozicionálástól függetlenül.
+
+### A fejléc animációja — öt fázis, egy rajzból
+
+| idő | mi történik |
+|---|---|
+| 0 ms | a jármű balról behúz; a kerekek és a tömlődob forognak, mögötte sebességvonalak húznak el |
+| 620 ms | a **kiszámlázott** mennyiség felfut (arany) |
+| 800 ms | az **elszállított** mennyiség felfut (zöld) — a két érték külön ütemben indul, hogy a különbségük külön is látszódjon |
+| 1900 ms | a zöld réteg hármat **lötyög**, csillapodva: ettől lesz folyadék, nem sáv |
+| 1500 ms | a két jelölő vonala lefut, majd a felirat megjelenik |
+| 2200 ms-től | 7 másodpercenként fénypászma fut végig a tartályon — a hurok 18%-ában, a többi szünet |
+
+A lötyögés és a feltöltés **ugyanazon a tulajdonságon** két animáció; a második akkor
+indul, amikor az első befejeződött (`animation-fill-mode: both`). Csökkentett mozgás
+mellett mindegyik elmarad, és a rajz a végállapotában áll — a `@keyframes` végállapota
+ezért pontosan a statikus `transform` értéke.
+
+### `@property --szip-arany` — miért kell regisztrálni
+
+A költségsáv szeletei `flex-grow: var(--szip-arany)`. Regisztráció nélkül a böngésző a
+custom property változását ugrásként dolgozza fel, és a szeletek átpattannak az új arányra
+ahelyett, hogy átúsznának. A `@property` deklaráció `<number>` szintaxissal ezt oldja meg.
+
+### A figyelmeztetés adatblokk, nem bekezdés
+
+A modul legfontosabb állítása („fizet olyan mennyiségért, amit nem visznek el") korábban
+egyetlen bekezdés volt **négy számmal** a mondat belsejében — olvashatatlan. Most cím +
+négy adatcella: ki nem szállított mennyiség · alkalmankénti · éves · fajlagos díj teltebb
+tartállyal. A számok így ránézésre összevethetők.
+
+### Egyetlen, késleltetett élő régió
+
+A látható számokon **nincs `aria-live`**. Gépelés közben minden leütésnél újra felolvasnák
+magukat, és a felület használhatatlan lenne képernyőolvasóval. Helyettük egy
+képernyőolvasónak szánt rejtett `role="status"` régió mondja el az eredményt, **900 ms-mal
+az utolsó változás után**, egyetlen mondatban.
+
+### `[hidden]` és `.btn`
+
+A `.btn` `display:inline-flex`-e erősebb, mint a `[hidden]` alapértelmezett `display:none`-ja.
+A modulon belül ezért külön szabály kell (`.szip-modul .btn[hidden]{display:none}`) —
+enélkül a rejtett „Az ismert díjak betöltése" gomb látszott.
+
+### `subgrid` a mezősorokban
+
+A kétsoros címke lelökte a szomszéd oszlop mezőjét egy sorral, és a mezősor lépcsőzött.
+A `.szip-mezosor` ezért három sorra (címke · mező · súgó) van osztva, és a mezők
+`grid-template-rows: subgrid`-del ülnek rá. Ahol nincs támogatás, a régi — lépcsős, de
+működő — elrendezés marad (`@supports`).
+
+---
+
+## 21. ⚠️ Jelzett eltérés — rajzolt modul-hero, `.szip-hero`
+
+A webhely 116 aloldala **fényképes** fejlécet visel (`.page-hero`). A szippantási
+kalkulátor nem. Két oka van, és mindkettő a designrendszerből következik:
+
+1. **A rendelkezésre álló felvétel hibás.** A `hero-szippantas.webp` a 4.4-ben leírt
+   **függőleges varrattal** készült: a bal harmad határán fókusz- és expozícióváltás
+   látszik. 1440px-en ez szembeszökő.
+2. **A lap eszköz, nem tartalom.** A fejléc feladata itt nem a hangulat, hanem az, hogy a
+   látogató a görgetés előtt megértse a lap gondolatmenetét: van egy tartály, van amennyit
+   elvisznek, és van amennyit kiszámláznak.
+
+A fejléc ezért sötét felület (`--surface-inverse`), rajta ugyanaz a tartályábra, amit a
+kalkulátor is használ, plusz a három díjtétel chipként. Az `og:image` **marad** a
+felvétel — a megosztási kártyához kell egy fotó, és ott a kivágás miatt a varrat nem
+látszik.
+
+Következmény a teljesítményre: **nincs fejléckép, tehát nincs mit előre tölteni**. Az
+LCP-elem a főcím, a `<link rel="preload" as="image">` ezért lekerült a lapról.
+
+A sötét felület miatt a szöveg a sötét felületre szánt szerepszíneket kapja
+(`--text-on-dark`, `--panel-dark-link`), a Fern eyebrow kontrasztja Forest alapon
+**4,9:1** — normál szövegre is megfelel.
+
+**Ha később készül varratmentes felvétel erre a témára**, a döntés újranyitható: a
+`.szip-hero` cserélhető `.page-hero`-ra a generátorban, de akkor a fejléc elveszíti a
+magyarázó szerepét. A kettő együtt is elképzelhető (fotó + alatta az ábra).
