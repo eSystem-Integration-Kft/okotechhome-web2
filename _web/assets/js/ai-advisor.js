@@ -226,7 +226,90 @@
   };
 
   /* ------------------------------------------------------------- ÁLLAPOT */
-  const state = { step: 0, answers: {}, draft: [] };  // draft: multi-select ideiglenes
+  const state = {
+    step: 0, answers: {}, draft: [],   // draft: multi-select ideiglenes
+    atvett: new Set(),                 // a 6. szekcióból ÁTVETT kérdések azonosítói
+    elojelolt: {},                     // részlegesen átvett multi-kérdések előjelölése
+    ugy: null                          // a mentett ügy azonosítója, ha van
+  };
+
+  /* ==========================================================================
+     ÁTVÉTEL A 6. SZEKCIÓBÓL (megoldás-ajánló)
+     --------------------------------------------------------------------------
+     A látogató két modulon megy végig, és a kettő részben UGYANAZT kérdezi.
+     Kétszer megkérdezni ugyanazt nem csak kényelmetlen — azt is jelzi, hogy
+     nem figyeltünk oda. Ezért amit a 6. szekció már megtudott, azt ide
+     átvesszük, és a kérdést nem tesszük fel újra.
+
+     KÉT SZINT, és a különbség fontos:
+       · `zar: true`  — a 6. szekció válasza EGYÉRTELMŰEN megfelel az itteni
+         kérdésnek, tehát kitöltöttnek jelöljük, és nem kérdezzük újra.
+         (A látogató a helyzetkép-panelről bármikor átírhatja.)
+       · `zar: false` — a 6. szekció csak RÉSZBEN válaszolta meg: itt csak
+         előjelölünk, a kérdés aktív marad, és a látogató egészíti ki.
+
+     A LÉTSZÁM SÁVJAI SZÁNDÉKOSAN AZONOSAK a két modulban. Enélkül nem volna
+     átvihető: egy „2–3 fő" válasz sem az „1–2", sem a „3–4" sávba nem esne
+     egyértelműen, tehát vagy újra kellene kérdezni, vagy tippelnénk. */
+  const ATVETEL = [
+    { ide: "kapacitas", zar: true, ebbol: (a) => a.letszam || null },
+    { ide: "hasznalat", zar: true, ebbol: (a) => ({
+        eletvitelszeru: "allando", hetvegi: "idoszakos", szezonalis: "szezonalis"
+      })[a.hasznalat] || null },
+    /* A telek-kérdés több adottságot sorol; a 6. szekció ezek közül kettőről
+       tud. A többit (lejtés, gépi hozzáférés, közeli élővíz) itt kell
+       megkérdezni, ezért a kérdés aktív marad. */
+    { ide: "telek", zar: false, ebbol: (a) => {
+        const ki = [];
+        if (a.talajviz === "igen") { ki.push("talajviz"); }
+        if (a.terulet === "kicsi") { ki.push("keveshely"); }
+        return ki.length ? ki : null;
+      } }
+  ];
+
+  /** Egy kérdés címkéje az átvételi visszajelzéshez. */
+  const kerdesCimke = (id) => { const q = QUESTIONS.find((x) => x.id === id); return q ? q.step : id; };
+
+  /**
+   * A 6. szekció gépi válaszkulcsaiból kitölti, amit lehet.
+   * @returns {string[]} a ténylegesen átvett kérdések címkéi
+   */
+  function atvesz(kulcsok) {
+    if (!kulcsok) return [];
+    const felvett = [];
+    ATVETEL.forEach((m) => {
+      const q = QUESTIONS.find((x) => x.id === m.ide);
+      if (!q) return;
+      const ertek = m.ebbol(kulcsok);
+      if (ertek == null) return;
+      const ervenyes = (v) => q.options.some((o) => o.id === v);
+      if (q.multi) {
+        const lista = (Array.isArray(ertek) ? ertek : [ertek]).filter(ervenyes);
+        if (!lista.length) return;
+        state.elojelolt[q.id] = lista;
+        felvett.push(q.step);
+      } else {
+        if (!ervenyes(ertek)) return;
+        state.answers[q.id] = ertek;
+        state.atvett.add(q.id);
+        felvett.push(q.step);
+      }
+    });
+
+    /* CSAK ÖSSZEFÜGGŐ ELŐTAG vehető át. A beszélgetés-nézet a `step` előtti
+       kérdéseket rajzolja megválaszoltként; egy „lyuk" (megválaszolt kérdés a
+       még nem elért kérdések között) itt hibás állapot volna. Ami kilóg, azt
+       inkább újra megkérdezzük. */
+    let i = 0;
+    while (i < QUESTIONS.length && state.atvett.has(QUESTIONS[i].id)) i++;
+    QUESTIONS.slice(i).forEach((q) => {
+      if (state.atvett.has(q.id)) { state.atvett.delete(q.id); delete state.answers[q.id]; }
+    });
+    state.step = i;
+    const q = QUESTIONS[i];
+    state.draft = (q && q.multi && state.elojelolt[q.id]) ? state.elojelolt[q.id].slice() : [];
+    return felvett;
+  }
 
   /* --------------------------------------------------------------- RENDER */
   let root, chatEl, panelEl, bodyEl;
@@ -302,10 +385,15 @@
         <span class="aidt-multi-hint">${state.draft.length ? esc(state.draft.length + " kiválasztva") : "Válasszon egyet vagy többet"}</span>
       </div>`;
     }
-    return `<div class="aidt-row is-bot${active ? " is-active-q" : ""}">
+    /* Az ÁTVETT kérdés nem „megválaszolt" a szokásos értelemben: a látogató itt
+       nem kattintott. Ezt ki kell írni, különben úgy tűnne, mintha ő adta
+       volna meg — és nem tudná, miért nem kérdeztük meg. */
+    const atvettJel = (!active && state.atvett.has(q.id))
+      ? ` <span class="aidt-atvett-badge">${svg(ICON.check)}A megoldás-ajánlóból</span>` : "";
+    return `<div class="aidt-row is-bot${active ? " is-active-q" : ""}${!active && state.atvett.has(q.id) ? " is-atvett" : ""}">
       <span class="aidt-av-sm"><span class="aidt-jel" aria-hidden="true"></span></span>
       <div class="aidt-bubble bot aidt-qwrap">
-        <p class="aidt-q">${esc(q.q)}${q.multi ? ` <span class="aidt-multi-badge">${svg(ICON.multi)}Több is választható</span>` : ""}</p>
+        <p class="aidt-q">${esc(q.q)}${q.multi ? ` <span class="aidt-multi-badge">${svg(ICON.multi)}Több is választható</span>` : ""}${atvettJel}</p>
         ${opts}
       </div>
     </div>`;
@@ -336,9 +424,10 @@
           valHtml = `<span class="aidt-sv chip">${esc(optChipById(q, val) || "—")}</span>`;
         }
       }
-      steps += `<button type="button" class="aidt-step${done ? " is-done" : ""}${active ? " is-active" : ""}"${done || active ? ` data-edit="${i}"` : " disabled"}>
+      const atv = state.atvett.has(q.id);
+      steps += `<button type="button" class="aidt-step${done ? " is-done" : ""}${active ? " is-active" : ""}${atv ? " is-atvett" : ""}"${done || active ? ` data-edit="${i}"` : " disabled"}>
         <span class="aidt-step-n">${done ? svg(ICON.check) : String(i + 1).padStart(2, "0")}</span>
-        <span class="aidt-step-label">${esc(q.step)}</span>
+        <span class="aidt-step-label">${esc(q.step)}${atv ? ` <span class="aidt-step-atvett">átvéve</span>` : ""}</span>
         ${valHtml}
       </button>`;
     });
@@ -441,6 +530,11 @@
     // jobb panel „kész" állapot
     renderPanel();
     wireResult();
+
+    /* A mentés blokkja a záró megjegyzés ELÉ kerül: az utolsó szó a
+       „tájékoztató jellegű" figyelmeztetésé maradjon. */
+    const foot = bodyEl.querySelector(".aidt-res-foot");
+    if (foot && window.OthUgy) foot.parentNode.insertBefore(mentesBlokk(), foot);
   }
 
   /* --------------------------------------------------------------- EVENTEK */
@@ -479,7 +573,12 @@
   function wireResult() {
     bodyEl.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => jumpTo(parseInt(b.getAttribute("data-edit"), 10))));
     const restart = bodyEl.querySelector("[data-restart]");
-    if (restart) restart.addEventListener("click", () => { state.step = 0; state.answers = {}; state.draft = []; rebuildBody(); });
+    if (restart) restart.addEventListener("click", () => {
+      state.step = 0; state.answers = {}; state.draft = [];
+      state.atvett = new Set(); state.elojelolt = {};
+      rebuildBody();
+      if (typeof atvetelSavFrissit === "function") atvetelSavFrissit();
+    });
     const form = bodyEl.querySelector(".aidt-mailform");
     if (form) form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -550,7 +649,11 @@
     clearTimeout(state._tt);
     state.typing = false;
     // az i. kérdéstől újra — a későbbi válaszokat töröljük (előre újra kérdezünk)
-    for (let k = i; k < QUESTIONS.length; k++) delete state.answers[QUESTIONS[k].id];
+    for (let k = i; k < QUESTIONS.length; k++) {
+      delete state.answers[QUESTIONS[k].id];
+      /* Ha a látogató átírja, az már NEM átvett válasz: a jelölés is elmegy. */
+      state.atvett.delete(QUESTIONS[k].id);
+    }
     state.step = i;
     const q = QUESTIONS[i];
     state.draft = (q.multi && Array.isArray(state.answers[q.id])) ? state.answers[q.id].slice() : [];
@@ -601,14 +704,198 @@
     if (c) c.textContent = String(Math.min(state.step + 1, QUESTIONS.length));
   }
 
+  /* ==========================================================================
+     ÁTVÉTELI SÁV — a modul FÖLÖTT
+     --------------------------------------------------------------------------
+     Három állapota van, és mindig azt mutatja, ami épp igaz:
+       · van a munkamenetben 6. szekciós adat  → felajánljuk az átvételt,
+       · nincs, de lehet mentett azonosító     → beírható mező,
+       · megtörtént az átvétel                 → megmondjuk, MIT vettünk át.
+     A sáv sosem tölt be magától: az átvétel a látogató döntése. */
+  let savEl = null;
+
+  function atvetelSavFrissit() {
+    if (!savEl) return;
+    const ugy = window.OthUgy || null;
+    const kulcsok = ugy ? ugy.valaszkulcsok("ajanlo") : null;
+    const allapot = ugy ? ugy.allapot() : null;
+    const azon = allapot && allapot.azonosito ? allapot.azonosito : "";
+
+    if (state.atvett.size || Object.keys(state.elojelolt).length) {
+      const cimkek = [];
+      state.atvett.forEach((id) => cimkek.push(kerdesCimke(id)));
+      Object.keys(state.elojelolt).forEach((id) => cimkek.push(kerdesCimke(id) + " (részben)"));
+      savEl.className = "aidt-atvetel is-kesz";
+      savEl.innerHTML = `${svg(ICON.check)}
+        <div><p><b>Átvettük a megoldás-ajánlóból:</b> ${esc(cimkek.join(", "))}.
+        ${azon ? "Ügyazonosító: <b>" + esc(azon) + "</b>." : ""}</p>
+        <p class="aidt-atvetel-sub">Bármelyiket átírhatja a helyzetkép-panelen.</p></div>
+        <button type="button" class="btn btn-halvany" data-atv-vissza>Mégsem, üresen kezdem</button>`;
+      savEl.hidden = false;
+    } else if (kulcsok) {
+      savEl.className = "aidt-atvetel";
+      savEl.innerHTML = `${svg(ICON.info)}
+        <div><p><b>Az adatait át tudjuk venni a megoldás-ajánlóból.</b>
+        ${azon ? "Ügyazonosító: <b>" + esc(azon) + "</b>." : ""}</p>
+        <p class="aidt-atvetel-sub">Amit ott már megadott, azt itt nem kérdezzük újra.</p></div>
+        <button type="button" class="btn btn-primary" data-atv-betolt>Adatok átvétele</button>`;
+      savEl.hidden = false;
+    } else {
+      savEl.className = "aidt-atvetel is-kereso";
+      savEl.innerHTML = `${svg(ICON.info)}
+        <div><p><b>Van mentett azonosítója a megoldás-ajánlóból?</b></p>
+        <p class="aidt-atvetel-sub">Írja be, és amit ott megadott, azt itt nem kérdezzük újra.</p></div>
+        <form class="aidt-atvetel-form" novalidate>
+          <input class="urlap-input aidt-azon-mezo" type="text" name="id" inputmode="text"
+                 autocomplete="off" spellcheck="false" placeholder="MA-XXXX-XXXX"
+                 maxlength="12" aria-label="Ügyazonosító" />
+          <button type="submit" class="btn btn-halvany">Betöltés</button>
+        </form>
+        <p class="aidt-atvetel-hiba" role="alert" hidden></p>`;
+      savEl.hidden = false;
+    }
+    savWire();
+  }
+
+  function savWire() {
+    const be = savEl.querySelector("[data-atv-betolt]");
+    if (be) be.addEventListener("click", () => {
+      const felvett = atvesz(window.OthUgy.valaszkulcsok("ajanlo"));
+      if (!felvett.length) { atvetelSavHiba("A mentett válaszokból itt nem tudtunk mit átvenni."); return; }
+      rebuildBody();
+      atvetelSavFrissit();
+    });
+
+    const vissza = savEl.querySelector("[data-atv-vissza]");
+    if (vissza) vissza.addEventListener("click", () => {
+      state.step = 0; state.answers = {}; state.draft = [];
+      state.atvett = new Set(); state.elojelolt = {};
+      rebuildBody();
+      atvetelSavFrissit();
+    });
+
+    const form = savEl.querySelector(".aidt-atvetel-form");
+    if (form) form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const mezo = form.querySelector("input");
+      const btn = form.querySelector("button");
+      const id = (mezo.value || "").trim().toUpperCase();
+      if (!window.OthUgy || !window.OthUgy.ALAK.test(id)) {
+        mezo.setAttribute("aria-invalid", "true");
+        atvetelSavHiba("A helyes alak: MA-XXXX-XXXX.");
+        return;
+      }
+      mezo.removeAttribute("aria-invalid");
+      btn.disabled = true; btn.setAttribute("aria-busy", "true");
+      const valasz = await window.OthUgy.olvas(id);
+      btn.disabled = false; btn.removeAttribute("aria-busy");
+      if (!valasz.ok) { atvetelSavHiba(valasz.uzenet || "Ezt az azonosítót nem találjuk."); return; }
+      const felvett = atvesz(window.OthUgy.valaszkulcsok("ajanlo"));
+      if (!felvett.length) { atvetelSavHiba("Ehhez az azonosítóhoz nincs olyan válasz, amit itt fel tudnánk használni."); return; }
+      rebuildBody();
+      atvetelSavFrissit();
+    });
+  }
+
+  function atvetelSavHiba(szoveg) {
+    const h = savEl.querySelector(".aidt-atvetel-hiba");
+    if (h) { h.textContent = szoveg; h.hidden = false; }
+  }
+
+  /* ==========================================================================
+     MENTÉS — UGYANABBA az ügybe, amit a 6. szekció nyitott
+     --------------------------------------------------------------------------
+     Nem új azonosítót ad: ha a munkamenetben már van ügy, azt egészíti ki.
+     Így a `/eredmeny?id=…` lapon a két modul kimenete együtt látszik, és a
+     CRM egyetlen rekordból látja a teljes utat. */
+  function mentendo() {
+    const a = state.answers;
+    const band = computeBand(a);
+    const cimkek = QUESTIONS.map((q) => {
+      const val = a[q.id];
+      if (val == null) return null;
+      const ids = Array.isArray(val) ? val : [val];
+      const sz = ids.map((id) => optChipById(q, id)).filter(Boolean).join(", ");
+      return sz ? { cimke: q.q, szoveg: sz } : null;
+    }).filter(Boolean);
+
+    const tisztit = (h) => String(h).replace(/<[^>]*>/g, "");
+
+    return {
+      verzio: CFG.verzio || "",
+      valaszKulcsok: Object.assign({}, a),
+      valaszok: cimkek,
+      eredmeny: {
+        irany: "arsav",
+        cim: "Előzetes ársáv",
+        termekNev: bandText(band),
+        indoklas: "A megadott válaszok alapján számított, tájékoztató ársáv. "
+                + "Nem árajánlat: a pontos árat helyszíni felmérés után adjuk meg.",
+        okok: clarifyList(a).map((c) => ({ cimke: c })),
+        feltetelek: driversList(a).map((d) => ({ cimke: tisztit(d) })),
+        tisztazandok: prepList(a).map((t) => ({ cimke: t }))
+      }
+    };
+  }
+
+  function mentesBlokk() {
+    const doboz = document.createElement("div");
+    doboz.className = "aidt-mentes";
+    doboz.dataset.okoPont = "mentes";
+    /* Ha a megoldás-ajánló is lefutott, de a látogató ott nem mentett, az a
+       kimenet is felkerül ugyanabba az ügybe. Ezt KIMONDJUK: nem érheti
+       meglepetés, hogy mit mentett el. */
+    const fuggo = window.OthUgy.fuggoModulok("arsav").indexOf("ajanlo") >= 0;
+    doboz.innerHTML = `${svg(ICON.info)}
+      <div><p><b>Mentse el az ársávot is az ügyéhez</b></p>
+      <p class="aidt-mentes-sub">Azonosítót kap hozzá, amivel bármikor előveheti és PDF-be mentheti.
+      Ez nem regisztráció: nevet, e-mail-címet nem kérünk hozzá.${fuggo ? " A megoldás-ajánló eredménye ugyanide kerül." : ""}</p></div>
+      <button type="button" class="btn btn-halvany" data-aidt-ment>Eredmény mentése</button>`;
+    const gomb = doboz.querySelector("[data-aidt-ment]");
+    gomb.addEventListener("click", async () => {
+      if (!window.OthUgy) return;
+      gomb.disabled = true; gomb.setAttribute("aria-busy", "true");
+      const valasz = await window.OthUgy.ment("arsav", mentendo());
+      gomb.disabled = false; gomb.removeAttribute("aria-busy");
+      if (valasz.ok) {
+        const cim = window.OthUgy.eredmenyUrl(valasz.azonosito);
+        doboz.className = "aidt-mentes is-kesz";
+        doboz.innerHTML = `${svg(ICON.check)}
+          <div><p><b>Elmentettük. Az ügy azonosítója:</b></p>
+          <p class="aidt-mentes-azon">${esc(valasz.azonosito)}</p>
+          <p class="aidt-mentes-sub">Egy kód, ami a válaszait köti össze — személyes adat nélkül.</p>
+          <p><a class="aidt-mentes-link" href="${esc(window.OthUgy.eredmenyHref(valasz.azonosito))}">Megnyitás, nyomtatás és PDF-be mentés</a></p>
+          <p class="aidt-mentes-cim">${esc(cim)}</p></div>`;
+      } else {
+        doboz.className = "aidt-mentes is-hiba";
+        doboz.innerHTML = `${svg(ICON.warn)}
+          <div><p><b>Most nem sikerült elmenteni</b></p>
+          <p class="aidt-mentes-sub">${esc(valasz.uzenet || "Kérjük, próbálja újra néhány perc múlva.")}</p></div>`;
+      }
+    });
+    return doboz;
+  }
+
   /* ------------------------------------------------------------- INDÍTÁS */
   function init() {
     root = document.getElementById("aidt-root");
     if (!root) return;
+    savEl = document.createElement("div");
+    savEl.hidden = true;
+    /* Öko itt magától megszólal, amikor a látogató idegörget: egy azonosító-
+       mező a semmiből úgy néz ki, mint egy regisztráció. Lásd kalauz.js PONTOK. */
+    savEl.dataset.okoPont = "ugyazonosito";
+    root.appendChild(savEl);
     bodyEl = document.createElement("div");
     bodyEl.className = "aidt-body";
     root.appendChild(bodyEl);
     rebuildBody();
+    atvetelSavFrissit();
+    /* A 6. szekció ugyanezen a lapon él, a modul FÖLÖTT: amikor ott végez a
+       látogató, a sáv magától átvált a felajánlásra — nem kell frissítenie. */
+    window.addEventListener("oth-ugy-valtozott", () => {
+      if (!state.atvett.size && !Object.keys(state.elojelolt).length && state.step === 0) atvetelSavFrissit();
+    });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();

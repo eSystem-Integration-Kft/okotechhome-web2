@@ -31,6 +31,35 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ## [Nem kiadott]
 
+**Főoldal szövegkönyv v2.1 átvezetve.** A `Főoldal szöveg — javított változat
+(v2.1)` dokumentum alapján **69 módosítás 13 szekcióban**: a hero bevezetőjétől
+a GYIK válaszaiig. A visszatérő motívum három: (1) az Epureco **forgalmazott**
+ülepítő, nem saját gyártású szennyvíztisztító — ezt minden említésnél kimondjuk;
+(2) a technológiaválasztást a **terhelés** dönti el, nem az áramellátás vagy az
+ingatlantípus; (3) a helyszíni felmérés nem a mi minősítésünk, hanem **díj
+ellenében szabadon kérhető szaktanácsadás**. Változáskivonat:
+`_files/fooldal-szoveg-v21-atvezetes.html`.
+
+**Ügyfélvélemények — két futó szalag.** Az `Ugyfeltapasztalatok.docx` hét új
+visszajelzése átvezetve; a szekció egyesével léptethető idézetdoboz helyett
+tizenöt véleményből álló, ellentétes irányban futó szalagpárrá alakult (110 s és
+132 s). A kártya a lap **sablonkártyáját** követi — ugyanaz a felület, keret,
+sarok, árnyék és belső tér —, és **minden kártya egyforma magas**, a két sor is
+egymással: a `min-height` mért maximumból van szabva. Az idézet a szabad tér
+közepén áll, így a rövid vélemények alatt nem gyűlik egyetlen lyukká a hely.
+Szüneteltető gomb nincs, a szalag `:hover` és `:focus-within` mellett áll meg.
+
+**Főoldal §6 — AI megoldás-ajánló.** A webhely első interaktív eleme: hat rövid
+kérdésből megmutatja, melyik szennyvízkezelési megoldás jöhet szóba, és ahol a
+helyzet egyértelmű, ott **terméket is nevez**. Ahol nem az, ott kimondja, hogy
+vegyes a kép — felsorolva, mi miatt nem lehetett automatikusan dönteni.
+
+**Főoldal §7 — Az A.B. Clear működése.** A metszetkép nem illusztráció a szöveg
+mellett, hanem a szekció színpada: teljes szélességű sáv, rajta a tisztítási
+folyamat és az iszapzsákos technológia kártyája, a berendezés helyét — és a
+felszín fölötti házat — szabadon hagyva. A szekciót az öt működési tény és a telepíthetőség három állapota zárja
+— köztük a **kizáró ok**, ugyanolyan súllyal, mint a másik kettő.
+
 **Szippantási díj kalkulátor** — új modul-oldal a `/szippantasi-dij-kalkulator`
 útvonalon, a megrendelői brief (Anna) alapján. A brief három díjszabás-szerkezetet
 ír le; a modul **egyetlen képlettel** kezeli mindhármat, és megmutatja azt a
@@ -38,6 +67,66 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
 
 ### Hozzáadva
 
+- **§6 — AI megoldás-ajánló (`index.html`).** Kétfelületes modul: bal oldalon
+  az asszisztens (egy kérdés, azonnali magyarázat, a következő kérdés
+  előnézete), jobb oldalon az élő állapotpanel (hat szakasz állapota, a
+  kirajzolódó irány, a kivitelezési feltételek és a tisztázandók). Motor:
+  `assets/js/ajanlo.js`, tartalom: `assets/data/ajanlo-konfig.js`.
+- **Kétszintű döntési logika a specifikáció szerint.** A TECHNOLÓGIÁT a
+  használat jellege és a terhelés dönti el (A.B. Clear · Epureco · szakértői
+  egyeztetés), a MEGVALÓSÍTÁS FELTÉTELEIT a telek adottságai. A telek nem
+  választ új technológiát — egyetlen kivétellel: a vízelhelyezéshez szükséges
+  szabad terület kizáró is lehet.
+- **A szabad terület kétlépcsős kiértékelése.** 1. lépcső: elég-e a terület az
+  oldómedence szikkasztómezőjéhez (a biológiaiénak 2–3-szorosa)? Ha nem, az
+  Epureco irány kiesik — de nem automatikus A.B. Clear ajánlás lesz belőle,
+  hanem ellentmondás-jelzés. 2. lépcső: elég-e a biológiai rendszer
+  szivárogtatójához? Ha nem, az már nem technológiaválasztás: a zárt tároló
+  marad a járható irány. A modul **soha nem közöl méterszámot** arról, mekkora
+  szivárogtató kell.
+- **Epurecónál a kompromisszum kimondása kötelező** — a kimenet mindig
+  tartalmazza, hogy a tisztítás nagy része a talajban történik, alacsonyabb
+  tisztítási teljesítménnyel.
+- **`.btn-halvany` — csendes gombváltozat.** A „Vissza" nem lehet hangosabb a
+  főműveletnél; a meglévő három gomb mind kitöltött. Indoklás: COMPONENTS.md 23/a.
+- **Eredmény mentése azonosítóval — `/eredmeny?id=MA-XXXX-XXXX`.** A záró
+  képernyőn a látogató elmentheti az eredményt: kap egy **`MA-XXXX-XXXX`**
+  kódot és egy címet, ahonnan bármikor előveheti, kinyomtathatja vagy PDF-be
+  mentheti. Az azonosító készletéből hiányzik a `0`/`O` és az `1`/`I` — a kódot
+  telefonban is be kell tudni mondani. Végpontok: `api/ajanlo-mentes` (mentés),
+  `api/ajanlo-eredmeny` (visszaolvasás), tároló: `api/.eredmenyek/`.
+- **A mentett rekordban nincs személyes adat.** Se név, se e-mail, se
+  telefonszám, se IP: csak a hat válasz és a belőlük számított kimenet.
+  A rekord **pillanatkép** — a konfiguráció verziójával együtt tárolva, tehát
+  egy későbbi logikaváltozás nem írja át azt, amit a látogatónak mondtunk.
+- **`/eredmeny` — új lap.** Azonosító alapján előkeresi a mentett eredményt;
+  azonosító nélkül kereső űrlapot kínál. A „Nyomtatás / PDF" a böngésző saját
+  PDF-mentését hívja (nincs PDF-könyvtár, ahogy a 11. szekció jelentésénél
+  sem), és **az azonosító meg a teljes cím látható szövegként is szerepel** a
+  lapon — papíron a kattintható link semmit nem ér.
+- **Tartalék, ha a szerver nem elérhető.** Nincs `config.php`, ki van kapcsolva
+  vagy hálózati hiba: a modul letölti a szöveges összefoglalót, és **kimondja**,
+  hogy szerverre nem került, tehát azonosító sincs.
+- **`api/config.php` → `ajanlo` szakasz.** `engedelyezve` és `megorzes_nap`
+  (alapérték 180). A mentés végpontja alkalomszerűen takarít.
+- **§7 — Az A.B. Clear működése (`index.html`).** Középre zárt szekciófejléc,
+  teljes szélességű metszetjelenet két magyarázókártyával, öt működési tény
+  sorszámozott rácsban, és a telepíthetőség három állapota kiemelt panelben,
+  a kizáró és korlátozó feltételek lapjára mutató CTA-val.
+- **Új komponensek: `.mukodes-*`.** `.mukodes-jelenet` (teljes szélességű
+  jelenet, arányból számolt magassággal és felső korláttal),
+  `.mukodes-jelenet-racs` (kártya · szabad sáv · kártya),
+  `.mukodes-kartya`, `.mukodes-lepesek`, `.mukodes-zsak-kepek`,
+  `.mukodes-lista`, `.mukodes-feltetelek`, valamint a
+  `.situation-grid[data-cols="5"]` variáns. Indoklás: `COMPONENTS.md` 22.
+- **Négy új kép.** `mukodes-metszet.webp` (1672×851, `srcset`-tel 1100px-es
+  változattal) — a föld alatti metszet; `mukodes-tartaly-kosar-nelkul.webp` és
+  `mukodes-tartaly-iszapzsakkal.webp` (480px) — ugyanaz a tartály felülnézetből,
+  iszapkosár nélkül és a behelyezett kosárral. A két felvétel együtt mutatja meg,
+  mi a kosár szerepe; külön-külön egyik sem mondaná el.
+- **Három új ikon.** `ui-iszap-{kosar,zsak,komposzt}.svg` a „Kezelés 3 lépésben"
+  sorokhoz, a meglévő készlet nyelvén (24×24, `stroke-width:1.8`,
+  `currentColor`), mindhárom fájl fejlécében az **ideiglenes** jelöléssel.
 - **`/szippantasi-dij-kalkulator` — modul-oldal.** Élő kalkulátor (vármegye,
   település, éves alkalomszám, m³/alkalom, kiszállási díj, ürítési díj,
   minimumdíj, a minimumdíjban foglalt m³, kocsi űrtartalma, távolságarányos díj,
@@ -84,6 +173,91 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
 - **`api/config.example.php`**: új `cimzettek['szippantasi-dij']` kulcs. A
   végpontnak van tartaléka, tehát a beküldés akkor sem vész el, ha a kulcs
   lemarad az éles configból.
+- **`app.css?v=160`** és **`kalauz.js?v=39`** mind a 121 lapon (az új `/eredmeny` lappal együtt).
+
+### Módosítva — az Öko kalauz
+
+- **Helyszíni segítség: Öko megszólal, amikor a látogató odaér.** Bármely felület
+  felveheti a `data-oko-pont` attribútumot; jelenleg az ügyazonosító mezője és a
+  mentés magyarázata ilyen. Csukott panelnél buborék egy mondattal (kattintásra
+  a teljes magyarázat és három kérdés), nyitott panelnél Öko egyszerűen
+  megszólal a párbeszédben. Pontonként egyszer, és soha annak, aki bezárta.
+- **A helyszíni segítség erősebb az általános köszönésnél.** A görgetés
+  mindkettőt elindítja, és az események sorrendje nem garantált; a `megerkezik()`
+  ezért nem írhatja felül a buborékot, ha már van benne pont-üzenet.
+- **Görgetéspozíció, nem IntersectionObserver — és nem `requestAnimationFrame`.**
+  Mindkettő a megjelenítés ütemezésétől függ: háttérfülön vagy visszafogott
+  rendereléskor nem fut le, és vele a segítség is elmarad. A
+  `getBoundingClientRect()` időalapú fékezéssel (150 ms) mindig megmondja, hol
+  tart a látogató. Ugyanaz a megfontolás, mint a hero-figyelőnél.
+- **Öko megtanulta az ügyazonosítót.** A rendszerprompt külön blokkot kapott:
+  mi az, mi NEM (nem regisztráció, nem fiók, személyes adat nélkül), hol adható
+  meg, mi történik, ha elvész (nem tudjuk visszakeresni — épp azért, mert nincs
+  mellette személyes adat), és meddig él. A **megőrzési idő a konfigurációból**
+  megy a promptba, nem beírt számként.
+
+### Módosítva — az azonosítómező kerete
+
+- **A mező a webhely saját űrlapmezője lett** (`.urlap-input`), csak a kód
+  alakjához igazítva (mono betű, szűkebb szélesség). Így a mérete, a belső tere,
+  a fókuszgyűrűje és a hibaállapota ugyanaz, mint a kapcsolati vagy a
+  konzultációs űrlapon.
+- **A nyugalmi keret Olive Leaf** (`--border-strong`) a szokásos halvány vonal
+  helyett: ez az egyetlen beírható mező a szekcióban, és a sáv többi eleme
+  elviszi róla a figyelmet — a márkaszínű keret mondja meg, hova kell írni.
+  Ugyanaz a zöld, mint a mellette álló „Betöltés" gombé.
+- **A fókuszgyűrű marad a rendszer kékje** (`--border-focus`), és ez szándékos:
+  a modul minden KIVÁLASZTOTT állapota zöld (válaszgomb, chip, jelvény). Ha a
+  fókusz is zöld volna, a billentyűzettel érkező nem tudná megkülönböztetni, mi
+  a kijelölt és mi a fókuszált. A gyűrű a webhely mind a 45 fókuszpontján
+  ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
+  a kék csak fókuszban jelenik meg.
+
+### Módosítva — záró kitételek
+
+- **A 8. szekció záró jogi kitétele középre került**, felső elválasztó vonallal:
+  a modul utolsó szava ne olvadjon bele a fölötte lévő blokkokba.
+- **A 6. szekció záró megjegyzése ugyanígy** (`.section-note-kozep`): ott nem
+  egyetlen számhoz tartozó lábjegyzet áll, hanem az egész szekcióra vonatkozó
+  kitétel — a bal élhez tapadva árválkodott.
+
+### Eltávolítva
+
+- **Az ügyfélvélemények megállító gombja és a `assets/js/velemeny.js`.**
+  Megrendelői döntés: a hover úgyis megállítja a szalagot, a gomb pedig idegen
+  elem volt a vélemények alatt. A szkriptnek ezzel nem maradt feladata — a
+  mozgást, a megállítást és a rendezést is a CSS viszi.
+
+  ⚠️ **Vállalt eltérés:** a szekció így nem teljesíti a WCAG 2.2 SC 2.2.2
+  pontját. Érintőképernyőn nincs hover, a fókusz sem feltétlenül jut a szalagra,
+  és a `prefers-reduced-motion` nem számít teljesítési módnak. Ha az
+  EAA-megfelelés előkerül, a javítás nem a gomb visszatétele, hanem egy
+  **lapszintű „mozgás csökkentése" kapcsoló** a fejlécben — az egy helyen, a lap
+  összes animációjára megoldja.
+- **A kártyák nagy, halvány Zilla Slab idézőjele.** A megadott fokon és
+  áttetszőségben nem jelnek látszott, hanem elgépelésnek. Helyette valódi magyar
+  idézőjelpár áll az idézet körül, a szöveg fokán.
+
+### Javítva
+
+- **A jeleneten álló két felvétel közül a jobb oldali kisebbnek látszott.** Az
+  elválasztó vonal a második kép `border-left`-je volt: a globális
+  `box-sizing:border-box` miatt a keret és a belső térköz a `width:100%`-on
+  belülre esett, és 17px-kel szűkítette a kép tartalmát. A vonal átkerült a rács
+  `::before` pszeudoelemére. A képaláírások elmaradtak (a terven sincsenek): a
+  hosszabb felirat két sorba tört, és `align-items:end` mellett a saját képét
+  feljebb tolta.
+- **A vonal és a sorszámkorong nem volt egy tengelyen.** A `.situation` vonala a
+  hasáb tetején állt, a korong 33px-rel lejjebb — két külön jel, üres sávval. A
+  korong fél magasságnyival feljebb került, így a vonal a közepén fut át.
+- **Árva szó a szekcióbevezető végén.** A `.section-lead` `text-wrap:pretty`-t
+  kapott: az utolsó sorra nem maradhat egyetlen szó.
+- **A középre zárt szekciófejléc bevezetője balra csúszott.** A `.section-lead`
+  62ch-s korlátja keskenyebb a konténernél, `margin-inline:auto` nélkül a blokk
+  a bal élhez tapadt, és a benne középre zárt szöveg optikailag elcsúszott a cím
+  alatt. A `.section-head-start` alatti visszaállítás eddig is a stíluslapban
+  állt — a párja hiányzott. A §9 (*Üzemeltetés és hosszú távú költség*) fejléce
+  is ettől volt ferde.
 
 ### Vizuális átdolgozás (megrendelői visszajelzés nyomán)
 
@@ -144,8 +318,62 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
 - 640px alatt a csempetérkép vízszintesen görgethető; a mezősorok `subgrid`-del
   igazodnak, hogy a kétsoros címke ne lökje lépcsőbe a szomszéd oszlopot.
 
+### Biztonság
+
+**Robotpolitika — „letöltés igen, hasznosítás nem".** A `tst.okoth.hu` és az
+`okoth.hu` eddig `Disallow: /`-val zárta ki a robotokat. Ez visszafelé sült el:
+amit a `robots.txt` kizár, azt a robot **le sem tölti**, így a `noindex` fejlécet
+sem látja — és a máshonnan mutató linkek alapján az URL címként mégis bekerülhet
+az indexbe. Az új felállás megfordítja a rétegeket:
+
+- **`_web/robots.txt`** — az általános botoknak a letöltés szabad (`Allow: /`),
+  egyedül az `/api/` marad kizárva. Az `assets/` szándékosan nyitva van: enélkül
+  a kereső hiányosan rajzolná ki a lapot.
+- **Név szerinti tiltás** ugyanott, két csoportban: AI-tanító és AI-kereső (GEO)
+  ügynökök — GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended,
+  Bytespider, CCBot, meta-externalagent és társaik —, valamint SEO-elemző és
+  backlink-figyelő botok: AhrefsBot, SemrushBot, MJ12bot, DotBot, BLEXBot,
+  DataForSeoBot, Screaming Frog és a többi.
+- **`_web/.htaccess` A) réteg** — az `X-Robots-Tag` kibővült a kivonat- és
+  előnézet-korlátokkal (`max-snippet:0`, `max-image-preview:none`,
+  `max-video-preview:0`) és a `noai`/`noimageai` jelzéssel. Ez a GEO ellen való:
+  amiből nem idézhető részlet, azt az AI-válaszgeneráló sem építheti be.
+- **`_web/.htaccess` B) réteg** — a `robots.txt` csak kérés, ezért ugyanaz a
+  névsor `SetEnvIfNoCase` User-Agent-szűrővel **403-at** is kap: a tanítóadat-
+  gyűjtő le sem tölti a lapot. A `robots.txt` és a `403.html` szándékos kivétel —
+  ha a tiltott bot a `robots.txt`-re 403-at kapna, azt az RFC 9309 szerint
+  „nincs korlátozás"-ként értelmezhetné.
+- **Mind a 124 oldal** `<meta name="robots">` sora ugyanazt mondja, mint a
+  fejléc; a négy oldalgyártó sablon (`sablon.py`, `jelentes_oldal.py`,
+  `szippantasi_kalkulator.py`, `hibaoldalak.py`) is frissült, hogy az újragenerálás
+  ne írja vissza a régit.
+
+Ellenőrizve helyi Apache 2.4-gyel: böngésző, Googlebot és Bingbot 200-at kap
+`X-Robots-Tag: noindex`-szel, a GPTBot / ClaudeBot / PerplexityBot /
+Google-Extended / CCBot / Bytespider / AhrefsBot / SemrushBot / Screaming Frog /
+MJ12bot 403-at, a `robots.txt` viszont mindenkinek kimegy.
+
+**Az Öko kalauz érintetlen.** Ellenőrizve: a `/api/kalauz` POST a látogató
+böngészőjéből 200-at kap, a `kalauz.js`, az `ai-advisor.js` és az
+`assets/data/` konfigfájlok is elérhetők; a `kalauz-index.json` és a
+`config.php` továbbra is zárva (ezt az `api/.htaccess` intézi, változatlanul).
+A kalauz kifelé hív (`api.anthropic.com`), az indexét pedig helyi fájlokból
+építi (`scripts/kalauz-index.py` az `_web/` HTML-jeit olvassa), ezért sem a
+`robots.txt`, sem az UA-szűrő nem áll az útjába. Botként ugyanez a végpont
+403 — az AI-hívásnak ára van, és nem a tanítóadat-gyűjtőké.
+
 ### Amire adat kell — kérni
 
+- **Az adatkezelési tájékoztató kiegészítése.** A megoldás-ajánló mentett
+  eredménye a szerveren tárolódik (azonosítóval, személyes adat nélkül, 180
+  napig). A tájékoztató ezt jelenleg **nem említi** — élesítés előtt be kell
+  írni, és a megőrzési időnek egyeznie kell a `config.php`
+  `ajanlo.megorzes_nap` értékével.
+- **A megoldás-ajánló döntési logikájának jóváhagyása** (a specifikáció 8.
+  pontja): a három használati kategória definíciója és a hozzájuk rendelt
+  termékek, a határesetek listájának teljessége, a terméknevesítés elve, és a
+  szabad területre vonatkozó kérdés m²-sávjai. A sávhatárok jelenleg
+  **munkahipotézisek** az `ajanlo-konfig.js`-ben, nem méretezési adatok.
 - **Települési díjszabások** a `dijak` tömbhöz (számla, közszolgáltatói
   ártáblázat vagy önkormányzati rendelet alapján). Enélkül a térkép üres marad.
 - **A példaértékek jóváhagyása** (`peldaDijak`): jelenleg a brief „Példa"

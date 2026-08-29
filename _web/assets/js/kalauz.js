@@ -319,10 +319,18 @@
       void ful.offsetWidth;                        // reflow: az animáció újraindul
       ful.style.animation = '';
     }
-    if (SZOVEG.koszon && !buborekTiltva && !lezarta && !panelNyitva()) {
+    /* A HELYSZÍNI SEGÍTSÉG ELŐBBRE VALÓ. Ha a látogató épp olyan felületnél
+       jár, amit Öko magyarázni akar (`PONTOK`), az általános köszönés nem
+       írhatja felül: a konkrét segítség többet ér a semmitmondó „Segítsek?"-nél.
+       Ez a sorrend azért kell, mert a görgetés MINDKETTŐT elindítja, és az
+       események sorrendje nem garantált. */
+    if (SZOVEG.koszon && !buborekTiltva && !lezarta && !panelNyitva()
+        && !buborek.dataset.okoPontKulcs) {
       buborekSzoveg.textContent = SZOVEG.koszon;
       buborek.hidden = false;
-      setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 9000);
+      setTimeout(() => {
+        if (!panelNyitva() && !buborek.dataset.okoPontKulcs) buborek.hidden = true;
+      }, 9000);
     }
   }
 
@@ -476,6 +484,8 @@
     if (e.target.closest('[data-oko-zar]')) return;
     if (!panelNyitva()) nyit();
   });
+  /* A pont-buborék saját kezelője a fájl későbbi részében fut le (a `PONTOK`
+     ott van definiálva); ez itt csak megnyitja a panelt, az mondja el, miért. */
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && panelNyitva()) zar(); });
 
   /* ------------------------------------------------------------- üzenetek */
@@ -762,6 +772,125 @@
       input.focus();
     }
   }
+
+  /* -------------------------------------------- helyszíni segítség (pontok) */
+  /* Vannak a lapon felületek, amelyeket a látogató nem feltétlenül ért elsőre —
+     ilyen az ÜGYAZONOSÍTÓ mezője. Egy kód a semmiből riasztó: úgy néz ki, mint
+     egy regisztráció, pedig épp az ellenkezője.
+  
+     Öko ezeknél MAGÁTÓL megszólal — de nem a lap tetején, hanem AKKOR, amikor a
+     látogató odagörget. A buborék egy mondat; ha érdekli, egy kattintással
+     megkapja a teljes magyarázatot és a hozzá tartozó kérdéseket.
+  
+     A felület a modulokból ÉPÜL, tehát később kerül a lapra: ezért a kezdeti
+     pásztázás mellett egy DOM-figyelő is fut, ami az újonnan érkezőket is
+     bekapcsolja. */
+  const PONTOK = {
+    ugyazonosito: {
+      buborek: 'Ez a kód nem regisztráció — segítsek?',
+      magyarazat: 'Ez az azonosító nem regisztráció: nevet, e-mail-címet vagy telefonszámot '
+        + 'nem kérünk hozzá, és nem tudjuk, ki Ön. Egyetlen dolgot csinál: megjegyzi, mit '
+        + 'adott már meg. Így a lap eszközei nem kérdezik újra ugyanazt, és az eredményt '
+        + 'bármikor előveheti vagy PDF-be mentheti.',
+      kerdesek: [
+        'Mire jó ez az azonosító?',
+        'Meg kell adnom személyes adatot?',
+        'Mi történik, ha elveszítem a kódot?'
+      ]
+    },
+    mentes: {
+      buborek: 'Elmagyarázzam, mit ad a mentés?',
+      magyarazat: 'Mentéskor kap egy azonosítót — ez nem regisztráció, és személyes adatot '
+        + 'nem kérünk hozzá. Ezzel bármikor előveheti ezt az eredményt, kinyomtathatja vagy '
+        + 'PDF-be mentheti, a lap többi eszköze pedig tudja, mit adott már meg. Ha nem menti '
+        + 'el, semmi nem marad meg nálunk.',
+      kerdesek: [
+        'Mit tárolnak, ha elmentem az eredményt?',
+        'Meddig érhető el a mentett eredmény?',
+        'Használhatom ugyanazt az azonosítót az ársávbecslőnél?'
+      ]
+    }
+  };
+
+  const pontokKesz = new Set();
+
+  function pontMegszolal(kulcs) {
+    const adat = PONTOK[kulcs];
+    if (!adat || pontokKesz.has(kulcs)) return;
+    pontokKesz.add(kulcs);
+    /* Aki becsukta a buborékot vagy Ökót, azt nem szólítjuk meg újra. */
+    if (lezarta) return;
+    /* A kulcsot az érkezés ELŐTT tesszük ki: a `megerkezik()` ebből tudja,
+       hogy nem szabad az általános köszönést a helyére írnia. */
+    if (!panelNyitva() && !buborekTiltva) buborek.dataset.okoPontKulcs = kulcs;
+    megerkezik();
+    /* HA A PANEL NYITVA VAN, Öko egyszerűen megszólal a párbeszédben: ez a
+       természetesebb, és a magyarázat rögtön ott van, kattintás nélkül.
+       (A főoldalon a panel a hero után magától kinyílik, tehát ez a gyakoribb
+       eset.) Csukott panelnél marad a buborék — az nem tolakszik. */
+    if (panelNyitva()) {
+      delete buborek.dataset.okoPontKulcs;
+      const sor = uzenet('oko', adat.magyarazat);
+      javaslatok(adat.kerdesek, sor);
+      return;
+    }
+    if (buborekTiltva) return;
+    buborekSzoveg.textContent = adat.buborek;
+    buborek.hidden = false;
+    setTimeout(() => { if (!panelNyitva() && buborek.dataset.okoPontKulcs === kulcs) buborek.hidden = true; }, 12000);
+  }
+
+  /* A buborékra kattintva a pont MAGYARÁZATA nyílik meg, nem üres panel. */
+  buborek.addEventListener('click', (e) => {
+    if (e.target.closest('[data-oko-zar]')) return;
+    const kulcs = buborek.dataset.okoPontKulcs;
+    const adat = kulcs ? PONTOK[kulcs] : null;
+    if (!adat) return;                               // az általános buborékot a lentebbi kezelő nyitja
+    delete buborek.dataset.okoPontKulcs;
+    const sor = uzenet('oko', adat.magyarazat);
+    javaslatok(adat.kerdesek, sor);
+  });
+
+  /* A GÖRGETÉS POZÍCIÓJÁT nézzük, nem IntersectionObservert — ugyanaz a
+     megfontolás, mint a hero-nál (lásd lentebb): az IO a lap életciklusától és
+     a renderelés ütemezésétől függ, a `getBoundingClientRect()` viszont mindig
+     megmondja, hol tart a látogató. Egy `requestAnimationFrame`-mel szabályozott
+     ellenőrzés olcsó, és nem hagy ki eseményt.
+
+     A modulok felülete JS-ből épül, tehát a pontok később kerülnek a lapra: a
+     lista minden ellenőrzéskor újra összeáll, amíg van feldolgozatlan pont. */
+  let pontUtolso = 0;
+  function pontokEllenoriz() {
+    const elemek = document.querySelectorAll('[data-oko-pont]');
+    if (!elemek.length) return;
+    const ho = innerHeight;
+    elemek.forEach((el) => {
+      const kulcs = el.dataset.okoPont;
+      if (!kulcs || pontokKesz.has(kulcs) || el.hidden) return;
+      const r = el.getBoundingClientRect();
+      if (r.height === 0) return;
+      /* „Odaért": az elem a nézetablak felső háromnegyedébe belóg, és még nem
+         gördült ki fölül. Így akkor szólal meg, amikor a látogató tényleg
+         ránéz — nem akkor, amikor épp elsuhan mellette. */
+      if (r.top < ho * 0.75 && r.bottom > ho * 0.15) pontMegszolal(kulcs);
+    });
+  }
+  /* IDŐALAPÚ fékezés, nem `requestAnimationFrame`. A rAF csak akkor fut le, ha
+     a lap renderel — háttérfülön vagy visszafogott megjelenítésnél elmarad, és
+     vele a segítség is. A `getBoundingClientRect()` másodpercenként néhányszor
+     olcsó, és mindig megmondja, hol tart a látogató. */
+  function pontokUtemez() {
+    const most = Date.now();
+    if (most - pontUtolso < 150) return;
+    pontUtolso = most;
+    pontokEllenoriz();
+  }
+  addEventListener('scroll', pontokUtemez, { passive: true });
+  addEventListener('resize', pontokUtemez, { passive: true });
+  /* A felület megjelenése is ok az ellenőrzésre: a sáv attól válik láthatóvá,
+     hogy a modul felépült, nem attól, hogy görgettek. */
+  new MutationObserver(pontokUtemez).observe(document.body, { childList: true, subtree: true });
+  pontokUtemez();
 
   /* ---------------------------------------------------- mikor lépjen elő */
   /* A FŐOLDALON megvárjuk a hero-t: ott a nagy fejléckép viszi a figyelmet, és

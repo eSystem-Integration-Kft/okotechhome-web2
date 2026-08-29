@@ -93,6 +93,7 @@ _OkoTechHome2/
 │                             #   fejlec.py · lablec.py — a fejléc/lábléc MINDEN oldalba
 │                             #   *_hub.py            — a sitemap szerinti aloldalak
 │                             #   sitemap_export.py   — oldaltérkép a menüadatból (MD + HTML)
+│                             #   szoveg_kivonat.py   — az oldalak szövege átnézésre (HTML + MD + PDF)
 ├─ .github/banner.*           # README-banner (nem kerül élesre)
 ├─ _web/                      # 🌐 WEBKIMENET — ez megy élesre
 │  ├─ index.html              #    főoldal — fejléc + 1–5., 8. és 11. szekció

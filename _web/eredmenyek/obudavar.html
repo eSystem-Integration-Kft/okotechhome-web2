@@ -2,9 +2,11 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<!-- TESZT ÜZEMMÓD: az oldal fejlesztés alatt áll. ÉLESÍTÉSKOR ezt a sort
-     minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
-<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
+     indexelheti, nem archiválhatja és nem idézhet belőle — ugyanezt küldi a
+     .htaccess X-Robots-Tag fejléce is. ÉLESÍTÉSKOR a lenti sor tartalmát
+     "index, follow"-ra kell cserélni, minden oldalon. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Óbudavár — esettanulmány | ÖkoTech Home</title>
 <meta name="description" content="Minisztériumi mintaprojekt 2011-ben — az első településszintű munkánk, és az az alap, amire minden későbbi projekt épült.">
@@ -17,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=137">
+<link rel="stylesheet" href="../assets/css/app.css?v=174">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -651,7 +653,7 @@
 </footer>
 
 <script src="../assets/js/site.js?v=3" defer></script>
-<script src="../assets/js/kalauz.js?v=32" defer></script>
+<script src="../assets/js/kalauz.js?v=39" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

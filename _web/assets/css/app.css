@@ -637,7 +637,14 @@
   .section-head-start{text-align:left}
   .section-eyebrow{color:var(--text-tertiary);margin-bottom:var(--space-16)}
   .section-title{color:var(--text-primary);text-wrap:balance}
-  .section-lead{color:var(--text-secondary);margin-top:var(--space-16);max-width:62ch}
+  /* A KÖZÉPRE ZÁRT szekciófejlécben a bevezető DOBOZÁT is középre kell tenni:
+     a 62ch-s korlát miatt a blokk keskenyebb a konténernél, `margin-inline`
+     nélkül a bal élhez tapadt, és a benne középre zárt szöveg optikailag
+     balra csúszott a cím alatt. A `.section-head-start` alatti visszaállítás
+     eddig is itt állt — ez a párja hiányzott. */
+  /* `text-wrap:pretty`: a bekezdés utolsó sorára nem maradhat egyetlen szó
+     (a bevezető végén a „nélkül." állt magában egy sorban). */
+  .section-lead{color:var(--text-secondary);margin-top:var(--space-16);max-width:62ch;margin-inline:auto;text-wrap:pretty}
   .section-head-start .section-lead{margin-inline:0}
   /* Variáns: a bevezető a teljes konténerszélességet használhatja, hogy a
      mondatok a terv szerinti sortörésnél váljanak el. A 62ch olvashatósági
@@ -649,6 +656,11 @@
     margin-top:var(--space-48);padding-top:var(--space-24);
     border-top:1px solid var(--border);color:var(--text-tertiary);
   }
+  /* Variáns: KÖZÉPRE zárt szekciózáró. Ahol a megjegyzés nem egyetlen számhoz
+     tartozó lábjegyzet, hanem az egész szekcióra vonatkozó kitétel, ott a bal
+     élhez tapadva árválkodna — középen a vonal alatt viszont látszik, hogy az
+     egészhez szól. */
+  .section-note-kozep{max-width:78ch;margin-inline:auto;text-align:center;text-wrap:pretty}
   /* Tervezett sortörés — csak asztali nézetben; szűkebb képernyőn a szöveg
      természetesen tördel, ott a kényszerített törés csonka sort adna. */
   .br-desktop{display:none}
@@ -850,6 +862,11 @@
   .icon-nyaralo{-webkit-mask-image:url("../icon/ui-nyaralo.svg?v=3");mask-image:url("../icon/ui-nyaralo.svg?v=3")}
   .icon-telek{-webkit-mask-image:url("../icon/ui-telek.svg?v=3");mask-image:url("../icon/ui-telek.svg?v=3")}
 
+  /* Iszapkezelés-ikonok (§7, „Kezelés 3 lépésben") */
+  .icon-iszap-kosar{-webkit-mask-image:url("../icon/ui-iszap-kosar.svg?v=2");mask-image:url("../icon/ui-iszap-kosar.svg?v=2")}
+  .icon-iszap-zsak{-webkit-mask-image:url("../icon/ui-iszap-zsak.svg?v=1");mask-image:url("../icon/ui-iszap-zsak.svg?v=1")}
+  .icon-iszap-komposzt{-webkit-mask-image:url("../icon/ui-iszap-komposzt.svg?v=1");mask-image:url("../icon/ui-iszap-komposzt.svg?v=1")}
+
   /* ===== 5.9 Összehasonlító táblázat (ÚJ) ===== */
   .compare-scroll{overflow-x:auto}
   .compare-scroll:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:var(--r-md)}
@@ -974,6 +991,10 @@
   }
   .product-media img{width:100%;height:100%;object-fit:contain}
   .product-title{color:var(--text-primary)}
+  /* A termék BESOROLÁSA a neve alatt: mi a kategóriája, és saját gyártású-e.
+     Ez nem díszítés — az Epurecónál épp az a lényeg, hogy forgalmazott ülepítő,
+     nem szennyvíztisztító berendezés. */
+  .product-cimke{color:var(--text-tertiary);margin-top:calc(var(--space-8) * -1)}
   .product-text{color:var(--text-secondary)}
   .product-note{color:var(--text-secondary);margin-top:var(--space-16)}
 
@@ -1418,6 +1439,18 @@
   /* A gombsor és a chip egy csoport, egységes térközzel. A chip a saját
      tartalmához igazodik — nem a gombsor szélességéhez. */
   .hero-cta{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-8)}
+  /* A gombok alatti magyarázat: a technológiaválasztás kétszintű logikája.
+     Kisebb fokon, mert nem a hero ígérete, hanem a hozzá tartozó eligazítás.
+
+     SAJÁT FELÜLETET KAP, ugyanazért, amiért az eyebrow is: a felvétel textúráján
+     a 12px-es szedés akkor sem olvas, ha a mért kontraszt megfelelő — a lágy
+     folt (veil) a főcím mögé van igazítva, idáig már nem ér el. */
+  .hero-jegyzet{
+    color:var(--text-primary);
+    background:color-mix(in srgb,var(--surface) 88%,transparent);
+    padding:var(--space-16);border-radius:var(--r-md);
+    max-width:58ch;margin-top:var(--space-8);text-wrap:pretty;
+  }
   .hero-actions{display:flex;flex-wrap:wrap;gap:var(--space-8)}
 
   /* Kiegészítő hivatkozás chip formában. Nem gomb: nem művelet, hanem
@@ -2180,6 +2213,9 @@
   .folyamat-lista li{display:flex;gap:var(--space-16);align-items:baseline;color:var(--text-secondary)}
   .folyamat-lista li::before{content:"";flex:none;width:.4em;height:.4em;border-radius:50%;
     border:1px solid var(--text-tertiary)}
+  /* A lépéshez tartozó kiegészítés: nem a döntés, hanem a hozzá tartozó
+     tudnivaló (pl. hogy a szaktanácsadás díjköteles, szabadon választható). */
+  .folyamat-megjegyzes{color:var(--text-tertiary);margin-top:var(--space-16)}
   .folyamat-dol{
     margin-top:var(--space-32);padding:var(--space-24);
     background:var(--surface-muted);border-radius:var(--card-radius);
@@ -3475,7 +3511,16 @@
   .aidt-sent svg{flex:none;width:var(--space-32);height:var(--space-32);padding:var(--space-8);border-radius:50%;background:var(--secondary);color:var(--on-secondary);fill:none;stroke:currentColor;stroke-width:2.2}
   .aidt-sent h5{font-family:var(--font-body);font-size:var(--type-ui-card-title-size);font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);margin-bottom:var(--space-4)}
   .aidt-sent p{font-size:var(--type-ui-subtitle-size);color:var(--text-secondary);line-height:var(--type-ui-subtitle-line-height)}
-  .aidt-res-foot{display:flex;gap:var(--space-8);align-items:flex-start;margin-top:var(--space-16);font-size:var(--type-ui-caption-size);color:var(--text-secondary);line-height:var(--type-ui-caption-line-height)}
+  /* A záró jogi kitétel a modul UTOLSÓ szava: középre zárva, a tartalomtól
+     elválasztva áll, hogy ne olvadjon bele a fölötte lévő blokkokba. */
+  .aidt-res-foot{
+    display:flex;gap:var(--space-8);align-items:flex-start;justify-content:center;
+    margin-top:var(--space-24);padding-top:var(--space-16);
+    border-top:1px solid var(--border);
+    max-width:72ch;margin-inline:auto;text-align:center;
+    font-size:var(--type-ui-caption-size);color:var(--text-secondary);
+    line-height:var(--type-ui-caption-line-height);
+  }
   .aidt-res-foot svg{flex:none;width:var(--space-16);height:var(--space-16);margin-top:1px;fill:none;stroke:var(--warning-border);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
   /* ===== 5.14 Bizalmi sáv (ÚJ) ===== */
@@ -5709,5 +5754,1055 @@
     16%{opacity:1}
     18%{opacity:0;transform:translateX(760px)}
     100%{opacity:0;transform:translateX(760px)}
+  }
+}
+
+/* =============================================================================
+   7. SZEKCIÓ — AZ A.B. CLEAR MŰKÖDÉSE  (`.mukodes-*`)
+   -----------------------------------------------------------------------------
+   Egy új elrendezés van benne, ami eddig nem szerepelt a rendszerben: a
+   TELJES SZÉLESSÉGŰ jelenet, amelyen kártyák állnak. A metszet nem illusztráció
+   a szöveg mellett, hanem a szekció színpada — a föld alatti térről szól,
+   ezért ér ki a képernyő két széléig, és ezért állnak rajta a magyarázatok.
+
+   A kártyák NEM abszolút pozíciójúak. A jeleneten egy három oszlopos rács ül
+   (kártya · szabad sáv · kártya); a középső oszlop tartja szabadon a berendezés
+   helyét. Így a kártya magassága szabadon nőhet: ha a szöveg hosszabb, a SÁV nő
+   vele, nem a kártya csúszik a tartályra.
+
+   A sáv magassága a kép saját arányából jön (`--jelenet-min-h`), felső
+   korláttal: nagyon széles képernyőn a metszet másfél képernyőnyire nyúlna.
+   A korlát fölött a kép `cover`-rel kicsit függőlegesen vág — a vágás felül
+   égbolt, alul talaj, tehát a lényeg (ház, tartály) benne marad.
+
+   1024px alatt a fedés eltakarná a tartályt, ezért a kártyák a kép ALÁ
+   kerülnek, normál rácsban.
+   ============================================================================= */
+
+@layer tokens {
+  :root{
+    /* A metszet saját aránya — a sáv magasságát ebből számoljuk. */
+    --jelenet-arany-w:1672;
+    --jelenet-arany-h:851;
+    /* Felső korlát: 8 × --space-128. Ennél magasabb sávban a jelenet már nem
+       szekció, hanem második hero. A korlát fölött a sáv a kép TETEJÉT vágja
+       le (a kép alulra van horgonyozva) — ott égbolt van. */
+    --jelenet-max-h:calc(var(--space-128) * 8);
+    --jelenet-min-h:min(
+      calc(100vw * var(--jelenet-arany-h) / var(--jelenet-arany-w)),
+      var(--jelenet-max-h)
+    );
+    /* A kártya FÉNYKÉP fölött lebeg, nem felületen. A designrendszer 3. pontja
+       szerint sötét témában a mélységet a felület-lépcső viszi — fotó fölött
+       viszont nincs felület-lépcső, amihez viszonyítani lehetne, ezért a
+       kártya mindkét témában árnyékot kap. Ez az egyetlen helye. */
+    --jelenet-kartya-shadow:var(--shadow-2);
+
+    /* Telepíthetőség — három állapot, három szerepszín. */
+    --feltetel-ok:var(--primary);
+    --feltetel-figyelem:var(--warning-border);
+    --feltetel-kizaro:var(--danger-border);
+  }
+  [data-theme="dark"]{
+    /* KÖTELEZŐ ÚJRADEKLARÁLÁS: a --danger-border sötét témában más érték. */
+    --feltetel-ok:var(--primary);
+    --feltetel-figyelem:var(--warning-border);
+    --feltetel-kizaro:var(--danger-border);
+    --jelenet-kartya-shadow:var(--shadow-2);
+  }
+}
+
+@layer components {
+
+  /* ---- a jelenet sávja ---- */
+  .mukodes-jelenet{
+    position:relative;isolation:isolate;
+    /* A felső korlátnál a kép kilóg a sávból — fölül, ahol égbolt van. */
+    overflow:hidden;
+    display:grid;grid-template-columns:minmax(0,1fr);
+    /* A rács a sáv ALJÁRA ül: a kártyák talpa egy vonalban zár. */
+    align-content:end;
+    min-height:var(--jelenet-min-h);
+    /* A szekciófejléc alsó margója ezzel összeolvad (margin collapsing),
+       tehát fönt is, lent is ekkora a köz. */
+    margin-block:var(--space-64);
+  }
+  /* A metszet a sáv háttere. Nem `background-image`: így marad `alt`-ja,
+     `srcset`-je és `loading="lazy"`-je.
+     NEM `object-fit:cover`. A sáv magasabb lehet a kép saját arányánál (ha a
+     jobb oldali kártya megnő), és a `cover` ilyenkor OLDALT vág — épp ott áll
+     a ház, ami a jelenetet értelmezi, és a tartály is nagyobbra skálázódik,
+     tehát belelógna a kártyák sávjába. Helyette a kép MINDIG teljes
+     szélességben, a saját arányában áll, a sáv aljához horgonyozva: ami fölötte
+     marad, az a lap alapszíne — a kép teteje amúgy is átlátszó égbolt, tehát a
+     kettő varrat nélkül folytatódik. */
+  .mukodes-jelenet-kep{
+    position:absolute;left:0;right:0;bottom:0;z-index:-1;
+    width:100%;height:auto;
+  }
+  .mukodes-jelenet-racs{
+    position:relative;
+    width:100%;max-width:var(--container-wide);margin-inline:auto;
+    padding-inline:var(--page-gutter);padding-block:var(--space-48);
+    display:grid;
+    /* A KÖZÉPSŐ oszlop a berendezés helye — oda nem kerül tartalom. A szélessége
+       `vw`-ben van, nem `rem`-ben: a metszet a KÉPERNYŐ szélességével skálázódik
+       (teljes szélességű sáv), a konténer viszont 1440px-nél megáll. Rögzített
+       rem-mel a tartály 1440 fölött kinőtt volna a szabad sávból, és a kártyák
+       belelógtak volna a csövekbe.
+       A metszeten mérve (canvas-olvasás az 1672px-es képen): a tartály teste
+       17,7%, a csővezetésekkel 21,9%, a betonalappal — ez a legszélesebb pont —
+       26,1% a kép szélességéből. A 30vw tehát mindenütt hagy ~2vw levegőt a
+       legszélesebb pont mellett is, és minden maradékot a kártyáknak ad. */
+    grid-template-columns:minmax(0,1fr) 30vw minmax(0,1fr);
+    gap:var(--space-24);align-items:end;
+  }
+  .mukodes-jelenet-racs > :first-child{grid-column:1}
+  .mukodes-jelenet-racs > :last-child{grid-column:3}
+
+  /* ---- a jeleneten álló kártya ---- */
+  .mukodes-kartya{
+    display:flex;flex-direction:column;gap:var(--space-16);
+    padding:var(--card-padding);
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:var(--card-radius);
+    box-shadow:var(--jelenet-kartya-shadow);
+  }
+  .mukodes-kartya-cim{color:var(--text-primary)}
+  /* A KÁRTYA TÖRZSSZÖVEGE `.type-ui-subtitle` (14px), nem `.type-ui-body` (16px).
+     A kártya nem folyó szöveget hordoz, hanem magyarázatot a jeleneten, és a
+     magasságának korlátja van: 16px-en a bal oldali kártya a sáv teljes
+     magasságát elfoglalta, és kitakarta a házat. 12px-re menni viszont már az
+     olvashatóság rovására ment volna — a helyet ezért a kártya SZÉLESSÉGE adja
+     (a szabad sáv 30vw-re szűkült), nem a betűméret. A kártyacím és a
+     „Kezelés 3 lépésben" felirat 16px, tehát a hierarchia megvan. */
+  .mukodes-kartya-link{margin-top:auto;align-self:flex-start}
+
+  /* ---- a tisztítási folyamat lépései ---- */
+  /* A sorrend jelentést hordoz, ezért `<ol>`. A sorszám a SZÖVEG ELEJÉN áll, nem
+     külön hasábban: a jelenetben álló kártya keskeny, és egy 40px-es jelvény-
+     oszlop minden sorból négy-öt karaktert vett el — a kártya emiatt annyival
+     megnőtt, hogy a metszeten a HÁZAT takarta ki. */
+  /* A lépések között NINCS térköz: a négy lépés egyetlen összefüggő leírás, és
+     a tagolást a félkövér lépéscím adja, nem az üres sáv. Így a kártya ~48px-kel
+     alacsonyabb, tehát a metszetből is többet hagy szabadon. */
+  .mukodes-lepesek{
+    list-style:none;margin:0;padding:0;
+    display:grid;gap:0;
+  }
+  .mukodes-lepes{color:var(--text-secondary)}
+  .mukodes-lepes-cim{color:var(--text-primary)}
+  /* A sorszám a törzsszöveg betűjével szedve, nem monóval: a mono szóköz egy
+     teljes karakterszélesség, és a „1 ·" előtag emiatt szétesett a mondat
+     elején. `nowrap`, hogy a sorszám és a pont ne kerüljön külön sorba. */
+  .mukodes-lepes-szam{color:var(--text-tertiary);white-space:nowrap}
+
+  /* ---- iszapzsák: két felvétel egymás mellett ---- */
+  /* Felirat nélkül, azonos szélességű cellában: a két render azonos léptékű
+     (mindkettőn 942px a tartály legszélesebb átmérője a 960px-es vásznon), így
+     egyenlő cellában egyforma nagynak is látszanak. Feliratokkal nem így volt:
+     a jobb oldali két sorba tört, és `align-items:end` mellett a képét feljebb
+     tolta — ettől tűnt kisebbnek. */
+  .mukodes-zsak-kepek{
+    position:relative;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:var(--space-32);align-items:center;
+  }
+  .mukodes-zsak-kep{width:100%;height:auto}
+  /* A vonal a két felvétel KÜLÖNBSÉGÉT jelzi, ezért a cellahatáron áll —
+     de NEM a képen: a `border-left` + `padding-left` a képre téve a
+     `border-box` méretezés miatt a jobb oldali kép TARTALMÁT szűkítette
+     17px-kel, és emiatt látszott kisebbnek a bal oldalinál. Külön réteg
+     kell hozzá, ami nem vesz el a képek szélességéből. */
+  .mukodes-zsak-kepek::before{
+    content:"";position:absolute;top:0;bottom:0;left:50%;
+    border-left:1px solid var(--border);
+  }
+
+  /* ---- felsorolás korongos jelöléssel ---- */
+  .mukodes-lista{display:grid;gap:var(--space-8);color:var(--text-secondary)}
+  .mukodes-lista li{position:relative;padding-left:var(--space-16)}
+  .mukodes-lista li::before{
+    content:"";position:absolute;left:0;top:.55em;
+    width:var(--space-4);height:var(--space-4);border-radius:50%;
+    background:var(--primary);
+  }
+
+  /* ---- „Kezelés 3 lépésben" — ikonos sorok ---- */
+  /* Ikon + mondat. Az ikon DEKORATÍV: a jelentést a mellette álló mondat
+     hordozza (designrendszer 8.), ezért `aria-hidden`. A jelvény lekerekített
+     NÉGYZET, nem kör: a lime korong ezen a lapon a SORSZÁMOT jelenti
+     (`.card-badge`, 01–05), és a kettő nem jelentheti ugyanazt. */
+  /* A felirat új blokkot nyit a kártyán belül, ezért a kártya `gap`-jénél
+     nagyobb köz választja el a fölötte álló felsorolástól. */
+  .mukodes-kezeles-cim{color:var(--text-primary);margin-top:var(--space-8)}
+  .mukodes-kezeles{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-16)}
+  .mukodes-kezeles-lepes{
+    display:grid;grid-template-columns:auto minmax(0,1fr);
+    gap:var(--space-16);align-items:center;
+  }
+  .mukodes-kezeles-jel{
+    display:flex;align-items:center;justify-content:center;flex:none;
+    width:calc(var(--space-32) + var(--space-4));height:calc(var(--space-32) + var(--space-4));
+    border-radius:var(--r-md);
+    background:var(--badge-bg);color:var(--text-secondary);
+  }
+  .mukodes-kezeles-szoveg{color:var(--text-secondary)}
+
+  /* ---- öt tény egy sorban ---- */
+  /* Az „Amit a működésről érdemes tudni" öt rövid tétele a 3. szekció
+     helyzetoszlopainak rácsán ül, öt oszlopos variánssal. A hasáb itt ~210px:
+     rövid, pásztázható tényekre való, folyó szövegre nem. */
+  .situation-grid[data-cols="5"]{
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    column-gap:var(--space-24);
+    /* A jelvény a fél magasságával a sorköz FÖLÉ lóg (lásd lentebb), ezért a
+       többsoros nézetekben a sorköznek ennyivel többet kell adnia. */
+    row-gap:var(--space-64);
+    /* A hasáb vonala így a jelvény fél magasságával lejjebb kezdődik; ez a
+       margó adja vissza a szekciófejléc alatti eredeti optikai közt. */
+    margin-top:var(--space-24);
+  }
+  /* A SORSZÁM A VONALON ÜL, NEM ALATTA.
+     A `.situation` alapból vonalat húz a hasáb fölé, majd `--space-32` térközzel
+     kezdi a tartalmat — így a vonal és a korong két külön jel volt, közöttük
+     üres sávval. A korongot a fél magasságával feljebb húzva a vonal a KÖZEPÉN
+     fut át, és mivel a korong felülete átlátszatlan (`--badge-bg`), a vonal
+     első 48px-e eltűnik mögötte: a vonal a korongból indul ki. Egy jel lesz a
+     kettőből, és a hasáb bal éle marad a közös tengely. */
+  /* A korongban a sorszám a `.type-data-value` 12px-én elveszett a 48px-es
+     felületen. A méret itt szereptokenből jön (a törzsszöveg fokáról), a mono
+     rajzolatot és a súlyt továbbra is a `.type-data-value` adja. */
+  .situation-grid[data-cols="5"] .card-badge{font-size:var(--type-ui-body-size)}
+  .situation-grid[data-cols="5"] .situation{padding-top:0}
+  .situation-grid[data-cols="5"] .card-badge{margin-top:calc(var(--badge-size) / -2)}
+
+  /* ---- telepíthetőség: három állapot ---- */
+  /* A `.panel` alapból függőlegesen KÖZÉPRE igazít; itt a jobb hasáb jóval
+     magasabb a bal oldalinál, és a középre igazítás elrontja a felső
+     vonalat: az eyebrow a második állapot magasságában kezdődne. */
+  .panel:has(> .mukodes-feltetelek){align-items:start}
+  .mukodes-feltetelek{display:grid;gap:var(--space-24)}
+  .mukodes-feltetel{
+    padding-left:var(--space-16);
+    border-left:2px solid var(--feltetel-ok);
+  }
+  .mukodes-feltetel[data-allapot="feltetellel"]{border-left-color:var(--feltetel-figyelem)}
+  .mukodes-feltetel[data-allapot="kizaro"]{border-left-color:var(--feltetel-kizaro)}
+  .mukodes-feltetel-cim{color:var(--text-primary)}
+  .mukodes-feltetel-szoveg{color:var(--text-secondary);margin-top:var(--space-4)}
+}
+
+@layer responsive {
+  /* Tablet 641–1024px — a fedés eltakarná a tartályt: a kártyák a kép alá. */
+  @media (max-width:1024px){
+    .mukodes-jelenet{
+      display:block;min-height:0;margin-block:var(--space-48);
+    }
+    .mukodes-jelenet-kep{position:static;width:100%;height:auto}
+    .mukodes-jelenet-racs{
+      max-width:var(--container-max);
+      padding-block:0;margin-top:var(--space-32);
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .mukodes-jelenet-racs > :first-child,
+    .mukodes-jelenet-racs > :last-child{grid-column:auto}
+    /* Öt tétel tableten 2+2+1-re törne, és az ötödik árván marad. Hármas
+       osztásban 3+2 — kiegyensúlyozott, és a hasáb még ~300px. */
+    .situation-grid[data-cols="5"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
+
+  /* Mobil ≤640px */
+  @media (max-width:640px){
+    .mukodes-jelenet-racs{grid-template-columns:minmax(0,1fr)}
+    .situation-grid[data-cols="5"]{grid-template-columns:minmax(0,1fr)}
+    /* A két felvétel MOBILON IS egymás mellett marad. Egymás alá téve
+       hasábszélességűre nőnének (~410px), és a kártya fő mondanivalója — a
+       négy tényállítás — legörögne a képek alá. A lényeg a KÜLÖNBSÉG a két
+       felvétel között; azt egymás mellett lehet elolvasni. */
+  }
+}
+
+/* =============================================================================
+   6. SZEKCIÓ — AI MEGOLDÁS-AJÁNLÓ  (`.ajanlo-*`)
+   -----------------------------------------------------------------------------
+   Forrás: `OkoTech-Home_AI-modul_fejlesztoi_specifikacio.2.docx`.
+   A modul felületét az `assets/js/ajanlo.js` építi az `#ajanlo-root` alá; a
+   szakmai tartalom az `assets/data/ajanlo-konfig.js`-ben él.
+
+   A szekció KÉT egyenrangú felületből áll, és ez nem díszítés:
+     · BAL — az asszisztens: egyszerre EGY kérdés, alatta a válasz azonnali
+       magyarázata, és halványan a következő kérdés. A látogató mindig tudja,
+       hol tart és mi jön.
+     · JOBB — az állapotpanel: ugyanaz a folyamat összegezve, plusz az addig
+       kirajzolódó irány, a kivitelezési feltételek és a tisztázandók. Ez az
+       `aria-live="polite"` régió: a képernyőolvasó innen kapja a változást,
+       nem a kérdéssorból (ott a fókusz mozog, az önmagában is felolvas).
+   ============================================================================= */
+
+@layer tokens {
+  :root{
+    /* Halvány (csendes) gomb — a „Vissza" nem lehet hangosabb a főműveletnél. */
+    --button-halvany-bg:var(--surface);
+    --button-halvany-text:var(--text-primary);
+    --button-halvany-border:var(--border-strong);
+
+    /* modul-felületek */
+    --ajanlo-panel-bg:var(--surface);
+    --ajanlo-sin:var(--border);
+    --ajanlo-sin-kesz:var(--primary);
+    /* A kiválasztott válasz felülete. A `--surface-muted` (Lime) túl hangos
+       volna három gomb közül egyen; ez a Lime halványabb fátyla. */
+    --ajanlo-valasz-valasztott:color-mix(in srgb,var(--surface-muted) 55%,var(--surface));
+    --ajanlo-elonezet-alfa:.45;
+    /* KIEMELŐ SZÍN a modulban (kiemelt szó a címben, „Kész” jelzés, jelvények).
+       Világos témán Olive Leaf: az alapsávon 5,6:1. Sötét témán viszont az
+       Olive Leaf a Forest sávon 2,2:1 volna — ott a Fern adja a 4,9:1-et.
+       Ezért saját token, nem közvetlen `--secondary` hivatkozás. */
+    --ajanlo-kiemel:var(--secondary);
+  }
+  [data-theme="dark"]{
+    --button-halvany-bg:var(--surface);
+    --button-halvany-text:var(--text-primary);
+    --button-halvany-border:var(--border-strong);
+    --ajanlo-panel-bg:var(--surface);
+    --ajanlo-sin:var(--border);
+    --ajanlo-sin-kesz:var(--primary);
+    --ajanlo-valasz-valasztott:color-mix(in srgb,var(--surface-muted) 55%,var(--surface));
+    --ajanlo-kiemel:var(--primary);
+  }
+}
+
+@layer components {
+
+  /* ---- csendes gomb ---- */
+  .btn-halvany{
+    background:var(--button-halvany-bg);color:var(--button-halvany-text);
+    border-color:var(--button-halvany-border);
+  }
+  .btn-halvany:hover:not(:disabled){box-shadow:var(--shadow-1);transform:translateY(-1px)}
+  .btn-halvany:active:not(:disabled){box-shadow:inset 0 0 0 2px var(--button-halvany-border);transform:translateY(0)}
+  .btn-halvany:disabled{background:var(--button-halvany-bg);color:var(--text-disabled);border-color:var(--border)}
+
+  /* ---- szekciófejléc ---- */
+  .ajanlo-head{
+    display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
+    gap:var(--space-48);align-items:start;margin-bottom:var(--space-48);
+  }
+  .ajanlo-cim{color:var(--text-primary);text-wrap:balance}
+  /* A kiemelt szó Olive Leaf, NEM Fern: a Fern az alapsávon (Drizzle) 2,6:1 —
+     nagy méretben sem éri el a 3:1-et. Az Olive Leaf 5,6:1. */
+  .ajanlo-kiemel{color:var(--ajanlo-kiemel)}
+  .ajanlo-lead{color:var(--text-secondary);margin-top:var(--space-16);max-width:56ch;text-wrap:pretty}
+
+  .ajanlo-trust{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:var(--space-24);margin-top:var(--space-32);
+  }
+  .ajanlo-trust li{
+    display:flex;flex-direction:column;align-items:center;gap:var(--space-8);
+    text-align:center;color:var(--text-secondary);
+  }
+  .ajanlo-trust svg{
+    width:calc(var(--space-32) + var(--space-16));height:calc(var(--space-32) + var(--space-16));
+    padding:var(--space-8);flex:none;
+    border:1px solid var(--border-strong);border-radius:50%;
+    fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+    color:var(--text-primary);
+  }
+
+  /* ---- a modul két hasábja ---- */
+  .ajanlo-body{
+    display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
+    gap:var(--space-24);align-items:start;
+  }
+
+  /* ---- BAL: az asszisztens ---- */
+  .ajanlo-asszisztens{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-24);
+    padding:var(--card-padding);
+    background:var(--card-bg);border:1px solid var(--card-border);
+    border-radius:var(--card-radius);box-shadow:var(--card-shadow);
+  }
+  /* A haladási sín. Nem `justify-content:space-between`: minden szakasz egy
+     RUGALMAS sáv, a korong a tetején, alatta a vonal — így a zöld vonal
+     pontosan az aktuális korongig ér, JS-ből számolt százalék nélkül. */
+  /* `align-self:start`: a sín a SAJÁT magasságát veszi fel, nem a kártyáét.
+     Nyújtva a hat korong a záró képernyőn (ami jóval magasabb) szétesett
+     volna a kártya teljes magasságában. */
+  .ajanlo-sin{
+    align-self:start;
+    display:flex;flex-direction:column;align-items:center;list-style:none;margin:0;padding:0;
+  }
+  .ajanlo-sin-pont{
+    flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+    min-height:var(--space-48);
+  }
+  .ajanlo-sin-pont::after{content:"";flex:1;width:2px;background:var(--ajanlo-sin)}
+  .ajanlo-sin-pont:last-child::after{display:none}
+  .ajanlo-sin-jel{
+    position:relative;flex:none;
+    width:calc(var(--space-16) + var(--space-4));height:calc(var(--space-16) + var(--space-4));
+    border-radius:50%;background:var(--surface);border:2px solid var(--ajanlo-sin);
+  }
+  .ajanlo-sin-pont[data-allapot="kesz"]::after{background:var(--ajanlo-sin-kesz)}
+  .ajanlo-sin-pont[data-allapot="kesz"] .ajanlo-sin-jel{
+    background:var(--ajanlo-sin-kesz);border-color:var(--ajanlo-sin-kesz);
+  }
+  /* Pipa a kész korongban — ugyanaz a rajzolás, mint a `.fit-yes`-nél:
+     két elforgatott keret, nem külön eszköz. */
+  .ajanlo-sin-jel::before{content:"";position:absolute;left:50%;top:50%}
+  .ajanlo-sin-pont[data-allapot="kesz"] .ajanlo-sin-jel::before{
+    width:var(--space-4);height:var(--space-8);
+    border-right:2px solid var(--on-primary);border-bottom:2px solid var(--on-primary);
+    transform:translate(-50%,-62%) rotate(45deg);
+  }
+  .ajanlo-sin-pont[data-allapot="aktiv"] .ajanlo-sin-jel{border-color:var(--ajanlo-sin-kesz)}
+  .ajanlo-sin-pont[data-allapot="aktiv"] .ajanlo-sin-jel::before{
+    width:var(--space-8);height:var(--space-8);border-radius:50%;
+    background:var(--ajanlo-sin-kesz);transform:translate(-50%,-50%);
+  }
+
+  .ajanlo-tartalom{display:flex;flex-direction:column;gap:var(--space-24);min-width:0}
+  .ajanlo-fej{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-16);
+    padding-bottom:var(--space-16);border-bottom:1px solid var(--border);
+  }
+  .ajanlo-fej-cim{color:var(--text-primary)}
+  .ajanlo-fej-alcim{color:var(--text-tertiary)}
+  .ajanlo-szamlalo{flex:none;color:var(--text-tertiary);font-family:var(--font-body)}
+  .ajanlo-szamlalo-most{
+    font-size:var(--type-display-section-title-size);
+    font-weight:var(--type-ui-body-strong-weight);
+    color:var(--text-primary);
+  }
+
+  .ajanlo-folyam{display:flex;flex-direction:column;gap:var(--space-16)}
+
+  /* Az asszisztens üzenete. Buborék, de nem chat-utánzat: nincs csúcs, nincs
+     avatár — a felület azt mondja el, hogy ez a modul beszél, nem egy ember. */
+  .ajanlo-uzenet{
+    padding:var(--space-16);border-radius:var(--r-lg);
+    background:var(--canvas);
+  }
+  .ajanlo-uzenet-szoveg{color:var(--text-primary)}
+  .ajanlo-uzenet-ido{color:var(--text-tertiary);margin-top:var(--space-8)}
+
+  /* Kérdés — natív `fieldset`/`legend` és rádiógombok: a nyíllal léptetés, a
+     csoportosítás és a felolvasás így a platformtól jön, nem ARIA-toldásból. */
+  .ajanlo-kerdes{
+    border:1px solid var(--border);border-radius:var(--r-lg);
+    padding:var(--space-16);margin:0;min-width:0;
+  }
+  .ajanlo-kerdes-cim{color:var(--text-primary);padding:0}
+  .ajanlo-kerdes-sugo{color:var(--text-tertiary);margin-top:var(--space-4)}
+  .ajanlo-kerdes[data-elonezet]{opacity:var(--ajanlo-elonezet-alfa)}
+
+  .ajanlo-valaszok{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
+    gap:var(--space-8);margin-top:var(--space-16);
+  }
+  .ajanlo-valasz{
+    display:flex;align-items:center;justify-content:center;gap:var(--space-8);
+    min-height:44px;padding:var(--space-8) var(--space-16);text-align:center;
+    border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--surface);color:var(--text-primary);cursor:pointer;
+    transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out);
+  }
+  /* A rádiógomb natív, csak vizuálisan rejtett: a fókusz, a nyíllal léptetés
+     és a felolvasás ettől marad meg. */
+  .ajanlo-valasz input{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip-path:inset(50%);white-space:nowrap;
+  }
+  .ajanlo-valasz:hover{border-color:var(--border-strong)}
+  .ajanlo-valasz:has(input:checked){
+    border-color:var(--primary);background:var(--ajanlo-valasz-valasztott);
+  }
+  /* Pipa a kiválasztott válasz előtt — a szín önmagában nem hordoz jelentést.
+     A pipát ugyanaz a két elforgatott keret rajzolja, mint a `.fit-yes`-nél. */
+  .ajanlo-valasz-pipa{
+    display:none;position:relative;flex:none;
+    width:var(--space-16);height:var(--space-16);border-radius:50%;
+    background:var(--primary);color:var(--on-primary);
+  }
+  .ajanlo-valasz:has(input:checked) .ajanlo-valasz-pipa{display:block}
+  .ajanlo-valasz-pipa::before{
+    content:"";position:absolute;left:50%;top:50%;
+    width:var(--space-4);height:var(--space-8);
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    transform:translate(-50%,-62%) rotate(45deg);
+  }
+  .ajanlo-valasz:has(input:focus-visible){outline:3px solid var(--border-focus);outline-offset:3px}
+  .ajanlo-valasz:has(input:disabled){cursor:default}
+
+  /* A válasz azonnali magyarázata (spec 2.) */
+  .ajanlo-magyarazat{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-16);
+    padding:var(--space-16);border-radius:var(--r-lg);
+    background:var(--surface-muted);color:var(--text-primary);
+  }
+  .ajanlo-magyarazat-jel{
+    width:var(--space-24);height:var(--space-24);flex:none;
+    fill:currentColor;color:var(--ajanlo-kiemel);
+  }
+
+  .ajanlo-lab{
+    display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);
+    padding-top:var(--space-16);border-top:1px solid var(--border);margin-top:auto;
+  }
+  .ajanlo-nyil{margin-left:var(--space-8)}
+  .ajanlo-nyil-elol{margin-right:var(--space-8)}
+
+  /* ---- a záró képernyő ---- */
+  .ajanlo-eredmeny{display:flex;flex-direction:column;gap:var(--space-24)}
+  .ajanlo-blokk{display:flex;flex-direction:column;gap:var(--space-16)}
+  .ajanlo-blokk-cim{color:var(--text-primary)}
+  .ajanlo-termek{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-16);
+    padding:var(--space-16);border-radius:var(--r-lg);background:var(--surface-muted);
+  }
+  .ajanlo-termek-jel{width:var(--space-32);height:var(--space-32);flex:none;fill:currentColor;color:var(--ajanlo-kiemel)}
+  .ajanlo-termek-nev{color:var(--text-primary)}
+  .ajanlo-termek-szoveg{color:var(--text-primary)}
+  .ajanlo-kompromisszum{
+    color:var(--warning-text);background:var(--warning-bg);
+    border-left:2px solid var(--warning-border);
+    padding:var(--space-16);border-radius:var(--r-md);
+  }
+  .ajanlo-okok-cim{color:var(--text-primary)}
+  .ajanlo-okok{display:grid;gap:var(--space-8);color:var(--text-secondary)}
+  .ajanlo-okok li{position:relative;padding-left:var(--space-16)}
+  .ajanlo-okok li::before{
+    content:"";position:absolute;left:0;top:.55em;
+    width:var(--space-4);height:var(--space-4);border-radius:50%;background:var(--ajanlo-kiemel);
+  }
+  .ajanlo-feltetel-lista{display:grid;gap:var(--space-16)}
+  .ajanlo-feltetel{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-16);align-items:start}
+  .ajanlo-feltetel-jel{
+    width:calc(var(--space-32) + var(--space-4));height:calc(var(--space-32) + var(--space-4));
+    flex:none;padding:var(--space-8);border-radius:var(--r-md);
+    background:var(--badge-bg);color:var(--text-secondary);fill:currentColor;
+  }
+  .ajanlo-feltetel-szoveg{color:var(--text-secondary)}
+  .ajanlo-tisztazando-lista{display:grid;gap:var(--space-16)}
+  .ajanlo-tisztazando dt{color:var(--text-primary)}
+  .ajanlo-tisztazando dd{color:var(--text-secondary);margin-top:var(--space-4)}
+  .ajanlo-cta{display:flex;flex-direction:column;gap:var(--space-16);align-items:flex-start}
+  /* A mentés magyarázata: folyó szöveg, nem képaláírás — a látogatónak
+     ezt el kell olvasnia ahhoz, hogy megértse, mit nyer az azonosítóval. */
+  .ajanlo-mentes-bevezeto{color:var(--text-secondary);max-width:64ch;text-wrap:pretty}
+  .ajanlo-cta .btn{align-self:flex-start}
+  .ajanlo-linkek{display:grid;gap:var(--space-4)}
+
+  /* ---- JOBB: az állapotpanel ---- */
+  .ajanlo-panel{
+    display:flex;flex-direction:column;gap:var(--space-16);
+    padding:var(--card-padding);
+    background:var(--ajanlo-panel-bg);border:1px solid var(--card-border);
+    border-radius:var(--card-radius);box-shadow:var(--card-shadow);
+  }
+  .ajanlo-allapot{
+    display:flex;align-items:center;justify-content:center;gap:var(--space-8);
+    padding:var(--space-8);border-radius:var(--r-md);
+    background:var(--surface-muted);color:var(--text-primary);
+  }
+  .ajanlo-allapot-jel{width:var(--space-16);height:var(--space-16);flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+  .ajanlo-panel-cim{color:var(--text-primary)}
+  .ajanlo-panel-alcim{color:var(--text-tertiary);margin-top:calc(var(--space-16) * -1 + var(--space-8))}
+  .ajanlo-panel-felirat{color:var(--text-tertiary);margin-top:var(--space-8)}
+
+  .ajanlo-lepeslista{list-style:none;margin:0;padding:0;display:grid;gap:0}
+  .ajanlo-lepessor{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;gap:var(--space-16);
+    padding:var(--space-8);border-radius:var(--r-md);
+  }
+  /* Az AKTUÁLIS szakasz kiemelése — a panel így egy pillantással megmondja,
+     hol tart a folyamat. */
+  .ajanlo-lepessor[data-allapot="aktiv"]{background:var(--surface-muted)}
+  .ajanlo-lepesszam{
+    display:flex;align-items:center;justify-content:center;flex:none;
+    width:var(--space-32);height:var(--space-32);border-radius:50%;
+    background:var(--badge-bg);color:var(--badge-text);
+  }
+  .ajanlo-lepessor[data-allapot="nyitott"] .ajanlo-lepesszam{background:var(--canvas);color:var(--text-tertiary)}
+  .ajanlo-lepescim{color:var(--text-primary)}
+  .ajanlo-lepesjelzo{display:flex;align-items:center;gap:var(--space-8);flex:none;color:var(--text-tertiary)}
+  .ajanlo-lepessor[data-allapot="kesz"] .ajanlo-lepesjelzo{color:var(--ajanlo-kiemel)}
+  .ajanlo-lepesjel{width:var(--space-24);height:var(--space-24);flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  .ajanlo-irany{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-16);
+    align-items:center;
+    padding:var(--space-16);border-radius:var(--r-lg);background:var(--surface-muted);
+  }
+  .ajanlo-irany-jel{
+    width:calc(var(--space-32) + var(--space-8));height:calc(var(--space-32) + var(--space-8));
+    flex:none;padding:var(--space-8);border-radius:50%;
+    background:var(--surface);color:var(--ajanlo-kiemel);fill:currentColor;
+  }
+  .ajanlo-irany-nev{color:var(--text-primary)}
+  .ajanlo-irany-szoveg{color:var(--text-secondary)}
+
+  .ajanlo-chipek{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+  .ajanlo-chip{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-4) var(--space-8);border-radius:var(--chip-radius);
+    background:var(--chip-bg);color:var(--chip-text);
+  }
+  .ajanlo-chip-jel{width:var(--space-16);height:var(--space-16);flex:none;fill:currentColor}
+
+  .ajanlo-tisztazando-rovid{display:grid;gap:var(--space-4);color:var(--text-secondary)}
+  .ajanlo-tisztazando-rovid li{position:relative;padding-left:var(--space-16)}
+  .ajanlo-tisztazando-rovid li::before{
+    content:"";position:absolute;left:0;top:.6em;
+    width:var(--space-4);height:var(--space-4);border-radius:50%;background:var(--text-tertiary);
+  }
+
+  /* A záró figyelmeztetés a figyelmeztetés-szerepszínekkel — nem díszítés:
+     a modul kimondja, hogy az ajánlás még nem végleges (spec 2.). */
+  .ajanlo-figyelem{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-16);
+    margin-top:var(--space-8);padding:var(--space-16);
+    border:1px solid var(--warning-border);border-radius:var(--r-lg);
+    background:var(--warning-bg);color:var(--warning-text);
+  }
+  .ajanlo-figyelem-jel{width:var(--space-24);height:var(--space-24);flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  /* VONALAS RAJZOLAT-VARIÁNS. A jelvények alapból kitöltött rajzolatot várnak
+     (`fill:currentColor`); a kontúros rajzolatok ezzel állnak be. Elem+osztály
+     szelektor, hogy a fenti egyosztályos `fill` szabályokat felülírja. */
+  svg.ajanlo-jel-vonal{
+    fill:none;stroke:currentColor;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+
+  /* JS nélküli alternatíva */
+  .ajanlo-noscript{
+    padding:var(--panel-padding);border:1px solid var(--panel-border);
+    border-radius:var(--panel-radius);background:var(--panel-bg);
+  }
+  .ajanlo-noscript-lista{display:grid;gap:var(--space-8);margin-top:var(--space-16);color:var(--text-secondary)}
+  .ajanlo-noscript-lista li{position:relative;padding-left:var(--space-16)}
+  .ajanlo-noscript-lista li::before{
+    content:"";position:absolute;left:0;top:.55em;
+    width:var(--space-4);height:var(--space-4);border-radius:50%;background:var(--ajanlo-kiemel);
+  }
+  .ajanlo-noscript-akciok{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-16);margin-top:var(--space-24)}
+}
+
+@layer responsive {
+  @media (max-width:1024px){
+    /* A modul két hasábja egymás alá kerül: fél szélességen egyik sem
+       használható. Az állapotpanel a kérdéssor FÖLÉ, mert az adja a kontextust. */
+    .ajanlo-head{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
+    .ajanlo-trust{margin-top:0}
+    .ajanlo-body{grid-template-columns:minmax(0,1fr)}
+    .ajanlo-panel{order:-1}
+  }
+  @media (max-width:640px){
+    .ajanlo-trust{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
+    .ajanlo-trust li{flex-direction:row;text-align:left}
+    .ajanlo-asszisztens{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
+    /* Szűk nézetben a függőleges sín vízszintesre fordul, a tartalom fölé. */
+    .ajanlo-sin{flex-direction:row;width:100%}
+    .ajanlo-sin-pont{flex-direction:row;min-height:0;min-width:0}
+    .ajanlo-sin-pont::after{width:auto;height:2px}
+    .ajanlo-valaszok{grid-template-columns:minmax(0,1fr)}
+    .ajanlo-lab{flex-direction:column-reverse;align-items:stretch}
+    .ajanlo-lab .btn{justify-content:center}
+  }
+}
+
+/* =============================================================================
+   MENTETT EREDMÉNY — a modul visszajelzése és az `/eredmeny` lap
+   -----------------------------------------------------------------------------
+   Két helyen jelenik meg ugyanaz a dolog:
+     · a 6. szekció záró képernyőjén, a mentés után (`.ajanlo-mentve`),
+     · önálló lapon, azonosító alapján előkeresve (`.eredmeny-*`).
+
+   Az önálló lap NYOMTATÁSRA is készül: a „Nyomtatás / PDF" a böngésző saját
+   PDF-mentését hívja, tehát a nyomtatási nézet MAGA a PDF. Ezért kerül az
+   azonosító és a teljes cím látható szövegként a lapra — kattintható
+   hivatkozás papíron és PDF-ben semmit nem ér, beírható cím viszont igen.
+   ============================================================================= */
+
+@layer components {
+
+  /* ---- visszajelzés a modulban ---- */
+  .ajanlo-mentve{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-16);
+    padding:var(--space-16);border-radius:var(--r-lg);
+    background:var(--surface-muted);color:var(--text-primary);
+  }
+  /* A tartalék ág (helyi szövegfájl) figyelmeztetés-szerepszíneket kap: nem
+     hiba, de nem is az, amit ígértünk — a látogatónak látnia kell a különbséget. */
+  .ajanlo-mentve[data-allapot="tartalek"]{
+    background:var(--warning-bg);color:var(--warning-text);
+    border:1px solid var(--warning-border);
+  }
+  .ajanlo-mentve-jel{width:var(--space-24);height:var(--space-24);flex:none}
+  .ajanlo-mentve-szoveg{display:flex;flex-direction:column;gap:var(--space-8);min-width:0}
+  .ajanlo-mentve-azonosito{
+    font-size:var(--type-display-section-title-size);
+    letter-spacing:.06em;color:var(--text-primary);
+  }
+  /* A cím hosszú és kötőjeles — szűk hasábban is törnie kell valahol. */
+  .ajanlo-mentve-cim{color:var(--text-secondary);overflow-wrap:anywhere}
+  .ajanlo-mentve-mi-ez{color:var(--text-secondary)}
+  .ajanlo-mentve-megjegyzes{color:var(--text-secondary)}
+
+  /* ---- az önálló lap ---- */
+  .eredmeny-eszkoztar{
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    gap:var(--space-16);margin-bottom:var(--space-32);
+    padding-bottom:var(--space-16);border-bottom:1px solid var(--border);
+  }
+  .eredmeny-eszkoztar-cim{color:var(--text-tertiary)}
+  .eredmeny-gombok{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+
+  .eredmeny-torzs{max-width:62rem;margin-inline:auto;display:flex;flex-direction:column;gap:var(--space-48)}
+  .eredmeny-fej{display:flex;flex-direction:column;gap:var(--space-16)}
+  .eredmeny-eyebrow{color:var(--text-tertiary)}
+  .eredmeny-cim{color:var(--text-primary);text-wrap:balance}
+  .eredmeny-meta{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));
+    gap:var(--space-16);padding:var(--space-16);
+    border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface);
+  }
+  .eredmeny-meta-sor{display:flex;flex-direction:column;gap:var(--space-4);min-width:0}
+  .eredmeny-meta dt{color:var(--text-tertiary)}
+  .eredmeny-meta dd{color:var(--text-primary);margin:0;overflow-wrap:anywhere}
+
+  .eredmeny-blokk{display:flex;flex-direction:column;gap:var(--space-16)}
+  .eredmeny-blokk-cim{color:var(--text-primary)}
+  .eredmeny-termek{color:var(--secondary)}
+  .eredmeny-kompromisszum{
+    color:var(--warning-text);background:var(--warning-bg);
+    border-left:2px solid var(--warning-border);
+    padding:var(--space-16);border-radius:var(--r-md);
+  }
+  .eredmeny-okok-cim{color:var(--text-primary)}
+  .eredmeny-okok{display:grid;gap:var(--space-8);color:var(--text-secondary)}
+  .eredmeny-okok li{position:relative;padding-left:var(--space-16)}
+  .eredmeny-okok li::before{
+    content:"";position:absolute;left:0;top:.6em;
+    width:var(--space-4);height:var(--space-4);border-radius:50%;background:var(--secondary);
+  }
+  .eredmeny-lista{display:grid;gap:var(--space-16)}
+  .eredmeny-tetel dt{color:var(--text-primary)}
+  .eredmeny-tetel dd{color:var(--text-secondary);margin:var(--space-4) 0 0}
+  .eredmeny-zaro{
+    color:var(--text-tertiary);padding-top:var(--space-24);
+    border-top:1px solid var(--border);
+  }
+
+  .eredmeny-uzenet{max-width:44rem;display:flex;flex-direction:column;gap:var(--space-16)}
+  .eredmeny-uzenet-szoveg{color:var(--text-secondary)}
+  .eredmeny-kereso{display:flex;flex-direction:column;gap:var(--space-4);margin-top:var(--space-16)}
+  .eredmeny-kereso-sugo{color:var(--text-tertiary)}
+  .eredmeny-kereso-sor{display:flex;flex-wrap:wrap;gap:var(--space-8);margin-top:var(--space-8)}
+  .eredmeny-kereso-sor .urlap-input{max-width:16rem}
+  .eredmeny-uzenet-gomb{margin-top:var(--space-8)}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    .ajanlo-mentve{grid-template-columns:minmax(0,1fr)}
+    .eredmeny-eszkoztar{flex-direction:column;align-items:flex-start}
+    .eredmeny-kereso-sor .urlap-input{max-width:none;width:100%}
+  }
+
+  /* NYOMTATÁS = PDF-MENTÉS. Ami a képernyő kerete (fejléc, lábléc, eszköztár,
+     kalauz), az papíron zaj — és a PDF-et a látogató továbbadja. */
+  @media print{
+    .site-header,.lablec,.skip-link,.eredmeny-eszkoztar,
+    .oko-gomb,.oko-panel{display:none}
+    .eredmeny-lap,.eredmeny-lap .section-inner{padding:0;margin:0;max-width:none}
+    .eredmeny-torzs{max-width:none;gap:var(--space-32)}
+    .eredmeny-blokk{break-inside:avoid-page}
+    .eredmeny-tetel{break-inside:avoid}
+    /* A színes hátterű dobozok (kompromisszum, adatblokk) alapból nem
+       nyomtatódnak; nélkülük a kiemelés elveszne. */
+    .eredmeny-kompromisszum,.eredmeny-meta{
+      -webkit-print-color-adjust:exact;print-color-adjust:exact;
+    }
+    @page{size:A4;margin:16mm}
+  }
+}
+
+/* =============================================================================
+   ÜGYAZONOSÍTÓ — átvétel a 8. szekcióban, és a mentés ott is
+   -----------------------------------------------------------------------------
+   A látogató két modulon megy végig, és a kettő részben ugyanazt kérdezi.
+   Kétszer megkérdezni ugyanazt nem csak kényelmetlen: azt is jelzi, hogy nem
+   figyeltünk oda. Az átvételi sáv és az „átvéve" jelölés ezt a hurkot zárja be.
+
+   AMI ÁTVÉTEL, AZ LÁTSZÓDJON. Az átvett kérdés úgy néz ki, mint egy
+   megválaszolt kérdés — pedig a látogató itt nem kattintott. Ezért kap külön
+   jelölést a beszélgetésben ÉS a helyzetkép-panelen is: enélkül nem tudná,
+   miért nem kérdeztük meg, és nem jutna eszébe, hogy át is írhatja.
+   ============================================================================= */
+
+@layer components {
+
+  /* ---- átvételi sáv a modul fölött ---- */
+  .aidt-atvetel{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    gap:var(--space-16);align-items:center;
+    margin-bottom:var(--space-24);padding:var(--space-16);
+    border:1px solid var(--border);border-radius:var(--r-lg);
+    background:var(--surface);color:var(--text-primary);
+  }
+  .aidt-atvetel.is-kesz{background:var(--surface-muted);border-color:var(--border)}
+  .aidt-atvetel > svg{
+    width:var(--space-24);height:var(--space-24);flex:none;
+    fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+    color:var(--ajanlo-kiemel);
+  }
+  .aidt-atvetel p{margin:0}
+  .aidt-atvetel-sub{color:var(--text-secondary);font-size:var(--type-ui-subtitle-size)}
+  .aidt-atvetel-form{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+  /* A mező a webhely saját űrlapmezője (`.urlap-input`) — csak a kód alakjához
+     igazítjuk. Így a mérete, a belső tere, a fókuszgyűrűje és a hibaállapota
+     ugyanaz, mint a kapcsolati vagy a konzultációs űrlapon.
+
+     KERET: `--border-strong` (Olive Leaf) a szokásos halvány vonal helyett. Ez
+     az egyetlen beírható mező a szekcióban, és a sáv többi eleme (szöveg, gomb)
+     elviszi róla a figyelmet — a márkaszínű keret mondja meg, hova kell írni.
+
+     A FÓKUSZGYŰRŰ marad a rendszer kékje (`--border-focus`), és ez szándékos:
+     a modul minden kiválasztott állapota ZÖLD (válaszgomb, chip, jelvény). Ha a
+     fókusz is zöld volna, a billentyűzettel érkező nem tudná megkülönböztetni,
+     mi a kijelölt és mi a fókuszált. A kék a webhely mind a 45 fókuszgyűrűjén
+     ugyanez — itt sem térhet el. */
+  .aidt-azon-mezo{
+    width:11rem;
+    font-family:var(--font-mono);font-size:var(--type-ui-subtitle-size);
+    letter-spacing:.04em;
+    border-color:var(--border-strong);
+  }
+  .aidt-atvetel-hiba{
+    grid-column:1 / -1;margin:0;color:var(--danger-text);
+    font-size:var(--type-ui-subtitle-size);
+  }
+
+  /* ---- „átvéve" jelölés ---- */
+  .aidt-atvett-badge{
+    display:inline-flex;align-items:center;gap:var(--space-4);
+    margin-left:var(--space-8);padding:var(--space-4) var(--space-8);
+    border-radius:var(--tag-radius);background:var(--tag-bg);color:var(--tag-text);
+    font-size:var(--type-ui-caption-size);font-weight:var(--type-ui-label-weight);
+    vertical-align:middle;
+  }
+  .aidt-atvett-badge svg{width:var(--space-16);height:var(--space-16);fill:none;stroke:currentColor;stroke-width:2}
+  .aidt-step-atvett{
+    display:inline-block;margin-left:var(--space-4);
+    color:var(--text-tertiary);font-size:var(--type-ui-caption-size);
+  }
+
+  /* ---- mentés a 8. szekció eredményében ---- */
+  .aidt-mentes{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    gap:var(--space-16);align-items:center;
+    margin-top:var(--space-24);padding:var(--space-16);
+    border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface);
+  }
+  .aidt-mentes.is-kesz{grid-template-columns:auto minmax(0,1fr);background:var(--surface-muted)}
+  .aidt-mentes.is-hiba{
+    grid-template-columns:auto minmax(0,1fr);
+    background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text);
+  }
+  .aidt-mentes > svg{
+    width:var(--space-24);height:var(--space-24);flex:none;
+    fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+    color:var(--ajanlo-kiemel);
+  }
+  .aidt-mentes.is-hiba > svg{color:currentColor}
+  .aidt-mentes p{margin:0}
+  .aidt-mentes-sub{color:var(--text-secondary);font-size:var(--type-ui-subtitle-size)}
+  .aidt-mentes-azon{
+    font-family:var(--font-mono);font-size:var(--type-display-section-title-size);
+    letter-spacing:.06em;color:var(--text-primary);margin:var(--space-4) 0;
+  }
+  .aidt-mentes-link{color:var(--link);font-weight:var(--type-ui-body-strong-weight)}
+  /* A teljes cím látható szövegként is: nyomtatva a hivatkozás semmit nem ér. */
+  .aidt-mentes-cim{
+    color:var(--text-secondary);font-size:var(--type-ui-caption-size);
+    overflow-wrap:anywhere;
+  }
+
+  /* Az `/eredmeny` lapon két modul kimenete állhat egymás alatt. */
+  .eredmeny-modul{
+    display:flex;flex-direction:column;gap:var(--space-16);
+    padding-top:var(--space-32);border-top:1px solid var(--border);
+  }
+  .eredmeny-modul-fej{display:flex;flex-direction:column;gap:var(--space-4)}
+  .eredmeny-modul-datum{color:var(--text-tertiary)}
+  .eredmeny-modul-cim{color:var(--text-secondary)}
+  .eredmeny-alcim{color:var(--text-primary);margin-top:var(--space-8)}
+  .eredmeny-hiany{color:var(--text-secondary)}
+  .eredmeny-mi-ez{color:var(--text-tertiary);max-width:72ch;text-wrap:pretty}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    .aidt-atvetel,.aidt-mentes{grid-template-columns:minmax(0,1fr)}
+    .aidt-atvetel-form input{width:100%}
+  }
+  @media print{
+    .eredmeny-modul{break-inside:auto}
+    .eredmeny-modul-fej{break-after:avoid}
+  }
+}
+
+/* =============================================================================
+   ÜGYFÉLVÉLEMÉNYEK — két folyamatosan futó szalag  (`.vel-*`)
+   -----------------------------------------------------------------------------
+   Egy vélemény anekdota. Tizenöt vélemény a tapasztalat MENNYISÉGÉT is mutatja —
+   ezt egy egyesével léptethető idézetdoboz nem tudja.
+
+   A felső sor balra, az alsó jobbra fut, eltérő időtartammal (110 s és 132 s). Az
+   ellentétes irány azt oldja meg, hogy a szem ne kapaszkodjon bele egyetlen
+   sodrásba; az eltérő idő azt, hogy a két sor kártyái ne álljanak össze
+   ismétlődő mintázattá.
+
+   A lista MEG VAN KETTŐZVE a HTML-ben — a második példány `aria-hidden`, tehát
+   képernyőolvasónak minden vélemény egyszer hangzik el. A varrat nélküli
+   visszacsatoláshoz a szalag pontosan a második példány elejéig tolódik el:
+   `-50%` a fél szalagszélesség, a `- gap/2` pedig a két példány közé eső
+   térköz fele — enélkül minden körnél fél térköznyit ugrana a sor.
+
+   MEGÁLLÍTÁS: `:hover` és `:focus-within` — a `.vel-fal` egészén, tehát a
+   billentyűzettel a kártyákra lépő látogatónál is. Külön szüneteltető gomb
+   nincs; `prefers-reduced-motion` mellett a szalag nem fut, hanem tördelt
+   ráccsá válik.
+   ============================================================================= */
+
+@layer tokens {
+  :root{
+    --vel-kartya-szel:23rem;
+    /* Közös kártyamagasság — ez hozza EGY MAGASSÁGRA a két sort is, nem csak a
+       soron belüli kártyákat. Mért maximumok a leghosszabb idézettel: 23rem
+       kártyaszélességnél 330px (20,7rem), 18rem-nél 402px (25,2rem). A token
+       ennél bőkezűbb, hogy a betűtípus betöltése se tudja túlcsordítani; ha
+       mégis, a sor egyenletesen nő, mert `min-height` és nem `height`. */
+    --vel-kartya-mag:22rem;
+    /* Egy teljes kör ideje soronként. Szándékosan lassú és szándékosan nem
+       azonos: az eltérés akadályozza meg, hogy a két sor mintázata összeálljon. */
+    --vel-ido-elore:110s;
+    --vel-ido-vissza:132s;
+    /* A varrat: fél szalagszélesség + a két példány közé eső térköz fele. */
+    --vel-varrat:calc(-50% - (var(--space-24) / 2));
+  }
+}
+
+@layer components {
+  .vel-fal{display:flex;flex-direction:column;gap:var(--space-24)}
+
+  /* A sáv két széle elhalványul: a kártyák nem vágódnak el élesen, hanem
+     kifutnak a képből — ettől látszik, hogy a sor folytatódik.
+
+     A maszkban álló `#000` NEM szín, hanem maszkcsatorna: az „átlátszatlan"
+     értéket jelenti. Színtoken itt értelmetlen volna — a maszk a felület
+     láthatóságát szabja meg, nem a színét, és témától független. */
+  .vel-szalag{
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  }
+  .vel-sor{
+    display:flex;gap:var(--space-24);width:max-content;
+    list-style:none;margin:0;padding:var(--space-8) 0;
+    animation:vel-sodor var(--vel-ido-elore) linear infinite;
+  }
+  .vel-sor[data-irany="vissza"]{
+    animation-name:vel-sodor-vissza;
+    animation-duration:var(--vel-ido-vissza);
+  }
+
+  /* Az egész falra: aki az egyik sorba beleolvas, annak a másik se szaladjon
+     el alatta. A `:focus-within` a billentyűzetes olvasót fedi le. */
+  .vel-fal:hover .vel-sor,
+  .vel-fal:focus-within .vel-sor{animation-play-state:paused}
+
+  @keyframes vel-sodor{
+    from{transform:translateX(0)}
+    to{transform:translateX(var(--vel-varrat))}
+  }
+  @keyframes vel-sodor-vissza{
+    from{transform:translateX(var(--vel-varrat))}
+    to{transform:translateX(0)}
+  }
+
+  /* ---- a kártya ----
+     A lap sablonkártyáját követi: ugyanaz a felület, keret, sarok, árnyék és
+     belső tér (`--card-*`), csak rögzített szélességgel, mert szalagban áll.
+
+     Minden kártya EGYFORMA MAGAS — a `min-height` a két sort is egy magasságra
+     hozza, nem csak a soron belülieket. A rövid idézetek alatt korábban azért
+     maradt tenyérnyi folt, mert a szöveg a kártya tetejére tapadt, az aláírás
+     meg az aljára: a szabad tér egyetlen lyukként gyűlt össze középen. Most az
+     idézet ÁLL A SZABAD TÉR KÖZEPÉN (`margin-block:auto`), így a hely a szöveg
+     fölött és alatt oszlik el — belső térköznek látszik, nem hiánynak. */
+  .vel-kartya{
+    flex:0 0 var(--vel-kartya-szel);
+    min-height:var(--vel-kartya-mag);
+    display:flex;flex-direction:column;gap:var(--space-16);
+    padding:var(--card-padding);
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:var(--card-radius);
+    box-shadow:var(--card-shadow);
+  }
+
+  /* A témacímke mondja meg, MIRE vonatkozik a vélemény — enélkül tizenöt
+     dicséret egyetlen masszává olvad. Az akcentusszín itt hordoz jelentést:
+     ez a kártya egyetlen kiemelt eleme. */
+  .vel-tema{
+    color:var(--ajanlo-kiemel);
+    text-transform:uppercase;letter-spacing:.08em;
+  }
+
+  .vel-idezet{margin:0;flex:1;display:flex;flex-direction:column;gap:var(--space-16)}
+
+  /* Idézőjel a szöveg körül, a szöveg fokán — nem díszként, hanem
+     tipográfiaként. A korábbi nagy, halvány jel elgépelésnek látszott.
+     A magyar idézőjelpár: nyitó alul, záró felül. */
+  .vel-szoveg{color:var(--text-primary);text-wrap:pretty;margin-block:auto}
+  .vel-szoveg::before{content:"„";color:var(--text-tertiary)}
+  .vel-szoveg::after{content:"”";color:var(--text-tertiary)}
+
+  /* Az aláírás hajszálvonal alatt áll — ugyanaz a vonal, amivel a lap a
+     szekciófejléceket és a tényblokkokat is elválasztja. */
+  .vel-szerzo{
+    display:flex;flex-direction:column;gap:var(--space-4);
+    padding-top:var(--space-16);
+    border-top:1px solid var(--border);
+  }
+  .vel-nev{color:var(--text-primary)}
+  .vel-hely{color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.06em}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    :root{--vel-kartya-szel:18rem;--vel-kartya-mag:26rem}
+  }
+}
+
+@layer motion {
+  /* CSÖKKENTETT MOZGÁS: a szalag nem mozdul, hanem tördelt ráccsá válik. Ugyanaz
+     a tartalom, mozgás nélkül — és nem vízszintes görgetés, mert azt egérrel
+     nehéz kezelni. A megkettőzött (aria-hidden) példány itt elrejtve. */
+  @media (prefers-reduced-motion: reduce){
+    .vel-sor{
+      animation:none;transform:none;width:auto;
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));
+    }
+    .vel-kartya{flex:auto}
+    .vel-kartya[aria-hidden="true"]{display:none}
+    .vel-szalag{-webkit-mask-image:none;mask-image:none}
   }
 }

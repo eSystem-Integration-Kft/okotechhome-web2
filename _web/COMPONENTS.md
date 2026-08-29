@@ -1180,3 +1180,534 @@ A sötét felület miatt a szöveg a sötét felületre szánt szerepszíneket k
 **Ha később készül varratmentes felvétel erre a témára**, a döntés újranyitható: a
 `.szip-hero` cserélhető `.page-hero`-ra a generátorban, de akkor a fejléc elveszíti a
 magyarázó szerepét. A kettő együtt is elképzelhető (fotó + alatta az ábra).
+
+---
+
+## 22. Teljes szélességű jelenet magyarázókártyákkal — `.mukodes-jelenet`
+
+A főoldal 7. szekciója (*Az A.B. Clear működése*) egy olyan elrendezést kért, ami a
+rendszerben nem szerepelt: a metszetkép nem illusztráció a szöveg mellett, hanem a
+szekció **színpada** — a kártyák rajta állnak.
+
+### Miért nem `.panel-media` vagy `.card-media`
+
+Mindkét meglévő médiakeret a konténeren BELÜL él, és `object-fit: contain`-nel a képet
+egy megadott arányú dobozba illeszti. A metszet viszont a föld alatti térről szól: ha
+körülötte keret van, a talaj véget ér a keretnél, és a kép ábrává degradálódik. A
+jelenet ezért az egyetlen blokk a lapon, amelyik kilóg a `--container-max`-ból, és a
+képernyő két széléig ér.
+
+### A kártyák nem abszolút pozíciójúak
+
+Kézenfekvő volna `position:absolute`-tal a képre tenni őket, de akkor a kártya
+magassága nem hat vissza a sávra: hosszabb szövegnél a kártya a berendezésre csúszna,
+vagy kilógna a képből. Helyette a jeleneten **három oszlopos rács** ül
+(kártya · szabad sáv · kártya), és a berendezés helyét a KÖZÉPSŐ oszlop tartja fenn:
+
+```css
+grid-template-columns:minmax(0,1fr) 30vw minmax(0,1fr);
+```
+
+A középső sáv **`vw`-ben van, nem `rem`-ben**. A metszet a KÉPERNYŐ szélességével
+skálázódik (teljes szélességű sáv), a konténer viszont 1440px-nél megáll — rögzített
+rem-mel a tartály 1440 fölött kinőtt volna a szabad sávból, és a kártyák belelógtak
+volna a csövekbe.
+
+A 30vw nem becslés. A metszeten mérve (canvas-olvasás az 1672px-es képen, soronként
+a fény–sötét váltás keresésével):
+
+| Mit | A kép szélességének |
+|---|---|
+| a tartály teste | 17,7% |
+| a csővezetésekkel | 21,9% |
+| a betonalappal — a legszélesebb pont | 26,1% |
+
+A 30vw tehát a legszélesebb pont mellett is hagy ~2vw levegőt, és minden maradékot a
+kártyáknak ad. A rács `--container-wide` (1440px) szélességű, nem `--container-max`
+(1280px): a 160px-es különbség mind a kártyáké.
+
+### A kártya törzsszövege 14px, és ez nem esztétikai döntés
+
+A kártya magasságának **korlátja van**: ha magasabb, mint a sáv, kitakarja a
+metszet fölső harmadát — ott áll a ház és a fűvonal, ami a jelenetet értelmezi
+(*ez a föld alatt van, az meg fölötte*). Ugyanaz a négy lépés:
+
+| Fok | A bal kártya a sáv %-ában | Mi látszik |
+|---|---|---|
+| `.type-ui-body` 16px | 87% | a ház teljesen takarva |
+| `.type-ui-subtitle` 14px | ~60% | ház és fűvonal szabadon |
+| `.type-ui-caption` 12px | ~50% | szabadon, de a szöveg apró |
+
+A 12px olvashatatlanul kicsi volt, ezért a helyet **nem a betűméret adja, hanem a
+kártya szélessége** (a szabad sáv 30vw-re szűkült). A kártyacím és a
+„Kezelés 3 lépésben" felirat marad 16px, tehát a hierarchia megvan.
+
+A negyedik forrás ugyanehhez: **a lépések között nincs térköz** (`gap:0`). A négy
+lépés egyetlen összefüggő leírás, a tagolást a félkövér lépéscím adja, nem az üres
+sáv — így a kártya további ~48px-kel alacsonyabb, és a sáv 63%-ánál nem nagyobb.
+
+### A sáv magassága — arány alulról, korlát fölülről
+
+```css
+--jelenet-min-h:min(
+  calc(100vw * var(--jelenet-arany-h) / var(--jelenet-arany-w)),
+  var(--jelenet-max-h)
+);
+```
+
+`min-height`, nem `aspect-ratio`: az arány csak az ALSÓ határt adja. Ha a kártyák
+magasabbak (kisebb asztali szélesség, hosszabb szöveg), a sáv nő velük. Az
+`aspect-ratio` ezt nem tudja: ott a tartalom kilógna a sávból.
+
+### A kép NEM `object-fit: cover`
+
+Ez a rész két menetben állt be, és az első megoldás rossz volt. `cover`-rel a sáv
+növekedésekor a kép **oldalt vág** — és pont ott két dolog van, ami nem nélkülözhető:
+
+1. a **ház** a bal szélen: ő mondja meg, hogy a metszet a felszín ALATT van;
+2. a **berendezés**, ami a vágással együtt nagyobbra is skálázódik, tehát belelóg
+   a kártyák sávjába — épp azt a szabad középső oszlopot töri el, amit a rács
+   fenntart neki.
+
+Helyette a kép mindig teljes szélességben, a saját arányában áll, a sáv aljához
+horgonyozva:
+
+```css
+.mukodes-jelenet-kep{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto}
+```
+
+Ami fölötte marad, az a lap alapszíne — és a kép teteje amúgy is **átlátszó égbolt**,
+tehát a kettő varrat nélkül folytatódik. A sáv `overflow:hidden`-t kap: a felső
+korlátnál (8 × `--space-128` = 1024px) a kép a TETEJÉBŐL veszít, ahol égbolt van.
+
+### Fénykép fölött árnyék marad sötét témában is
+
+A designrendszer 3. pontja szerint sötét témában a mélységet a felület-lépcső viszi, nem
+az árnyék — ezért `--card-shadow: none` a sötét blokkban. **Fotó fölött viszont nincs
+felület-lépcső**, amihez a kártya viszonyulhatna: a `--jelenet-kartya-shadow` ezért
+mindkét témában `--shadow-2`. Ez az egyetlen helye.
+
+### 1024px alatt a fedés megszűnik
+
+Tableten és mobilon a kártya eltakarná a tartályt, ezért a kép statikus lesz (teljes
+szélességű sáv, saját arányában), a kártyák pedig ALÁ kerülnek, normál rácsban. A két
+iszapzsákos felvétel viszont **mobilon is egymás mellett marad**: egymás alá téve
+hasábszélességűre nőnének, és a kártya tényállításai a képek alá görögnének.
+
+### A két felvétel elválasztó vonala nem a képen van
+
+Első nekifutásra a vonal a második kép `border-left`-je volt, `padding-left`-tel.
+A globális `box-sizing:border-box` miatt viszont a `width:100%` a keretet és a
+belső térközt is magába foglalta: a jobb oldali kép TARTALMA 17px-kel keskenyebb
+lett, és láthatóan kisebbnek tűnt a bal oldalinál — pedig a két render azonos
+léptékű (mindkettőn 942px a legnagyobb átmérő a 960px-es vásznon). A vonal ezért
+a rács `::before` pszeudoeleme, `left:50%`-on: nem vesz el a képek szélességéből.
+
+Feliratot a két kép **nem kap**. Egyrészt a vizuális terven sincs, másrészt a
+hosszabb felirat két sorba tört, és `align-items:end` mellett a saját képét
+feljebb tolta — ez volt a másik oka annak, hogy a két kép nem tűnt egyformának.
+
+---
+
+## 22/a. Öt oszlopos helyzetrács — `.situation-grid[data-cols="5"]`
+
+Az „Amit a működésről érdemes tudni" öt tétele a 3. szekció helyzetoszlopainak rácsán ül
+(`.situation` — felül vonal, jelvény, cím, szöveg), csak a jelvény itt nem ikon, hanem
+sorszám (`.card-badge` + `.type-data-value`), ahogy a `.numbered-grid`-ben.
+
+Az öt oszlop hasábja ~210px: **rövid, pásztázható tényekre való, folyó szövegre nem.**
+Tableten 3 oszlop (3+2), mert a közös `[data-cols]` szabály kettesére törése itt
+2+2+1-et adna, és az ötödik tétel árván maradna.
+
+### A sorszám a vonalon ül, nem alatta
+
+A `.situation` alapból vonalat húz a hasáb fölé, majd `--space-32` térközzel kezdi a
+tartalmat. Így a vonal és a korong **két külön jelnek** látszott, közöttük üres sávval.
+A korongot a fél magasságával feljebb húzva (`margin-top:calc(var(--badge-size) / -2)`,
+mellette `padding-top:0`) a vonal a korong KÖZEPÉN fut át, és mivel a korong felülete
+átlátszatlan, a vonal első 48px-e eltűnik mögötte: a vonal a korongból indul ki.
+
+Ebből két további szabály következik:
+
+- a rács `margin-top:var(--space-24)`-et kap, mert a korong fele a rács fölé lóg —
+  enélkül a szekciófejléc alatti köz a felére csökkent volna;
+- a `row-gap` `--space-64`, nem `--space-32`: többsoros nézetben a második sor korongja
+  ugyanígy a sorközbe lóg.
+
+A sorszám mérete `--type-ui-body-size` (16px): a `.type-data-value` 12px-e a 48px-es
+korongon elveszett. A mono rajzolatot és a súlyt továbbra is a `.type-data-value` adja.
+
+---
+
+## 22/b. Három állapotú feltétel-lista — `.mukodes-feltetel`
+
+A telepíthetőség nem igen/nem kérdés, hanem három állapot: *telepíthető* ·
+*telepíthető plusz műszaki megoldással* · *kizáró ok lehet*. A `.fit-list`
+(`.fit-yes` / `.fit-no`) ezért nem elég — az kettőt ismer.
+
+Mindhárom állapot bal oldali 2px-es vonalat kap, a szemantikus státuszszínekből
+(`--primary` · `--warning-border` · `--danger-border`), saját komponens-tokenen
+keresztül, a sötét témában újradeklarálva (a `--danger-border` ott más érték). **A szín
+nem hordoz önálló jelentést**: mindhárom tételnek van kimondott címe.
+
+A lista `<dl>`, mert az állapot és a magyarázata név–érték pár. A `.panel` alap
+`align-items:center`-e itt `start`-ra vált (`.panel:has(> .mukodes-feltetelek)`):
+a jobb hasáb jóval magasabb a bal oldalinál, és a középre igazítás a felső vonalat
+rontotta el.
+
+
+---
+
+## 22/c. „Kezelés 3 lépésben" — ikonos sorok, `.mukodes-kezeles`
+
+Ikon + egy mondat, három sorban. Az ikon **dekoratív** (`aria-hidden`): a jelentést a
+mellette álló mondat hordozza, ahogy a designrendszer 8. fejezete előírja.
+
+A jelvény **lekerekített négyzet**, nem kör. Ezen a lapon a lime korong már foglalt: az
+a SORSZÁMOT jelenti (`.card-badge`, 01–05 és a lépéssor számai). Két jel nem jelentheti
+ugyanazt a felületen.
+
+### Három új rajzolat, ideiglenes jelöléssel
+
+`ui-iszap-kosar.svg` (nyitott, perforált láda a peremén fogantyúval) ·
+`ui-iszap-zsak.svg` (összekötött nyakú, öblös zsák) ·
+`ui-iszap-komposzt.svg` (talajvonalból kihajtó levélpár).
+
+Mindhárom a meglévő ikonkészlet nyelvén beszél (24×24 viewBox, `stroke-width:1.8`,
+kerek végződés, `currentColor`), és mindhárom fájl fejlécében ott a jelölés, hogy
+**ügyféleszköz érkezésekor cserélendő** — ahogy a designrendszer az ikonoknál előírja.
+
+---
+
+## 23. AI megoldás-ajánló — `.ajanlo-*`
+
+A főoldal 6. szekciója, a webhely **első interaktív eleme**. Forrás:
+`OkoTech-Home_AI-modul_fejlesztoi_specifikacio.2.docx` (2026-08-24).
+
+### Két felület, két szerep
+
+| Oldal | Mit csinál |
+|---|---|
+| **bal — asszisztens** (`.ajanlo-asszisztens`) | egyszerre EGY kérdés, alatta a válasz azonnali magyarázata, és halványan a következő kérdés |
+| **jobb — állapotpanel** (`.ajanlo-panel`) | ugyanaz a folyamat összegezve: a hat szakasz állapota, az addig kirajzolódó irány, a kivitelezési feltételek és a tisztázandók |
+
+A panel az `aria-live="polite"` régió, nem a kérdéssor. A kérdéssorban a fókusz
+amúgy is mozog, tehát a képernyőolvasó felolvassa — ha a panel is „élne”
+ugyanarra, minden válasz kétszer hangzana el.
+
+### A sín — miért nem százalék
+
+A haladást hat korong mutatja, a köztük futó vonal a jelenlegi szakaszig zöld.
+Kézenfekvő volna JS-ből egy `--halad: 62%` értéket beállítani, csakhogy az
+**inline `style` attribútumot** hozna létre, amit a designrendszer tilt.
+
+Helyette minden szakasz egy `flex` sáv: a korong a tetején, alatta a vonal
+(`::after`), és a vonal színe a korong `data-allapot` értékéből jön. A zöld így
+pontosan az aktuális korongig ér, számolás nélkül.
+
+`align-self:start`: a sín a saját magasságát veszi fel, nem a kártyáét — nyújtva
+a hat korong a záró képernyőn (ami jóval magasabb) szétesett volna.
+
+### Válaszgombok — natív rádiógombok
+
+A válaszok `<fieldset>`/`<legend>` és rejtett `<input type="radio">` +
+`<label>` párok, nem `<button>`-ök `aria-pressed`-del. Ezzel a nyíllal
+léptetés, a csoportosítás és a felolvasás a platformtól jön, nem ARIA-toldásból.
+A kiválasztást `:has(input:checked)` festi, és a jelzés nem csak szín: a
+korongba pipa kerül (ugyanaz a két elforgatott keret, mint a `.fit-yes`-nél).
+
+### 23/a. Csendes gomb — `.btn-halvany`
+
+A „Vissza” nem lehet hangosabb a főműveletnél. A rendszerben eddig három
+gombváltozat élt (`primary` · `secondary` · `inverse`), és mindhárom KITÖLTÖTT
+— a `.btn-inverse` (Forest) világos kártyán vizuálisan erősebb, mint a Fern
+elsődleges gomb, tehát megfordítja a hierarchiát. A `.btn-halvany` felülete
+`--surface`, kerete `--border-strong`, szövege `--text-primary`.
+
+> A `konzultacio` varázsló „Vissza” gombja jelenleg `.btn-inverse`. Ugyanez a
+> megfontolás ott is áll — cserélhető, de az külön változtatás.
+
+### 23/b. Kiemelő szín — miért nem `--secondary`
+
+A cím kiemelt szava, a „Kész” jelzés és a jelvények színe egyetlen tokenből
+jön (`--ajanlo-kiemel`), mert a két témán MÁS szín kell:
+
+| Téma | Sáv | Olive Leaf | Fern | Használt |
+|---|---|---|---|---|
+| világos | Drizzle | **5,6:1** | 2,6:1 | Olive Leaf |
+| sötét | Forest | 2,2:1 | **4,9:1** | Fern |
+
+Közvetlen `var(--secondary)` hivatkozással a sötét téma 2,2:1-en állt volna —
+az AA alatt. A `--secondary` a sötét blokkban nincs újradeklarálva, tehát a
+komponensnek kell saját tokent hoznia.
+
+### 23/c. Rajzolatok — vonalas és kitöltött
+
+A modul inline SVG-vel dolgozik (mint a 18. fejezet AIDT-modulja), nem
+CSS-maszkkal: a felületet JS építi, és a maszkhoz minden rajzolatnak külön
+fájl és külön osztály kellene. A készlet fele **kontúros**, fele **kitöltött**;
+a kettő nem jeleníthető meg ugyanazzal a `fill`/`stroke` beállítással — a
+kontúros rajzolat kitöltve fekete folttá válik.
+
+A besorolás egy helyen él (`VONALAS` halmaz az `ajanlo.js`-ben), és a
+`svg()` segédfüggvény teszi rá a `.ajanlo-jel-vonal` osztályt. A CSS-ben ez
+`svg.ajanlo-jel-vonal` (elem + osztály), hogy a jelvények egyosztályos
+`fill:currentColor` szabályait felülírja.
+
+### A szakmai tartalom nincs a kódban
+
+Kérdés, válasz, magyarázat, döntési szabály, terméknév, kimeneti szöveg — mind
+az `assets/data/ajanlo-konfig.js`-ben él, amit a cég fejlesztő nélkül
+szerkeszthet. Az `ajanlo.js` csak kiértékel és kirajzol. A konfig fejlécében ott
+van, mi vár még jóváhagyásra (a specifikáció 8. pontja).
+
+---
+
+## 23/d. Az ÜGYAZONOSÍTÓ — egy kód, két modul, nulla személyes adat
+
+A látogató két AI-modulon mehet végig a főoldalon: a 6. szekció megoldás-ajánlóján
+és a 8. szekció ársávbecslőjén. A kettő részben **ugyanazt kérdezi**. Kétszer
+megkérdezni ugyanazt nem csak kényelmetlen — azt is jelzi, hogy nem figyeltünk
+oda.
+
+Ezt egyetlen dolog oldja meg: **egy ügyazonosító** (`MA-XXXX-XXXX`), ami alatt
+mindkét modul kimenete együtt él.
+
+### Amit az azonosító NEM
+
+Nem regisztráció, nem fiók, nem sütialapú követés. Nevet, e-mail-címet,
+telefonszámot nem kérünk hozzá, IP-t nem tárolunk mellé — a rekordból nem derül
+ki, ki a látogató. **Ezt minden felületen ki is mondjuk**, ahol az azonosító
+megjelenik: a 6. szekció mentés-gombja fölött (még kattintás előtt), a mentés
+visszajelzésében, a 8. szekció mentés-dobozában és az `/eredmeny` lap fejlécében.
+Egy kód önmagában riasztó; egy mondat elveszi az élét.
+
+### A készlet, amiből az azonosító áll
+
+`ABCDEFGHJKLMNPQRSTUVWXYZ23456789` — hiányzik belőle a `0`/`O` és az `1`/`I`.
+A kódot **telefonban is be kell tudni mondani**, és papírról leolvasni. 8 karakter,
+32 jel: ~1,1e12 lehetőség; a lekérdező végpont ezen felül sebességkorlátos.
+
+### Az átvétel a 8. szekcióban — `ATVETEL`
+
+A modul fölött álló sáv (`.aidt-atvetel`) három állapotot ismer: van munkamenetbeli
+adat → felajánlja; nincs → beírható azonosítómező; megtörtént → megmondja, **mit**
+vett át. **Sosem tölt be magától**: az átvétel a látogató döntése.
+
+A leképezés két szintet ismer, és a különbség fontos:
+
+| | Mit tesz | Mikor |
+|---|---|---|
+| `zar: true` | kitöltöttnek jelöli, nem kérdezi újra | a 6. szekció válasza EGYÉRTELMŰEN megfelel az itteni kérdésnek |
+| `zar: false` | csak előjelöl, a kérdés aktív marad | a 6. szekció csak RÉSZBEN válaszolta meg |
+
+Jelenleg: **kapacitás** és **használat jellege** zárt átvétel, a **telek adottságai**
+csak előjelölés (a 6. szekció a magas talajvízről és a kevés helyről tud, a
+lejtésről, a gépi hozzáférésről és a közeli élővízről nem).
+
+**Csak összefüggő előtag vehető át.** A beszélgetés-nézet a `step` előtti kérdéseket
+rajzolja megválaszoltként; egy „lyuk" (megválaszolt kérdés a még el nem ért kérdések
+között) hibás állapot volna. Ami kilóg, azt inkább újra megkérdezzük.
+
+### A létszám sávjai szándékosan azonosak
+
+A két modul létszám-kérdése ugyanazokat a sávokat használja (1–2 / 3–4 / 5–6 /
+7–10 / 10 felett). Enélkül a válasz nem volna átvihető: egy „2–3 fő" sem az „1–2",
+sem a „3–4" sávba nem esik egyértelműen, tehát vagy újra kellene kérdezni, vagy
+tippelnénk.
+
+> ⚠️ A specifikáció példája „magas létszám (4–5 fő)" — ez a 3–4 és az 5–6 sáv
+> határán fekszik. A jelenlegi értelmezés: **magas = 5 főtől**. Ez a határ
+> jóváhagyásra vár.
+
+### „Átvéve" jelölés — mert a látogató itt nem kattintott
+
+Az átvett kérdés úgy néz ki, mint egy megválaszolt kérdés. Ezért külön jelölést kap
+a beszélgetésben (`.aidt-atvett-badge`) ÉS a helyzetkép-panelen
+(`.aidt-step-atvett`): enélkül a látogató nem tudná, miért nem kérdeztük meg, és nem
+jutna eszébe, hogy át is írhatja. A panelről szerkesztve az átvétel megszűnik.
+
+### Függőben lévő modul — hogy ne legyen féloldalas az ügy
+
+A látogató végigmehet a megoldás-ajánlón **mentés nélkül**, aztán az ársávbecslőn —
+és ott nyomhat mentést. Ilyenkor a 6. szekció kimenete is felkerül ugyanabba az
+ügybe (`OthUgy.fuggoben`). A munkamenetben él, tehát a fül bezárásával eltűnik, és
+**semmit nem küld el magától**: csak akkor kerül szerverre, ha a látogató ment. A
+8. szekció mentés-doboza ilyenkor ki is mondja, hogy a másik eredmény is felkerül.
+
+### A PDF: a nyomtatási nézet MAGA a PDF
+
+Nincs PDF-könyvtár. Az `/eredmeny` lap „Nyomtatás / PDF" gombja a böngésző saját
+`window.print()`-jét hívja, a látogató a párbeszédben a „Mentés PDF-ként" célt
+választja. Ugyanaz az elv, mint a 11. szekció jelentésénél — és ugyanazért.
+Ezért kerül **az azonosító és a teljes cím látható szövegként** a lapra: papíron
+és PDF-ben a kattintható link semmit nem ér, a beírható cím viszont igen.
+
+### A rétegek
+
+| Fájl | Mit csinál |
+|---|---|
+| `assets/js/ugy.js` | KÖZÖS réteg: azonosító, mentés, olvasás, munkamenet-tároló, `oth-ugy-valtozott` esemény |
+| `api/eredmeny-mentes.php` | modul-blokk mentése — új ügyet nyit, vagy meglévőt egészít ki |
+| `api/eredmeny-olvas.php` | ügy visszaolvasása azonosító alapján |
+| `eredmeny.html` + `assets/js/eredmeny-oldal.js` | a mentett ügy lapja, nyomtatható |
+
+Miért külön `ugy.js`: ugyanezt három hívó használja (a két modul és az `/eredmeny`
+lap). Ha mindhárom saját `fetch`-et írna, a végpont neve, a hibakezelés és a
+tárolókulcs három helyen csúszhatna szét.
+
+**Miért POST a lekérés is:** a közös indítás (`api/lib/indit.php`) minden végpontnál
+origin-ellenőrzést végez, ahhoz pedig POST kell. Így a rekordot csak a saját
+lapunkról lehet lekérni, és az azonosító nem kerül böngésző-előzménybe vagy
+proxynaplóba. Nem létező azonosítóra **ugyanaz a 404** megy, mint lejártra.
+
+### Megőrzés és a CRM
+
+`api/config.php` → `eredmeny.megorzes_nap` (alapérték: 180). A mentés végpontja
+alkalomszerűen takarít; a `frissitve` számít, nem a létrehozás — egy folytatott ügy
+nem évül el a közepén.
+
+A tároló egy könyvtárnyi JSON-fájl (`api/.eredmenyek/MA-*.json`), ügyenként egy.
+A szerkezete (azonosító, létrehozás, frissítés, modulonként verzió + válaszkulcsok
++ emberi olvasat + kimenet) **CRM-be közvetlenül betölthető**. Export-végpont
+szándékosan NINCS: az hitelesítést igényelne, és azt külön kell megtervezni.
+
+> ⚠️ **A megőrzési idő három helyen szerepel, és egyeznie kell:** a `config.php`-ban,
+> az `ajanlo-konfig.js` `mentes.megorzesSzoveg` mezőjében, és az adatkezelési
+> tájékoztatóban. Az utóbbi kiegészítése **élesítés előtti feladat**.
+
+---
+
+## 23/e. Öko helyszíni segítsége — `data-oko-pont`
+
+Egy azonosítómező a semmiből **regisztrációnak néz ki**, pedig épp az ellenkezője.
+A statikus magyarázószöveg segít, de csak akkor, ha elolvassák. Öko ezért
+**magától megszólal** — nem a lap tetején, hanem akkor, amikor a látogató odaér.
+
+### Hogyan opt-inol egy felület
+
+Bármely elem felveheti a `data-oko-pont="<kulcs>"` attribútumot; a kulcshoz
+tartozó szöveg a `kalauz.js` `PONTOK` táblájában él. Jelenleg két pont van:
+
+| Kulcs | Hol | Mit mond |
+|---|---|---|
+| `ugyazonosito` | a 8. szekció átvételi sávja | „Ez a kód nem regisztráció — segítsek?" |
+| `mentes` | a 6. szekció mentés-magyarázata, a 8. szekció mentés-doboza | „Elmagyarázzam, mit ad a mentés?" |
+
+Minden pont **egyszer** szólal meg lapmegtekintésenként, és soha nem szólal meg
+annak, aki Ökót bezárta.
+
+### Két viselkedés, a panel állapota szerint
+
+- **Csukott panel** → buborék egy mondattal. Rákattintva megnyílik a panel a
+  TELJES magyarázattal és a ponthoz tartozó három kérdéssel.
+- **Nyitott panel** (a főoldalon ez a gyakoribb: Öko a hero után magától kinyílik)
+  → Öko egyszerűen megszólal a párbeszédben, a magyarázattal és a kérdésekkel.
+  Kattintás nélkül, de nem tolakodva: a párbeszédhez hozzáfűz, nem szakít félbe.
+
+### A helyszíni segítség erősebb az általános köszönésnél
+
+A görgetés **mindkettőt** elindítja (a hero-figyelőt és a pont-figyelőt), és az
+események sorrendje nem garantált. Ezért a `megerkezik()` nem írhatja felül a
+buborékot, ha már van benne pont-üzenet: a konkrét segítség többet ér a
+„Segítsek?"-nél. A pont a kulcsát az érkezés ELŐTT teszi ki, hogy ez eldőljön.
+
+### Görgetéspozíció, nem IntersectionObserver — és nem `requestAnimationFrame`
+
+Ugyanaz a megfontolás, mint a hero-nál (13. fejezet): az IO a lap
+életciklusától és a megjelenítés ütemezésétől függ. Háttérfülön vagy
+visszafogott rendereléskor **sem az IO, sem a `requestAnimationFrame` nem fut le**
+— és vele a segítség is elmarad. A `getBoundingClientRect()` viszont mindig
+megmondja, hol tart a látogató; időalapú fékezéssel (150 ms) másodpercenként
+néhány mérés, ami olcsó.
+
+A modulok felülete JS-ből épül, tehát a pontok később kerülnek a lapra: egy
+`MutationObserver` is meghívja az ellenőrzést, nem csak a görgetés.
+
+### Amit az AI is tud
+
+A rendszerprompt (`api/kalauz.php`) külön blokkot kapott az ügyazonosítóról:
+mi az, mi NEM, hol adható meg, mi történik, ha elvész, és meddig él. A megőrzési
+idő **a konfigurációból** megy a promptba (`$MEGORZES`), nem beírt számként — így
+a látogató ugyanazt hallja Ökótól, mint amit a felületen olvas, és egy
+átállítás nem hagy hátra elavult számot a prompt közepén.
+
+---
+
+## 24. Ügyfélvélemények — két futó szalag, `.vel-*`
+
+Egy vélemény anekdota. Tizenöt, folyamatosan mozgó vélemény a tapasztalat
+**mennyiségét** is mutatja — ezt egy egyesével léptethető idézetdoboz (a korábbi
+megoldás) nem tudja, mert egyszerre mindig csak egy állítást enged látni.
+
+### Két szalag, ellentétes irányban
+
+A felső sor balra, az alsó jobbra fut, eltérő időtartammal (110 s és 132 s). Az
+ellentétes irány azt oldja meg, hogy a szem ne kapaszkodjon bele egyetlen
+sodrásba; az eltérő idő azt, hogy a két sor kártyái ne álljanak össze ismétlődő
+mintázattá.
+
+### A varrat: `-50%` nem elég
+
+A lista meg van kettőzve, a második példány `aria-hidden="true"` — képernyőolvasónak
+**minden vélemény egyszer hangzik el**. A visszacsatolás akkor észrevehetetlen, ha a
+szalag pontosan a második példány elejéig tolódik el. Ez **nem** `-50%`: a fél
+szalagszélesség a két példány KÖZÉ eső térköz felénél megáll, és minden körnél
+fél térköznyit ugrik a sor. Ezért `calc(-50% - var(--space-24) / 2)`, tokenben
+`--vel-varrat`. Mérve mindkét soron 0 px eltérés.
+
+### A kártya a sablonkártyát követi
+
+Ugyanaz a felület, keret, sarok, árnyék és belső tér (`--card-bg`, `--card-border`,
+`--card-radius`, `--card-shadow`, `--card-padding`), csak rögzített szélességgel,
+mert szalagban áll. Felül a **témacímke** akcentusszínnel — ez mondja meg, mire
+vonatkozik a vélemény, enélkül tizenöt dicséret egyetlen masszává olvad. Az idézet
+körül valódi magyar idézőjelpár, a szöveg fokán: a korábbi nagy, halvány Zilla
+Slab jel elgépelésnek látszott. Legalul hajszálvonal fölött a név és a település.
+
+### Minden kártya egyforma magas
+
+`min-height: var(--vel-kartya-mag)` — és ez nem csak a soron belüli kártyákat
+egyenlíti ki (azt a flex `stretch` amúgy is megtenné), hanem **a két sort is egy
+magasságra hozza**. Mért maximumok a leghosszabb idézettel: 23rem
+kártyaszélességnél 330px, keskeny nézetben 18rem-nél 402px; a token ennél
+bőkezűbb (22rem / 26rem). `min-height` és nem `height`: ha a betűtípus betöltése
+mégis túlcsordítaná, a sor egyenletesen nő, szöveg nem vágódik le.
+
+Az idézet a **szabad tér közepén áll** (`margin-block:auto`), az aláírás a kártya
+alján marad. Enélkül a rövid vélemények alatt tenyérnyi folt gyűlt össze egyetlen
+lyukként — így a hely a szöveg fölött és alatt oszlik el, és belső térköznek
+látszik, nem hiánynak.
+
+> Kipróbálva és **elvetve**: a rövid idézetek display betűs, 28px-es
+> kiemelt-idézet változata. Papíron szerkesztőségi ritmust ad; a szalagban a
+> 16px-es szomszédok mellett hangoskodásnak látszott, nem szándéknak.
+
+### A kártyák sorrendje kézzel áll
+
+Két szomszédos kártya nem viselheti ugyanazt a témacímkét — **a varraton át sem**
+(utolsó ↔ első). A forrásdokumentum sorrendjében három „A cég ott volt utána is"
+állt egymás mellett. A sorrend a HTML-ben rögzített, a másolt példányé azonos.
+
+### Megállítás — és amit vállalunk
+
+`:hover` és `:focus-within`, a `.vel-fal` egészén: aki az egyik sorba beleolvas,
+annak a másik se szaladjon el alatta. Szüneteltető **gomb nincs** — megrendelői
+döntés.
+
+> ⚠️ Ezzel a szekció **nem teljesíti a WCAG 2.2 SC 2.2.2** pontját. Az öt
+> másodpercnél hosszabban magától mozgó tartalmat meg kell tudni állítani, és
+> érintőképernyőn nincs hover, a fókusz sem feltétlenül jut a szalagra. A
+> `prefers-reduced-motion` sem számít teljesítési módnak. Ha az EAA-megfelelés
+> előkerül, a legolcsóbb javítás nem a gomb visszatétele, hanem egy lapszintű
+> „mozgás csökkentése" kapcsoló a fejlécben — az egy helyen, a lap minden
+> animációjára megoldja.
+
+`prefers-reduced-motion` mellett a szalag nem fut, hanem **tördelt ráccsá válik**
+— ugyanaz a tartalom, mozgás nélkül. Nem vízszintes görgetéssé: azt egérrel
+nehéz kezelni. A megkettőzött példány itt elrejtve.
+
+### Nincs hozzá szkript
+
+A mozgást, a megállítást, a rendezést és a széli elhalványulást (`mask-image`) is
+a CSS viszi. A korábbi `velemeny.js` a gombbal együtt törölve.

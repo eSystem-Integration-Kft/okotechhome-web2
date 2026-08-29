@@ -120,24 +120,85 @@ Options -Indexes
 
 
 # =============================================================================
-# TESZT ÜZEMMÓD — KERESŐK TELJES KIZÁRÁSA
+# KERESŐK ÉS AI-BOTOK — "letöltés igen, hasznosítás nem"
 # -----------------------------------------------------------------------------
-# Amíg az oldal a tst.okoth.hu aldomainen fejlesztés alatt áll, SEMMILYEN
-# keresőmotor nem indexelheti, nem archiválhatja és nem követheti a linkjeit.
+# Érvényes MINDKÉT domainre (tst.okoth.hu és okoth.hu), mert ugyanez a fájl
+# települ mindkettőre. Két, egymást kiegészítő réteg:
 #
-# ÉLESÍTÉSKOR: ezt a teljes blokkot töröld vagy kommentezd ki, ÉS cseréld a
-# robots.txt tartalmát az éles változatra (lásd a fájl végén lévő megjegyzést).
-# Ellenőrzés élesítés után:  curl -I https://okoth.hu/ | grep -i x-robots-tag
-# (semmit nem szabad visszaadnia)
+#   A) X-ROBOTS-TAG — minden válaszon, minden kliensnek. A LETÖLTÉST NEM
+#      akadályozza (azt a robots.txt szándékosan engedi), csak az indexelést,
+#      az archiválást és a kivonatolást tiltja. A max-snippet / max-*-preview
+#      korlátok a GEO (AI-áttekintés) ellen valók: amiből nem idézhető
+#      részlet, azt az AI-válaszgeneráló sem építheti be a feleletébe.
+#      A `noai`/`noimageai` nem szabvány, de több gyűjtő figyeli — nem árt.
+#
+#   B) UA-SZŰRŐ — az AI-tanító, AI-kereső és SEO-elemző botok 403-at kapnak,
+#      tehát le sem tölthetik a lapot. A robots.txt csak kérés, ez viszont a
+#      szerveren zár. A névsor a robots.txt 2. és 3. blokkjával AZONOS:
+#      ha ott bővítesz, IDE IS vedd fel.
+#
+# ÉLESÍTÉSKOR (amikor az okoth.hu indexelhetővé válik): CSAK az A) blokk
+# X-Robots-Tag sorát töröld, és a lapok <meta name="robots"> sorát cseréld.
+# A B) blokk élesben is MARAD.
+#
+# Ellenőrzés:
+#   curl -I https://okoth.hu/                       → X-Robots-Tag: noindex, …
+#   curl -I -A "GPTBot/1.2" https://okoth.hu/       → 403
+#   curl -I -A "AhrefsBot/7.0" https://okoth.hu/    → 403
+#   curl -I -A "Googlebot/2.1" https://okoth.hu/    → 200 (letöltheti, de noindex)
 # =============================================================================
+
+# --- A) Indexelés, archiválás és kivonatolás tiltása --------------------------
 <IfModule mod_headers.c>
-  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate"
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai"
 </IfModule>
 
-# Jelszavas védelem (a legerősebb réteg — a robot be sem jut).
-# Bekapcsoláshoz készíts .htpasswd fájlt a webgyökér FÖLÖTT:
-#   htpasswd -c /home/USER/.htpasswd tesztelo
-# majd vedd ki a komment-jeleket:
+# --- B) AI- és SEO-botok kizárása magából a letöltésből -----------------------
+# A minta RÉSZLEGES illesztés, kis-nagybetűre érzéketlen, ezért a verziószámos
+# alakok is fennakadnak rajta ("ClaudeBot/1.0", "GPTBot/1.2").
+# SZÁNDÉKOSAN NINCS a listán olyan köznévi ügynöknév, amely ártatlan kliensben
+# is előfordulhat (pl. az OpenAI "Operator"-a) — a robots.txt ott pontos névre
+# illeszt, itt egy ilyen minta valódi látogatót is kizárhatna.
+<IfModule mod_setenvif.c>
+  # AI-tanító és AI-kereső (GEO) ügynökök
+  SetEnvIfNoCase User-Agent "(GPTBot|OAI-SearchBot|ChatGPT-User|ClaudeBot|Claude-Web|Claude-User|Claude-SearchBot|anthropic-ai|Google-Extended|GoogleOther|Applebot-Extended|Bingbot-Extended|PerplexityBot|Perplexity-User)" oth_bot_tiltva
+  SetEnvIfNoCase User-Agent "(meta-externalagent|meta-externalfetcher|FacebookBot|Bytespider|TikTokSpider|Amazonbot|PanguBot|PetalBot|DuckAssistBot|MistralAI-User|cohere-ai|cohere-training-data-crawler|YouBot|AI2Bot|Kangaroo Bot|Timpibot|NovaAct|ProRataInc)" oth_bot_tiltva
+  # Adathalmaz-építő és tartalomkinyerő crawlerek
+  SetEnvIfNoCase User-Agent "(CCBot|Diffbot|omgili|Webzio-Extended|ImagesiftBot|img2dataset|iaskspider|VelenPublicWebCrawler|Scrapy|QuillBot|ISSCyberRiskCrawler|Sidetrade indexer bot)" oth_bot_tiltva
+  # SEO-elemző, backlink- és versenytárs-figyelő botok
+  SetEnvIfNoCase User-Agent "(AhrefsBot|AhrefsSiteAudit|SemrushBot|SiteAuditBot|MJ12bot|DotBot|rogerbot|BLEXBot|Barkrowler|DataForSeoBot|serpstatbot|SEOkicks|SEOlyticsCrawler|linkdexbot|spbot|Screaming Frog SEO Spider|ZoominfoBot|Awario|magpie-crawler|peer39_crawler|TurnitinBot|Sogou web spider)" oth_bot_tiltva
+</IfModule>
+
+# A 403-at az ErrorDocument 403 fogja el; a hibaoldal maga is noindex.
+<IfModule mod_authz_core.c>
+  <RequireAll>
+    Require all granted
+    Require not env oth_bot_tiltva
+  </RequireAll>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Allow from all
+  Deny from env=oth_bot_tiltva
+</IfModule>
+
+# KIVÉTEL: a robots.txt és a 403-as hibaoldal MINDENKINEK kimegy, a tiltott
+# botnak is. Ez nem kiskapu, hanem a tiltás feltétele: a jól nevelt gyűjtő a
+# robots.txt-ben olvassa a saját nevét, és el sem indul. Ha 403-at kapna, az
+# RFC 9309 szerint "elérhetetlen robots.txt" volna — amit a szabvány úgy
+# értelmez, hogy a webhelyen NINCS korlátozás. A <Files> szűkebb kontextus,
+# ezért felülírja a fenti RequireAll-t.
+<Files "robots.txt">
+  Require all granted
+</Files>
+<Files "403.html">
+  Require all granted
+</Files>
+
+# Jelszavas védelem — SZÁNDÉKOSAN KIKAPCSOLVA: a döntés szerint a letöltés
+# (a lapok elérése, a fájlok lehívása) szabad marad, csak a botok tevékenysége
+# tiltott. Ha mégis teljes zárás kell, készíts .htpasswd fájlt a webgyökér
+# FÖLÖTT — htpasswd -c /home/USER/.htpasswd tesztelo — és vedd ki a jeleket:
 # AuthType Basic
 # AuthName "Fejlesztes alatt"
 # AuthUserFile /home/USER/.htpasswd

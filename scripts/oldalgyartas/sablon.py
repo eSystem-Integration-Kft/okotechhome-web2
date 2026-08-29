@@ -204,9 +204,11 @@ def build(p):
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<!-- TESZT ÜZEMMÓD: az oldal fejlesztés alatt áll. ÉLESÍTÉSKOR ezt a sort
-     minden oldalról törölni kell (a .htaccess X-Robots-Tag blokkjával együtt). -->
-<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
+     indexelheti, nem archiválhatja és nem idézhet belőle — ugyanezt küldi a
+     .htaccess X-Robots-Tag fejléce is. ÉLESÍTÉSKOR a lenti sor tartalmát
+     "index, follow"-ra kell cserélni, minden oldalon. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{p['title']}</title>
 <meta name="description" content="{esc(p['desc'])}">

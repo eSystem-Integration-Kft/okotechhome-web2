@@ -137,6 +137,25 @@ return [
         ],
     ],
 
+    /* --- Mentett eredmények (ÜGYTÁR) --------------------------------------
+       A főoldali AI-modulok KÖZÖS tárolója. A látogató a 6. szekcióban kap egy
+       `MA-XXXX-XXXX` azonosítót; a 8. szekció ugyanezt az ügyet egészíti ki,
+       nem újat nyit. A `/eredmeny?id=…` lap mindkét modul kimenetét mutatja.
+
+       A rekordban NINCS személyes adat: csak a modulok kérdéseire adott
+       válaszok és a belőlük számított kimenet. Nevet, e-mail-címet, IP-t nem
+       tárolunk mellé. (A 8. szekció e-mailes összefoglalója külön végponton
+       megy, és a cím nem kerül az ügyrekordba.)
+
+       ⚠️ A `megorzes_nap` értékének EGYEZNIE KELL az adatkezelési
+       tájékoztatóban közölt megőrzési idővel. Ha itt átírod, ott is át kell.
+       `engedelyezve => false` esetén a modulok nem hívnak szervert: az eredményt
+       a látogató szövegfájlként töltheti le, és ezt a felület ki is mondja. */
+    'eredmeny' => [
+        'engedelyezve' => true,
+        'megorzes_nap' => 180,
+    ],
+
     /* --- Megjelenés a levélben -------------------------------------------- */
     'webhely' => [
         'nev'   => 'ÖkoTech Home',

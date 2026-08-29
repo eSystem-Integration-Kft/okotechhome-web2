@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- §7 „Kezelés 3 lépésben" — komposzt: talajvonalból kihajtó levélpár.
+     Saját rajzolat a vizuális terv arányai után; ügyféleszköz érkezésekor cserélendő. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2.6 19.6h18.8"/>
+  <path d="M12 19.6V9.4"/>
+  <path d="M12 12.4C12 8.6 15 5.4 19.4 4.9c.4 4.3-2.4 7.9-7.4 7.9Z"/>
+  <path d="M12 15.4c-3.6 0-6.2-2.6-6-6 3.5.3 6 2.7 6 6Z"/>
+</svg>

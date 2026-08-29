@@ -56,3 +56,6 @@ __pycache__/
 _web/api/config.php
 _web/api/*.log
 _web/api/.ratelimit/
+# A megoldás-ajánló mentett eredményei — a látogatók adata, futásidőben
+# keletkezik, a szerveren él. Soha nem kerül a repóba.
+_web/api/.eredmenyek/

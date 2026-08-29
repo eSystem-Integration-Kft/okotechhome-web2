@@ -1,13 +1,138 @@
 # =============================================================================
-# TESZT ÜZEMMÓD — tst.okoth.hu
-# Az oldal fejlesztés alatt áll, semmilyen robot nem térképezheti fel.
+# ÖkoTech Home — robots.txt
+# Érvényes MINDKÉT domainre: tst.okoth.hu (fejlesztés) és okoth.hu (éles).
 #
-# ÉLESÍTÉSKOR cseréld erre (és vedd ki az X-Robots-Tag blokkot a .htaccess-ből):
+# ELV — "letöltés igen, hasznosítás nem":
 #
-#   User-agent: *
-#   Allow: /
-#   Sitemap: https://okoth.hu/sitemap.xml
+#   1. A LETÖLTÉS (crawl) engedélyezett. Ezért NINCS itt "Disallow: /" az
+#      általános botokra. Ez szándékos: amit a robots.txt kizár, azt a robot
+#      LE SEM TÖLTI, így a noindex fejlécet és metát sem látja — és az URL a
+#      máshonnan mutató linkek alapján címként mégis bekerülhet az indexbe.
+#      Az indexelést tehát nem itt, hanem a válaszfejlécben (X-Robots-Tag,
+#      lásd .htaccess) és a lapok <meta name="robots"> sorában tiltjuk.
 #
+#   2. Az AI-tanító, AI-kereső (GEO) és SEO-elemző botok viszont nem
+#      indexelnek, hanem betanítanak, kivonatolnak vagy adatot gyűjtenek —
+#      nekik a letöltés sem kell. Ezek NÉV SZERINT tiltva vannak lent.
+#      A robots.txt csak kérés, ezért a .htaccess ugyanezt a névsort
+#      403-mal is elzárja. A kettőt EGYÜTT kell karbantartani.
+#
+# ÉLESÍTÉSKOR (okoth.hu, amikor indexelhető lesz):
+#   - a .htaccess X-Robots-Tag blokkját vedd ki,
+#   - a lapok <meta name="robots"> sorát cseréld "index, follow"-ra,
+#   - ide vedd fel:  Sitemap: https://okoth.hu/sitemap.xml
+#   Az alábbi AI/SEO-tiltó blokkok élesben is MARADNAK.
 # =============================================================================
+
+
+# --- 1) Általános szabály: a letöltés szabad ---------------------------------
+# Az indexelést a noindex tiltja, nem ez a fájl. Egyedül az API-végpontok
+# könyvtára marad kizárva: POST-ra válaszol, feltérképezni értelmetlen.
+# Az assets/ SZÁNDÉKOSAN nyitva van — a stílus, a kép és a kalkulátorok
+# adatfájljai nélkül a kereső nem tudná helyesen kirajzolni a lapot, és
+# a hiányos renderelés élesítés után rontaná a megítélést.
 User-agent: *
+Allow: /
+Disallow: /api/
+
+# Az /api/ tiltása CSAK a robotoknak szól. Az Öko kalauz (és a többi modul) a
+# LÁTOGATÓ böngészőjéből hívja ezeket a végpontokat — az nem robot, rá a
+# robots.txt nem vonatkozik. A kalauz működését tehát ez nem érinti; a
+# .htaccess UA-szűrője viszont igen: a felsorolt botok az AI-végpontot sem
+# éri(het)ik el. Ez szándékos — az AI-hívásnak ára van, és nem a gyűjtőké.
+
+
+# --- 2) AI-tanító és AI-kereső (GEO) botok — teljes tiltás -------------------
+# OpenAI
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ChatGPT-User/2.0
+User-agent: Operator
+# Anthropic
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: anthropic-ai
+# Google (Gemini-tanítás és AI-áttekintések külön ügynöke)
+User-agent: Google-Extended
+User-agent: GoogleOther
+User-agent: GoogleOther-Image
+User-agent: GoogleOther-Video
+# Apple
+User-agent: Applebot-Extended
+# Meta
+User-agent: meta-externalagent
+User-agent: meta-externalfetcher
+User-agent: FacebookBot
+# Perplexity
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+# Microsoft / Copilot
+User-agent: Bingbot-Extended
+# ByteDance / TikTok
+User-agent: Bytespider
+User-agent: TikTokSpider
+# Amazon, Huawei, DuckDuckGo, Mistral, Cohere, You.com, AI2 és társaik
+User-agent: Amazonbot
+User-agent: PanguBot
+User-agent: PetalBot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+User-agent: cohere-ai
+User-agent: cohere-training-data-crawler
+User-agent: YouBot
+User-agent: AI2Bot
+User-agent: AI2Bot-Dolma
+User-agent: Kangaroo Bot
+User-agent: Timpibot
+User-agent: NovaAct
+User-agent: ProRataInc
+# Adathalmaz-építő és tartalomkinyerő crawlerek
+User-agent: CCBot
+User-agent: Diffbot
+User-agent: omgili
+User-agent: omgilibot
+User-agent: Webzio-Extended
+User-agent: ImagesiftBot
+User-agent: img2dataset
+User-agent: iaskspider/2.0
+User-agent: VelenPublicWebCrawler
+User-agent: Scrapy
+User-agent: QuillBot
+User-agent: ISSCyberRiskCrawler
+User-agent: Sidetrade indexer bot
+Disallow: /
+
+
+# --- 3) SEO-elemző, backlink- és versenytárs-figyelő botok — teljes tiltás ---
+# Ezek nem hoznak látogatót: a webhely szerkezetét és hivatkozásait mérik föl
+# harmadik fél eszközeihez. Fejlesztés alatt különösen nincs itt keresnivalójuk.
+User-agent: AhrefsBot
+User-agent: AhrefsSiteAudit
+User-agent: SemrushBot
+User-agent: SemrushBot-SA
+User-agent: SemrushBot-BA
+User-agent: SemrushBot-SI
+User-agent: SemrushBot-OCOB
+User-agent: SiteAuditBot
+User-agent: MJ12bot
+User-agent: DotBot
+User-agent: rogerbot
+User-agent: BLEXBot
+User-agent: Barkrowler
+User-agent: DataForSeoBot
+User-agent: serpstatbot
+User-agent: SEOkicks
+User-agent: SEOlyticsCrawler
+User-agent: linkdexbot
+User-agent: spbot
+User-agent: Screaming Frog SEO Spider
+User-agent: ZoominfoBot
+User-agent: Awario
+User-agent: magpie-crawler
+User-agent: peer39_crawler
+User-agent: TurnitinBot
+User-agent: Sogou web spider
 Disallow: /
