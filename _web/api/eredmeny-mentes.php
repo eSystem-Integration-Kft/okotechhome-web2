@@ -201,6 +201,37 @@ if ($megorzesNap > 0 && random_int(1, 25) === 1) {
     }
 }
 
+/*
+ * ÁTADÁS A CRM-NEK — SZEMÉLYES ADAT NÉLKÜL.
+ *
+ * EZ A NÉVTELEN ÁG. A látogató itt nem adott nevet és e-mail-címet — a modul
+ * nem is kér —, tehát a CRM-ben nem lesz belőle érdeklődő: nincs kit
+ * felhívni. Két dolog miatt megy mégis át:
+ *
+ *   1. STATISZTIKA. Ebből derül ki, hányan jutnak el a weboldalig, mire
+ *      keresnek választ, és hányan hallgatnak el a megszólalás előtt. Enélkül
+ *      egy jól működő, de tájékozódásra használt modul halottnak látszana.
+ *   2. AZ ÜGYAZONOSÍTÓ. Ha ugyanez a látogató KÉSŐBB megadja a nevét egy
+ *      másik űrlapon, a CRM ugyanezzel a kóddal visszamenőleg összekapcsolja
+ *      a két beküldést — és az értékesítő már a hívás előtt tudja, mekkora
+ *      házról és milyen jelenlegi megoldásról van szó.
+ *
+ * A `kapcsolat` blokk SZÁNDÉKOSAN üres. Ami itt nincs benne, azt a CRM sem
+ * kaphatja meg — a rekord ott is névtelen marad.
+ */
+OthCrm::kuld($CFG, 'okotechhome-arsav', OthCrm::csomag(
+    $azonosito,
+    'ugy-' . $azonosito . '-' . $modul,
+    [],
+    [
+        'targy'    => 'Névtelen modul-kitöltés: ' . $modul,
+        'valaszok' => array_map(
+            static fn ($v): string => is_array($v) ? implode(', ', array_map('strval', $v)) : (string) $v,
+            $valaszok,
+        ),
+    ],
+));
+
 OthVedelem::valasz(200, [
     'ok'           => true,
     'azonosito'    => $azonosito,

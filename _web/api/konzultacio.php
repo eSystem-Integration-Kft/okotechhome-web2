@@ -238,6 +238,46 @@ if (!empty($CFG['visszaigazolas'])) {
     }
 }
 
+/*
+ * ÁTADÁS A CRM-NEK — a levelek UTÁN.
+ *
+ * Ez a legkomolyabb szándékú csatorna az egész weboldalon: aki végigkattintja
+ * a varázslót, az nem böngészik. Az értékesítőnek a visszahívás ELŐTT tudnia
+ * kell, mit mondott el a látogató — mekkora a létesítmény, mi a jelenlegi
+ * megoldás, milyen tüneteket tapasztal, mennyire sürgős. Ezért a varázsló
+ * MINDEN válasza átmegy, ugyanazokkal a magyar címkékkel, amiket a levélben
+ * is látunk: a CRM-ben ezt ember olvassa, nem gép dolgozza fel.
+ */
+OthCrm::kuld($CFG, 'okotechhome-konzultacio', OthCrm::csomag(
+    OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
+    'konzultacio-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
+    ['nev' => $nev, 'email' => $email, 'telefon' => $telefon, 'ceg' => $cegnev],
+    [
+        'targy'    => 'Konzultációkérés — ' . ($cimke('surgosseg') ?: 'a weboldalról'),
+        'uzenet'   => $leiras,
+        'url'      => $CFG['webhely']['url'] ?? null,
+        'valaszok' => array_filter([
+            'Település'          => $telepules,
+            'Megkereső'          => $cimke('ki'),
+            'Létesítmény'        => $cimke('szegmens'),
+            'Projektszakasz'     => $cimke('fazis'),
+            'Jelenlegi megoldás' => $cimke('jelenlegi'),
+            'Tapasztalt tünetek' => implode(', ', $T['tunet']),
+            'Használat'          => $cimke('hasznalat'),
+            'Állandó létszám'    => $letszam !== '' ? $letszam . ' fő' : '',
+            'Csúcsterhelés'      => $csucs !== '' ? $csucs . ' fő' : '',
+            'Telekméret'         => $telekmeret !== '' ? $telekmeret . ' m²' : '',
+            'Talajvíz'           => $cimke('talajviz'),
+            'Kút'                => $cimke('kut'),
+            'Meglévő adatok'     => implode(', ', $T['adatok']),
+            'Konzultáció módja'  => $cimke('mod'),
+            'Kért időpontok'     => $idopont,
+            'Sürgősség'          => $cimke('surgosseg'),
+        ]),
+    ],
+    $hozzajarul,
+));
+
 OthVedelem::valasz(200, [
     'ok' => true,
     'uzenet' => 'Köszönjük, megkaptuk a konzultációkérését. Két munkanapon belül visszaigazoljuk az időpontot.',

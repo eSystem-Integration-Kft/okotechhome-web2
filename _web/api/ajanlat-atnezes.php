@@ -119,6 +119,35 @@ if (!empty($CFG['visszaigazolas'])) {
     }
 }
 
+/*
+ * ÁTADÁS A CRM-NEK — a levelek UTÁN.
+ *
+ * Ez a legmelegebb megkeresés az egész weboldalon: a látogató KONKRÉT
+ * ajánlatokat tart a kezében, tehát nem tájékozódik, hanem dönteni készül —
+ * és versenytársakkal együtt mér minket. A CRM-nek ezért tudnia kell, hány
+ * ajánlat érkezett és mik a fájlnevek: az értékesítő ebből látja, kik ellen
+ * megyünk, még mielőtt visszahívna.
+ *
+ * A CSATOLMÁNYOK MAGUK NEM MENNEK ÁT. Levélben már megérkeztek, a webhookon
+ * átküldeni őket fölösleges adatmásolás lenne — a CRM-nek a tény kell, nem a
+ * dokumentum.
+ */
+OthCrm::kuld($CFG, 'okotechhome-osszehasonlito', OthCrm::csomag(
+    OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
+    'atnezes-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
+    ['nev' => $nev, 'email' => $email, 'telefon' => $telefon],
+    [
+        'targy'    => 'Szakértői átnézés — ' . count($csatolmanyok) . ' ajánlat',
+        'uzenet'   => $uzenet,
+        'url'      => $CFG['webhely']['url'] ?? null,
+        'valaszok' => [
+            'beküldött ajánlatok' => (string) count($csatolmanyok),
+            'fájlnevek'           => implode(', ', array_column($csatolmanyok, 'nev')),
+        ],
+    ],
+    $hozzajarul,
+));
+
 OthVedelem::valasz(200, [
     'ok' => true,
     'uzenet' => 'Köszönjük, megkaptuk az ajánlatokat. Szakértőnk átnézi őket, és jelentkezik.',

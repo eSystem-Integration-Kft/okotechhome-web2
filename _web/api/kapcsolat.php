@@ -89,6 +89,26 @@ if (!empty($CFG['visszaigazolas'])) {
     }
 }
 
+/*
+ * ÁTADÁS A CRM-NEK — a levelek UTÁN.
+ *
+ * A sorrend nem mindegy: a levél a fontos, a CRM-rekord a hasznos. Előbb
+ * küldve egy lassú CRM a visszaigazolást késleltetné, egy hibázó pedig — ha
+ * valaha kivételt dobna — meg is akadályozhatná.
+ */
+OthCrm::kuld($CFG, 'okotechhome-kapcsolat', OthCrm::csomag(
+    OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
+    'kapcsolat-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
+    ['nev' => $nev, 'email' => $email, 'telefon' => $telefon],
+    [
+        'targy'   => $tema !== '' ? $tema : 'Kapcsolatfelvétel a weboldalról',
+        'uzenet'  => $uzenet,
+        'url'     => $CFG['webhely']['url'] ?? null,
+        'valaszok' => array_filter(['település' => $telepules]),
+    ],
+    $hozzajarul,
+));
+
 OthVedelem::valasz(200, [
     'ok' => true,
     'uzenet' => 'Köszönjük, megkaptuk a megkeresését. Munkanapokon egy munkanapon belül válaszolunk.',

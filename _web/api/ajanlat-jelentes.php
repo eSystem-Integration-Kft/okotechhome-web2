@@ -303,6 +303,33 @@ try {
                   . 'vagy próbálja újra néhány perc múlva — ha továbbra sem megy, jelezze nekünk.']);
 }
 
+/*
+ * ÁTADÁS A CRM-NEK — a levél UTÁN.
+ *
+ * Itt a látogató SAJÁT MAGÁNAK kéri el az összehasonlítást. Ez gyengébb jelzés
+ * az átnézésnél — még nem kért tőlünk semmit —, de az e-mail-cím megvan, és a
+ * beküldött ajánlatok száma elárulja, hol tart a döntésben.
+ *
+ * Több címzett is lehet (a látogató elküldheti a házastársának is). A CRM-be
+ * az ELSŐ cím megy: az az övé, a többi továbbküldés. Mindet felvenni azt
+ * jelentené, hogy olyan embereknek nyitunk kartont, akik sosem jártak nálunk.
+ */
+OthCrm::kuld($CFG, 'okotechhome-osszehasonlito', OthCrm::csomag(
+    OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
+    'jelentes-' . date('YmdHis') . '-' . substr(sha1((string) ($cimzettek[0] ?? '')), 0, 8),
+    ['email' => (string) ($cimzettek[0] ?? '')],
+    [
+        'targy'    => 'Ajánlat-összehasonlítás elkérve — ' . count($ajanlatok) . ' ajánlat',
+        'url'      => $CFG['webhely']['url'] ?? null,
+        'valaszok' => array_filter([
+            'összehasonlított ajánlatok' => (string) count($ajanlatok),
+            'megnevezett technológiák'   => implode(', ', array_filter(array_column($ajanlatok, 'cimke'))),
+            'továbbküldve'               => count($cimzettek) > 1 ? (count($cimzettek) - 1) . ' további címre' : '',
+        ]),
+    ],
+    $hozzajarul,
+));
+
 $db = count($cimzettek);
 OthVedelem::valasz(200, ['ok' => true,
     'uzenet' => $db === 1

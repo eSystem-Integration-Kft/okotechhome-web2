@@ -99,4 +99,30 @@ try {
     error_log('OTH: a belső értesítés nem ment ki: ' . $e->getMessage());
 }
 
+/*
+ * ÁTADÁS A CRM-NEK.
+ *
+ * A döntéstámogatót kitöltő látogató TÁJÉKOZÓDIK: nála a döntés hetek múlva
+ * születik meg, és a türelmetlen hívás ront a helyzeten. Ezért megy külön
+ * forrásba — a CRM ebből tudja, hogy nem kell azonnal telefonálni, de azt is,
+ * hogy mit válaszolt a látogató, ha később mégis megkeres minket.
+ */
+OthCrm::kuld($CFG, 'okotechhome-arsav', OthCrm::csomag(
+    OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
+    'arsav-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
+    ['email' => $email],
+    [
+        'targy'    => $visszahivas ? 'Ársávbecslő — VISSZAHÍVÁST kért' : 'Ársávbecslő kitöltése',
+        'url'      => $CFG['webhely']['url'] ?? null,
+        'valaszok' => array_merge(
+            array_map(static fn ($v): string => is_array($v) ? implode(', ', array_map('strval', $v)) : (string) $v, $valaszok),
+            $arsav === [] ? [] : ['becsült ársáv' => implode(' – ', array_map('strval', $arsav))],
+        ),
+    ],
+    /* HOZZÁJÁRULÁS: csak a visszahívás-kérés az. Az e-mail-cím megadása az
+       összefoglaló KÉRÉSE, nem marketing-engedély — ezt a különbséget a CRM-nek
+       is látnia kell, mert onnantól az ő felelőssége, kit szólít meg. */
+    $visszahivas,
+));
+
 OthVedelem::valasz(200, ['ok' => true, 'uzenet' => 'Elküldtük az összefoglalót.']);

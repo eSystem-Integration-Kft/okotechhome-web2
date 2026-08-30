@@ -111,6 +111,40 @@ return [
     'visszaigazolas' => true,
 
     /* --- Védelem ---------------------------------------------------------- */
+    /*
+    | DealKeeper CRM — a kitöltések átadása.
+    |
+    | MINDEN kitöltés átmegy, akkor is, ha nincs e-mail-cím: a névtelen
+    | modul-kitöltésekből a CRM-ben nem lesz érdeklődő, de rögzülnek
+    | ügyrekordként — megmutatják, hányan tájékozódnak és mire keresnek
+    | választ, és ha a látogató később nevet is ad, az ügyazonosító
+    | visszamenőleg összekapcsolja a két beküldést.
+    |
+    | A küldés SOSEM akadályozza meg a levelet: rövid időkorláttal fut, és
+    | hiba esetén csak a naplóba ír.
+    */
+    'crm' => [
+        'engedelyezve' => (bool) oth_env('OTH_CRM_BE', false),
+
+        // A beérkező kapu alapcíme — a forrás azonosítója a végére kerül.
+        'url' => oth_env('OTH_CRM_URL', 'https://dealkeeper.hu/api/v1/beerkezo'),
+
+        /*
+        | FORRÁSONKÉNT KÜLÖN TITOK.
+        |
+        | Egy közös titokkal egyetlen kiszivárgás mind a négy csatornát
+        | megnyitná; külön titokkal a sérült forrás önmagában visszavonható.
+        | A titkokat a CRM-ben, a Beállítások → Beérkező források alatt
+        | generáljuk.
+        */
+        'titkok' => [
+            'okotechhome-kapcsolat'      => oth_env('OTH_CRM_TITOK_KAPCSOLAT', ''),
+            'okotechhome-arsav'          => oth_env('OTH_CRM_TITOK_ARSAV', ''),
+            'okotechhome-osszehasonlito' => oth_env('OTH_CRM_TITOK_OSSZEHASONLITO', ''),
+            'okotechhome-konzultacio'    => oth_env('OTH_CRM_TITOK_KONZULTACIO', ''),
+        ],
+    ],
+
     'vedelem' => [
         // Ugyanarról az IP-ről hány beküldés engedett az ablakon belül.
         'limit'        => 5,

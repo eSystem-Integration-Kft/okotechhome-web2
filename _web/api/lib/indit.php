@@ -20,6 +20,14 @@ error_reporting(E_ALL);
 require __DIR__ . '/smtp.php';
 require __DIR__ . '/level.php';
 require __DIR__ . '/vedelem.php';
+/*
+ * A CRM-ÁTADÁS MINDEN VÉGPONTON ELÉRHETŐ.
+ *
+ * Nem minden végpont használja, de a betöltése olcsó, és így nem fordulhat
+ * elő, hogy egy új űrlapnál elmarad a `require` — a kitöltés pedig némán
+ * kimaradna a CRM-ből.
+ */
+require __DIR__ . '/crm.php';
 
 $configFajl = __DIR__ . '/../config.php';
 if (!is_file($configFajl)) {
