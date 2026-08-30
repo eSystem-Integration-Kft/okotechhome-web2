@@ -59,3 +59,10 @@ _web/api/.ratelimit/
 # A megoldás-ajánló mentett eredményei — a látogatók adata, futásidőben
 # keletkezik, a szerveren él. Soha nem kerül a repóba.
 _web/api/.eredmenyek/
+
+# A titkok könyvtárának SZERKEZETE a repóban van (.htaccess, README), a
+# TARTALMA soha: egy kiszivárgott kulcs a git történetéből is előbányászható,
+# és a visszavonás után is ott marad örökre.
+_web/oth-titkok/*
+!_web/oth-titkok/.htaccess
+!_web/oth-titkok/README.md

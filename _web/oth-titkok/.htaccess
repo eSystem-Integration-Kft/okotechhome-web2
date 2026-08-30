@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# TITKOK — SEMMI NEM SZOLGÁLHATÓ KI EBBŐL A KÖNYVTÁRBÓL.
+#
+# Ez a fájl VÉDŐHÁLÓ, nem a megoldás. A titkok helye a webgyökér FÖLÖTT van:
+# ami nincs a dokumentumgyökérben, azt a webszerver ki sem tudja szolgálni,
+# tehát nem kell védeni. Ez a szabály arra az esetre szól, amikor a könyvtár
+# mégis a gyökérben marad — költözés közben, vagy mert egy másik domain
+# gyökere véletlenül fölé esik.
+#
+# 2026. 08. 30-án pontosan ez történt: az `oth-titkok` a `public_html`-ben
+# volt, amit az okoth.hu szolgál ki. Öt fájl — köztük az AI-kulcs — órákig
+# nyilvánosan letölthető volt, miközben a teszt-oldal (tst.okoth.hu) NEM
+# találta őket, mert az ő gyökere máshol van. Egyszerre volt tehát kiszivárgás
+# és működésképtelenség, ugyanabból az okból.
+#
+# NGINX ALATT EZ A FÁJL NEM FUT LE. Ha a tárhely nginxet használ, a könyvtár
+# áthelyezése az EGYETLEN védelem.
+# ---------------------------------------------------------------------------
+
+# Apache 2.4
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+
+# Apache 2.2 — régebbi tárhelyeken még előfordul
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>
