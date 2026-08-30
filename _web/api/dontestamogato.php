@@ -107,7 +107,7 @@ try {
  * forrásba — a CRM ebből tudja, hogy nem kell azonnal telefonálni, de azt is,
  * hogy mit válaszolt a látogató, ha később mégis megkeres minket.
  */
-OthCrm::kuld($CFG, 'okotechhome-arsav', OthCrm::csomag(
+OthCrm::kuld($CFG, 'arsav', OthCrm::csomag(
     OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
     'arsav-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
     ['email' => $email],

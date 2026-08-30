@@ -132,7 +132,7 @@ if (!empty($CFG['visszaigazolas'])) {
  * átküldeni őket fölösleges adatmásolás lenne — a CRM-nek a tény kell, nem a
  * dokumentum.
  */
-OthCrm::kuld($CFG, 'okotechhome-osszehasonlito', OthCrm::csomag(
+OthCrm::kuld($CFG, 'osszehasonlito', OthCrm::csomag(
     OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
     'atnezes-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
     ['nev' => $nev, 'email' => $email, 'telefon' => $telefon],

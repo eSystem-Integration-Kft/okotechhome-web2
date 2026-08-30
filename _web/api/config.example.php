@@ -130,18 +130,52 @@ return [
         'url' => oth_env('OTH_CRM_URL', 'https://dealkeeper.hu/api/v1/beerkezo'),
 
         /*
-        | FORRÁSONKÉNT KÜLÖN TITOK.
+        | CSATORNA → CRM-FORRÁS + TITOK.
         |
-        | Egy közös titokkal egyetlen kiszivárgás mind a négy csatornát
-        | megnyitná; külön titokkal a sérült forrás önmagában visszavonható.
-        | A titkokat a CRM-ben, a Beállítások → Beérkező források alatt
-        | generáljuk.
+        | A bal oldali kulcs a MI belső nevünk, ezt hívja a kód. A `forras` az,
+        | amit a CRM-ben a forrás felvételekor kapott — a CRM-ben UTÓLAG NEM
+        | ÁTNEVEZHETŐ (egy átnevezés csendben elnémítaná a weboldalt), tehát
+        | adottság, amihez itt igazodunk. Ha a CRM-ben más néven vetted fel,
+        | CSAK EZT A SORT írd át; a végpontokhoz nem kell hozzányúlni.
+        |
+        | FORRÁSONKÉNT KÜLÖN TITOK. Egy közös titokkal egyetlen kiszivárgás
+        | mind a négy csatornát megnyitná; külön titokkal a sérült forrás
+        | önmagában visszavonható.
+        |
+        | A TITOK NE ITT ÁLLJON, hanem külön fájlban, a webgyökér FÖLÖTT.
+        | Egy fájl = EGY titok, semmi más: az `oth_titok()` a fájl teljes
+        | tartalmát olvassa be, tehát egy odabiggyesztett második sor mindkét
+        | kulcsot használhatatlanná teszi.
         */
-        'titkok' => [
-            'okotechhome-kapcsolat'      => oth_env('OTH_CRM_TITOK_KAPCSOLAT', ''),
-            'okotechhome-arsav'          => oth_env('OTH_CRM_TITOK_ARSAV', ''),
-            'okotechhome-osszehasonlito' => oth_env('OTH_CRM_TITOK_OSSZEHASONLITO', ''),
-            'okotechhome-konzultacio'    => oth_env('OTH_CRM_TITOK_KONZULTACIO', ''),
+        'csatornak' => [
+            'kapcsolat' => [
+                'forras' => oth_env('OTH_CRM_FORRAS_KAPCSOLAT', 'okotechhome-kapcsolat'),
+                'titok'  => oth_titok([
+                    __DIR__ . '/../../oth-titkok/crm-kapcsolat.txt',
+                    __DIR__ . '/crm-kapcsolat.txt',
+                ], 'OTH_CRM_TITOK_KAPCSOLAT'),
+            ],
+            'arsav' => [
+                'forras' => oth_env('OTH_CRM_FORRAS_ARSAV', 'okotechhome-arsav'),
+                'titok'  => oth_titok([
+                    __DIR__ . '/../../oth-titkok/crm-arsav.txt',
+                    __DIR__ . '/crm-arsav.txt',
+                ], 'OTH_CRM_TITOK_ARSAV'),
+            ],
+            'osszehasonlito' => [
+                'forras' => oth_env('OTH_CRM_FORRAS_OSSZEHASONLITO', 'okotechhome-osszehasonlito'),
+                'titok'  => oth_titok([
+                    __DIR__ . '/../../oth-titkok/crm-osszehasonlito.txt',
+                    __DIR__ . '/crm-osszehasonlito.txt',
+                ], 'OTH_CRM_TITOK_OSSZEHASONLITO'),
+            ],
+            'konzultacio' => [
+                'forras' => oth_env('OTH_CRM_FORRAS_KONZULTACIO', 'okotechhome-konzultacio'),
+                'titok'  => oth_titok([
+                    __DIR__ . '/../../oth-titkok/crm-konzultacio.txt',
+                    __DIR__ . '/crm-konzultacio.txt',
+                ], 'OTH_CRM_TITOK_KONZULTACIO'),
+            ],
         ],
     ],
 

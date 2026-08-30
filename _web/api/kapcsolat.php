@@ -96,7 +96,7 @@ if (!empty($CFG['visszaigazolas'])) {
  * küldve egy lassú CRM a visszaigazolást késleltetné, egy hibázó pedig — ha
  * valaha kivételt dobna — meg is akadályozhatná.
  */
-OthCrm::kuld($CFG, 'okotechhome-kapcsolat', OthCrm::csomag(
+OthCrm::kuld($CFG, 'kapcsolat', OthCrm::csomag(
     OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
     'kapcsolat-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
     ['nev' => $nev, 'email' => $email, 'telefon' => $telefon],

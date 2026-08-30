@@ -248,7 +248,7 @@ if (!empty($CFG['visszaigazolas'])) {
  * MINDEN válasza átmegy, ugyanazokkal a magyar címkékkel, amiket a levélben
  * is látunk: a CRM-ben ezt ember olvassa, nem gép dolgozza fel.
  */
-OthCrm::kuld($CFG, 'okotechhome-konzultacio', OthCrm::csomag(
+OthCrm::kuld($CFG, 'konzultacio', OthCrm::csomag(
     OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
     'konzultacio-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
     ['nev' => $nev, 'email' => $email, 'telefon' => $telefon, 'ceg' => $cegnev],

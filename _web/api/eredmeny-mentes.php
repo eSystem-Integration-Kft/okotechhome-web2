@@ -219,7 +219,7 @@ if ($megorzesNap > 0 && random_int(1, 25) === 1) {
  * A `kapcsolat` blokk SZÁNDÉKOSAN üres. Ami itt nincs benne, azt a CRM sem
  * kaphatja meg — a rekord ott is névtelen marad.
  */
-OthCrm::kuld($CFG, 'okotechhome-arsav', OthCrm::csomag(
+OthCrm::kuld($CFG, 'arsav', OthCrm::csomag(
     $azonosito,
     'ugy-' . $azonosito . '-' . $modul,
     [],

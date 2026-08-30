@@ -314,7 +314,7 @@ try {
  * az ELSŐ cím megy: az az övé, a többi továbbküldés. Mindet felvenni azt
  * jelentené, hogy olyan embereknek nyitunk kartont, akik sosem jártak nálunk.
  */
-OthCrm::kuld($CFG, 'okotechhome-osszehasonlito', OthCrm::csomag(
+OthCrm::kuld($CFG, 'osszehasonlito', OthCrm::csomag(
     OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
     'jelentes-' . date('YmdHis') . '-' . substr(sha1((string) ($cimzettek[0] ?? '')), 0, 8),
     ['email' => (string) ($cimzettek[0] ?? '')],

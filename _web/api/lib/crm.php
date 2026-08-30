@@ -33,7 +33,10 @@ final class OthCrm
     /**
      * Egy kitöltés átadása.
      *
-     * @param  string  $forras  a CRM-beli forrás azonosítója (slug)
+     * @param  string  $csatorna  a BELSŐ csatornanév ('kapcsolat', 'arsav',
+     *                            'osszehasonlito', 'konzultacio') — NEM a CRM
+     *                            forrás-azonosítója. Az, hogy melyik csatorna
+     *                            melyik CRM-forrásba megy, a config dolga.
      * @param  array   $adat    a beküldés a CRM szerződése szerint
      *
      * @return bool sikerült-e — a VÉGPONTOK NE ÁGAZZANAK EL rajta. A látogató
@@ -41,7 +44,7 @@ final class OthCrm
      *              levél már elment. A visszatérési érték a próbáé és a
      *              naplóé, nem a válaszé.
      */
-    public static function kuld(array $CFG, string $forras, array $adat): bool
+    public static function kuld(array $CFG, string $csatorna, array $adat): bool
     {
         $beall = $CFG['crm'] ?? [];
 
@@ -49,10 +52,32 @@ final class OthCrm
             return false;
         }
 
-        $titok = (string) ($beall['titkok'][$forras] ?? '');
+        /*
+         * A CSATORNA → FORRÁS LEKÉPEZÉS A CONFIGBAN ÁLL, NEM A KÓDBAN.
+         *
+         * A CRM forrás-azonosítója (slug) ott dől el, ahol a forrást felveszik,
+         * és UTÓLAG NEM ÁTNEVEZHETŐ — ez a CRM-ben tudatos döntés, mert egy
+         * átnevezés csendben elnémítaná a weboldalt. A slug tehát adottság,
+         * amihez nekünk kell igazodni.
+         *
+         * Ha a végpontokba drótoznánk be, minden CRM-oldali elnevezés hét fájl
+         * módosítását és új feltöltést jelentene — és amíg az meg nem történik,
+         * a kitöltések 404-gyel némán elvesznek. Így viszont egyetlen
+         * config-sor átírása elég, kódmódosítás nélkül.
+         */
+        $csat = $beall['csatornak'][$csatorna] ?? null;
 
-        if ($titok === '') {
-            error_log("OTH CRM: nincs titok ehhez a forráshoz: {$forras}");
+        if (!is_array($csat)) {
+            error_log("OTH CRM: nincs beállítva ez a csatorna: {$csatorna}");
+
+            return false;
+        }
+
+        $forras = (string) ($csat['forras'] ?? '');
+        $titok  = (string) ($csat['titok'] ?? '');
+
+        if ($forras === '' || $titok === '') {
+            error_log("OTH CRM: hiányos csatorna-beállítás: {$csatorna}");
 
             return false;
         }
