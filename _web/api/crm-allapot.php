@@ -58,7 +58,64 @@ if (empty($beall['engedelyezve'])) {
 
 $alap = rtrim((string) ($beall['url'] ?? ''), '/');
 
-echo "Kapu: {$alap}\n\n";
+echo "Kapu: {$alap}\n";
+echo "Az api/ könyvtár: " . __DIR__ . "\n\n";
+
+/*
+ * HOL VAN A TITKOK KÖNYVTÁRA?
+ *
+ * A `config.php` fix útvonalakat próbál, és ha egyik sem talál, a titok
+ * ÜRESEN marad — a küldő pedig csendben visszatér. Ilyenkor a kérdés nem az,
+ * hogy „miért nem megy", hanem az, hogy „hova tetted a mappát".
+ *
+ * Ez a rész végigjárja a szóba jöhető helyeket, és megmondja, MELYIK létezik.
+ * Csak azt írja ki, hogy a fájl ott van-e — a tartalmához nem nyúl.
+ */
+echo "A TITKOK KÖNYVTÁRÁNAK KERESÉSE\n";
+
+$jeloltek = [
+    __DIR__ . '/../../oth-titkok',        // a webgyökér FÖLÖTT — ezt várja a config
+    __DIR__ . '/../oth-titkok',           // a teszt-oldal gyökerében
+    __DIR__ . '/oth-titkok',              // az api/ alatt
+    __DIR__ . '/../../../oth-titkok',     // két szinttel a gyökér fölött
+    __DIR__ . '/../../public_html/oth-titkok',
+    dirname(__DIR__, 2) . '/tst.okoth.hu/oth-titkok',
+];
+
+$megvan = null;
+
+foreach ($jeloltek as $ut) {
+    $valos = realpath($ut);
+    $letezik = $valos !== false && is_dir($valos);
+    $proba   = $letezik && is_file($valos . '/crm-kapcsolat.txt');
+
+    printf("  %-3s %s%s\n",
+        $proba ? '✓' : ($letezik ? '·' : ' '),
+        $valos !== false ? $valos : $ut,
+        $proba ? '   ← ITT VANNAK A FÁJLOK' : ($letezik ? '   (a könyvtár létezik, de nincs benne crm-kapcsolat.txt)' : '   (nincs ilyen könyvtár)')
+    );
+
+    if ($proba && $megvan === null) {
+        $megvan = $valos;
+    }
+}
+
+if ($megvan === null) {
+    echo "\n  ✗ Egyik helyen sem találom a crm-kapcsolat.txt-t.\n";
+    echo "    Írd meg, pontosan hova tetted a mappát — a fenti api/ könyvtárhoz képest.\n";
+} else {
+    echo "\n  A config elsőként ezt nézi: " . realpath(__DIR__ . '/../..') . "/oth-titkok\n";
+
+    if ($megvan !== realpath(__DIR__ . '/../../oth-titkok')) {
+        echo "  ⚠ NEM EGYEZIK a megtalált hellyel — ezért látja üresnek a titkokat.\n";
+        echo "    Vagy a mappát kell ide tenni, vagy a config útvonalát átírni.\n";
+    } else {
+        echo "  ✓ Egyezik. Ha mégis hiányzik a titok, a FÁJL üres vagy olvashatatlan\n";
+        echo "    (jogosultság: a webszerver felhasználója tudja olvasni?).\n";
+    }
+}
+
+echo "\nCSATORNÁK\n";
 
 $csatornak = $beall['csatornak'] ?? null;
 
