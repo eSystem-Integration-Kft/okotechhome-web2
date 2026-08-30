@@ -120,7 +120,12 @@ return [
         // elég egy szövegfájlt felülírni. A sorrend: fájl → környezeti változó →
         // az itteni alapérték.
         'kulcs'   => oth_titok([
-            __DIR__ . '/../../oth-titkok/ai-kulcs.txt',   // a webgyökér FÖLÖTT — ez az ajánlott
+            // Ugyanaz a három mélység, mint a CRM-titkoknál: a webgyökér nem
+            // mindenhol ül ugyanolyan mélyen. (Az `oth_titok()` ezen felül
+            // felfelé is keres, ez a lista csak a gyors, egyértelmű eset.)
+            __DIR__ . '/../../../oth-titkok/ai-kulcs.txt',
+            __DIR__ . '/../../oth-titkok/ai-kulcs.txt',
+            __DIR__ . '/../oth-titkok/ai-kulcs.txt',
             __DIR__ . '/ai-kulcs.txt',                    // az api/ könyvtárban — az api/.htaccess védi
         ], 'OTH_AI_KULCS', 'IDE_JON_AZ_API_KULCS'),
         // A modellazonosítót az Anthropic konzol modell-listája adja. Dokumentum-
