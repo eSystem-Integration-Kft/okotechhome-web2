@@ -79,7 +79,7 @@ $lapok = is_array($index['lapok'] ?? null) ? $index['lapok'] : [];
 if (!$lapok) {
     error_log('OTH kalauz: hiányzik vagy üres a kalauz-index.json');
     OthVedelem::valasz(503, ['ok' => false,
-        'uzenet' => 'A kereső most nem érhető el. A menüben a Tudástár alatt megtalálja a témákat.']);
+        'uzenet' => 'A kereső most nem érhető el. A menüben a Tudástár alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.']);
 }
 
 /* Az érvényes URL-ek halmaza: ezen kívülre Öko nem küldhet. */
@@ -511,7 +511,7 @@ $uzenet = $elozmeny !== ''
 $eredmeny = OthAi::keres($CFG['ai'] ?? [], $SYSTEM, $uzenet, $ESZKOZ, 1100);
 if (!is_array($eredmeny) || !isset($eredmeny['valasz'])) {
     OthVedelem::valasz(503, ['ok' => false,
-        'uzenet' => 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat.']);
+        'uzenet' => 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.']);
 }
 
 /* --- a válasz ellenőrzése -------------------------------------------------- */

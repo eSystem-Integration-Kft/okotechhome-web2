@@ -240,6 +240,17 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
 
 ### Javítva
 
+- **Öko elnyelte a kiszolgáló saját üzenetét.** A `kalauz.js` gondosan
+  továbbvitte a végpont indoklását (`throw new Error(eredmeny.uzenet)`), a
+  `catch` viszont **kötés nélkül** állt — eldobta, és helyette mindig ugyanazt
+  az általános mondatot mutatta. Így a napi keret betelését jelző üzenet
+  sosem jutott el a látogatóig, és minden hiba egyformán nézett ki:
+  hiányzó kulcs, lejárt keret, rossz origin, hálózati hiba. A dobott hiba most
+  meg van jelölve (`othUzenet`), és a `catch` a kiszolgáló szavát mutatja —
+  a böngésző angol, technikai üzenetét továbbra sem. A `kalauz.php` két
+  hibaüzenete megkapta a telefonszámot, ami eddig csak a kliens általános
+  mondatában szerepelt: ha Öko nem tud segíteni, a telefon a következő lépés.
+
 - **Az ajánlat-elemzés nem találta az API-kulcsot, a CRM-titkok viszont igen.**
   Nem a CRM-átadás vitte el: pontosan fordítva. A CRM-titkok útvonallistája
   három mélységet sorol (`../`, `../../`, `../../../`), az AI-kulcsé viszont

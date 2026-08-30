@@ -748,7 +748,14 @@
       });
       const eredmeny = await valasz.json();
       varakozo.remove();
-      if (!valasz.ok || !eredmeny.ok) throw new Error(eredmeny.uzenet || '');
+      if (!valasz.ok || !eredmeny.ok) {
+        /* A végpont saját, magyar üzenettel utasít vissza — azt visszük tovább,
+           megjelölve, hogy TŐLÜNK jön. Jelölés nélkül a `catch` nem tudná
+           megkülönböztetni a böngésző angol, technikai hibáitól. */
+        const hiba = new Error(eredmeny.uzenet || '');
+        hiba.othUzenet = true;
+        throw hiba;
+      }
       const sor = uzenet('oko', eredmeny.valasz || '', eredmeny.talalatok);
       naplo.push({ kitol: 'oko', szoveg: eredmeny.valasz || '' });
       javaslatok(eredmeny.javaslatok, sor);
@@ -763,9 +770,16 @@
         const cel = most === oda ? document.querySelector(elso.horgony) : null;
         if (cel) setTimeout(() => kiemel(cel), 420);
       }
-    } catch {
+    } catch (hiba) {
       varakozo.remove();
-      uzenet('oko', 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.');
+      /* A KISZOLGÁLÓ SAJÁT SZAVA ELŐBBRE VALÓ. A végpont pontos üzenetet küld —
+         „elfogyott a napi keretem", „nem érem el a keresőt" —, és ez a `catch`
+         eddig eldobta, hogy helyette egy általánosat mutasson. Így a napi keret
+         betelését jelző mondat sosem jutott el a látogatóig, és a hibakeresés
+         is nehezebb volt: minden hiba egyformán nézett ki. Hálózati hibánál az
+         üzenet a böngészőé (angol, technikai) — azt nem mutatjuk. */
+      const sajat = hiba && hiba.othUzenet && hiba.message ? hiba.message : '';
+      uzenet('oko', sajat || 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.');
     } finally {
       dolgozik = false;
       gyoker.classList.remove('is-gondolkodik');
