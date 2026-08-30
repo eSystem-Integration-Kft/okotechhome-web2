@@ -5,22 +5,19 @@ declare(strict_types=1);
 /**
  * crm-proba.php — a CRM-kapcsolat ellenőrzése, ADATLÉTREHOZÁS NÉLKÜL.
  *
- * Használat a szerveren vagy helyben:
- *     php scripts/crm-proba.php
+ * Használat:  php scripts/crm-proba.php
  *
  * MIÉRT NEM KÜLD VALÓDI BEKÜLDÉST. Egy éles próbaküldés érdeklődőt és sales
  * feladatot hozna létre, amit utána kézzel kellene kitakarítani — és amíg ott
- * van, valaki fel is hívhatja. Ehelyett SZÁNDÉKOSAN ROSSZ ALÁÍRÁSSAL küldünk:
- * a CRM az aláírást csak azután nézi meg, hogy a forrást megtalálta, tehát a
- * válaszkód elárulja, hol tart a beállítás — miközben semmi nem tárolódik.
+ * van, valaki fel is hívhatja. Ehelyett SZÁNDÉKOSAN ROSSZ ALÁÍRÁSSAL küldünk: a
+ * CRM az aláírást csak azután nézi meg, hogy a forrást megtalálta, tehát a
+ * válaszkód elárulja a beállítás állapotát, miközben semmi nem tárolódik.
  *
- *     404  → a `forras` NEM létezik a CRM-ben — rossz slug
- *     401  → a slug JÓ, a forrás megvan (az aláírás szándékosan rossz volt)
- *     egyéb → a kapu nem érhető el, vagy más a baj
+ *     404 → a slug rossz, ilyen forrás nincs a CRM-ben
+ *     401 → a slug jó, a forrás megvan
  *
- * A titkot ez a próba NEM tudja ellenőrizni: ahhoz érvényes aláírás kellene,
- * ami már valódi beküldés lenne. Amit viszont ellenőriz: hogy a titok egyáltalán
- * MEGVAN-E, és nem maradt-e benne a minta-szöveg.
+ * A titkot ez nem igazolja — ahhoz érvényes aláírás kellene, ami már valódi
+ * beküldés lenne. Azt viszont megnézi, hogy a titok egyáltalán megvan-e.
  */
 
 $configFajl = __DIR__ . '/../_web/api/config.php';
@@ -48,20 +45,25 @@ foreach (($beall['csatornak'] ?? []) as $nev => $csat) {
     $forras = (string) ($csat['forras'] ?? '');
     $titok  = (string) ($csat['titok'] ?? '');
 
-    /* A minta-szöveg bennfelejtése a leggyakoribb hiba: a config szintaktikailag
-       helyes, a rendszer elindul, és csak a beküldéskor derül ki, hogy nem megy. */
+    /* A MINTA-SZÖVEG BENNFELEJTÉSE a leggyakoribb hiba: a config
+       szintaktikailag helyes, a rendszer elindul, és csak az első valódi
+       kitöltéskor derülne ki, hogy nem megy sehova. */
+    $titokHiba = $titok === '' || str_contains($titok, 'IDE_');
+
     if ($forras === '' || str_contains($forras, 'IDE_A')) {
         printf("  %-16s ✗ nincs beállítva a forrás-azonosító\n", $nev);
         $hiba++;
         continue;
     }
 
-    if ($titok === '' || str_contains($titok, 'IDE_')) {
-        printf("  %-16s ✗ hiányzik a titok (%s)\n", $nev, $forras);
-        $hiba++;
-        continue;
-    }
-
+    /*
+     * A SLUGOT AKKOR IS MEGNÉZZÜK, HA A TITOK HIÁNYZIK.
+     *
+     * A két hiba független, és a beállítás két külön lépésben történik: előbb a
+     * forrás felvétele a CRM-ben, aztán a titok kimásolása. Ha a hiányzó titok
+     * miatt kihagynánk a slug-ellenőrzést, csak a következő futáson derülne ki,
+     * hogy az is rossz — vagyis kétszer kellene ugyanazt körbejárni.
+     */
     $ch = curl_init($alap . '/' . rawurlencode($forras));
 
     curl_setopt_array($ch, [
@@ -79,19 +81,22 @@ foreach (($beall['csatornak'] ?? []) as $nev => $csat) {
     $valasz = (string) curl_exec($ch);
     $kod    = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if ($kod === 401) {
-        printf("  %-16s ✓ a forrás létezik: %s\n", $nev, $forras);
-    } elseif ($kod === 404) {
+    if ($kod === 404) {
         printf("  %-16s ✗ NINCS ilyen forrás a CRM-ben: %s\n", $nev, $forras);
         $hiba++;
-    } else {
+    } elseif ($kod !== 401) {
         printf("  %-16s ? HTTP %d — %s\n", $nev, $kod, mb_substr($valasz, 0, 80));
         $hiba++;
+    } elseif ($titokHiba) {
+        printf("  %-16s ⚠ a forrás MEGVAN, de hiányzik a titok: %s\n", $nev, $forras);
+        $hiba++;
+    } else {
+        printf("  %-16s ✓ forrás megvan, titok beállítva: %s\n", $nev, $forras);
     }
 }
 
 echo "\n" . ($hiba === 0
-    ? "Mind a négy forrás megvan. A titkot csak egy valódi beküldés igazolja.\n"
+    ? "Minden csatorna rendben. A titkot csak egy valódi beküldés igazolja.\n"
     : "{$hiba} csatorna nincs rendben — a fentiek szerint.\n");
 
 exit($hiba === 0 ? 0 : 1);

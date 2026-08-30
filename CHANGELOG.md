@@ -240,6 +240,26 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
 
 ### Javítva
 
+- **Az ajánlat-elemzés nem találta az API-kulcsot, a CRM-titkok viszont igen.**
+  Nem a CRM-átadás vitte el: pontosan fordítva. A CRM-titkok útvonallistája
+  három mélységet sorol (`../`, `../../`, `../../../`), az AI-kulcsé viszont
+  csak egyet (`../../`) — a tesztoldal gyökere pedig eggyel mélyebben ül, mint
+  amit ez a fix útvonal elér. Így a CRM megtalálta a magáét, az AI-kulcs nem, és
+  az `ajanlat-elemzes.php` a „nem elérhető" ágra futott.
+
+  Az `oth_titok()` most **felfelé is keres**: a megadott útvonalak után korlátos
+  (5 szint) sétával végignézi minden fölöttes szint `oth-titkok/` könyvtárát
+  ugyanarra a fájlnévre. Így a titkok megtalálása nem függ attól, milyen mélyen
+  ül a webgyökér — se itt, se a CRM-nél.
+
+  Ha mégsem talál, a hiba nem néma többé: a naplóba bekerül **minden kipróbált
+  útvonal**, és külön az `open_basedir` értéke, ha aktív — megosztott tárhelyen
+  ez a leggyakoribb ok, amiért a webgyökér fölötti fájl olvashatatlan. A titok
+  ÉRTÉKE természetesen sosem kerül a naplóba.
+
+  ⚠️ A `config.php` nincs a repóban (nem is lehet), ezért a javítás a szerveren
+  csak akkor él, ha az ottani `config.php` `oth_titok()` függvénye is frissül.
+
 - **A jeleneten álló két felvétel közül a jobb oldali kisebbnek látszott.** Az
   elválasztó vonal a második kép `border-left`-je volt: a globális
   `box-sizing:border-box` miatt a keret és a belső térköz a `width:100%`-on

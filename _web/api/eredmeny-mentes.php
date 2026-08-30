@@ -219,7 +219,17 @@ if ($megorzesNap > 0 && random_int(1, 25) === 1) {
  * A `kapcsolat` blokk SZÁNDÉKOSAN üres. Ami itt nincs benne, azt a CRM sem
  * kaphatja meg — a rekord ott is névtelen marad.
  */
-OthCrm::kuld($CFG, 'arsav', OthCrm::csomag(
+/*
+ * A KÉT FŐOLDALI MODUL KÜLÖN CSATORNÁN MEGY.
+ *
+ * Kézenfekvő lenne közös csatornába küldeni — mindkettő névtelen, mindkettőből
+ * a látogató tájékozódik. De a két modul MÁS kérdésre válaszol: az ajánló azt
+ * mondja meg, MILYEN megoldás való a házhoz, az ársávbecslő azt, MENNYIBE
+ * kerül. Aki mindkettőt kitölti, sokkal messzebb jár a döntésben, mint aki
+ * csak az egyiket — és pont ez a különbség tűnne el egy közös csatornában,
+ * mert a statisztikában két különböző szándék egyetlen számmá olvadna.
+ */
+OthCrm::kuld($CFG, $modul === 'ajanlo' ? 'ajanlo' : 'arsav', OthCrm::csomag(
     $azonosito,
     'ugy-' . $azonosito . '-' . $modul,
     [],

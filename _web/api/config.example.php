@@ -40,15 +40,62 @@ function oth_env(string $key, string $fallback = ''): string
  */
 function oth_titok(array $utvonalak, string $envKulcs = '', string $fallback = ''): string
 {
-    foreach ($utvonalak as $u) {
+    $probalt = [];
+    $olvas = static function (string $u) {
         if (is_file($u) && is_readable($u)) {
             $t = trim((string) @file_get_contents($u));
             if ($t !== '') {
                 return $t;
             }
         }
+        return null;
+    };
+
+    foreach ($utvonalak as $u) {
+        $probalt[] = $u;
+        if (($t = $olvas($u)) !== null) {
+            return $t;
+        }
     }
-    return $envKulcs !== '' ? oth_env($envKulcs, $fallback) : $fallback;
+
+    /* FELFELÉ IS KERESÜNK. Az `oth-titkok/` a tárhely gyökerében áll, a
+       webgyökér viszont tárhelyenként más mélységben: a `tst.okoth.hu/api/`
+       két szintre van tőle, a `public_html/tst/api/` háromra. Fix `../../`
+       csak az egyik elrendezésben talál, ezért korlátozott (5 szint) sétával
+       keressük ugyanazt a fájlnevet minden fölöttes szint `oth-titkok/`
+       könyvtárában. */
+    $nev = basename((string) ($utvonalak[0] ?? ''));
+    if ($nev !== '') {
+        $dir = __DIR__;
+        for ($i = 0; $i < 5; $i++) {
+            $szulo = dirname($dir);
+            if ($szulo === $dir) {
+                break;
+            }
+            $dir = $szulo;
+            $u = $dir . '/oth-titkok/' . $nev;
+            $probalt[] = $u;
+            if (($t = $olvas($u)) !== null) {
+                return $t;
+            }
+        }
+    }
+
+    $ertek = $envKulcs !== '' ? oth_env($envKulcs, $fallback) : $fallback;
+
+    /* Ha a helyőrzővel térünk vissza, a naplóba beírjuk, HOL kerestük — enélkül
+       a hiba néma, és a keresés órákat visz el. A titok ÉRTÉKE sosem kerül a
+       naplóba, csak útvonalak. Az `open_basedir` külön szerepel: megosztott
+       tárhelyen ez a leggyakoribb ok, amiért a webgyökér FÖLÖTTI fájl nem
+       olvasható — ilyenkor a titkot az `api/` könyvtárba kell tenni (a
+       .htaccess védi), vagy környezeti változóból átadni. */
+    if ($ertek === $fallback && $nev !== '') {
+        $ob = ini_get('open_basedir');
+        error_log('OTH titok: "' . $nev . '" egyik helyen sem olvasható. Keresve: '
+                . implode(' | ', $probalt)
+                . ($ob ? ' — FIGYELEM, open_basedir aktív: ' . $ob : ''));
+    }
+    return $ertek;
 }
 
 return [
@@ -151,28 +198,67 @@ return [
             'kapcsolat' => [
                 'forras' => oth_env('OTH_CRM_FORRAS_KAPCSOLAT', 'okotechhome-kapcsolat'),
                 'titok'  => oth_titok([
+                /*
+                 * TÖBB ÚTVONAL, MERT A WEBGYÖKÉR HELYE HÁZANKÉNT MÁS.
+                 *
+                 * Az `oth_titok()` az ELSŐ létező és nem üres fájlt veszi. A
+                 * tárhelyek egy része `<domain>/`, más része
+                 * `<domain>/public_html/` alá teszi a dokumentumgyökeret — és
+                 * FTP-kliensből nézve nem derül ki, melyik. Ha csak egy
+                 * útvonalat próbálnánk, egy szintnyi eltérés némán elnyelné a
+                 * titkot: a küldő üresnek látja, csendben visszatér, és a
+                 * kitöltés nyomtalanul elvész.
+                 *
+                 * A könyvtárban lévő `.htaccess` gondoskodik arról, hogy ha
+                 * mégis webgyökérbe kerülne, ne legyen letölthető.
+                 */
+                    __DIR__ . '/../../../oth-titkok/crm-kapcsolat.txt',
                     __DIR__ . '/../../oth-titkok/crm-kapcsolat.txt',
+                    __DIR__ . '/../oth-titkok/crm-kapcsolat.txt',
                     __DIR__ . '/crm-kapcsolat.txt',
                 ], 'OTH_CRM_TITOK_KAPCSOLAT'),
             ],
             'arsav' => [
                 'forras' => oth_env('OTH_CRM_FORRAS_ARSAV', 'okotechhome-arsav'),
                 'titok'  => oth_titok([
+                    __DIR__ . '/../../../oth-titkok/crm-arsav.txt',
                     __DIR__ . '/../../oth-titkok/crm-arsav.txt',
+                    __DIR__ . '/../oth-titkok/crm-arsav.txt',
                     __DIR__ . '/crm-arsav.txt',
                 ], 'OTH_CRM_TITOK_ARSAV'),
             ],
+            /* Megoldás-ajánló — a MÁSIK főoldali modul, szintén névtelen.
+               Nem az ársávbecslő testvércsatornája véletlenül: külön mérve
+               látszik, hogy aki MINDKETTŐT kitöltötte, messzebb jár. */
+            'ajanlo' => [
+                'forras' => oth_env('OTH_CRM_FORRAS_AJANLO', 'okotechhome-ajanlo'),
+                'titok'  => oth_titok([
+                    __DIR__ . '/../../../oth-titkok/crm-megoldasajanlo.txt',
+                    __DIR__ . '/../../../oth-titkok/crm-ajanlo.txt',
+                    __DIR__ . '/../../oth-titkok/crm-megoldasajanlo.txt',
+                    __DIR__ . '/../../oth-titkok/crm-ajanlo.txt',
+                    __DIR__ . '/../oth-titkok/crm-megoldasajanlo.txt',
+                    __DIR__ . '/../oth-titkok/crm-ajanlo.txt',
+                    __DIR__ . '/crm-megoldasajanlo.txt',
+                    __DIR__ . '/crm-ajanlo.txt',
+                ], 'OTH_CRM_TITOK_AJANLO'),
+            ],
+
             'osszehasonlito' => [
                 'forras' => oth_env('OTH_CRM_FORRAS_OSSZEHASONLITO', 'okotechhome-osszehasonlito'),
                 'titok'  => oth_titok([
+                    __DIR__ . '/../../../oth-titkok/crm-osszehasonlito.txt',
                     __DIR__ . '/../../oth-titkok/crm-osszehasonlito.txt',
+                    __DIR__ . '/../oth-titkok/crm-osszehasonlito.txt',
                     __DIR__ . '/crm-osszehasonlito.txt',
                 ], 'OTH_CRM_TITOK_OSSZEHASONLITO'),
             ],
             'konzultacio' => [
                 'forras' => oth_env('OTH_CRM_FORRAS_KONZULTACIO', 'okotechhome-konzultacio'),
                 'titok'  => oth_titok([
+                    __DIR__ . '/../../../oth-titkok/crm-konzultacio.txt',
                     __DIR__ . '/../../oth-titkok/crm-konzultacio.txt',
+                    __DIR__ . '/../oth-titkok/crm-konzultacio.txt',
                     __DIR__ . '/crm-konzultacio.txt',
                 ], 'OTH_CRM_TITOK_KONZULTACIO'),
             ],
