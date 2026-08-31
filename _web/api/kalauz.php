@@ -94,6 +94,16 @@ if (!in_array($mod, ['kalauz', 'urlap', 'jelentes'], true)) { $mod = 'kalauz'; }
 $indexFajl = __DIR__ . '/kalauz-index.json';
 $index = is_readable($indexFajl) ? json_decode((string) file_get_contents($indexFajl), true) : null;
 $lapok = is_array($index['lapok'] ?? null) ? $index['lapok'] : [];
+
+/* NYELVI SZŰRÉS. Az index mindkét nyelv lapjait tartalmazza, és a kettő
+   ugyanarról szól — kulcsszóra tehát a magyar lap is előjön egy angol
+   kérdésre. Ha az bekerül a promptba, Öko magyar mondatot idéz angolul
+   kérdező látogatónak, és magyar URL-re küldi. Ezért a keresés csak a
+   látogató nyelvének lapjain fut. Régi index (nyelv mező nélkül) esetén
+   mindent magyarnak veszünk — így a magyar oldal működik tovább, az angol
+   pedig szól, hogy újra kell építeni az indexet. */
+$lapok = array_values(array_filter($lapok,
+    static fn($l) => ($l['nyelv'] ?? 'hu') === $nyelv));
 if (!$lapok) {
     error_log('OTH kalauz: hiányzik vagy üres a kalauz-index.json');
     OthVedelem::valasz(503, ['ok' => false,
@@ -178,6 +188,10 @@ $szovegFajl = __DIR__ . '/kalauz-szoveg.json';
 if ($szavak && is_readable($szovegFajl)) {
     $szovegIndex = json_decode((string) file_get_contents($szovegFajl), true);
     $reszek = is_array($szovegIndex['reszek'] ?? null) ? $szovegIndex['reszek'] : [];
+    /* Ugyanaz a nyelvi szűrés, mint a lapindexnél: a válasz mondatai is csak
+       a látogató nyelvének lapjairól jöhetnek. */
+    $reszek = array_values(array_filter($reszek,
+        static fn($r) => ($r['nyelv'] ?? 'hu') === $nyelv));
 
     /* PONTOZÁS. A nyers előfordulásszám nem működött: a hosszú szakaszokba
        (jellemzően a főoldaléiba) egyszerűen több szó fér, ezért azok kerültek

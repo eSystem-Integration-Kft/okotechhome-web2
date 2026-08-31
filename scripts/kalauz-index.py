@@ -123,6 +123,12 @@ def lapok():
         if not cim:
             continue
 
+        # A LAP NYELVE. Az angol fa az `en/` alatt él, minden más magyar.
+        # Enélkül az index nyelvfüggetlen volt: egy angol kérdésre magyar
+        # lapot is találhatott, és Öko magyar mondatot idézett angolul kérdező
+        # látogatónak. A végpont ezzel a mezővel szűr.
+        nyelv = 'en' if str(rel).startswith('en/') else 'hu'
+
         # A kiterjesztés nélküli útvonal a valódi URL (lásd .htaccess).
         url = str(rel).removesuffix('.html')
         if url.endswith('/index'):
@@ -159,8 +165,9 @@ def lapok():
         if len(bevezeto) > 60:
             for n, resz in enumerate(darabol(bevezeto)):
                 szoveg_tetelek.append({
-                    'url': lap_url, 'lap': lap_cim,
-                    'cim': 'Bevezető' + (f' ({n + 1}.)' if n else ''),
+                    'url': lap_url, 'lap': lap_cim, 'nyelv': nyelv,
+                    'cim': ('Introduction' if nyelv == 'en' else 'Bevezető')
+                           + (f' ({n + 1}.)' if n else ''),
                     'horgony': '', 'szoveg': resz,
                 })
         for i in range(1, len(darabok), 3):
@@ -173,13 +180,15 @@ def lapok():
             if len(test) > 60:
                 for n, resz in enumerate(darabol(test)):
                     szoveg_tetelek.append({
-                        'url': lap_url, 'lap': lap_cim,
-                        'cim': szakasz_cim + (f' ({n + 1}. rész)' if n else ''),
+                        'url': lap_url, 'lap': lap_cim, 'nyelv': nyelv,
+                        'cim': szakasz_cim + ((f' (part {n + 1})' if nyelv == 'en'
+                                               else f' ({n + 1}. rész)') if n else ''),
                         'horgony': '#' + hid, 'szoveg': resz,
                     })
 
         yield {
             'url': lap_url,
+            'nyelv': nyelv,
             'cim': lap_cim,
             'leiras': tiszta(d.group(1)) if d else '',
             'szakaszok': szakaszok,
