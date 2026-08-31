@@ -213,6 +213,43 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
   a kék csak fókuszban jelenik meg.
 
+### Hozzáadva — nyelvváltó és a többnyelvűség szerkezete
+
+- **Nyelvváltó a fejlécben** (`.nyelvvalto`), a témaváltó és a CTA között, mind a
+  121 lapon. Az aktuális nyelv nem hivatkozás, hanem `span` `aria-current`-tel:
+  önmagára mutató link zavaró, és a képernyőolvasónak sincs mit bejelentenie
+  rajta.
+
+- **A szerkezet: nyelvenként külön alkönyvtár** (`/en/`, később `/de/`), saját
+  lapkészlettel. Ez a lényeg abban a kérdésben, hogy „mi lesz azzal, ami magyarul
+  megvan, angolul viszont nem kell": **semmi** — az angol lapkészletnek nem kell
+  tükröznie a magyart. Amiből nincs fordítás, arról egyszerűen nincs `hreflang`
+  bejegyzés, és a váltó az adott nyelv nyitólapjára visz, nem 404-re.
+
+  A cél címét szándékosan **nem az útvonalból számítjuk**: a szlugok nyelvenként
+  mások (`megoldasok/ab-clear` ↔ `en/solutions/ab-clear`), tehát nincs mit
+  kiszámolni. A leképezést minden lap a saját `hreflang` hivatkozásaiban hordozza
+  — így a váltó laponként pontos, és a keresők is ugyanabból az egy forrásból
+  kapják meg a párosítást. A `hreflang` kölcsönös kell legyen: az egyoldalú
+  bejegyzést a Google figyelmen kívül hagyja.
+
+### Módosítva — a fejléc tipográfiája
+
+- **A főnavigáció saját tipográfiai szerepet kapott** (`.type-ui-nav`, 14px), egy
+  fokkal a gombszöveg (15px) alatt — hogy a nyelvváltó elférjen. Nem a
+  gombtokent írtuk át: a gombokon a 15px maradt.
+
+  Egy buktató: a `.nav-trigger` a komponensrétegben **újra kimondja** a
+  betűméretet, mert a `button` nem örökli a betűt — és mivel a komponensréteg a
+  tipográfiai fölött áll, az osztálycsere önmagában nem ért volna el idáig. Ezt
+  is át kellett állítani, különben a lenyíló menüpontok 15px-en maradtak volna,
+  a többi 14-en.
+
+- **A menüpontok köze 16-ról 8 pixelre szűkült.** A menüpontoknak saját 8px
+  belső terük is van, tehát két felirat között így is 24px marad. A betűméret és
+  a köz együtt annyi helyet szabadított fel, amennyit a nyelvváltó elfoglal: a
+  fejléc nem lett szélesebb, mint előtte volt.
+
 ### Módosítva — a hero felvétele
 
 - **Új hero-videó és -állókép, teljes 1080p-ben.** A korábbi felvétel 1280×722-es
@@ -254,6 +291,10 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   kitétel — a bal élhez tapadva árválkodott.
 
 ### Eltávolítva
+
+- **A hero magyarázó bekezdése parkolóra került** (megrendelői kérés). Nem
+  törölve: a jelölésben kommentben, szó szerint megmarad, és a `.hero-jegyzet`
+  stílusa is a helyén maradt — a visszatétel egyetlen lépés.
 
 - **Az ügyfélvélemények megállító gombja és a `assets/js/velemeny.js`.**
   Megrendelői döntés: a hover úgyis megállítja a szalagot, a gomb pedig idegen

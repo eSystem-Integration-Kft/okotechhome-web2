@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=174">
+<link rel="stylesheet" href="assets/css/app.css?v=178">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -82,11 +82,11 @@
     </a>
 
     <details class="nav-drawer" open>
-      <summary class="nav-toggle type-ui-button">Menü</summary>
+      <summary class="nav-toggle type-ui-nav">Menü</summary>
       <nav class="site-nav" aria-label="Fő navigáció">
         <ul class="nav-list" role="list">
           <li class="nav-item">
-            <button type="button" class="nav-link nav-trigger type-ui-button"
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-helyzetem">
               Helyzetem<span class="nav-caret" aria-hidden="true"></span>
             </button>
@@ -165,7 +165,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link nav-trigger type-ui-button"
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-megoldasok">
               Megoldások<span class="nav-caret" aria-hidden="true"></span>
             </button>
@@ -248,7 +248,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link nav-trigger type-ui-button"
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-elokeszites">
               Előkészítés<span class="nav-caret" aria-hidden="true"></span>
             </button>
@@ -302,7 +302,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link nav-trigger type-ui-button"
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-tudastar">
               Tudástár<span class="nav-caret" aria-hidden="true"></span>
             </button>
@@ -334,7 +334,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link nav-trigger type-ui-button"
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-eredmenyek">
               Eredmények<span class="nav-caret" aria-hidden="true"></span>
             </button>
@@ -361,7 +361,7 @@
             </div>
           </li>
                   <li class="nav-item">
-            <a class="nav-link type-ui-button" href="kapcsolat">Kapcsolat</a>
+            <a class="nav-link type-ui-nav" href="kapcsolat">Kapcsolat</a>
           </li>
 </ul>
       </nav>
@@ -388,6 +388,15 @@
       <span class="tema-tipp type-ui-caption" aria-hidden="true"
             data-tema-tipp>Váltás sötét témára</span>
     </div>
+    <!-- NYELVVÁLTÓ. Minden nyelv saját alkönyvtárban él, saját lapkészlettel:
+         egy magyar lapnak nem kötelező angol párja legyen. A cél címét a lap
+         saját `hreflang` hivatkozása adja (lásd a <head>-et); fordítás híján a
+         nyelv nyitólapjára mutat, sosem 404-re. -->
+    <nav class="nyelvvalto" aria-label="Nyelv">
+      <span class="nyelvvalto-elem nyelvvalto-aktiv type-ui-nav" lang="hu" aria-current="true">HU</span>
+      <a class="nyelvvalto-elem type-ui-nav" href="en/" hreflang="en" lang="en" aria-label="English">EN</a>
+    </nav>
+
 
     <a class="btn btn-primary header-cta" href="konzultacio">
       <span class="action-arrow" aria-hidden="true">&rarr;</span>Konzultációt kérek</a>
