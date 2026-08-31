@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" data-gyoker="../../">
+<head>
+<meta charset="UTF-8">
+<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
+     indexelheti, nem archiválhatja és nem idézhet belőle — ugyanezt küldi a
+     .htaccess X-Robots-Tag fejléce is. ÉLESÍTÉSKOR a lenti sor tartalmát
+     "index, follow"-ra kell cserélni, minden oldalon. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engedélyezés — nagyobb és közösségi rendszerek | ÖkoTech Home</title>
+<meta name="description" content="Az út a kapacitástól, a szennyvíz eredetétől és a befogadótól függ. Nincs egyetlen lépéssor — de van döntési térkép.">
+<link rel="canonical" href="https://okoth.hu/megoldasok/nagyobb-engedelyezes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Engedélyezés">
+<meta property="og:description" content="Az út a kapacitástól, a szennyvíz eredetétől és a befogadótól függ. Nincs egyetlen lépéssor — de van döntési térkép.">
+<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-engedelyezes.webp?v=2">
+<meta property="og:locale" content="hu_HU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../assets/css/app.css?v=184">
+
+<!-- NYELVI VÁLTOZATOK — kölcsönös. Az `x-default` a magyar: az a teljes
+     lapkészlet. ÉLESÍTÉSKOR teljes (abszolút) címre cserélendő, a robots
+     sorral együtt — a webhely szándékosan domainfüggetlen. -->
+<link rel="alternate" hreflang="hu" href="../../megoldasok/nagyobb-engedelyezes">
+<link rel="alternate" hreflang="en" href="larger-permitting">
+<link rel="alternate" hreflang="x-default" href="../../megoldasok/nagyobb-engedelyezes">
+<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
+     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
+<script src="../../assets/js/tema.js?v=1"></script>
+<link rel="preload" as="image" href="../../assets/img/oldalak/hero-engedelyezes.webp?v=2"
+      imagesrcset="../../assets/img/oldalak/hero-engedelyezes-1024.webp?v=2 1100w, ../../assets/img/oldalak/hero-engedelyezes.webp?v=2 1800w"
+      imagesizes="100vw">
+</head>
+<body>
+
+<a class="skip-link" href="#fotartalom">Skip to content</a>
+
+<!-- ==========================================================================
+     OLDALFEJLÉC — kontaktsáv + HÁROMSZINTŰ megamenü
+     A navigáció natív `details`/`summary`: szűk nézetben lenyitható panel,
+     asztali nézetben a lenyitó gomb elrejtve, a lista nyitva. JS csak annyit
+     tesz, hogy szűk nézetben becsukja az alapból nyitott panelt.
+
+     A menü SZERKEZETE a scripts/oldalgyartas/fejlec.py fájlban él, és onnan
+     kerül minden oldalba. NE ITT szerkeszd — a következő futtatás felülírja.
+     ========================================================================== -->
+<header class="site-header">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <ul class="topbar-list" role="list">
+        <li class="topbar-item type-ui-label topbar-hide-narrow">
+          <span class="icon icon-inline icon-helyszin topbar-icon" aria-hidden="true"></span>
+          2509 Esztergom, Strázsa u. 12.
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="mailto:kapcsolat@okotechhome.hu">
+            <span class="icon icon-inline icon-email topbar-icon" aria-hidden="true"></span>
+            kapcsolat@okotechhome.hu
+          </a>
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="tel:+3633200211">
+            <span class="icon icon-inline icon-telefon topbar-icon" aria-hidden="true"></span>
+            +36 33 200 211
+          </a>
+        </li>
+      </ul>
+
+      <!-- A sitemap nyolc főkategóriájából a három másodlagos itt kap helyet:
+           a fő sávban nyolc nagybetűs menüpont nem fér el a logó és a CTA mellett. -->
+      <ul class="topbar-list topbar-hide-narrow" role="list">
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">Customer support</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">For partners</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">ÖkoTech-Home</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- A kontaktsáv elgörög, a fő sáv tapad (sticky), finom árnyékkal. -->
+  <div class="header-main">
+  <div class="header-inner">
+    <!-- Két rajz, a téma választ: az `img`-ként betöltött SVG nem látja a
+         dokumentum `data-theme` attribútumát, ezért a szóvédjegy színe nem
+         tudná követni a váltást. Az `alt` csak az egyiken van kitöltve, a
+         másik `alt=""` — különben a képernyőolvasó kétszer mondaná ki a
+         cégnevet, hiszen a hivatkozásnak már van `aria-label`-je. -->
+    <a class="site-logo" href="../" aria-label="ÖkoTech Home — home">
+      <img class="site-logo-vilagos" src="../../assets/img/logo-okotechhome.svg"
+           width="928" height="290" alt="ÖkoTech Home" decoding="async">
+      <img class="site-logo-sotet" src="../../assets/img/logo-okotechhome-sotet.svg"
+           width="928" height="290" alt="" decoding="async">
+    </a>
+
+    <details class="nav-drawer" open>
+      <summary class="nav-toggle type-ui-nav">Menu</summary>
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul class="nav-list" role="list">
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-helyzetem">
+              My situation<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-helyzetem" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">My situation</p>
+                  <a class="text-link mega-attekintes" href="../../helyzetem/" hreflang="hu"><span class="link-label">Overview<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/nincs-elerheto-kozcsatorna" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozcsatorna"></span></span><span class="mega-label type-ui-body">No mains sewer</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/milyen-megoldasi-lehetosegek-vannak" hreflang="hu">What options are there?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/kozcsatorna-vagy-egyedi-rendszer" hreflang="hu">Mains sewer or a standalone system?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/milyen-adatokat-kell-osszegyujteni" hreflang="hu">What information should you gather?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/projektindito" hreflang="hu">Project starter / situation review</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/telekvasarlas-vagy-uj-epites-elott-allok" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-telek"></span></span><span class="mega-label type-ui-body">Buying a plot, building new</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/alkalmas-lehet-e-a-telek" hreflang="hu">Could the plot be suitable?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/talaj-talajviz-es-vizelhelyezes" hreflang="hu">Soil, groundwater and water disposal</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/milyen-dokumentumokra-lehet-szukseg" hreflang="hu">What documents might you need?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/telekadat-ellenorzolista" hreflang="hu">Plot data checklist</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/helyszini-felmeres" hreflang="hu">On-site survey</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/meglevo-emesztot-szeretnek-kivaltani" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-emeszto"></span></span><span class="mega-label type-ui-body">Replacing a cesspit</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/mikor-indokolt-a-csere" hreflang="hu">When is replacement worthwhile?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/emeszto-oldomedence-vagy-biologiai" hreflang="hu">Cesspit, septic tank or biological?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/teljes-koltseg-es-megterules" hreflang="hu">Total cost and payback</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/meglevo-rendszer-felmerese" hreflang="hu">Assessing an existing system</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/koltseg-es-projektbrief" hreflang="hu">Cost and project brief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nyaralo"></span></span><span class="mega-label type-ui-body">Holiday home, seasonal use</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/mit-jelent-az-idoszakos-terheles" hreflang="hu">What does intermittent load mean?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/biologiai-rendszer-vagy-oldomedence" hreflang="hu">Biological system or septic tank?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/hosszabb-tavollet-es-ujrainditas" hreflang="hu">Long absences and restarting</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/szezonalis-esettanulmanyok" hreflang="hu">Seasonal case studies</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/hasznalati-profil" hreflang="hu">Building a usage profile</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/csaladi-hazhoz-keresek-rendszert" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-epitkezes"></span></span><span class="mega-label type-ui-body">Family home</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/megoldastipus-kivalasztasa" hreflang="hu">Choosing a solution type</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/telekalkalmassag" hreflang="hu">Plot suitability</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/kapacitas-es-letszam" hreflang="hu">Capacity and occupancy</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/koltseg-es-telepites" hreflang="hu">Cost and installation</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/ajanlatkeresi-keszultseg" hreflang="hu">Ready to request a quote</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vallalkozas"></span></span><span class="mega-label type-ui-body">Business, institution</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-panziok-es-szallashelyek" hreflang="hu">Guesthouses and accommodation</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-ettermek-es-nagykonyhak" hreflang="hu">Restaurants and commercial kitchens</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-iskolak-es-intezmenyek" hreflang="hu">Schools and institutions</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-kempingek-es-kozossegi" hreflang="hu">Campsites and community facilities</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-uzemek-es-specialis-terhelesek" hreflang="hu">Plants and special loads</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-szakmai-projektbrief" hreflang="hu">Technical project brief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-szerviz"></span></span><span class="mega-label type-ui-body">I already have a system</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-megoldasok">
+              Solutions<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-megoldasok" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Solutions</p>
+                  <a class="text-link mega-attekintes" href="../../megoldasok/" hreflang="hu"><span class="link-label">Overview<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../megoldasok/" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Overview</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/megoldastipusok-osszehasonlitasa" hreflang="hu">Comparing solution types</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/melyik-megoldas-mikor-megfelelo" hreflang="hu">Which solution suits which case?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/kizaro-es-korlatozo-feltetelek" hreflang="hu">Exclusions and limiting conditions</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/megoldastipus-eloszuro" hreflang="hu">Solution type pre-screener</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../megoldasok/biologiai-szennyviztisztitas" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-biologiai"></span></span><span class="mega-label type-ui-body">Biological treatment</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-hogyan-mukodik" hreflang="hu">How it works</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-kinek-megfelelo" hreflang="hu">Who it suits</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-mikor-nem-megfelelo" hreflang="hu">When it is not suitable</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-telek-es-terhelesi-feltetelek" hreflang="hu">Plot and load conditions</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-uzemeltetes-es-karbantartas" hreflang="hu">Operation and maintenance</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-koltsegtenyezok" hreflang="hu">Cost factors</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-esettanulmanyok" hreflang="hu">Related case studies</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../megoldasok/ab-clear" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-biologiai"></span></span><span class="mega-label type-ui-body">↳ A.B.Clear</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-modellek-es-kapacitasok" hreflang="hu">Models and capacities</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-muszaki-adatok" hreflang="hu">Technical data</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-iszapzsakos-technologia" hreflang="hu">Sludge-bag technology</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-telepitesi-feltetelek" hreflang="hu">Installation requirements</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-dokumentumok" hreflang="hu">Documents and certificates</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-referenciak" hreflang="hu">Related references</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../megoldasok/oldomedences-rendszer" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-mukodes"></span></span><span class="mega-label type-ui-body">Septic tank system</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-hogyan-mukodik" hreflang="hu">How it works</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-kinek-megfelelo" hreflang="hu">Who it suits</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-mikor-nem-megfelelo" hreflang="hu">When it is not suitable</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-tisztitomezo" hreflang="hu">Drainage field and space required</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-szippantas-es-karbantartas" hreflang="hu">Emptying and maintenance</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-esettanulmanyok" hreflang="hu">Related case studies</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../megoldasok/epureco" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-oldomedence"></span></span><span class="mega-label type-ui-body">↳ EPURECO</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-modellek-es-kapacitasok" hreflang="hu">Models and capacities</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-muszaki-adatok" hreflang="hu">Technical data</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-telepitesi-feltetelek" hreflang="hu">Installation requirements</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-dokumentumok" hreflang="hu">Documents</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../megoldasok/nagyobb-es-kozossegi-rendszerek" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozossegi"></span></span><span class="mega-label type-ui-body">Larger systems</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-kapacitasi-kategoriak" hreflang="hu">Capacity and project categories</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-terhelesi-profil" hreflang="hu">Load profile</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-elokezeles-es-kiegeszitok" hreflang="hu">Pre-treatment and accessories</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-monitoring-es-uzemeltetes" hreflang="hu">Monitoring and operation</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-engedelyezes" hreflang="hu">Permitting</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-esettanulmanyok" hreflang="hu">Institutional case studies</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-szakmai-konzultacio" hreflang="hu">Technical consultation</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../megoldasok/alternativak" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-alternativak"></span></span><span class="mega-label type-ui-body">Alternatives</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-elokeszites">
+              Preparation<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-elokeszites" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Preparation</p>
+                  <a class="text-link mega-attekintes" href="../../projekt-elokeszites/" hreflang="hu"><span class="link-label">Overview<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../projekt-elokeszites/telekalkalmassag" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-talaj"></span></span><span class="mega-label type-ui-body">Plot suitability</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telekalkalmassag-attekintese" hreflang="hu">Plot suitability overview</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/talaj-es-szivargokepesseg" hreflang="hu">Soil and infiltration capacity</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/talajviz" hreflang="hu">Groundwater</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/kut-es-vedotavolsag" hreflang="hu">Wells and protective distance</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telekmeret-es-szabad-terulet" hreflang="hu">Plot size and available area</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/lejtes-es-csomelyseg" hreflang="hu">Gradient and pipe depth</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/jarmuterheles-es-hozzaferes" hreflang="hu">Vehicle loading and access</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telekadatok-osszegyujtese" hreflang="hu">How to gather the plot data</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telek-es-vizelhelyezesi-eloszuro" hreflang="hu">Plot and water disposal pre-screener</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../projekt-elokeszites/tisztitott-viz-elhelyezese" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vizelvezetes"></span></span><span class="mega-label type-ui-body">Water disposal</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/elszivarogtatas" hreflang="hu">Soakaway infiltration</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/tisztitomezo" hreflang="hu">Drainage field</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/gyokerzonas-elhelyezes" hreflang="hu">Reed bed disposal</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/magas-talajvizi-helyzetek" hreflang="hu">High groundwater situations</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/szivarogtatasi-vizsgalat" hreflang="hu">Percolation test</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/mikor-szukseges-szakerto" hreflang="hu">When you need an expert</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../projekt-elokeszites/terheles-es-kapacitas" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-terheles"></span></span><span class="mega-label type-ui-body">Load and capacity</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/lakosegyenertek" hreflang="hu">Population equivalent</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/szemelyszam-es-vizfogyasztas" hreflang="hu">Occupancy and water use</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/atlag-es-csucsterheles" hreflang="hu">Average and peak load</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/szezonalis-hasznalat" hreflang="hu">Seasonal use</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/panziok-es-vendeglatas" hreflang="hu">Guesthouses and hospitality</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/intezmenyi-terheles" hreflang="hu">Institutional load</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/specialis-vagy-ipari-szennyviz" hreflang="hu">Special or industrial wastewater</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/terhelesi-profil-eloszuro" hreflang="hu">Load profile and pre-qualifier</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-tudastar">
+              Knowledge base<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-tudastar" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Knowledge base</p>
+                  <span class="type-ui-caption mega-keszul">This section is still in progress. In the meantime, do get in touch with your question.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">Section in progress</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Knowledge base home</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Solutions and how they work</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Plot, soil and water</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Load and sizing</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Permitting and compliance</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Cost and delivery</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Operation and fault prevention</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Water quality and sludge</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Glossary</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Practical guides</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Searchable FAQ</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-eredmenyek">
+              Results<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-eredmenyek" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Results</p>
+                  <span class="type-ui-caption mega-keszul">This section is still in progress. In the meantime, do get in touch with your question.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">Section in progress</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Results overview</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Case studies</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Project database</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Technical evidence</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Certificates and documents</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Customer experiences</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link type-ui-nav" href="../../kapcsolat" hreflang="hu">Contact</a>
+          </li>
+</ul>
+      </nav>
+    </details>
+
+    <!-- TÉMAVÁLTÓ. `role="switch"`: a gomb NEVE állandó („Dark theme"), az
+         állapotot az `aria-checked` hordozza — ez a kapcsolók ARIA-mintája. A
+         lebegő súgó a MŰVELETET mondja ki, és `aria-hidden`, hogy a
+         képernyőolvasó ne ismételje meg ugyanazt más szavakkal.
+         A gomb csak akkor látszik, ha a tema.js lefutott (app.css 5.12c). -->
+    <div class="tema-doboz">
+      <button type="button" class="tema-valto" role="switch" aria-checked="false"
+              data-tema-valto>
+        <span class="visually-hidden">Dark theme</span>
+        <span class="tema-sin" aria-hidden="true">
+          <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+          <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          <span class="tema-fogo">
+            <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+            <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          </span>
+        </span>
+      </button>
+      <span class="tema-tipp type-ui-caption" aria-hidden="true"
+            data-tema-tipp>Switch to dark theme</span>
+    </div>
+    <!-- NYELVVÁLTÓ. Minden nyelv saját alkönyvtárban él, saját lapkészlettel:
+         egy magyar lapnak nem kötelező angol párja legyen. A cél címét a lap
+         saját `hreflang` hivatkozása adja (lásd a <head>-et); fordítás híján a
+         nyelv nyitólapjára mutat, sosem 404-re. -->
+    <nav class="nyelvvalto" aria-label="Language">
+      <a class="nyelvvalto-elem type-ui-nav" href="../../megoldasok/nagyobb-engedelyezes" hreflang="hu" lang="hu" aria-label="Magyar">HU</a>
+      <span class="nyelvvalto-elem nyelvvalto-aktiv type-ui-nav" lang="en" aria-current="true">EN</span>
+    </nav>
+
+
+    <a class="btn btn-primary header-cta" href="../consultation">
+      <span class="action-arrow" aria-hidden="true">&rarr;</span>Request a consultation</a>
+  </div>
+  </div>
+
+</header>
+
+<main id="fotartalom">
+
+  <section class="hero page-hero" aria-labelledby="oldal-cim">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <nav class="breadcrumb" aria-label="Morzsamenü">
+          <ol class="breadcrumb-list type-ui-caption" role="list">
+            <li><a href="../index">Főoldal</a></li>
+            <li><a href="../../megoldasok" hreflang="hu">Megoldások</a></li>
+            <li><a href="larger-and-community-systems">Nagyobb és közösségi rendszerek</a></li>
+            <li aria-current="page">Engedélyezés</li>
+          </ol>
+        </nav>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Engedélyezés</h1>
+        <p class="type-ui-body-strong hero-lead">Négy elágazás a kibocsátás módja szerint, és egy dolog, amit nem ígérünk: hogy a weboldalról megtudja, melyik hatósághoz kell fordulnia.</p>
+      </div>
+    </div>
+    <figure class="hero-media page-hero-media">
+      <picture>
+        <source media="(max-width: 1024px)" srcset="../../assets/img/oldalak/hero-engedelyezes-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
+        <img src="../../assets/img/oldalak/hero-engedelyezes.webp?v=2"
+             srcset="../../assets/img/oldalak/hero-engedelyezes-1024.webp?v=2 1100w, ../../assets/img/oldalak/hero-engedelyezes.webp?v=2 1800w"
+             sizes="100vw" width="1800" height="771" alt="Engedélyezési helyszínrajz kiterítve egy asztalon, rajta iratgyűjtő mappa és toll" fetchpriority="high" decoding="async">
+      </picture>
+    </figure>
+  </section>
+
+  <section class="section" aria-labelledby="nincs-egyetlen-lepessor-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <h2 class="type-display-section-title section-title" id="nincs-egyetlen-lepessor-cim">Nincs egyetlen lépéssor</h2>
+      </header>
+      <p class="type-ui-body section-lead">Nagyobb és közösségi szennyvíztisztító telepnél az engedélyezési út a <strong>kapacitástól</strong>, a <strong>szennyvíz eredetétől</strong>, a <strong>befogadótól</strong>, a <strong>kibocsátás módjától</strong> és a <strong>helyszíntől</strong> függ. Ezért nem írható le egyetlen, minden projektre érvényes lépéssorral — és aki mégis ezt ígéri, az egyszerűsít.</p>
+      <p class="type-ui-body section-lead">Amit ez az oldal ad: döntési térkép arról, mely projektadatok, szakági tervek és szakértők szükségesek, és hol ágazik el az út.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="az-illetekes-hatosag-megnevezese-elavult-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Egy javítás</p>
+        <h2 class="type-display-section-title section-title" id="az-illetekes-hatosag-megnevezese-elavult-cim">Az illetékes hatóság megnevezése elavult</h2>
+      </header>
+      <p class="type-ui-body section-lead">A korábbi tájékoztatásunk egy már nem létező szervezeti megnevezésű felügyelőséghez irányította az érdeklődőt. Ezt nem vittük át erre az oldalra.</p>
+      <p class="type-ui-body section-lead">Az illetékes vízügyi és vízvédelmi hatóság megnevezése és az eljárási rend időről időre változik. Ezért itt szándékosan <strong>nem nevezünk meg konkrét szervezetet</strong>: a projekt indításakor aktuális forrásból kell ellenőrizni, és mi is így járunk el.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="a-kibocsatas-modja-hatarozza-meg-az-utat-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Négy elágazás</p>
+        <h2 class="type-display-section-title section-title" id="a-kibocsatas-modja-hatarozza-meg-az-utat-cim">A kibocsátás módja határozza meg az utat</h2>
+      </header>
+      <ul class="numbered-grid" role="list">
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">01</span>
+          <p class="type-ui-body card-text"><strong>Talajba, földtani közegbe történő elhelyezés.</strong> A talaj, a talajvíz és a területi érzékenységi besorolás a meghatározó. A telekalkalmassági kérdések itt közvetlenül engedélyezési kérdéssé válnak.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">02</span>
+          <p class="type-ui-body card-text"><strong>Felszíni befogadóba vezetés.</strong> Vízjogi engedélyt és a kibocsátási követelmények teljesítését igényli. A befogadó állapota és az arra megállapított követelmények döntenek.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">03</span>
+          <p class="type-ui-body card-text"><strong>Közcsatornába vagy közös üzemi rendszerbe.</strong> Ahol ez egyáltalán szóba jön, a szolgáltatói feltételek és az esetleges előtisztítási követelmény a meghatározó.</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">04</span>
+          <p class="type-ui-body card-text"><strong>A tisztított víz további hasznosítása.</strong> Külön ág, saját vízminőségi, monitoring- és engedélyezési feltételekkel. Nem kezelhető a helyi elhelyezés egyszerű változataként.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="az-engedelyezesi-csomag-elemei-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Milyen adat és dokumentum kell</p>
+        <h2 class="type-display-section-title section-title" id="az-engedelyezesi-csomag-elemei-cim">Az engedélyezési csomag elemei</h2>
+        <p class="type-ui-body section-lead">A konkrét követelményeket az engedély és a befogadó helyzete határozza meg. Ez a lista a jellemző elemeket mutatja.</p>
+      </header>
+      <ul class="numbered-grid" role="list">
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">01</span>
+          <p class="type-ui-body card-text">Projektkapacitás LE-ben és m³/nap-ban</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">02</span>
+          <p class="type-ui-body card-text">A szennyvíz eredete és jellege, laboradattal ahol szükséges</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">03</span>
+          <p class="type-ui-body card-text">Technológiai leírás</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">04</span>
+          <p class="type-ui-body card-text">Terhelési adatok — átlag, csúcs, szezonalitás</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">05</span>
+          <p class="type-ui-body card-text">Helyszínrajz és a vízáramok bemutatása</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">06</span>
+          <p class="type-ui-body card-text">A kibocsátás vagy elhelyezés módja és helye</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">07</span>
+          <p class="type-ui-body card-text">Monitoringterv</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">08</span>
+          <p class="type-ui-body card-text">Üzemeltetési terv és a felelős üzemeltető</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">09</span>
+          <p class="type-ui-body card-text">Az alkalmazott előkezelés</p>
+        </li>
+        <li class="card">
+          <span class="card-badge type-data-value" aria-hidden="true">10</span>
+          <p class="type-ui-body card-text">Jogosult tervező által készített dokumentáció</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+<!-- ADATHIÁNY: a saját engedélyezési gyakorlatunk: a nagytelepi engedélyezési projektlista, a benyújtott technológiai dokumentációk, a szakági tervezőpartnerek, hogy mely dokumentumot készíti az ÖkoTech és melyiket külső tervező, a visszatérő hiánypótlások és hatósági kérdések, valamint a sikeres és meghiúsult engedélyezések tanulságai
+     Forrás: ÖkoTech projektarchívum. GYORSAN AVUL, minden publikálás előtt ellenőrizendő: a hatósági szervezetrendszer, az eljárási rend, a formanyomtatványok, a jogszabályok és a monitoringkövetelmények. Addig konkrét értékkel nem publikálható. -->
+  <section class="section" aria-labelledby="miert-nem-utmutatok-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A régi engedélypéldákról</p>
+        <h2 class="type-display-section-title section-title" id="miert-nem-utmutatok-cim">Miért nem útmutatók</h2>
+      </header>
+      <p class="type-ui-body section-lead">Vannak korábbi projektjeinkhez tartozó engedélydokumentumaink. Ezek hasznosak lehetnek példaként — megmutatják, milyen adatokat tartalmazott egy ilyen eljárás —, de <strong>dátumozott esettanulmányként</strong>, nem mai eljárási útmutatóként.</p>
+      <p class="type-ui-body section-lead">Egy néhány évvel ezelőtti engedély nem bizonyítja a mai automatikus engedélyezhetőséget, és nem írja le a mai eljárást. Ezért ha ilyet mutatunk, mindig a dátumával és ezzel a megjegyzéssel együtt tesszük.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="keszitsunk-projektbriefet-cim">
+    <div class="section-inner">
+      <aside class="panel-dark" aria-labelledby="keszitsunk-projektbriefet-cim">
+        <div class="panel-dark-head">
+          <p class="type-data-eyebrow panel-dark-eyebrow">Következő lépés</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="keszitsunk-projektbriefet-cim">Készítsünk projektbriefet</h2>
+        </div>
+        <div class="panel-dark-body">
+          <p class="type-ui-body panel-dark-text">Az engedélyezési készültséghez ugyanazok az adatok kellenek, mint a műszaki tervezéshez. A szakmai konzultáció oldal ezeket gyűjti össze strukturáltan.</p>
+          <p class="type-ui-body panel-dark-text"><a href="larger-monitoring-and-operation">Monitoring és üzemeltetés</a></p>
+          <p class="panel-dark-actions"><a class="btn btn-inverse" href="larger-technical-consultation">Szakmai konzultáció</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gyik-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
+        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit a leggyakrabban kérdeznek</h2>
+      </header>
+      <div class="faq">
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Vállalják az engedélyezést?</summary>
+          <div class="faq-a"><p class="type-ui-body">Azt, hogy pontosan mit vállalunk az engedélyezésből és mit készít külső jogosult tervező, projektfüggően egyeztetjük — és ezt a belső felelősségi rendet éppen most rögzítjük. Amit biztosan adunk: a technológiai leírást és a berendezés dokumentációját.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mennyi idő az engedélyezés?</summary>
+          <div class="faq-a"><p class="type-ui-body">Erre nem adunk általános választ, mert az eljárás típusától, a befogadótól és a hatóság ügyintézésétől függ. Amit érdemes tudni: a hiánypótlás a leggyakoribb időveszteség, és ez jórészt az előkészítés minőségén múlik.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Melyik hatósághoz kell fordulni?</summary>
+          <div class="faq-a"><p class="type-ui-body">Szándékosan nem nevezünk meg konkrét szervezetet, mert a hatósági rendszer időről időre változik — a korábbi szövegünk éppen emiatt lett elavult. A projekt indításakor ezt aktuális forrásból ellenőrizzük.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+<!-- JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT ÉS RENDSZERESEN. Érintett: 147/2010.
+     Korm. rendelet (1–50 LE egyedi kategória) · 220/2004. Korm. rendelet
+     (engedélykérő dokumentáció, üzemnapló, önellenőrzés) · 28/2004. KvVM
+     rendelet (kibocsátási határértékek, előtisztítás) · 27/2005. KvVM rendelet
+     (mintavétel és ellenőrzés). AZ ILLETÉKES HATÓSÁG MEGNEVEZÉSE gyorsan
+     avul — a korábbi szövegünk már nem létező szervezetet nevezett meg. -->
+</main>
+
+<!-- ==========================================================================
+     LÁBLÉC — egy sorban: márkablokk + öt hasáb.
+
+     A záró sáv cégadatai a cég impresszumából származnak. A láblécben az
+     ÜGYFÉLSZOLGÁLATI cím szerepel (2509 Esztergom, Strázsa u. 12.); a
+     bejegyzett SZÉKHELY ettől eltér, azt a jogi oldalak közlik.
+=========================================================================== -->
+<footer class="lablec">
+  <div class="lablec-inner">
+
+    <div class="lablec-marka">
+      <a class="lablec-logo" href="../" aria-label="ÖkoTech Home — home">
+        <img src="../../assets/img/logo-email.png" width="220" height="69"
+             alt="ÖkoTech Home" loading="lazy" decoding="async">
+      </a>
+      <p class="type-ui-body lablec-lead">
+        Biological wastewater treatment for properties without a mains sewer — from
+        surveying the plot to running it, from one place.
+      </p>
+      <ul class="lablec-kapcsolat" role="list">
+        <li><a class="lablec-link" href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></li>
+        <li><a class="lablec-link" href="tel:+3633200211">+36 33 200 211</a></li>
+        <li class="lablec-halvany">2509 Esztergom, Strázsa u. 12.</li>
+      </ul>
+      <p class="lablec-masodlagos"><a class="lablec-link" href="../../ugyfeltamogatas/" hreflang="hu">Customer support</a> <a class="lablec-link" href="../../partnereknek/" hreflang="hu">For partners</a> <a class="lablec-link" href="../../okotech-home/" hreflang="hu">ÖkoTech-Home</a> <a class="lablec-link" href="../../kapcsolat" hreflang="hu">Contact</a></p>
+    </div>
+
+      <nav class="lablec-hasab" aria-labelledby="lf-helyzetem">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-helyzetem">
+          <a class="lablec-cim-link" href="../../helyzetem/" hreflang="hu">My situation</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../helyzetem/nincs-elerheto-kozcsatorna" hreflang="hu">No mains sewer available</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/telekvasarlas-vagy-uj-epites-elott-allok" hreflang="hu">Buying a plot, building new</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/meglevo-emesztot-szeretnek-kivaltani" hreflang="hu">Replacing a cesspit</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan" hreflang="hu">Holiday home, seasonal</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/csaladi-hazhoz-keresek-rendszert" hreflang="hu">Family home</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast" hreflang="hu">Business, institution</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-megoldasok">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-megoldasok">
+          <a class="lablec-cim-link" href="../../megoldasok/" hreflang="hu">Solutions</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../megoldasok/biologiai-szennyviztisztitas" hreflang="hu">Biological treatment</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/oldomedences-rendszer" hreflang="hu">Septic tank system</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/nagyobb-es-kozossegi-rendszerek" hreflang="hu">Larger and community</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/alternativak" hreflang="hu">Alternatives</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/megoldastipusok-osszehasonlitasa" hreflang="hu">Comparing solution types</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/kizaro-es-korlatozo-feltetelek" hreflang="hu">Exclusions</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-projekt-elokeszites">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-projekt-elokeszites">
+          <a class="lablec-cim-link" href="../../projekt-elokeszites/" hreflang="hu">Preparation</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../projekt-elokeszites/telekalkalmassag" hreflang="hu">Plot suitability</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/terheles-es-kapacitas" hreflang="hu">Load and capacity</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/tisztitott-viz-elhelyezese" hreflang="hu">Treated water disposal</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/engedelyezes-es-dokumentumok" hreflang="hu">Permitting</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/helyszini-felmeres" hreflang="hu">On-site survey</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/koltsegek-es-ajanlatok" hreflang="hu">Costs and quotes</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-tudastar">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-tudastar">
+          <a class="lablec-cim-link" href="../../tudastar/" hreflang="hu">Knowledge base</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../tudastar/telek-talaj-es-viz" hreflang="hu">Plot, soil and water</a></li>
+          <li><a class="lablec-link" href="../../tudastar/terheles-es-meretezes" hreflang="hu">Load and sizing</a></li>
+          <li><a class="lablec-link" href="../../tudastar/engedelyezes-es-megfeleloseg" hreflang="hu">Permitting</a></li>
+          <li><a class="lablec-link" href="../../tudastar/uzemeltetes-es-hibamegelozes" hreflang="hu">Operation</a></li>
+          <li><a class="lablec-link" href="../../tudastar/koltseg-es-megvalositas" hreflang="hu">Cost and delivery</a></li>
+          <li><a class="lablec-link" href="../../tudastar/fogalomtar" hreflang="hu">Glossary</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-eredmenyek">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-eredmenyek">
+          <a class="lablec-cim-link" href="../../eredmenyek/" hreflang="hu">Results</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../eredmenyek/csikvand" hreflang="hu">Csikvánd — 128 units</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/bakonypeterd" hreflang="hu">Bakonypéterd — central plant</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/diosbereny" hreflang="hu">Diósberény — 90 units</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/obudavar" hreflang="hu">Óbudavár — the beginning</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/esettanulmanyok" hreflang="hu">Case studies</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/tanusitvanyok-es-dokumentumok" hreflang="hu">Certificates</a></li>
+        </ul>
+      </nav>
+
+  </div>
+
+  <div class="lablec-zaro">
+    <div class="lablec-inner lablec-zaro-inner">
+      <p class="type-ui-caption lablec-ceg">
+        © 2026 ÖkoTech-Home Kft. All rights reserved.
+        <span class="lablec-adat">Company reg. no.: 11-09-008852</span>
+        <span class="lablec-adat">VAT no.: 12268687-2-11</span>
+      </p>
+      <ul class="lablec-jogi" role="list">
+        <li><a class="lablec-jogi-link" href="../../adatkezelesi-tajekoztato" hreflang="hu">Privacy notice</a></li>
+        <li><a class="lablec-jogi-link" href="../../cookie-tajekoztato" hreflang="hu">Cookie notice</a></li>
+        <li><a class="lablec-jogi-link" href="../../jogi-nyilatkozat" hreflang="hu">Legal notice</a></li>
+        <li><a class="lablec-jogi-link" href="../../aszf" hreflang="hu">Terms and conditions</a></li>
+        <li><a class="lablec-jogi-link" href="../../akadalymentessegi-nyilatkozat" hreflang="hu">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/site.js?v=5" defer></script>
+<script src="../../assets/js/kalauz.js?v=41" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":2,"name":"Megoldások","item":"https://okoth.hu/"},
+      {"@type":"ListItem","position":3,"name":"Nagyobb és közösségi rendszerek","item":"https://okoth.hu/nagyobb-es-kozossegi-rendszerek"},
+      {"@type":"ListItem","position":4,"name":"Engedélyezés","item":"https://okoth.hu/megoldasok/nagyobb-engedelyezes"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Vállalják az engedélyezést?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Azt, hogy pontosan mit vállalunk az engedélyezésből és mit készít külső jogosult tervező, projektfüggően egyeztetjük — és ezt a belső felelősségi rendet éppen most rögzítjük. Amit biztosan adunk: a technológiai leírást és a berendezés dokumentációját."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi idő az engedélyezés?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Erre nem adunk általános választ, mert az eljárás típusától, a befogadótól és a hatóság ügyintézésétől függ. Amit érdemes tudni: a hiánypótlás a leggyakoribb időveszteség, és ez jórészt az előkészítés minőségén múlik."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Melyik hatósághoz kell fordulni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Szándékosan nem nevezünk meg konkrét szervezetet, mert a hatósági rendszer időről időre változik — a korábbi szövegünk éppen emiatt lett elavult. A projekt indításakor ezt aktuális forrásból ellenőrizzük."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+</body>
+</html>

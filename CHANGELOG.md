@@ -213,6 +213,40 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
   a kék csak fókuszban jelenik meg.
 
+### Hozzáadva — a teljes angol fa váza és a nyelvi infrastruktúra
+
+- **`scripts/oldalgyartas/nyelvek.py` — a szlugtérkép.** 121 magyar↔angol
+  útvonalpár, ez a többnyelvűség egyetlen forrása: ebből épül az angol lapok
+  helye, a `hreflang` páros, a nyelvváltó célja és a belső hivatkozások
+  átírása. A szlugok angolul vannak, nem a magyar átirataként — ezért a
+  párosítás nem számítható ki az útvonalból, kizárólag ez a tábla adja.
+  Ellenőrizve: pontosan lefedi mind a 121 lapot, ütköző angol szlug nélkül.
+
+- **`nyelvi_klon.py` — a lapvázak generálása.** Nyelv és gyökérjelölés,
+  eszközútvonalak, a fejléc és a lábléc átemelése a kész angol nyitólapról, és
+  a belső hivatkozások átirányítása: ahol már van angol változat, oda; ahol
+  nincs, a magyar lapra `hreflang="hu"` jelöléssel. **Szöveget nem fordít** — a
+  gépies és az ítéletet igénylő munka külön lépés. Meglévő lapot alapból nem ír
+  felül: egy kész fordítás elvesztése sokkal drágább, mint egy kihagyott váz.
+
+- **`nyelvi_parok.py` — a lappárok összekötése.** Kölcsönös `hreflang` mindkét
+  lapon, és a nyelvváltó a lap SAJÁT párjára. Újrafuttatható.
+
+  Három hibát kellett menet közben javítani, mind a relatív útvonalakból:
+  · az `en/` fa maga is egy szinttel lejjebb van, ezért a nulla mélységű angol
+    lapok `en/assets/…`-t kértek, ami nincs;
+  · a magyar lapra mutató tartalék hivatkozást naivan toldalékoltam ahelyett,
+    hogy kiszámoltam volna — 198 cím mutatott `en/`-en belülre;
+  · az átemelt fejléc és lábléc hivatkozásai a NYITÓLAP mélységéhez készültek,
+    egy alkönyvtárban máshova visznek — további 136 törött cím.
+
+  Végállapot: **246 lap, 0 HTML-hiba, 0 saját törött hivatkozás, 0 nem
+  kölcsönös `hreflang`.** A megmaradt 23 törött cél a magyar fán is törött —
+  a sitemapban szereplő, még meg nem épített lapok.
+
+  ⚠️ **A 119 új angol lap TARTALMA egyelőre magyar.** A váz kész és helyes; a
+  fordítás (~71 000 szó) szakaszosan következik, klaszterenként commitolva.
+
 ### Hozzáadva — angol konzultációs lap és a nyelvi visszautak
 
 - **`/en/consultation`** — a második angol lap, kb. 1000 szó. Azért ez jött

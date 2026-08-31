@@ -20,6 +20,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../assets/css/app.css?v=184">
+
+<!-- NYELVI VÁLTOZATOK — kölcsönös. Az `x-default` a magyar: az a teljes
+     lapkészlet. ÉLESÍTÉSKOR teljes (abszolút) címre cserélendő, a robots
+     sorral együtt — a webhely szándékosan domainfüggetlen. -->
+<link rel="alternate" hreflang="hu" href="milyen-dokumentumokra-lehet-szukseg">
+<link rel="alternate" hreflang="en" href="../en/situation/what-documents-you-may-need">
+<link rel="alternate" hreflang="x-default" href="milyen-dokumentumokra-lehet-szukseg">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -403,7 +410,7 @@
          nyelv nyitólapjára mutat, sosem 404-re. -->
     <nav class="nyelvvalto" aria-label="Nyelv">
       <span class="nyelvvalto-elem nyelvvalto-aktiv type-ui-nav" lang="hu" aria-current="true">HU</span>
-      <a class="nyelvvalto-elem type-ui-nav" href="../en/" hreflang="en" lang="en" aria-label="English">EN</a>
+      <a class="nyelvvalto-elem type-ui-nav" href="../en/situation/what-documents-you-may-need" hreflang="en" lang="en" aria-label="English">EN</a>
     </nav>
 
 
