@@ -44,6 +44,7 @@ szoveg_tetelek = []
 KIHAGY = {
     '404.html', '401.html', '403.html', '500.html',
     'jelentes.html',            # csak saját eredménnyel értelmes
+    'comparison-report.html',   # ugyanaz angolul — a kihagyás nyelvenként is szimmetrikus
 }
 
 cim_re   = re.compile(r'<h1[^>]*>(.*?)</h1>', re.S)
