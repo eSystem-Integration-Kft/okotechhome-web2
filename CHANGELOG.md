@@ -262,6 +262,34 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   kapják meg a párosítást. A `hreflang` kölcsönös kell legyen: az egyoldalú
   bejegyzést a Google figyelmen kívül hagyja.
 
+### Módosítva — a fejléc egy sorban marad
+
+- **A navigáció betűmérete rugalmas**: `clamp(11px, 0.68vw + 2.6px, 14px)`.
+  1680 pixelen 14px, 1240-en 11px, lineárisan közte. Nem a szerkezet törik meg,
+  hanem a betű enged — mérve mindkét nyelven, 1241-től 1680-ig **egyetlen sor**,
+  túlcsordulás nélkül.
+
+- **A fejléc szélesebb, mint a törzstartalom** (`--header-container:1680px` a
+  tartalom 1440-e helyett, `--header-gutter:32px` a 48 helyett). A törzsszöveg
+  azért áll meg 1440-nél, mert hosszabb sort kényelmetlen olvasni; a fejlécben
+  viszont nincs olvasandó sor, csak hat menüpont, két kapcsoló és egy gomb —
+  ezeknek a hely kell, nem a mértéktartás.
+
+- **A menüpontok belső tere 8-ról 4 pixelre szűkült**, így két felirat között
+  16px marad (4 + 8 oszlopköz + 4).
+
+- **A fejléc navigációja saját, tágabb töréspontot kapott (1240px)**, nem a
+  tabletét (1024px). A hat nagybetűs menüpont 1240 alatt akkor sem fér el egy
+  sorban, ha a betű a legkisebb megengedett fokán áll — a feliratok egyszerűen
+  hosszabbak ennél. Tördelt, kétsoros fejléc helyett ott már a lenyitható panel
+  jön.
+
+- **A lenyitott panelben a betű visszakapja a 14 pixelt.** A rugalmas méret a
+  fejlécsor szűkösségét oldja meg; a panelben nincs vízszintes szorítás, egy
+  11px-es érintőmenü pedig csak rossz volna. A panel szélessége `70vw`-ről
+  `min(92vw, 420px)`-re nőtt: a háromszintű menü behúzásai mellett a hosszabb
+  aloldalcímek korábban négy sorba törtek.
+
 ### Módosítva — a fejléc tipográfiája
 
 - **A főnavigáció saját tipográfiai szerepet kapott** (`.type-ui-nav`, 14px), egy

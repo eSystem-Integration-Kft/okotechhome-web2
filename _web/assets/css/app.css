@@ -86,7 +86,10 @@
     /* A főnavigáció egy fokkal a gombszöveg alatt: öt nagybetűs menüpont
        mellett a 15px nem hagyott helyet a nyelvváltónak. Saját szerep, nem a
        gombtoken átírása — a gombokon a 15px marad. */
-    --type-ui-nav-size:14px;
+    /* RUGALMAS: 1240px-en 11px, 1680px-en 14px, lineárisan közte. A fejléc
+       sora így nem törik meg — a betű enged, nem a szerkezet. A képlet a két
+       végpontból jön: 3px növekmény 440px ablakszélességre. */
+    --type-ui-nav-size:clamp(11px, calc(0.68vw + 2.6px), 14px);
     --type-ui-nav-weight:600;
     --type-ui-nav-line-height:1.2;
 
@@ -224,6 +227,9 @@
     /* A fejléc és a hero szélesebb konténerben ül: a menü így szellősebb, a
        logó és a hero-szöveg pedig ugyanazon a bal élen kezdődik. */
     --container-wide:1440px;
+    /* A fejléc saját mértéke — lásd a `.header-inner` megjegyzését. */
+    --header-container:1680px;
+    --header-gutter:var(--space-32);
 
     /* radius / motion */
     --r-md:10px;--r-lg:14px;--r-xl:16px;
@@ -1061,7 +1067,7 @@
      hivatkozások érintőcélpontja (--space-48) — így a kettő nem csúszhat szét. */
   .topbar{background:var(--topbar-bg);border-bottom:1px solid var(--topbar-border)}
   .topbar-inner{
-    max-width:var(--container-wide);margin-inline:auto;padding-inline:var(--page-gutter);
+    max-width:var(--header-container);margin-inline:auto;padding-inline:var(--header-gutter);
     display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
     column-gap:var(--space-32);
   }
@@ -1085,9 +1091,13 @@
     /* A megamenü VISZONYÍTÁSI PONTJA — a panel a konténer tartalmi szélességét
        veszi fel, nem a menüpontét és nem a teljes ablakét. */
     position:relative;
-    max-width:var(--container-wide);margin-inline:auto;padding-inline:var(--page-gutter);
+    /* A FEJLÉC SZÉLESEBB A TARTALOMNÁL. A törzsszöveg 1440-nél megáll, mert
+       hosszabb sort kényelmetlen olvasni; a fejlécben viszont nincs olvasandó
+       sor, csak hat menüpont, két kapcsoló és egy gomb — ezeknek a hely kell,
+       nem a mértéktartás. Enélkül a sor széles képernyőn is tördelt. */
+    max-width:var(--header-container);margin-inline:auto;padding-inline:var(--header-gutter);
     min-height:var(--topbar-h);padding-block:var(--space-16);
-    display:flex;align-items:center;justify-content:space-between;gap:var(--space-24);
+    display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);
   }
   .site-logo{display:inline-flex;align-items:center;text-decoration:none}
   /* A magasság a rögzített méret, a szélességet a rajzolat aránya adja. */
@@ -1103,7 +1113,9 @@
   .nav-list{display:flex;flex-wrap:wrap;align-items:center;column-gap:var(--space-8)}
   .nav-link{
     display:inline-flex;align-items:center;min-height:44px;
-    padding-inline:var(--space-8);border-radius:var(--r-md);
+    /* 4px belső tér + 8px oszlopköz = 16px két felirat között. Szűkebb, mint a
+       lap többi felülete, de a fejlécben a hely a szűkös erőforrás. */
+    padding-inline:var(--space-4);border-radius:var(--r-md);
     color:var(--nav-text);text-decoration:none;text-transform:uppercase;
     transition:background var(--dur-fast) var(--ease-out);
   }
@@ -3589,26 +3601,13 @@
 /* ----------------------------------------------------------- 6. RESPONSIVE */
 @layer responsive {
   /* Tablet 641–1024px */
-  @media (max-width:1024px){
-    :root{
-      --space-section:var(--space-56);
-      --page-gutter:var(--space-32);
-      --panel-padding:var(--space-32);
-      --split-padding:var(--space-24);
-
-      --type-display-hero-size:46px;
-      --type-display-page-title-size:34px;
-      --type-display-section-title-size:26px;
-      --type-display-feature-title-size:26px;
-      --type-display-highlight-title-size:28px;
-
-      /* Szűkebb nézetben a médiablokk a szűk KIVÁGATOT kapja (lásd index.html
-         `picture`), amelyen alig van égbolt — átfedés helyett a szöveg alatt,
-         a maga teljes magasságában áll. */
-      --hero-media-ratio:3 / 2;
-    }
-    .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-
+  /* FEJLÉC-NAVIGÁCIÓ — saját, TÁGABB töréspont (1240px), nem a tableté.
+     A hat nagybetűs menüpont a két kapcsoló és a CTA mellett 1240 pixel alatt
+     akkor sem fér el egy sorban, ha a betű a legkisebb megengedett fokán áll —
+     a feliratok egyszerűen hosszabbak ennél. Tördelt, kétsoros fejléc helyett
+     tehát itt már a lenyitható panel jön. Fölötte a betűméret rugalmasan
+     zsugorodik (`--type-ui-nav-size`), így a sor végig egysoros marad. */
+  @media (max-width:1240px){
     /* Fejléc: a navigáció lenyitható panelbe kerül (natív `details`). */
     .nav-toggle{
       display:inline-flex;align-items:center;gap:var(--space-8);
@@ -3620,10 +3619,19 @@
     .nav-toggle::-webkit-details-marker{display:none}
     .nav-toggle:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
     /* A lenyitó gomb a CTA mellé, a sor jobb végére kerül. */
+    /* A LENYITOTT PANELBEN a betű visszakapja a rendes fokát. A rugalmas
+       méret a fejlécsor szűkösségét oldja meg — a panelben viszont nincs
+       vízszintes szorítás, egy 11px-es érintőmenü pedig csak rossz volna. */
+    :root{--type-ui-nav-size:14px}
+
     .nav-drawer{position:relative;margin-left:auto}
     .nav-drawer .site-nav{
       position:absolute;top:calc(100% + var(--space-8));right:0;z-index:20;
-      width:max-content;max-width:70vw;
+      /* Szűk képernyőn a 70vw kevés: a háromszintű menü behúzásai mellett a
+         hosszabb aloldalcímek négy sorba törtek. A panel a képernyő majdnem
+         teljes szélességét megkapja, de 420 pixelnél nem nő tovább — nagyobb
+         nézetben a `max-content` úgyis kisebbet kér. */
+      width:max-content;max-width:min(92vw, 420px);
       padding:var(--space-16);
       background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
       box-shadow:var(--shadow-2);
@@ -3651,6 +3659,28 @@
     .mega-fej{display:block;margin-bottom:var(--space-8);
       padding-bottom:0;border-bottom:0}
     .mega-eyebrow{display:none}
+  }
+
+  @media (max-width:1024px){
+    :root{
+      --space-section:var(--space-56);
+      --page-gutter:var(--space-32);
+      --panel-padding:var(--space-32);
+      --split-padding:var(--space-24);
+
+      --type-display-hero-size:46px;
+      --type-display-page-title-size:34px;
+      --type-display-section-title-size:26px;
+      --type-display-feature-title-size:26px;
+      --type-display-highlight-title-size:28px;
+
+      /* Szűkebb nézetben a médiablokk a szűk KIVÁGATOT kapja (lásd index.html
+         `picture`), amelyen alig van égbolt — átfedés helyett a szöveg alatt,
+         a maga teljes magasságában áll. */
+      --hero-media-ratio:3 / 2;
+    }
+    .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+
 
     /* Szűk nézetben a médiasáv a szűk kivágat arányát veszi fel, és nem
        feszül a képernyő maradékára. */
