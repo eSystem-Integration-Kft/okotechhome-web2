@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" data-gyoker="../">
+<head>
+<meta charset="UTF-8">
+<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
+     indexelheti, nem archiválhatja és nem idézhet belőle — ugyanezt küldi a
+     .htaccess X-Robots-Tag fejléce is. ÉLESÍTÉSKOR a lenti sor tartalmát
+     "index, follow"-ra kell cserélni, minden oldalon. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a consultation — by phone, online or on site | ÖkoTech Home</title>
+<meta name="description" content="Kérjen konzultációt: néhány kérdés az ingatlanról, a terhelésről és a projekt állásáról, majd válasszon időpontot telefonos, online vagy helyszíni egyeztetésre.">
+<link rel="canonical" href="https://okoth.hu/konzultacio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Request a consultation">
+<meta property="og:description" content="Kérjen konzultációt: néhány kérdés az ingatlanról, a terhelésről és a projekt állásáról, majd válasszon időpontot telefonos, online vagy helyszíni egyeztetésre.">
+<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-projektbrief.webp?v=2">
+<meta property="og:locale" content="hu_HU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/css/app.css?v=184">
+<link rel="alternate" hreflang="hu" href="../konzultacio">
+<link rel="alternate" hreflang="en" href="consultation">
+<link rel="alternate" hreflang="x-default" href="../konzultacio">
+<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
+     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
+<script src="../assets/js/tema.js?v=1"></script>
+<link rel="preload" as="image" href="../assets/img/oldalak/hero-projektbrief.webp?v=2"
+      imagesrcset="../assets/img/oldalak/hero-projektbrief-1024.webp?v=2 1100w, ../assets/img/oldalak/hero-projektbrief.webp?v=2 1800w"
+      imagesizes="100vw">
+</head>
+<body data-kalauz-mod="urlap">
+
+<a class="skip-link" href="#fotartalom">Skip to content</a>
+
+<!-- ==========================================================================
+     OLDALFEJLÉC — kontaktsáv + HÁROMSZINTŰ megamenü
+     A navigáció natív `details`/`summary`: szűk nézetben lenyitható panel,
+     asztali nézetben a lenyitó gomb elrejtve, a lista nyitva. JS csak annyit
+     tesz, hogy szűk nézetben becsukja az alapból nyitott panelt.
+
+     A menü SZERKEZETE a scripts/oldalgyartas/fejlec.py fájlban él, és onnan
+     kerül minden oldalba. NE ITT szerkeszd — a következő futtatás felülírja.
+     ========================================================================== -->
+<header class="site-header">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <ul class="topbar-list" role="list">
+        <li class="topbar-item type-ui-label topbar-hide-narrow">
+          <span class="icon icon-inline icon-helyszin topbar-icon" aria-hidden="true"></span>
+          2509 Esztergom, Strázsa u. 12.
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="mailto:kapcsolat@okotechhome.hu">
+            <span class="icon icon-inline icon-email topbar-icon" aria-hidden="true"></span>
+            kapcsolat@okotechhome.hu
+          </a>
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="tel:+3633200211">
+            <span class="icon icon-inline icon-telefon topbar-icon" aria-hidden="true"></span>
+            +36 33 200 211
+          </a>
+        </li>
+      </ul>
+
+      <!-- A sitemap nyolc főkategóriájából a három másodlagos itt kap helyet:
+           a fő sávban nyolc nagybetűs menüpont nem fér el a logó és a CTA mellett. -->
+      <ul class="topbar-list topbar-hide-narrow" role="list">
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">Customer support</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">For partners</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">ÖkoTech-Home</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- A kontaktsáv elgörög, a fő sáv tapad (sticky), finom árnyékkal. -->
+  <div class="header-main">
+  <div class="header-inner">
+    <!-- Két rajz, a téma választ: az `img`-ként betöltött SVG nem látja a
+         dokumentum `data-theme` attribútumát, ezért a szóvédjegy színe nem
+         tudná követni a váltást. Az `alt` csak az egyiken van kitöltve, a
+         másik `alt=""` — különben a képernyőolvasó kétszer mondaná ki a
+         cégnevet, hiszen a hivatkozásnak már van `aria-label`-je. -->
+    <a class="site-logo" href="./" aria-label="ÖkoTech Home — home">
+      <img class="site-logo-vilagos" src="../assets/img/logo-okotechhome.svg"
+           width="928" height="290" alt="ÖkoTech Home" decoding="async">
+      <img class="site-logo-sotet" src="../assets/img/logo-okotechhome-sotet.svg"
+           width="928" height="290" alt="" decoding="async">
+    </a>
+
+    <details class="nav-drawer" open>
+      <summary class="nav-toggle type-ui-nav">Menu</summary>
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul class="nav-list" role="list">
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-helyzetem">
+              My situation<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-helyzetem" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">My situation</p>
+                  <a class="text-link mega-attekintes" href="../helyzetem/" hreflang="hu"><span class="link-label">Overview<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../helyzetem/nincs-elerheto-kozcsatorna" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozcsatorna"></span></span><span class="mega-label type-ui-body">No mains sewer</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/milyen-megoldasi-lehetosegek-vannak" hreflang="hu">What options are there?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/kozcsatorna-vagy-egyedi-rendszer" hreflang="hu">Mains sewer or a standalone system?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/milyen-adatokat-kell-osszegyujteni" hreflang="hu">What information should you gather?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/projektindito" hreflang="hu">Project starter / situation review</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../helyzetem/telekvasarlas-vagy-uj-epites-elott-allok" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-telek"></span></span><span class="mega-label type-ui-body">Buying a plot, building new</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/alkalmas-lehet-e-a-telek" hreflang="hu">Could the plot be suitable?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/talaj-talajviz-es-vizelhelyezes" hreflang="hu">Soil, groundwater and water disposal</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/milyen-dokumentumokra-lehet-szukseg" hreflang="hu">What documents might you need?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/telekadat-ellenorzolista" hreflang="hu">Plot data checklist</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/helyszini-felmeres" hreflang="hu">On-site survey</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../helyzetem/meglevo-emesztot-szeretnek-kivaltani" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-emeszto"></span></span><span class="mega-label type-ui-body">Replacing a cesspit</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/mikor-indokolt-a-csere" hreflang="hu">When is replacement worthwhile?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/emeszto-oldomedence-vagy-biologiai" hreflang="hu">Cesspit, septic tank or biological?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/teljes-koltseg-es-megterules" hreflang="hu">Total cost and payback</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/meglevo-rendszer-felmerese" hreflang="hu">Assessing an existing system</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/koltseg-es-projektbrief" hreflang="hu">Cost and project brief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nyaralo"></span></span><span class="mega-label type-ui-body">Holiday home, seasonal use</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/mit-jelent-az-idoszakos-terheles" hreflang="hu">What does intermittent load mean?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/biologiai-rendszer-vagy-oldomedence" hreflang="hu">Biological system or septic tank?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/hosszabb-tavollet-es-ujrainditas" hreflang="hu">Long absences and restarting</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/szezonalis-esettanulmanyok" hreflang="hu">Seasonal case studies</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/hasznalati-profil" hreflang="hu">Building a usage profile</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../helyzetem/csaladi-hazhoz-keresek-rendszert" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-epitkezes"></span></span><span class="mega-label type-ui-body">Family home</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/megoldastipus-kivalasztasa" hreflang="hu">Choosing a solution type</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/telekalkalmassag" hreflang="hu">Plot suitability</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/kapacitas-es-letszam" hreflang="hu">Capacity and occupancy</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/koltseg-es-telepites" hreflang="hu">Cost and installation</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/ajanlatkeresi-keszultseg" hreflang="hu">Ready to request a quote</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vallalkozas"></span></span><span class="mega-label type-ui-body">Business, institution</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/vallalkozas-panziok-es-szallashelyek" hreflang="hu">Guesthouses and accommodation</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/vallalkozas-ettermek-es-nagykonyhak" hreflang="hu">Restaurants and commercial kitchens</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/vallalkozas-iskolak-es-intezmenyek" hreflang="hu">Schools and institutions</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/vallalkozas-kempingek-es-kozossegi" hreflang="hu">Campsites and community facilities</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/vallalkozas-uzemek-es-specialis-terhelesek" hreflang="hu">Plants and special loads</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../helyzetem/vallalkozas-szakmai-projektbrief" hreflang="hu">Technical project brief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-szerviz"></span></span><span class="mega-label type-ui-body">I already have a system</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-megoldasok">
+              Solutions<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-megoldasok" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Solutions</p>
+                  <a class="text-link mega-attekintes" href="../megoldasok/" hreflang="hu"><span class="link-label">Overview<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../megoldasok/" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Overview</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/megoldastipusok-osszehasonlitasa" hreflang="hu">Comparing solution types</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/melyik-megoldas-mikor-megfelelo" hreflang="hu">Which solution suits which case?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/kizaro-es-korlatozo-feltetelek" hreflang="hu">Exclusions and limiting conditions</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/megoldastipus-eloszuro" hreflang="hu">Solution type pre-screener</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../megoldasok/biologiai-szennyviztisztitas" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-biologiai"></span></span><span class="mega-label type-ui-body">Biological treatment</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-hogyan-mukodik" hreflang="hu">How it works</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-kinek-megfelelo" hreflang="hu">Who it suits</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-mikor-nem-megfelelo" hreflang="hu">When it is not suitable</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-telek-es-terhelesi-feltetelek" hreflang="hu">Plot and load conditions</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-uzemeltetes-es-karbantartas" hreflang="hu">Operation and maintenance</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-koltsegtenyezok" hreflang="hu">Cost factors</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-esettanulmanyok" hreflang="hu">Related case studies</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../megoldasok/ab-clear" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-biologiai"></span></span><span class="mega-label type-ui-body">↳ A.B.Clear</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-modellek-es-kapacitasok" hreflang="hu">Models and capacities</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-muszaki-adatok" hreflang="hu">Technical data</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-iszapzsakos-technologia" hreflang="hu">Sludge-bag technology</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-telepitesi-feltetelek" hreflang="hu">Installation requirements</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-dokumentumok" hreflang="hu">Documents and certificates</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-referenciak" hreflang="hu">Related references</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../megoldasok/oldomedences-rendszer" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-mukodes"></span></span><span class="mega-label type-ui-body">Septic tank system</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-hogyan-mukodik" hreflang="hu">How it works</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-kinek-megfelelo" hreflang="hu">Who it suits</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-mikor-nem-megfelelo" hreflang="hu">When it is not suitable</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-tisztitomezo" hreflang="hu">Drainage field and space required</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-szippantas-es-karbantartas" hreflang="hu">Emptying and maintenance</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-esettanulmanyok" hreflang="hu">Related case studies</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../megoldasok/epureco" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-oldomedence"></span></span><span class="mega-label type-ui-body">↳ EPURECO</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-modellek-es-kapacitasok" hreflang="hu">Models and capacities</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-muszaki-adatok" hreflang="hu">Technical data</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-telepitesi-feltetelek" hreflang="hu">Installation requirements</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-dokumentumok" hreflang="hu">Documents</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../megoldasok/nagyobb-es-kozossegi-rendszerek" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozossegi"></span></span><span class="mega-label type-ui-body">Larger systems</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-kapacitasi-kategoriak" hreflang="hu">Capacity and project categories</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-terhelesi-profil" hreflang="hu">Load profile</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-elokezeles-es-kiegeszitok" hreflang="hu">Pre-treatment and accessories</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-monitoring-es-uzemeltetes" hreflang="hu">Monitoring and operation</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-engedelyezes" hreflang="hu">Permitting</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-esettanulmanyok" hreflang="hu">Institutional case studies</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-szakmai-konzultacio" hreflang="hu">Technical consultation</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../megoldasok/alternativak" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-alternativak"></span></span><span class="mega-label type-ui-body">Alternatives</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-elokeszites">
+              Preparation<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-elokeszites" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Preparation</p>
+                  <a class="text-link mega-attekintes" href="../projekt-elokeszites/" hreflang="hu"><span class="link-label">Overview<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../projekt-elokeszites/telekalkalmassag" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-talaj"></span></span><span class="mega-label type-ui-body">Plot suitability</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/telekalkalmassag-attekintese" hreflang="hu">Plot suitability overview</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/talaj-es-szivargokepesseg" hreflang="hu">Soil and infiltration capacity</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/talajviz" hreflang="hu">Groundwater</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/kut-es-vedotavolsag" hreflang="hu">Wells and protective distance</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/telekmeret-es-szabad-terulet" hreflang="hu">Plot size and available area</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/lejtes-es-csomelyseg" hreflang="hu">Gradient and pipe depth</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/jarmuterheles-es-hozzaferes" hreflang="hu">Vehicle loading and access</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/telekadatok-osszegyujtese" hreflang="hu">How to gather the plot data</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/telek-es-vizelhelyezesi-eloszuro" hreflang="hu">Plot and water disposal pre-screener</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../projekt-elokeszites/tisztitott-viz-elhelyezese" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vizelvezetes"></span></span><span class="mega-label type-ui-body">Water disposal</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/elszivarogtatas" hreflang="hu">Soakaway infiltration</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/tisztitomezo" hreflang="hu">Drainage field</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/gyokerzonas-elhelyezes" hreflang="hu">Reed bed disposal</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/magas-talajvizi-helyzetek" hreflang="hu">High groundwater situations</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/szivarogtatasi-vizsgalat" hreflang="hu">Percolation test</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/mikor-szukseges-szakerto" hreflang="hu">When you need an expert</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../projekt-elokeszites/terheles-es-kapacitas" hreflang="hu"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-terheles"></span></span><span class="mega-label type-ui-body">Load and capacity</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/lakosegyenertek" hreflang="hu">Population equivalent</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/szemelyszam-es-vizfogyasztas" hreflang="hu">Occupancy and water use</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/atlag-es-csucsterheles" hreflang="hu">Average and peak load</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/szezonalis-hasznalat" hreflang="hu">Seasonal use</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/panziok-es-vendeglatas" hreflang="hu">Guesthouses and hospitality</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/intezmenyi-terheles" hreflang="hu">Institutional load</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/specialis-vagy-ipari-szennyviz" hreflang="hu">Special or industrial wastewater</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../projekt-elokeszites/terhelesi-profil-eloszuro" hreflang="hu">Load profile and pre-qualifier</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-tudastar">
+              Knowledge base<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-tudastar" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Knowledge base</p>
+                  <span class="type-ui-caption mega-keszul">This section is still in progress. In the meantime, do get in touch with your question.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">Section in progress</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Knowledge base home</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Solutions and how they work</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Plot, soil and water</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Load and sizing</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Permitting and compliance</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Cost and delivery</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Operation and fault prevention</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Water quality and sludge</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Glossary</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Practical guides</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Searchable FAQ</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-eredmenyek">
+              Results<span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="mega" id="mega-eredmenyek" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Results</p>
+                  <span class="type-ui-caption mega-keszul">This section is still in progress. In the meantime, do get in touch with your question.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">Section in progress</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Results overview</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Case studies</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Project database</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Technical evidence</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Certificates and documents</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Customer experiences</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link type-ui-nav" href="../kapcsolat" hreflang="hu">Contact</a>
+          </li>
+</ul>
+      </nav>
+    </details>
+
+    <!-- TÉMAVÁLTÓ. `role="switch"`: a gomb NEVE állandó („Dark theme"), az
+         állapotot az `aria-checked` hordozza — ez a kapcsolók ARIA-mintája. A
+         lebegő súgó a MŰVELETET mondja ki, és `aria-hidden`, hogy a
+         képernyőolvasó ne ismételje meg ugyanazt más szavakkal.
+         A gomb csak akkor látszik, ha a tema.js lefutott (app.css 5.12c). -->
+    <div class="tema-doboz">
+      <button type="button" class="tema-valto" role="switch" aria-checked="false"
+              data-tema-valto>
+        <span class="visually-hidden">Dark theme</span>
+        <span class="tema-sin" aria-hidden="true">
+          <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+          <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          <span class="tema-fogo">
+            <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+            <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          </span>
+        </span>
+      </button>
+      <span class="tema-tipp type-ui-caption" aria-hidden="true"
+            data-tema-tipp>Switch to dark theme</span>
+    </div>
+    <!-- NYELVVÁLTÓ. Minden nyelv saját alkönyvtárban él, saját lapkészlettel:
+         egy magyar lapnak nem kötelező angol párja legyen. A cél címét a lap
+         saját `hreflang` hivatkozása adja (lásd a <head>-et); fordítás híján a
+         nyelv nyitólapjára mutat, sosem 404-re. -->
+    <nav class="nyelvvalto" aria-label="Language">
+      <a class="nyelvvalto-elem type-ui-nav" href="../konzultacio" hreflang="hu" lang="hu" aria-label="Magyar">HU</a>
+      <span class="nyelvvalto-elem nyelvvalto-aktiv type-ui-nav" lang="en" aria-current="true">EN</span>
+    </nav>
+
+
+    <a class="btn btn-primary header-cta" href="consultation">
+      <span class="action-arrow" aria-hidden="true">&rarr;</span>Request a consultation</a>
+  </div>
+  </div>
+
+</header>
+
+<main id="fotartalom">
+  <section class="hero page-hero" aria-labelledby="oldal-cim">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol class="breadcrumb-list type-ui-caption" role="list">
+            <li><a href="./">Home</a></li>
+            <li><a href="../kapcsolat" hreflang="hu">Contact</a></li>
+          </ol>
+        </nav>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Request a consultation</h1>
+        <p class="type-ui-body-strong hero-lead">A few questions about the property and your situation — after which you can ask for a discussion by phone, online or on site, at times that suit you. Your answers form a technical summary, so that the first conversation is already about what matters.</p>
+      </div>
+    </div>
+    <figure class="hero-media page-hero-media">
+      <picture>
+        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-projektbrief-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
+        <img src="../assets/img/oldalak/hero-projektbrief.webp?v=2"
+             srcset="../assets/img/oldalak/hero-projektbrief-1024.webp?v=2 1100w, ../assets/img/oldalak/hero-projektbrief.webp?v=2 1800w"
+             sizes="100vw" width="1800" height="771" alt="A technical drawing spread out on a meeting table, with a laptop, a notebook and a folding rule beside it" fetchpriority="high" decoding="async">
+      </picture>
+    </figure>
+  </section>
+
+  <section class="section" aria-labelledby="miert-cim">
+    <div class="section-inner">
+      <div class="konzv-bevezeto">
+        <div class="konzv-bevezeto-szoveg">
+          <p class="type-data-eyebrow section-eyebrow">Why we ask so much</p>
+          <h2 class="type-display-section-title konzv-bevezeto-cim" id="miert-cim">A good recommendation needs data, not guesswork</h2>
+          <p class="type-ui-body konzv-bevezeto-lead">The size and the type are decided together by the property, the load and the plot. Leave blank anything you do not know — we fill the gaps at the consultation.</p>
+        </div>
+        <ul class="konzv-elonyok" role="list">
+        <li class="konzv-elony">
+          <span class="konzv-elony-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>
+          <p class="type-ui-subtitle konzv-elony-cim">5–7 perc</p>
+          <p class="type-ui-caption konzv-elony-szoveg">You can stop at any point: the answers stay on this computer, and you pick up where you left off.</p>
+        </li>
+        <li class="konzv-elony">
+          <span class="konzv-elony-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg></span>
+          <p class="type-ui-subtitle konzv-elony-cim">Only the questions that matter</p>
+          <p class="type-ui-caption konzv-elony-szoveg">The pages follow your earlier answers — we do not ask about industrial load for a holiday home, or company details from a private individual.</p>
+        </li>
+        <li class="konzv-elony">
+          <span class="konzv-elony-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.5S19 15 19 10a7 7 0 1 0-14 0c0 5 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+          <p class="type-ui-subtitle konzv-elony-cim">A reply within two working days</p>
+          <p class="type-ui-caption konzv-elony-szoveg">We confirm one of the times you give, or propose another if none of them fits the calendar.</p>
+        </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section konzv-szekcio" id="urlap" aria-labelledby="urlap-cim">
+    <div class="section-inner">
+      <div class="section-fejlec">
+        <p class="type-data-eyebrow section-eyebrow">Request a consultation</p>
+        <h2 class="type-display-section-title section-title" id="urlap-cim">Your situation</h2>
+      </div>
+
+      <!-- A varázsló JS NÉLKÜL is teljes értékű: minden lap egyszerre látszik,
+           és egyetlen POST megy a végpontra. A JS annyit tesz, hogy lapokra
+           bontja, jelzi a haladást, és helyben mutatja a választ. -->
+      <form class="urlap konzv" method="post" action="api/konzultacio" data-urlap data-konzv>
+
+        <div class="konzv-folytatas" data-konzv-folytatas hidden>
+          <p class="type-ui-body konzv-folytatas-szoveg">You have an unfinished form on this computer.</p>
+          <div class="konzv-folytatas-gombok">
+            <button type="button" class="btn btn-primary btn-kicsi" data-konzv-folytat>Folytatom</button>
+            <button type="button" class="btn btn-inverse btn-kicsi" data-konzv-elvet>Start again</button>
+          </div>
+        </div>
+
+        <ol class="konzv-lepcso" data-konzv-lepcso role="list" hidden>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="1"><span class="konzv-lepcso-szam">1</span><span class="type-ui-caption konzv-lepcso-nev">Ki keres</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="2"><span class="konzv-lepcso-szam">2</span><span class="type-ui-caption konzv-lepcso-nev">Hol tart</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="3"><span class="konzv-lepcso-szam">3</span><span class="type-ui-caption konzv-lepcso-nev">Az ingatlan</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="4"><span class="konzv-lepcso-szam">4</span><span class="type-ui-caption konzv-lepcso-nev">Description</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="5"><span class="konzv-lepcso-szam">5</span><span class="type-ui-caption konzv-lepcso-nev">Time</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="6"><span class="konzv-lepcso-szam">6</span><span class="type-ui-caption konzv-lepcso-nev">Contact details</span></li>
+        </ol>
+
+        <!-- 1. KI KERES ------------------------------------------------------ -->
+        <fieldset class="konzv-lap" data-konzv-lap="1">
+          <legend class="type-display-card-title konzv-lap-cim">Who is looking for a solution?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-ki"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-ki">This decides which questions we ask, and which colleague calls you back. If you are unsure, choose private individual — we can refine it at the consultation.</span></span></legend>
+          <p class="type-ui-body konzv-lap-lead">Every further question depends on this — as does who gets in touch with you.</p>
+
+          <div class="konzv-valasztok" role="radiogroup" aria-labelledby="ki-cim">
+            <span class="konzv-rejtett" id="ki-cim">Type of enquirer</span>
+            <label class="konzv-valaszto">
+              <input type="radio" name="ki" value="magan" required data-konzv-agaz>
+              <span class="konzv-valaszto-test">
+                <span class="konzv-valaszto-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/></svg></span>
+                <span class="type-ui-subtitle konzv-valaszto-cim">Private individual</span>
+                <span class="type-ui-caption konzv-valaszto-szoveg">Family home, holiday home, weekend plot</span>
+              </span>
+            </label>
+            <label class="konzv-valaszto">
+              <input type="radio" name="ki" value="ceg" data-konzv-agaz>
+              <span class="konzv-valaszto-test">
+                <span class="konzv-valaszto-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V7l7-3v16"/><path d="M11 10h9v10"/><path d="M14 20v-4h3v4"/></svg></span>
+                <span class="type-ui-subtitle konzv-valaszto-cim">Business or institution</span>
+                <span class="type-ui-caption konzv-valaszto-szoveg">Accommodation, hospitality, institution, plant</span>
+              </span>
+            </label>
+            <label class="konzv-valaszto">
+              <input type="radio" name="ki" value="onkormanyzat" data-konzv-agaz>
+              <span class="konzv-valaszto-test">
+                <span class="konzv-valaszto-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-6h4v6"/></svg></span>
+                <span class="type-ui-subtitle konzv-valaszto-cim">Local authority or community</span>
+                <span class="type-ui-caption konzv-valaszto-szoveg">Several properties, part of a settlement, a community system</span>
+              </span>
+            </label>
+            <label class="konzv-valaszto">
+              <input type="radio" name="ki" value="szakmai" data-konzv-agaz>
+              <span class="konzv-valaszto-test">
+                <span class="konzv-valaszto-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M8 10h8M8 14h5"/></svg></span>
+                <span class="type-ui-subtitle konzv-valaszto-cim">Designer or contractor</span>
+                <span class="type-ui-caption konzv-valaszto-szoveg">Technical discussion, sizing, installation requirements</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="konzv-felteteles" data-konzv-ha="ki=ceg" hidden>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-szegmens">What kind of facility is it?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-szegmens"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-szegmens">The type of facility gives the character of the load: a restaurant's kitchen wastewater needs different pre-treatment than a guesthouse's accommodation load.</span></span></label>
+              <select class="urlap-input" id="f-szegmens" name="szegmens">
+                <option value="">Choose…</option>
+                <option value="panzio">Guesthouse, apartment, lodge</option>
+                <option value="etterem">Restaurant, commercial kitchen</option>
+                <option value="kemping">Campsite, community facility</option>
+                <option value="intezmeny">School, nursery, institution</option>
+                <option value="uzem">Plant, industrial or special wastewater</option>
+                <option value="iroda">Iroda, telephely</option>
+                <option value="egyeb">Other</option>
+              </select>
+            </div>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-cegnev">Company or institution name <span class="konzv-opcionalis">(optional)</span></label>
+              <input class="urlap-input" type="text" id="f-cegnev" name="cegnev" maxlength="160" autocomplete="organization">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 2. HOL TART ------------------------------------------------------ -->
+        <fieldset class="konzv-lap" data-konzv-lap="2">
+          <legend class="type-display-card-title konzv-lap-cim">Hol tart most a projekt?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-fazis"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-fazis">What we bring to the consultation depends on the stage: options and orders of magnitude if you are still looking into it, sizing and data sheets at the design stage, fault-finding for a system already running.</span></span></legend>
+          <p class="type-ui-body konzv-lap-lead">The stage decides the next step: looking into it, sizing, permitting or building.</p>
+
+          <div class="konzv-valasztok konzv-valasztok-tomor" role="radiogroup" aria-labelledby="fazis-cim">
+            <span class="konzv-rejtett" id="fazis-cim">Projektszakasz</span>
+            <label class="konzv-valaszto"><input type="radio" name="fazis" value="tajekozodas" required><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">I am only looking into it</span><span class="type-ui-caption konzv-valaszto-szoveg">I want to understand the options and the orders of magnitude</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="fazis" value="telek"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">I am about to buy a plot</span><span class="type-ui-caption konzv-valaszto-szoveg">Azt kell tudnom, alkalmas-e a telek</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="fazis" value="tervezes"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">Design or permitting</span><span class="type-ui-caption konzv-valaszto-szoveg">I have a designer; I need sizing and data sheets</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="fazis" value="epitkezes"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">Under construction or starting soon</span><span class="type-ui-caption konzv-valaszto-szoveg">I need a concrete schedule and a quote</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="fazis" value="csere"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">I want to replace an existing system</span><span class="type-ui-caption konzv-valaszto-szoveg">Instead of a cesspit or an outdated system</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="fazis" value="problema"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">There is a problem with a working system</span><span class="type-ui-caption konzv-valaszto-szoveg">Odour, backing up, shutdown, maintenance</span></span></label>
+          </div>
+
+          <div class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-jelenlegi">What is the current solution on the property?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-jelenlegi"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-jelenlegi">The existing solution shows what can be reused — a cesspit's chamber can sometimes be converted, and the pipework may stay. If you are not sure, “I am not sure” is a good answer too.</span></span></label>
+            <select class="urlap-input" id="f-jelenlegi" name="jelenlegi">
+              <option value="">Choose…</option>
+              <option value="nincs">Nothing — a new build, an empty plot</option>
+              <option value="emeszto">A sealed or soakaway cesspit</option>
+              <option value="oldomedence">A septic tank with a drainage field</option>
+              <option value="biologiai">A biological treatment unit</option>
+              <option value="kozcsatorna">There is a mains sewer, but it has problems</option>
+              <option value="nemtudom">Nem tudom pontosan</option>
+            </select>
+          </div>
+
+          <div class="konzv-felteteles" data-konzv-ha="fazis=problema" hidden>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-tunet">Mit tapasztal? <span class="konzv-opcionalis">(more than one may apply)</span></label>
+              <div class="konzv-jelolok" id="f-tunet">
+                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="szag"><span class="type-ui-caption">Szag</span></label>
+                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="visszaduzzad"><span class="type-ui-caption">Backing up, slow drainage</span></label>
+                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="megtelik"><span class="type-ui-caption">Fills up often, frequent emptying</span></label>
+                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="leallt"><span class="type-ui-caption">The unit has stopped or is reporting a fault</span></label>
+                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="vizallas"><span class="type-ui-caption">Standing water in the garden</span></label>
+                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="hatosag"><span class="type-ui-caption">A notice from the authorities has arrived</span></label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 3. AZ INGATLAN --------------------------------------------------- -->
+        <fieldset class="konzv-lap" data-konzv-lap="3">
+          <legend class="type-display-card-title konzv-lap-cim">The property and the load</legend>
+          <p class="type-ui-body konzv-lap-lead">The load sets the size, the plot's conditions the type. Leave blank anything you do not know.</p>
+
+          <div class="urlap-sor">
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-hasznalat">How is the property used?</label>
+              <select class="urlap-input" id="f-hasznalat" name="hasznalat">
+                <option value="">Choose…</option>
+                <option value="allando">Permanent, year-round occupation</option>
+                <option value="szezonalis">Seasonal — spring to autumn</option>
+                <option value="hetvegi">Weekend, occasional use</option>
+                <option value="valtozo">Variable, hard to predict</option>
+              </select>
+            </div>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-letszam">Permanent occupancy (people)<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-letszam"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-letszam">The people who live in the property. We calculate the base load from this — one person produces roughly 100–150 litres of wastewater a day.</span></span></label>
+              <input class="urlap-input" type="number" id="f-letszam" name="letszam" min="1" max="2000" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="urlap-sor">
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-csucs">Peak load (people) <span class="konzv-opcionalis">(ha van)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-csucs"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-csucs">The largest number of people present AT ONCE — guests, holidays, a full house. For a holiday home or a guesthouse this is what sizes the system, not the average. If there is no such peak, leave it blank.</span></span></label>
+              <input class="urlap-input" type="number" id="f-csucs" name="csucs" min="1" max="5000" inputmode="numeric">
+            </div>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-telekmeret">Plot size (m²) <span class="konzv-opcionalis">(ha tudja)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-telekmeret"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-telekmeret">An order of magnitude is enough. Disposing of the treated water needs free, undeveloped area — which is why both the size and how much is built on matter.</span></span></label>
+              <input class="urlap-input" type="number" id="f-telekmeret" name="telekmeret" min="1" max="1000000" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-adatok">What information do you already have? <span class="konzv-opcionalis">(more than one may apply)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-adatok"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-adatok">“Nothing yet” is a good answer too. At the consultation we will tell you what is worth obtaining — and what we survey ourselves on site.</span></span></label>
+            <div class="konzv-jelolok" id="f-adatok">
+              <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="helyszinrajz"><span class="type-ui-caption">Site plan, title deed</span></label>
+              <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="talajvizsgalat"><span class="type-ui-caption">Soil survey</span></label>
+              <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="szivarogtatas"><span class="type-ui-caption">Percolation test</span></label>
+              <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="talajviz"><span class="type-ui-caption">Groundwater level data</span></label>
+              <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="terv"><span class="type-ui-caption">Building or water-rights plans</span></label>
+              <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="ajanlat"><span class="type-ui-caption">Another quote I would like to compare</span></label>
+              <label class="konzv-jelolo"><input type="checkbox" name="adatok[]" value="semmi"><span class="type-ui-caption">Nothing yet</span></label>
+            </div>
+          </div>
+
+          <div class="urlap-sor">
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-talajviz">Is high groundwater typical in the area?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-talajviz"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-talajviz">Groundwater is the strongest limiting factor: it can decide both the technology and the means of water disposal. Signs: a damp cellar in spring, a stream nearby, water standing in the garden for long spells.</span></span></label>
+              <select class="urlap-input" id="f-talajviz" name="talajviz">
+                <option value="">Nem tudom</option>
+                <option value="nem">Not typical</option>
+                <option value="idoszakos">Occasionally, in spring</option>
+                <option value="igen">Yes, persistently high</option>
+              </select>
+            </div>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-kut">Is there a dug or bored well on the plot?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-kut"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-kut">A protective distance applies around a well, and that limits where the unit and the treated water can go. A neighbour's well counts too.</span></span></label>
+              <select class="urlap-input" id="f-kut" name="kut">
+                <option value="">Nem tudom</option>
+                <option value="nincs">Nincs</option>
+                <option value="van">Van</option>
+                <option value="szomszed">There is one next door</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 4. LEÍRÁS + AI --------------------------------------------------- -->
+        <fieldset class="konzv-lap" data-konzv-lap="4">
+          <legend class="type-display-card-title konzv-lap-cim">Describe it in your own words</legend>
+          <p class="type-ui-body konzv-lap-lead">A few sentences are enough. If you ask it to, the assistant reads the details out of them and fills in the earlier pages — you can check and overwrite every suggestion it makes.</p>
+
+          <div class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-leiras">The situation in brief<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-leiras"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-leiras">Write it as you would tell a friend: what the situation is, what you want, what is uncertain. From a good description the assistant fills in most of the fields for you.</span></span></label>
+            <textarea class="urlap-input urlap-terulet konzv-terulet" id="f-leiras" name="leiras" rows="6"
+                      maxlength="4000" data-konzv-leiras
+                      placeholder="For example: A family of four, a newly built house near Esztergom, no mains sewer. The plot is 1200 m² and slopes towards the stream. The groundwater is high in spring. We would like to know what will fit and what it would cost."></textarea>
+          </div>
+
+          <div class="konzv-ai" data-konzv-ai>
+            <div class="konzv-ai-fej">
+              <span class="konzv-ai-jel" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 13.9 9l5.6 1.9-5.6 2L12 18.5l-1.9-5.6L4.5 11l5.6-2z"/></svg></span>
+              <p class="type-ui-caption konzv-ai-cim">Form assistant</p>
+            </div>
+            <p class="type-ui-caption konzv-ai-szoveg" data-konzv-ai-szoveg>It reads the property type, the occupancy, the project stage and the plot data out of your description and enters them in the right fields. Anything it gets wrong, you correct.</p>
+            <button type="button" class="btn btn-inverse btn-kicsi konzv-ai-gomb" data-konzv-ai-gomb disabled>Read the details from the description</button>
+            <p class="type-ui-caption konzv-ai-allapot" role="status" aria-live="polite" data-konzv-ai-allapot></p>
+          </div>
+        </fieldset>
+
+        <!-- 5. IDŐPONT ------------------------------------------------------- -->
+        <fieldset class="konzv-lap" data-konzv-lap="5">
+          <legend class="type-display-card-title konzv-lap-cim">Form and timing of the consultation<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-mod"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-mod">Most questions can be settled by phone. Online suits going through plans together; the on-site survey is the last step before deciding — an exact quote rests on it.</span></span></legend>
+          <p class="type-ui-body konzv-lap-lead">Mark several slots when you are available — we confirm one. This is not yet a booking: the confirmation arrives by email.</p>
+
+          <div class="konzv-valasztok konzv-valasztok-harmas" role="radiogroup" aria-labelledby="mod-cim">
+            <span class="konzv-rejtett" id="mod-cim">Form of consultation</span>
+            <label class="konzv-valaszto"><input type="radio" name="mod" value="telefon" required><span class="konzv-valaszto-test"><span class="konzv-valaszto-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.4 3h3.1l1.5 4-2 1.4a12.5 12.5 0 0 0 5.6 5.6L16 12l4 1.5v3.1a2 2 0 0 1-2.2 2A16.4 16.4 0 0 1 4 6.2 2 2 0 0 1 6 3z"/></svg></span><span class="type-ui-subtitle konzv-valaszto-cim">A phone call</span><span class="type-ui-caption konzv-valaszto-szoveg">15–30 minutes; most questions can be settled</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="mod" value="online"><span class="konzv-valaszto-test"><span class="konzv-valaszto-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3z"/></svg></span><span class="type-ui-subtitle konzv-valaszto-cim">Online consultation</span><span class="type-ui-caption konzv-valaszto-szoveg">With screen sharing, going through the plans</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="mod" value="helyszini"><span class="konzv-valaszto-test"><span class="konzv-valaszto-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.5S19 15 19 10a7 7 0 1 0-14 0c0 5 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.6"/></svg></span><span class="type-ui-subtitle konzv-valaszto-cim">On-site survey</span><span class="type-ui-caption konzv-valaszto-szoveg">On the plot — the last step before deciding</span></span></label>
+          </div>
+
+          <div class="konzv-naptar" data-konzv-naptar>
+            <div class="konzv-naptar-fej">
+              <p class="type-ui-subtitle konzv-naptar-cim">When would suit you?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-naptar"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-naptar">This is not yet a booking: the slots you mark are preferences. We confirm one by email, or propose another if none of them fits our calendar.</span></span></p>
+              <p class="type-ui-caption konzv-naptar-sug">Choose at most three slots.</p>
+            </div>
+            <!-- A napokat és a sávokat a JS tölti fel a mai naptól. JS nélkül a
+                 látogató szabad szöveggel adja meg — a mező alább mindig ott van. -->
+            <div class="konzv-naptar-racs" data-konzv-naptar-racs hidden></div>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-idopont">Suitable times</label>
+              <input class="urlap-input" type="text" id="f-idopont" name="idopont" maxlength="300"
+                     placeholder="For example: Monday morning, Wednesday after 2pm" data-konzv-idopont>
+            </div>
+          </div>
+
+          <div class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="f-surgosseg">How urgent is it?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-surgosseg"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-surgosseg">This is only for scheduling: we bring urgent enquiries forward. It affects neither the price nor the recommendation.</span></span></label>
+            <select class="urlap-input" id="f-surgosseg" name="surgosseg">
+              <option value="">Choose…</option>
+              <option value="azonnal">Urgent — I have to decide within days</option>
+              <option value="honap">Within a month</option>
+              <option value="negyedev">This quarter</option>
+              <option value="tajekozodas">No deadline, I am looking into it</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <!-- 6. ELÉRHETŐSÉG --------------------------------------------------- -->
+        <fieldset class="konzv-lap" data-konzv-lap="6">
+          <legend class="type-display-card-title konzv-lap-cim">Contact details</legend>
+          <p class="type-ui-body konzv-lap-lead">This is where we send the confirmation and the summary.</p>
+
+          <div class="urlap-sor">
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-nev">Name</label>
+              <input class="urlap-input" type="text" id="f-nev" name="nev" required maxlength="120" autocomplete="name">
+            </div>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-email">E-mail</label>
+              <input class="urlap-input" type="email" id="f-email" name="email" required maxlength="180" autocomplete="email">
+            </div>
+          </div>
+
+          <div class="urlap-sor">
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-tel">Telefon<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-tel"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-tel">Optional, but it speeds the arrangement up considerably: if a time has to change, we do not negotiate over rounds of email.</span></span></label>
+              <input class="urlap-input" type="tel" id="f-tel" name="telefon" maxlength="40" autocomplete="tel"
+                     placeholder="+36 30 123 4567">
+            </div>
+            <div class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="f-telepules">Town or postcode<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-telepules"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-telepules">We plan the route for the on-site survey from this — and it tells us whether we already know the soil and groundwater conditions in the area.</span></span></label>
+              <input class="urlap-input" type="text" id="f-telepules" name="telepules" maxlength="120" autocomplete="address-level2">
+            </div>
+          </div>
+
+          <div class="urlap-jog">
+            <label class="urlap-jelolo">
+              <input type="checkbox" id="f-hozzajarul" name="hozzajarul" value="1" required>
+              <span class="type-ui-caption">I consent to ÖkoTech Home processing the details of my enquiry in order to reply. I have read the <a class="szoveg-link" href="../adatkezelesi-tajekoztato" hreflang="hu">privacy notice</a> megismertem.</span>
+            </label>
+            <label class="urlap-jelolo">
+              <input type="checkbox" id="f-hirlevel" name="hirlevel" value="1">
+              <span class="type-ui-caption">I would like to receive information about technical developments and changes in the regulations. <span class="konzv-opcionalis">(Optional; you can unsubscribe at any time.)</span></span>
+            </label>
+          </div>
+
+          <p class="type-ui-caption konzv-jogi-lab">By submitting you accept the relevant provisions of the <a class="szoveg-link" href="../aszf" hreflang="hu">terms and conditions</a> . We use the data solely to handle the enquiry and do not pass it to third parties. The retention period and how to request deletion are set out in the privacy notice.</p>
+        </fieldset>
+
+        <!-- ÖSSZEGZÉS (csak JS-sel) ------------------------------------------ -->
+        <div class="konzv-osszegzes" data-konzv-osszegzes hidden>
+          <p class="type-ui-subtitle konzv-osszegzes-cim">What we send</p>
+          <dl class="konzv-osszegzes-lista" data-konzv-osszegzes-lista></dl>
+        </div>
+
+        <div class="urlap-csapda" aria-hidden="true">
+          <label for="f-weboldal">Do not fill this in</label>
+          <input type="text" id="f-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" name="nyitva" value="" data-urlap-ido>
+
+        <div class="konzv-vezerlo">
+          <button type="button" class="btn btn-inverse konzv-vissza" data-konzv-vissza hidden>Vissza</button>
+          <button type="button" class="btn btn-primary konzv-tovabb" data-konzv-tovabb hidden>Next</button>
+          <button class="btn btn-primary urlap-kuldes" type="submit">Send the consultation request</button>
+        </div>
+
+        <p class="urlap-valasz" role="status" aria-live="polite" data-urlap-valasz></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==========================================================================
+     LÁBLÉC — egy sorban: márkablokk + öt hasáb.
+
+     A záró sáv cégadatai a cég impresszumából származnak. A láblécben az
+     ÜGYFÉLSZOLGÁLATI cím szerepel (2509 Esztergom, Strázsa u. 12.); a
+     bejegyzett SZÉKHELY ettől eltér, azt a jogi oldalak közlik.
+=========================================================================== -->
+<footer class="vel-szerzo">
+                  <span class="type-ui-body-strong vel-nev">Zoboki Dávid</span>
+                  <span class="type-data-value vel-hely">Pilisszentlászló</span>
+                </footer>
+
+<script src="../assets/js/site.js?v=5" defer></script>
+<script src="../assets/js/kalauz.js?v=41" defer></script>
+<script src="../assets/js/urlap.js?v=1" defer></script>
+<script src="../assets/js/konzultacio.js?v=4" defer></script>
+
+</body>
+</html>

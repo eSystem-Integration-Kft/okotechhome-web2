@@ -213,6 +213,27 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
   a kék csak fókuszban jelenik meg.
 
+### Hozzáadva — angol konzultációs lap és a nyelvi visszautak
+
+- **`/en/consultation`** — a második angol lap, kb. 1000 szó. Azért ez jött
+  másodikként: a fejléc CTA-ja ide mutat, és angol nyelvű látogatót egy teljesen
+  magyar űrlapra dobni a konverziós út legrosszabb pontja. A fejlécet és a
+  léblécet a már lefordított nyitólapból emeltem át, nem újrafordítva —
+  így nem tud elcsúszni a kettő.
+
+- **A nyelvváltó a lap SAJÁT párjára mutat**, nem a nyitólapra. Eddig a magyar
+  konzultációs lapról az EN gomb az angol nyitólapra vitt, ami elveszíti a
+  kontextust; most `konzultacio` ↔ `en/consultation`. A `hreflang` mindkét
+  irányban ki van írva — az egyoldalú bejegyzést a Google figyelmen kívül
+  hagyja.
+
+- **Az angol lapok CTA-i az angol konzultációra mennek.** A nyitólapon két
+  hivatkozás és a fejléc gombja is át lett irányítva.
+
+- Ellenőrizve: az angol fából **nulla törött hivatkozás**, és a nyitólapon
+  hiányzó 23 cél pontosan ugyanaz a 23, ami a magyar nyitólapról is hiányzik —
+  ezek a sitemapban szereplő, még meg nem épített lapok, nem a fordítás hibái.
+
 ### Hozzáadva — Öko kalauz angolul
 
 - **A kalauz felülete nyelvenkénti szótárból dolgozik** (`kalauz.js`): köszönés,
