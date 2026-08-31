@@ -42,6 +42,14 @@ def csomok(fajl: str) -> list:
     t = re.sub(r'<script(?![^>]*ld\+json)[^>]*>.*?</script>', '', t, flags=re.S)
     ki = [x.strip() for x in re.findall(r'>([^<>]+)<', t)]
     ki += [m.group(2) for m in re.finditer(r'\b(alt|aria-label|title|placeholder)="([^"]+)"', t)]
+    # a meta-leírás is látható szöveg — a keresőtalálatban és a megosztáskor.
+    # A `content` attribútum viszont technikai értékeket is hordoz (charset,
+    # viewport, robots), ezért csak a leíró meta-elemeket vesszük ide.
+    ki += [m.group(1) for m in re.finditer(
+        r'<meta[^>]*\b(?:name|property)="(?:description|og:(?:title|description)|twitter:(?:title|description))"[^>]*'
+        r'content="([^"]+)"', t)]
+    ki += [m.group(1) for m in re.finditer(
+        r'<meta[^>]*content="([^"]+)"[^>]*\b(?:name|property)="(?:description|og:(?:title|description)|twitter:(?:title|description))"', t)]
     ki = [x for x in ki if x and re.search(r'[A-Za-zÁ-ű]{3,}', x)]
     return list(dict.fromkeys(ki))
 
