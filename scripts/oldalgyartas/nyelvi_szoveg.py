@@ -56,6 +56,42 @@ def maradek(fajl: str, d: dict) -> list:
     return [c for c in csomok(fajl) if c in hu_csomok and c not in d]
 
 
+FORDITHATO_ATTR = ('alt', 'title', 'aria-label', 'placeholder', 'label', 'content')
+URLSZERU = re.compile(r'^(?:[a-z]+:|[./#]|[\w./-]+\.(?:html|webp|png|svg|js|css|json)\b)')
+
+
+def savok(s: str) -> list:
+    """A fordítható tartományok a dokumentumban: [(kezd, veg), ...].
+
+    Egy szótári pár csak akkor cserélhető, ha a találat EGÉSZE ilyen sávba esik.
+    Ezen múlik, hogy az `href`-be, `id`-ba, osztálynévbe ne írjunk bele: a
+    „vagy" → „or" pár egyszer már elrontotta a magyar szlugokat
+    (`biologiai-rendszer-or-oldomedence`), és a hivatkozás némán eltört.
+    """
+    ki, mutato = [], 0
+    tiltott = {}
+    for m in re.finditer(r'<(script|style)\b[^>]*>', s, re.I):
+        veg = s.lower().find('</' + m.group(1).lower(), m.end())
+        tiltott[m.start()] = (veg if veg >= 0 else len(s), 'ld+json' in m.group(0))
+    for m in re.finditer(r'<[^>]*>', s):
+        if m.start() > mutato:
+            ki.append((mutato, m.start()))              # szövegcsomó két tag között
+        for a in re.finditer(r'\b([a-zA-Z-]+)="([^"]*)"', m.group(0)):
+            if a.group(1).lower() in FORDITHATO_ATTR and not URLSZERU.match(a.group(2)):
+                ki.append((m.start() + a.start(2), m.start() + a.end(2)))
+        mutato = m.end()
+    if mutato < len(s):
+        ki.append((mutato, len(s)))
+    # a script/style belseje kiesik — kivéve a ld+json, ahol a JSON értékei mennek
+    for kezd, (veg, jsonld) in tiltott.items():
+        ki = [(a, b) for a, b in ki if b <= kezd or a >= veg]
+        if jsonld:
+            for m in re.finditer(r':\s*"((?:[^"\\]|\\.)*)"', s[kezd:veg]):
+                if not URLSZERU.match(m.group(1)):
+                    ki.append((kezd + m.start(1), kezd + m.end(1)))
+    return sorted(ki)
+
+
 def alkalmaz(fajl: str, d: dict) -> int:
     s = open(fajl, encoding='utf-8').read()
     n = 0
@@ -68,10 +104,17 @@ def alkalmaz(fajl: str, d: dict) -> int:
             behuzas = re.match(r'\s*', sorok[1]).group(0) if len(sorok) > 1 else ''
             szel = max(len(l) for l in sorok)
             en = '\n'.join(textwrap.wrap(' '.join(en.split()), width=max(szel, 80),
-                                         subsequent_indent=behuzas))
-        uj, db = re.subn(re.escape(hu) + f'(?![{MAGYAR_BETU}])', lambda _: en, s)
+                                          subsequent_indent=behuzas))
+        sav = savok(s)
+        darabok, utolso, db = [], 0, 0
+        for m in re.finditer(re.escape(hu) + f'(?![{MAGYAR_BETU}])', s):
+            if not any(a <= m.start() and m.end() <= b for a, b in sav):
+                continue                                 # attribútum vagy szkript belseje
+            darabok.append(s[utolso:m.start()]); darabok.append(en)
+            utolso = m.end(); db += 1
         if db:
-            s = uj; n += db
+            darabok.append(s[utolso:])
+            s = ''.join(darabok); n += db
     open(fajl, 'w', encoding='utf-8').write(s)
     return n
 
