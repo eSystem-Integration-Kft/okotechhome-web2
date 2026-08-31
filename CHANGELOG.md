@@ -213,6 +213,38 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
   a kék csak fókuszban jelenik meg.
 
+### Módosítva — a hero felvétele
+
+- **Új hero-videó és -állókép, teljes 1080p-ben.** A korábbi felvétel 1280×722-es
+  volt; az új a forrás teljes felbontásán, **1920×1080** (pontos 16:9) fut.
+  A jelenet ugyanaz — családi ház naplementében, feltárt munkagödörben az
+  A.B. Clear és a szikkasztóalagút —, ezért az `alt` szöveg érvényes maradt.
+
+  | fájl | régi | új |
+  |---|---|---|
+  | `hero-rendszer.webm` (VP9) | 1,3 MB · 1280×722 | 2,6 MB · 1920×1080 |
+  | `hero-rendszer.mp4` (H.264) | 1,2 MB · 1280×722 | 2,7 MB · 1920×1080 |
+  | `hero-rendszer-allokep.webp` | 157 KB · 1600×893 | 200 KB · 1600×900 |
+
+  A tömörítés nem a legmagasabb fokon áll: VP9 CRF 32 mellett a fájl 5,8 MB
+  lett volna, CRF 44 mellett viszont a talaj textúrája és a kavics már láthatóan
+  elkenődött. **CRF 40** az a pont, ahol a részlet még megvan. A videó csak
+  széles nézetben, `prefers-reduced-motion` nélkül és `saveData` nélkül tölt be,
+  és az állókép után — az LCP-elem az állókép, nem a felvétel.
+
+- **Az állókép a 4,2. másodperc kockája, nem az első.** Ott már folyik a
+  tisztított víz a szikkasztóalagútból, és a tartály is tele van — ez az a kép,
+  ami magában is elmondja, mit csinál a rendszer. A kezdőkocka ehhez képest
+  üresnek látszik. A videó átúszik az állóképre, tehát a kis kompozíciós
+  eltérés nem látszik; mobilon, csökkentett mozgás mellett és adattakarékos
+  módban pedig **ez az állókép marad az egyetlen kép** — annak kell a legjobbnak
+  lennie, nem a videó első pillanatának.
+
+- **A `height` 902-ről 900-ra javítva.** A jelölésben megadott magasság eddig
+  nem egyezett a fájléval (893 px), ami elrendezés-ugrást okozhatott. Az új
+  képek pontosan 16:9-esek, és a `<head>` `preload` sorai is az új verziót
+  töltik elő — enélkül a böngésző a régit szedte volna le.
+
 ### Módosítva — záró kitételek
 
 - **A 8. szekció záró jogi kitétele középre került**, felső elválasztó vonallal:
