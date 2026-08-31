@@ -21,9 +21,16 @@
 
   /* A végpontok útvonala. Nem szakmai adat, ezért nem a cég szerkesztette
      konfigban él, hanem itt — egy helyen, mindhárom hívó számára. */
-  const VEGPONT_MENTES = 'api/eredmeny-mentes';
-  const VEGPONT_OLVAS  = 'api/eredmeny-olvas';
-  const EREDMENY_LAP   = 'eredmeny';
+  /* A WEBHELY GYÖKERE a lap könyvtárához képest. A nyelvi alkönyvtárakban
+     (`/en/`) a lap egy szinttel lejjebb ül, a végpontok és az eredménylap
+     viszont a gyökérben maradnak — előtag nélkül `/en/api/...`-ra mutatnának,
+     ami nincs. A lap a `<html data-gyoker="../">` attribútummal mondja meg;
+     a gyökérben álló lapokon az attribútum hiányzik, és az előtag üres. */
+  const GYOKER = document.documentElement.dataset.gyoker || '';
+
+  const VEGPONT_MENTES = GYOKER + 'api/eredmeny-mentes';
+  const VEGPONT_OLVAS  = GYOKER + 'api/eredmeny-olvas';
+  const EREDMENY_LAP   = GYOKER + 'eredmeny';
   const TAR_KULCS      = 'oth-ugy';
   const ALAK           = /^MA-[A-Z2-9]{4}-[A-Z2-9]{4}$/;
 

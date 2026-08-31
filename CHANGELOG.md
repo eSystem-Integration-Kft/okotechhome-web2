@@ -213,6 +213,42 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
   a kék csak fókuszban jelenik meg.
 
+### Hozzáadva — a két modul angolul
+
+- **A megoldás-ajánló tartalma nyelvenkénti fájlba került.** Az
+  `ajanlo-konfig-en.js` az `ajanlo-konfig.js` angol párja: azonos szerkezet,
+  azonos kulcsok, **azonos válaszazonosítók** — csak a megfogalmazás más. Az
+  azonosítók szándékosan magyarok maradnak: a döntési szabályok, a mentett
+  ügyrekordok és a CRM-átadás mind ezekre kulcsolnak, és egy mentett eredménynek
+  ugyanazt kell jelentenie, bármelyik nyelven készült. Géppel ellenőrizve: a
+  kérdés- és válaszazonosítók, a szabályok, a területsávok, a termék-, feltétel-
+  és tisztázandó-kulcsok mind egyeznek a két fájlban.
+
+- **Az ársávbecslő kérdései ugyanígy** (`ai-advisor.js`, `KERDESEK` tábla): 35
+  azonosító, mindkét nyelven azonos. Az árak továbbra is egyetlen helyen élnek
+  (`aidt-konfig.js`) — az nyelvfüggetlen, mert számokat tartalmaz.
+
+- **A felületi feliratok szótárba kerültek** mindkét motorban (`SZOVEG`, `T`),
+  a `<html lang>` alapján választva. A tartalom nyelvenkénti konfigurációs
+  fájlban él, a felület a motorban: az elsőt a cég szerkeszti, a másodikat nem.
+
+- **Rögzített szakmai szótár** — hogy a további lapokon se csússzon el:
+  oldómedence = *septic tank*, zárt tároló = *sealed holding tank*,
+  szikkasztómező = *drainage field*, szivárogtató = *soakaway*,
+  kiemelt szivárogtató = *raised soakaway*,
+  speciális rögzítés = *anti-flotation anchoring*,
+  tisztázandók = *points to clarify*.
+
+- **Gyökér-előtag a nyelvi alkönyvtárakhoz** (`ugy.js`). A modulok a lap
+  könyvtárához képest hívták az API-t, tehát az angol lapról `/en/api/...`-ra
+  mutattak volna — ami nincs. A lap most a `<html data-gyoker="../">`
+  attribútummal mondja meg, hol a gyökér; a gyökérben álló lapokon az attribútum
+  hiányzik, és az előtag üres.
+
+  ⚠️ Öko kalauz **még magyarul válaszol az angol lapon is**. Megrendelői döntés,
+  hogy ez akkor kerül sorra, amikor a teljes angol lapkészlet megvan — a
+  keresőindexe úgyis csak akkor tud angol lapokra hivatkozni.
+
 ### Hozzáadva — angol nyitólap (`/en/`)
 
 - **A főoldal angol változata elkészült** (`_web/en/index.html`), mintaként: ezen

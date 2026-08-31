@@ -20,7 +20,200 @@
 
   /* ---------------------------------------------------------------- KÉRDÉSEK */
   /* A pontos szövegek külön dokumentumban véglegesednek — ez a szerkezet. */
-  const QUESTIONS = [
+  /* A NYELVET a `<html lang>` adja meg. A kérdések, a válaszcímkék és a
+     magyarázatok nyelvenként külön táblában állnak — a VÁLASZAZONOSÍTÓK
+     viszont mindkettőben azonosak, mert az ársávtábla, a mentett ügyrekord és
+     a megoldás-ajánlóból való átvétel mind ezekre kulcsol. */
+  const NYELV = (document.documentElement.lang || 'hu').slice(0, 2) === 'en' ? 'en' : 'hu';
+
+
+  /* ------------------------------------------------------- FELÜLETI SZÖVEG ---
+     A kérdések nyelvenkénti tábláját fent a `KERDESEK` adja; ide a felület
+     állandó feliratai kerülnek. Azért egy fájlban a motorral, mert ezek a
+     modul szerkezetéhez tartoznak, nem a cég szerkeszti őket. */
+  const T = {
+    hu: {
+      udvozles: "Üdvözlöm! Hat rövid kérdésen vezetem végig, hogy lássa, milyen tényezők befolyásolják az előzetes ársávot.",
+      koszonom: "Köszönöm.",
+      milliFt: "millió Ft",
+      egyediMeretezes: "Egyedi méretezés",
+      dKapacitas: (c) => `<b>Kapacitás (${c}):</b> ez adja a rendszer alap-méretezését, ez a legnagyobb tétel.`,
+      dTalajviz: "<b>Magas talajvíz:</b> a tartály körüli betonozás / kiegészítő megoldás feljebb tolja a költséget.",
+      dKevesHely: "<b>Kevés hely:</b> szűk telken a beépítés és a gépi munka igényesebb.",
+      dHozzaferes: "<b>Nehéz gépi hozzáférés:</b> a kivitelezés több munkát és időt kíván.",
+      dEmeszto: "<b>Emésztő kiváltása:</b> a régi akna bontása és a többletmunka növeli a beruházást.",
+      dCsere: "<b>Rendszercsere:</b> a meglévő elemek kezelése többletmunkát jelent.",
+      dIdoszakos: "<b>Időszakos használat:</b> más technológia is szóba jöhet, ez a méretezést és a költséget is befolyásolja.",
+      pTelek: "A telek méretei és egy egyszerű helyszínrajz (akár kézzel).",
+      pHasznalat: "A tervezett használat (állandó / időszakos) és a várható létszám.",
+      pTalajviz: "Amit a talajvízszintről / talajviszonyokról tud.",
+      pMeglevo: "A meglévő rendszer adatai (típus, kor, elhelyezkedés).",
+      pElvezetes: "Az elvezetéshez elképzelt irány (szikkasztás / öntözés / élővíz).",
+      tovabb: "Tovább",
+      kivalasztva: "kiválasztva",
+      valasszonTobbet: "Válasszon egyet vagy többet",
+      ajanlobol: "A megoldás-ajánlóból",
+      tobbValaszthato: "Több is választható",
+      miertSzamit: "Miért számít ez?",
+      megNyitott: "Még nyitott",
+      atveve: "átvéve",
+      otPerc: "Kb. 5 perc az egész",
+      helyzetkep: "Az Ön helyzetképe",
+      valaszMegadva: "válasz megadva",
+      elozetesArsav: "Előzetes ársáv",
+      megKell: (n) => `Még ${n} válasz szükséges`,
+      keszNezze: "Kész — nézze meg az összefoglalót",
+      pontosodik: "A becslés a válaszokkal pontosodik.",
+      fontosTajekoztato: "<b>Fontos:</b> az eredmény tájékoztató jellegű, nem végleges árajánlat.",
+      tajBecsles: "Tájékozódási becslés · nem árajánlat",
+      egyediSzoveg: "Ekkora kapacitásnál (10 fő felett) telep-kategóriás, egyedileg méretezett megoldásról beszélünk — a sávot felmérés után adjuk meg pontosan.",
+      tajSav: "Tájékozódási sáv · nem árajánlat",
+      savSzoveg: "Ez egy nagyságrendi tájékozódási sáv az Ön válaszai alapján. A pontos árat mindig helyszíni, szakértői konzultáció után adjuk meg.",
+      osszefoglaloEyebrow: "Az Ön előzetes összefoglalója",
+      osszefoglaloCim: "Íme, amit a válaszaiból látunk",
+      mozgatjak: "Önnél ezek mozgatják leginkább a költséget",
+      erdemesTisztazni: "Ezt érdemes még tisztázni",
+      nincsNyitott: "Nincs nyitott kérdés",
+      mindenMegadva: "Minden lényeges pontot megadott — a konzultáción a részleteket finomítjuk.",
+      elokesziteni: "Mit érdemes előkészíteni a konzultációra",
+      elkuldomMagamnak: "Elküldöm magamnak az összefoglalót",
+      egyszeriEmail: "Egyszeri email az összefoglalóval. Ez önmagában nem jelent megkeresési hozzájárulást.",
+      emailCim: "E-mail-cím",
+      elkuldom: "Elküldöm",
+      keressenMeg: "Kérem, hogy a cég szakértője nézze át a helyzetemet és keressen meg.",
+      adatFelhasznalas: "Az adatait kizárólag az összefoglaló elküldésére és — külön jelölés esetén — a kapcsolatfelvételre használjuk. Részletek:",
+      adatkezeles: "Adatkezelési tájékoztató",
+      konzultaciotKerek: "Konzultációt kérek",
+      ujrakezdem: "Újrakezdem a kérdéseket",
+      jogiKitetel: "Az ársáv tájékoztató jellegű, nem végleges árajánlat. A számokat a cég szakmai vezetése hagyja jóvá; a pontos ajánlat helyszíni felmérés után készül.",
+      nincsElesitve: "A küldés még nincs élesítve",
+      nincsElesitveSzoveg: "Az összefoglaló e-mailes küldése hamarosan indul. Addig az eredményt a böngészőből kinyomtathatja, vagy hívjon minket:",
+      elkuldtuk: "Elküldtük az összefoglalót",
+      nezzeMeg: "nézze meg a beérkezők között.",
+      hamarosanJelentkezik: "Szakértőnk hamarosan jelentkezik.",
+      kuldesNemSikerult: "A küldés most nem sikerült. Próbálja újra, vagy hívjon minket: +36 33 200 211.",
+      asszisztens: "ÖkoTechHome AI Asszisztens",
+      fejAlcim: "Előzetes ársáv · 6 rövid kérdés",
+      helyzetkepRovid: "Az Ön helyzetképe ·",
+      reszben: "(részben)",
+      atvettuk: "Átvettük a megoldás-ajánlóból:",
+      ugyazonosito: "Ügyazonosító:",
+      atirhatja: "Bármelyiket átírhatja a helyzetkép-panelen.",
+      megsem: "Mégsem, üresen kezdem",
+      atTudjukVenni: "Az adatait át tudjuk venni a megoldás-ajánlóból.",
+      nemKerdezzukUjra: "Amit ott már megadott, azt itt nem kérdezzük újra.",
+      adatAtvetel: "Adatok átvétele",
+      vanMentett: "Van mentett azonosítója a megoldás-ajánlóból?",
+      irjaBe: "Írja be, és amit ott megadott, azt itt nem kérdezzük újra.",
+      betoltes: "Betöltés",
+      nincsMitAtvenni: "Ezekből a válaszokból itt nem tudtunk mit átvenni.",
+      nincsIlyenAzon: "Ezt az azonosítót nem találjuk.",
+      nincsHasznalhato: "Ehhez az azonosítóhoz nincs olyan válasz, amit itt fel tudnánk használni.",
+      mentsEl: "Mentse el az ársávot is az ügyéhez",
+      mentesLeiras: "Azonosítót kap hozzá, amivel bármikor előveheti és PDF-be mentheti. Ez nem regisztráció: nevet, e-mail-címet nem kérünk hozzá.",
+      ajanloIsIde: "A megoldás-ajánló eredménye ugyanide kerül.",
+      eredmenyMentese: "Eredmény mentése",
+      elmentettuk: "Elmentettük. Az ügy azonosítója:",
+      mikodEz: "Mi ez? Egy kód, ami a válaszait köti össze — személyes adat nélkül.",
+      megnyitas: "Megnyitás, nyomtatás és PDF-be mentés",
+      nemSikerultMenteni: "Most nem sikerült elmenteni",
+      probaljaUjra: "Kérjük, próbálja újra néhány perc múlva.",
+      arsavTermek: "Előzetes ársáv",
+      arsavIndoklas: "A megadott válaszok alapján számított, tájékoztató ársáv. "
+    },
+    en: {
+      udvozles: "Welcome. I will take you through six short questions so you can see which factors shape the indicative price range.",
+      koszonom: "Thank you.",
+      milliFt: "million HUF",
+      egyediMeretezes: "Individual sizing",
+      dKapacitas: (c) => `<b>Capacity (${c}):</b> this sets the basic sizing of the system, and it is the largest single item.`,
+      dTalajviz: "<b>High groundwater:</b> concreting around the tank or an additional solution pushes the cost up.",
+      dKevesHely: "<b>Little space:</b> on a tight plot the installation and the machine work are more demanding.",
+      dHozzaferes: "<b>Difficult machine access:</b> the build takes more work and more time.",
+      dEmeszto: "<b>Cesspit replacement:</b> demolishing the old chamber and the extra work raise the investment.",
+      dCsere: "<b>System replacement:</b> dealing with the existing components means extra work.",
+      dIdoszakos: "<b>Intermittent use:</b> another technology may come into play, and this affects both the sizing and the cost.",
+      pTelek: "The plot's dimensions and a simple site plan (a hand sketch will do).",
+      pHasznalat: "The intended use (permanent / intermittent) and the expected number of people.",
+      pTalajviz: "Whatever you know about the groundwater level and ground conditions.",
+      pMeglevo: "Details of the existing system (type, age, location).",
+      pElvezetes: "The intended means of disposal (infiltration / irrigation / watercourse).",
+      tovabb: "Next",
+      kivalasztva: "selected",
+      valasszonTobbet: "Choose one or more",
+      ajanlobol: "From the solution finder",
+      tobbValaszthato: "More than one can be chosen",
+      miertSzamit: "Why does this matter?",
+      megNyitott: "Still open",
+      atveve: "carried over",
+      otPerc: "About 5 minutes in all",
+      helyzetkep: "Your situation so far",
+      valaszMegadva: "answers given",
+      elozetesArsav: "Indicative price range",
+      megKell: (n) => `${n} more answer${n === 1 ? "" : "s"} needed`,
+      keszNezze: "Done — take a look at the summary",
+      pontosodik: "The estimate sharpens with each answer.",
+      fontosTajekoztato: "<b>Important:</b> the result is indicative, not a final quotation.",
+      tajBecsles: "Indicative estimate · not a quotation",
+      egyediSzoveg: "At this capacity (more than 10 people) we are talking about a plant-scale, individually sized solution — we give the range precisely after a survey.",
+      tajSav: "Indicative range · not a quotation",
+      savSzoveg: "This is an order-of-magnitude indicative range based on your answers. We always give the exact price after an on-site expert consultation.",
+      osszefoglaloEyebrow: "Your preliminary summary",
+      osszefoglaloCim: "Here is what your answers show",
+      mozgatjak: "In your case these drive the cost most",
+      erdemesTisztazni: "These are still worth clarifying",
+      nincsNyitott: "No open questions",
+      mindenMegadva: "You have given every material point — we will refine the details at the consultation.",
+      elokesziteni: "What is worth preparing for the consultation",
+      elkuldomMagamnak: "Send the summary to myself",
+      egyszeriEmail: "A single email with the summary. On its own this is not consent to be contacted.",
+      emailCim: "Email address",
+      elkuldom: "Send",
+      keressenMeg: "Please have your specialist review my situation and get in touch.",
+      adatFelhasznalas: "We use your details solely to send the summary and — where you tick the box — to make contact. Details:",
+      adatkezeles: "Privacy notice",
+      konzultaciotKerek: "Request a consultation",
+      ujrakezdem: "Start the questions again",
+      jogiKitetel: "The price range is indicative, not a final quotation. The figures are approved by the company's technical management; the exact quote follows an on-site survey.",
+      nincsElesitve: "Sending is not live yet",
+      nincsElesitveSzoveg: "Emailing the summary goes live shortly. Until then you can print the result from your browser, or call us:",
+      elkuldtuk: "The summary has been sent",
+      nezzeMeg: "check your inbox.",
+      hamarosanJelentkezik: "Our specialist will be in touch shortly.",
+      kuldesNemSikerult: "Sending failed just now. Please try again, or call us: +36 33 200 211.",
+      asszisztens: "ÖkoTechHome AI Assistant",
+      fejAlcim: "Indicative price range · 6 short questions",
+      helyzetkepRovid: "Your situation so far ·",
+      reszben: "(in part)",
+      atvettuk: "Carried over from the solution finder:",
+      ugyazonosito: "Case reference:",
+      atirhatja: "You can change any of them in the situation panel.",
+      megsem: "No thanks, start from scratch",
+      atTudjukVenni: "We can carry your details over from the solution finder.",
+      nemKerdezzukUjra: "What you gave there, we will not ask again here.",
+      adatAtvetel: "Carry the data over",
+      vanMentett: "Do you have a saved reference from the solution finder?",
+      irjaBe: "Type it in, and what you gave there we will not ask again here.",
+      betoltes: "Load",
+      nincsMitAtvenni: "There was nothing in those answers we could use here.",
+      nincsIlyenAzon: "We cannot find that reference.",
+      nincsHasznalhato: "That reference holds no answer we could use here.",
+      mentsEl: "Save the price range to your case too",
+      mentesLeiras: "You get a reference for it, so you can return to it at any time and save it as a PDF. This is not registration: we ask for no name and no email address.",
+      ajanloIsIde: "The solution finder's result lands in the same place.",
+      eredmenyMentese: "Save the result",
+      elmentettuk: "Saved. The case reference:",
+      mikodEz: "What is this? A code that ties your answers together — with no personal data.",
+      megnyitas: "Open, print or save as PDF",
+      nemSikerultMenteni: "Could not be saved just now",
+      probaljaUjra: "Please try again in a few minutes.",
+      arsavTermek: "Indicative price range",
+      arsavIndoklas: "An indicative price range calculated from the answers given. "
+    }
+  }[NYELV];
+
+  const KERDESEK = {
+  hu: [
     {
       id: "kapacitas", step: "Kapacitás",
       q: "Hány fő használja majd rendszeresen a rendszert?",
@@ -98,7 +291,88 @@
         { id: "x", label: "Nem tudom még", chip: "Ütemezés tisztázandó", unknown: true }
       ]
     }
-  ];
+  ],
+  en: [
+    {
+      id: "kapacitas", step: "Capacity",
+      q: "How many people will use the system regularly?",
+      why: "The number of users determines the capacity the system has to be sized for. This matters because both under-sizing and over-sizing are worth avoiding: the first can lead to operating problems, the second raises the capital cost without reason.",
+      multi: false,
+      options: [
+        { id: "1-2", label: "1–2 people", chip: "1–2 people" },
+        { id: "3-4", label: "3–4 people", chip: "3–4 people" },
+        { id: "5-6", label: "5–6 people", chip: "5–6 people" },
+        { id: "7-10", label: "7–10 people", chip: "7–10 people" },
+        { id: "10+", label: "More than 10", chip: "More than 10" },
+        { id: "x", label: "I am not sure", chip: "Capacity to clarify", unknown: true }
+      ]
+    },
+    {
+      id: "hasznalat", step: "Pattern of use",
+      q: "What kind of use will it be?",
+      why: "Permanent and intermittent use place different loads on the system — that bears on which technology suits best, and on how it should be sized.",
+      multi: false,
+      options: [
+        { id: "allando", label: "Permanent (a permanent home)", chip: "Permanent use" },
+        { id: "idoszakos", label: "Intermittent (e.g. a weekend house)", chip: "Intermittent use" },
+        { id: "szezonalis", label: "Seasonal (e.g. a holiday home)", chip: "Seasonal use" },
+        { id: "x", label: "I am not sure", chip: "Use to clarify", unknown: true }
+      ]
+    },
+    {
+      id: "telek", step: "The plot",
+      q: "Is there anything on site that could make installation harder?",
+      why: "Certain conditions — high groundwater, little space, difficult machine access — call for extra work or an additional solution, and can therefore push the cost up. That is why we ask in advance.",
+      multi: true,
+      options: [
+        { id: "talajviz", label: "High groundwater", chip: "High groundwater" },
+        { id: "keveshely", label: "Little space / small plot", chip: "Little space" },
+        { id: "lejtes", label: "Sloping ground", chip: "Sloping ground" },
+        { id: "hozzaferes", label: "Difficult machine access", chip: "Difficult access" },
+        { id: "elovíz", label: "A watercourse or well nearby", chip: "Watercourse/well nearby" },
+        { id: "nincs", label: "None that I know of", chip: "No complicating conditions", exclusive: true },
+        { id: "x", label: "I do not know", chip: "Conditions to clarify", unknown: true, exclusive: true }
+      ]
+    },
+    {
+      id: "elvezetes", step: "Means of disposal",
+      q: "Where can the treated water go?",
+      why: "Disposing of the treated water — infiltration, reed-bed irrigation or discharge to a watercourse — depends on the plot and on the permitting environment, and it affects the build.",
+      multi: false,
+      options: [
+        { id: "szikkaszt", label: "Infiltration on the plot", chip: "Infiltration" },
+        { id: "gyoker", label: "Reed-bed irrigation", chip: "Reed-bed irrigation" },
+        { id: "elovíz", label: "Discharge to a watercourse", chip: "Discharge to watercourse" },
+        { id: "x", label: "I do not know / still to be settled", chip: "Disposal to clarify", unknown: true }
+      ]
+    },
+    {
+      id: "meglevo", step: "Existing system",
+      q: "Is there any wastewater solution on the plot at present?",
+      why: "Replacing an old cesspit or chamber involves demolition and extra work, so the cost works out differently than for an entirely new installation.",
+      multi: false,
+      options: [
+        { id: "uj", label: "No, an entirely new installation", chip: "New installation" },
+        { id: "emeszto", label: "Replacing an old cesspit / chamber", chip: "Cesspit replacement" },
+        { id: "csere", label: "Replacing / extending an existing system", chip: "System replacement" },
+        { id: "x", label: "I am not sure", chip: "Existing system to clarify", unknown: true }
+      ]
+    },
+    {
+      id: "fazis", step: "Consultation need",
+      q: "How immediate is the decision?",
+      why: "This helps us decide how we can be most useful: background material if you are still looking into it, an on-site survey for a concrete project.",
+      multi: false,
+      options: [
+        { id: "tajekozodas", label: "I am just looking into it", chip: "Looking into it" },
+        { id: "felev", label: "Planned within six months", chip: "Within six months" },
+        { id: "kesz", label: "A concrete, ready project", chip: "Ready project" },
+        { id: "x", label: "I do not know yet", chip: "Timing to clarify", unknown: true }
+      ]
+    }
+  ]
+  };
+  const QUESTIONS = KERDESEK[NYELV];
 
   /* ------------------------------------------------- ÁRSÁV LOGIKAI TÁBLA ----
      PLACEHOLDER értékek — éles indulás előtt Anna hagyja jóvá / állítja be.
@@ -144,17 +418,17 @@
   const fmtM = (n) => (n / 1000000).toLocaleString("hu-HU", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   function bandText(band) {
     if (!band) return "—";
-    if (band.special) return "Egyedi méretezés";
-    return `${fmtM(band.lo)}–${fmtM(band.hi)} millió Ft`;
+    if (band.special) return T.egyediMeretezes;
+    return `${fmtM(band.lo)}–${fmtM(band.hi)} ${T.milliFt}`;
   }
 
   /* -------------------------------------------------- SZÖVEG-GENERÁTOR ------
      Sablon-alapú (AI-stand-in). Éles: szigorúan promptolt AI-hívás ide köthető. */
   const NARRATION = {
-    greeting: "Üdvözlöm! Hat rövid kérdésen vezetem végig, hogy lássa, milyen tényezők befolyásolják az előzetes ársávot.",
+    greeting: T.udvozles,
     ack: (qi, opt) => {
       const q = QUESTIONS[qi];
-      return `Köszönöm. ${q.why}`;
+      return `${T.koszonom} ${q.why}`;
     }
   };
 
@@ -162,14 +436,14 @@
   function driversList(a) {
     const out = [];
     const capLabel = optChip(0, a.kapacitas);
-    if (capLabel) out.push(`<b>Kapacitás (${capLabel}):</b> ez adja a rendszer alap-méretezését, ez a legnagyobb tétel.`);
+    if (capLabel) out.push(T.dKapacitas(capLabel));
     const telek = Array.isArray(a.telek) ? a.telek : [];
-    if (telek.includes("talajviz")) out.push("<b>Magas talajvíz:</b> a tartály körüli betonozás / kiegészítő megoldás feljebb tolja a költséget.");
-    if (telek.includes("keveshely")) out.push("<b>Kevés hely:</b> szűk telken a beépítés és a gépi munka igényesebb.");
-    if (telek.includes("hozzaferes")) out.push("<b>Nehéz gépi hozzáférés:</b> a kivitelezés több munkát és időt kíván.");
-    if (a.meglevo === "emeszto") out.push("<b>Emésztő kiváltása:</b> a régi akna bontása és a többletmunka növeli a beruházást.");
-    if (a.meglevo === "csere") out.push("<b>Rendszercsere:</b> a meglévő elemek kezelése többletmunkát jelent.");
-    if (a.hasznalat === "idoszakos" || a.hasznalat === "szezonalis") out.push("<b>Időszakos használat:</b> más technológia is szóba jöhet, ez a méretezést és a költséget is befolyásolja.");
+    if (telek.includes("talajviz")) out.push(T.dTalajviz);
+    if (telek.includes("keveshely")) out.push(T.dKevesHely);
+    if (telek.includes("hozzaferes")) out.push(T.dHozzaferes);
+    if (a.meglevo === "emeszto") out.push(T.dEmeszto);
+    if (a.meglevo === "csere") out.push(T.dCsere);
+    if (a.hasznalat === "idoszakos" || a.hasznalat === "szezonalis") out.push(T.dIdoszakos);
     return out.slice(0, 4);
   }
 
@@ -192,13 +466,13 @@
   /* Konzultációra előkészítendők — a válaszokra kicsit szabva. */
   function prepList(a) {
     const out = [
-      "A telek méretei és egy egyszerű helyszínrajz (akár kézzel).",
-      "A tervezett használat (állandó / időszakos) és a várható létszám."
+      T.pTelek,
+      T.pHasznalat
     ];
     const telek = Array.isArray(a.telek) ? a.telek : [];
-    if (telek.includes("talajviz") || telek.includes("x")) out.push("Amit a talajvízszintről / talajviszonyokról tud.");
-    if (a.meglevo === "emeszto" || a.meglevo === "csere") out.push("A meglévő rendszer adatai (típus, kor, elhelyezkedés).");
-    out.push("Az elvezetéshez elképzelt irány (szikkasztás / öntözés / élővíz).");
+    if (telek.includes("talajviz") || telek.includes("x")) out.push(T.pTalajviz);
+    if (a.meglevo === "emeszto" || a.meglevo === "csere") out.push(T.pMeglevo);
+    out.push(T.pElvezetes);
     return out;
   }
 
@@ -381,19 +655,19 @@
     opts += `</div>`;
     if (active && q.multi) {
       opts += `<div class="aidt-multi-foot">
-        <button type="button" class="aidt-next" data-next="1"${state.draft.length ? "" : " disabled"}>Tovább <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-        <span class="aidt-multi-hint">${state.draft.length ? esc(state.draft.length + " kiválasztva") : "Válasszon egyet vagy többet"}</span>
+        <button type="button" class="aidt-next" data-next="1"${state.draft.length ? "" : " disabled"}>${T.tovabb} <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <span class="aidt-multi-hint">${state.draft.length ? esc(state.draft.length + " " + T.kivalasztva) : T.valasszonTobbet}</span>
       </div>`;
     }
     /* Az ÁTVETT kérdés nem „megválaszolt" a szokásos értelemben: a látogató itt
        nem kattintott. Ezt ki kell írni, különben úgy tűnne, mintha ő adta
        volna meg — és nem tudná, miért nem kérdeztük meg. */
     const atvettJel = (!active && state.atvett.has(q.id))
-      ? ` <span class="aidt-atvett-badge">${svg(ICON.check)}A megoldás-ajánlóból</span>` : "";
+      ? ` <span class="aidt-atvett-badge">${svg(ICON.check)}${T.ajanlobol}</span>` : "";
     return `<div class="aidt-row is-bot${active ? " is-active-q" : ""}${!active && state.atvett.has(q.id) ? " is-atvett" : ""}">
       <span class="aidt-av-sm"><span class="aidt-jel" aria-hidden="true"></span></span>
       <div class="aidt-bubble bot aidt-qwrap">
-        <p class="aidt-q">${esc(q.q)}${q.multi ? ` <span class="aidt-multi-badge">${svg(ICON.multi)}Több is választható</span>` : ""}${atvettJel}</p>
+        <p class="aidt-q">${esc(q.q)}${q.multi ? ` <span class="aidt-multi-badge">${svg(ICON.multi)}${T.tobbValaszthato}</span>` : ""}${atvettJel}</p>
         ${opts}
       </div>
     </div>`;
@@ -401,7 +675,7 @@
 
   function ackHtml(qi) {
     return `<p>${esc(NARRATION.ack(qi))}</p>
-      <span class="aidt-why">${svg(ICON.info)} Miért számít ez?</span>`;
+      <span class="aidt-why">${svg(ICON.info)} ${T.miertSzamit}</span>`;
   }
 
   /* jobb panel — haladás + helyzetkép + ársáv-teaser */
@@ -413,7 +687,7 @@
       const done = i < state.step;
       const active = i === state.step;
       const val = state.answers[q.id];
-      let valHtml = `<span class="aidt-sv open">Még nyitott</span>`;
+      let valHtml = `<span class="aidt-sv open">${T.megNyitott}</span>`;
       if (done) {
         if (q.multi) {
           const ids = Array.isArray(val) ? val : [];
@@ -427,7 +701,7 @@
       const atv = state.atvett.has(q.id);
       steps += `<button type="button" class="aidt-step${done ? " is-done" : ""}${active ? " is-active" : ""}${atv ? " is-atvett" : ""}"${done || active ? ` data-edit="${i}"` : " disabled"}>
         <span class="aidt-step-n">${done ? svg(ICON.check) : String(i + 1).padStart(2, "0")}</span>
-        <span class="aidt-step-label">${esc(q.step)}${atv ? ` <span class="aidt-step-atvett">átvéve</span>` : ""}</span>
+        <span class="aidt-step-label">${esc(q.step)}${atv ? ` <span class="aidt-step-atvett">${T.atveve}</span>` : ""}</span>
         ${valHtml}
       </button>`;
     });
@@ -435,17 +709,17 @@
     const dots = QUESTIONS.map((_, i) => `<span class="aidt-dot${i < state.step ? " on" : ""}"></span>`).join("");
 
     panelEl.innerHTML = `
-      <div class="aidt-time-pill">${svg(ICON.info)} Kb. 5 perc az egész</div>
-      <h3 class="aidt-panel-h">Az Ön helyzetképe</h3>
-      <p class="aidt-panel-sub">${answered} / ${QUESTIONS.length} válasz megadva</p>
+      <div class="aidt-time-pill">${svg(ICON.info)} ${T.otPerc}</div>
+      <h3 class="aidt-panel-h">${T.helyzetkep}</h3>
+      <p class="aidt-panel-sub">${answered} / ${QUESTIONS.length} ${T.valaszMegadva}</p>
       <div class="aidt-steps">${steps}</div>
       <div class="aidt-band-box">
-        <h4>Előzetes ársáv</h4>
-        <p class="aidt-band-sub">${remaining > 0 ? "Még " + remaining + " válasz szükséges" : "Kész — nézze meg az összefoglalót"}</p>
+        <h4>${T.elozetesArsav}</h4>
+        <p class="aidt-band-sub">${remaining > 0 ? T.megKell(remaining) : T.keszNezze}</p>
         <div class="aidt-band-row"><div class="aidt-dots">${dots}</div><span class="aidt-band-val">--- Ft</span></div>
-        <p class="aidt-band-note">A becslés a válaszokkal pontosodik.</p>
+        <p class="aidt-band-note">${T.pontosodik}</p>
       </div>
-      <div class="aidt-warn">${svg(ICON.warn)}<p><b>Fontos:</b> az eredmény tájékoztató jellegű, nem végleges árajánlat.</p></div>`;
+      <div class="aidt-warn">${svg(ICON.warn)}<p>${T.fontosTajekoztato}</p></div>`;
     wirePanel();
     syncMobile();
   }
@@ -462,15 +736,15 @@
     let bandBlock;
     if (band && band.special) {
       bandBlock = `<div class="aidt-res-band special">
-        <span class="aidt-res-tag">Tájékozódási becslés · nem árajánlat</span>
-        <strong>Egyedi méretezés</strong>
-        <p>Ekkora kapacitásnál (10 fő felett) telep-kategóriás, egyedileg méretezett megoldásról beszélünk — a sávot felmérés után adjuk meg pontosan.</p>
+        <span class="aidt-res-tag">${T.tajBecsles}</span>
+        <strong>${T.egyediMeretezes}</strong>
+        <p>${T.egyediSzoveg}</p>
       </div>`;
     } else {
       bandBlock = `<div class="aidt-res-band">
-        <span class="aidt-res-tag">Tájékozódási sáv · nem árajánlat</span>
+        <span class="aidt-res-tag">${T.tajSav}</span>
         <strong>${bandText(band)}</strong>
-        <p>Ez egy nagyságrendi tájékozódási sáv az Ön válaszai alapján. A pontos árat mindig helyszíni, szakértői konzultáció után adjuk meg.</p>
+        <p>${T.savSzoveg}</p>
       </div>`;
     }
 
@@ -479,8 +753,8 @@
         <div class="aidt-res-head">
           <span class="aidt-av-lg"><span class="aidt-jel" aria-hidden="true"></span></span>
           <div>
-            <p class="aidt-eyebrow small">Az Ön előzetes összefoglalója</p>
-            <h3>Íme, amit a válaszaiból látunk</h3>
+            <p class="aidt-eyebrow small">${T.osszefoglaloEyebrow}</p>
+            <h3>${T.osszefoglaloCim}</h3>
           </div>
         </div>
 
@@ -488,19 +762,19 @@
 
         <div class="aidt-res-cols">
           <section class="aidt-res-card">
-            <h4>Önnél ezek mozgatják leginkább a költséget</h4>
+            <h4>${T.mozgatjak}</h4>
             <ul class="aidt-drivers">${drivers.map((d) => `<li>${d}</li>`).join("")}</ul>
           </section>
           <section class="aidt-res-card">
-            <h4>${clarify.length ? "Amit érdemes még tisztázni" : "Nincs nyitott kérdés"}</h4>
+            <h4>${clarify.length ? T.erdemesTisztazni : T.nincsNyitott}</h4>
             ${clarify.length
               ? `<ul class="aidt-clarify">${clarify.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>`
-              : `<p class="aidt-muted">Minden lényeges pontot megadott — a konzultáción a részleteket finomítjuk.</p>`}
+              : `<p class="aidt-muted">${T.mindenMegadva}</p>`}
           </section>
         </div>
 
         <section class="aidt-res-card">
-          <h4>Mit érdemes előkészíteni a konzultációra</h4>
+          <h4>${T.elokesziteni}</h4>
           <ul class="aidt-prep">${prep.map((p) => `<li>${svg(ICON.check)} ${esc(p)}</li>`).join("")}</ul>
         </section>
 
@@ -508,23 +782,23 @@
           <div class="aidt-act">
             <span class="aidt-act-ico">${svg(ICON.mail)}</span>
             <div class="aidt-act-body">
-              <h5>Elküldöm magamnak az összefoglalót</h5>
-              <p>Egyszeri email az összefoglalóval. Ez önmagában nem jelent megkeresési hozzájárulást.</p>
+              <h5>${T.elkuldomMagamnak}</h5>
+              <p>${T.egyszeriEmail}</p>
               <form class="aidt-mailform" novalidate>
-                <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="az.on.email@pelda.hu" aria-label="Email cím" required />
-                <button type="submit" class="btn btn-primary">Elküldöm</button>
+                <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="az.on.email@pelda.hu" aria-label="${T.emailCim}" required />
+                <button type="submit" class="btn btn-primary">${T.elkuldom}</button>
               </form>
-              <label class="aidt-consent"><input type="checkbox" name="callback" /> <span>Kérem, hogy a cég szakértője nézze át a helyzetemet és keressen meg.</span></label>
-              <p class="aidt-privacy">Az adatait kizárólag az összefoglaló elküldésére és — külön jelölés esetén — a kapcsolatfelvételre használjuk. Részletek: <a href="${esc(CFG.adatkezelesUrl || "adatkezelesi-tajekoztato")}">Adatkezelési tájékoztató</a>.</p>
+              <label class="aidt-consent"><input type="checkbox" name="callback" /> <span>${T.keressenMeg}</span></label>
+              <p class="aidt-privacy">${T.adatFelhasznalas} <a href="${esc(CFG.adatkezelesUrl || "adatkezelesi-tajekoztato")}">${T.adatkezeles}</a>.</p>
             </div>
           </div>
           <div class="aidt-act-cta">
-            <a href="ajanlatkeres" class="btn btn-primary">Konzultációt kérek <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            <button type="button" class="btn btn-secondary" data-restart="1">Újrakezdem a kérdéseket</button>
+            <a href="ajanlatkeres" class="btn btn-primary">${T.konzultaciotKerek} <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <button type="button" class="btn btn-secondary" data-restart="1">${T.ujrakezdem}</button>
           </div>
         </div>
 
-        <p class="aidt-res-foot">${svg(ICON.warn)} Az ársáv tájékoztató jellegű, nem végleges árajánlat. A számokat a cég szakmai vezetése hagyja jóvá; a pontos ajánlat helyszíni felmérés után készül.</p>
+        <p class="aidt-res-foot">${svg(ICON.warn)} ${T.jogiKitetel}</p>
       </div>`;
 
     // jobb panel „kész" állapot
@@ -634,9 +908,8 @@
       /* Végpont nélkül NEM állítjuk, hogy elküldtük — ez félrevezetés lenne. */
       if (!CFG.endpoint) {
         body.innerHTML =
-          `<div class="aidt-sent">${svg(ICON.warn)}<div><h5>A küldés még nincs élesítve</h5>
-          <p>Az összefoglaló e-mailes küldése hamarosan indul. Addig az eredményt a böngészőből
-          kinyomtathatja, vagy hívjon minket: <a href="tel:+3633200211">+36 33 200 211</a>.</p></div></div>`;
+          `<div class="aidt-sent">${svg(ICON.warn)}<div><h5>${T.nincsElesitve}</h5>
+          <p>${T.nincsElesitveSzoveg} <a href="tel:+3633200211">+36 33 200 211</a>.</p></div></div>`;
         return;
       }
 
@@ -650,8 +923,8 @@
         });
         if (!res.ok) throw new Error(String(res.status));
         body.innerHTML =
-          `<div class="aidt-sent">${svg(ICON.check)}<div><h5>Elküldtük az összefoglalót</h5>
-          <p>${esc(email)} — nézze meg a beérkezők között.${callback ? " Szakértőnk hamarosan jelentkezik." : ""}</p></div></div>`;
+          `<div class="aidt-sent">${svg(ICON.check)}<div><h5>${T.elkuldtuk}</h5>
+          <p>${esc(email)} — ${T.nezzeMeg}${callback ? " " + T.hamarosanJelentkezik : ""}</p></div></div>`;
       } catch (err) {
         btn.disabled = false; btn.removeAttribute("aria-busy");
         let note = body.querySelector(".aidt-senderr");
@@ -661,7 +934,7 @@
           note.setAttribute("role", "alert");
           form.after(note);
         }
-        note.textContent = "A küldés most nem sikerült. Próbálja újra, vagy hívjon minket: +36 33 200 211.";
+        note.textContent = T.kuldesNemSikerult;
       }
     });
   }
@@ -704,13 +977,13 @@
           <span class="aidt-rail" aria-hidden="true"><span class="aidt-rail-fill"></span></span>
           <div class="aidt-chat-head">
             <span class="aidt-av"><span class="aidt-jel" aria-hidden="true"></span></span>
-            <div class="aidt-chat-id"><b>ÖkoTechHome AI Asszisztens</b><span>Előzetes ársáv · 6 rövid kérdés</span></div>
+            <div class="aidt-chat-id"><b>${T.asszisztens}</b><span>${T.fejAlcim}</span></div>
             <span class="aidt-count"><b>${Math.min(state.step + 1, QUESTIONS.length)}</b> / ${QUESTIONS.length}</span>
           </div>
           <div class="aidt-msgs"></div>
         </div>
         <aside class="aidt-panel-wrap">
-          <button type="button" class="aidt-mtoggle" aria-expanded="false">Az Ön helyzetképe · <b><span class="aidt-mstep">${state.step}</span>/${QUESTIONS.length}</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <button type="button" class="aidt-mtoggle" aria-expanded="false">${T.helyzetkepRovid} <b><span class="aidt-mstep">${state.step}</span>/${QUESTIONS.length}</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="aidt-panel"></div>
         </aside>`;
       chatEl = bodyEl.querySelector(".aidt-msgs");
@@ -756,32 +1029,32 @@
     if (state.atvett.size || Object.keys(state.elojelolt).length) {
       const cimkek = [];
       state.atvett.forEach((id) => cimkek.push(kerdesCimke(id)));
-      Object.keys(state.elojelolt).forEach((id) => cimkek.push(kerdesCimke(id) + " (részben)"));
+      Object.keys(state.elojelolt).forEach((id) => cimkek.push(kerdesCimke(id) + " " + T.reszben));
       savEl.className = "aidt-atvetel is-kesz";
       savEl.innerHTML = `${svg(ICON.check)}
-        <div><p><b>Átvettük a megoldás-ajánlóból:</b> ${esc(cimkek.join(", "))}.
-        ${azon ? "Ügyazonosító: <b>" + esc(azon) + "</b>." : ""}</p>
-        <p class="aidt-atvetel-sub">Bármelyiket átírhatja a helyzetkép-panelen.</p></div>
-        <button type="button" class="btn btn-halvany" data-atv-vissza>Mégsem, üresen kezdem</button>`;
+        <div><p><b>${T.atvettuk}</b> ${esc(cimkek.join(", "))}.
+        ${azon ? T.ugyazonosito + " <b>" + esc(azon) + "</b>." : ""}</p>
+        <p class="aidt-atvetel-sub">${T.atirhatja}</p></div>
+        <button type="button" class="btn btn-halvany" data-atv-vissza>${T.megsem}</button>`;
       savEl.hidden = false;
     } else if (kulcsok) {
       savEl.className = "aidt-atvetel";
       savEl.innerHTML = `${svg(ICON.info)}
-        <div><p><b>Az adatait át tudjuk venni a megoldás-ajánlóból.</b>
-        ${azon ? "Ügyazonosító: <b>" + esc(azon) + "</b>." : ""}</p>
-        <p class="aidt-atvetel-sub">Amit ott már megadott, azt itt nem kérdezzük újra.</p></div>
-        <button type="button" class="btn btn-primary" data-atv-betolt>Adatok átvétele</button>`;
+        <div><p><b>${T.atTudjukVenni}</b>
+        ${azon ? T.ugyazonosito + " <b>" + esc(azon) + "</b>." : ""}</p>
+        <p class="aidt-atvetel-sub">${T.nemKerdezzukUjra}</p></div>
+        <button type="button" class="btn btn-primary" data-atv-betolt>${T.adatAtvetel}</button>`;
       savEl.hidden = false;
     } else {
       savEl.className = "aidt-atvetel is-kereso";
       savEl.innerHTML = `${svg(ICON.info)}
-        <div><p><b>Van mentett azonosítója a megoldás-ajánlóból?</b></p>
-        <p class="aidt-atvetel-sub">Írja be, és amit ott megadott, azt itt nem kérdezzük újra.</p></div>
+        <div><p><b>${T.vanMentett}</b></p>
+        <p class="aidt-atvetel-sub">${T.irjaBe}</p></div>
         <form class="aidt-atvetel-form" novalidate>
           <input class="urlap-input aidt-azon-mezo" type="text" name="id" inputmode="text"
                  autocomplete="off" spellcheck="false" placeholder="MA-XXXX-XXXX"
-                 maxlength="12" aria-label="Ügyazonosító" />
-          <button type="submit" class="btn btn-halvany">Betöltés</button>
+                 maxlength="12" aria-label="${T.ugyazonosito}" />
+          <button type="submit" class="btn btn-halvany">${T.betoltes}</button>
         </form>
         <p class="aidt-atvetel-hiba" role="alert" hidden></p>`;
       savEl.hidden = false;
@@ -793,7 +1066,7 @@
     const be = savEl.querySelector("[data-atv-betolt]");
     if (be) be.addEventListener("click", () => {
       const felvett = atvesz(window.OthUgy.valaszkulcsok("ajanlo"));
-      if (!felvett.length) { atvetelSavHiba("A mentett válaszokból itt nem tudtunk mit átvenni."); return; }
+      if (!felvett.length) { atvetelSavHiba(T.nincsMitAtvenni); return; }
       rebuildBody();
       atvetelSavFrissit();
     });
@@ -821,9 +1094,9 @@
       btn.disabled = true; btn.setAttribute("aria-busy", "true");
       const valasz = await window.OthUgy.olvas(id);
       btn.disabled = false; btn.removeAttribute("aria-busy");
-      if (!valasz.ok) { atvetelSavHiba(valasz.uzenet || "Ezt az azonosítót nem találjuk."); return; }
+      if (!valasz.ok) { atvetelSavHiba(valasz.uzenet || T.nincsIlyenAzon); return; }
       const felvett = atvesz(window.OthUgy.valaszkulcsok("ajanlo"));
-      if (!felvett.length) { atvetelSavHiba("Ehhez az azonosítóhoz nincs olyan válasz, amit itt fel tudnánk használni."); return; }
+      if (!felvett.length) { atvetelSavHiba(T.nincsHasznalhato); return; }
       rebuildBody();
       atvetelSavFrissit();
     });
@@ -859,9 +1132,9 @@
       valaszok: cimkek,
       eredmeny: {
         irany: "arsav",
-        cim: "Előzetes ársáv",
+        cim: T.arsavTermek,
         termekNev: bandText(band),
-        indoklas: "A megadott válaszok alapján számított, tájékoztató ársáv. "
+        indoklas: T.arsavIndoklas
                 + "Nem árajánlat: a pontos árat helyszíni felmérés után adjuk meg.",
         okok: clarifyList(a).map((c) => ({ cimke: c })),
         feltetelek: driversList(a).map((d) => ({ cimke: tisztit(d) })),
@@ -879,10 +1152,9 @@
        meglepetés, hogy mit mentett el. */
     const fuggo = window.OthUgy.fuggoModulok("arsav").indexOf("ajanlo") >= 0;
     doboz.innerHTML = `${svg(ICON.info)}
-      <div><p><b>Mentse el az ársávot is az ügyéhez</b></p>
-      <p class="aidt-mentes-sub">Azonosítót kap hozzá, amivel bármikor előveheti és PDF-be mentheti.
-      Ez nem regisztráció: nevet, e-mail-címet nem kérünk hozzá.${fuggo ? " A megoldás-ajánló eredménye ugyanide kerül." : ""}</p></div>
-      <button type="button" class="btn btn-halvany" data-aidt-ment>Eredmény mentése</button>`;
+      <div><p><b>${T.mentsEl}</b></p>
+      <p class="aidt-mentes-sub">${T.mentesLeiras}${fuggo ? " " + T.ajanloIsIde : ""}</p></div>
+      <button type="button" class="btn btn-halvany" data-aidt-ment>${T.eredmenyMentese}</button>`;
     const gomb = doboz.querySelector("[data-aidt-ment]");
     gomb.addEventListener("click", async () => {
       if (!window.OthUgy) return;
@@ -893,16 +1165,16 @@
         const cim = window.OthUgy.eredmenyUrl(valasz.azonosito);
         doboz.className = "aidt-mentes is-kesz";
         doboz.innerHTML = `${svg(ICON.check)}
-          <div><p><b>Elmentettük. Az ügy azonosítója:</b></p>
+          <div><p><b>${T.elmentettuk}</b></p>
           <p class="aidt-mentes-azon">${esc(valasz.azonosito)}</p>
-          <p class="aidt-mentes-sub">Egy kód, ami a válaszait köti össze — személyes adat nélkül.</p>
-          <p><a class="aidt-mentes-link" href="${esc(window.OthUgy.eredmenyHref(valasz.azonosito))}">Megnyitás, nyomtatás és PDF-be mentés</a></p>
+          <p class="aidt-mentes-sub">${T.mikodEz}</p>
+          <p><a class="aidt-mentes-link" href="${esc(window.OthUgy.eredmenyHref(valasz.azonosito))}">${T.megnyitas}</a></p>
           <p class="aidt-mentes-cim">${esc(cim)}</p></div>`;
       } else {
         doboz.className = "aidt-mentes is-hiba";
         doboz.innerHTML = `${svg(ICON.warn)}
-          <div><p><b>Most nem sikerült elmenteni</b></p>
-          <p class="aidt-mentes-sub">${esc(valasz.uzenet || "Kérjük, próbálja újra néhány perc múlva.")}</p></div>`;
+          <div><p><b>${T.nemSikerultMenteni}</b></p>
+          <p class="aidt-mentes-sub">${esc(valasz.uzenet || T.probaljaUjra)}</p></div>`;
       }
     });
     return doboz;

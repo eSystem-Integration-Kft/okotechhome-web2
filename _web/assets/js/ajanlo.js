@@ -30,6 +30,68 @@
 (() => {
   "use strict";
 
+
+  /* ------------------------------------------------------------- FELÜLET ---
+     A modul TARTALMA nyelvenkénti konfigurációs fájlban él (`ajanlo-konfig.js`,
+     `ajanlo-konfig-en.js`); ide csak a felület állandó feliratai kerülnek —
+     gombok, panelcímek, állapotszövegek. Azért itt, és nem a konfigurációban,
+     mert ezeket nem a cég szerkeszti, hanem a modul szerkezetéhez tartoznak.
+
+     A nyelvet a `<html lang>` adja meg. Ismeretlen nyelvnél a magyar marad. */
+  const NYELV = (document.documentElement.lang || 'hu').slice(0, 2) === 'en' ? 'en' : 'hu';
+  const SZOVEG = {
+    hu: {
+      vegyes: "Vegyes a kép",
+      javasolt: "A javasolt megoldás",
+      nemDontheto: "Amit a válaszaiból nem lehetett automatikusan eldönteni:",
+      feltetelek: "Kivitelezési feltételek",
+      tisztazandok: "Tisztázandók",
+      allapotSzo: { kesz: "Kész", aktiv: "Folyamatban", nyitott: "Még nyitott" },
+      eredmenyGomb: "Eredmény",
+      tovabbGomb: "Tovább",
+      mentes: "Eredmény mentése",
+      elmentve: "Elmentettük. Az eredmény azonosítója:",
+      megnyitas: "Megnyitás, nyomtatás és PDF-be mentés",
+      nemSikerult: "Szerverre most nem sikerült elmenteni",
+      asszisztens: "ÖkoTechHome AI Asszisztens",
+      ajanloCim: "Megoldás-ajánló · ",
+      rovidKerdes: " rövid kérdés",
+      allapotKesz: "Jelenlegi állapot · kész",
+      allapotFolyamatban: "Jelenlegi állapot · folyamatban",
+      helyzetkep: "Az Ön helyzetképe",
+      valaszMegadva: " válasz megadva",
+      jelenlegiIrany: "Jelenlegi irány",
+      iranyKesobb: "A használati szakasz három kérdése után jelenik meg az irány.",
+      feltetelekLatszanak: "Kivitelezési feltételek, amelyek már látszanak",
+      nemVegleges: " az ajánlás ebben a szakaszban még nem végleges, a telek adottságai módosíthatják a kimenetet."
+    },
+    en: {
+      vegyes: "The picture is mixed",
+      javasolt: "The recommended solution",
+      nemDontheto: "What your answers could not settle automatically:",
+      feltetelek: "Conditions for the build",
+      tisztazandok: "Points to clarify",
+      allapotSzo: { kesz: "Done", aktiv: "In progress", nyitott: "Still open" },
+      eredmenyGomb: "Result",
+      tovabbGomb: "Next",
+      mentes: "Save the result",
+      elmentve: "Saved. The result's reference:",
+      megnyitas: "Open, print or save as PDF",
+      nemSikerult: "Could not be saved to the server just now",
+      asszisztens: "ÖkoTechHome AI Assistant",
+      ajanloCim: "Solution finder · ",
+      rovidKerdes: " short questions",
+      allapotKesz: "Current state · complete",
+      allapotFolyamatban: "Current state · in progress",
+      helyzetkep: "Your situation so far",
+      valaszMegadva: " answers given",
+      jelenlegiIrany: "Current direction",
+      iranyKesobb: "The direction appears after the three questions on use.",
+      feltetelekLatszanak: "Conditions for the build that are already apparent",
+      nemVegleges: " the recommendation is not final at this stage; the plot's conditions may still change the outcome."
+    }
+  }[NYELV];
+
   const K = window.OTH_AJANLO;
   const gyoker = document.getElementById("ajanlo-root");
   if (!K || !gyoker) return;
@@ -282,7 +344,7 @@
     const tovabb = el("button", "btn btn-primary ajanlo-tovabb");
     tovabb.type = "button";
     const utolso = allapot.aktiv === kerdesSzam - 1;
-    tovabb.appendChild(document.createTextNode(utolso ? "Eredmény" : "Tovább"));
+    tovabb.appendChild(document.createTextNode(utolso ? SZOVEG.eredmenyGomb : SZOVEG.tovabbGomb));
     tovabb.appendChild(el("span", "ajanlo-nyil", "→"));
     tovabb.disabled = !allapot.valaszok[K.kerdesek[allapot.aktiv].id];
     tovabb.addEventListener("click", () => {
@@ -308,7 +370,7 @@
     /* 1 · A javasolt megoldás */
     const blokk1 = el("section", "ajanlo-blokk");
     blokk1.appendChild(el("h4", "type-ui-card-title ajanlo-blokk-cim",
-      irany === "egyeztetes" ? "Vegyes a kép" : "A javasolt megoldás"));
+      irany === "egyeztetes" ? SZOVEG.vegyes : SZOVEG.javasolt));
     const fejlec = el("div", "ajanlo-termek");
     /* Terméknévhez csepp, egyeztetéshez info: a jelvény ne ígérjen terméket
        ott, ahol a modul szándékosan nem nevez meg egyet sem. */
@@ -332,7 +394,7 @@
       const ul = el("ul", "ajanlo-okok");
       okok.forEach((o) => ul.appendChild(el("li", "type-ui-subtitle", o)));
       blokk1.appendChild(el("p", "type-ui-subtitle ajanlo-okok-cim",
-        "Amit a válaszaiból nem lehetett automatikusan eldönteni:"));
+        SZOVEG.nemDontheto));
       blokk1.appendChild(ul);
     }
     doboz.appendChild(blokk1);
@@ -340,7 +402,7 @@
     /* 2 · Kivitelezési feltételek */
     if (k.masodik.feltetelek.length) {
       const blokk2 = el("section", "ajanlo-blokk");
-      blokk2.appendChild(el("h4", "type-ui-card-title ajanlo-blokk-cim", "Kivitelezési feltételek"));
+      blokk2.appendChild(el("h4", "type-ui-card-title ajanlo-blokk-cim", SZOVEG.feltetelek));
       const lista = el("ul", "ajanlo-feltetel-lista");
       k.masodik.feltetelek.forEach((id) => {
         const f = K.feltetelek[id]; if (!f) return;
@@ -358,7 +420,7 @@
 
     /* 3 · Tisztázandók — minden elem mellett, hogyan tisztázható (spec 6.). */
     const blokk3 = el("section", "ajanlo-blokk");
-    blokk3.appendChild(el("h4", "type-ui-card-title ajanlo-blokk-cim", "Tisztázandók"));
+    blokk3.appendChild(el("h4", "type-ui-card-title ajanlo-blokk-cim", SZOVEG.tisztazandok));
     const dl = el("dl", "ajanlo-tisztazando-lista");
     k.masodik.tisztazandok.forEach((id) => {
       const t = K.tisztazandok[id]; if (!t) return;
@@ -383,7 +445,7 @@
       bev.dataset.okoPont = "mentes";
       cta.appendChild(bev);
     }
-    const ment = el("button", "btn btn-halvany", "Eredmény mentése");
+    const ment = el("button", "btn btn-halvany", SZOVEG.mentes);
     ment.type = "button";
     ment.addEventListener("click", () => mentes(ment, cta));
     cta.appendChild(ment);
@@ -448,7 +510,7 @@
       }, []),
       eredmeny: {
         irany: irany,
-        cim: irany === "egyeztetes" ? "Vegyes a kép" : "A javasolt megoldás",
+        cim: irany === "egyeztetes" ? SZOVEG.vegyes : SZOVEG.javasolt,
         termekNev: t.nev || "",
         indoklas: t.indoklas || "",
         kompromisszum: t.kompromisszum || "",
@@ -527,7 +589,7 @@
 
     const sz = el("div", "ajanlo-mentve-szoveg");
     if (sikeres) {
-      sz.appendChild(el("p", "type-ui-body-strong", "Elmentettük. Az eredmény azonosítója:"));
+      sz.appendChild(el("p", "type-ui-body-strong", SZOVEG.elmentve));
       sz.appendChild(el("p", "ajanlo-mentve-azonosito type-data-value", adat.azonosito));
       if (K.mentes.azonositoMagyarazat) {
         sz.appendChild(el("p", "type-ui-caption ajanlo-mentve-mi-ez", K.mentes.azonositoMagyarazat));
@@ -535,7 +597,7 @@
       const cim = window.OthUgy.eredmenyUrl(adat.azonosito);
       const a = el("a", "text-link ajanlo-mentve-link");
       a.href = window.OthUgy.eredmenyHref(adat.azonosito);
-      const b = el("span", "link-label", "Megnyitás, nyomtatás és PDF-be mentés");
+      const b = el("span", "link-label", SZOVEG.megnyitas);
       b.appendChild(el("span", "action-arrow-end", "→")).setAttribute("aria-hidden", "true");
       a.appendChild(b);
       sz.appendChild(a);
@@ -548,7 +610,7 @@
         + "tudja, mit adott már meg — azokat a kérdéseket nem teszi fel újra, és az "
         + "eredményét ugyanehhez az azonosítóhoz csatolja."));
     } else {
-      sz.appendChild(el("p", "type-ui-body-strong", "Szerverre most nem sikerült elmenteni"));
+      sz.appendChild(el("p", "type-ui-body-strong", SZOVEG.nemSikerult));
       sz.appendChild(el("p", "type-ui-subtitle", (hibaSzoveg ? hibaSzoveg + " " : "")
         + "Az eredményt szövegfájlként letöltöttük a gépére, tehát nem veszett el — "
         + "azonosító viszont ehhez nem tartozik, és visszakeresni sem tudjuk."));
@@ -584,9 +646,9 @@
 
     const fej = el("div", "ajanlo-fej");
     const cimek = el("div");
-    cimek.appendChild(el("p", "type-ui-card-title ajanlo-fej-cim", "ÖkoTechHome AI Asszisztens"));
+    cimek.appendChild(el("p", "type-ui-card-title ajanlo-fej-cim", SZOVEG.asszisztens));
     cimek.appendChild(el("p", "type-ui-subtitle ajanlo-fej-alcim",
-      "Megoldás-ajánló · " + kerdesSzam + " rövid kérdés"));
+      SZOVEG.ajanloCim + kerdesSzam + SZOVEG.rovidKerdes));
     fej.appendChild(cimek);
     const szamlalo = el("p", "ajanlo-szamlalo");
     szamlalo.appendChild(el("span", "ajanlo-szamlalo-most",
@@ -625,7 +687,7 @@
     return megvan ? "kesz" : "nyitott";
   }
 
-  const ALLAPOT_SZO = { kesz: "Kész", aktiv: "Folyamatban", nyitott: "Még nyitott" };
+  const ALLAPOT_SZO = SZOVEG.allapotSzo;
   const ALLAPOT_JEL = { kesz: "pipa", aktiv: "folyamat", nyitott: "kor" };
 
   function panelRajzol() {
@@ -640,14 +702,14 @@
     const pirula = el("p", "ajanlo-allapot");
     pirula.appendChild(svg("info", "ajanlo-allapot-jel"));
     pirula.appendChild(el("span", "type-ui-label",
-      allapot.kesz ? "Jelenlegi állapot · kész" : "Jelenlegi állapot · folyamatban"));
+      allapot.kesz ? SZOVEG.allapotKesz : SZOVEG.allapotFolyamatban));
     panel.appendChild(pirula);
 
-    panel.appendChild(el("h3", "type-display-highlight-title ajanlo-panel-cim", "Az Ön helyzetképe"))
+    panel.appendChild(el("h3", "type-display-highlight-title ajanlo-panel-cim", SZOVEG.helyzetkep))
       .id = "ajanlo-panel-cim";
     const megvalaszolt = K.kerdesek.filter((q) => allapot.valaszok[q.id]).length;
     panel.appendChild(el("p", "type-ui-subtitle ajanlo-panel-alcim",
-      megvalaszolt + " / " + kerdesSzam + " válasz megadva"));
+      megvalaszolt + " / " + kerdesSzam + SZOVEG.valaszMegadva));
 
     /* A hat szakasz állapota */
     const lista = el("ol", "ajanlo-lepeslista");
@@ -669,7 +731,7 @@
     const k = kep();
 
     /* Jelenlegi irány */
-    panel.appendChild(el("p", "type-ui-label ajanlo-panel-felirat", "Jelenlegi irány"));
+    panel.appendChild(el("p", "type-ui-label ajanlo-panel-felirat", SZOVEG.jelenlegiIrany));
     const iranyId = k.masodik.irany || (k.elso && k.elso.irany);
     const iranyDoboz = el("div", "ajanlo-irany");
     if (iranyId) {
@@ -683,14 +745,14 @@
     } else {
       iranyDoboz.appendChild(svg("info", "ajanlo-irany-jel"));
       iranyDoboz.appendChild(el("p", "type-ui-subtitle ajanlo-irany-szoveg",
-        "A használati szakasz három kérdése után jelenik meg az irány."));
+        SZOVEG.iranyKesobb));
     }
     panel.appendChild(iranyDoboz);
 
     /* Kivitelezési feltételek — chipként, ahogy már látszanak */
     if (k.masodik.feltetelek.length) {
       panel.appendChild(el("p", "type-ui-label ajanlo-panel-felirat",
-        "Kivitelezési feltételek, amelyek már látszanak"));
+        SZOVEG.feltetelekLatszanak));
       const chipek = el("ul", "ajanlo-chipek");
       k.masodik.feltetelek.forEach((id) => {
         const f = K.feltetelek[id]; if (!f) return;
@@ -704,7 +766,7 @@
 
     /* Tisztázandók */
     if (k.masodik.tisztazandok.length) {
-      panel.appendChild(el("p", "type-ui-label ajanlo-panel-felirat", "Tisztázandók"));
+      panel.appendChild(el("p", "type-ui-label ajanlo-panel-felirat", SZOVEG.tisztazandok));
       const ul = el("ul", "ajanlo-tisztazando-rovid");
       k.masodik.tisztazandok.forEach((id) => {
         const t = K.tisztazandok[id]; if (!t) return;
@@ -721,7 +783,7 @@
       const sz = el("span", "type-ui-subtitle");
       sz.appendChild(el("strong", null, "Fontos:"));
       sz.appendChild(document.createTextNode(
-        " az ajánlás ebben a szakaszban még nem végleges, a telek adottságai módosíthatják a kimenetet."));
+        SZOVEG.nemVegleges));
       fig.appendChild(sz);
       panel.appendChild(fig);
     }
