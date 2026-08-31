@@ -1107,10 +1107,16 @@
   .nav-drawer{display:flex;align-items:center}
   /* Asztali nézetben a lenyitó gomb nem kell: a `details` nyitva marad. */
   .nav-toggle{display:none}
-  /* Hat nagybetűs menüpont + lenyíló nyilak + nyelvváltó. A köz 16-ról 8-ra
-     szűkült: a menüpontoknak saját 8px belső terük is van, tehát két felirat
-     között így is 24px marad — a sor viszont elfér, és nem törik. */
-  .nav-list{display:flex;flex-wrap:wrap;align-items:center;column-gap:var(--space-8)}
+  /* A menüpontok köze RUGALMAS, ahogy a betűméret is. 1241 képpontnál — ahol a
+     sor épp csak elfér — 8px, 1680-nál 24px. Széles képernyőn bőven van hely
+     (mérve 1630-nál 341 pixel maradt szabadon), és a menü ott zsúfoltnak
+     látszott; a szűk végén viszont minden képpont számít, ezért ott marad a
+     korábbi érték. A menüpontok 4px belső terével együtt két felirat között
+     16-tól 32 képpontig terjed a távolság. */
+  .nav-list{
+    display:flex;flex-wrap:wrap;align-items:center;
+    column-gap:clamp(8px, calc(3.6vw - 36.5px), 24px);
+  }
   .nav-link{
     display:inline-flex;align-items:center;min-height:44px;
     /* 4px belső tér + 8px oszlopköz = 16px két felirat között. Szűkebb, mint a
@@ -1166,6 +1172,16 @@
   a.nyelvvalto-elem:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
   .nyelvvalto-aktiv{background:var(--surface-muted);color:var(--text-primary)}
 
+  /* HAJSZÁLVONAL a menü és a két kapcsoló között. A témaváltó és a nyelvváltó
+     egy csoport — beállítások, nem navigáció —, és a vonal ezt mondja ki egy
+     képpontnyi jellel, keret és háttér nélkül. A `.tema-doboz` első flex
+     eleme, tehát a kapcsolókkal együtt tűnik el, ha a téma-szkript nem futott. */
+  .tema-doboz::before{
+    content:"";flex:none;
+    width:1px;height:var(--space-24);
+    background:var(--border);
+    margin-right:var(--space-16);
+  }
   .tema-doboz{position:relative;display:none;align-items:center}
   :root[data-theme] .tema-doboz{display:flex}
 

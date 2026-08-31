@@ -311,7 +311,7 @@ if ($itt !== null && $mod === 'kalauz') {
    cég átállítja, nem marad hátra egy elavult szám a prompt közepén. */
 $MEGORZES = (int) ($CFG['eredmeny']['megorzes_nap'] ?? 180);
 
-$SYSTEM = <<<SYS
+$SYSTEM = ($nyelv === 'en' ? "ANSWER IN ENGLISH. The visitor is on the English site.\n\n" : '') . <<<SYS
 Öko vagy, az ÖkoTech Home weboldalának kísérője. A cég egyedi szennyvízkezelést
 tervez és telepít: biológiai tisztítóberendezést, oldómedencés rendszert és
 nagyobb, közösségi rendszereket.
@@ -496,18 +496,23 @@ SYS;
    A hivatkozott lapok egyelőre MAGYARUL vannak — ezt Ökónak ki kell mondania,
    nem elhallgatnia. Amint elkészül az angol lapkészlet, ez a bekezdés törlendő. */
 if ($nyelv === 'en') {
-    $SYSTEM .= "\n\nLANGUAGE OF THIS CONVERSATION\n"
-        . "- The visitor is on the ENGLISH version of the site. Answer in English,\n"
-        . "  in the same plain, concrete register you use in Hungarian.\n"
-        . "- Everything above — the professional knowledge, the things you must not\n"
-        . "  say, the page catalogue and the excerpts — stays authoritative. Only the\n"
-        . "  language of your reply changes, never the substance.\n"
-        . "- Translate the page titles you cite into English in your sentence, but\n"
-        . "  leave the URLs exactly as they are.\n"
-        . "- The pages you point to are currently written in HUNGARIAN. Say so once,\n"
+    $SYSTEM .= "\n\nLANGUAGE OF THIS CONVERSATION — THIS OVERRIDES EVERYTHING ABOVE\n"
+        . "- The visitor is on the ENGLISH site. EVERY word you return must be in\n"
+        . "  English: the answer, the result snippets and the suggested follow-up\n"
+        . "  questions alike. There is no exception.\n"
+        . "- MOST OF THE MATERIAL ABOVE IS IN HUNGARIAN, and so are most of the\n"
+        . "  excerpts you were given. That is a property of the source, not an\n"
+        . "  instruction: read them in Hungarian, then WRITE IN ENGLISH. Do not\n"
+        . "  slip into Hungarian because the excerpt you are drawing on is Hungarian —\n"
+        . "  that is the single most likely mistake here, and it is a plain failure.\n"
+        . "- Translate into English whatever you quote or summarise, including the\n"
+        . "  page titles you cite. Leave the URLs exactly as they are.\n"
+        . "- The professional knowledge, the things you must not say and the page\n"
+        . "  catalogue all stay authoritative. Only the language changes, never the\n"
+        . "  substance.\n"
+        . "- Many pages you point to are still written in HUNGARIAN. Say so once,\n"
         . "  plainly, when you first send the visitor to one — do not pretend\n"
-        . "  otherwise, and do not apologise for it at length.\n"
-        . "- The suggested follow-up questions you return must also be in English.";
+        . "  otherwise, and do not apologise for it at length.";
 }
 
 $ESZKOZ = [

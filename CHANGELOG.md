@@ -429,6 +429,35 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   legszűkebb esetben téved. Az első kísérletem pontosan így lógott 45 pixellel
   a képernyő alá.
 
+### Módosítva — levegő a menüben, és egy hajszálvonal
+
+- **A menüpontok köze rugalmas**, ahogy a betűméret is: 1241 képpontnál 8px,
+  1680-nál 24px. Széles képernyőn mérve 341 pixel maradt szabadon a fejlécben,
+  és a menü ott zsúfoltnak látszott; a szűk végén viszont minden képpont
+  számít, ezért ott marad a korábbi érték. A menüpontok belső terével együtt két
+  felirat között 16-tól 32 képpontig terjed a távolság.
+
+- **Hajszálvonal a menü és a két kapcsoló között.** A témaváltó és a nyelvváltó
+  egy csoport — beállítások, nem navigáció —, és a vonal ezt mondja ki egy
+  képpontnyi jellel, keret és háttér nélkül. A `.tema-doboz` első flex eleme,
+  tehát a kapcsolókkal együtt tűnik el, ha a téma-szkript nem futott le.
+
+### Javítva — Öko magyarul válaszolt az angol lapon
+
+- **A nyelvi utasítás egy hosszú magyar prompt végén állt, és alulmaradt.**
+  Mérve: az angol URL-ekhez tartozó 883 szövegrészből **761 még magyar**, mert
+  121 lapból 26 van lefordítva. A kalauz ezekből a részletekből olvas, és
+  átvette a nyelvüket.
+
+  Az utasítás mostantól a prompt **elején is** ott áll egy sorban, a végén pedig
+  megerősítve: kimondja, hogy a forrás nagyrészt magyar, hogy ez a forrás
+  tulajdonsága és nem utasítás, és hogy éppen ez a legvalószínűbb hiba itt.
+
+  ⚠️ Ez a tünetet kezeli, nem az okát. A kalauz adatbázisa **csak a fordítás
+  befejezése után lesz teljes**, és az eredménykártyák részletei addig magyarul
+  jelennek meg, mert azok az indexből jönnek, nem a modelltől. A teljes
+  ellenőrzés a fordítás lezárása utánra marad.
+
 ### Módosítva — a fejléc egy sorban marad
 
 - **A navigáció betűmérete rugalmas**: `clamp(11px, 0.68vw + 2.6px, 14px)`.
