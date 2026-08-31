@@ -221,6 +221,14 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   léblécet a már lefordított nyitólapból emeltem át, nem újrafordítva —
   így nem tud elcsúszni a kettő.
 
+- **Javítva: a lábléc helyére egy véleményszerző-blokk került.** Az angol
+  konzultációs lap készítésekor a láblécet az `<footer` elem első előfordulására
+  illesztve emeltem át a nyitólapról — a véleménykártyák szerzőblokkja viszont
+  szintén `<footer`, így a lap aljára „Zoboki Dávid · Pilisszentlászló" került,
+  valódi lábléc helyett. Osztályra illesztve (`<footer class="lablec">`) javítva.
+  A fejléc kivágása nem volt érintett: az egyetlen eltérés a nyelvváltó címe,
+  ami szándékos.
+
 - **A nyelvváltó a lap SAJÁT párjára mutat**, nem a nyitólapra. Eddig a magyar
   konzultációs lapról az EN gomb az angol nyitólapra vitt, ami elveszíti a
   kontextust; most `konzultacio` ↔ `en/consultation`. A `hreflang` mindkét
