@@ -18,6 +18,7 @@ import json, os, re, sys, textwrap
 ITT = os.path.dirname(__file__)
 WEB = os.path.normpath(os.path.join(ITT, '..', '..', '_web'))
 SZOTAR_UT = os.path.join(ITT, 'szotar.json')
+NEVEK_UT = os.path.join(ITT, 'nem_forditando.json')
 MAGYAR_BETU = 'a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ'
 
 
@@ -29,6 +30,9 @@ def szotar() -> dict:
 
 def ment(d: dict) -> None:
     json.dump(d, open(SZOTAR_UT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1, sort_keys=True)
+
+
+NEVEK = set(json.load(open(NEVEK_UT, encoding='utf-8'))) if os.path.exists(NEVEK_UT) else set()
 
 
 def csomok(fajl: str) -> list:
@@ -53,7 +57,24 @@ def maradek(fajl: str, d: dict) -> list:
     en_rel = os.path.relpath(fajl, os.path.join(WEB, 'en'))[:-5]
     hu_rel = {v: k for k, v in nyelvek.SZLUG.items()}.get(en_rel)
     hu_csomok = set(csomok(os.path.join(WEB, hu_rel + '.html'))) if hu_rel else set()
-    return [c for c in csomok(fajl) if c in hu_csomok and c not in d]
+    return [c for c in csomok(fajl)
+            if c in hu_csomok and c not in d and not tulajdonnev(c)]
+
+
+def tulajdonnev(c: str) -> bool:
+    """Amin nincs mit fordítani: név, településnév, cím, entitás, szám.
+
+    A mérce nem lehet a nagy kezdőbetű önmagában — `Nincs`, `Van`, `Vissza`
+    valódi felirat, és pontosan ezek maradtak bent, amikor a szűrő ennél
+    engedékenyebb volt. Ezért csak a TÖBB SZAVAS, végig nagybetűvel kezdődő
+    csomót engedjük át magától; az egyszavú neveket névsor sorolja fel.
+    """
+    if c in NEVEK or '@' in c:
+        return True
+    if not re.search(r'[A-Za-zÁ-ű]', re.sub(r'&[a-z]+;', '', c)):
+        return True                                   # entitás, szám, írásjel
+    szavak = [w for w in re.findall(r"[A-Za-zÁ-ű.'-]+", c) if len(w) > 1]
+    return len(szavak) > 1 and all(w[0].isupper() for w in szavak)
 
 
 FORDITHATO_ATTR = ('alt', 'title', 'aria-label', 'placeholder', 'label', 'content')
