@@ -18,14 +18,15 @@ ITT = os.path.dirname(__file__)
 WEB = os.path.normpath(os.path.join(ITT, '..', '..', '_web'))
 EKEZET = 'áéíóöőúüűÁÉÍÓÖŐÚÜŰ'
 
-# ékezet nélküli, de egyértelműen magyar szavak — a ragozott alakokat a
+# ékezet nélküli, de egyértelműen magyar szavak. Ami angolul is szó — `mind`,
+# `sor`, `part` — nem kerülhet ide: téves találatot adna a kész angol szövegen. — a ragozott alakokat a
 # szótő-illesztés fogja meg (`nap`, `napja`, `napig`)
 MAGYAR_TOVEK = """
  ev evek evet evig evre honap honapok het hetek nap napok napig ora orak perc
  fo fok db darab forint ezer millio szaz tobb kevesebb legalabb legfeljebb
  van nincs vannak nincsenek volt lesz lehet kell kellett szukseges
  igen nem talan vagy es de ha akkor mert hogy amely amelyek ami amit
- ez az ezek azok itt ott ilyen olyan minden mind csak meg mar
+ ez az ezek azok itt ott ilyen olyan minden csak meg mar
  elso masodik harmadik negyedik otodik
  vissza tovabb kovetkezo elozo bezar megse rendben mentes torles
  szempont weboldal alacsony magas teljes reszleges folytatom
