@@ -221,6 +221,18 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   léblécet a már lefordított nyitólapból emeltem át, nem újrafordítva —
   így nem tud elcsúszni a kettő.
 
+- **Javítva: 33 lefordítatlan felirat maradt bent, mert a keresésem ékezetre
+  szűrt.** A „Folytatom", a „Nincs", a „Van", a „Vissza", a „Szempont", a
+  „Weboldal" és társaik ékezet nélküliek — az ellenőrzőm pedig a magyar szöveget
+  ékezetes betűk alapján ismerte fel, tehát ezeket rendre átengedte, és a lapot
+  „0 magyar szó" eredménnyel jelentettem késznek.
+
+  Az új ellenőrzés nem talál, hanem **összevet**: kigyűjti a lap szövegcsomóit és
+  attribútumait, majd megnézi, melyik egyezik SZÓ SZERINT a magyar forráslapéval.
+  Ami mindkettőben ugyanaz, az vagy tulajdonnév, vagy lefordítatlan maradék — és
+  a kettő szétválasztható. Ez az ékezet nélküli szavakat is megfogja. Mindkét
+  angol lap most 0 maradékkal zár.
+
 - **Javítva: a lábléc helyére egy véleményszerző-blokk került.** Az angol
   konzultációs lap készítésekor a láblécet az `<footer` elem első előfordulására
   illesztve emeltem át a nyitólapról — a véleménykártyák szerzőblokkja viszont

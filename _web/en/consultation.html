@@ -452,7 +452,7 @@
         <ul class="konzv-elonyok" role="list">
         <li class="konzv-elony">
           <span class="konzv-elony-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>
-          <p class="type-ui-subtitle konzv-elony-cim">5–7 perc</p>
+          <p class="type-ui-subtitle konzv-elony-cim">5–7 minutes</p>
           <p class="type-ui-caption konzv-elony-szoveg">You can stop at any point: the answers stay on this computer, and you pick up where you left off.</p>
         </li>
         <li class="konzv-elony">
@@ -485,15 +485,15 @@
         <div class="konzv-folytatas" data-konzv-folytatas hidden>
           <p class="type-ui-body konzv-folytatas-szoveg">You have an unfinished form on this computer.</p>
           <div class="konzv-folytatas-gombok">
-            <button type="button" class="btn btn-primary btn-kicsi" data-konzv-folytat>Folytatom</button>
+            <button type="button" class="btn btn-primary btn-kicsi" data-konzv-folytat>Continue</button>
             <button type="button" class="btn btn-inverse btn-kicsi" data-konzv-elvet>Start again</button>
           </div>
         </div>
 
         <ol class="konzv-lepcso" data-konzv-lepcso role="list" hidden>
-          <li class="konzv-lepcso-elem" data-konzv-jelzo="1"><span class="konzv-lepcso-szam">1</span><span class="type-ui-caption konzv-lepcso-nev">Ki keres</span></li>
-          <li class="konzv-lepcso-elem" data-konzv-jelzo="2"><span class="konzv-lepcso-szam">2</span><span class="type-ui-caption konzv-lepcso-nev">Hol tart</span></li>
-          <li class="konzv-lepcso-elem" data-konzv-jelzo="3"><span class="konzv-lepcso-szam">3</span><span class="type-ui-caption konzv-lepcso-nev">Az ingatlan</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="1"><span class="konzv-lepcso-szam">1</span><span class="type-ui-caption konzv-lepcso-nev">Who</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="2"><span class="konzv-lepcso-szam">2</span><span class="type-ui-caption konzv-lepcso-nev">Stage</span></li>
+          <li class="konzv-lepcso-elem" data-konzv-jelzo="3"><span class="konzv-lepcso-szam">3</span><span class="type-ui-caption konzv-lepcso-nev">The property</span></li>
           <li class="konzv-lepcso-elem" data-konzv-jelzo="4"><span class="konzv-lepcso-szam">4</span><span class="type-ui-caption konzv-lepcso-nev">Description</span></li>
           <li class="konzv-lepcso-elem" data-konzv-jelzo="5"><span class="konzv-lepcso-szam">5</span><span class="type-ui-caption konzv-lepcso-nev">Time</span></li>
           <li class="konzv-lepcso-elem" data-konzv-jelzo="6"><span class="konzv-lepcso-szam">6</span><span class="type-ui-caption konzv-lepcso-nev">Contact details</span></li>
@@ -550,7 +550,7 @@
                 <option value="kemping">Campsite, community facility</option>
                 <option value="intezmeny">School, nursery, institution</option>
                 <option value="uzem">Plant, industrial or special wastewater</option>
-                <option value="iroda">Iroda, telephely</option>
+                <option value="iroda">Office, business premises</option>
                 <option value="egyeb">Other</option>
               </select>
             </div>
@@ -563,13 +563,13 @@
 
         <!-- 2. HOL TART ------------------------------------------------------ -->
         <fieldset class="konzv-lap" data-konzv-lap="2">
-          <legend class="type-display-card-title konzv-lap-cim">Hol tart most a projekt?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-fazis"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-fazis">What we bring to the consultation depends on the stage: options and orders of magnitude if you are still looking into it, sizing and data sheets at the design stage, fault-finding for a system already running.</span></span></legend>
+          <legend class="type-display-card-title konzv-lap-cim">Where is the project now?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-fazis"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-fazis">What we bring to the consultation depends on the stage: options and orders of magnitude if you are still looking into it, sizing and data sheets at the design stage, fault-finding for a system already running.</span></span></legend>
           <p class="type-ui-body konzv-lap-lead">The stage decides the next step: looking into it, sizing, permitting or building.</p>
 
           <div class="konzv-valasztok konzv-valasztok-tomor" role="radiogroup" aria-labelledby="fazis-cim">
-            <span class="konzv-rejtett" id="fazis-cim">Projektszakasz</span>
+            <span class="konzv-rejtett" id="fazis-cim">Project stage</span>
             <label class="konzv-valaszto"><input type="radio" name="fazis" value="tajekozodas" required><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">I am only looking into it</span><span class="type-ui-caption konzv-valaszto-szoveg">I want to understand the options and the orders of magnitude</span></span></label>
-            <label class="konzv-valaszto"><input type="radio" name="fazis" value="telek"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">I am about to buy a plot</span><span class="type-ui-caption konzv-valaszto-szoveg">Azt kell tudnom, alkalmas-e a telek</span></span></label>
+            <label class="konzv-valaszto"><input type="radio" name="fazis" value="telek"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">I am about to buy a plot</span><span class="type-ui-caption konzv-valaszto-szoveg">I need to know whether the plot is suitable</span></span></label>
             <label class="konzv-valaszto"><input type="radio" name="fazis" value="tervezes"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">Design or permitting</span><span class="type-ui-caption konzv-valaszto-szoveg">I have a designer; I need sizing and data sheets</span></span></label>
             <label class="konzv-valaszto"><input type="radio" name="fazis" value="epitkezes"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">Under construction or starting soon</span><span class="type-ui-caption konzv-valaszto-szoveg">I need a concrete schedule and a quote</span></span></label>
             <label class="konzv-valaszto"><input type="radio" name="fazis" value="csere"><span class="konzv-valaszto-test"><span class="type-ui-subtitle konzv-valaszto-cim">I want to replace an existing system</span><span class="type-ui-caption konzv-valaszto-szoveg">Instead of a cesspit or an outdated system</span></span></label>
@@ -585,15 +585,15 @@
               <option value="oldomedence">A septic tank with a drainage field</option>
               <option value="biologiai">A biological treatment unit</option>
               <option value="kozcsatorna">There is a mains sewer, but it has problems</option>
-              <option value="nemtudom">Nem tudom pontosan</option>
+              <option value="nemtudom">I am not sure</option>
             </select>
           </div>
 
           <div class="konzv-felteteles" data-konzv-ha="fazis=problema" hidden>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-tunet">Mit tapasztal? <span class="konzv-opcionalis">(more than one may apply)</span></label>
+              <label class="type-ui-caption urlap-cimke" for="f-tunet">What are you seeing? <span class="konzv-opcionalis">(more than one may apply)</span></label>
               <div class="konzv-jelolok" id="f-tunet">
-                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="szag"><span class="type-ui-caption">Szag</span></label>
+                <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="szag"><span class="type-ui-caption">Odour</span></label>
                 <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="visszaduzzad"><span class="type-ui-caption">Backing up, slow drainage</span></label>
                 <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="megtelik"><span class="type-ui-caption">Fills up often, frequent emptying</span></label>
                 <label class="konzv-jelolo"><input type="checkbox" name="tunet[]" value="leallt"><span class="type-ui-caption">The unit has stopped or is reporting a fault</span></label>
@@ -628,11 +628,11 @@
 
           <div class="urlap-sor">
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-csucs">Peak load (people) <span class="konzv-opcionalis">(ha van)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-csucs"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-csucs">The largest number of people present AT ONCE — guests, holidays, a full house. For a holiday home or a guesthouse this is what sizes the system, not the average. If there is no such peak, leave it blank.</span></span></label>
+              <label class="type-ui-caption urlap-cimke" for="f-csucs">Peak load (people) <span class="konzv-opcionalis">(if there is one)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-csucs"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-csucs">The largest number of people present AT ONCE — guests, holidays, a full house. For a holiday home or a guesthouse this is what sizes the system, not the average. If there is no such peak, leave it blank.</span></span></label>
               <input class="urlap-input" type="number" id="f-csucs" name="csucs" min="1" max="5000" inputmode="numeric">
             </div>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-telekmeret">Plot size (m²) <span class="konzv-opcionalis">(ha tudja)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-telekmeret"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-telekmeret">An order of magnitude is enough. Disposing of the treated water needs free, undeveloped area — which is why both the size and how much is built on matter.</span></span></label>
+              <label class="type-ui-caption urlap-cimke" for="f-telekmeret">Plot size (m²) <span class="konzv-opcionalis">(if you know it)</span><span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-telekmeret"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-telekmeret">An order of magnitude is enough. Disposing of the treated water needs free, undeveloped area — which is why both the size and how much is built on matter.</span></span></label>
               <input class="urlap-input" type="number" id="f-telekmeret" name="telekmeret" min="1" max="1000000" inputmode="numeric">
             </div>
           </div>
@@ -653,8 +653,7 @@
           <div class="urlap-sor">
             <div class="urlap-mezo">
               <label class="type-ui-caption urlap-cimke" for="f-talajviz">Is high groundwater typical in the area?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-talajviz"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-talajviz">Groundwater is the strongest limiting factor: it can decide both the technology and the means of water disposal. Signs: a damp cellar in spring, a stream nearby, water standing in the garden for long spells.</span></span></label>
-              <select class="urlap-input" id="f-talajviz" name="talajviz">
-                <option value="">Nem tudom</option>
+              <select class="urlap-input" id="f-talajviz" name="talajviz"> <option value="">I do not know</option>
                 <option value="nem">Not typical</option>
                 <option value="idoszakos">Occasionally, in spring</option>
                 <option value="igen">Yes, persistently high</option>
@@ -662,10 +661,8 @@
             </div>
             <div class="urlap-mezo">
               <label class="type-ui-caption urlap-cimke" for="f-kut">Is there a dug or bored well on the plot?<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-kut"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-kut">A protective distance applies around a well, and that limits where the unit and the treated water can go. A neighbour's well counts too.</span></span></label>
-              <select class="urlap-input" id="f-kut" name="kut">
-                <option value="">Nem tudom</option>
-                <option value="nincs">Nincs</option>
-                <option value="van">Van</option>
+              <select class="urlap-input" id="f-kut" name="kut"> <option value="">I do not know</option> <option
+                value="nincs">No</option> <option value="van">Yes</option>
                 <option value="szomszed">There is one next door</option>
               </select>
             </div>
@@ -745,14 +742,14 @@
               <input class="urlap-input" type="text" id="f-nev" name="nev" required maxlength="120" autocomplete="name">
             </div>
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-email">E-mail</label>
+              <label class="type-ui-caption urlap-cimke" for="f-email">Email</label>
               <input class="urlap-input" type="email" id="f-email" name="email" required maxlength="180" autocomplete="email">
             </div>
           </div>
 
           <div class="urlap-sor">
             <div class="urlap-mezo">
-              <label class="type-ui-caption urlap-cimke" for="f-tel">Telefon<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-tel"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-tel">Optional, but it speeds the arrangement up considerably: if a time has to change, we do not negotiate over rounds of email.</span></span></label>
+              <label class="type-ui-caption urlap-cimke" for="f-tel">Phone<span class="mezo-sugo"><button type="button" class="mezo-sugo-gomb" aria-describedby="sugo-tel"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6"/><path d="M6.1 6.3A1.9 1.9 0 1 1 8 8.3v1M8 11.4h.01"/></svg><span class="konzv-rejtett">Explanation</span></button><span class="mezo-sugo-buborek type-ui-caption" role="tooltip" id="sugo-tel">Optional, but it speeds the arrangement up considerably: if a time has to change, we do not negotiate over rounds of email.</span></span></label>
               <input class="urlap-input" type="tel" id="f-tel" name="telefon" maxlength="40" autocomplete="tel"
                      placeholder="+36 30 123 4567">
             </div>
@@ -765,7 +762,7 @@
           <div class="urlap-jog">
             <label class="urlap-jelolo">
               <input type="checkbox" id="f-hozzajarul" name="hozzajarul" value="1" required>
-              <span class="type-ui-caption">I consent to ÖkoTech Home processing the details of my enquiry in order to reply. I have read the <a class="szoveg-link" href="../adatkezelesi-tajekoztato" hreflang="hu">privacy notice</a> megismertem.</span>
+              <span class="type-ui-caption">I consent to ÖkoTech Home processing the details of my enquiry in order to reply. I have read the <a class="szoveg-link" href="../adatkezelesi-tajekoztato" hreflang="hu">privacy notice</a>.</span>
             </label>
             <label class="urlap-jelolo">
               <input type="checkbox" id="f-hirlevel" name="hirlevel" value="1">
@@ -789,7 +786,7 @@
         <input type="hidden" name="nyitva" value="" data-urlap-ido>
 
         <div class="konzv-vezerlo">
-          <button type="button" class="btn btn-inverse konzv-vissza" data-konzv-vissza hidden>Vissza</button>
+          <button type="button" class="btn btn-inverse konzv-vissza" data-konzv-vissza hidden>Back</button>
           <button type="button" class="btn btn-primary konzv-tovabb" data-konzv-tovabb hidden>Next</button>
           <button class="btn btn-primary urlap-kuldes" type="submit">Send the consultation request</button>
         </div>
@@ -830,7 +827,7 @@
 
       <nav class="lablec-hasab" aria-labelledby="lf-helyzetem">
         <h2 class="type-data-eyebrow lablec-cim" id="lf-helyzetem">
-          <a class="lablec-cim-link" href="../helyzetem/" hreflang="hu">Helyzetem</a>
+          <a class="lablec-cim-link" href="../helyzetem/" hreflang="hu">My situation</a>
         </h2>
         <ul class="lablec-lista" role="list">
           <li><a class="lablec-link" href="../helyzetem/nincs-elerheto-kozcsatorna" hreflang="hu">No mains sewer available</a></li>
@@ -906,7 +903,7 @@
       <ul class="lablec-jogi" role="list">
         <li><a class="lablec-jogi-link" href="../adatkezelesi-tajekoztato" hreflang="hu">Privacy notice</a></li>
         <li><a class="lablec-jogi-link" href="../cookie-tajekoztato" hreflang="hu">Cookie notice</a></li>
-        <li><a class="lablec-jogi-link" href="../jogi-nyilatkozat" hreflang="hu">Jogi nyilatkozat</a></li>
+        <li><a class="lablec-jogi-link" href="../jogi-nyilatkozat" hreflang="hu">Legal notice</a></li>
         <li><a class="lablec-jogi-link" href="../aszf" hreflang="hu">Terms and conditions</a></li>
         <li><a class="lablec-jogi-link" href="../akadalymentessegi-nyilatkozat" hreflang="hu">Accessibility</a></li>
       </ul>
