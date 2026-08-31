@@ -8,7 +8,7 @@
      "index, follow"-ra kell cserélni, minden oldalon. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mentett eredmény | ÖkoTech Home</title>
+<title>Saved result | ÖkoTech Home</title>
 <meta name="description" content="A megoldás-ajánló és az ársávbecslő mentett eredménye azonosító alapján, nyomtatható és PDF-be menthető formában.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -420,11 +420,11 @@
       <!-- Az eszköztár csak képernyőn látszik: a nyomtatott lapon a gombok
            értelmetlenek volnának (app.css `@media print`). -->
       <div class="eredmeny-eszkoztar" data-er-eszkoztar hidden>
-        <p class="type-ui-caption eredmeny-eszkoztar-cim" id="eredmeny-cim">Mentett eredmény · ÖkoTech Home</p>
+        <p class="type-ui-caption eredmeny-eszkoztar-cim" id="eredmeny-cim">Saved result · ÖkoTech Home</p>
         <div class="eredmeny-gombok">
-          <button type="button" class="btn btn-primary" data-er-nyomtat>Nyomtatás / PDF</button>
-          <a class="btn btn-halvany" href="../#ai-dontestamogato" hreflang="hu">Ársávbecslő</a>
-          <a class="btn btn-halvany" href="../#megoldas-ajanlo" hreflang="hu">Új ajánló indítása</a>
+          <button type="button" class="btn btn-primary" data-er-nyomtat>Print / PDF</button>
+          <a class="btn btn-halvany" href="../#ai-dontestamogato" hreflang="hu">Price range estimator</a>
+          <a class="btn btn-halvany" href="../#megoldas-ajanlo" hreflang="hu">Start a new recommendation</a>
         </div>
       </div>
 
@@ -432,21 +432,21 @@
 
       <!-- Betöltés, hiba és „nincs azonosító" — mind ide kerül, szövegként. -->
       <div class="eredmeny-uzenet" data-er-uzenet>
-        <h1 class="type-display-section-title" data-er-uzenet-cim>Mentett eredmény betöltése…</h1>
+        <h1 class="type-display-section-title" data-er-uzenet-cim>Loading the saved result…</h1>
         <p class="type-ui-body eredmeny-uzenet-szoveg" data-er-uzenet-szoveg>
-          Egy pillanat, előkeressük a megadott azonosítóhoz tartozó eredményt.
+          One moment — we are retrieving the result for the reference you gave.
         </p>
         <form class="eredmeny-kereso" data-er-kereso hidden>
-          <label class="type-ui-body-strong" for="er-id">Az eredmény azonosítója</label>
-          <p class="type-ui-caption eredmeny-kereso-sugo">A mentéskor kapott kód, például MA-K7F3-Q2WD.</p>
+          <label class="type-ui-body-strong" for="er-id">The result's reference</label>
+          <p class="type-ui-caption eredmeny-kereso-sugo">The code you received when saving, for example MA-K7F3-Q2WD.</p>
           <div class="eredmeny-kereso-sor">
             <input class="urlap-input" type="text" id="er-id" name="id" inputmode="text"
                    autocomplete="off" spellcheck="false" placeholder="MA-XXXX-XXXX" maxlength="12" required>
-            <button type="submit" class="btn btn-primary">Előkeresem</button>
+            <button type="submit" class="btn btn-primary">Retrieve it</button>
           </div>
         </form>
         <p class="eredmeny-uzenet-gomb">
-          <a class="btn btn-halvany" href="../#megoldas-ajanlo" hreflang="hu">Vissza a megoldás-ajánlóhoz</a>
+          <a class="btn btn-halvany" href="../#megoldas-ajanlo" hreflang="hu">Back to the solution finder</a>
         </p>
       </div>
 
