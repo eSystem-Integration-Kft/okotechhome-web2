@@ -3624,16 +3624,35 @@
        vízszintes szorítás, egy 11px-es érintőmenü pedig csak rossz volna. */
     :root{--type-ui-nav-size:14px}
 
-    .nav-drawer{position:relative;margin-left:auto}
+    /* A PANEL A TELJES FEJLÉC ALATT NYÍLIK, nem a Menü gomb alatti kis dobozban.
+       Két korábbi próbálkozás bukott meg ezen:
+
+       · a fejléc jobb széléhez tapadva a gombtól elszakadva lebegett;
+       · a gombhoz kötve pedig — mivel `position:absolute`, tehát nem tolja
+         lejjebb a lapot — a háromszintű menü ALJA egyszerűen levágódott, és
+         nem lehetett hozzáférni. A „majd a lapot görgeti a látogató" feltevés
+         abszolút pozicionálású panelnél nem áll: nincs mit görgetni.
+
+       Ezért: a viszonyítási pont a `.header-main`, a panel végigfut a fejléc
+       szélességében, a magassága korlátos, és SAJÁT GÖRGETÉST kap. Így minden
+       menüpont elérhető, bármilyen alacsony a képernyő. Az `overscroll-behavior`
+       megakadályozza, hogy a panel aljára érve a lap kezdjen görögni. */
+    .header-main{position:relative}
+    .nav-drawer{position:static;margin-left:auto}
     .nav-drawer .site-nav{
-      position:absolute;top:calc(100% + var(--space-8));right:0;z-index:20;
-      /* Szűk képernyőn a 70vw kevés: a háromszintű menü behúzásai mellett a
-         hosszabb aloldalcímek négy sorba törtek. A panel a képernyő majdnem
-         teljes szélességét megkapja, de 420 pixelnél nem nő tovább — nagyobb
-         nézetben a `max-content` úgyis kisebbet kér. */
-      width:max-content;max-width:min(92vw, 420px);
-      padding:var(--space-16);
-      background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+      position:absolute;top:100%;left:0;right:0;z-index:20;
+      /* A magasságkorlát ARÁNY, nem kiszámolt pontos érték. A panel teteje a
+         fejlécverem alján kezdődik, aminek a magassága a sticky sáv
+         elgörgetésével változik — egy fix tokenből levont képlet ezért éppen a
+         legszűkebb esetben téved, és a panel a képernyő alá lóg. A `70dvh` a
+         szokásos ablakokra bőven elég, a `100dvh - 9rem` pedig a nagyon alacsony
+         ablakoknál fog: a kettő közül a kisebb nyer. Túlcsordulni így sem tud,
+         mert a panel saját görgetést kap. */
+      max-height:min(70dvh, calc(100dvh - 9rem));
+      overflow-y:auto;overscroll-behavior:contain;
+      padding:var(--space-16) var(--header-gutter) var(--space-32);
+      background:var(--surface);
+      border-top:1px solid var(--border);
       box-shadow:var(--shadow-2);
     }
     .nav-list{flex-direction:column;align-items:stretch;column-gap:0}
@@ -3643,9 +3662,6 @@
        oszlopban áll. A magasságkorlát és a saját görgetés is elmarad — a
        lapot görgeti a látogató, nem a panelt. Csúcs és véset sincs: az egyik
        a lebegéshez tartozik, a másik ekkora felületen csak zajt vinne. */
-    /* A `.nav-drawer` RELATÍV MARAD: a lenyitott panel így a Menü gomb alatt
-       nyílik, nem a fejléc jobb szélén. A megamenü ettől függetlenül a
-       folyamban áll (`.mega{position:static}`), tehát a kettő nem ütközik. */
     .mega{position:static;box-shadow:none;border:0;background:none;
       width:auto;max-width:none;max-height:none;overflow:visible}
     .nav-trigger[aria-expanded="true"]::after{display:none}

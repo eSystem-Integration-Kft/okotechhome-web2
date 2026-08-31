@@ -336,11 +336,23 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   saját, a CSS-sel **egyező** töréspontot használ (`min-width: 1241px`), és a
   megjegyzés kimondja, hogy a kettőnek együtt kell mozognia.
 
-- **A lenyitott panel a Menü gomb alatt nyílik**, nem a fejléc jobb szélén. A
-  `.nav-drawer{position:static}` a megamenü miatt került be, de elvette a fiók
-  panel viszonyítási pontját is — az `absolute; right:0` így a fejléc
-  konténeréhez igazodott. A `.mega` továbbra is a folyamban áll, tehát a kettő
-  nem ütközik.
+- **A panel a teljes fejléc alatt nyílik, saját görgetéssel.** Két korábbi
+  próbálkozás bukott meg ezen: a fejléc jobb széléhez tapadva a gombtól
+  elszakadva lebegett; a gombhoz kötve pedig — mivel `position:absolute`, tehát
+  nem tolja lejjebb a lapot — a háromszintű menü **alja levágódott**, és nem
+  lehetett hozzáférni. A „majd a lapot görgeti a látogató" feltevés abszolút
+  pozicionálású panelnél nem áll: nincs mit görgetni.
+
+  Most a viszonyítási pont a `.header-main`, a panel végigfut a fejléc
+  szélességében, a magassága korlátos, és saját görgetést kap. Mérve 1150×583-as
+  ablakban, kinyitott almenüvel: 1756 pixelnyi tartalom egy 408 pixeles panelben,
+  a képernyő alá lógás nélkül, minden hivatkozás elérhető.
+
+  A magasságkorlát **arány, nem kiszámolt pontos érték** (`min(70dvh, 100dvh − 9rem)`).
+  A panel teteje a fejlécverem alján kezdődik, aminek a magassága a sticky sáv
+  elgörgetésével változik — egy fix tokenből levont képlet ezért éppen a
+  legszűkebb esetben téved. Az első kísérletem pontosan így lógott 45 pixellel
+  a képernyő alá.
 
 ### Módosítva — a fejléc egy sorban marad
 
