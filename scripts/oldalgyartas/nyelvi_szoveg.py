@@ -73,6 +73,10 @@ def tulajdonnev(c: str) -> bool:
         return True
     if not re.search(r'[A-Za-zÁ-ű]', re.sub(r'&[a-z]+;', '', c)):
         return True                                   # entitás, szám, írásjel
+    if re.match(r'^\d{4}\s+\S', c):
+        return True                                   # magyar postai cím — nem fordul
+    if re.match(r'^[A-Z0-9][A-Z0-9./-]*$', c):
+        return True                                   # kód, azonosítóminta
     szavak = [w for w in re.findall(r"[A-Za-zÁ-ű.'-]+", c) if len(w) > 1]
     return len(szavak) > 1 and all(w[0].isupper() for w in szavak)
 
