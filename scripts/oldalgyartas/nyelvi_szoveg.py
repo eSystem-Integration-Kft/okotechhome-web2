@@ -118,29 +118,37 @@ def savok(s: str) -> list:
 
 
 def alkalmaz(fajl: str, d: dict) -> int:
+    """A szótári párok alkalmazása — SOHA nem mondat belsejébe.
+
+    A cserét a fordítható sávok TELJES tartalmára illesztjük, nem részletre.
+    A szótár minden kulcsa egy teljes szövegcsomóból származik (`csomok()`),
+    tehát ez nem szűkítés, hanem a helyes illesztés. A részleges illesztés
+    egyszer már mondatokat rontott el: a „nem" → „not" pár lefordítatlan magyar
+    mondatokba is beleírt, a szóhatár hiánya miatt pedig a `hanem` szóból
+    `hanot` lett. Egy csomó vagy lefordul egészében, vagy érintetlen marad és
+    látszik a jelentésben.
+    """
     s = open(fajl, encoding='utf-8').read()
-    n = 0
-    for hu in sorted(d, key=len, reverse=True):
-        if hu not in s:
+    darabok, utolso, n = [], 0, 0
+    for kezd, veg in savok(s):
+        nyers = s[kezd:veg]
+        mag = nyers.strip()
+        if not mag or mag not in d:
             continue
-        en = d[hu]
-        if '\n' in hu:
-            sorok = hu.split('\n')
+        elol = nyers[:len(nyers) - len(nyers.lstrip())]
+        hatul = nyers[len(nyers.rstrip()):]
+        en = d[mag]
+        if '\n' in mag:
+            sorok = mag.split('\n')
             behuzas = re.match(r'\s*', sorok[1]).group(0) if len(sorok) > 1 else ''
             szel = max(len(l) for l in sorok)
             en = '\n'.join(textwrap.wrap(' '.join(en.split()), width=max(szel, 80),
                                           subsequent_indent=behuzas))
-        sav = savok(s)
-        darabok, utolso, db = [], 0, 0
-        for m in re.finditer(re.escape(hu) + f'(?![{MAGYAR_BETU}])', s):
-            if not any(a <= m.start() and m.end() <= b for a, b in sav):
-                continue                                 # attribútum vagy szkript belseje
-            darabok.append(s[utolso:m.start()]); darabok.append(en)
-            utolso = m.end(); db += 1
-        if db:
-            darabok.append(s[utolso:])
-            s = ''.join(darabok); n += db
-    open(fajl, 'w', encoding='utf-8').write(s)
+        darabok.append(s[utolso:kezd]); darabok.append(elol + en + hatul)
+        utolso = veg; n += 1
+    if n:
+        darabok.append(s[utolso:])
+        open(fajl, 'w', encoding='utf-8').write(''.join(darabok))
     return n
 
 
