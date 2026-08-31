@@ -35,12 +35,30 @@ require __DIR__ . '/lib/ai.php';
 
 OthVedelem::sebessegkorlat('kalauz', 30, 60);
 
+/* A LÁTOGATÓ NYELVE a lap `<html lang>` attribútumából jön. Csak 'en'-t
+   fogadunk el a magyar mellett: ismeretlen érték esetén marad a magyar. */
+$nyelv  = OthVedelem::szoveg($BE, 'nyelv', 5) === 'en' ? 'en' : 'hu';
+
+/* A HIBAÜZENETEK is a látogató nyelvén. Aki az angol lapon kérdez, ne magyar
+   mondattal találkozzon, amikor épp elakadunk — az a kettős kudarc. */
+$UZ = $nyelv === 'en' ? [
+    'keret'  => 'I have had a lot of questions today and have used up my quota. You will find the topics under Knowledge base in the menu, or call us: +36 33 200 211.',
+    'ures'   => 'Tell me what you are looking for.',
+    'index'  => 'The search is unavailable just now. You will find the topics under Knowledge base in the menu, or call us: +36 33 200 211.',
+    'nincsAi'=> 'I cannot reach the search just now. You will find the topics under Knowledge base in the menu, or call us: +36 33 200 211.',
+] : [
+    'keret'  => 'Ma már sok kérdést kaptam, elfogyott a keretem. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.',
+    'ures'   => 'Írja le, mit keres.',
+    'index'  => 'A kereső most nem érhető el. A menüben a Tudástár alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.',
+    'nincsAi'=> 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.',
+];
+
 /* Webhelyszintű napi keret: az IP-korlátot proxylistával meg lehet kerülni,
    ezt nem. Ha betelt, Öko őszintén elköszön a napra — a statikus tartalom és
    a telefon ettől még működik. */
 if (!OthVedelem::napiKeret('ai', (int) ($CFG['ai']['napi_keret'] ?? 400))) {
     OthVedelem::valasz(503, ['ok' => false,
-        'uzenet' => 'Ma már sok kérdést kaptam, elfogyott a keretem. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.']);
+        'uzenet' => $UZ['keret']]);
 }
 
 $kerdes = OthVedelem::szoveg($BE, 'kerdes', 300);
@@ -68,7 +86,7 @@ foreach (array_slice((array) ($BE['elozmeny'] ?? []), -6) as $sor) {
     if ($szoveg !== '') { $elozmeny .= $kitol . ': ' . $szoveg . "\n"; }
 }
 if (mb_strlen($kerdes) < 3) {
-    OthVedelem::valasz(422, ['ok' => false, 'uzenet' => 'Írja le, mit keres.']);
+    OthVedelem::valasz(422, ['ok' => false, 'uzenet' => $UZ['ures']]);
 }
 if (!in_array($mod, ['kalauz', 'urlap', 'jelentes'], true)) { $mod = 'kalauz'; }
 
@@ -79,7 +97,7 @@ $lapok = is_array($index['lapok'] ?? null) ? $index['lapok'] : [];
 if (!$lapok) {
     error_log('OTH kalauz: hiányzik vagy üres a kalauz-index.json');
     OthVedelem::valasz(503, ['ok' => false,
-        'uzenet' => 'A kereső most nem érhető el. A menüben a Tudástár alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.']);
+        'uzenet' => $UZ['index']]);
 }
 
 /* Az érvényes URL-ek halmaza: ezen kívülre Öko nem küldhet. */
@@ -470,6 +488,28 @@ Az alábbi részletek a webhely TÉNYLEGES szövegéből valók, a fenti lapokr�
 $reszletek
 SYS;
 
+/* A NYELVI UTASÍTÁS a prompt VÉGÉRE kerül, nem külön angol prompt formájában.
+   A szakmai tudás, a tiltólista és a viselkedési szabályok így egyetlen
+   forráson maradnak: két párhuzamos prompt előbb-utóbb elcsúszna egymástól, és
+   a hiba épp azon a nyelven jelentkezne, amit ritkábban nézünk.
+
+   A hivatkozott lapok egyelőre MAGYARUL vannak — ezt Ökónak ki kell mondania,
+   nem elhallgatnia. Amint elkészül az angol lapkészlet, ez a bekezdés törlendő. */
+if ($nyelv === 'en') {
+    $SYSTEM .= "\n\nLANGUAGE OF THIS CONVERSATION\n"
+        . "- The visitor is on the ENGLISH version of the site. Answer in English,\n"
+        . "  in the same plain, concrete register you use in Hungarian.\n"
+        . "- Everything above — the professional knowledge, the things you must not\n"
+        . "  say, the page catalogue and the excerpts — stays authoritative. Only the\n"
+        . "  language of your reply changes, never the substance.\n"
+        . "- Translate the page titles you cite into English in your sentence, but\n"
+        . "  leave the URLs exactly as they are.\n"
+        . "- The pages you point to are currently written in HUNGARIAN. Say so once,\n"
+        . "  plainly, when you first send the visitor to one — do not pretend\n"
+        . "  otherwise, and do not apologise for it at length.\n"
+        . "- The suggested follow-up questions you return must also be in English.";
+}
+
 $ESZKOZ = [
     'name' => 'valasz',
     'description' => 'A válasz és a hozzá tartozó oldalak a katalógusból.',
@@ -511,7 +551,7 @@ $uzenet = $elozmeny !== ''
 $eredmeny = OthAi::keres($CFG['ai'] ?? [], $SYSTEM, $uzenet, $ESZKOZ, 1100);
 if (!is_array($eredmeny) || !isset($eredmeny['valasz'])) {
     OthVedelem::valasz(503, ['ok' => false,
-        'uzenet' => 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.']);
+        'uzenet' => $UZ['nincsAi']]);
 }
 
 /* --- a válasz ellenőrzése -------------------------------------------------- */

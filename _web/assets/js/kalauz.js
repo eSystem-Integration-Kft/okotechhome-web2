@@ -94,21 +94,25 @@
   </g>
 </svg>`;
 
-  const SZOVEG = {
+  /* A NYELVET a `<html lang>` adja. A `TEMAK` (laptémák) szándékosan magyarok
+     maradnak: a mintáik magyar útvonalakra illeszkednek, és angol aloldal még
+     nincs — az angol lapon így az alap `kalauz` szövegek érvényesülnek. Amikor
+     az angol fa megnő, ide kerül a hozzá tartozó témalista. */
+  const NYELV = (document.documentElement.lang || 'hu').slice(0, 2) === 'en' ? 'en' : 'hu';
+
+  const SZOVEGEK = {
+   hu: {
     kalauz: {
       koszon: 'Segítsek megtalálni, amit keres?',
       alcim: 'Megmutatom, hol a válasz.',
       sug: 'Mondja el, hol tart — megmutatom, melyik oldalon van a válasz, és mi a következő lépés.',
       helyorzo: 'Például: mekkora telek kell hozzá?',
-      /* Kiindulás kattintásra. A legtöbb látogató nem tudja, mit kérdezzen —
-         ezért Öko kínálja fel a négy leggyakoribb belépőt. */
       inditok: [
         'Nincs közcsatorna nálunk — mik a lehetőségeim?',
         'Honnan induljak el? Még csak tájékozódom.',
         'Alkalmas-e a telkem egyedi rendszerre?',
         'Meglévő emésztőt szeretnék kiváltani.',
       ],
-      /* A félretett fül időnkénti kérdései. */
       jelzes: [
         'Segítsek megtalálni, amit keres?',
         'Kérdezhet — megmutatom, hol a válasz.',
@@ -143,13 +147,62 @@
         'Kérdése van az összehasonlítás valamelyik sorához?',
       ],
     },
-  }[mod] || {};
+   },
+   en: {
+    kalauz: {
+      koszon: 'Shall I help you find what you are looking for?',
+      alcim: 'I will show you where the answer is.',
+      sug: 'Tell me where you have got to — I will show you which page holds the answer, and what the next step is.',
+      helyorzo: 'For example: how much land does it need?',
+      inditok: [
+        'We have no mains sewer — what are my options?',
+        'Where do I start? I am only looking into it.',
+        'Is my plot suitable for a standalone system?',
+        'I want to replace an existing cesspit.',
+      ],
+      jelzes: [
+        'Shall I help you find what you are looking for?',
+        'Ask away — I will show you where the answer is.',
+      ],
+    },
+    urlap: {
+      koszon: 'If you get stuck filling this in, say so.',
+      alcim: 'I can help you fill this in.',
+      sug: 'Ask about any field — I will also tell you what is worth preparing.',
+      helyorzo: 'For example: what do I put for peak load?',
+      inditok: [
+        'What do I put if I do not know the plot size?',
+        'What does peak load mean?',
+        'What information should I prepare for the consultation?',
+      ],
+      jelzes: [
+        'Stuck on the form? I can help.',
+        'Ask me — I will tell you what goes where.',
+      ],
+    },
+    jelentes: {
+      koszon: 'I can help you read the comparison.',
+      alcim: 'I will explain the comparison.',
+      sug: 'Ask about any line of the report — I will tell you what it means and what to watch for.',
+      helyorzo: 'For example: why do the two prices differ?',
+      inditok: [
+        'What should I watch for when comparing quotes?',
+        'What is commonly left out of a quote?',
+        'What does it mean if the two prices differ a lot?',
+      ],
+      jelzes: [
+        'Any questions about a line in the comparison?',
+      ],
+    },
+   },
+  };
+  const SZOVEG = (SZOVEGEK[NYELV] || SZOVEGEK.hu)[mod] || {};
 
   /* LAPTÉMÁK. Öko nem ugyanazt mondja a megoldások között, mint a referenciák
      vagy az előkészítés lapjain: a köszönés, a belépő kérdések és a fül
      időnkénti kérdései a webhely szakaszához igazodnak. Az útvonal dönt —
      laponkénti kézi lista 119 oldalra nem volna karbantartható. */
-  if (mod === 'kalauz') {
+  if (mod === 'kalauz' && NYELV === 'hu') {
     const TEMAK = [
       [/^\/helyzetem\/(kozcsatorna-vagy-egyedi|nincs-elerheto)/, {
         koszon: 'Segítek tisztázni, melyik út áll nyitva.',
@@ -744,7 +797,7 @@
       const valasz = await fetch('/api/kalauz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kerdes, mod, oldal: location.pathname, lepes: aktualisLepes, elozmeny: naplo.slice(-6) }),
+        body: JSON.stringify({ kerdes, mod, nyelv: NYELV, oldal: location.pathname, lepes: aktualisLepes, elozmeny: naplo.slice(-6) }),
       });
       const eredmeny = await valasz.json();
       varakozo.remove();
@@ -779,7 +832,10 @@
          is nehezebb volt: minden hiba egyformán nézett ki. Hálózati hibánál az
          üzenet a böngészőé (angol, technikai) — azt nem mutatjuk. */
       const sajat = hiba && hiba.othUzenet && hiba.message ? hiba.message : '';
-      uzenet('oko', sajat || 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.');
+      const altalanos = NYELV === 'en'
+        ? 'I cannot reach the search just now. You will find the topics under Knowledge base in the menu, or call us: +36 33 200 211.'
+        : 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.';
+      uzenet('oko', sajat || altalanos);
     } finally {
       dolgozik = false;
       gyoker.classList.remove('is-gondolkodik');
@@ -800,6 +856,7 @@
      pásztázás mellett egy DOM-figyelő is fut, ami az újonnan érkezőket is
      bekapcsolja. */
   const PONTOK = {
+   hu: {
     ugyazonosito: {
       buborek: 'Ez a kód nem regisztráció — segítsek?',
       magyarazat: 'Ez az azonosító nem regisztráció: nevet, e-mail-címet vagy telefonszámot '
@@ -824,7 +881,34 @@
         'Használhatom ugyanazt az azonosítót az ársávbecslőnél?'
       ]
     }
-  };
+   },
+   en: {
+    ugyazonosito: {
+      buborek: 'This code is not registration — shall I explain?',
+      magyarazat: 'This reference is not registration: we ask for no name, no email address '
+        + 'and no telephone number, and we do not know who you are. It does one thing: it '
+        + 'remembers what you have already given. So the tools on this page do not ask the '
+        + 'same questions again, and you can return to the result at any time or save it as a PDF.',
+      kerdesek: [
+        'What is this reference for?',
+        'Do I have to give any personal data?',
+        'What happens if I lose the code?'
+      ]
+    },
+    mentes: {
+      buborek: 'Shall I explain what saving gives you?',
+      magyarazat: 'When you save, you get a reference — this is not registration, and we ask '
+        + 'for no personal data. With it you can return to this result at any time, print it '
+        + 'or save it as a PDF, and the other tools on the page know what you have already '
+        + 'given. If you do not save it, nothing stays with us.',
+      kerdesek: [
+        'What is stored if I save the result?',
+        'How long does the saved result stay available?',
+        'Can I use the same reference in the price estimator?'
+      ]
+    }
+   }
+  }[NYELV] || {};
 
   const pontokKesz = new Set();
 

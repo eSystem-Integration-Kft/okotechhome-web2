@@ -3643,7 +3643,9 @@
        oszlopban áll. A magasságkorlát és a saját görgetés is elmarad — a
        lapot görgeti a látogató, nem a panelt. Csúcs és véset sincs: az egyik
        a lebegéshez tartozik, a másik ekkora felületen csak zajt vinne. */
-    .nav-drawer{position:static}
+    /* A `.nav-drawer` RELATÍV MARAD: a lenyitott panel így a Menü gomb alatt
+       nyílik, nem a fejléc jobb szélén. A megamenü ettől függetlenül a
+       folyamban áll (`.mega{position:static}`), tehát a kettő nem ütközik. */
     .mega{position:static;box-shadow:none;border:0;background:none;
       width:auto;max-width:none;max-height:none;overflow:visible}
     .nav-trigger[aria-expanded="true"]::after{display:none}

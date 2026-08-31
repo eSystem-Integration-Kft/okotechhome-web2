@@ -213,6 +213,35 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
   a kék csak fókuszban jelenik meg.
 
+### Hozzáadva — Öko kalauz angolul
+
+- **A kalauz felülete nyelvenkénti szótárból dolgozik** (`kalauz.js`): köszönés,
+  alcím, súgó, helyőrző, belépő kérdések és a félretett fül időnkénti kérdései,
+  mindhárom módban (kalauz, űrlap, jelentés). A görgetésre megszólaló
+  magyarázatok (`PONTOK` — ügyazonosító, mentés) szintén.
+
+- **A laptémák (`TEMAK`) magyarok maradnak, szándékosan**: a mintáik magyar
+  útvonalakra illeszkednek, és angol aloldal még nincs. Az angol lapon így az
+  alap szövegek érvényesülnek — nem hibás állapot, hanem a jelenlegi lapkészlet
+  következménye.
+
+- **A szerver a látogató nyelvén válaszol.** A kliens elküldi a `<html lang>`
+  értékét, a `kalauz.php` pedig **egyetlen nyelvi utasítást fűz a prompt
+  végére** — nem külön angol promptot. A szakmai tudás, a tiltólista és a
+  viselkedési szabályok így egy forráson maradnak: két párhuzamos prompt
+  előbb-utóbb elcsúszna, és a hiba épp azon a nyelven jelentkezne, amit
+  ritkábban nézünk.
+
+- **A hibaüzenetek is a látogató nyelvén.** Aki az angol lapon kérdez, ne magyar
+  mondattal találkozzon, amikor épp elakadunk — az a kettős kudarc. Mind a négy
+  végponti üzenet (napi keret, üres kérdés, hiányzó index, elérhetetlen modell)
+  nyelvfüggő.
+
+- **A kalauz indexében már benne van az angol nyitólap** (`/en/`), tehát Öko
+  hivatkozhat rá. A többi hivatkozott lap egyelőre magyar — a prompt utasítja
+  Ökót, hogy ezt **mondja ki egyszer, tárgyilagosan**, ne hallgassa el és ne
+  mentegetőzzön miatta.
+
 ### Hozzáadva — a két modul angolul
 
 - **A megoldás-ajánló tartalma nyelvenkénti fájlba került.** Az
@@ -297,6 +326,21 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   — így a váltó laponként pontos, és a keresők is ugyanabból az egy forrásból
   kapják meg a párosítást. A `hreflang` kölcsönös kell legyen: az egyoldalú
   bejegyzést a Google figyelmen kívül hagyja.
+
+### Javítva — a menüfiók
+
+- **A menü tartalma kattintás nélkül kilógott a lapra** 1025 és 1240 pixel
+  között. Az előző lépésben a CSS töréspontját 1240-re vittem, a fiókot becsukó
+  JS viszont 1025-öt figyelt: a köztes szélességeken a `details` nyitva maradt,
+  miközben a CSS már lebegő panelként jelenítette meg. A `site.js` mostantól
+  saját, a CSS-sel **egyező** töréspontot használ (`min-width: 1241px`), és a
+  megjegyzés kimondja, hogy a kettőnek együtt kell mozognia.
+
+- **A lenyitott panel a Menü gomb alatt nyílik**, nem a fejléc jobb szélén. A
+  `.nav-drawer{position:static}` a megamenü miatt került be, de elvette a fiók
+  panel viszonyítási pontját is — az `absolute; right:0` így a fejléc
+  konténeréhez igazodott. A `.mega` továbbra is a folyamban áll, tehát a kettő
+  nem ütközik.
 
 ### Módosítva — a fejléc egy sorban marad
 

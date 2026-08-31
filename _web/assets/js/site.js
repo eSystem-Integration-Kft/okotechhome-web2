@@ -14,6 +14,11 @@
   'use strict';
 
   const wide = window.matchMedia('(min-width: 1025px)');
+  /* A FIÓK saját töréspontja — TÁGABB, mint a tableté, és EGYEZNIE KELL az
+     app.css `@media (max-width:1240px)` blokkjával. Ha a kettő elcsúszik, a
+     köztes szélességeken a `details` nyitva marad, miközben a CSS már panelként
+     jeleníti meg: a menü tartalma kattintás nélkül kilóg a lapra. */
+  const navSzeles = window.matchMedia('(min-width: 1241px)');
 
   /* ---------------------------------------------------------------- 1) Menü */
   /* A `details` a markupban NYITVA áll: JS nélkül a menü látható és használható.
@@ -22,18 +27,18 @@
   const drawer = document.querySelector('.nav-drawer');
 
   if (drawer) {
-    const syncDrawer = () => { drawer.open = wide.matches; };
+    const syncDrawer = () => { drawer.open = navSzeles.matches; };
     syncDrawer();
-    wide.addEventListener('change', syncDrawer);
+    navSzeles.addEventListener('change', syncDrawer);
 
     document.addEventListener('click', (event) => {
-      if (!wide.matches && drawer.open && !drawer.contains(event.target)) {
+      if (!navSzeles.matches && drawer.open && !drawer.contains(event.target)) {
         drawer.open = false;
       }
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !wide.matches && drawer.open) {
+      if (event.key === 'Escape' && !navSzeles.matches && drawer.open) {
         drawer.open = false;
         const toggle = drawer.querySelector('summary');
         if (toggle) toggle.focus();
@@ -82,7 +87,7 @@
 
     /* Nézetváltásnál (asztali ⇄ szűk) a nyitott panel bezár, mert a
        pozicionálása is más. */
-    wide.addEventListener('change', () => closeAll());
+    navSzeles.addEventListener('change', () => closeAll());
   }
 
   /* ---------------------------------------------------------- 3) Hero videó */
