@@ -502,6 +502,20 @@
           body: JSON.stringify({
             email: email.value.trim(),
             hozzajarul: 1,
+            /*
+             * A KORÁBBI ÜGY AZONOSÍTÓJA, HA VAN.
+             *
+             * Ha a látogató korábban kitöltötte az ársávbecslőt vagy a
+             * megoldás-ajánlót és el is mentette, ez a kód összeköti a mostani,
+             * NÉVVEL érkező megkeresést a korábbi névtelen válaszaival. Az
+             * értékesítő így már a hívás előtt tudja, mekkora házról, milyen
+             * jelenlegi megoldásról és milyen ársávról van szó — anélkül, hogy
+             * a látogatónak bármit meg kellett volna ismételnie.
+             *
+             * Ha nincs ilyen ügy, üres string megy: a CRM ilyenkor egyszerűen
+             * nem talál mihez kapcsolni, és a megkeresés önmagában is teljes.
+             */
+            ugy_azonosito: (window.OthUgy && window.OthUgy.allapot && (window.OthUgy.allapot() || {}).azonosito) || '',
             weboldal: levUrlap.querySelector('input[name="weboldal"]').value,
             nyitva: Number(levUrlap.querySelector('[data-urlap-ido]').value) || 0,
             jelentes: adat,

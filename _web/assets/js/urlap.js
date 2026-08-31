@@ -25,6 +25,39 @@
     const ido = urlap.querySelector('[data-urlap-ido]');
     if (ido) ido.value = String(Math.floor(Date.now() / 1000));
 
+    /*
+     * A KORÁBBI ÜGY AZONOSÍTÓJA — MINDEN ŰRLAPHOZ, EGY HELYEN.
+     *
+     * Ha a látogató korábban kitöltötte az ársávbecslőt vagy a
+     * megoldás-ajánlót és el is mentette, ez a kód összeköti a mostani, NÉVVEL
+     * érkező megkeresést a korábbi névtelen válaszaival. Az értékesítő így már
+     * a hívás előtt tudja, mekkora házról, milyen jelenlegi megoldásról és
+     * milyen ársávról van szó — anélkül, hogy a látogatónak bármit meg kellett
+     * volna ismételnie.
+     *
+     * ITT, ÉS NEM ŰRLAPONKÉNT. Minden űrlap ezen a kezelőn megy át; ha
+     * egyesével kellene beírni, a következő űrlapnál elmaradna — és a hiány
+     * néma: a megkeresés attól még megérkezik, csak épp előzmény nélkül.
+     *
+     * Ha nincs mentett ügy, a mező nem jön létre: üres értéket küldeni
+     * ugyanaz, mint nem küldeni, de a kérésben zajt jelentene.
+     */
+    try {
+      const ugy = window.OthUgy && window.OthUgy.allapot ? window.OthUgy.allapot() : null;
+      const azon = ugy && ugy.azonosito ? ugy.azonosito : '';
+
+      if (azon && !urlap.querySelector('[name="ugy_azonosito"]')) {
+        const rejtett = document.createElement('input');
+        rejtett.type = 'hidden';
+        rejtett.name = 'ugy_azonosito';
+        rejtett.value = azon;
+        urlap.appendChild(rejtett);
+      }
+    } catch (hiba) {
+      /* Az ügytár hiánya nem akadályozhatja meg a beküldést: a megkeresés
+         előzmény nélkül is teljes értékű. */
+    }
+
     const valasz = urlap.querySelector('[data-urlap-valasz]');
     const gomb = urlap.querySelector('button[type="submit"]');
 

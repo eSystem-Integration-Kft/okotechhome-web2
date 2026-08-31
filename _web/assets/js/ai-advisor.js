@@ -590,12 +590,44 @@
       const callback = bodyEl.querySelector('input[name="callback"]').checked;
       const body = form.closest(".aidt-act-body");
 
+      /*
+       * AZ ÜGYAZONOSÍTÓ ELŐBB, MINT A LEVÉL.
+       *
+       * A két küldés eddig egymástól függetlenül futott: a levélben ott volt az
+       * e-mail-cím ügyazonosító nélkül, a mentett ügyben ott volt az azonosító
+       * e-mail-cím nélkül. A kettő SOHA nem találkozott — a CRM-ben így egy
+       * névtelen kitöltés és egy gazdátlan e-mail-cím keletkezett, és az
+       * értékesítő nem tudta meg, hogy ugyanarról az emberről van szó.
+       *
+       * Ezért ha a látogató még nem mentett, MOST mentünk: az ügy tartalma
+       * ugyanaz, amit a levél is visz, tehát semmi újat nem tárolunk — csak
+       * megszületik a kód, ami a kettőt összeköti. A CRM ebből visszamenőleg
+       * az érdeklődőhöz csatolja a korábbi névtelen válaszokat.
+       *
+       * A MENTÉS BUKÁSA NEM ÁLLÍTHATJA MEG A LEVELET. Az azonosító hasznos,
+       * de a levél a fontosabb: azt a látogató kérte.
+       */
+      let ugyAzonosito = "";
+
+      try {
+        const allapot = window.OthUgy && window.OthUgy.allapot ? window.OthUgy.allapot() : null;
+        ugyAzonosito = (allapot && allapot.azonosito) || "";
+
+        if (!ugyAzonosito && window.OthUgy) {
+          const mentes = await window.OthUgy.ment("arsav", mentendo());
+          if (mentes && mentes.ok) ugyAzonosito = mentes.azonosito || "";
+        }
+      } catch (hiba) {
+        /* Szándékosan némán: lásd fent. */
+      }
+
       /* A strukturált profil: ugyanaz megy a backendnek, amit a látogató lát. */
       const payload = {
         email: email,
         visszahivas: callback,
         valaszok: state.answers,
         arsav: computeBand(state.answers),
+        ugy_azonosito: ugyAzonosito,
         idobelyeg: new Date().toISOString()
       };
 
