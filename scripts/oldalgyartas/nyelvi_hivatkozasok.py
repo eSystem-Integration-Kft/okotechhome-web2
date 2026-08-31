@@ -31,6 +31,8 @@ def atir(fajl: str) -> int:
     def csere(m):
         nonlocal n
         egesz, cim = m.group(0), m.group(1)
+        if 'nyelvvalto-elem' in egesz:
+            return egesz                      # a nyelvváltó SZÁNDÉKOSAN a másik nyelvre mutat
         # a magyar fára mutató hivatkozások: `../…`, esetleg több szinttel
         cel = os.path.normpath(os.path.join('en', en_dir, cim.split('#')[0].split('?')[0]))
         if cel.startswith('en' + os.sep) or cel == 'en':
