@@ -412,12 +412,25 @@ def temaszkript(s: str, elo: str) -> str:
         f'<script src="{elo}assets/js/tema.js?v=1"></script>', s, count=1)
 
 
+# A nyelvi alkönyvtárak fejlécét EZ A SZKRIPT NEM ÍRJA. A `MENU` magyar
+# feliratokat tartalmaz, és a hivatkozásai a magyar szlugokra mutatnak — egy
+# futtatás visszaírná a magyar fejlécet az angol lapra, némán.
+#
+# AMIKOR AZ ANGOL FA MEGNŐ, itt a teendő: a `MENU` szerkezetét nyelvenkénti
+# táblává kell bontani (felirat + szlug párokkal), és az `epit()`-nek nyelvet
+# is át kell adni. Amíg csak a nyitólap van meg angolul, ez a kihagyás az
+# olcsóbb és biztonságosabb megoldás — a kézzel fordított fejléc megmarad.
+NYELVI_KONYVTARAK = {'en'}
+
+
 if __name__ == '__main__':
     minta = re.compile(r'<a class="skip-link".*?</header>', re.S)
     n, sz = 0, 0
     for p in sorted(WEB.rglob('*.html')):
         if p.name in ('401.html', '403.html', '404.html', '500.html'):
             continue                      # a hibaoldalak önhordók, saját fejlécük van
+        if p.relative_to(WEB).parts[0] in NYELVI_KONYVTARAK:
+            continue                      # idegen nyelvű fa — lásd a megjegyzést fent
         s = p.read_text(encoding='utf-8')
         if not minta.search(s):
             print(f'  ! nincs fejléc: {p.relative_to(WEB)}')

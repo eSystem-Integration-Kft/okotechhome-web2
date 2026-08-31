@@ -22,6 +22,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/css/app.css?v=178">
+
+<!-- NYELVI VÁLTOZATOK. A hivatkozás KÖLCSÖNÖS: a magyar lap az angolra mutat, az
+     angol vissza a magyarra — az egyoldalú bejegyzést a Google figyelmen kívül
+     hagyja. Az `x-default` a magyar, mert az a teljes lapkészlet; az angol fa
+     ennél kisebb, és nem is kell tükröznie.
+
+     ÉLESÍTÉSKOR: a keresők teljes (abszolút) címet várnak, a webhely viszont
+     szándékosan domainfüggetlen — egyetlen abszolút URL sincs benne, ezért fut
+     ugyanaz a példány a teszten és élesben. Ezt a három sort tehát az
+     élesítéskor kell teljes címre cserélni, ugyanabban a lépésben, amikor a
+     fenti robots-sor „index, follow"-ra vált. -->
+<link rel="alternate" hreflang="hu" href="./">
+<link rel="alternate" hreflang="en" href="en/">
+<link rel="alternate" hreflang="x-default" href="./">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>

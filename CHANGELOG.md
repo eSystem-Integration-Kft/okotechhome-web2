@@ -213,6 +213,35 @@ tételt, amit a látogató kifizet, de nem szállítanak el érte semmit.
   ugyanez — itt sem térhet el. Egérrel kattintva a mező zöld kerettel áll ott;
   a kék csak fókuszban jelenik meg.
 
+### Hozzáadva — angol nyitólap (`/en/`)
+
+- **A főoldal angol változata elkészült** (`_web/en/index.html`), mintaként: ezen
+  hagyható jóvá a hangnem és a szakmai szótár, mielőtt a további 124 lap
+  fordítása elindul. Kb. **7 000 szó**, a teljes szerkezettel — megamenü, mind a
+  tizenhárom szekció, a 14 kérdéses GYIK, a lábléc, a `FAQPage` JSON-LD, és
+  minden `alt`, `aria-label`, `title`, `placeholder`.
+
+- **Angol szlugok**, a `/en/` alkönyvtárban. A magyar↔angol párosítást a lapok
+  saját `hreflang` hivatkozásai tartják nyilván, mert a szlugok eltérnek, tehát a
+  másik nyelv címe nem számítható ki az útvonalból.
+
+- **A `fejlec.py` mostantól kihagyja a nyelvi alkönyvtárakat.** A generátor
+  magyar feliratokkal és magyar szlugokkal dolgozik: egy futtatás némán
+  visszaírta volna a magyar fejlécet az angol lapra. A `MENU` nyelvenkénti
+  táblává bontása akkor lesz esedékes, amikor az angol fa megnő.
+
+- **Az angol lap belső hivatkozásai a magyar lapokra mutatnak**, `hreflang="hu"`
+  jelöléssel — így a képernyőolvasó és a böngésző is tudja, hogy nyelvet vált.
+  Ez a fokozatos bevezetés bevett gyakorlata; ahogy elkészülnek az angol lapok,
+  a hivatkozások átállnak.
+
+  ⚠️ **Amit az angol lap MÉG NEM tud.** A §6 megoldás-ajánló és a §8
+  ársávbecslő tartalma közös JS-fájlokból jön (`assets/data/ajanlo-konfig.js`,
+  `aidt-konfig.js`), Öko tudásbázisa pedig a `kalauz-*.json`-ból — ezek
+  **magyarul jelennek meg az angol lapon is**. A `<noscript>` tartalék viszont
+  már angol. Ez további kb. 12 000 szó, és nyelvi szétválasztást igényel a
+  modulokban; a nyitólap jóváhagyása után érdemes nekifutni.
+
 ### Hozzáadva — nyelvváltó és a többnyelvűség szerkezete
 
 - **Nyelvváltó a fejlécben** (`.nyelvvalto`), a témaváltó és a CTA között, mind a
