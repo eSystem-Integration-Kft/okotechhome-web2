@@ -47,20 +47,36 @@ hanem a korlátozás: *Application restrictions* → **Websites**. *API restrict
 csak a **Maps JavaScript API**. Korlátozás nélkül a kulccsal más webhelyről is lehet a
 te számládra terhelni.
 
-**A LISTÁN MINDEN TÉRKÉPES LAP SZEREPELJEN — nyelvenként külön.** A korlátozás
-útvonalra is illeszkedik, és ezen már elhasaltunk egyszer: a kulcs csak a magyar
-kapcsolat oldalt engedte, ezért az ANGOL kapcsolat oldalon a Maps API `503`-mal
-felelt, a lap visszaesett a beágyazott keretre, és a látogató a Google alapértelmezett,
-POI-kkal teli térképét kapta a márkaszínű helyett. A hiba néma: a lapon térkép van,
-csak nem a mienk. A jelenleg térképes lapok:
+**A LISTÁN MINDEN TÉRKÉPES LAP SZEREPELJEN — nyelvenként külön.** A korlátozás az
+ÚTVONALRA is illeszkedik, és ezen már elhasaltunk egyszer: az angol kapcsolat oldalon
+a Maps API `503`-mal felelt, a lap visszaesett a beágyazott keretre, és a látogató a
+Google alapértelmezett, POI-kkal teli térképét kapta a márkaszínű helyett. A hiba
+**néma**: a lapon térkép van, csak nem a mienk. A jelenleg térképes lapok:
 
     https://okoth.hu/kapcsolat          https://okoth.hu/en/contact
     https://tst.okoth.hu/kapcsolat      https://tst.okoth.hu/en/contact
     http://localhost:8849/kapcsolat     http://localhost:8849/en/contact
 
-Új nyelv vagy új térképes lap esetén a listát is bővíteni kell — a kód ezt nem tudja
-megkerülni. Ellenőrzés: a lapon a `.terkep` szekciónak `terkep-el` osztályt kell
-kapnia; ha nem kapja, a Maps API kérése a hálózati naplóban `200` helyett `503`.
+**A módosítás nem azonnal él.** A Google a kulcskorlátozás változását késleltetve
+érvényesíti; mértük, hogy közben ugyanaz a kérés a régi listát látja. Ha tehát a
+bejegyzés már fent van, de a lap még mindig `503`-at kap, előbb várni kell, és utána
+újramérni — ne kezdjük a kódot javítani.
+
+**A mérés menete.** Ne a kinézetből következtessünk: a beágyazott keret ugyanoda
+rajzol térképet, csak Google-stílussal. A dönthető jel a hálózati napló. A böngésző
+konzoljában, a vizsgált lapon:
+
+    const s = document.createElement('script');
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=<KULCS>'
+          + '&callback=x&v=weekly&loading=async&cb=' + Date.now();
+    window.x = () => console.log('OK — a kulcs ezen az útvonalon él');
+    document.head.appendChild(s);
+
+A `cb=` a gyorsítótárat kerüli meg: enélkül egy korábbi sikeres válasz elfedi a hibát.
+`200` = az útvonal engedélyezett, `503` = nem. Ugyanezt lefuttatva a magyar és az
+angol kapcsolat oldalon a kettő összevethető — a különbség csak a `Referer` fejléc.
+A lapon a `.terkep` szekciónak `terkep-el` osztályt kell kapnia; ha nem kapja, az élő
+térkép nem épült fel.
 
 **Beállítás:** a kulcs a `kapcsolat.html` `<section class="terkep" …>` elemének
 `data-terkep-kulcs` attribútumába kerül (és a `scripts/oldalgyartas/kapcsolat.py`
