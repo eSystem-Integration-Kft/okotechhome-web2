@@ -118,12 +118,20 @@
 
   /* Visszaállás a beágyazott keretre, ha az élő térkép nem tud megjelenni.
      A keretet ezért NEM töröljük, csak elrejtjük — amíg nem láttunk egyetlen
-     kirajzolt csempét sem, addig szükség lehet rá. */
+     kirajzolt csempét sem, addig szükség lehet rá.
+
+     A `src` ÚJRAÍRÁSA nem óvatosság: a keret `loading="lazy"`, és ha az élő
+     térkép építése elrejtette, mielőtt a böngésző betöltötte volna, a
+     visszarejtés önmagában nem indítja el a betöltést. Ilyenkor a látogató
+     ÜRES foltot kapott — rosszabbat, mint amit a tartalék elkerülni hivatott.
+     Az azonos értékkel való újraírás viszont mindig új betöltést kér. */
   function visszaKeretre() {
     szekcio.classList.remove('terkep-el');
     elo.hidden = true;
     elo.innerHTML = '';
     keret.hidden = false;
+    var src = keret.getAttribute('src');
+    if (src) { keret.setAttribute('src', src); }
     beagyazottJeloles();
   }
 
