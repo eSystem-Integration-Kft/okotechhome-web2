@@ -98,10 +98,17 @@
        domain hiányzik a HTTP-referrer korlátozásból. */
     window.gm_authFailure = visszaKeretre;
 
+    /* A TÉRKÉP NYELVE a lapé. A `region` marad HU: a hely Magyarországon van,
+       és ez a helynevek és a formátumok igazodását szabja meg, nem a felület
+       nyelvét. Enélkül az angol lapon magyar feliratú térkép állt. */
+    var terkepNyelv = (document.documentElement.lang || 'hu').slice(0, 2);
+
     var s = document.createElement('script');
     s.src = 'https://maps.googleapis.com/maps/api/js'
           + '?key=' + encodeURIComponent(kulcs)
-          + '&callback=' + nev + '&language=hu&region=HU&v=weekly&loading=async';
+          + '&callback=' + nev
+          + '&language=' + encodeURIComponent(terkepNyelv)
+          + '&region=HU&v=weekly&loading=async';
     s.async = true;
     // Ha maga a betöltés hasal el (hálózati hiba, letiltott API), a beágyazott
     // keret a helyén marad, és a jelölés visszakapja az 1) módot.

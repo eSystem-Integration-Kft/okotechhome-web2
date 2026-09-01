@@ -43,10 +43,24 @@ fedezi, de a profil nélkül a térkép „for development purposes only" vízje
 
 **A kulcsot korlátozni KELL.** Ez a kulcs a böngészőben fut, tehát bárki elolvashatja
 az oldal forrásából — ez nem hiba, hanem a Maps JS API működése. Nem a titkosság védi,
-hanem a korlátozás: *Application restrictions* → **Websites**, és vedd fel a
-`https://okoth.hu/*` és `https://tst.okoth.hu/*` mintát. *API restrictions* → csak a
-**Maps JavaScript API**. Korlátozás nélkül a kulccsal más webhelyről is lehet a te
-számládra terhelni.
+hanem a korlátozás: *Application restrictions* → **Websites**. *API restrictions* →
+csak a **Maps JavaScript API**. Korlátozás nélkül a kulccsal más webhelyről is lehet a
+te számládra terhelni.
+
+**A LISTÁN MINDEN TÉRKÉPES LAP SZEREPELJEN — nyelvenként külön.** A korlátozás
+útvonalra is illeszkedik, és ezen már elhasaltunk egyszer: a kulcs csak a magyar
+kapcsolat oldalt engedte, ezért az ANGOL kapcsolat oldalon a Maps API `503`-mal
+felelt, a lap visszaesett a beágyazott keretre, és a látogató a Google alapértelmezett,
+POI-kkal teli térképét kapta a márkaszínű helyett. A hiba néma: a lapon térkép van,
+csak nem a mienk. A jelenleg térképes lapok:
+
+    https://okoth.hu/kapcsolat          https://okoth.hu/en/contact
+    https://tst.okoth.hu/kapcsolat      https://tst.okoth.hu/en/contact
+    http://localhost:8849/kapcsolat     http://localhost:8849/en/contact
+
+Új nyelv vagy új térképes lap esetén a listát is bővíteni kell — a kód ezt nem tudja
+megkerülni. Ellenőrzés: a lapon a `.terkep` szekciónak `terkep-el` osztályt kell
+kapnia; ha nem kapja, a Maps API kérése a hálózati naplóban `200` helyett `503`.
 
 **Beállítás:** a kulcs a `kapcsolat.html` `<section class="terkep" …>` elemének
 `data-terkep-kulcs` attribútumába kerül (és a `scripts/oldalgyartas/kapcsolat.py`
