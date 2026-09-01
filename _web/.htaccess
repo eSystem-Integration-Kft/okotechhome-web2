@@ -75,10 +75,20 @@ Options -Indexes
   # Staging vagy HTTP alatt hagyd kikommentezve.
   # Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 
-  # --- Kapcsolat oldal: az élő Google-térkép többletforrásai -----------------
+  # --- Kapcsolat oldalak: az élő Google-térkép többletforrásai ---------------
   # A Maps JavaScript API saját szkriptet, csempéket és betűket tölt be, ezért
-  # a szigorú alapszabály itt nem elég. A bővítés SZÁNDÉKOSAN csak erre az egy
-  # oldalra érvényes: a webhely többi lapja marad a szűk listán.
+  # a szigorú alapszabály itt nem elég. A bővítés SZÁNDÉKOSAN csak a térképes
+  # lapokra érvényes: a webhely többi lapja marad a szűk listán.
+  #
+  # MINDEN NYELV KAPCSOLAT OLDALA SZEREPELJEN ITT. A `<Files>` a fájlnévre
+  # illeszkedik, nem az útvonalra, ezért egy nyelvi klón más nevet kap
+  # (`kapcsolat.html` → `en/contact.html`), és kimarad a listából. Ez már
+  # megtörtént: az angol lap a szűk alapszabályt kapta, a böngésző letiltotta
+  # a `maps.googleapis.com` szkriptet, a lap visszaesett a beágyazott keretre,
+  # és a látogató a Google alapértelmezett, POI-kkal teli térképét kapta a
+  # márkaszínű helyett. A hiba NÉMA: a lapon térkép van, csak nem a mienk —
+  # és a hálózati naplóban a Maps-kérés `503`-nak látszik, mintha a Google
+  # utasítaná el. Nem ő: `curl`-lel ugyanaz a kérés `200`.
   #
   # A `style-src 'unsafe-inline'` a legdrágább tétel — a Maps a saját elemeit
   # beágyazott stílussal formázza. Ha a térkép nélküle is hibátlanul megjelenik
@@ -87,9 +97,9 @@ Options -Indexes
   #
   # Ha a `data-terkep-kulcs` üres, az egész blokk fölösleges — akkor a lap a
   # beágyazott keretet használja, amihez a `frame-src` már megvan fent.
-  <Files "kapcsolat.html">
+  <FilesMatch "^(kapcsolat|contact)\.html$">
     Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://*.ggpht.com; frame-src https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://maps.googleapis.com https://*.googleapis.com; worker-src 'self' blob:"
-  </Files>
+  </FilesMatch>
 </IfModule>
 
 # --- Tömörítés ----------------------------------------------------------------

@@ -47,34 +47,29 @@ hanem a korlátozás: *Application restrictions* → **Websites**. *API restrict
 csak a **Maps JavaScript API**. Korlátozás nélkül a kulccsal más webhelyről is lehet a
 te számládra terhelni.
 
-**A LISTÁN MINDEN TÉRKÉPES LAP SZEREPELJEN — nyelvenként külön.** A korlátozás az
-ÚTVONALRA is illeszkedik, és ezen már elhasaltunk egyszer: az angol kapcsolat oldalon
-a Maps API `503`-mal felelt, a lap visszaesett a beágyazott keretre, és a látogató a
-Google alapértelmezett, POI-kkal teli térképét kapta a márkaszínű helyett. A hiba
-**néma**: a lapon térkép van, csak nem a mienk. A jelenleg térképes lapok:
+**A LISTÁN MINDEN TÉRKÉPES LAP SZEREPELJEN — nyelvenként külön**, ha az útvonalra
+szűkíted. A jelenleg térképes lapok:
 
     https://okoth.hu/kapcsolat          https://okoth.hu/en/contact
     https://tst.okoth.hu/kapcsolat      https://tst.okoth.hu/en/contact
-    http://localhost:8849/kapcsolat     http://localhost:8849/en/contact
 
-**A módosítás nem azonnal él.** A Google a kulcskorlátozás változását késleltetve
-érvényesíti; mértük, hogy közben ugyanaz a kérés a régi listát látja. Ha tehát a
-bejegyzés már fent van, de a lap még mindig `503`-at kap, előbb várni kell, és utána
-újramérni — ne kezdjük a kódot javítani.
+**A KULCS NEM AZ EGYETLEN KAPU — a CSP is az.** Az élő térkép attól is elmaradhat,
+hogy a lap `Content-Security-Policy` fejléce nem engedi a `maps.googleapis.com`
+szkriptet. Ezt a `.htaccess` állítja, FÁJLNÉVRE illesztve, ezért egy nyelvi klón
+(`kapcsolat.html` → `en/contact.html`) kimaradhat belőle — velünk ez meg is történt.
+A tünet megtévesztő: a hálózati naplóban a Maps-kérés `503`, mintha a Google
+utasítaná el, pedig a böngésző tiltja le.
 
-**A mérés menete.** Ne a kinézetből következtessünk: a beágyazott keret ugyanoda
-rajzol térképet, csak Google-stílussal. A dönthető jel a hálózati napló. A böngésző
-konzoljában, a vizsgált lapon:
+**A két ok szétválasztása.** Ugyanaz a kérés `curl`-lel, a lap Referer fejlécével:
 
-    const s = document.createElement('script');
-    s.src = 'https://maps.googleapis.com/maps/api/js?key=<KULCS>'
-          + '&callback=x&v=weekly&loading=async&cb=' + Date.now();
-    window.x = () => console.log('OK — a kulcs ezen az útvonalon él');
-    document.head.appendChild(s);
+    curl -s -o /dev/null -w '%{http_code}\n' -H 'Referer: https://okoth.hu/en/contact' \
+      'https://maps.googleapis.com/maps/api/js?key=<KULCS>&callback=x&v=weekly&cb=1'
 
-A `cb=` a gyorsítótárat kerüli meg: enélkül egy korábbi sikeres válasz elfedi a hibát.
-`200` = az útvonal engedélyezett, `503` = nem. Ugyanezt lefuttatva a magyar és az
-angol kapcsolat oldalon a kettő összevethető — a különbség csak a `Referer` fejléc.
+`200` = a kulcs engedi ezt az útvonalat, tehát a böngészőbeli hiba a CSP-től van —
+nézd meg a lap fejlécét: `curl -s -D- -o /dev/null <lap-URL> | grep -i content-security`.
+`403`/`503` = a kulcs korlátozása szűk, azt kell bővíteni. A `cb=` a gyorsítótárat
+kerüli meg: enélkül egy korábbi sikeres válasz elfedi a hibát.
+
 A lapon a `.terkep` szekciónak `terkep-el` osztályt kell kapnia; ha nem kapja, az élő
 térkép nem épült fel.
 
