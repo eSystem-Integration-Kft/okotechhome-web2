@@ -100,6 +100,40 @@
      az angol fa megnő, ide kerül a hozzá tartozó témalista. */
   const NYELV = (document.documentElement.lang || 'hu').slice(0, 2) === 'en' ? 'en' : 'hu';
 
+  /* A FELÜLET SAJÁT FELIRATAI. A segéd NEVE is ide tartozik: magyarul „Öko",
+     angolul „ECO" — a márkanév fordul, mert a magyar „öko" szótő angolul nem
+     olvasható. Ezek korábban be voltak égetve a jelölésbe, ezért az angol
+     lapon magyar gombfeliratok és képernyőolvasó-címkék maradtak. */
+  const FELULETEK = {
+    hu: {
+      nev: 'Öko',
+      megnyitas: 'Öko — segéd megnyitása',
+      fulMegnyitas: 'Öko — segéd (félrehúzva, megnyitás)',
+      panel: 'Öko — segéd',
+      buborekZar: 'Bezárás',
+      panelZar: 'Bezárás — Öko a lap szélén marad',
+      panelZarCim: 'Becsukom',
+      kerdesCimke: 'Kérdés',
+      kuldes: 'Küldés',
+      varakozas: 'Megnézem…',
+      kiseroValt: 'A lépés súgójának nyitása-csukása',
+    },
+    en: {
+      nev: 'ECO',
+      megnyitas: 'ECO — open the assistant',
+      fulMegnyitas: 'ECO — assistant (tucked away, open)',
+      panel: 'ECO — assistant',
+      buborekZar: 'Close',
+      panelZar: 'Close — ECO stays at the edge of the page',
+      panelZarCim: 'Close',
+      kerdesCimke: 'Question',
+      kuldes: 'Send',
+      varakozas: 'Let me look…',
+      kiseroValt: 'Open or close the help for this step',
+    },
+  };
+  const F = FELULETEK[NYELV] || FELULETEK.hu;
+
   const SZOVEGEK = {
    hu: {
     kalauz: {
@@ -293,7 +327,7 @@
   gyoker.innerHTML = `
     <div class="oko-buborek" data-oko-buborek role="status" aria-live="polite" hidden>
       <p class="type-ui-caption oko-buborek-szoveg" data-oko-buborek-szoveg></p>
-      <button type="button" class="oko-buborek-zar" data-oko-zar aria-label="Bezárás">
+      <button type="button" class="oko-buborek-zar" data-oko-zar aria-label="${F.buborekZar}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
       </button>
     </div>
@@ -301,7 +335,7 @@
     <button type="button" class="oko-gomb" data-oko-gomb
             aria-expanded="false" aria-controls="oko-panel">
       ${FIGURA}
-      <span class="oko-rejtett">Öko — segéd megnyitása</span>
+      <span class="oko-rejtett">${F.megnyitas}</span>
     </button>
 
     <!-- A FÜL. Nem a sarokban álló gomb utazik ide: az ottani helyzetét a
@@ -311,28 +345,28 @@
     <button type="button" class="oko-ful" data-oko-ful
             aria-expanded="false" aria-controls="oko-panel" hidden>
       ${FIGURA}
-      <span class="oko-rejtett">Öko — segéd (félrehúzva, megnyitás)</span>
+      <span class="oko-rejtett">${F.fulMegnyitas}</span>
     </button>
 
     <div class="oko-panel" id="oko-panel" data-oko-panel role="dialog"
-         aria-label="Öko — segéd" hidden>
+         aria-label="${F.panel}" hidden>
       <div class="oko-panel-fej">
         <span class="oko-panel-jel" aria-hidden="true">${FIGURA}</span>
         <div class="oko-panel-cimek">
-          <p class="type-ui-subtitle oko-panel-cim">Öko</p>
+          <p class="type-ui-subtitle oko-panel-cim">${F.nev}</p>
           <p class="type-ui-caption oko-panel-alcim" data-oko-alcim></p>
         </div>
         <button type="button" class="oko-panel-zar" data-oko-panel-zar
-                aria-label="Bezárás — Öko a lap szélén marad" title="Becsukom">
+                aria-label="${F.panelZar}" title="${F.panelZarCim}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
         </button>
       </div>
       <div class="oko-tarsalgas" data-oko-tarsalgas></div>
       <form class="oko-urlap" data-oko-urlap>
-        <label class="oko-rejtett" for="oko-kerdes">Kérdés</label>
+        <label class="oko-rejtett" for="oko-kerdes">${F.kerdesCimke}</label>
         <input class="oko-input" id="oko-kerdes" type="text" autocomplete="off"
                data-oko-input maxlength="300">
-        <button class="oko-kuld" type="submit" aria-label="Küldés">
+        <button class="oko-kuld" type="submit" aria-label="${F.kuldes}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </form>
@@ -670,7 +704,11 @@
   /* Az űrlapon Öko nem keres, hanem VÉGIGKÍSÉR: minden laphoz megmondja, mit
      várunk, mit tud belőle automatikusan kitölteni, és mutat rá példát. A
      szöveg a lapváltás eseményére frissül, és a váltás látszik is. */
-  const KISERO = [
+  /* A LÉPÉS-SÚGÓ mindkét nyelven. Az angol konzultációs űrlap ugyanezt a
+     modult futtatja (`data-kalauz-mod="urlap"`), ezért a magyar változat
+     korábban ott is megjelent — hat lapon át magyarul. */
+  const KISEROK = {
+   hu: [
     null,
     { cim: 'Ki keres megoldást?',
       mit: 'Jelölje meg, magánszemélyként vagy szervezet nevében keres megoldást. Ettől függ minden további kérdés.',
@@ -709,7 +747,49 @@
       auto: 'A beküldés után szakmai összefoglalót kap arról, mit érdemes a konzultációig előkészítenie.',
       kerdesek: ['Miért kérik a települést?',
         'Mi történik az adataimmal a beküldés után?'] },
-  ];
+   ],
+   en: [
+    null,
+    { cim: 'Who is looking for a solution?',
+      mit: 'Say whether you are enquiring as a private individual or on behalf of an organisation. Every further question follows from this.',
+      pelda: 'For a business we also need the type of facility — guesthouse, restaurant, school, plant.',
+      auto: 'I will pick this up from your description too, if you write about your situation later in your own words.',
+      kerdesek: ['I am looking for a solution for a holiday home — am I a private individual?',
+        'What counts as a business facility?'] },
+    { cim: 'Where has the project got to?',
+      mit: 'The stage tells us what the next step is: getting your bearings, sizing, permitting or construction. We also ask about the present solution.',
+      pelda: 'If you are about to buy a plot, „Before buying a plot” is the right one — the suitability of the plot is then the main question.',
+      auto: 'If something is wrong with a working system, you can mark the symptoms here too.',
+      kerdesek: ['I have a cesspit — which stage should I mark?',
+        'I do not know what is on the plot. What should I choose?'] },
+    { cim: 'The property and the load',
+      mit: 'The load gives the size, the plot gives the type. Leave blank whatever you do not know — that is not a failing.',
+      pelda: 'A family of four in permanent occupation: permanent occupancy 4, peak load blank if there are no guests.',
+      auto: 'I will fill in the groundwater and the plot size from your free-text description as well.',
+      kerdesek: ['What should I put for the peak load?',
+        'How do I know whether the groundwater is high?',
+        'I do not know the size of the plot — is that a problem?'] },
+    { cim: 'Describe it in your own words',
+      mit: 'A few sentences are enough. This is where I can help the most.',
+      pelda: '„A family of four, a new house near Esztergom, no mains sewer, the plot is 1200 m², the groundwater is high in spring.”',
+      auto: 'At the press of a button I read the property type, the occupancy, the project stage and the plot data out of it, and fill in the earlier steps. Whatever I get wrong, you correct.',
+      kerdesek: ['What is worth putting in the description?',
+        'What happens to my description after I send it?'] },
+    { cim: 'How and when to meet',
+      mit: 'Choose how you would like to talk, and mark several slots when you are free. This is not yet a booking — we will confirm one.',
+      pelda: 'Three slots is about right: from those we will almost certainly find one in common.',
+      auto: 'The slots you pick from the calendar go into the text field automatically.',
+      kerdesek: ['Which form of consultation should I choose?',
+        'What happens if none of my slots suits you?'] },
+    { cim: 'Contact details',
+      mit: 'A name and an email are needed for the confirmation; a phone number speeds up the arrangements. Consent to data processing is required.',
+      pelda: 'The municipality or postcode matters because we plan the route of the on-site survey from it.',
+      auto: 'After you send it you will receive a technical summary of what is worth preparing before the consultation.',
+      kerdesek: ['Why do you ask for the municipality?',
+        'What happens to my data after I send it?'] },
+   ],
+  };
+  const KISERO = KISEROK[NYELV] || KISEROK.hu;
 
   if (mod === 'urlap') {
     gyoker.classList.add('is-kisero');
@@ -725,7 +805,7 @@
       doboz.hidden = false;
       doboz.innerHTML = `
         <button type="button" class="oko-kisero-fej" data-oko-kisero-valt
-                aria-expanded="true" title="A lépés súgójának nyitása-csukása">
+                aria-expanded="true" title="${F.kiseroValt}">
           <span class="oko-kisero-lepes">${e.detail.lap}/6</span>
           <span class="type-ui-subtitle oko-kisero-cim"></span>
           <svg class="oko-kisero-nyil" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -791,7 +871,7 @@
     input.value = '';
     dolgozik = true;
     gyoker.classList.add('is-gondolkodik');
-    const varakozo = uzenet('oko', 'Megnézem…');
+    const varakozo = uzenet('oko', F.varakozas);
 
     try {
       const valasz = await fetch('/api/kalauz', {

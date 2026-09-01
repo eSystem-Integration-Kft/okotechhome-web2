@@ -81,7 +81,11 @@ if ($oldal === '') { $oldal = '/'; }
    megválaszolásához úgysem használ, a promptot viszont hízlalná. */
 $elozmeny = '';
 foreach (array_slice((array) ($BE['elozmeny'] ?? []), -6) as $sor) {
-    $kitol = (($sor['kitol'] ?? '') === 'en') ? 'Látogató' : 'Öko';
+    /* A BESZÉLŐ NEVE a látogató nyelvén: a modell ezeket a címkéket látja, és
+       ha „Öko:" áll az előzményben, angol válaszban is annak nevezi magát. */
+    $kitol = ($nyelv === 'en')
+        ? ((($sor['kitol'] ?? '') === 'en') ? 'Visitor' : 'ECO')
+        : ((($sor['kitol'] ?? '') === 'en') ? 'Látogató' : 'Öko');
     $szoveg = mb_substr(OthSmtp::tisztit((string) ($sor['szoveg'] ?? '')), 0, 400);
     if ($szoveg !== '') { $elozmeny .= $kitol . ': ' . $szoveg . "\n"; }
 }
@@ -325,7 +329,14 @@ if ($itt !== null && $mod === 'kalauz') {
    cég átállítja, nem marad hátra egy elavult szám a prompt közepén. */
 $MEGORZES = (int) ($CFG['eredmeny']['megorzes_nap'] ?? 180);
 
-$SYSTEM = ($nyelv === 'en' ? "ANSWER IN ENGLISH. The visitor is on the English site.\n\n" : '') . <<<SYS
+/* A SEGÉD NEVE nyelvenként más. A magyar „Öko" az „ökológiai" rövidítése —
+   angolul olvashatatlan, ezért ott ECO. A promptban is ki kell mondani:
+   különben a modell a lenti magyar szerepleírásból veszi a nevét, és angol
+   válaszban is „Öko"-ként mutatkozik be. */
+$SYSTEM = ($nyelv === 'en'
+        ? "ANSWER IN ENGLISH. The visitor is on the English site.\n"
+        . "YOUR NAME IS \"ECO\" — never call yourself Öko when writing English.\n\n"
+        : '') . <<<SYS
 Öko vagy, az ÖkoTech Home weboldalának kísérője. A cég egyedi szennyvízkezelést
 tervez és telepít: biológiai tisztítóberendezést, oldómedencés rendszert és
 nagyobb, közösségi rendszereket.
