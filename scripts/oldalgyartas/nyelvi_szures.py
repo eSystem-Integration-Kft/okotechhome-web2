@@ -15,7 +15,14 @@ magyarnak jelöl mindent, ami ékezetes vagy szerepel a magyar szótövek közö
 import json, os, re, sys, collections
 
 ITT = os.path.dirname(__file__)
-WEB = os.path.normpath(os.path.join(ITT, '..', '..', '_web'))
+# A két lapfa gyökere. Alapértelmezésben a magyar repó elrendezése (`_web` és
+# `_web/en`), így a szkriptek itt változatlanul futnak. Az angol webhely 2026.
+# szeptemberében külön projektbe költözött (`_OkoTechHome2_EN/_webout`, ahol
+# nincs `en/` szint), ezért mindkét gyökér felülírható:
+#   OKOTH_HU_WEB=…/_OkoTechHome2/_web  OKOTH_EN_WEB=…/_OkoTechHome2_EN/_webout
+HU_WEB = os.environ.get('OKOTH_HU_WEB') or os.path.normpath(
+    os.path.join(os.path.dirname(__file__), '..', '..', '_web'))
+EN_WEB = os.environ.get('OKOTH_EN_WEB') or os.path.join(HU_WEB, 'en')
 EKEZET = 'áéíóöőúüűÁÉÍÓÖŐÚÜŰ'
 
 # ékezet nélküli, de egyértelműen magyar szavak. Ami angolul is szó — `mind`,
@@ -79,16 +86,16 @@ def magyar_szavak(fajl: str) -> list:
 
 
 if __name__ == '__main__':
-    minta = sys.argv[1] if len(sys.argv) > 1 else 'en'
+    minta = sys.argv[1] if len(sys.argv) > 1 else ''
     import glob
     ossz = collections.Counter()
     lapok = 0
-    for f in sorted(glob.glob(os.path.join(WEB, minta, '**', '*.html'), recursive=True)):
+    for f in sorted(glob.glob(os.path.join(EN_WEB, minta, '**', '*.html'), recursive=True)):
         t = magyar_szavak(f)
         if not t:
             continue
         lapok += 1
-        print(f'--- {os.path.relpath(f, WEB)}  ({len(t)} találat)')
+        print(f'--- {os.path.relpath(f, EN_WEB)}  ({len(t)} találat)')
         for sor, sz, kontextus in t[:12]:
             print(f'   {sor:5d}  {sz:22s} {kontextus}')
         if len(t) > 12:

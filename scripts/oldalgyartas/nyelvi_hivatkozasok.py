@@ -17,13 +17,20 @@ törött hivatkozás rosszabb, mint a nyelvváltás.
 import os, re, sys, glob
 
 ITT = os.path.dirname(__file__)
-WEB = os.path.normpath(os.path.join(ITT, '..', '..', '_web'))
+# A két lapfa gyökere. Alapértelmezésben a magyar repó elrendezése (`_web` és
+# `_web/en`), így a szkriptek itt változatlanul futnak. Az angol webhely 2026.
+# szeptemberében külön projektbe költözött (`_OkoTechHome2_EN/_webout`, ahol
+# nincs `en/` szint), ezért mindkét gyökér felülírható:
+#   OKOTH_HU_WEB=…/_OkoTechHome2/_web  OKOTH_EN_WEB=…/_OkoTechHome2_EN/_webout
+HU_WEB = os.environ.get('OKOTH_HU_WEB') or os.path.normpath(
+    os.path.join(os.path.dirname(__file__), '..', '..', '_web'))
+EN_WEB = os.environ.get('OKOTH_EN_WEB') or os.path.join(HU_WEB, 'en')
 sys.path.insert(0, ITT)
 from nyelvek import SZLUG
 
 
 def atir(fajl: str) -> int:
-    en_rel = os.path.relpath(fajl, os.path.join(WEB, 'en'))[:-5]
+    en_rel = os.path.relpath(fajl, EN_WEB)[:-5]
     en_dir = os.path.dirname(en_rel) or '.'
     s = open(fajl, encoding='utf-8').read()
     n = 0
@@ -40,7 +47,7 @@ def atir(fajl: str) -> int:
         cel = cel.replace(os.sep, '/').rstrip('/')
         if cel in ('', '.'):
             cel = 'index'
-        if os.path.isdir(os.path.join(WEB, cel)):
+        if os.path.isdir(os.path.join(HU_WEB, cel)):
             cel += '/index'
         if cel not in SZLUG:
             return egesz                      # nincs angol párja — marad
@@ -62,7 +69,7 @@ def atir(fajl: str) -> int:
 
 if __name__ == '__main__':
     ossz = lap = 0
-    for f in sorted(glob.glob(os.path.join(WEB, 'en', '**', '*.html'), recursive=True)):
+    for f in sorted(glob.glob(os.path.join(EN_WEB, '**', '*.html'), recursive=True)):
         k = atir(f)
         if k:
             ossz += k; lap += 1

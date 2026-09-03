@@ -21,13 +21,20 @@ KÉT KIMENET, KÉT CÉLRA:
 
 FUTTATÁS:  python3 scripts/kalauz-index.py
 KIMENET:   _web/api/kalauz-index.json + _web/api/kalauz-szoveg.json
+
+Az angol webhely 2026 szeptemberében külön projektbe költözött, ahol nincs
+`en/` szint és minden lap angol. Két környezeti változó igazítja hozzá:
+  OKOTH_WEB=…/_OkoTechHome2_EN/_webout   OKOTH_NYELV=en
 """
 import html
 import json
+import os
 import pathlib
 import re
 
-GYOKER = pathlib.Path(__file__).resolve().parent.parent / '_web'
+GYOKER = (pathlib.Path(os.environ['OKOTH_WEB']).resolve() if os.environ.get('OKOTH_WEB')
+          else pathlib.Path(__file__).resolve().parent.parent / '_web')
+NYELV = os.environ.get('OKOTH_NYELV') or ''
 KIMENET = GYOKER / 'api' / 'kalauz-index.json'
 KIMENET_SZOVEG = GYOKER / 'api' / 'kalauz-szoveg.json'
 
@@ -124,11 +131,12 @@ def lapok():
         if not cim:
             continue
 
-        # A LAP NYELVE. Az angol fa az `en/` alatt él, minden más magyar.
-        # Enélkül az index nyelvfüggetlen volt: egy angol kérdésre magyar
-        # lapot is találhatott, és Öko magyar mondatot idézett angolul kérdező
+        # A LAP NYELVE. Egy fán belül az angol az `en/` alatt él, minden más
+        # magyar; egynyelvű webhelyen az `OKOTH_NYELV` mondja meg. Enélkül az
+        # index nyelvfüggetlen volt: egy angol kérdésre magyar lapot is
+        # találhatott, és Öko magyar mondatot idézett angolul kérdező
         # látogatónak. A végpont ezzel a mezővel szűr.
-        nyelv = 'en' if str(rel).startswith('en/') else 'hu'
+        nyelv = NYELV or ('en' if str(rel).startswith('en/') else 'hu')
 
         # A kiterjesztés nélküli útvonal a valódi URL (lásd .htaccess).
         url = str(rel).removesuffix('.html')

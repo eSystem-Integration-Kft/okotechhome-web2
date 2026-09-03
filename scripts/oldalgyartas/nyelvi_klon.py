@@ -20,8 +20,14 @@ Használat:  python3 scripts/oldalgyartas/nyelvi_klon.py helyzetem/telekalkalmas
 """
 import os, re, sys
 
-GYOKER = os.path.join(os.path.dirname(__file__), '..', '..')
-WEB = os.path.normpath(os.path.join(GYOKER, '_web'))
+# A két lapfa gyökere. Alapértelmezésben a magyar repó elrendezése (`_web` és
+# `_web/en`), így a szkriptek itt változatlanul futnak. Az angol webhely 2026.
+# szeptemberében külön projektbe költözött (`_OkoTechHome2_EN/_webout`, ahol
+# nincs `en/` szint), ezért mindkét gyökér felülírható:
+#   OKOTH_HU_WEB=…/_OkoTechHome2/_web  OKOTH_EN_WEB=…/_OkoTechHome2_EN/_webout
+HU_WEB = os.environ.get('OKOTH_HU_WEB') or os.path.normpath(
+    os.path.join(os.path.dirname(__file__), '..', '..', '_web'))
+EN_WEB = os.environ.get('OKOTH_EN_WEB') or os.path.join(HU_WEB, 'en')
 sys.path.insert(0, os.path.dirname(__file__))
 from nyelvek import SZLUG
 
@@ -45,8 +51,8 @@ def klon(hu_ut: str, felulir: bool = False) -> str:
     """A vázat elkészíti. LÉTEZŐ lapot alapból NEM ír felül: a kész fordítás
     elvesztése sokkal drágább, mint egy kihagyott váz. Felülíráshoz `--felulir`."""
     en_ut = SZLUG[hu_ut]
-    forras = os.path.join(WEB, hu_ut + '.html')
-    cel = os.path.join(WEB, 'en', en_ut + '.html')
+    forras = os.path.join(HU_WEB, hu_ut + '.html')
+    cel = os.path.join(EN_WEB, en_ut + '.html')
     if os.path.exists(cel) and not felulir:
         return ''
     os.makedirs(os.path.dirname(cel), exist_ok=True)
@@ -81,7 +87,7 @@ def klon(hu_ut: str, felulir: bool = False) -> str:
             cel_hu = 'index'
         if cel_hu.endswith('/'):
             cel_hu += 'index'
-        if cel_hu in SZLUG and os.path.exists(os.path.join(WEB, 'en', SZLUG[cel_hu] + '.html')):
+        if cel_hu in SZLUG and os.path.exists(os.path.join(EN_WEB, SZLUG[cel_hu] + '.html')):
             uj = os.path.relpath(SZLUG[cel_hu], os.path.dirname(en_ut) or '.').replace(os.sep, '/')
             return egesz.replace(f'href="{cim}"', f'href="{uj}"')
         # Nincs még angol változat: a MAGYAR lapra megy, jelölve. Az utat
@@ -94,7 +100,7 @@ def klon(hu_ut: str, felulir: bool = False) -> str:
     s = re.sub(r'<a\b[^>]*?href="([^"]+)"[^>]*>', hivatkozas, s)
 
     # 4) fejléc és lábléc a kész angol nyitólapról — OSZTÁLYRA illesztve
-    nyito = open(os.path.join(WEB, 'en', 'index.html'), encoding='utf-8').read()
+    nyito = open(os.path.join(EN_WEB, 'index.html'), encoding='utf-8').read()
     en_konyvtar = os.path.dirname(en_ut) or '.'
     en_haza = os.path.relpath('.', en_konyvtar).replace(os.sep, '/')
     en_haza = './' if en_haza == '.' else en_haza + '/'

@@ -16,7 +16,14 @@ képződményt gyárt. A párokat hosszúság szerint csökkenő sorrendben alka
 import json, os, re, sys, textwrap
 
 ITT = os.path.dirname(__file__)
-WEB = os.path.normpath(os.path.join(ITT, '..', '..', '_web'))
+# A két lapfa gyökere. Alapértelmezésben a magyar repó elrendezése (`_web` és
+# `_web/en`), így a szkriptek itt változatlanul futnak. Az angol webhely 2026.
+# szeptemberében külön projektbe költözött (`_OkoTechHome2_EN/_webout`, ahol
+# nincs `en/` szint), ezért mindkét gyökér felülírható:
+#   OKOTH_HU_WEB=…/_OkoTechHome2/_web  OKOTH_EN_WEB=…/_OkoTechHome2_EN/_webout
+HU_WEB = os.environ.get('OKOTH_HU_WEB') or os.path.normpath(
+    os.path.join(os.path.dirname(__file__), '..', '..', '_web'))
+EN_WEB = os.environ.get('OKOTH_EN_WEB') or os.path.join(HU_WEB, 'en')
 SZOTAR_UT = os.path.join(ITT, 'szotar.json')
 NEVEK_UT = os.path.join(ITT, 'nem_forditando.json')
 MAGYAR_BETU = 'a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ'
@@ -62,9 +69,9 @@ def maradek(fajl: str, d: dict) -> list:
     az ékezetszűrő átengedte, és bent maradtak a kész lapokon.
     """
     import nyelvek
-    en_rel = os.path.relpath(fajl, os.path.join(WEB, 'en'))[:-5]
+    en_rel = os.path.relpath(fajl, EN_WEB)[:-5]
     hu_rel = {v: k for k, v in nyelvek.SZLUG.items()}.get(en_rel)
-    hu_csomok = set(csomok(os.path.join(WEB, hu_rel + '.html'))) if hu_rel else set()
+    hu_csomok = set(csomok(os.path.join(HU_WEB, hu_rel + '.html'))) if hu_rel else set()
     return [c for c in csomok(fajl)
             if c in hu_csomok and c not in d and not tulajdonnev(c)]
 
@@ -165,13 +172,13 @@ if __name__ == '__main__':
     parancs, lapok = sys.argv[1], sys.argv[2:]
     d = szotar()
     for lap in lapok:
-        f = lap if lap.endswith('.html') else os.path.join(WEB, 'en', lap + '.html')
+        f = lap if lap.endswith('.html') else os.path.join(EN_WEB, lap + '.html')
         if parancs == 'alkalmaz':
             n = alkalmaz(f, d)
             m = maradek(f, d)
-            print(f'{os.path.relpath(f, WEB):48s} {n:4d} csere, {len(m):3d} maradt')
+            print(f'{os.path.relpath(f, EN_WEB):48s} {n:4d} csere, {len(m):3d} maradt')
         elif parancs == 'marad':
             m = maradek(f, d)
-            print(f'--- {os.path.relpath(f, WEB)}  ({len(m)} csomó)')
+            print(f'--- {os.path.relpath(f, EN_WEB)}  ({len(m)} csomó)')
             for x in m:
                 print(json.dumps(x, ensure_ascii=False))

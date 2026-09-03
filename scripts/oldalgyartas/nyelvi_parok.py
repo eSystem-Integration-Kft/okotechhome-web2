@@ -10,7 +10,14 @@ angol nyitólapra: a nyelvváltás ne veszítse el, hol tart a látogató.
 """
 import os, re, sys
 
-WEB = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '_web'))
+# A két lapfa gyökere. Alapértelmezésben a magyar repó elrendezése (`_web` és
+# `_web/en`), így a szkriptek itt változatlanul futnak. Az angol webhely 2026.
+# szeptemberében külön projektbe költözött (`_OkoTechHome2_EN/_webout`, ahol
+# nincs `en/` szint), ezért mindkét gyökér felülírható:
+#   OKOTH_HU_WEB=…/_OkoTechHome2/_web  OKOTH_EN_WEB=…/_OkoTechHome2_EN/_webout
+HU_WEB = os.environ.get('OKOTH_HU_WEB') or os.path.normpath(
+    os.path.join(os.path.dirname(__file__), '..', '..', '_web'))
+EN_WEB = os.environ.get('OKOTH_EN_WEB') or os.path.join(HU_WEB, 'en')
 sys.path.insert(0, os.path.dirname(__file__))
 from nyelvek import SZLUG
 
@@ -63,8 +70,8 @@ def ir(fajl: str, hu_cim: str, en_cim: str, valto_cim: str, valto_nyelv: str) ->
 if __name__ == '__main__':
     n = 0
     for hu_ut, en_ut in sorted(SZLUG.items()):
-        hu_f = os.path.join(WEB, hu_ut + '.html')
-        en_f = os.path.join(WEB, 'en', en_ut + '.html')
+        hu_f = os.path.join(HU_WEB, hu_ut + '.html')
+        en_f = os.path.join(EN_WEB, en_ut + '.html')
         if not (os.path.exists(hu_f) and os.path.exists(en_f)):
             continue
         hu_dir = os.path.dirname(hu_ut) or '.'
