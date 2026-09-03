@@ -49,6 +49,7 @@
       allapotSzo: { kesz: "Kész", aktiv: "Folyamatban", nyitott: "Még nyitott" },
       eredmenyGomb: "Eredmény",
       tovabbGomb: "Tovább",
+      visszaGomb: "Vissza",
       mentes: "Eredmény mentése",
       elmentve: "Elmentettük. Az eredmény azonosítója:",
       megnyitas: "Megnyitás, nyomtatás és PDF-be mentés",
@@ -74,6 +75,7 @@
       allapotSzo: { kesz: "Done", aktiv: "In progress", nyitott: "Still open" },
       eredmenyGomb: "Result",
       tovabbGomb: "Next",
+      visszaGomb: "Back",
       mentes: "Save the result",
       elmentve: "Saved. The result's reference:",
       megnyitas: "Open, print or save as PDF",
@@ -239,6 +241,40 @@
     return sin;
   }
 
+  /* A VÁLASZ MAGA A LÉPTETÉS — egyválasztós kérdésnél nincs „Tovább" gomb, mint
+     az ársávbecslőnél sem. Egy kattintás, egy döntés: a külön megerősítés ott
+     üres mozdulat, ahol úgyis csak egy válasz adható.
+
+     A BILLENTYŰZET viszont másképp működik. Rádiócsoportban a nyilak nemcsak
+     mozgatják a fókuszt, hanem VÁLASZTANAK is: aki a második lehetőségre akar
+     eljutni, az elsőt menet közben kijelöli. Azonnali léptetéssel ott ragadna,
+     ahol csak áthaladt. Ezért a nyíllal érkező választás késleltetve lép — a
+     következő nyílütés törli a függőben lévő lépést —, a mutatóval érkező
+     azonnal. Így egyik használati mód sem szenved a másiktól. */
+  let nyilNavigacio = false;
+  let fuggoLepes = 0;
+  addEventListener("pointerdown", () => { nyilNavigacio = false; }, true);
+
+  function leptet(q, fokuszal) {
+    clearTimeout(fuggoLepes);
+    const lep = () => {
+      if (allapot.aktiv === kerdesSzam - 1) allapot.kesz = true;
+      else allapot.aktiv += 1;
+      rajzol();
+      /* A rajzolás CSERÉLI a DOM-ot, tehát a fókusz a törzsre esne vissza. Aki
+         billentyűvel érkezett, ott ragadna: vissza kellene tabolnia a most
+         megjelent kérdésig. Ezért a nyíllal léptető látogatót a következő
+         kérdés első válaszára tesszük. Mutatóval érkezőnél ezt nem tesszük —
+         ott a fókuszgyűrű váratlanul jelenne meg. */
+      if (fokuszal) {
+        const elso = gyoker.querySelector(".ajanlo-kerdes:not([data-elonezet]) input");
+        if (elso) elso.focus();
+      }
+    };
+    if (nyilNavigacio) fuggoLepes = setTimeout(lep, 900);
+    else lep();
+  }
+
   function valaszokRajzol(q, elonezet) {
     const csoport = el("div", "ajanlo-valaszok");
     q.valaszok.forEach((v) => {
@@ -249,9 +285,24 @@
       be.value = v.id;
       be.checked = allapot.valaszok[q.id] === v.id;
       if (elonezet) be.disabled = true;
+      be.addEventListener("keydown", (e) => {
+        if (e.key.indexOf("Arrow") === 0) { nyilNavigacio = true; clearTimeout(fuggoLepes); }
+      });
       be.addEventListener("change", () => {
         allapot.valaszok[q.id] = v.id;
-        rajzol();
+        /* Többválasztósnál a gomb lép — itt csak a kijelölés frissül. */
+        if (q.tobbes) { rajzol(); return; }
+        /* Nyilazás közben SZÁNDÉKOSAN nem rajzolunk: a csere elvinné a fókuszt
+           a csoportból, és a látogató nem tudna továbblépni a válaszok között.
+           A kijelölést a böngésző maga mutatja, a stílus a `:checked`-re épül. */
+        leptet(q, nyilNavigacio);
+      });
+      /* Az ismételt kattintás a MÁR kijelölt válaszra nem vált `change`
+         eseményt, léptetnie viszont kell: az eredményről visszalépő látogató
+         másképp nem tudna újra előre jutni, ha nincs „Tovább" gomb. */
+      be.addEventListener("click", () => {
+        if (q.tobbes || nyilNavigacio) return;
+        if (allapot.valaszok[q.id] === v.id) leptet(q, false);
       });
       cimke.appendChild(be);
       /* A kiválasztást nem csak a szín jelzi: a korongba pipa kerül. */
@@ -301,13 +352,28 @@
     const q = K.kerdesek[allapot.aktiv];
     const lepes = K.lepesek[lepesIndex(q.lepes)];
 
+    const valasz = allapot.valaszok[q.id];
+
+    /* AZ ELŐZŐ VÁLASZ MAGYARÁZATA. Mind a hat kérdéshez tartozik egy — ez a
+       modul tartalmi hozadéka, nem díszítés. Amíg „Tovább" gomb volt, a
+       magyarázat a válasz alatt jelent meg, és a látogató elolvashatta,
+       mielőtt továbblépett. Az automatikus léptetéssel az a képernyő eltűnik,
+       ezért a magyarázat ide költözik: a KÖVETKEZŐ kérdés fölé, reakcióként
+       arra, amit az imént válaszolt. Csak akkor, ha ez a kérdés még
+       megválaszolatlan — visszalépéskor a saját magyarázata áll lentebb, és a
+       kettő együtt ismétlés volna. */
+    const elozo = allapot.aktiv > 0 ? K.kerdesek[allapot.aktiv - 1] : null;
+    const elozoValasz = elozo ? allapot.valaszok[elozo.id] : null;
+    if (!valasz && elozo && elozoValasz && elozo.magyarazat && elozo.magyarazat[elozoValasz]) {
+      folyam.appendChild(magyarazatRajzol(elozo.magyarazat[elozoValasz]));
+    }
+
     /* Az asszisztens üzenete csak a szakasz ELSŐ kérdésénél jelenik meg. */
     const elsoAdottLepesben = kerdesekLepesben(q.lepes)[0].id === q.id;
     if (elsoAdottLepesben) folyam.appendChild(uzenetRajzol(lepesUzenete(lepes)));
 
     folyam.appendChild(kerdesRajzol(q, false));
 
-    const valasz = allapot.valaszok[q.id];
     if (valasz && q.magyarazat && q.magyarazat[valasz]) {
       folyam.appendChild(magyarazatRajzol(q.magyarazat[valasz]));
     }
@@ -326,7 +392,7 @@
     const vissza = el("button", "btn btn-halvany ajanlo-vissza");
     vissza.type = "button";
     vissza.appendChild(el("span", "ajanlo-nyil-elol", "←"));
-    vissza.appendChild(document.createTextNode("Vissza"));
+    vissza.appendChild(document.createTextNode(SZOVEG.visszaGomb));
     vissza.disabled = allapot.aktiv === 0 && !allapot.kesz;
     vissza.addEventListener("click", () => {
       if (allapot.kesz) { allapot.kesz = false; }
@@ -337,6 +403,16 @@
     /* A záró képernyőn nincs „előre": a továbblépés ott a kimenet saját
        gombjaira tartozik (ársávbecslő, mentés), nem a kérdéssor lábára. */
     if (allapot.kesz) {
+      lab.appendChild(vissza);
+      return lab;
+    }
+
+    /* „TOVÁBB" CSAK TÖBBVÁLASZTÓS KÉRDÉSNÉL. Ahol egyetlen válasz adható, ott a
+       válasz maga a döntés, és a megerősítő gomb üres mozdulat — az
+       ársávbecslő is így működik. Ahol többet is meg lehet jelölni, ott
+       viszont kell: a látogatónak kell jeleznie, hogy készen van. */
+    const aktiv = K.kerdesek[allapot.aktiv];
+    if (!aktiv.tobbes) {
       lab.appendChild(vissza);
       return lab;
     }
