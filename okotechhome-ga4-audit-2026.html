@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>okotechhome.hu — GA4 audit (2025.07.27 – 2026.07.26)</title>
+<style>
+  :root{
+    color-scheme: light;
+    --plane:#f9f9f7; --surface-1:#fcfcfb;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+    --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a;
+    --st-good:#0ca30c; --st-warn:#fab219; --st-serious:#ec835a; --st-crit:#d03b3b;
+    --dim:#c9c8c1;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --plane:#0d0d0d; --surface-1:#1a1a19;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+      --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70;
+      --dim:#3a3a37;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --plane:#0d0d0d; --surface-1:#1a1a19;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70;
+    --dim:#3a3a37;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--plane); color:var(--text-primary);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1120px; margin:0 auto; padding:32px 20px 72px}
+  header.top{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:8px}
+  h1{font-size:26px; line-height:1.25; margin:0 0 4px; letter-spacing:-0.01em}
+  .sub{color:var(--text-secondary); font-size:14px; margin:0}
+  .btn{background:var(--surface-1); color:var(--text-secondary); border:1px solid var(--border);
+    border-radius:8px; padding:7px 12px; font:inherit; font-size:13px; cursor:pointer}
+  .btn:hover{color:var(--text-primary)}
+  section{margin-top:34px}
+  h2{font-size:18px; margin:0 0 4px; letter-spacing:-0.01em}
+  h3{font-size:15px; margin:0 0 2px}
+  .lead{color:var(--text-secondary); font-size:14px; margin:0 0 16px; max-width:80ch}
+  .card{background:var(--surface-1); border:1px solid var(--border); border-radius:12px;
+    padding:18px 18px 14px; margin-bottom:16px}
+  .tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px}
+  .tile{background:var(--surface-1); border:1px solid var(--border); border-radius:12px; padding:14px 16px}
+  .tile .k{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px}
+  .tile .v{font-size:28px; font-weight:650; line-height:1.1; letter-spacing:-0.02em}
+  .tile .n{font-size:12.5px; color:var(--text-secondary); margin-top:5px}
+  .chart-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:10px}
+  .legend{display:flex; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--text-secondary)}
+  .legend i{width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:6px; vertical-align:-1px}
+  svg{display:block; width:100%; height:auto; overflow:visible}
+  .tick{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+  .dlabel{font-size:11.5px; fill:var(--text-secondary); font-weight:600; font-variant-numeric:tabular-nums}
+  .catlabel{font-size:12.5px; fill:var(--text-primary)}
+  .tip{position:fixed; pointer-events:none; z-index:50; opacity:0; transition:opacity .1s;
+    background:var(--surface-1); border:1px solid var(--border); border-radius:8px; padding:8px 10px;
+    font-size:12.5px; color:var(--text-primary); box-shadow:0 6px 24px rgba(0,0,0,.16); white-space:nowrap}
+  .tip .row{color:var(--text-secondary); display:flex; gap:10px; justify-content:space-between}
+  .tip .row span:last-child{color:var(--text-primary); font-variant-numeric:tabular-nums; font-weight:600}
+  details.tv{margin-top:10px; border-top:1px solid var(--grid); padding-top:8px}
+  details.tv summary{cursor:pointer; font-size:12.5px; color:var(--text-secondary)}
+  table{border-collapse:collapse; width:100%; margin-top:10px; font-size:13px}
+  th,td{text-align:right; padding:6px 8px; border-bottom:1px solid var(--grid); font-variant-numeric:tabular-nums}
+  th:first-child,td:first-child{text-align:left; font-variant-numeric:normal}
+  th{color:var(--muted); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em}
+  ul.find{list-style:none; padding:0; margin:0}
+  ul.find li{border:1px solid var(--border); border-left-width:3px; border-radius:10px; background:var(--surface-1);
+    padding:13px 15px; margin-bottom:10px}
+  li.crit{border-left-color:var(--st-crit)} li.ser{border-left-color:var(--st-serious)}
+  li.warn{border-left-color:var(--st-warn)} li.good{border-left-color:var(--st-good)}
+  li .t{font-weight:650; margin-bottom:3px; display:flex; gap:8px; align-items:baseline; flex-wrap:wrap}
+  li .t .sev{font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase}
+  li.crit .sev{color:var(--st-crit)} li.ser .sev{color:#a34a1e} li.warn .sev{color:#8a6100} li.good .sev{color:#006300}
+  :root[data-theme="dark"] li.ser .sev{color:var(--st-serious)}
+  :root[data-theme="dark"] li.warn .sev{color:var(--st-warn)}
+  :root[data-theme="dark"] li.good .sev{color:var(--st-good)}
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])) li.ser .sev{color:var(--st-serious)}
+    :root:where(:not([data-theme="light"])) li.warn .sev{color:var(--st-warn)}
+    :root:where(:not([data-theme="light"])) li.good .sev{color:var(--st-good)}
+  }
+  li p{margin:4px 0 0; color:var(--text-secondary); font-size:14px}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start}
+  @media (max-width:780px){ .grid2{grid-template-columns:1fr} }
+  .note{font-size:12.5px; color:var(--muted); margin-top:10px}
+  code{background:var(--plane); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:12.5px}
+  ol.plan{padding-left:20px; margin:0}
+  ol.plan li{margin-bottom:9px; color:var(--text-secondary)}
+  ol.plan li b{color:var(--text-primary)}
+  .banner{background:var(--surface-1); border:1px solid var(--border); border-left:3px solid var(--st-crit);
+    border-radius:10px; padding:14px 16px; margin-bottom:16px}
+  .banner b{display:block; margin-bottom:3px}
+  .banner p{margin:0; color:var(--text-secondary); font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>okotechhome.hu — GA4 audit</h1>
+    <p class="sub">2025. július 27. – 2026. július 26. · 12 hónap · közvetlenül a GA4 property-ből (G-EN120W3K2Q)</p>
+  </div>
+  <button class="btn" id="themeBtn" type="button">Sötét / világos</button>
+</header>
+
+<div class="banner" style="margin-top:20px">
+  <b>A korábbi CSV-exportok félrevezettek</b>
+  <p>A négy küldött CSV 14 hónapra 1 824 felhasználót és 4 250 eseményt mutatott. A property valós 12 hónapos adata <b>21 577 felhasználó és 163 146 esemény</b> — vagyis az exportok a forgalom kevesebb mint 10%-át tartalmazták. Az alábbi elemzés a teljes, szűretlen adaton alapul, és felülírja a korábbi következtetéseket.</p>
+</div>
+
+<section>
+  <div class="tiles">
+    <div class="tile"><div class="k">Munkamenet</div><div class="v">30 759</div><div class="n">21 577 aktív felhasználó</div></div>
+    <div class="tile"><div class="k">Esemény</div><div class="v">163 146</div><div class="n">5,30 esemény / munkamenet</div></div>
+    <div class="tile"><div class="k">Ajánlatkérés</div><div class="v">1 557</div><div class="n">egyedi ember · ~130 / hó</div></div>
+    <div class="tile"><div class="k">Megrendelés</div><div class="v">97</div><div class="n">egyedi ember · ~8 / hó</div></div>
+    <div class="tile"><div class="k">Fantom konverzió</div><div class="v">9,7%</div><div class="n">177 kulcsesemény űrlap nélkül</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>1. A te felvetésed — és a válasz</h2>
+  <p class="lead">Azt gyanítottad, hogy nem az elküldött ajánlatkérés, hanem az ajánlatkérő oldal megnyitása van mérve. Megnéztük a tényleges esemény-definíciókat a GA4-ben.</p>
+  <ul class="find">
+    <li class="good">
+      <div class="t"><span class="sev">Jó hír</span> A mérés alapelve helyes — köszönőoldalt mér, nem űrlapmegnyitást</div>
+      <p>Mindhárom egyéni esemény ugyanarra a mintára épül: <code>event_name = page_view</code> ÉS <code>page_path = /koszonooldal-…/</code>. Vagyis az <code>árajánlatkérés</code> akkor tüzel, amikor a látogató eljut a <b>köszönőoldalra</b> — ami az űrlap sikeres beküldése után jelenik meg. Az ajánlatkérő űrlap oldala (<code>/formok/ajanlatkeres.php</code>) <b>nem</b> számít konverziónak. A hirdetési pénz tehát nem ezen a módon ég el.</p>
+    </li>
+    <li class="crit">
+      <div class="t"><span class="sev">De</span> Minden konverziós esemény kétszer számolódik</div>
+      <p>A köszönőoldal 12 hónap alatt <b>1 833</b> megtekintést kapott — az <code>árajánlatkérés</code> esemény viszont <b>3 608</b>-szor tüzelt. Pontosan 1,97×. Ugyanez a megrendelésnél: 126 oldalmegtekintés → 251 esemény (1,99×). Egy oldalbetöltésre két esemény keletkezik. A legvalószínűbb ok: az eseményt <b>egyszerre küldi a GTM-tag és a GA4-ben létrehozott egyéni esemény</b>. Ellenőrizni kell a Tag Managerben. Amíg így van, minden konverziós szám, amit a Google Adsnek átadtok, kétszeres.</p>
+    </li>
+    <li class="ser">
+      <div class="t"><span class="sev">És</span> A köszönőoldal kívülről is elérhető — 177 fantom konverzió</div>
+      <p>12 hónap alatt <b>153 munkamenet egyenesen a köszönőoldalon kezdődött</b> (97 ember, ebből <b>29 vadonatúj látogató</b>) — vagyis soha nem töltöttek ki űrlapot, csak megnyitották az oldalt. A megrendelés köszönőoldalánál további 25 ilyen munkamenet. Összesen <b>177 kulcsesemény (az összes 9,67%-a) valódi ajánlatkérés nélkül</b> keletkezett. Új látogatók nem találnak véletlenül egy köszönőoldalt: az oldal indexelve van a Google-ben, vagy botok járják.</p>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>2. Hol ég a pénz — a csatornák valós teljesítménye</h2>
+  <p class="lead">Ez a 12 hónapos, teljes adat. Az utolsó oszlop a lényeg: hány százalék munkamenetből lesz kulcsesemény.</p>
+  <div class="card">
+    <div class="chart-head">
+      <h3>Munkamenetek és kulcsesemények csatornánként</h3>
+      <div class="legend"><span><i style="background:var(--series-1)"></i>Munkamenet</span><span><i style="background:var(--series-2)"></i>Kulcsesemény</span></div>
+    </div>
+    <div id="c-ch"></div>
+    <details class="tv"><summary>Táblázatos nézet</summary><div id="t-ch"></div></details>
+  </div>
+  <div class="card">
+    <div class="chart-head"><h3>Munkamenet-konverziós arány csatornánként</h3></div>
+    <div id="c-rate"></div>
+    <p class="note">A vastagabb függőleges vonal a property átlaga (5,96%).</p>
+  </div>
+  <ul class="find">
+    <li class="crit">
+      <div class="t"><span class="sev">A fő probléma</span> Cross-network: a forgalom 28%-a, a leadek 4,2%-a</div>
+      <p><b>8 613 munkamenet → 77 kulcsesemény → 0,89%.</b> Ez a legnagyobb egyetlen forgalomforrás, és a leggyengébb konverzió a mezőnyben. A Cross-network a GA4-ben Performance Max vagy Demand Gen kampányt jelent. Összevetésül a Paid Social ennél kevesebb munkamenetből (6 481) <b>tízszer annyi</b> leadet hoz (808). Ha a két csatorna nagyjából hasonló büdzsét kap, akkor a Cross-networkre költött pénz nagy része elvész. <b>Ez az első hely, ahol a Google Ads-számlát meg kell nézni.</b></p>
+    </li>
+    <li class="good">
+      <div class="t"><span class="sev">A jó hír</span> Paid Social: 12,45% konverzió, a leadek 44%-a</div>
+      <p>6 481 munkamenet, 808 kulcsesemény. Ez messze a legerősebb fizetett csatorna. A korábbi, CSV-alapú javaslatomat, hogy a Paid Social keretét Search-be kellene tenni, <b>visszavonom</b> — a teljes adat az ellenkezőjét mutatja. A magas arány részben abból jön, hogy a hirdetések sok látogatót közvetlenül az ajánlatkérő űrlapra visznek: az összes munkamenet 20%-a (6 195) egyenesen a <code>/formok/ajanlatkeres.php</code> oldalon indul, és innen jön az összes kulcsesemény 51,7%-a.</p>
+    </li>
+    <li class="warn">
+      <div class="t"><span class="sev">Kihasználatlan</span> Direct 7,16% és Organic Social 11,12% — kis volumen, jó minőség</div>
+      <p>A Direct 3 814 munkamenetből 276 leadet hoz, az Organic Social 1 205-ből 134-et. Mindkettő az átlag felett teljesít, és mindkettő olcsó. Az Organic Social erősítése (rendszeres posztolás, referenciák, telepítési videók) a legjobb megtérülésű ingyenes csatorna lenne.</p>
+    </li>
+    <li class="warn">
+      <div class="t"><span class="sev">Elhanyagolt</span> Display: 820 munkamenet, 13 lead, 1,59%</div>
+      <p>Kicsi tétel, de a Cross-network mellett ez a másik olyan csatorna, ami lényegében nem termel. Együtt a forgalom 30,7%-át viszik és a leadek 4,9%-át adják.</p>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. Az ajánlatkérési tölcsér</h2>
+  <p class="lead">Végigkövetve a valós utat, 12 hónapra. A tölcsér közepe meglepően jó — a probléma nem itt van.</p>
+  <div class="card">
+    <div id="c-funnel"></div>
+    <p class="note">Egyedi felhasználók. Az űrlapoldalt megnyitók 26,3%-a el is jut a köszönőoldalig — ez erős arány egy több milliós beruházási terméknél.</p>
+  </div>
+</section>
+
+<section>
+  <h2>4. Mérési hibák — konkrétan, javítási sorrendben</h2>
+  <ul class="find">
+    <li class="crit">
+      <div class="t"><span class="sev">1 · Kritikus</span> Duplán tüzelő konverziós események</div>
+      <p>1 833 köszönőoldal-megtekintés → 3 608 <code>árajánlatkérés</code> esemény. Ellenőrizd a Google Tag Managerben, hogy nincs-e olyan tag, ami ugyanezt az eseményt küldi, miközben a GA4 „létrehozott esemény" is fut. Az egyiket meg kell szüntetni. Amíg dupla, a Google Ads is dupla konverziót lát, és rossz jelre optimalizál.</p>
+    </li>
+    <li class="crit">
+      <div class="t"><span class="sev">2 · Kritikus</span> A köszönőoldalak nincsenek lezárva</div>
+      <p>153 munkamenet indult közvetlenül a <code>/koszonooldal-ajanlatkeres</code> oldalon. Két teendő: (a) tedd az összes köszönőoldalra a <code>noindex</code> meta taget és vedd ki a sitemapból; (b) ha technikailag megoldható, csak POST utáni átirányítással legyen elérhető (session-token vagy szerveroldali ellenőrzés). Ez a 177 fantom konverzió azonnal eltűnik.</p>
+    </li>
+    <li class="ser">
+      <div class="t"><span class="sev">3 · Súlyos</span> A kapcsolati űrlap mérése nem működik</div>
+      <p>A <code>/koszonooldal-kapcsolat/</code> oldalt 12 hónap alatt <b>egyszer</b> nyitották meg, az <code>üzenet_kapcsolat_oldalról</code> esemény összesen <b>1-szer</b> tüzelt. Közben a <code>/kapcsolat/</code> oldalt 1 304 ember nézte meg. Vagy senki nem ír a kapcsolati űrlapon (nem valószínű), vagy az űrlap nem erre a köszönőoldalra irányít — vagy egyáltalán nem működik. <b>Ezt egy próbabeküldéssel azonnal tesztelni kell.</b></p>
+    </li>
+    <li class="ser">
+      <div class="t"><span class="sev">4 · Súlyos</span> A telefon- és e-mail-kattintás nem számít konverziónak</div>
+      <p>A <code>tel_click</code> (178 esemény, 129 ember) és a <code>mailto_click</code> (88 esemény, 57 ember) méréssel megvan, de <b>egyik sincs kulceseménynek jelölve</b>. Egy szennyvíztisztítónál a megkeresések jelentős része telefonon jön — ezek most láthatatlanok a csatorna-elemzésben és a hirdetési optimalizálásban. Egy csillag a GA4-ben, és onnantól számítanak.</p>
+    </li>
+    <li class="warn">
+      <div class="t"><span class="sev">5 · Figyelendő</span> Mért köszönőoldalak esemény nélkül</div>
+      <p>Létezik <code>/koszonooldal-kozvetitoi_regisztracio/</code> (3 megtekintés) és <code>/koszonooldal-agrarexpo/</code> (2), amikhez nincs esemény konfigurálva. Kis tétel, de ha a közvetítői regisztráció üzletileg fontos, érdemes mérni.</p>
+    </li>
+    <li class="warn">
+      <div class="t"><span class="sev">6 · Figyelendő</span> Elrontott útvonal az adatokban</div>
+      <p>Megjelenik egy <code>https://okotechhome.hu/koszonooldal-ajanlatkeres/</code> nevű „oldal elérési út" — teljes URL a útvonal helyén. Ez tag-konfigurációs hiba, egy felhasználót érint, de jelzi, hogy valahol kézzel állított <code>page_location</code>/<code>page_path</code> érték van.</p>
+    </li>
+    <li class="warn">
+      <div class="t"><span class="sev">7 · Figyelendő</span> 1 176 munkamenet „(not set)" céloldallal</div>
+      <p>Az összes munkamenet 3,8%-ánál nincs céloldal. Jellemzően consent-mode vagy tag-betöltési probléma. Nem vészes, de rontja az attribúciót.</p>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>5. Mit tegyetek — sorrendben</h2>
+  <div class="card">
+    <ol class="plan">
+      <li><b>Valóságpróba (ma).</b> Nézzétek meg a postafiókban vagy a CRM-ben: érkezett-e az elmúlt 12 hónapban nagyságrendileg <b>1 557 ajánlatkérés és 97 megrendelés</b>? Ha igen, a mérés lényegében jó, és a hangsúly a Cross-network leállítására kerül. Ha lényegesen kevesebb, akkor a fantom konverziók és a duplázódás nagyobb arányúak, mint amit itt látunk, és előbb a mérést kell rendbe tenni.</li>
+      <li><b>GTM-ellenőrzés (1–2 nap).</b> A duplán tüzelő <code>árajánlatkérés</code> / <code>megrendelés_leadása</code> okának megkeresése és megszüntetése.</li>
+      <li><b>Köszönőoldalak lezárása (1–2 nap).</b> <code>noindex</code>, sitemapból ki, lehetőleg csak űrlapbeküldés után elérhető.</li>
+      <li><b>Kapcsolati űrlap tesztelése (fél óra).</b> Próbabeküldés, GA4 DebugView-val ellenőrizve.</li>
+      <li><b>tel_click és mailto_click kulceseménnyé jelölése (5 perc).</b> Utána 4 hét adat, és látszik, mennyi lead jön telefonon.</li>
+      <li><b>Google Ads átvilágítás (1 hét).</b> Mennyibe kerül a Cross-network (Performance Max / Demand Gen) 8 613 munkamenete és 77 leadje? Ez a szám dönti el, mennyi pénz áll rendelkezésre átcsoportosításra. Ha a lead-költség itt sokszorosa a Paid Socialénak, a kampányt le kell állítani vagy szűk Search kampányra cserélni.</li>
+      <li><b>Konverzió-import ellenőrzése.</b> Meg kell nézni, hogy a GA4 kulcsesemények át vannak-e adva a Google Ads-nek és a Metának — és a duplázódás javítása után újra kell nézni a kampánycélokat.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>Amit az adat nem tud megmondani</h3>
+    <p class="lead" style="margin-bottom:0">A GA4-ben nincs költségadat és nincs bevétel (0 Ft minden soron). Amíg a Google Ads költés és a valós, lezárt üzletek nincsenek az elemzésben, addig lead-költséget és megtérülést nem lehet számolni — csak arányokat. A Google Ads összekapcsolása és a lezárt telepítések visszavezetése (offline konverzió) a következő nagy lépés.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Módszertan</h2>
+  <ul class="find">
+    <li class="warn">
+      <div class="t"><span class="sev">Forrás</span> Honnan jönnek a számok</div>
+      <p>Közvetlenül a GA4 <code>okotechhome.hu – GA4</code> property-ből (G-EN120W3K2Q), 2025.07.27–2026.07.26 egyéni időszakra: Forgalomszerzés (munkamenet elsődleges csatornacsoportja), Események, Oldalak és képernyők, Céloldal jelentés, valamint az Adminisztrálás → Események → Egyéni konfigurációk esemény-definíciók. A csatornatáblában a top 10 sor látszik (30 537 munkamenet a 30 759-ből); a maradék két sor együtt 222 munkamenet és 1 kulcsesemény.</p>
+    </li>
+    <li class="warn">
+      <div class="t"><span class="sev">Bizonytalanság</span> Amit még ellenőrizni kell</div>
+      <p>A duplázódás oka feltételezés (GTM + GA4 kettős küldés) — a Tag Manager megnyitása erősíti meg vagy cáfolja. A Cross-network kampánytípusa (Performance Max vs. Demand Gen) csak a Google Ads fiókból derül ki. A „valós" ajánlatkérésszám a cég postafiókjából igazolható.</p>
+    </li>
+  </ul>
+</section>
+
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    if(!cur){ cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'; }
+    root.setAttribute('data-theme', cur==='dark'?'light':'dark');
+    setTimeout(drawAll,10);
+  });
+  var tip=document.getElementById('tip');
+  function showTip(e,html){ tip.innerHTML=html; tip.style.opacity=1;
+    var x=e.clientX+14,y=e.clientY+14,w=tip.offsetWidth,h=tip.offsetHeight;
+    if(x+w>innerWidth-8) x=e.clientX-w-14; if(y+h>innerHeight-8) y=e.clientY-h-14;
+    tip.style.left=x+'px'; tip.style.top=y+'px'; }
+  function hideTip(){ tip.style.opacity=0; }
+  var NS='http://www.w3.org/2000/svg';
+  function el(n,a){ var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  function cssv(n){ return getComputedStyle(document.body).getPropertyValue(n).trim(); }
+  function nf(v){ return String(v).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
+
+  var CH=[
+    {n:'Cross-network', s:8613, e:42095, k:77,  r:0.89},
+    {n:'Paid Social',   s:6481, e:32628, k:808, r:12.45},
+    {n:'Organic Search',s:4799, e:28384, k:249, r:5.19},
+    {n:'Paid Search',   s:4307, e:26164, k:225, r:5.22},
+    {n:'Direct',        s:3814, e:20698, k:276, r:7.16},
+    {n:'Organic Social',s:1205, e:7200,  k:134, r:11.12},
+    {n:'Display',       s:820,  e:3009,  k:13,  r:1.59},
+    {n:'Unassigned',    s:257,  e:1058,  k:23,  r:8.95},
+    {n:'Referral',      s:124,  e:855,   k:14,  r:11.29},
+    {n:'Organic Video', s:117,  e:921,   k:11,  r:9.40}
+  ];
+
+  function drawCh(){
+    var host=document.getElementById('c-ch'); host.innerHTML='';
+    var labelW=125, rowH=42, padR=70, padT=6;
+    var W=880, plotW=W-labelW-padR, H=padT+CH.length*rowH+6;
+    var maxS=8613, maxK=808;
+    var svg=el('svg',{viewBox:'0 0 '+W+' '+H, role:'img','aria-label':'Munkamenetek és kulcsesemények csatornánként'});
+    CH.forEach(function(c,i){
+      var y=padT+i*rowH;
+      var t=el('text',{x:labelW-10,y:y+21,'text-anchor':'end',class:'catlabel'}); t.textContent=c.n; svg.appendChild(t);
+      var w1=Math.max(2,c.s/maxS*plotW), w2=Math.max(2,c.k/maxK*plotW);
+      var r1=el('rect',{x:labelW,y:y+2,width:w1,height:14,rx:4,fill:cssv('--series-1')});
+      var r2=el('rect',{x:labelW,y:y+20,width:w2,height:14,rx:4,fill:cssv('--series-2')});
+      [r1,r2].forEach(function(r){
+        r.addEventListener('mousemove',function(ev){ showTip(ev,'<b>'+c.n+'</b>'
+          +'<div class="row"><span>Munkamenet</span><span>'+nf(c.s)+'</span></div>'
+          +'<div class="row"><span>Esemény</span><span>'+nf(c.e)+'</span></div>'
+          +'<div class="row"><span>Kulcsesemény</span><span>'+nf(c.k)+'</span></div>'
+          +'<div class="row"><span>Konverziós arány</span><span>'+c.r.toFixed(2)+'%</span></div>'); });
+        r.addEventListener('mouseleave',hideTip);
+      });
+      svg.appendChild(r1); svg.appendChild(r2);
+      var v1=el('text',{x:labelW+w1+7,y:y+13,class:'dlabel'}); v1.textContent=nf(c.s); svg.appendChild(v1);
+      var v2=el('text',{x:labelW+w2+7,y:y+31,class:'dlabel'}); v2.textContent=nf(c.k); svg.appendChild(v2);
+    });
+    host.appendChild(svg);
+    var rows=CH.map(function(c){ return '<tr><td>'+c.n+'</td><td>'+nf(c.s)+'</td><td>'+nf(c.e)+'</td><td>'+nf(c.k)+'</td><td>'+c.r.toFixed(2)+'%</td></tr>'; }).join('');
+    document.getElementById('t-ch').innerHTML='<table><thead><tr><th>Csatorna</th><th>Munkamenet</th><th>Esemény</th><th>Kulcsesemény</th><th>Konverzió</th></tr></thead><tbody>'+rows
+      +'<tr><td><b>Property összesen</b></td><td><b>30 759</b></td><td><b>163 146</b></td><td><b>1 831</b></td><td><b>5,96%</b></td></tr></tbody></table>';
+  }
+
+  function drawRate(){
+    var host=document.getElementById('c-rate'); host.innerHTML='';
+    var d=CH.slice().sort(function(a,b){return b.r-a.r;});
+    var labelW=125, rowH=26, padT=8, padB=28, padR=50;
+    var W=760, plotW=W-labelW-padR, H=padT+d.length*rowH+padB;
+    var max=13;
+    function sx(v){ return labelW + v/max*plotW; }
+    var svg=el('svg',{viewBox:'0 0 '+W+' '+H, role:'img','aria-label':'Konverziós arány csatornánként'});
+    [0,2,4,6,8,10,12].forEach(function(g){
+      svg.appendChild(el('line',{x1:sx(g),y1:padT-2,x2:sx(g),y2:padT+d.length*rowH,stroke:cssv('--grid'),'stroke-width':1}));
+      var t=el('text',{x:sx(g),y:padT+d.length*rowH+16,'text-anchor':'middle',class:'tick'}); t.textContent=g+'%'; svg.appendChild(t);
+    });
+    svg.appendChild(el('line',{x1:sx(5.96),y1:padT-2,x2:sx(5.96),y2:padT+d.length*rowH,stroke:cssv('--axis'),'stroke-width':2}));
+    d.forEach(function(c,i){
+      var y=padT+i*rowH+rowH/2;
+      var t=el('text',{x:labelW-10,y:y+4,'text-anchor':'end',class:'catlabel'}); t.textContent=c.n; svg.appendChild(t);
+      svg.appendChild(el('line',{x1:labelW,y1:y,x2:sx(c.r),y2:y,stroke:cssv('--grid'),'stroke-width':2}));
+      var dot=el('circle',{cx:sx(c.r),cy:y,r:5.5,fill:cssv('--series-1'),stroke:cssv('--surface-1'),'stroke-width':2});
+      dot.addEventListener('mousemove',function(ev){ showTip(ev,'<b>'+c.n+'</b>'
+        +'<div class="row"><span>Konverziós arány</span><span>'+c.r.toFixed(2)+'%</span></div>'
+        +'<div class="row"><span>Kulcsesemény</span><span>'+nf(c.k)+'</span></div>'
+        +'<div class="row"><span>Munkamenet</span><span>'+nf(c.s)+'</span></div>'); });
+      dot.addEventListener('mouseleave',hideTip);
+      svg.appendChild(dot);
+      var v=el('text',{x:sx(c.r)+11,y:y+4,class:'dlabel'}); v.textContent=c.r.toFixed(2)+'%'; svg.appendChild(v);
+    });
+    host.appendChild(svg);
+  }
+
+  function drawFunnel(){
+    var host=document.getElementById('c-funnel'); host.innerHTML='';
+    var steps=[
+      {n:'Aktív felhasználó a webhelyen', v:21577, note:''},
+      {n:'Megnyitotta az ajánlatkérő űrlapot', v:5929, note:'27,5%'},
+      {n:'Eljutott a köszönőoldalig', v:1557, note:'az űrlapot nyitók 26,3%-a'},
+      {n:'Megrendelést adott le', v:97, note:'az ajánlatkérők 6,2%-a'}
+    ];
+    var W=880, rowH=62, H=steps.length*rowH+6, labelW=0, barMax=W-190;
+    var svg=el('svg',{viewBox:'0 0 '+W+' '+H, role:'img','aria-label':'Ajánlatkérési tölcsér'});
+    steps.forEach(function(s,i){
+      var y=i*rowH;
+      var w=Math.max(3, Math.sqrt(s.v/21577)*barMax);
+      var r=el('rect',{x:0,y:y+22,width:w,height:22,rx:4,fill:cssv('--series-1'),opacity:1-i*0.14});
+      r.addEventListener('mousemove',function(ev){ showTip(ev,'<b>'+s.n+'</b><div class="row"><span>Felhasználó</span><span>'+nf(s.v)+'</span></div>'); });
+      r.addEventListener('mouseleave',hideTip);
+      var t=el('text',{x:0,y:y+15,class:'catlabel'}); t.textContent=s.n; svg.appendChild(t);
+      svg.appendChild(r);
+      var v=el('text',{x:w+10,y:y+38,class:'dlabel'}); v.textContent=nf(s.v)+(s.note?'   ·   '+s.note:''); svg.appendChild(v);
+    });
+    host.appendChild(svg);
+  }
+
+  function drawAll(){ drawCh(); drawRate(); drawFunnel(); }
+  drawAll();
+})();
+</script>
+</body>
+</html>

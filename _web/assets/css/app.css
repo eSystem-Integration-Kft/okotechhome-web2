@@ -86,10 +86,7 @@
     /* A főnavigáció egy fokkal a gombszöveg alatt: öt nagybetűs menüpont
        mellett a 15px nem hagyott helyet a nyelvváltónak. Saját szerep, nem a
        gombtoken átírása — a gombokon a 15px marad. */
-    /* RUGALMAS: 1240px-en 11px, 1680px-en 14px, lineárisan közte. A fejléc
-       sora így nem törik meg — a betű enged, nem a szerkezet. A képlet a két
-       végpontból jön: 3px növekmény 440px ablakszélességre. */
-    --type-ui-nav-size:clamp(11px, calc(0.68vw + 2.6px), 14px);
+    --type-ui-nav-size:15px;
     --type-ui-nav-weight:600;
     --type-ui-nav-line-height:1.2;
 
@@ -228,8 +225,8 @@
        logó és a hero-szöveg pedig ugyanazon a bal élen kezdődik. */
     --container-wide:1440px;
     /* A fejléc saját mértéke — lásd a `.header-inner` megjegyzését. */
-    --header-container:1680px;
-    --header-gutter:var(--space-32);
+    --header-container:var(--container-wide);
+    --header-gutter:var(--page-gutter);
 
     /* radius / motion */
     --r-md:10px;--r-lg:14px;--r-xl:16px;
@@ -1113,10 +1110,7 @@
      látszott; a szűk végén viszont minden képpont számít, ezért ott marad a
      korábbi érték. A menüpontok 4px belső terével együtt két felirat között
      16-tól 32 képpontig terjed a távolság. */
-  .nav-list{
-    display:flex;flex-wrap:wrap;align-items:center;
-    column-gap:clamp(8px, calc(3.6vw - 36.5px), 24px);
-  }
+  .nav-list{display:flex;flex-wrap:wrap;align-items:center;column-gap:var(--space-16)}
   .nav-link{
     display:inline-flex;align-items:center;min-height:44px;
     /* 4px belső tér + 8px oszlopköz = 16px két felirat között. Szűkebb, mint a
@@ -1152,36 +1146,7 @@
      legyen angol párja. A cél címét ezért nem az útvonalból számítjuk (a
      szlugok nyelvenként mások), hanem a lap saját `hreflang` hivatkozásából;
      fordítás híján a nyelv nyitólapjára megy, sosem 404-re. */
-  .nyelvvalto{
-    /* `flex:none`: a fejléc sora szűk nézetben zsugorítaná, és a második
-       nyelvkód levágódna a keret mögött. Ugyanaz a védelem, mint a CTA-n. */
-    flex:none;
-    display:flex;align-items:center;
-    border:1px solid var(--border);border-radius:var(--r-md);
-    overflow:hidden;
-  }
-  .nyelvvalto-elem{
-    display:inline-flex;align-items:center;justify-content:center;
-    min-width:var(--space-40);min-height:var(--space-32);
-    padding-inline:var(--space-8);
-    color:var(--text-tertiary);text-decoration:none;
-    text-transform:uppercase;letter-spacing:.04em;
-    transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
-  }
-  a.nyelvvalto-elem:hover{background:var(--canvas);color:var(--text-primary);text-decoration:none}
-  a.nyelvvalto-elem:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
-  .nyelvvalto-aktiv{background:var(--surface-muted);color:var(--text-primary)}
 
-  /* HAJSZÁLVONAL a menü és a két kapcsoló között. A témaváltó és a nyelvváltó
-     egy csoport — beállítások, nem navigáció —, és a vonal ezt mondja ki egy
-     képpontnyi jellel, keret és háttér nélkül. A `.tema-doboz` első flex
-     eleme, tehát a kapcsolókkal együtt tűnik el, ha a téma-szkript nem futott. */
-  .tema-doboz::before{
-    content:"";flex:none;
-    width:1px;height:var(--space-24);
-    background:var(--border);
-    margin-right:var(--space-16);
-  }
   .tema-doboz{position:relative;display:none;align-items:center}
   :root[data-theme] .tema-doboz{display:flex}
 
@@ -3617,13 +3582,13 @@
 /* ----------------------------------------------------------- 6. RESPONSIVE */
 @layer responsive {
   /* Tablet 641–1024px */
-  /* FEJLÉC-NAVIGÁCIÓ — saját, TÁGABB töréspont (1240px), nem a tableté.
-     A hat nagybetűs menüpont a két kapcsoló és a CTA mellett 1240 pixel alatt
-     akkor sem fér el egy sorban, ha a betű a legkisebb megengedett fokán áll —
-     a feliratok egyszerűen hosszabbak ennél. Tördelt, kétsoros fejléc helyett
-     tehát itt már a lenyitható panel jön. Fölötte a betűméret rugalmasan
-     zsugorodik (`--type-ui-nav-size`), így a sor végig egysoros marad. */
-  @media (max-width:1240px){
+  /* FEJLÉC-NAVIGÁCIÓ. A hat nagybetűs menüpont a témaváltó és a CTA mellett
+     1024 pixel alatt nem fér el egy sorban; tördelt, kétsoros fejléc helyett
+     ott a lenyitható panel jön. A töréspontnak EGYEZNIE KELL a site.js
+     `(min-width: 1025px)` lekérdezésével: ha a kettő elcsúszik, a köztes
+     szélességeken a `details` nyitva marad, miközben a CSS már panelként
+     jeleníti meg — a menü tartalma kattintás nélkül kilóg a lapra. */
+  @media (max-width:1024px){
     /* Fejléc: a navigáció lenyitható panelbe kerül (natív `details`). */
     .nav-toggle{
       display:inline-flex;align-items:center;gap:var(--space-8);
