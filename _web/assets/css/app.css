@@ -5965,6 +5965,11 @@
     list-style:none;margin:0;padding:0;
     display:grid;gap:0;
   }
+  /* A jobb oldali kártya három lépése RÖVID, egysoros mondat: ott a nulla köz
+     egyetlen szövegfallá olvasztaná őket, mert nincs bekezdésnyi tömb, ami
+     tagolna. A bal oldali négy hosszú lépésnél fordítva igaz — ezért nem a
+     szabály változik, hanem kap egy változatot. */
+  .mukodes-lepesek[data-tagolt]{gap:var(--space-16)}
   .mukodes-lepes{color:var(--text-secondary)}
   .mukodes-lepes-cim{color:var(--text-primary)}
   /* A sorszám a törzsszöveg betűjével szedve, nem monóval: a mono szóköz egy
@@ -6003,26 +6008,16 @@
     background:var(--primary);
   }
 
-  /* ---- „Kezelés 3 lépésben" — ikonos sorok ---- */
-  /* Ikon + mondat. Az ikon DEKORATÍV: a jelentést a mellette álló mondat
-     hordozza (designrendszer 8.), ezért `aria-hidden`. A jelvény lekerekített
-     NÉGYZET, nem kör: a lime korong ezen a lapon a SORSZÁMOT jelenti
-     (`.card-badge`, 01–05), és a kettő nem jelentheti ugyanazt. */
+  /* ---- alcím a kártyán belül ---- */
   /* A felirat új blokkot nyit a kártyán belül, ezért a kártya `gap`-jénél
      nagyobb köz választja el a fölötte álló felsorolástól. */
-  .mukodes-kezeles-cim{color:var(--text-primary);margin-top:var(--space-8)}
-  .mukodes-kezeles{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-16)}
-  .mukodes-kezeles-lepes{
-    display:grid;grid-template-columns:auto minmax(0,1fr);
-    gap:var(--space-16);align-items:center;
-  }
-  .mukodes-kezeles-jel{
-    display:flex;align-items:center;justify-content:center;flex:none;
-    width:calc(var(--space-32) + var(--space-4));height:calc(var(--space-32) + var(--space-4));
-    border-radius:var(--r-md);
-    background:var(--badge-bg);color:var(--text-secondary);
-  }
-  .mukodes-kezeles-szoveg{color:var(--text-secondary)}
+  /* Az iszapzsákos kártya „Hogyan működik?" lépései korábban ikonos jelvényt
+     kaptak; a mostani szöveg viszont EGYMÁS UTÁN következő műveleteket sorol,
+     ezért a szomszéd kártya számozott mintáját viselik (`.mukodes-lepes`).
+     Az ikonos változat szabályai ezzel elárvultak, és kikerültek innen. Az
+     `ui-iszap-*.svg` rajzolatok maradnak: az `ab-clear-iszapzsakos-technologia`
+     lapnak készültek, az még nem épült meg. */
+  .mukodes-alcim{color:var(--text-primary);margin-top:var(--space-8)}
 
   /* ---- öt tény egy sorban ---- */
   /* Az „Amit a működésről érdemes tudni" öt rövid tétele a 3. szekció

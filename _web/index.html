@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=186">
+<link rel="stylesheet" href="assets/css/app.css?v=187">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -1126,11 +1126,11 @@
 
         <article class="mukodes-kartya" aria-labelledby="iszapzsak-cim">
           <h3 class="type-ui-card-title mukodes-kartya-cim" id="iszapzsak-cim">
-            Szabadalmaztatott iszapzsákos technológia
+            Szabadalmaztatott, szippantásmentes iszapkezelés
           </h3>
           <!-- A két felvétel ugyanaz a tartály, kosár nélkül és a behelyezett
-               kosárral: a KÜLÖNBSÉGÜK mondja el, mi a kosár szerepe. Feliratot
-               ezért nem kapnak — a „Kezelés 3 lépésben" mondja ki ugyanezt. -->
+               kosárral: a KÜLÖNBSÉGÜK mondja el, hova kerül az iszapzsák.
+               Feliratot ezért nem kapnak — a „Hogyan működik?" mondja ki ugyanezt. -->
           <div class="mukodes-zsak-kepek">
             <img class="mukodes-zsak-kep" src="assets/img/mukodes-tartaly-kosar-nelkul.webp" width="480" height="552"
                  alt="Az A.B. Clear tartálya felülnézetből, iszapkosár nélkül: a válaszfalak, a levegőztető csövek és a kompresszor tömlője látszik."
@@ -1140,38 +1140,31 @@
                  loading="lazy" decoding="async">
           </div>
           <ul class="mukodes-lista" role="list">
-            <li class="type-ui-subtitle">A fölösiszap a zsákban gyűlik.</li>
-            <li class="type-ui-subtitle">Egyszerűen kiemelhető és lezárható.</li>
-            <li class="type-ui-subtitle">A zsák tartalma komposztálható.</li>
-            <li class="type-ui-subtitle">Nincs szippantás, nincs kellemetlenség.</li>
-            <li class="type-ui-subtitle">Tiszta, higiénikus, fenntartható megoldás.</li>
+            <li class="type-ui-subtitle">A fölösiszap folyamatosan elkülönül.</li>
+            <li class="type-ui-subtitle">Nem halmozódik fel a rendszerben.</li>
+            <li class="type-ui-subtitle">Nincs szükség külön elektromos iszapszivattyúra.</li>
+            <li class="type-ui-subtitle">A besűrített iszap a zsákban tovább víztelenedik.</li>
+            <li class="type-ui-subtitle">Egyszerűbb, kiszámíthatóbb üzemeltetés.</li>
           </ul>
 
-          <h4 class="type-ui-card-title mukodes-kezeles-cim" id="kezeles-cim">Kezelés 3 lépésben</h4>
-          <ol class="mukodes-kezeles" aria-labelledby="kezeles-cim">
-            <li class="mukodes-kezeles-lepes">
-              <span class="mukodes-kezeles-jel" aria-hidden="true">
-                <span class="icon icon-inline icon-inline-lg icon-iszap-kosar"></span>
-              </span>
-              <p class="type-ui-subtitle mukodes-kezeles-szoveg">
-                A kosár egyszerűen kiemelhető a tartályból.
-              </p>
+          <!-- A három lépés a bal oldali kártya számozott mintáját viseli: itt is
+               EGYMÁS UTÁN következő műveletekről van szó, és a két kártya így egy
+               párként olvasható. Ikonos jelvényt ezért nem kap — a sorszám mondja
+               meg, amit korábban az ikon próbált. -->
+          <h4 class="type-ui-card-title mukodes-alcim" id="iszapkezeles-cim">Hogyan működik?</h4>
+          <ol class="mukodes-lepesek" data-tagolt aria-labelledby="iszapkezeles-cim">
+            <li class="type-ui-subtitle mukodes-lepes">
+              <strong class="mukodes-lepes-cim"><span class="mukodes-lepes-szam" aria-hidden="true">1&nbsp;·</span> Elkülönül —</strong>
+              A tisztításhoz szükséges eleveniszap a rendszerben marad.
             </li>
-            <li class="mukodes-kezeles-lepes">
-              <span class="mukodes-kezeles-jel" aria-hidden="true">
-                <span class="icon icon-inline icon-inline-lg icon-iszap-zsak"></span>
-              </span>
-              <p class="type-ui-subtitle mukodes-kezeles-szoveg">
-                A zsák lezárható, így higiénikusan szállítható.
-              </p>
+            <li class="type-ui-subtitle mukodes-lepes">
+              <strong class="mukodes-lepes-cim"><span class="mukodes-lepes-szam" aria-hidden="true">2&nbsp;·</span> Besűrűsödik —</strong>
+              A fölösiszap a rendszer saját hidraulikai működésével az iszapsűrítő
+              kamrába kerül.
             </li>
-            <li class="mukodes-kezeles-lepes">
-              <span class="mukodes-kezeles-jel" aria-hidden="true">
-                <span class="icon icon-inline icon-inline-lg icon-iszap-komposzt"></span>
-              </span>
-              <p class="type-ui-subtitle mukodes-kezeles-szoveg">
-                A zsák tartalma komposztálható, a kert tápanyaga.
-              </p>
+            <li class="type-ui-subtitle mukodes-lepes">
+              <strong class="mukodes-lepes-cim"><span class="mukodes-lepes-szam" aria-hidden="true">3&nbsp;·</span> Víztelenedik —</strong>
+              A besűrített iszap az iszapzsákba jut, ahol tovább csökken a víztartalma.
             </li>
           </ol>
         </article>

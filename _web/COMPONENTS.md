@@ -1358,24 +1358,32 @@ rontotta el.
 
 ---
 
-## 22/c. „Kezelés 3 lépésben" — ikonos sorok, `.mukodes-kezeles`
+## 22/c. „Hogyan működik?" — számozott lépések, `.mukodes-lepesek[data-tagolt]`
 
-Ikon + egy mondat, három sorban. Az ikon **dekoratív** (`aria-hidden`): a jelentést a
-mellette álló mondat hordozza, ahogy a designrendszer 8. fejezete előírja.
+Az iszapzsákos kártya három lépése a **bal oldali kártya számozott mintáját** viseli
+(`.mukodes-lepes`, `.mukodes-lepes-cim`, `.mukodes-lepes-szam`). A két kártya így egy
+párként olvasható: balra a tisztítás négy lépése, jobbra az iszapkezelés három lépése,
+ugyanazzal a jelöléssel.
 
-A jelvény **lekerekített négyzet**, nem kör. Ezen a lapon a lime korong már foglalt: az
-a SORSZÁMOT jelenti (`.card-badge`, 01–05 és a lépéssor számai). Két jel nem jelentheti
-ugyanazt a felületen.
+A `data-tagolt` változat **köz**t tesz a lépések közé. Az alapszabály `gap:0` — a bal
+oldali négy hosszú bekezdést a félkövér lépéscím tagolja, üres sáv nélkül. A jobb
+oldali három lépés viszont egysoros mondat: ott nincs bekezdésnyi tömb, ami tagolna,
+és a nulla köz egyetlen szövegfallá olvasztaná őket.
 
-### Három új rajzolat, ideiglenes jelöléssel
+### Ami korábban itt volt: ikonos sorok
 
-`ui-iszap-kosar.svg` (nyitott, perforált láda a peremén fogantyúval) ·
-`ui-iszap-zsak.svg` (összekötött nyakú, öblös zsák) ·
-`ui-iszap-komposzt.svg` (talajvonalból kihajtó levélpár).
+A lépések eredetileg ikonos jelvényt kaptak (`.mukodes-kezeles`, lekerekített négyzet
++ egy mondat). A mostani szöveg viszont **egymás után következő** műveleteket sorol —
+elkülönül, besűrűsödik, víztelenedik —, és ezt a sorszám mondja meg, nem az ikon. Az
+ikonos változat szabályai ezzel elárvultak, és kikerültek az `app.css`-ből.
 
-Mindhárom a meglévő ikonkészlet nyelvén beszél (24×24 viewBox, `stroke-width:1.8`,
-kerek végződés, `currentColor`), és mindhárom fájl fejlécében ott a jelölés, hogy
-**ügyféleszköz érkezésekor cserélendő** — ahogy a designrendszer az ikonoknál előírja.
+A három rajzolat **megmarad** a készletben: `ui-iszap-kosar.svg` (nyitott, perforált
+láda a peremén fogantyúval) · `ui-iszap-zsak.svg` (összekötött nyakú, öblös zsák) ·
+`ui-iszap-komposzt.svg` (talajvonalból kihajtó levélpár). Az
+`ab-clear-iszapzsakos-technologia` lapnak készültek, az még nem épült meg. Mindhárom a
+meglévő ikonkészlet nyelvén beszél (24×24 viewBox, `stroke-width:1.8`, kerek végződés,
+`currentColor`), és mindhárom fájl fejlécében ott a jelölés, hogy **ügyféleszköz
+érkezésekor cserélendő**.
 
 ---
 

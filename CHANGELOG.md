@@ -737,6 +737,67 @@ A kalauz kifelé hív (`api.anthropic.com`), az indexét pedig helyi fájlokból
   oszlopa. A felület végig jelzi, hogy példa, de a nagyságrendet a cégnek meg
   kell erősítenie.
 
+### Eltávolítva — az angol webhely külön projektbe költözött
+
+Az angol változat saját `.com` domaint kap, teljes funkcionalitással — nem a
+`.hu` alkönyvtára lesz. Két félválasz helyett (melyik domainé, melyik
+navigációhoz tartozik) egy egész válasz kellett, ezért a `_web/en/` ág és a
+kiszolgálásához épült minden vezeték kikerült ebből a repóból.
+
+- **A 121 angol lap** (`fb620b0`). A `angol-verzio-2026-09-03` **tag** őrzi őket
+  a leválasztás előtti állapotukban, a visszanyerés parancsával együtt a tag
+  üzenetében. Az anyag átköltözött a `_OkoTechHome2_EN` projektbe: 125 lap (a
+  négy hibalappal), eszközök, API-végpontok, a fordítási eszközlánc és a
+  projektmemória.
+- **A kölcsönös `hreflang` blokk és a fejléc nyelvváltója** mind a 121 magyar
+  lapról. Az egyoldalú `hreflang`-ot a kereső figyelmen kívül hagyja; a
+  kölcsönösséget az új domain megléte után kell visszaállítani.
+- **`.nyelvvalto*` szabályok** az `app.css`-ből, és a hajszálvonal, amely a két
+  kapcsolót választotta el.
+
+### Módosítva — a fejléc visszatér a nyelvváltó előtti méretezéshez
+
+A nyelvváltónak helyet csináltunk: a tartó 1680px-re nőtt, a betűméret folyékony
+rámpára váltott, a közök szűkültek, és a menüfiók töréspontja 1240px-re költözött,
+hogy a sor ne törjön meg. Egyetlen kapcsolóval mindez visszafordult — 15px betű,
+tartalomszélesség, 16px köz, és a fiók újra 1024px-nél nyílik, ahogy a `site.js`
+is számolja. A két, egymástól elcsúszott médialekérdezés ismét egyetlen érték.
+
+### Módosítva — a nyelvi eszközlánc két repót szolgál ki (`b80019b`)
+
+Minden szkript egyetlen lapfát feltételezett, `en/` ággal, a saját helyéből
+származtatva. Mostantól mindkét gyökér környezeti változóval állítható
+(`OKOTH_HU_WEB`, `OKOTH_EN_WEB`, a kalauz-indexnél `OKOTH_WEB` + `OKOTH_NYELV`) —
+beállítás nélkül pontosan a korábbi viselkedést adják, tehát itt semmi nem
+változik. A kalauz indexe angol fél nélkül újraépült: **120 lap, 879 szövegrész**,
+mind magyar.
+
+A szótár **23 párral** bővült: a négy hibalap (401, 403, 404, 500) szövegeivel.
+Ezek az angol fában sosem voltak meg — a magyar gyökérből szolgálták ki őket —,
+így a leválasztás után a `.htaccess` `ErrorDocument` sorai a semmibe mutattak volna.
+
+### Módosítva — §7 iszapzsákos kártya: szippantásmentes iszapkezelés
+
+A kártya szövege kicserélve. A cím `Szabadalmaztatott iszapzsákos technológia`
+helyett **`Szabadalmaztatott, szippantásmentes iszapkezelés`**, az öt tétel a
+rendszer viselkedéséről szól (folyamatos elkülönülés, nincs felhalmozódás, nincs
+külön iszapszivattyú), a záró blokk pedig `Kezelés 3 lépésben` helyett
+**`Hogyan működik?`**: elkülönül → besűrűsödik → víztelenedik.
+
+- **A három lépés a bal oldali kártya számozott mintáját viseli**
+  (`.mukodes-lepes`). A régi szöveg három párhuzamos műveletet sorolt, ezért
+  kapott ikonos jelvényt; az új **egymás után következő** műveleteket ír le, és
+  ezt a sorszám mondja meg. A két kártya így egy párként olvasható.
+- **`.mukodes-lepesek[data-tagolt]`** — új változat, köz a lépések között. Az
+  alapszabály `gap:0`, mert a bal oldali négy hosszú bekezdést a félkövér
+  lépéscím tagolja. A jobb oldali három lépés egysoros: ott nincs bekezdésnyi
+  tömb, ami tagolna, és a nulla köz egyetlen szövegfallá olvasztaná őket.
+- **`.mukodes-kezeles*`** (négy szabály) elárvult, és kikerült az `app.css`-ből.
+  Az `ui-iszap-kosar` · `ui-iszap-zsak` · `ui-iszap-komposzt` rajzolatok
+  **maradnak**: az `ab-clear-iszapzsakos-technologia` lapnak készültek, az még
+  nem épült meg.
+- `app.css?v=186 → v=187` mind a 121 lapon.
+
 ---
 
 ## [0.05.00] — 2026-08-11
