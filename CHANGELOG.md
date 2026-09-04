@@ -798,6 +798,52 @@ külön iszapszivattyú), a záró blokk pedig `Kezelés 3 lépésben` helyett
   nem épült meg.
 - `app.css?v=186 → v=187` mind a 121 lapon.
 
+### Hozzáadva — megbízói helyszíni fotók a rendergrafikák helyén
+
+A fejképek eddig generált látványtervek voltak. A megbízótól 57 valódi felvétel
+érkezett — telepítés, munkagödör, szivárogtató alagutak, iszapkezelés, kész kertek,
+gépészet —, és ahol ezek a témát valóban lefedik, ott a render helyére fotó került.
+
+- **24 fejkép valódi felvételre cserélve**, mind a három változatában (1800×764,
+  1100×467, 1100×718): 72 fájl. Az alt-szövegek is újraírva — most azt írják le,
+  ami a képen látszik, nem azt, amit egy render ábrázolt.
+- **A képek fotók maradtak.** A hero 2,36:1, a felvételek 4:3 vagy 3:4 — ezt a
+  legtöbb esetben **vágás** oldja meg, tehát a képen minden képpont az eredeti
+  felvételé. Higgsfield két helyen lépett be: az iszapzsákos felvételnél
+  **kiterjesztéssel** (a vágás levágta volna a kosár szélét, az outpaint épen
+  hagyta és a havas talajt nyújtotta meg), a nyitó kertképnél pedig
+  **felskálázással** — az 1022×678-as eredeti kevés volt egy 1800 pontos fejképhez.
+  Egyik esetben sem keletkezett új tárgy a képen.
+- **39 fejkép a jelenlegi képét tartja meg.** Ezek iroda- és dokumentumtémák (jogi,
+  ÁSZF, cookie, költség, engedélyezés, telekiratok) vagy olyan helyszínek, amelyekről
+  nincs felvétel (iskola, étterem, kemping, panzió, falusi utcaképek). Fotó nélkül
+  ezeket nem lehet valódivá tenni — a hiányzó felvételek listája a fejlesztői
+  jegyzetben.
+- **Két hozzárendelés menet közben javítva.** A tartály belsejéről és a tartály
+  külsejéről készült felvételt elsőre fölcseréltem, és a „levegőztetés" képe így a
+  szabad ég alatt álló tartály lett volna a légszivattyú helyett.
+
+### Hozzáadva — galéria (`.galeria`, `assets/js/galeria.js`)
+
+Öt galéria, **27 felvétel**: telepítés (6), szivárogtatás (5), iszapkezelés (4), kész
+kertek (6), a berendezés belülről (6). A léptetést a **platform** végzi: a sáv
+`scroll-snap` pálya, tehát az ujjal húzás és a görgetés JavaScript nélkül is
+működik, és minden kép meg felirat a HTML-ben van. A szkript csak ráépül —
+számláló, bélyegsor, léptetőgombok, nyílbillentyűk.
+
+- **A belépés átmenet, nem animáció.** Egy `opacity:0`-ról induló `@keyframes` a
+  nulladik kulcskockán tartja az elemet, amíg az animációs óra nem ketyeg;
+  háttérfülön ez sokáig eltart, és a galéria addig LÁTHATATLAN. Ez a fejlesztés
+  közben elő is jött: a galéria üresen állt, miközben a DOM-ban minden a helyén
+  volt. Átmenetnél a végállapot a természetes.
+- **A vezérlőket a szkript hozza létre**, nem a HTML: ha a modul nem fut le, nem
+  marad a lapon gomb, amelyik nem csinál semmit.
+- Bélyegenként saját, 240×160-as fájl (`data-belyeg`): a nagy kép újrahasznosítása
+  80 képpontos helyre több száz kilobájtot töltetne le fölöslegesen.
+- Akadálymentesség: `aria-current` az aktív bélyegen, natív `disabled` a szélső
+  képnél, `aria-live="polite"` a számlálón, a bélyeg neve a kép **felirata**.
+- `app.css?v=189`, új `galeria.js?v=2`.
+
 ---
 
 ## [0.05.00] — 2026-08-11

@@ -6875,3 +6875,145 @@
     .vel-szalag{-webkit-mask-image:none;mask-image:none}
   }
 }
+
+/* ============================================================================
+   GALÉRIA — megbízói helyszíni fotók
+   ----------------------------------------------------------------------------
+   A rendszer a földben van: a látogató a kész kertet látja, a munkát nem. Ez a
+   komponens azt mutatja meg, ami a fedlap alatt történt — telepítés, gödör,
+   szivárogtató, iszapkezelés —, VALÓDI helyszíni felvételekkel, nem renderrel.
+
+   A léptetést a PLATFORMTÓL kérjük (designrendszer 0.7): a sáv `scroll-snap`
+   pálya, tehát az ujjal húzás, a görgetés és a Tab-bal érkező fókusz magától
+   működik, JavaScript nélkül is. A szkript csak RÁÉPÜL: számlálót ír, a
+   bélyegeket összehangolja, és a nyílbillentyűket bekapcsolja. Ha nem fut le,
+   a galéria attól még végiggörgethető — ez a különbség a fejlesztés és a
+   kirakat között.
+   ============================================================================ */
+@layer tokens {
+  :root{
+    /* A 3:2 a megbízói felvételek natív aránya — így a legkevesebbet vágunk. */
+    --galeria-arany:3 / 2;
+    --galeria-belyeg:80px;
+    --galeria-fatyol:linear-gradient(to top, rgb(12 20 10 / .88) 0%, rgb(12 20 10 / .62) 42%, rgb(12 20 10 / 0) 100%);
+  }
+}
+
+@layer components {
+  .galeria{margin:0;display:grid;gap:var(--space-16)}
+
+  .galeria-fej{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:var(--space-16);flex-wrap:wrap;
+  }
+  .galeria-cim{color:var(--text-primary)}
+  /* A számláló számjegyei táblázatos szélességűek: léptetéskor nem ugrál. */
+  .galeria-szamlalo{color:var(--text-tertiary);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  .galeria-szinpad{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-sunken)}
+
+  .galeria-sav{
+    list-style:none;margin:0;padding:0;
+    display:flex;overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    scrollbar-width:none;
+  }
+  .galeria-sav::-webkit-scrollbar{display:none}
+  .galeria-elem{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;position:relative}
+
+  .galeria-kep{display:block;width:100%;height:auto;aspect-ratio:var(--galeria-arany);object-fit:cover}
+
+  /* A felirat a képen ül, sötét fátyolon: a felvételek háttere kiszámíthatatlan
+     (havas talaj, világos kavics), ezért a szöveg nem támaszkodhat a képre. */
+  .galeria-felirat{
+    position:absolute;inset:auto 0 0 0;
+    padding:var(--space-32) var(--space-24) var(--space-16);
+    background:var(--galeria-fatyol);
+    color:var(--text-on-dark);
+    text-wrap:pretty;
+  }
+
+  /* ---- vezérlősor: léptetők és bélyegek ---- */
+  .galeria-vezerlo{display:flex;align-items:center;gap:var(--space-16)}
+
+  .galeria-lep{
+    flex:none;display:flex;align-items:center;justify-content:center;
+    width:var(--tap-min,44px);height:var(--tap-min,44px);
+    border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--surface);color:var(--text-secondary);
+    cursor:pointer;
+    transition:background var(--dur-fast) var(--ease-out),
+               border-color var(--dur-fast) var(--ease-out),
+               color var(--dur-fast) var(--ease-out);
+  }
+  .galeria-lep:hover{background:var(--surface-muted);border-color:var(--border-strong);color:var(--text-primary)}
+  .galeria-lep:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  /* A `disabled` NATÍV: a szélső képnél a gomb tényleg nem csinál semmit,
+     és a képernyőolvasó is ezt mondja — nem egy halványított osztály. */
+  .galeria-lep:disabled{opacity:.4;cursor:default}
+
+  .galeria-belyegek{
+    list-style:none;margin:0;padding:var(--space-4);
+    display:flex;gap:var(--space-8);
+    overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+    scroll-behavior:smooth;
+  }
+  .galeria-belyegek::-webkit-scrollbar{display:none}
+
+  .galeria-belyeg{
+    flex:none;padding:0;border:2px solid transparent;border-radius:var(--r-md);
+    background:none;cursor:pointer;line-height:0;
+    opacity:.55;
+    transition:opacity var(--dur-fast) var(--ease-out),
+               border-color var(--dur-fast) var(--ease-out),
+               transform var(--dur-ui) var(--ease-out);
+  }
+  .galeria-belyeg img{
+    width:var(--galeria-belyeg);height:calc(var(--galeria-belyeg) * 2 / 3);
+    object-fit:cover;border-radius:calc(var(--r-md) - 2px);display:block;
+  }
+  .galeria-belyeg:hover{opacity:.85}
+  .galeria-belyeg:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .galeria-belyeg[aria-current="true"]{opacity:1;border-color:var(--primary);transform:translateY(-2px)}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    :root{--galeria-belyeg:60px}
+    .galeria-felirat{padding:var(--space-24) var(--space-16) var(--space-16)}
+    /* Kis kijelzőn a léptetőgomb fölösleges: ott az ujj a természetes vezérlő,
+       és a két gomb elvenné a bélyegsor helyét. */
+    .galeria-lep{display:none}
+  }
+}
+
+@layer motion {
+  /* A belépés ÁTMENET, nem animáció, és ez nem stílusbeli döntés. Egy
+     `@keyframes`, amely `opacity:0`-ról indul, a nulladik kulcskockán tartja
+     az elemet mindaddig, amíg az animációs óra nem ketyeg — háttérfülön, sőt
+     festés nélküli állapotban ez percekig eltarthat, és a galéria addig
+     LÁTHATATLAN. Átmenetnél a végállapot a természetes: amint a jelölés
+     lekerül, az elem látszik, akkor is, ha közben egyetlen képkocka sem rajzolódott.
+     Ezért is a szkript teszi RÁ a belépő jelölést, nem a CSS: ha a modul nem
+     fut le, a galéria alapból látható. */
+  .galeria{transition:opacity var(--dur-media) var(--ease-out),
+                      transform var(--dur-media) var(--ease-out)}
+  .galeria[data-belep]{opacity:0;transform:translateY(var(--space-16))}
+
+  /* A felirat a lapozással együtt érkezik, nem a képpel egyszerre: így a szem
+     előbb a felvételre esik, és csak utána a magyarázatra. Csak akkor rejtjük
+     el, ha a szkript vezérli a galériát (`data-vezerelt`) — enélkül minden
+     felirat a helyén marad, mert nincs, ami visszahozza. */
+  .galeria-felirat{transition:opacity var(--dur-ui) var(--ease-out),
+                              transform var(--dur-ui) var(--ease-out)}
+  .galeria[data-vezerelt] .galeria-elem:not([data-aktiv]) .galeria-felirat{
+    opacity:0;transform:translateY(var(--space-8));
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .galeria-sav,.galeria-belyegek{scroll-behavior:auto}
+    .galeria,.galeria-felirat,.galeria-belyeg{transition:none}
+    .galeria[data-belep]{opacity:1;transform:none}
+    .galeria-belyeg[aria-current="true"]{transform:none}
+  }
+}

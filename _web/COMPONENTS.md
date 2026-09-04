@@ -1719,3 +1719,64 @@ nehéz kezelni. A megkettőzött példány itt elrejtve.
 
 A mozgást, a megállítást, a rendezést és a széli elhalványulást (`mask-image`) is
 a CSS viszi. A korábbi `velemeny.js` a gombbal együtt törölve.
+
+---
+
+## 24. Galéria — `.galeria`
+
+A megbízótól kapott **helyszíni felvételek** léptethető sávban. A rendszer a földben
+van: a látogató a kész kertet látja, a munkát nem — ez a komponens azt mutatja meg,
+ami a fedlap alatt történt.
+
+| Galéria | Hol | Kép |
+|---|---|---|
+| `telepites` | `megoldasok/ab-clear` | 6 |
+| `szivarogtatas` | `projekt-elokeszites/elszivarogtatas` | 5 |
+| `iszapkezeles` | `megoldasok/ab-clear-iszapzsakos-technologia` | 4 |
+| `kesz_kertek` | `index` | 6 |
+| `berendezes` | `megoldasok/ab-clear-muszaki-adatok` | 6 |
+
+### A léptetést a platform végzi
+
+A sáv `scroll-snap` pálya: az ujjal húzás, a trackpad és a vízszintes görgetés
+**JavaScript nélkül is** működik, és minden kép meg felirat a HTML-ben van. Az
+`assets/js/galeria.js` csak ráépül — számlálót ír, bélyegsort és léptetőgombokat
+tesz hozzá, a nyílbillentyűket (`←` `→` `Home` `End`) bekapcsolja.
+
+Ebből következik két szerkesztési szabály:
+
+1. **A vezérlőket a szkript hozza létre, nem a HTML.** Ha a modul nem fut le, nem
+   marad a lapon olyan gomb, amelyik nem csinál semmit.
+2. **A galéria alapból LÁTHATÓ.** A belépő állapotot (`data-belep`) a szkript teszi
+   rá és veszi le. Ez nem stílusbeli döntés: egy `opacity:0`-ról induló `@keyframes`
+   a nulladik kulcskockán tartja az elemet mindaddig, amíg az animációs óra nem
+   ketyeg — háttérfülön ez sokáig eltarthat, és a galéria addig láthatatlan. Átmenetnél
+   a végállapot a természetes, tehát a tartalom akkor is megjelenik, ha egyetlen
+   képkocka sem rajzolódott ki.
+
+Ugyanez a `data-vezerelt` jelölés dolga: a nem aktív feliratokat csak akkor rejtjük
+el, ha van, ami visszahozza őket.
+
+### Fájlok és méretek
+
+Képenként **két** fájl: `<téma>-<név>.webp` (1200×800, 3:2) és `<téma>-<név>-b.webp`
+(240×160) a bélyeghez. A bélyeg saját fájlt kap, mert a nagy kép újrahasznosítása
+80 képpontos helyre több száz kilobájtot töltetne le olyan felvételekért, amelyeket
+a látogató talán meg sem néz. A társítást az `<img data-belyeg="…">` adja.
+
+### Akadálymentesség
+
+- a pálya `tabindex="0"`, `role="group"`, nyílbillentyűvel járható,
+- a bélyeg `aria-label`-je a kép **felirata**, nem a sorszáma,
+- az aktív bélyeg `aria-current="true"` — natív attribútum, nem osztály,
+- a szélső képnél a léptetőgomb `disabled`: a képernyőolvasó is ezt mondja,
+- a számláló `aria-live="polite"` — a léptetés a látogató saját műveletének
+  visszajelzése, nem közbevágó hír,
+- `prefers-reduced-motion` esetén nincs átmenet és nincs simított görgetés.
+
+### Felirat a képen
+
+A felirat sötét fátyolon (`--galeria-fatyol`) ül a kép alján. A felvételek háttere
+kiszámíthatatlan — havas talaj, világos kavics, nyírt gyep —, ezért a szöveg nem
+támaszkodhat a képre. Kis kijelzőn a léptetőgomb eltűnik: ott az ujj a természetes
+vezérlő, és a két gomb elvenné a bélyegsor helyét.
