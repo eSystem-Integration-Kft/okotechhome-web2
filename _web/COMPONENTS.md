@@ -1759,6 +1759,14 @@ el, ha van, ami visszahozza őket.
 
 ### Fájlok és méretek
 
+A vezérlősor (léptető · bélyegek · léptető) a szinpad alatt **középen** ül. A
+bélyegsor nem nyúlik — `flex:0 1 auto` —, különben kitöltené a szélességet, és a
+két gombot a szinpad két szélére nyomná. A `justify-content:safe center` a
+`safe` miatt fontos: sok bélyegnél a sor túlcsordul, és a puszta `center`
+ilyenkor a görgetés elé tolja az első elemeket, vagyis azok elérhetetlenné
+válnak. A lista **elemei** kapják a `flex:none`-t, nem a gomb: enélkül keskeny
+kijelzőn a bélyegek összenyomódnának ahelyett, hogy a sor görgethetővé válna.
+
 Képenként **két** fájl: `<téma>-<név>.webp` (1200×800, 3:2) és `<téma>-<név>-b.webp`
 (240×160) a bélyeghez. A bélyeg saját fájlt kap, mert a nagy kép újrahasznosítása
 80 képpontos helyre több száz kilobájtot töltetne le olyan felvételekért, amelyeket

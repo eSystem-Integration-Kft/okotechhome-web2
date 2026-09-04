@@ -6934,7 +6934,10 @@
   }
 
   /* ---- vezérlősor: léptetők és bélyegek ---- */
-  .galeria-vezerlo{display:flex;align-items:center;gap:var(--space-16)}
+  /* A vezérlősor a szinpad alatt KÖZÉPEN ül. A bélyegsor magától kitöltené a
+     szélességet, és a két léptetőgombot a szinpad két szélére nyomná — a három
+     elem így nem olvasódott egy csoportnak. */
+  .galeria-vezerlo{display:flex;align-items:center;justify-content:center;gap:var(--space-16)}
 
   .galeria-lep{
     flex:none;display:flex;align-items:center;justify-content:center;
@@ -6954,12 +6957,20 @@
 
   .galeria-belyegek{
     list-style:none;margin:0;padding:var(--space-4);
-    display:flex;gap:var(--space-8);
+    /* Nem nyúlik: a saját tartalma adja a szélességét, és így középre kerülhet.
+       A `safe` nem díszítés — sok bélyegnél a sor túlcsordul, és a puszta
+       `center` ilyenkor a görgetés ELÉ tolja az első elemeket, vagyis azok
+       elérhetetlenné válnak. A `safe` túlcsordulásnál kezdethez igazít. */
+    flex:0 1 auto;
+    display:flex;gap:var(--space-8);justify-content:safe center;
     overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
     scroll-behavior:smooth;
   }
   .galeria-belyegek::-webkit-scrollbar{display:none}
 
+  /* A lista ELEME a rugalmas doboz, nem a gomb: enélkül keskeny kijelzőn a
+     bélyegek összenyomódnának ahelyett, hogy a sor görgethetővé válna. */
+  .galeria-belyegek > li{flex:none}
   .galeria-belyeg{
     flex:none;padding:0;border:2px solid transparent;border-radius:var(--r-md);
     background:none;cursor:pointer;line-height:0;
