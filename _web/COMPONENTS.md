@@ -1759,13 +1759,32 @@ el, ha van, ami visszahozza őket.
 
 ### Fájlok és méretek
 
-A vezérlősor (léptető · bélyegek · léptető) a szinpad alatt **középen** ül. A
-bélyegsor nem nyúlik — `flex:0 1 auto` —, különben kitöltené a szélességet, és a
-két gombot a szinpad két szélére nyomná. A `justify-content:safe center` a
+### A fej balra zárt, a vezérlősor középen
+
+A fej ugyanaz a blokk, mint a lap többi szekciófejléce (`.section-head-start`):
+szemöldök, cím, bevezető egymás alatt, balra zárva. A bevezető saját osztályt kap
+(`.galeria-bevezeto`), mert a `.section-lead` `margin-inline:auto`-val középre
+húz — szekciófejlécben az a helyes, balra zárt galériafejben nem.
+
+A **számláló a vezérlősorba költözik** (a szkript viszi át): a szinpad állapotát
+írja le, tehát a vezérlők mellett a helye, nem a címsorban. A HTML-ben azért áll
+a fejben, hogy szkript nélkül is látszódjon.
+
+A vezérlősor **három hasáb**: üres · vezérlők · számláló. A két szélső `1fr`,
+tehát egyenlő szélesek, és a középső csoport pontosan a szinpad közepére esik
+akkor is, ha a számláló mellette áll — puszta `justify-content:center` mellett a
+számláló elhúzta volna a középpontot.
+
+A bélyegsor nem nyúlik (`flex:0 1 auto`), és a `justify-content:safe center` a
 `safe` miatt fontos: sok bélyegnél a sor túlcsordul, és a puszta `center`
 ilyenkor a görgetés elé tolja az első elemeket, vagyis azok elérhetetlenné
 válnak. A lista **elemei** kapják a `flex:none`-t, nem a gomb: enélkül keskeny
 kijelzőn a bélyegek összenyomódnának ahelyett, hogy a sor görgethetővé válna.
+
+Az aktív bélyeg kiemelése **gyűrű** (`box-shadow`), nem keret: a keret szélessége
+helyet foglal, tehát a bélyeg mérete ugrana egyet minden léptetésnél, és a sor
+megrándulna. A nem aktív bélyegek halványítva és kissé telítetlenítve ülnek —
+így a szem az aktuális képre esik, nem a sorra.
 
 Képenként **két** fájl: `<téma>-<név>.webp` (1200×800, 3:2) és `<téma>-<név>-b.webp`
 (240×160) a bélyeghez. A bélyeg saját fájlt kap, mert a nagy kép újrahasznosítása
@@ -1788,3 +1807,37 @@ A felirat sötét fátyolon (`--galeria-fatyol`) ül a kép alján. A felvétele
 kiszámíthatatlan — havas talaj, világos kavics, nyírt gyep —, ezért a szöveg nem
 támaszkodhat a képre. Kis kijelzőn a léptetőgomb eltűnik: ott az ujj a természetes
 vezérlő, és a két gomb elvenné a bélyegsor helyét.
+
+---
+
+## 25. Folyamatjelző — `.utana-sin`
+
+A „Mi történik a jelentkezés után?" négy lépése. A vonal balról jobbra
+kirajzolódik, és a korongok sorban gyúlnak ki, ahogy odaér. A mozgás **nem
+dísz**: azt mondja el, hogy ez egymás után következő folyamat, nem négy
+párhuzamos tétel.
+
+Két réteg adja a vonalat: a `::before` a halvány **pálya**, a `::after` a
+teljes színű **megtett rész**, `transform:scaleX()`-szel. Egyetlen sáv
+színátmenete nem tudná megmutatni, meddig jutottunk.
+
+### Ugyanaz a három szabály, mint a galériánál
+
+1. **A végállapot a természetes.** A kiinduló állapotot a `data-folyamat`
+   jelölés adja, amit a szkript tesz rá és a megjelenéskor vesz le. Kulcskockás
+   animációval ez nem volna igaz: az elemeket a nulladik kocka a helyükön
+   tartaná, amíg az animációs óra nem ketyeg.
+2. **Nincs időzített biztonsági háló.** Egy „néhány másodperc múlva mindenképp
+   mutasd meg" időzítő **kioltja magát az animációt**: a látogató addig még
+   feljebb olvas, mire leér, a lépéssor már készen áll. Ez a fejlesztés közben
+   elő is jött, 4 másodperces időzítővel. A figyelő nem tud néma maradni — a
+   callback minden megfigyelt elemre lefut egyszer, rögtön a megfigyelés után.
+3. **Háttérfülben nem rejtünk el semmit.** Ha a lap betöltéskor nem látható
+   (`document.visibilityState !== 'visible'`), a jelölés fel sem kerül: a
+   böngésző ilyenkor nem kézbesíti a figyelő hívásait és nem is fest, tehát a
+   rejtés bent ragadna. Nincs is mit animálni annak, aki nem nézi.
+
+A lépcsőzetes késleltetést CSS-változó adja lépésenként
+(`--utana-kesleltetes`), a szöveg 120 ms-mal a korong után érkezik: előbb a
+jelzés, aztán az olvasnivaló. Keskeny nézetben a két vonalréteg eltűnik, mert
+ott a lépések egymás alá kerülnek.

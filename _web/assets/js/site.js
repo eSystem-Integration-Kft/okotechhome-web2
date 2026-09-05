@@ -161,3 +161,45 @@
   if (document.readyState === 'complete') startVideo();
   else window.addEventListener('load', startVideo, { once: true });
 })();
+
+/* ============================================================================
+   FOLYAMATJELZŐ — a „Mi történik a jelentkezés után?" lépéssor
+   ----------------------------------------------------------------------------
+   A vonal balról jobbra kirajzolódik, a korongok sorban gyúlnak ki. A mozgás
+   azt mondja el, hogy ez EGYMÁS UTÁN következő folyamat, nem négy párhuzamos
+   tétel — ezért érdemes egyáltalán mozgatni.
+
+   A JELÖLÉST EZ A MODUL TESZI RÁ, ÉS A MEGJELENÉSKOR VESZI LE. Enélkül —
+   szkript nélkül, csökkentett mozgásnál, vagy ha az animációs óra áll — a
+   lépéssor egyszerűen teljesen látszik. A láthatóság sosem függhet attól, hogy
+   egy szkript lefutott-e.
+   ========================================================================== */
+(() => {
+  'use strict';
+
+  const sin = document.querySelector('.utana-sin');
+  if (!sin || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /* HÁTTÉRFÜLBEN NEM REJTÜNK EL SEMMIT. Ha a lap betöltéskor nem látható —
+     háttérfül, előrenderelés, képernyőkép-szolgáltató —, a böngésző nem
+     kézbesíti a figyelő hívásait és nem is fest: a jelölés fent maradna, és a
+     lépéssor láthatatlan lenne egy olyan pillanatképen, amit senki nem tud
+     „felébreszteni". Nincs is mit animálni annak, aki nem nézi. */
+  if (document.visibilityState !== 'visible') return;
+
+  sin.setAttribute('data-folyamat', '');
+
+  const indit = () => sin.removeAttribute('data-folyamat');
+
+  /* NINCS IDŐZÍTETT BIZTONSÁGI HÁLÓ, és ez szándékos. Egy „néhány másodperc
+     múlva mindenképp mutasd meg" időzítő KIOLTJA AZ ANIMÁCIÓT: a látogató
+     addig még a lap tetején olvas, mire leér, a lépéssor már készen áll. A
+     figyelő pedig nem tud néma maradni — a callback minden megfigyelt elemre
+     lefut egyszer, rögtön a megfigyelés után, akkor is, ha az elem nincs
+     képernyőn. Ha nincs `IntersectionObserver`, ide el sem jutunk: a jelölés
+     fel sem kerül, és a lépéssor alapból látszik. */
+  const figyelo = new IntersectionObserver((bejegyzesek) => {
+    if (bejegyzesek[0].isIntersecting) { indit(); figyelo.disconnect(); }
+  }, { threshold: 0.35 });
+  figyelo.observe(sin);
+})();

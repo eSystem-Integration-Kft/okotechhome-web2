@@ -20,6 +20,10 @@
 
   var galeriak = document.querySelectorAll(".galeria");
   if (!galeriak.length) return;
+  /* A modul egésze `IntersectionObserver`-re épül (aktív kép, belépés). Ha
+     nincs, inkább semmit nem teszünk: a galéria a HTML-ből végiggörgethető,
+     minden kép és felirat a helyén van. */
+  if (!("IntersectionObserver" in window)) return;
 
   var SZOVEG = {
     hu: { elozo: "Előző kép", kovetkezo: "Következő kép", kepre: "Ugrás erre a képre: ",
@@ -40,6 +44,10 @@
     /* ---- a vezérlősor: csak most jön létre, mert csak most van értelme ---- */
     var vezerlo = document.createElement("div");
     vezerlo.className = "galeria-vezerlo";
+    /* A léptetők és a bélyegsor EGY csoport: közös burkolóban ülnek, hogy a
+       háromhasábos rács középső hasábjaként pontosan középre essenek. */
+    var kozep = document.createElement("div");
+    kozep.className = "galeria-vezerlo-kozep";
 
     var elozo = lepteto("-1", T.elozo, "M15 18l-6-6 6-6");
     var kovetkezo = lepteto("1", T.kovetkezo, "M9 6l6 6-6 6");
@@ -78,9 +86,14 @@
       szamlalo.setAttribute("aria-atomic", "true");
     }
 
-    vezerlo.appendChild(elozo);
-    vezerlo.appendChild(belyegek);
-    vezerlo.appendChild(kovetkezo);
+    kozep.appendChild(elozo);
+    kozep.appendChild(belyegek);
+    kozep.appendChild(kovetkezo);
+    vezerlo.appendChild(kozep);
+    /* A SZÁMLÁLÓ IDEKÖLTÖZIK a fejlécből. A HTML-ben azért áll fent, hogy
+       szkript nélkül is látszódjon; a szinpad állapotát viszont a vezérlők
+       mellett olvassa a szem, nem a címsorban. */
+    if (szamlalo) { vezerlo.appendChild(szamlalo); }
     galeria.appendChild(vezerlo);
 
     /* ---- a pálya billentyűzetről is járható ---- */
@@ -114,15 +127,17 @@
        A belépő jelölést a SZKRIPT teszi rá, és a megjelenéskor veszi le. Ha ez
        a modul nem fut le, a galéria alapból látható marad — a láthatóság sosem
        függhet attól, hogy egy szkript lefutott-e. */
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    /* Időzített biztonsági háló NINCS: egy „néhány másodperc múlva mindenképp
+       mutasd meg" időzítő kioltaná magát a belépést, mert a látogató addig még
+       feljebb olvas. A figyelő nem tud néma maradni — a callback minden
+       megfigyelt elemre lefut egyszer, rögtön a megfigyelés után. */
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        && document.visibilityState === "visible") {
       galeria.setAttribute("data-belep", "");
       var belepo = new IntersectionObserver(function (b) {
         if (b[0].isIntersecting) { galeria.removeAttribute("data-belep"); belepo.disconnect(); }
       }, { threshold: 0.15 });
       belepo.observe(galeria);
-      /* Biztonsági háló: ha a figyelő bármiért nem szólal meg (nulla magasságú
-         szülő, régi görgetéstároló), a jelölés akkor is lekerül. */
-      setTimeout(function () { galeria.removeAttribute("data-belep"); }, 2500);
     }
 
     function lepteto(irany, cimke, ut) {
