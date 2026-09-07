@@ -7249,24 +7249,34 @@
     padding-bottom:var(--space-32);
   }
 
-  /* A KÖZÉPSŐ hasáb: vonal + pont. A pont a felső élhez igazodik, hogy az
-     évszám és a cím első sorával egy magasságban legyen. */
-  .merfoldko-jel{
-    position:relative;width:var(--merfoldko-pont);
-    border-left:2px solid var(--merfoldko-vonal);
-    margin-left:calc(var(--merfoldko-pont) / 2 - 1px);
-  }
-  .merfoldko-jel::before{
+  /* A KÖZÉPSŐ hasáb: vonal ÉS pont, mindkettő a hasáb KÖZEPÉRE igazítva.
+     A vonal `border-left` volt, a végeit pedig háttérszínnel próbáltam levágni
+     — az viszont a doboz bal széléhez igazodik, nem a szegélyhez, ezért a
+     csonkok elcsúsztak és a szakasz korábban ért véget. Most mindkettő önálló
+     pszeudóelem, közös `left:50%` tengelyen: így nem tudnak elmászni egymástól.
+
+     A pont a cím első sorának magasságában ül (`.36em`), és a vonal FÖLÖTT van
+     (`z-index`) — az átlátszatlan kitöltése takarja ki a mögötte futó vonalat,
+     ettől lesz gyűrű a szakaszon. */
+  .merfoldko-jel{position:relative;width:var(--merfoldko-pont)}
+
+  .merfoldko-jel::after{
     content:"";position:absolute;
-    left:calc(var(--merfoldko-pont) / -2);top:.36em;
+    left:calc(50% - 1px);width:2px;top:0;bottom:0;
+    background:var(--merfoldko-vonal);
+  }
+  /* A szakasz nem a semmiből jön és nem a semmibe tart: az első elemnél a pont
+     KÖZEPÉTŐL indul, az utolsónál a pont KÖZEPÉIG tart. */
+  .merfoldko-elem:first-child .merfoldko-jel::after{top:calc(.36em + var(--merfoldko-pont) / 2)}
+  .merfoldko-elem:last-child  .merfoldko-jel::after{bottom:auto;height:calc(.36em + var(--merfoldko-pont) / 2)}
+
+  .merfoldko-jel::before{
+    content:"";position:absolute;z-index:1;
+    left:calc(50% - var(--merfoldko-pont) / 2);top:.36em;
     width:var(--merfoldko-pont);height:var(--merfoldko-pont);
     border-radius:50%;
     background:var(--surface);border:2px solid var(--primary);
   }
-  .merfoldko-elem:first-child .merfoldko-jel{border-top-left-radius:0;background:linear-gradient(var(--surface) 0 .36em, transparent 0)}
-  .merfoldko-elem:last-child .merfoldko-jel{border-left-color:transparent;
-    background:linear-gradient(var(--merfoldko-vonal) 0 .36em, transparent 0);
-    background-size:2px 100%;background-repeat:no-repeat}
 
   .merfoldko-test{padding-bottom:var(--space-32)}
   .merfoldko-elem:last-child .merfoldko-test{padding-bottom:0}
