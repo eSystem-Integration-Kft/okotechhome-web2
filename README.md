@@ -130,6 +130,42 @@ _OkoTechHome2/
 
 ---
 
+## 📤 Feltöltés a kiszolgálóra
+
+```bash
+scripts/feltoltes.sh tst                  # PRÓBA — megmutatja, mi változna
+scripts/feltoltes.sh tst --eles           # tényleges feltöltés a tesztre
+scripts/feltoltes.sh eles --eles          # az élesre
+scripts/feltoltes.sh tst --eles --torol   # + a fölöslegessé vált fájlok törlése
+```
+
+**Alapból nem ír semmit.** A `--eles` nélkül csak felsorol; élesben ezen felül
+be kell gépelni, hogy `igen`. Az FTP-n nincs visszavonás.
+
+### A jelszó nincs a repóban
+
+A macOS kulcskarikájából jön. Egyszeri beállítás gépenként:
+
+```bash
+security add-internet-password -s tst.okoth.hu -a <FTP-felhasználó> -w
+```
+
+A `-w` bekéri a jelszót, és nem írja ki. A szkript onnantól magától olvassa; a
+parancssorba sem kerül, ahol a `ps` bárkinek megmutatná.
+
+### Amihez a szkript soha nem nyúl
+
+| Fájl | Miért |
+|---|---|
+| `api/config.php` | a titkokat tartalmazza, és **nincs a repóban** — törlő tükrözés megsemmisítené |
+| `api/.ratelimit/` | futásidejű állapot, a PHP hozza létre |
+| `api/hiba.log` | futásidejű napló |
+| `*.md`, `serve.py`, `.router-dev.php` | fejlesztői segédfájlok, nem élesre valók |
+
+> ⚠️ **A `--torol` külön meggondolást kíván.** Előbb futtasd nélküle, nézd meg a
+> listát, és csak akkor add hozzá, ha minden felsorolt fájl tényleg fölösleges.
+
+
 ## 🚫 Mi nincs git alatt (és miért)
 
 | Útvonal | Méret | Ok |
