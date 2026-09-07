@@ -52,13 +52,6 @@ final class OthCrm
             return false;
         }
 
-        /* A kapu címe csak a HTTP-úthoz kell. MySQL módban a hiánya nem hiba —
-           korábban itt vakon kilépett volna a függvény, és a beküldés némán
-           elveszett volna. */
-        if (($beall['mod'] ?? 'http') !== 'mysql' && empty($beall['url'])) {
-            return false;
-        }
-
         /*
          * A CSATORNA → FORRÁS LEKÉPEZÉS A CONFIGBAN ÁLL, NEM A KÓDBAN.
          *
@@ -107,6 +100,7 @@ final class OthCrm
 
         require_once __DIR__ . '/crm-naplo.php';
         $kulsoAzon = (string) ($adat['external_id'] ?? '');
+        $mysqlOk = false;
 
         if ($mod === 'mysql' || $mod === 'mindketto') {
             require_once __DIR__ . '/crm-mysql.php';
@@ -119,6 +113,22 @@ final class OthCrm
             if ($mod === 'mysql') {
                 return $mysqlOk;
             }
+        }
+
+        /*
+         * A KAPU CÍME CSAK A HTTP-ÚTHOZ KELL, és az ellenőrzése ezért van ITT,
+         * a MySQL-írás UTÁN. Korábban a függvény elején állt, és `mindketto`
+         * módban — ahol a kapu jellemzően még nincs beállítva — a MySQL-írás
+         * ELŐTT lépett ki: a beküldés némán sehova nem került. Épp abban a
+         * helyzetben, amiért a `mindketto` mód létezik.
+         */
+        if (empty($beall['url'])) {
+            if ($mod === 'mindketto') {
+                /* Nem hiba, csak félkész átmenet: a MySQL-ág már ment. */
+                return $mysqlOk;
+            }
+
+            return false;
         }
 
         $torzs     = json_encode($adat, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -178,7 +188,9 @@ final class OthCrm
             OthCrmNaplo::ir($csatorna, $kulsoAzon, 'http', false,
                 $hiba !== '' ? $hiba : ('HTTP ' . $kod), microtime(true) - $t1);
 
-            return false;
+            /* Átmeneti üzemben az számít, hogy LEGALÁBB AZ EGYIK út átvitte. A
+               naplóban külön sor mutatja, melyik hasalt el — azért fut mindkettő. */
+            return $mod === 'mindketto' ? $mysqlOk : false;
         }
 
         OthCrmNaplo::ir($csatorna, $kulsoAzon, 'http', true, 'HTTP ' . $kod, microtime(true) - $t1);
@@ -203,6 +215,29 @@ final class OthCrm
         bool $hozzajarulas = false,
     ): array {
         $csomag = [];
+
+        /*
+         * AZ ÜGYAZONOSÍTÓ ALAKJA ITT DŐL EL, EGY HELYEN.
+         *
+         * A végpontok 40 karakterig fogadják el a klienstől — mert a `szoveg()`
+         * csak hosszt vág, alakot nem ellenőriz. A valódi azonosító viszont
+         * `MA-XXXX-XXXX`, pontosan 12 karakter, és a CRM oszlopa is ennyi.
+         * Ellenőrzés nélkül egy 13 karakteres érték az adatbázisba írásnál
+         * SQLSTATE 22001-et adna, és a beküldés NÉMÁN KIMARADNA a táblából —
+         * úgy, hogy a látogató közben visszaigazolást kap. Kliensoldalról
+         * bárki előidézhetné, magán vagy máson.
+         *
+         * A ROSSZ ALAKÚ AZONOSÍTÓT ELDOBJUK, A BEKÜLDÉST NEM. Az azonosító
+         * kényelmi mező: azt köti össze, ami ugyanattól az embertől jött. Ha
+         * hiányzik, egy megkeresés két sorként jelenik meg — kellemetlen. Ha
+         * miatta elszáll az írás, a megkeresés sehogy nem jelenik meg.
+         */
+        if ($ugyAzonosito !== null && !preg_match('/^MA-[A-Z2-9]{4}-[A-Z2-9]{4}$/', $ugyAzonosito)) {
+            if ($ugyAzonosito !== '') {
+                error_log('OTH CRM: eldobott, rossz alakú ügyazonosító (' . strlen($ugyAzonosito) . ' bájt)');
+            }
+            $ugyAzonosito = null;
+        }
 
         if ($ugyAzonosito !== null && $ugyAzonosito !== '') {
             /*

@@ -191,6 +191,10 @@ return [
         |   'mindketto' átmenet idejére: mindkettő fut. A napló megmutatja, ha
         |               az egyik elhasal, mielőtt a régit lekapcsolnánk.
         |
+        | A 'mindketto' AKKOR IS HASZNÁLHATÓ, HA AZ `url` MÉG ÜRES: olyankor a
+        | MySQL-ág megy, a HTTP-ág kimarad, és a beküldés attól még átmegy. Így
+        | a MySQL-út élesíthető azelőtt, hogy a régi kaput lekapcsolnátok.
+        |
         | TÁVOLI CRM-NÉL MARADJON A 'http'. Egy nyílt interneten átmenő MySQL
         | kapcsolat gyengébb, mint egy aláírt HTTPS-kérés: a jelszó hosszú
         | életű, a port kívülről támadható, és TLS nélkül a teljes forgalom
