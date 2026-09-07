@@ -1918,3 +1918,33 @@ A sávok balról nőnek ki, lépcsőzetes késleltetéssel. Ugyanaz a szabály, 
 folyamatjelzőnél (25. szakasz): a végállapot a természetes, a kiinduló állapotot
 a `data-belep` jelölés adja, amit a `site.js` tesz rá és a megjelenéskor vesz le.
 A két komponens ugyanazt a `belepteto()` segédet használja.
+
+---
+
+## 28. Mérföldkő-idővonal — `.merfoldko`
+
+Cégtörténethez. A folyó szöveg elrejti az évszámokat: aki csak átfut a lapon,
+abból nem tudja meg, hogy huszonöt évről van szó. Az idővonal ezt egy
+pillantásra adja, a részletes elbeszélés utána következik.
+
+Három hasáb: **évszám · vonal és pont · tartalom**. A vonal nem külön elem, hanem
+a középső hasáb `border-left`-je — így magától igazodik a tartalom magasságához,
+és nem kell abszolút pozicionálással a helyén tartani. Az első elemnél a pont
+fölött, az utolsónál a pont alatt nincs vonal: a szakasz nem a semmiből jön és
+nem a semmibe tart.
+
+Keskeny kijelzőn az évszám a cím fölé kerül — az öt rem széles hasáb ott a szöveg
+rovására menne —, de a vonal marad, mert az adja a folytonosságot.
+
+---
+
+## 29. Folyószöveg — `.folyoszoveg`
+
+Hosszabb, olvasásra szánt szakasz: 72ch mérték, bekezdésköz, halkabb tinta. A
+sorhossz itt a legfontosabb — a konténer teljes szélességét kitöltő sort senki
+nem olvas végig.
+
+Ez az osztály korábban `.jogi-szoveg` néven élt, mert a jogi lapokon született. A
+viselkedése viszont általános, és a cégtörténetnek is ez kell, ezért kapott
+beszédesebb nevet. **A régi név aliasként megmarad**, hogy a jogi lapokhoz ne
+kelljen hozzányúlni — új lapon a `.folyoszoveg` a helyes.

@@ -936,11 +936,15 @@
 
      A SORHOSSZ itt a legfontosabb: jogi szöveget senki nem olvas el, ha a sor
      a konténer teljes szélességét kitölti. Ezért `--jogi-sorhossz` korlát. */
-  .jogi-szoveg{max-width:72ch}
+  /* FOLYÓSZÖVEG — hosszabb, olvasásra szánt szakasz. A név eddig `jogi-szoveg`
+     volt, mert a jogi lapokon született; a viselkedése viszont általános
+     (72ch mérték, bekezdésköz, halkabb tinta), és a cégtörténetnek is ez kell.
+     A régi név ALIASKÉNT megmarad, hogy a jogi lapokhoz ne kelljen hozzányúlni. */
+  .folyoszoveg,.jogi-szoveg{max-width:72ch}
   .jogi-alcim{color:var(--text-primary);margin-top:var(--space-32);
     margin-bottom:var(--space-16)}
-  .jogi-szoveg > p{color:var(--text-secondary);margin-bottom:var(--space-16)}
-  .jogi-szoveg > p:last-child{margin-bottom:0}
+  .folyoszoveg > p,.jogi-szoveg > p{color:var(--text-secondary);margin-bottom:var(--space-16)}
+  .folyoszoveg > p:last-child,.jogi-szoveg > p:last-child{margin-bottom:0}
   .jogi-lista{margin:0 0 var(--space-16) var(--space-24);color:var(--text-secondary)}
   .jogi-lista li{margin-bottom:var(--space-8)}
   .jogi-lista li:last-child{margin-bottom:0}
@@ -7207,5 +7211,76 @@
   @media (prefers-reduced-motion:reduce){
     .uzemido-kitolt{transition:none}
     .uzemido[data-belep] .uzemido-kitolt{transform:none}
+  }
+}
+
+/* ============================================================================
+   MÉRFÖLDKŐ-IDŐVONAL — `.merfoldko`
+   ----------------------------------------------------------------------------
+   Cégtörténethez. A folyó szöveg elrejti az évszámokat: aki csak átfut a lapon,
+   abból nem tudja meg, hogy huszonöt évről van szó. Az idővonal ezt egy
+   pillantásra adja, a részletes elbeszélés pedig utána következik.
+
+   A vonal nem külön elem, hanem a KÖZÉPSŐ HASÁB szegélye: így magától igazodik
+   a tartalom magasságához, és nem kell abszolút pozicionálással a helyén tartani.
+   Az első elemnél a pont FÖLÖTT, az utolsónál a pont ALATT nincs vonal — a
+   szakasz nem a semmiből jön és nem a semmibe tart.
+   ============================================================================ */
+@layer tokens {
+  :root{
+    --merfoldko-pont:14px;
+    --merfoldko-vonal:color-mix(in srgb, var(--primary) 35%, transparent);
+  }
+}
+
+@layer components {
+  .merfoldko{list-style:none;margin:0;padding:0;display:grid}
+
+  .merfoldko-elem{
+    display:grid;
+    grid-template-columns:minmax(4rem,5.5rem) auto minmax(0,1fr);
+    gap:0 var(--space-24);
+  }
+
+  /* Az évszám a saját hasábjában, a ponttal egy vonalban. */
+  .merfoldko-ev{
+    color:var(--primary);margin:0;text-align:right;
+    font-variant-numeric:tabular-nums;white-space:nowrap;
+    padding-bottom:var(--space-32);
+  }
+
+  /* A KÖZÉPSŐ hasáb: vonal + pont. A pont a felső élhez igazodik, hogy az
+     évszám és a cím első sorával egy magasságban legyen. */
+  .merfoldko-jel{
+    position:relative;width:var(--merfoldko-pont);
+    border-left:2px solid var(--merfoldko-vonal);
+    margin-left:calc(var(--merfoldko-pont) / 2 - 1px);
+  }
+  .merfoldko-jel::before{
+    content:"";position:absolute;
+    left:calc(var(--merfoldko-pont) / -2);top:.36em;
+    width:var(--merfoldko-pont);height:var(--merfoldko-pont);
+    border-radius:50%;
+    background:var(--surface);border:2px solid var(--primary);
+  }
+  .merfoldko-elem:first-child .merfoldko-jel{border-top-left-radius:0;background:linear-gradient(var(--surface) 0 .36em, transparent 0)}
+  .merfoldko-elem:last-child .merfoldko-jel{border-left-color:transparent;
+    background:linear-gradient(var(--merfoldko-vonal) 0 .36em, transparent 0);
+    background-size:2px 100%;background-repeat:no-repeat}
+
+  .merfoldko-test{padding-bottom:var(--space-32)}
+  .merfoldko-elem:last-child .merfoldko-test{padding-bottom:0}
+  .merfoldko-cim{color:var(--text-primary);margin:0 0 var(--space-8)}
+  .merfoldko-szoveg{color:var(--text-secondary);margin:0;max-width:60ch}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    /* Keskeny kijelzőn az évszám a cím fölé kerül: az öt rem széles hasáb ott
+       a szöveg rovására menne. A vonal marad, mert az adja a folytonosságot. */
+    .merfoldko-elem{grid-template-columns:auto minmax(0,1fr);gap:0 var(--space-16)}
+    .merfoldko-ev{grid-column:2;text-align:left;padding-bottom:var(--space-4)}
+    .merfoldko-jel{grid-row:1 / span 2}
+    .merfoldko-test{grid-column:2}
   }
 }
