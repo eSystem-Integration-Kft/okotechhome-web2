@@ -7315,3 +7315,27 @@
   .vizsgal-igen{background:var(--primary-soft);color:var(--primary)}
   .vizsgal-nem{background:var(--surface-muted);color:var(--text-tertiary)}
 }
+
+/* ============================================================================
+   VÉLEMÉNYRÁCS — `.vel-racs`
+   ----------------------------------------------------------------------------
+   A főoldalon a vélemények futó SZALAGON ülnek: ott a feladatuk az, hogy
+   jelen legyenek, nem az, hogy elolvassák őket. Egy külön lapon fordítva van
+   — oda azért jön a látogató, hogy végigolvassa, tehát álló rácsba kerülnek.
+
+   Ugyanaz a `.vel-kartya` szolgál mindkettőt, csak a szalag rögzített
+   kártyaszélessége (`flex:0 0 …`) nem érvényes itt: a rács hasábjai adják a
+   szélességet, és a magasság a leghosszabb idézethez igazodik soronként.
+   ============================================================================ */
+@layer components {
+  .vel-racs{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24);
+  }
+  .vel-racs .vel-kartya{flex:auto;min-height:0}
+}
+
+@layer responsive {
+  @media (max-width:1024px){ .vel-racs{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  @media (max-width:640px){  .vel-racs{grid-template-columns:minmax(0,1fr)} }
+}

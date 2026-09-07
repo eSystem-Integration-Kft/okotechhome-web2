@@ -933,6 +933,32 @@ maradjon lyuk a sorban); és kikerült az „Amit nem használunk fel” szakasz
 a régi webhely 2014-es akciós árairól szólt — az a szerkesztőnek szólt, nem az
 olvasónak.
 
+### Hozzáadva — `/eredmenyek/ugyfeltapasztalatok`
+
+A tizenöt vélemény eddig csak a főoldali futó szalagon élt, ahol a feladatuk az,
+hogy jelen legyenek. Most saját lapot kaptak, ahol el is lehet olvasni őket —
+témacímkével, névvel és településsel, ahogy a szalagon is szerepelnek.
+
+- **A lap azzal kezd, hogy a vélemény nem bizonyíték.** Elégedett ügyfelek
+  szavai, és mi válogattuk össze őket. Aki mérhető adatot keres, azt az
+  esettanulmányokban és az akkreditált vizsgálatban találja. Amiben viszont a
+  vélemény többet mond bármilyen mérésnél: milyen a cég három évvel a számla
+  kifizetése után — ezt semmilyen szabvány nem vizsgálja.
+- **A visszatérő témák a kártyák SAJÁT címkéiből** vannak számolva, nem utólagos
+  értelmezésből: hat vélemény az utánkövetésről szól, három a szippantás
+  megszűnéséről, kettő a tisztított víz kerti hasznosításáról. Tizenöt különböző
+  település, köztük egy intézményi ügyfél.
+- **Referencialátogatás** külön szakaszban — a sitemap ezt az
+  Ügyféltapasztalatok gyerekeként nevesíti. A szöveg kimondja, hogy a látogatás a
+  fogadó család szívességén múlik, tehát nem minden időpontban és térségben
+  szervezhető.
+- Bekötve a főoldali szalag alól és az esettanulmányok lap záró paneljéből.
+
+### Hozzáadva — `.vel-racs`
+
+A `.vel-kartya` álló rácsváltozata. A kártya változatlan; csak a szalag rögzített
+szélessége és `min-height`-ja nem érvényes — a rács hasábjai adják a szélességet.
+
 ---
 
 ## [0.05.00] — 2026-08-11

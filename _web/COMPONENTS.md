@@ -1948,3 +1948,21 @@ Ez az osztály korábban `.jogi-szoveg` néven élt, mert a jogi lapokon szület
 viselkedése viszont általános, és a cégtörténetnek is ez kell, ezért kapott
 beszédesebb nevet. **A régi név aliasként megmarad**, hogy a jogi lapokhoz ne
 kelljen hozzányúlni — új lapon a `.folyoszoveg` a helyes.
+
+---
+
+## 30. Véleményrács — `.vel-racs`
+
+A főoldalon a vélemények futó **szalagon** ülnek (`.vel-szalag`): ott a feladatuk
+az, hogy jelen legyenek, nem az, hogy elolvassák őket. Az
+`/eredmenyek/ugyfeltapasztalatok` lapon fordítva van — oda azért érkezik a
+látogató, hogy végigolvassa —, ezért ugyanaz a `.vel-kartya` álló rácsba kerül.
+
+A kártya változatlan; csak a szalag rögzített szélessége (`flex:0 0 …`) és a
+`min-height` nem érvényes itt: a rács hasábjai adják a szélességet, a magasságot
+pedig soronként a leghosszabb idézet. Három hasáb, 1024px alatt kettő, 640px
+alatt egy.
+
+Az idézet függőlegesen középen áll (`.vel-szoveg{margin-block:auto}`) — ez a
+szalagnál hozott döntés, és a rácsban is helytálló: a rövid vélemények alatt nem
+gyűlik egyetlen lyukká a hely.
