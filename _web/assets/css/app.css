@@ -7106,3 +7106,106 @@
     .utana-sin[data-folyamat] .utana-szoveg{opacity:1;transform:none}
   }
 }
+
+/* ============================================================================
+   ÜZEMIDŐ-SÁV — `.uzemido`
+   ----------------------------------------------------------------------------
+   Az esettanulmányoknál a legfontosabb adat nem az, hogy egy rendszer működik,
+   hanem hogy MIÓTA. Hét sorban, közös időtengelyen ez egy pillantás; hét
+   mondatban elveszne.
+
+   A sáv hossza NEM soron belüli `style`-lal áll be — a designrendszer tiltja, és
+   jó okkal: az egyedi érték kikerül a rendszerből, és a következő szerkesztő már
+   nem tudja, honnan jött. Helyette az egész tengely egy 14 hasábos rács
+   (2013–2026), és a kitöltés `grid-column`-nal indul a saját événél. Az évszám
+   így ADAT az attribútumban, nem képpontszám a jelölésben.
+   ============================================================================ */
+@layer tokens {
+  :root{
+    --uzemido-sav-magassag:10px;
+    --uzemido-sav-ures:var(--surface-sunken);
+  }
+  [data-theme="dark"]{
+    --uzemido-sav-ures:color-mix(in srgb, var(--surface-muted) 70%, transparent);
+  }
+}
+
+@layer components {
+  .uzemido{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-16)}
+
+  .uzemido-sor{
+    display:grid;align-items:center;gap:var(--space-8) var(--space-16);
+    grid-template-columns:minmax(7rem,10rem) minmax(0,1fr) minmax(6rem,auto);
+  }
+  .uzemido-hely{color:var(--text-primary);margin:0}
+  /* Az érték a sáv MELLETT is ott van számmal: a hosszúság összehasonlításra jó,
+     leolvasásra nem — és képernyőolvasónak a sáv nem mond semmit. */
+  .uzemido-ertek{color:var(--text-secondary);margin:0;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  /* A tengely 2013-tól 2026-ig, évenként egy hasáb. */
+  .uzemido-sav{
+    display:grid;grid-template-columns:repeat(14,1fr);
+    height:var(--uzemido-sav-magassag);border-radius:calc(var(--uzemido-sav-magassag) / 2);
+    background:var(--uzemido-sav-ures);overflow:hidden;
+  }
+  .uzemido-kitolt{
+    background:var(--primary);border-radius:inherit;
+    grid-column:14 / -1;                 /* alapértelmezés: a legrövidebb */
+  }
+  .uzemido-kitolt[data-ev="2013"]{grid-column:1 / -1}
+  .uzemido-kitolt[data-ev="2014"]{grid-column:2 / -1}
+  .uzemido-kitolt[data-ev="2015"]{grid-column:3 / -1}
+  .uzemido-kitolt[data-ev="2016"]{grid-column:4 / -1}
+  .uzemido-kitolt[data-ev="2017"]{grid-column:5 / -1}
+  .uzemido-kitolt[data-ev="2018"]{grid-column:6 / -1}
+  .uzemido-kitolt[data-ev="2019"]{grid-column:7 / -1}
+  .uzemido-kitolt[data-ev="2020"]{grid-column:8 / -1}
+
+  /* Az évtengely a SÁVOKKAL EGY VONALBAN. Ehhez a külső rácsot is meg kell
+     ismételnie — a sáv nem a sor elején kezdődik, hanem a helynév után, tehát
+     egy önálló 14 hasábos rács a felirat alatt elcsúszna. A feliratok a belső
+     rács saját hasábjain ülnek: 2013 = 1., 2020 = 8., 2026 = 14. */
+  .uzemido-tengely{
+    display:grid;align-items:center;gap:var(--space-8) var(--space-16);
+    grid-template-columns:minmax(7rem,10rem) minmax(0,1fr) minmax(6rem,auto);
+    margin:var(--space-8) 0 0;
+  }
+  .uzemido-tengely-sav{
+    grid-column:2;display:grid;grid-template-columns:repeat(14,1fr);
+    color:var(--text-tertiary);
+  }
+  .uzemido-tengely-sav span{white-space:nowrap}
+  .uzemido-tengely-sav span:nth-child(1){grid-column:1}
+  .uzemido-tengely-sav span:nth-child(2){grid-column:8;justify-self:center}
+  .uzemido-tengely-sav span:nth-child(3){grid-column:14;justify-self:end}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    /* Keskeny kijelzőn a három hasáb egymás alá kerül: a helynév és az érték
+       egy sorba, a sáv alájuk teljes szélességben. */
+    .uzemido-sor{grid-template-columns:minmax(0,1fr) auto;gap:var(--space-4) var(--space-16)}
+    .uzemido-sav{grid-column:1 / -1;order:1}
+    .uzemido-tengely{grid-template-columns:minmax(0,1fr)}
+    .uzemido-tengely-sav{grid-column:1}
+  }
+}
+
+@layer motion {
+  /* A sávok balról nőnek ki, amikor a szekcióhoz érünk. Ugyanaz a szabály, mint
+     a lépéssornál: a végállapot a természetes, a kiinduló állapotot a szkript
+     teszi rá — így szkript nélkül és háttérfülben is teljes hosszban látszanak. */
+  .uzemido-kitolt{transform-origin:left center;transition:transform 900ms var(--ease-out)}
+  .uzemido[data-belep] .uzemido-kitolt{transform:scaleX(0)}
+  .uzemido-sor:nth-child(2) .uzemido-kitolt{transition-delay:80ms}
+  .uzemido-sor:nth-child(3) .uzemido-kitolt{transition-delay:160ms}
+  .uzemido-sor:nth-child(4) .uzemido-kitolt{transition-delay:240ms}
+  .uzemido-sor:nth-child(5) .uzemido-kitolt{transition-delay:320ms}
+  .uzemido-sor:nth-child(6) .uzemido-kitolt{transition-delay:400ms}
+  .uzemido-sor:nth-child(7) .uzemido-kitolt{transition-delay:480ms}
+
+  @media (prefers-reduced-motion:reduce){
+    .uzemido-kitolt{transition:none}
+    .uzemido[data-belep] .uzemido-kitolt{transform:none}
+  }
+}

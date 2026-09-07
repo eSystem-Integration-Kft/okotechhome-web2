@@ -844,6 +844,49 @@ számláló, bélyegsor, léptetőgombok, nyílbillentyűk.
   képnél, `aria-live="polite"` a számlálón, a bélyeg neve a kép **felirata**.
 - `app.css?v=189`, új `galeria.js?v=2`.
 
+### Hozzáadva — `/eredmenyek/esettanulmanyok`: hét családi rendszer
+
+A láblécből **mind a 121 lap** erre a címre hivatkozott, de a lap nem létezett —
+ez volt a legtöbbször hivatkozott törött cél a fában. Most megépült, a megbízótól
+kapott `esettanulmanyok_Gabinak.docx` hét történetéből: Verőce, Tinnye,
+Nagymaros, Miskolc, Kóka, Hajdúsámson, Vác.
+
+A meglévő négy esettanulmány települési léptékű (128 berendezés egy faluban,
+központi telep). Ez a hét **családi ház** — a hiányzó másik fele.
+
+- **A legfontosabb adat nem az, hogy működik, hanem hogy mióta.** A lap ezzel
+  kezd: a hét háztartásból öt legalább tíz éve használja a berendezését, a
+  leghosszabb 2013 óta. Ehhez készült az új `.uzemido` komponens.
+- **A hat tanulság a hét történetből** külön szekció. Ez a lap gerince: az
+  engedélyeztetés hosszabb a telepítésnél, a nehéz telek nem kizáró ok, a zajtól
+  való félelem megelőzi a tapasztalatot, tíz év alatt kevés a beavatkozás — és
+  egyik sem rendszerhiba.
+- **A rossz kezdés is bent van.** Kókán az elhúzódó engedélyeztetés és a
+  félreértések után a család egy időre csalódott. Ezt nem hagytuk ki: a
+  fordulatot nem az hozta, amit mondtunk, hanem amit tapasztaltak. Ez a
+  legbeszédesebb tétel a hét között.
+
+### Hozzáadva — üzemidő-sáv (`.uzemido`)
+
+Hét rendszer üzemideje közös időtengelyen. A sáv hossza **nem képpontszám**: az
+egész tengely egy 14 hasábos rács (2013–2026), és a kitöltés `grid-column`-nal
+indul a saját événél — az évszám adat az attribútumban, nem méret a jelölésben.
+Így a designrendszer soron belüli `style`-tilalma nem kerülő úton teljesül, hanem
+azért, mert nincs is rá szükség.
+
+- Az évtengely megismétli a **külső** rácsot is, mert a sáv nem a sor elején
+  kezdődik — önálló rácson a feliratok elcsúsztak, ez fejlesztés közben elő is jött.
+- A sáv `aria-hidden`; az érték számmal a sáv mellett áll (`2013 óta · 13 év`).
+- A `site.js` belépő logikája **egyetlen `belepteto()` segéddé** vonva össze: a
+  lépéssor és az üzemidő-sávok ugyanazt a szabályt követik (végállapot a
+  természetes, háttérfülben nem rejtünk el semmit, időzített háló nincs).
+
+### Módosítva — a hero videó lassabban jár
+
+`data-video-sebesseg="0.75"` a jelölésben, 0,5–1,5 közé szorítva. A
+`playbackRate` három ponton áll be, mert a forrás betöltése és az újraindítás is
+visszaállítja `1`-re — a hero videót pedig a láthatóság-őr sokszor újraindítja.
+
 ---
 
 ## [0.05.00] — 2026-08-11

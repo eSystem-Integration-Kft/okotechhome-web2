@@ -197,29 +197,34 @@
 (() => {
   'use strict';
 
-  const sin = document.querySelector('.utana-sin');
-  if (!sin || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  /* HÁTTÉRFÜLBEN NEM REJTÜNK EL SEMMIT. Ha a lap betöltéskor nem látható —
+  /* Ugyanaz a minta két helyen: a lépéssor és az üzemidő-sávok is a
+     megjelenéskor rajzolódnak ki. A jelölést a SZKRIPT teszi rá és a
+     megjelenéskor veszi le — így szkript nélkül, csökkentett mozgásnál és
+     háttérfülben is minden a végállapotában látszik.
+
+     HÁTTÉRFÜLBEN NEM REJTÜNK EL SEMMIT. Ha a lap betöltéskor nem látható —
      háttérfül, előrenderelés, képernyőkép-szolgáltató —, a böngésző nem
      kézbesíti a figyelő hívásait és nem is fest: a jelölés fent maradna, és a
-     lépéssor láthatatlan lenne egy olyan pillanatképen, amit senki nem tud
-     „felébreszteni". Nincs is mit animálni annak, aki nem nézi. */
-  if (document.visibilityState !== 'visible') return;
+     tartalom láthatatlan lenne egy olyan pillanatképen, amit senki nem tud
+     „felébreszteni".
 
-  sin.setAttribute('data-folyamat', '');
+     IDŐZÍTETT BIZTONSÁGI HÁLÓ NINCS, és ez szándékos. Egy „néhány másodperc
+     múlva mindenképp mutasd meg" időzítő KIOLTJA magát az animációt: a látogató
+     addig még feljebb olvas. A figyelő pedig nem tud néma maradni — a callback
+     minden megfigyelt elemre lefut egyszer, rögtön a megfigyelés után. */
+  const belepteto = (elem, jeloles, kuszob) => {
+    if (!elem || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (document.visibilityState !== 'visible') return;
 
-  const indit = () => sin.removeAttribute('data-folyamat');
+    elem.setAttribute(jeloles, '');
+    const figyelo = new IntersectionObserver((b) => {
+      if (b[0].isIntersecting) { elem.removeAttribute(jeloles); figyelo.disconnect(); }
+    }, { threshold: kuszob });
+    figyelo.observe(elem);
+  };
 
-  /* NINCS IDŐZÍTETT BIZTONSÁGI HÁLÓ, és ez szándékos. Egy „néhány másodperc
-     múlva mindenképp mutasd meg" időzítő KIOLTJA AZ ANIMÁCIÓT: a látogató
-     addig még a lap tetején olvas, mire leér, a lépéssor már készen áll. A
-     figyelő pedig nem tud néma maradni — a callback minden megfigyelt elemre
-     lefut egyszer, rögtön a megfigyelés után, akkor is, ha az elem nincs
-     képernyőn. Ha nincs `IntersectionObserver`, ide el sem jutunk: a jelölés
-     fel sem kerül, és a lépéssor alapból látszik. */
-  const figyelo = new IntersectionObserver((bejegyzesek) => {
-    if (bejegyzesek[0].isIntersecting) { indit(); figyelo.disconnect(); }
-  }, { threshold: 0.35 });
-  figyelo.observe(sin);
+  document.querySelectorAll('.uzemido').forEach((u) => belepteto(u, 'data-belep', 0.2));
+
+  belepteto(document.querySelector('.utana-sin'), 'data-folyamat', 0.35);
 })();

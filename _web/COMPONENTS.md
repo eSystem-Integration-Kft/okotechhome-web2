@@ -1868,3 +1868,53 @@ egyes böngészők a lejátszás újraindításakor visszaállítják `1`-re. Ez
 `setSebesseg()` három ponton fut le: a `loadedmetadata`-kor (ez az első pillanat,
 amikor a médiaelem egyáltalán tud a felvételről), a `canplay`-kor és minden
 újraindításnál, amit a láthatóság-őr kezdeményez.
+
+---
+
+## 27. Üzemidő-sáv — `.uzemido`
+
+Az esettanulmányoknál a legfontosabb adat nem az, hogy egy rendszer működik,
+hanem hogy **mióta**. Hét sorban, közös időtengelyen ez egy pillantás; hét
+mondatban elveszne.
+
+### A sáv hossza nem képpontszám
+
+A designrendszer tiltja a soron belüli `style`-t, és itt jó okkal: az egyedi
+érték kikerülne a rendszerből, és a következő szerkesztő nem tudná, honnan jött.
+Helyette az egész tengely egy **14 hasábos rács** (2013–2026), és a kitöltés
+`grid-column`-nal indul a saját événél:
+
+```html
+<span class="uzemido-sav" aria-hidden="true">
+  <span class="uzemido-kitolt" data-ev="2013"></span>
+</span>
+```
+
+```css
+.uzemido-kitolt[data-ev="2013"]{grid-column:1 / -1}
+.uzemido-kitolt[data-ev="2016"]{grid-column:4 / -1}
+```
+
+Az évszám így **adat az attribútumban**, nem méret a jelölésben. Új év
+felvételéhez egy CSS-sor kell; a tengely bővítéséhez a `repeat(14,1fr)`-t és a
+záró feliratot kell átírni.
+
+### Az évtengely a sávokkal egy vonalban
+
+A tengely megismétli a **külső** rácsot is (helynév · sáv · érték), mert a sáv
+nem a sor elején kezdődik. Egy önálló 14 hasábos rács a felirat alatt elcsúszna
+— ez fejlesztés közben elő is jött. A feliratok a belső rács saját hasábjain
+ülnek: 2013 = 1., 2020 = 8., 2026 = 14.
+
+### Akadálymentesség
+
+A sáv `aria-hidden`: hosszúság összehasonlítására jó, leolvasásra nem, és
+képernyőolvasónak semmit nem mond. **Az érték a sáv mellett számmal is ott van**
+(`2013 óta · 13 év`) — az a mérvadó közlés, a sáv csak gyorsítja az összevetést.
+
+### Mozgás
+
+A sávok balról nőnek ki, lépcsőzetes késleltetéssel. Ugyanaz a szabály, mint a
+folyamatjelzőnél (25. szakasz): a végállapot a természetes, a kiinduló állapotot
+a `data-belep` jelölés adja, amit a `site.js` tesz rá és a megjelenéskor vesz le.
+A két komponens ugyanazt a `belepteto()` segédet használja.
