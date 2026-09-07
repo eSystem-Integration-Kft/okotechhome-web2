@@ -1,5 +1,18 @@
 -- ============================================================================
 -- ÖkoTech Home — webes beküldések fogadó táblája
+-- ============================================================================
+-- EZT A FÁJLT A CRM TULAJDONOSA FUTTATJA. A weboldal ebbe a táblába ír, a CRM
+-- ebből olvas. Más kapcsolat a két rendszer között nincs.
+--
+-- FUTTATÁS:
+--     mysql -u root -p <adatbazis> < crm-mysql-sema.sql
+--
+-- A tábla létrehozása önmagában biztonságos és megismételhető
+-- (`CREATE TABLE IF NOT EXISTS`). A FELHASZNÁLÓ ÉS A JOGOSULTSÁGOK szakasz
+-- viszont ki van kommentezve: azt előbb ki kell tölteni, mert jelszót és
+-- adatbázisnevet tartalmaz.
+-- ============================================================================
+
 -- ----------------------------------------------------------------------------
 -- A weboldal öt csatornája (kapcsolat, konzultáció, ajánlat-összehasonlító,
 -- ársávbecslő, megoldás-ajánló) EGYETLEN táblába ír. A CRM ebből olvas.
@@ -133,4 +146,58 @@ COMMENT = 'okoth.hu — webes űrlapbeküldések';
 --  WHERE `csatorna` IN ('arsav','ajanlo')
 --    AND `nev` IS NULL AND `email` IS NULL
 --    AND `beerkezett` < (NOW() - INTERVAL 180 DAY);
+-- ============================================================================
+
+-- ============================================================================
+-- AMIT A CRM OLVAS
+-- ----------------------------------------------------------------------------
+-- Az öt csatorna EGY táblába ír. Amit a CRM-nek tennie kell: figyelni az új
+-- sorokat, és `feldolgozva = 1`-re állítani, amit egy ügyintéző megnyitott.
+-- ============================================================================
+
+-- Új, még senki által meg nem nyitott beküldések:
+--
+--   SELECT id, beerkezett, csatorna, nev, email, telefon, targy
+--     FROM web_bekuldes
+--    WHERE feldolgozva = 0
+--    ORDER BY beerkezett DESC;
+
+-- Egy beküldés teljes tartalma, a válaszokkal együtt:
+--
+--   SELECT * FROM web_bekuldes WHERE id = ?;
+
+-- Megnyitás után:
+--
+--   UPDATE web_bekuldes SET feldolgozva = 1 WHERE id = ?;
+
+-- EGY ÜGYFÉL TELJES ÚTJA. Ez az ügyazonosító értelme: ugyanaz a látogató
+-- előbb névtelenül kitölti a modulokat, később nevet is ad. A CRM így
+-- visszamenőleg összekapcsolja őket, és az értékesítő már a hívás előtt tudja,
+-- mekkora házról van szó.
+--
+--   SELECT csatorna, beerkezett, nev, targy, valaszok
+--     FROM web_bekuldes
+--    WHERE ugy_azonosito = 'MA-XXXX-XXXX'
+--    ORDER BY beerkezett;
+
+-- KERESÉS A VÁLASZOK KÖZÖTT. A `valaszok` JSON, tehát kulcs szerint szűrhető —
+-- de a kulcsok az űrlap kérdéseit idézik, és egy átfogalmazott kérdéssel
+-- változnak. Riportot ne erre építs, csak eseti keresést.
+--
+--   SELECT id, valaszok->>'$."Létesítmény"' AS letesitmeny
+--     FROM web_bekuldes
+--    WHERE csatorna = 'konzultacio';
+
+-- MARKETING CÉLÚ MEGKERESÉS. Csak ahol a látogató kifejezetten hozzájárult.
+-- A `gdpr_hozzajarulas = 0` NEM azt jelenti, hogy elfelejtette bejelölni:
+-- azt, hogy nem is kértük tőle — például egy névtelen modul-kitöltésnél.
+--
+--   SELECT * FROM web_bekuldes WHERE gdpr_hozzajarulas = 1;
+
+-- ============================================================================
+-- AMIT A CRM NEM KAP MEG
+-- ----------------------------------------------------------------------------
+--   · IP-cím, süti- vagy eszközazonosító — nincs a beküldésben
+--   · a feltöltött ajánlatfájlok — csak a fájlnevek; a fájlok e-mailben mennek
+--   · az AI-elemzés kimenete — azt a látogató kapja meg
 -- ============================================================================

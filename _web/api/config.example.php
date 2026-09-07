@@ -220,11 +220,21 @@ return [
             'socket'      => oth_env('OTH_CRM_DB_SOCKET', ''),   // pl. /var/run/mysqld/mysqld.sock
 
             /*
-            | Ha nincs socket: hoszt és port. `localhost` esetén a PHP általában
-            | magától socketre vált. IP-cím esetén a kapcsolat a hálózaton megy,
-            | és onnantól a TLS NEM ELHAGYHATÓ — lásd lentebb.
+            | Ha nincs socket: hoszt és port. IP-cím esetén a kapcsolat a
+            | hálózaton megy, és onnantól a TLS NEM ELHAGYHATÓ — lásd lentebb.
+            |
+            | ⚠️ A `localhost` A PHP-BAN NEM AZT JELENTI, AMIT VÁRNÁL. Ilyenkor a
+            | PHP FIGYELMEN KÍVÜL HAGYJA A PORTOT, és a `pdo_mysql.default_socket`
+            | beállításban álló socketet használja. Ha az nem az a MySQL, amit
+            | akartál, egy félrevezető „Access denied” jön — a jelszó jó, csak
+            | épp egy MÁSIK kiszolgálóhoz szólt. (Próbán pontosan ez történt.)
+            |
+            | Ezért egy gépen belül vagy a `socket` mezőt töltsd ki pontos
+            | útvonallal, vagy írj `127.0.0.1`-et — az tényleg TCP-t jelent, és
+            | a port is érvényes lesz. A MySQL a 127.0.0.1-ről érkező kapcsolatot
+            | amúgy is `@'localhost'`-nak látja, tehát a GRANT jó marad.
             */
-            'hoszt'       => oth_env('OTH_CRM_DB_HOST', 'localhost'),
+            'hoszt'       => oth_env('OTH_CRM_DB_HOST', '127.0.0.1'),
             'port'        => (int) oth_env('OTH_CRM_DB_PORT', '3306'),
 
             'adatbazis'   => oth_env('OTH_CRM_DB_NAME', ''),

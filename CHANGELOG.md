@@ -1014,7 +1014,7 @@ CRM napokig üres maradhat úgy, hogy minden működőnek tűnik.
 - `api/crm-naplo.php?kod=…` — kódolt diagnosztikai lap: csatornánkénti összesítés
   és tételes lista. Élesítés után törlendő.
 
-### Javítva — három hiba, amit a próba hozott elő
+### Javítva — négy hiba, amit a próba hozott elő
 
 1. **Az `ON DUPLICATE KEY UPDATE` SELECT-jogot igényel** az összes érintett
    oszlopra: a webes felhasználó így ki tudná listázni a korábbi megkeresések
@@ -1028,6 +1028,12 @@ CRM napokig üres maradhat úgy, hogy minden működőnek tűnik.
    `string`, a fájl `strict_types=1`. A mintát senki nem futtatja, ezért nem
    derült ki; új telepítés viszont ebből másol. (Az éles `config.php` nem
    tartalmazza, tehát üzemzavart nem okozott.)
+4. **A `localhost` a PHP-ban nem azt jelenti, amit várnál.** Ilyenkor a PHP
+   figyelmen kívül hagyja a portot, és a `pdo_mysql.default_socket` beállításban
+   álló socketet használja — próbán ez egy MÁSIK MySQL-hez kapcsolódott, és
+   félrevezető „Access denied” jött, pedig a jelszó jó volt. Az alapértelmezés
+   ezért `127.0.0.1`, és a beállítás kimondja, hogy egy gépen belül vagy a
+   `socket` mezőt kell pontosan kitölteni, vagy IP-t írni.
 
 ---
 
