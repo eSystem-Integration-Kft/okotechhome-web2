@@ -887,6 +887,52 @@ azért, mert nincs is rá szükség.
 `playbackRate` három ponton áll be, mert a forrás betöltése és az újraindítás is
 visszaállítja `1`-re — a hero videót pedig a láthatóság-őr sokszor újraindítja.
 
+### Hozzáadva — `/okotech-home/tortenetunk` és `/tudastar/en-12566-1-vagy-en-12566-3`
+
+**Történetünk.** Schuster Péter és Krasznói Anna története a megbízó szövegéből.
+Az évszámok a folyó szövegben elvesznek, ezért előbb egy `.merfoldko`
+idővonalra kerülnek — ezredforduló, tíz év Construma, a 2010-es
+szerződésbontás, a 2012-es CE-tanúsítvány, a 2014-es Construma Nagydíj, IFAT
+2018, húszfős csapat —, és a részletes elbeszélés utána következik. A nehéz
+részek bent maradtak: a szakmai ellenállás, a bokatörés, a gyerekek kérdése a
+„rendes állásról”.
+
+**EN 12566-1 vagy EN 12566-3?** Tudástár-cikk arról, mit vizsgálnak egy
+oldómedencénél és mit egy komplett házi szennyvíztisztítónál. A cikk gerince a
+14 soros összevető táblázat: a felső öt sorban mindkettőnél pipa (vízzáróság,
+teherbírás, tartósság), alul már csak az EN 12566-3-nál (tisztítási teljesítmény,
+terhelési szakaszok, áramkimaradás). A „45 perc kontra 42 hét” szembeállítást a
+cikk **saját maga korlátozza**: nem az oldómedence teljes vizsgálata tart 45
+percig, hanem a hidraulikai vizsgálat egy részének időadata az.
+
+- A cikk `FAQPage` strukturált adatot kapott, négy kérdéssel — az AI-keresők a
+  rövid választ idézik, ezért az önmagában is értelmes.
+- **Négy meglévő lapról érhető el** (megoldástípusok összehasonlítása, a két
+  „hogyan működik” lap, és a helyzetem-ág döntési lapja). Enélkül elérhetetlen
+  maradt volna: a `tudastar/` gyűjtőlap még nem épült meg.
+
+### Hozzáadva — `.merfoldko`, `.folyoszoveg`, `.vizsgal-igen` / `.vizsgal-nem`
+
+- **`.merfoldko`** — cégtörténeti idővonal. A vonal és a pont közös `left:50%`
+  tengelyen ülő pszeudóelem. Első nekifutásra a vonal `border-left` volt, a
+  végeit háttérszínnel próbáltam levágni — az viszont a doboz bal széléhez
+  igazodik, nem a szegélyhez, ezért a körök és a vonal elcsúsztak egymástól.
+- **`.folyoszoveg`** — a `.jogi-szoveg` általános néven. A viselkedés mindig is
+  általános próza volt (72ch, bekezdésköz); csak a név kötötte a jogi lapokhoz.
+  A régi név aliasként megmarad.
+- **`.vizsgal-igen` / `.vizsgal-nem`** — összevető táblázathoz. A jel
+  `aria-hidden`, mellette `.visually-hidden` szó: a képernyőolvasó „igen”-t hall,
+  nem „pipá”-t. A pipa és a vonás **alakja** is különbözik, tehát színlátás
+  nélkül is elkülönül.
+
+### Módosítva — a költségtényezők lap három javítása
+
+A „miért nem írják ki az árat” GYIK-válasz a cég tényleges gyakorlatát mondja el;
+a „Villamos kiállás” csempe törölve (a maradék tételek újraszámozva, hogy ne
+maradjon lyuk a sorban); és kikerült az „Amit nem használunk fel” szakasz, amely
+a régi webhely 2014-es akciós árairól szólt — az a szerkesztőnek szólt, nem az
+olvasónak.
+
 ---
 
 ## [0.05.00] — 2026-08-11

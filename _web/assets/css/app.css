@@ -7294,3 +7294,24 @@
     .merfoldko-test{grid-column:2}
   }
 }
+
+/* ============================================================================
+   VIZSGÁLATI JELÖLÉS — `.vizsgal-igen` / `.vizsgal-nem`
+   ----------------------------------------------------------------------------
+   Összehasonlító táblázatban a „vizsgálják-e" oszlopokhoz. A JEL önmagában
+   dekoráció (`aria-hidden`), a szó mellette `.visually-hidden` — így a
+   képernyőolvasó „igen”-t és „nem”-et hall, nem „pipa” és „gondolatjel”
+   párost, a szem viszont egy pillantás alatt végigfut az oszlopon.
+
+   A SZÍN NEM AZ EGYETLEN JEL: a pipa és a vízszintes vonás alakja is
+   különbözik, tehát színlátás nélkül is elkülönül (WCAG 1.4.1).
+   ============================================================================ */
+@layer components {
+  .vizsgal-igen,.vizsgal-nem{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:1.6em;height:1.6em;border-radius:50%;
+    font-weight:600;line-height:1;
+  }
+  .vizsgal-igen{background:var(--primary-soft);color:var(--primary)}
+  .vizsgal-nem{background:var(--surface-muted);color:var(--text-tertiary)}
+}
