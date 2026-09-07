@@ -1841,3 +1841,30 @@ A lépcsőzetes késleltetést CSS-változó adja lépésenként
 (`--utana-kesleltetes`), a szöveg 120 ms-mal a korong után érkezik: előbb a
 jelzés, aztán az olvasnivaló. Keskeny nézetben a két vonalréteg eltűnik, mert
 ott a lépések egymás alá kerülnek.
+
+---
+
+## 26. Hero videó — lejátszási sebesség
+
+A felvétel eredeti tempója sietősebb, mint amit a hero nyugalma megkíván.
+Lassítva a mozgás háttérré válik, és nem vonja el a figyelmet a címsorról.
+
+Az érték a **markupból** jön, hogy hangoláshoz ne kelljen szkriptet nyitni:
+
+```html
+<figure data-hero-video
+        data-video-sebesseg="0.75"
+        data-video-webm="…" data-video-mp4="…">
+```
+
+Alapérték `0.75` (a felvétel 33%-kal hosszabban fut). A `site.js` **0,5 és 1,5
+közé szorítja**: 0,5 alatt a böngésző ugyanazt a képkockát tartja ki hosszan, és
+a folyamatos mozgás akadozásba vált át.
+
+### Miért három helyen állítjuk be
+
+A `playbackRate` nem ragad meg egyszer s mindenkorra — a forrás betöltése és
+egyes böngészők a lejátszás újraindításakor visszaállítják `1`-re. Ezért a
+`setSebesseg()` három ponton fut le: a `loadedmetadata`-kor (ez az első pillanat,
+amikor a médiaelem egyáltalán tud a felvételről), a `canplay`-kor és minden
+újraindításnál, amit a láthatóság-őr kezdeményez.

@@ -101,12 +101,27 @@
      Enélkül a böngésző a háttérben és görgetés után is dekódolja a képkockákat
      — hosszú munkamenetben ez memóriát és GPU-időt visz, és lassuláshoz,
      szélsőséges esetben a lap összeomlásához vezet. */
+  /* LEJÁTSZÁSI SEBESSÉG. A felvétel eredeti tempója sietősebb, mint amit a
+     hero nyugalma megkíván — lassítva a mozgás háttérré válik, nem vonja el a
+     figyelmet a címsorról. Az érték a MARKUPBÓL jön (`data-video-sebesseg`),
+     hogy hangoláshoz ne kelljen szkriptet nyitni.
+
+     A korlátok nem önkényesek: 0,5 alatt a böngésző ugyanazt a képkockát
+     tartja ki hosszan, és a folyamatos mozgás akadozásba vált át. */
+  const SEBESSEG = Math.min(1.5, Math.max(0.5,
+    parseFloat(media.dataset.videoSebesseg) || 0.75));
+
+  /* A `playbackRate` nem ragad meg egyszer s mindenkorra: a forrás betöltése és
+     egyes böngészők a lejátszás újraindításakor visszaállítják 1-re. Ezért nem
+     elég egyszer beállítani — minden érintett ponton újra rátesszük. */
+  const setSebesseg = (video) => { if (video.playbackRate !== SEBESSEG) video.playbackRate = SEBESSEG; };
+
   const guardPlayback = (video) => {
     let visibleInViewport = true;
 
     const update = () => {
       const shouldPlay = visibleInViewport && document.visibilityState === 'visible';
-      if (shouldPlay && video.paused) video.play().catch(() => {});
+      if (shouldPlay && video.paused) { setSebesseg(video); video.play().catch(() => {}); }
       else if (!shouldPlay && !video.paused) video.pause();
     };
 
@@ -145,9 +160,14 @@
     addSource(media.dataset.videoMp4, 'video/mp4');
 
     /* Csak akkor úszik be, ha tényleg elindult — különben az állókép marad. */
+    /* A `loadedmetadata` az első pont, ahol a sebesség egyáltalán beállítható —
+       előtte a médiaelem még nem tudja, mit játszik le. */
+    video.addEventListener('loadedmetadata', () => setSebesseg(video));
+
     video.addEventListener('canplay', () => {
+      setSebesseg(video);
       video.play().then(
-        () => { video.dataset.ready = ''; guardPlayback(video); },
+        () => { video.dataset.ready = ''; setSebesseg(video); guardPlayback(video); },
         () => { video.remove(); }
       );
     }, { once: true });
