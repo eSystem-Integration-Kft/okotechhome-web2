@@ -959,6 +959,33 @@ témacímkével, névvel és településsel, ahogy a szalagon is szerepelnek.
 A `.vel-kartya` álló rácsváltozata. A kártya változatlan; csak a szalag rögzített
 szélessége és `min-height`-ja nem érvényes — a rács hasábjai adják a szélességet.
 
+### Hozzáadva — `/eredmenyek/tanusitvanyok-es-dokumentumok`
+
+A webhely több helyen hivatkozik az „ISO 9001”-re. Most itt az a dokumentum,
+amire ez hivatkozik: az **MSZ EN ISO 9001:2015** tanúsítvány letölthető PDF-ként,
+kilenc adattal — nyilvántartási szám, audit jelentésszáma, érvényességi terület,
+tanúsító szervezet és annak akkreditációja, érvényességi idő.
+
+- **A tanúsító kísérőlevele SZÁNDÉKOSAN nem került ki.** Két fájl érkezett: a
+  levél és a tanúsítvány. A levélben egy TÜV-ügyintéző neve, telefonszáma és
+  e-mail-címe szerepel — az nem publikus adat. Csak a tanúsítvány lapja ment fel;
+  a levél a `_files/` alá került, jelölt néven.
+- **Az „Ellenőrizhetőség” szakasz** azt mondja el, mivel lehet a tanúsítványt
+  visszakeresni, és kimondja a leggyakrabban félreértett pontot: az ISO 9001 a
+  **minőségirányítási rendszerről** szól, nem a termék teljesítményéről — azt az
+  EN 12566-3 méri. A két állítás összekeverése a szakma bevett túlzása.
+- **Az „Amin dolgozunk” szakasz** négy dokumentumot nevez meg, amelyek léteznek,
+  de még nem letölthetők (CE/EN 12566-3 teljesítménynyilatkozat, szabadalmi
+  iratok, Construma-oklevél, modellenkénti adatlapok) — és azt is, hogy addig
+  kérésre megküldjük őket.
+
+### Hozzáadva — dokumentumtár és PDF-gyorsítótár
+
+Ez a webhely **első letölthető dokumentuma** (`assets/dok/`). A `.htaccess`
+gyorsítótár-szabálya a PDF-eknek **egy hónap**, nem egy év, mint a képeknek: egy
+tanúsítvány megújul, és a fájl ugyanazon a néven cserélődik — egy éves
+gyorsítótárral a látogató még hónapokig a lejártat töltené le.
+
 ---
 
 ## [0.05.00] — 2026-08-11
