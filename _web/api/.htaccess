@@ -17,7 +17,13 @@
 # ============================================================================
 
 # Titkok és belső állományok: semmilyen körülmények között nem szolgálhatók ki.
-<FilesMatch "\.(txt|log|json|ini|example\.php)$">
+#
+# A MENTÉS- ÉS SZERKESZTŐI KITERJESZTÉSEK IS IDE TARTOZNAK. Egy `config.php.bak`
+# vagy `config.php~` ugyanazokat a titkokat tartalmazza, de NEM PHP: a szerver
+# nyers szövegként adná ki. A `config.php` védelme önmagában nem ér semmit, ha a
+# másolata mellette olvasható — és másolat mindig keletkezik, szerkesztés közben
+# magától is.
+<FilesMatch "\.(txt|log|json|ini|example\.php|bak|bak-[0-9-]+|old|orig|save|swp|~)$">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>

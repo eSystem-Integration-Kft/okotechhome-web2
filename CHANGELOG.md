@@ -31,6 +31,30 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ## [Nem kiadott]
 
+**Rólunk fül a menüben, és a holt menütételek élesítve.** A Tudástár és az
+Eredmények fül **helykitöltő panel** volt — „Ez a szakasz még készül", passzív
+`<span>`-ekkel linkek helyett. Akkor készültek, amikor tényleg nem volt mögöttük
+oldal; azóta lett, a menü viszont maradt, így a feltöltött oldalak sehonnan sem
+voltak elérhetők. Mind a **126 oldalon** átvezetve:
+
+- **Új „Rólunk" fül** (hatodik, a Kapcsolat előtt): Történetünk, Esettanulmányok,
+  Tanúsítványok és dokumentumok, Ügyféltapasztalatok. Az URL-ek **nem
+  változtak** — a négy oldal a helyén maradt, csak kapott egy menübeli otthont.
+  Átirányítás nem kell, a 126 oldal láblécében nem törik el semmi.
+- **Eredmények panel**: a négy megvalósult projekt (Csikvánd, Bakonypéterd,
+  Diósberény, Óbudavár) élő hivatkozás lett. Az áttekintő, a projektadatbázis és
+  a műszaki bizonyítékok maradnak passzívak — **azok tényleg nincsenek meg**, és
+  a menü ne ígérjen többet, mint amennyi van.
+- **Tudástár panel**: az `EN 12566-1 vagy EN 12566-3?` cikk bekerült az
+  „Engedélyezés és megfelelőség" alá. A többi tíz kategória szürke marad: egy
+  cikk nem tudástár.
+- **Lábléc**: az Ügyféltapasztalatok az Eredmények hasábba, a cikk a Tudástár
+  hasábba. A lábléc rácsa `minmax(0,4fr) repeat(5,…)` — pontosan öt hasábra
+  szabva —, ezért a Rólunk **nem kapott saját hasábot**: egy hatodik új sorba
+  csúszott volna.
+
+A négy hibaoldal (401/403/404/500) kimaradt: azoknak szándékosan nincs menüjük.
+
 **Főoldal szövegkönyv v2.1 átvezetve.** A `Főoldal szöveg — javított változat
 (v2.1)` dokumentum alapján **69 módosítás 13 szekcióban**: a hero bevezetőjétől
 a GYIK válaszaiig. A visszatérő motívum három: (1) az Epureco **forgalmazott**
