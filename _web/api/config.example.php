@@ -263,10 +263,24 @@ return [
             | kód figyelmeztetést ír a hiba.log-ba — de a kapcsolat akkor is
             | létrejön, tehát a figyelmeztetést komolyan kell venni.
             |
-            | A `tls_ca` a kiszolgáló CA-tanúsítványának útvonala. A
-            | `tls_ellenoriz` mondja meg, hogy a tanúsítványt ellenőrizzük-e —
-            | ezt csak akkor kapcsold ki, ha a kiszolgáló saját aláírású
-            | tanúsítványt használ, és inkább akkor is add meg a CA-t.
+            | A `tls_ca` a kiszolgáló CA-tanúsítványának útvonala.
+            |
+            | ⚠️ A `tls_ellenoriz` A MYSQL SAJÁT, AUTOMATIKUSAN GENERÁLT
+            | TANÚSÍTVÁNYÁVAL ELBUKIK. Annak a neve
+            | („MySQL_Server_…_Auto_Generated_Server_Certificate”) nem egyezik
+            | azzal a hosztnévvel, amivel csatlakozunk — próbán pontosan ez
+            | történt. A megoldás NEM az ellenőrzés kikapcsolása, hanem egy
+            | olyan szervertanúsítvány, amelynek a neve (CN vagy SAN) az a cím,
+            | amit a `hoszt` mezőbe írunk. Egy saját CA-val aláírt tanúsítvány
+            | is jó — próbán `CN=127.0.0.1`-gyel az ellenőrzés átment.
+            |
+            | Ellenőrzés nélkül a kapcsolat titkosított, de NEM hitelesített:
+            | egy közbeékelődő fél saját tanúsítvánnyal átveheti a forgalmat.
+            | A kód ilyenkor figyelmeztetést ír a hiba.log-ba.
+            |
+            | A MySQL oldalán érdemes a felhasználót `REQUIRE SSL`-lel felvenni:
+            | akkor titkosítatlan kapcsolattal be sem lehet jönni. Próbán ez
+            | helyesen elutasította a TLS nélküli kísérletet.
             */
             'tls_ca'        => oth_env('OTH_CRM_DB_TLS_CA', ''),
             'tls_ellenoriz' => (bool) oth_env('OTH_CRM_DB_TLS_ELLENORIZ', '1'),

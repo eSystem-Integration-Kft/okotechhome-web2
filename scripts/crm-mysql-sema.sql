@@ -121,6 +121,20 @@ COMMENT = 'okoth.hu — webes űrlapbeküldések';
 -- sorálias alak sem segít — próbán ugyanígy 1143-mal elszáll.) Ezért ír a kód
 -- INSERT-et, és csak ütközéskor UPDATE-et.
 
+-- HA A WEBSZERVER MÁSIK GÉPEN VAN, a felhasználó a webszerver IP-címére
+-- szóljon, és KÖTELEZŐEN TLS-sel:
+--
+--   CREATE USER 'okoth_web'@'<webszerver-IP>' IDENTIFIED BY '<erős jelszó>' REQUIRE SSL;
+--
+-- A `REQUIRE SSL` nem díszítés: enélkül a MySQL titkosítatlan kapcsolatot is
+-- elfogad, és a jelszó a kézfogás során olvashatóvá válik a hálózaton. Próbán
+-- ellenőrizve: TLS nélküli kísérletet helyesen elutasít.
+--
+-- A szervertanúsítvány NEVE (CN vagy SAN) egyezzen azzal a címmel, amivel a
+-- weboldal csatlakozik. A MySQL magától generált tanúsítványa NEM ilyen, és
+-- azzal az ügyféloldali ellenőrzés elbukik.
+--
+-- Azonos gépen elég ennyi:
 -- CREATE USER 'okoth_web'@'localhost' IDENTIFIED BY '<erős jelszó>';
 -- GRANT INSERT,
 --       SELECT (`external_id`),

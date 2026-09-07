@@ -207,12 +207,39 @@ final class OthCrmMysql
             && !in_array((string) ($b['hoszt'] ?? 'localhost'), ['localhost', '127.0.0.1', '::1'], true);
 
         if (!empty($b['tls_ca'])) {
-            $ki[PDO::MYSQL_ATTR_SSL_CA] = (string) $b['tls_ca'];
-            /* A tanúsítvány ELLENŐRZÉSE külön kapcsoló a PHP-ban, és
-               alapértelmezésben BE van kapcsolva. Csak akkor vedd ki, ha a
-               kiszolgáló saját aláírású tanúsítványt használ — és akkor is
-               inkább a CA-t add meg. */
-            $ki[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = !empty($b['tls_ellenoriz']);
+            /*
+             * A KONSTANSOK NEVE VÁLTOZOTT. A PHP 8.5 a `PDO::MYSQL_ATTR_*`
+             * alakot elavultnak jelöli az `Pdo\Mysql::ATTR_*` javára — a régi
+             * még működik, de MINDEN KÉRÉSNÉL figyelmeztetést ír a naplóba, és
+             * a `hiba.log` néhány nap alatt olvashatatlanná válik tőle. Ezért
+             * futásidőben nézzük meg, melyik létezik.
+             */
+            $caKulcs  = defined('Pdo\Mysql::ATTR_SSL_CA')
+                      ? \Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA;
+            $ellKulcs = defined('Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT')
+                      ? \Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT
+                      : PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT;
+
+            $ki[$caKulcs] = (string) $b['tls_ca'];
+
+            /*
+             * A TANÚSÍTVÁNY ELLENŐRZÉSE külön kapcsoló, és nem formalitás:
+             * ellenőrzés nélkül a kapcsolat titkosított, de NEM HITELESÍTETT —
+             * egy közbeékelődő fél saját tanúsítvánnyal átveheti a forgalmat.
+             *
+             * FIGYELEM: a MySQL MAGÁTÓL GENERÁLT tanúsítványával az ellenőrzés
+             * ELBUKIK, mert annak neve nem a kiszolgáló hosztneve. (Próbán
+             * pontosan ez történt.) Ilyenkor nem az ellenőrzést kell kikapcsolni,
+             * hanem a kiszolgálónak olyan tanúsítványt adni, amelynek a neve
+             * megegyezik azzal a hosztnévvel, amivel csatlakozunk.
+             */
+            $ki[$ellKulcs] = !empty($b['tls_ellenoriz']);
+
+            if (empty($b['tls_ellenoriz'])) {
+                error_log('OTH CRM/MySQL: TLS tanúsítvány-ELLENŐRZÉS KIKAPCSOLVA ('
+                        . (string) ($b['hoszt'] ?? '?') . ') — a kapcsolat titkosított,'
+                        . ' de nem hitelesített.');
+            }
         } elseif ($tavoli) {
             error_log('OTH CRM/MySQL: TÁVOLI adatbázis TLS nélkül (' . (string) $b['hoszt']
                     . ') — a jelszó és a beküldött adatok titkosítatlanul utaznak.');
