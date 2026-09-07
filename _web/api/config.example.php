@@ -176,7 +176,91 @@ return [
     | hiba esetén csak a naplóba ír.
     */
     'crm' => [
-        'engedelyezve' => (bool) oth_env('OTH_CRM_BE', false),
+        /* A `false` itt korábban TypeError-t adott: az `oth_env()` második
+           paramétere `string`, a fájl pedig `strict_types=1`. A mintát senki
+           nem futtatja, ezért nem derült ki — de új telepítés ebből másol. */
+        'engedelyezve' => oth_env('OTH_CRM_BE', '') !== '',
+
+        /*
+        | A SZÁLLÍTÁS MÓDJA. A boríték mindkét úton ugyanaz; csak az dől el itt,
+        | hova kerül. A hat végponthoz egyik esetben sem kell hozzányúlni.
+        |
+        |   'http'      aláírt HTTPS-kérés a beérkező kapuhoz (alapértelmezés)
+        |   'mysql'     közvetlen INSERT a CRM táblájába — CSAK ha a CRM
+        |               UGYANAZON A KISZOLGÁLÓN fut (localhost)
+        |   'mindketto' átmenet idejére: mindkettő fut. A napló megmutatja, ha
+        |               az egyik elhasal, mielőtt a régit lekapcsolnánk.
+        |
+        | TÁVOLI CRM-NÉL MARADJON A 'http'. Egy nyílt interneten átmenő MySQL
+        | kapcsolat gyengébb, mint egy aláírt HTTPS-kérés: a jelszó hosszú
+        | életű, a port kívülről támadható, és TLS nélkül a teljes forgalom
+        | olvasható. Az aláírt kapunál egy elcsípett kérés is csak öt percig
+        | érvényes, és semmit nem enged olvasni.
+        */
+        'mod' => oth_env('OTH_CRM_MOD', 'http'),
+
+        /*
+        | A KÖZVETLEN ADATBÁZISÍRÁS BEÁLLÍTÁSA (`mod` => 'mysql' vagy 'mindketto').
+        | A táblát a scripts/crm-mysql-sema.sql hozza létre.
+        |
+        | A weboldal felhasználója CSAK ÍRHAT: se olvasás, se törlés. Ha a
+        | webszervert feltörik, ezzel a felhasználóval a korábbi megkereséseket
+        | nem lehet kilistázni — ez a különbség egy kellemetlenség és egy
+        | adatvédelmi incidens között. A jogosultságokat a sémafájl vége írja le.
+        */
+        'mysql' => [
+            /*
+            | HOL VAN AZ ADATBÁZIS.
+            |
+            | Azonos gépen a UNIX SOCKET a legjobb: a forgalom el sem hagyja a
+            | kiszolgálót, tehát tűzfalon nem kell portot nyitni, és nincs mit
+            | lehallgatni. Ha a `socket` ki van töltve, a `hoszt` és a `port`
+            | nem számít.
+            */
+            'socket'      => oth_env('OTH_CRM_DB_SOCKET', ''),   // pl. /var/run/mysqld/mysqld.sock
+
+            /*
+            | Ha nincs socket: hoszt és port. `localhost` esetén a PHP általában
+            | magától socketre vált. IP-cím esetén a kapcsolat a hálózaton megy,
+            | és onnantól a TLS NEM ELHAGYHATÓ — lásd lentebb.
+            */
+            'hoszt'       => oth_env('OTH_CRM_DB_HOST', 'localhost'),
+            'port'        => (int) oth_env('OTH_CRM_DB_PORT', '3306'),
+
+            'adatbazis'   => oth_env('OTH_CRM_DB_NAME', ''),
+            'felhasznalo' => oth_env('OTH_CRM_DB_USER', 'okoth_web'),
+
+            /*
+            | A JELSZÓ FÁJLBÓL, ahogy a többi titok — így a config.php
+            | szerkesztés nélkül másolható, és a cseréhez elég egy szövegfájlt
+            | felülírni. Egy fájl = egy titok, semmi más, még üres sor sem.
+            */
+            'jelszo'      => oth_titok([
+                __DIR__ . '/../../../oth-titkok/crm-db.txt',
+                __DIR__ . '/../../oth-titkok/crm-db.txt',
+                __DIR__ . '/../oth-titkok/crm-db.txt',
+                __DIR__ . '/crm-db.txt',
+            ], 'OTH_CRM_DB_PASS'),
+
+            'tabla'       => oth_env('OTH_CRM_TABLA', 'web_bekuldes'),
+
+            /*
+            | TLS — TÁVOLI ADATBÁZISNÁL KÖTELEZŐ.
+            |
+            | A MySQL a jelszót a kézfogás során küldi. Titkosítatlan vonalon ez
+            | a jelszó ÉS minden beküldött személyes adat olvasható bárkinek, aki
+            | a forgalmat látja. Ha a `hoszt` nem localhost és nincs `tls_ca`, a
+            | kód figyelmeztetést ír a hiba.log-ba — de a kapcsolat akkor is
+            | létrejön, tehát a figyelmeztetést komolyan kell venni.
+            |
+            | A `tls_ca` a kiszolgáló CA-tanúsítványának útvonala. A
+            | `tls_ellenoriz` mondja meg, hogy a tanúsítványt ellenőrizzük-e —
+            | ezt csak akkor kapcsold ki, ha a kiszolgáló saját aláírású
+            | tanúsítványt használ, és inkább akkor is add meg a CA-t.
+            */
+            'tls_ca'        => oth_env('OTH_CRM_DB_TLS_CA', ''),
+            'tls_ellenoriz' => (bool) oth_env('OTH_CRM_DB_TLS_ELLENORIZ', '1'),
+        ],
 
         // A beérkező kapu alapcíme — a forrás azonosítója a végére kerül.
         'url' => oth_env('OTH_CRM_URL', 'https://dealkeeper.hu/api/v1/beerkezo'),

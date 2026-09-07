@@ -48,7 +48,14 @@ final class OthCrm
     {
         $beall = $CFG['crm'] ?? [];
 
-        if (empty($beall['engedelyezve']) || empty($beall['url'])) {
+        if (empty($beall['engedelyezve'])) {
+            return false;
+        }
+
+        /* A kapu címe csak a HTTP-úthoz kell. MySQL módban a hiánya nem hiba —
+           korábban itt vakon kilépett volna a függvény, és a beküldés némán
+           elveszett volna. */
+        if (($beall['mod'] ?? 'http') !== 'mysql' && empty($beall['url'])) {
             return false;
         }
 
@@ -82,6 +89,38 @@ final class OthCrm
             return false;
         }
 
+        /*
+         * A SZÁLLÍTÁS VÁLASZTÁSA. A boríték (`csomag()`) mindkét úton ugyanaz —
+         * ami eltér, az csak az, hogy hova kerül. A hat hívási helyhez ezért nem
+         * kell hozzányúlni, ha a CRM cserélődik.
+         *
+         *   http      aláírt HTTPS-kérés a kapuhoz (alapértelmezés)
+         *   mysql     közvetlen írás a CRM táblájába — CSAK azonos kiszolgálón
+         *   mindketto átmenet idejére: mindkettő fut, a naplóban látszik, ha
+         *             az egyik elhasal
+         *
+         * Távoli CRM-nél a `mysql` mód gyengébb, mint a HTTP-kapu: egy nyílt
+         * interneten átmenő adatbázis-kapcsolat jelszava hosszú életű, a port
+         * támadható. Ezért nem ez az alapértelmezés.
+         */
+        $mod = (string) ($beall['mod'] ?? 'http');
+
+        require_once __DIR__ . '/crm-naplo.php';
+        $kulsoAzon = (string) ($adat['external_id'] ?? '');
+
+        if ($mod === 'mysql' || $mod === 'mindketto') {
+            require_once __DIR__ . '/crm-mysql.php';
+            $t0 = microtime(true);
+            $mysqlOk = OthCrmMysql::ir($CFG, $csatorna, $csat, $adat);
+            OthCrmNaplo::ir($csatorna, $kulsoAzon, 'mysql', $mysqlOk,
+                $mysqlOk ? OthCrmMysql::$utolsoMuvelet : 'lásd hiba.log',
+                microtime(true) - $t0);
+
+            if ($mod === 'mysql') {
+                return $mysqlOk;
+            }
+        }
+
         $torzs     = json_encode($adat, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $idobelyeg = (string) time();
 
@@ -103,6 +142,7 @@ final class OthCrm
 
         $url = rtrim((string) $beall['url'], '/') . '/' . rawurlencode($forras);
 
+        $t1 = microtime(true);
         $ch = curl_init($url);
 
         curl_setopt_array($ch, [
@@ -135,9 +175,13 @@ final class OthCrm
          */
         if ($kod < 200 || $kod >= 300) {
             error_log("OTH CRM: {$forras} → HTTP {$kod} " . ($hiba !== '' ? $hiba : (string) $valasz));
+            OthCrmNaplo::ir($csatorna, $kulsoAzon, 'http', false,
+                $hiba !== '' ? $hiba : ('HTTP ' . $kod), microtime(true) - $t1);
 
             return false;
         }
+
+        OthCrmNaplo::ir($csatorna, $kulsoAzon, 'http', true, 'HTTP ' . $kod, microtime(true) - $t1);
 
         return true;
     }

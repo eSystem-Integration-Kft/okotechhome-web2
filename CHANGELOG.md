@@ -986,6 +986,49 @@ gyorsítótár-szabálya a PDF-eknek **egy hónap**, nem egy év, mint a képekn
 tanúsítvány megújul, és a fájl ugyanazon a néven cserélődik — egy éves
 gyorsítótárral a látogató még hónapokig a lejártat töltené le.
 
+### Hozzáadva — CRM-átadás közvetlenül MySQL-be, átadási naplóval
+
+A kitöltések eddig aláírt HTTPS-kérésben mentek egy beérkező kapuhoz. Ha az új
+CRM ugyanazon a kiszolgálón fut, ennek nincs értelme: a `crm.mod` beállítás
+mostantól `http`, `mysql` vagy `mindketto` lehet.
+
+**A hat végponthoz nem kellett hozzányúlni.** Mind az `OthCrm::kuld()`-ot hívja,
+és a boríték (`csomag()`) mindkét úton ugyanaz — csak az dől el, hova kerül.
+
+- **Egy tábla, JSON `valaszok` oszloppal** (`scripts/crm-mysql-sema.sql`). A
+  kulcsok az űrlap kérdéseit idézik, nem gépi azonosítók — oszlopokra képezve
+  minden szövegjavítás adatbázis-migráció lenne.
+- **A beállítás mezőnkénti**, nem kész DSN: socket vagy hoszt+port, adatbázis,
+  felhasználó, fájlból olvasott jelszó, tábla, TLS. Távoli hosztnál TLS nélkül a
+  kód figyelmeztetést ír a naplóba — a MySQL a jelszót a kézfogáskor küldi.
+
+### Hozzáadva — átadási napló (`api/.crm-naplo/`, `api/crm-naplo.php`)
+
+A CRM-átadás szándékosan néma: ha a túloldal nem veszi át a kitöltést, a
+látogató attól még visszaigazolást kap. Kívülről tehát semmi nem látszik, és a
+CRM napokig üres maradhat úgy, hogy minden működőnek tűnik.
+
+- Havi JSONL-fájl: időbélyeg, csatorna, külső azonosító, mód, eredmény, hibakód,
+  időtartam. **A beküldés tartalma nincs benne** — se név, se e-mail, se üzenet.
+  A napló üzemeltetési eszköz, nem másodpéldány.
+- `api/crm-naplo.php?kod=…` — kódolt diagnosztikai lap: csatornánkénti összesítés
+  és tételes lista. Élesítés után törlendő.
+
+### Javítva — három hiba, amit a próba hozott elő
+
+1. **Az `ON DUPLICATE KEY UPDATE` SELECT-jogot igényel** az összes érintett
+   oszlopra: a webes felhasználó így ki tudná listázni a korábbi megkeresések
+   nevét és e-mail-címét. (A MySQL 8.0.20 sorálias alakja sem segít — próbán
+   ugyanígy 1143-mal elszállt.) A kód ezért INSERT-et ad, és csak ütközéskor
+   UPDATE-et; a felhasználónak elég `SELECT (external_id)`. Valódi MySQL-en
+   ellenőrizve: ezzel a felhasználóval a `SELECT nev` 1142-vel elutasítva.
+2. **A `crm.php` korán kilépett, ha nem volt kapu-URL** — MySQL módban ez némán
+   elnyelte volna az összes beküldést.
+3. **`config.example.php`: `oth_env('OTH_CRM_BE', false)`** — a második paraméter
+   `string`, a fájl `strict_types=1`. A mintát senki nem futtatja, ezért nem
+   derült ki; új telepítés viszont ebből másol. (Az éles `config.php` nem
+   tartalmazza, tehát üzemzavart nem okozott.)
+
 ---
 
 ## [0.05.00] — 2026-08-11

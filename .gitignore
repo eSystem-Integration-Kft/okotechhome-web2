@@ -54,6 +54,9 @@ __pycache__/
 # Az SMTP-jelszó SOHA nem kerülhet a repóba. A valódi értékek ebben a fájlban
 # élnek, a repóban csak a `config.example.php` minta van benne.
 _web/api/config.php
+
+# Átadási napló — futásidejű, a kiszolgálón keletkezik.
+_web/api/.crm-naplo/
 _web/api/*.log
 _web/api/.ratelimit/
 # A megoldás-ajánló mentett eredményei — a látogatók adata, futásidőben

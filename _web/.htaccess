@@ -220,6 +220,6 @@ Options -Indexes
 # Require valid-user
 
 # --- Verziózási és dokumentációs fájlok kizárása -------------------------------
-<FilesMatch "\.(md|py|sh)$">
+<FilesMatch "\.(md|py|sh|sql)$">
   Require all denied
 </FilesMatch>
