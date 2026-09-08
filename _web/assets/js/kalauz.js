@@ -167,6 +167,38 @@
         'Kérdezzen — megmondom, mit hová írjon.',
       ],
     },
+    ajanlat: {
+      koszon: 'Segítsek az ajánlatkérésben?',
+      alcim: 'Segítek kitölteni.',
+      sug: 'Kérdezzen bármelyik mezőről — azt is megmondom, mit érdemes csatolni, hogy pontosabb legyen az ajánlat.',
+      helyorzo: 'Például: mit írjak a létszámhoz?',
+      inditok: [
+        'Mit írjak a létszámhoz, ha nyaralóról van szó?',
+        'Hol találom a helyrajzi számot?',
+        'Mit érdemes csatolni az ajánlatkéréshez?',
+        'Mit tartalmaz az ajánlat, és mit nem?',
+      ],
+      jelzes: [
+        'Elakadt az ajánlatkérésben? Segítek.',
+        'Kérdezzen — megmondom, mit hová írjon.',
+      ],
+    },
+    megrendeles: {
+      koszon: 'Kérdése van a megrendelőlapról?',
+      alcim: 'Végigkísérem a megrendelést.',
+      sug: 'Kérdezzen a mezőkről vagy a feltételekről — megmutatom, a lap melyik szakasza mondja ki. Jogi tanácsot nem adok: a szöveg a mérvadó.',
+      helyorzo: 'Például: kell-e előleg?',
+      inditok: [
+        'Mit jelent a „szerelés nélkül”?',
+        'Kell-e előleg, és mikor?',
+        'Mikor érvényes a megrendelőlap?',
+        'Mit kell csatolnom?',
+      ],
+      jelzes: [
+        'Kérdése van a megrendelőlaphoz? Segítek.',
+        'Megmutatom, melyik szakasz mondja ki.',
+      ],
+    },
     jelentes: {
       koszon: 'Segítek értelmezni az összehasonlítást.',
       alcim: 'Elmagyarázom az összehasonlítást.',
@@ -214,6 +246,35 @@
         'Ask me — I will tell you what goes where.',
       ],
     },
+    ajanlat: {
+      koszon: 'Shall I help with the quote request?',
+      alcim: 'I can help you fill this in.',
+      sug: 'Ask about any field — I will also tell you what to attach for a more precise quote.',
+      helyorzo: 'For example: what do I put for the number of people?',
+      inditok: [
+        'What do I put for a holiday home?',
+        'Where do I find the land registry number?',
+        'What is worth attaching?',
+        'What does the quote include, and what not?',
+      ],
+      jelzes: [
+        'Stuck on the quote request? I can help.',
+      ],
+    },
+    megrendeles: {
+      koszon: 'Any questions about the order form?',
+      alcim: 'I will walk you through the order.',
+      sug: 'Ask about the fields or the terms — I will point at the section that states it. I do not give legal advice: the text itself governs.',
+      helyorzo: 'For example: is a deposit required?',
+      inditok: [
+        'What does “without installation” mean?',
+        'Is a deposit required, and when?',
+        'When is the order form valid?',
+      ],
+      jelzes: [
+        'Any questions about the order form? I can help.',
+      ],
+    },
     jelentes: {
       koszon: 'I can help you read the comparison.',
       alcim: 'I will explain the comparison.',
@@ -230,7 +291,10 @@
     },
    },
   };
-  const SZOVEG = (SZOVEGEK[NYELV] || SZOVEGEK.hu)[mod] || {};
+  /* Az ŰRLAPOS üzemmódok viselkedése azonos: fülként ülnek, és nem nyitnak rá
+     magától a kitöltésre. A tartalmuk viszont lapról lapra más. */
+  const URLAPOS = new Set(['urlap', 'ajanlat', 'megrendeles']);
+  const SZOVEG = (SZOVEGEK[NYELV] || SZOVEGEK.hu)[mod] || SZOVEGEK.hu.kalauz;
 
   /* LAPTÉMÁK. Öko nem ugyanazt mondja a megoldások között, mint a referenciák
      vagy az előkészítés lapjain: a köszönés, a belépő kérdések és a fül
@@ -539,7 +603,11 @@
   /* A KONZULTÁCIÓKÉRŐN Öko eleve a lap szélén ül, fülként — ott az űrlap a
      főszereplő, a sarokban álló figura a Tovább gomb útjában állna. A fül a
      jobb szél közepén jelzi, hogy itt van, és egy koppintásra kinyílik. */
-  if (mod === 'urlap') fulre(true);
+  /* ŰRLAPOS LAPOK. Ahol a látogató kitölt valamit, Öko a lap szélén ül fülként,
+     nem a sarokban: ott az űrlap a főszereplő, a figura a gombok útjában
+     állna. Három ilyen lap van — a konzultációkérő, az ajánlatkérő és a
+     megrendelőlap. */
+  if (URLAPOS.has(mod)) fulre(true);
   /* ESEMÉNYDELEGÁLÁS a gyökéren. Az egyes gombokra kötött kezelők közül a
      kicsinyítőé néma maradt — a gomb ott volt, a kattintás rá is ment, kezelő
      viszont nem tartozott hozzá. Egyetlen figyelő a gyökéren ezt a hibaosztályt
@@ -1093,6 +1161,12 @@
       megerkezik();
       if (!lezarta) nyit(false);
     }, csokkentett ? 200 : 900);
+  } else if (URLAPOS.has(mod)) {
+    /* AZ ÚJ ŰRLAPLAPOKON Öko megérkezik és fülként várakozik, de NEM nyit rá a
+       kitöltésre: a panel eltakarná a mezőket, és a látogató keze a
+       billentyűzeten van. A buborékban megszólal egyszer — annyi elég ahhoz,
+       hogy tudjon róla. */
+    setTimeout(megerkezik, csokkentett ? 200 : 1400);
   } else if (hero) {
     /* MINDEN HERO-S LAPON idegenvezetőként dolgozik: amikor a fejléckép fele
        kigördült — tehát a látogató elindult lefelé, olvasni kezdett —,

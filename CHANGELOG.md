@@ -31,6 +31,17 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ## [Nem kiadott]
 
+**Öko panelje üres volt a két új lapon.** A szövegtár üzemmódonként áll
+(`kalauz`, `urlap`, `jelentes`), és az ismeretlen kulcsra üres objektumot adott:
+nem volt köszönés, alcím, belépő kérdés — csak egy üres panel a beviteli mező
+fölött. A két új üzemmód megkapta a saját szövegét, a visszaesés pedig már nem
+üresbe, hanem a `kalauz` szövegeibe történik.
+
+Ezzel együtt a két új lap úgy viselkedik, mint a konzultációkérő: Öko a lap
+szélén ül **fülként**, nem a sarokban — az űrlap a főszereplő. De **nem nyit rá
+magától** a kitöltésre (a konzultációkérőn igen): ott a panel eltakarná a
+mezőket, miközben a látogató keze a billentyűzeten van.
+
 **A hibaüzenet lebeg, a lap alja levegőt kapott, és Öko megtanulta a két új
 lapot.**
 
