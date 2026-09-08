@@ -403,7 +403,8 @@ nem árnyék.
       <summary class="nav-toggle type-ui-button">Menü</summary>
       <nav class="site-nav" aria-label="Fő navigáció"><ul class="nav-list">…</ul></nav>
     </details>
-    <a class="btn btn-primary header-cta" href="konzultacio">…</a>
+    <div class="tema-doboz">…</div>
+    <div class="cta-kapszula" role="group" aria-label="Kapcsolatfelvétel">…</div>
   </div>
 </header>
 ```
@@ -467,8 +468,37 @@ rögzíteni (pl. `--type-ui-nav-*`), hogy ne komponensszabály hordozza.
 
 A 0.7 alapszabály (*„a viselkedést nem újraépítjük, hanem a platformtól kérjük"*) miatt a
 menü `<details>`/`<summary>`, nem JS-vezérelt panel. A markupban **nyitva** áll, ezért
-JS nélkül is elérhető; a `site.js` mindössze annyit tesz, hogy ≤1024px-en becsukja, és
-kezeli az Esc-et meg a panelen kívüli kattintást.
+JS nélkül is elérhető; a `site.js` becsukja, amikor a sor nem fér el, és kezeli az Esc-et
+meg a panelen kívüli kattintást.
+
+**A `summary` asztali nézetben nem `display:none`.** Ha a szerző `summary`-je nem kap
+dobozt, a Chrome a saját alapértelmezett összefoglalóját rajzolja ki helyette („Részletek"
++ háromszög). Nulla méret + `visibility:hidden` a helyes rejtés: dobozban marad, de sem a
+fókuszsorba, sem a képernyőolvasóba nem kerül bele.
+
+### A menüsor sűrűségi fokozatai — `data-nav`
+
+A menüsor **sosem kétsoros** (`flex-wrap:nowrap`). A szűkülést nem tördelés veszi fel,
+hanem három fokozat, és csak azután jön a fiók:
+
+| `data-nav` | betű | oszlopköz | logó | fejlécsáv | mikor |
+|---|---|---|---|---|---|
+| `tag` | 15px | 16px | 48px | 80px | a hely bőven elég |
+| `tomor` | 14px | 8px | 48px | 80px | fogy a hely |
+| `suru` | 13px | 8px | 40px | 60px | a fejléc a vastagságából is enged |
+| `fiok` | — | — | 48px | 80px | a sor sehogy sem fér el → lenyitható panel |
+
+A fokozatot **mérés** választja, nem töréspont: a `site.js` sorra felveszi a fokozatokat,
+és mindegyiknél megkérdezi, elfér-e a sor a fejléc szabad helyén. Ezért nem kell
+áthangolni semmit, ha új menüpont jön, hosszabb a felirat vagy más a betűkészlet.
+A mérés a lap betöltésekor, a webfont megérkezésekor és átméretezéskor fut le.
+
+JS nélkül a `data-nav` nem kerül ki, és a fokozatot médialekérdezés választja
+(`≥1440` → tág, `1240–1439` → tömör, `<1240` → fiók). Minden ilyen médiablokkon ott az
+`:root:not([data-nav])` őrszem: amint a mérés megszólal, a lekérdezés elhallgat.
+
+A logó és a témaváltó `flex:none` — enélkül a böngésző előbb a logót nyomja lapos csíkká,
+mint hogy a sor „ne férjen el", és a mérés is hazudna.
 
 A GYIK és a Karrier ≤640px-en a kontaktsávból a menübe költözik (`.nav-item-secondary`) —
 szűk sávban a hat elem tördelése két sorra tolná a fejlécet.
@@ -484,7 +514,7 @@ logó és a CTA mellett.
 <li class="nav-item">
   <button type="button" class="nav-link nav-trigger type-ui-button"
           aria-expanded="false" aria-controls="mega-megoldasok">
-    Megoldások<span class="nav-caret" aria-hidden="true"></span>
+    Megoldások
   </button>
   <div class="mega" id="mega-megoldasok" hidden>
     <div class="mega-inner">…<ul class="mega-list">…</ul>…</div>
@@ -495,6 +525,18 @@ logó és a CTA mellett.
 - A nyitóelem **`button`**, nem `a`: művelet, nem navigáció (7.2). A cél-oldalra a panel
   alján álló „Áttekintés: …" hivatkozás visz.
 - A panel **`hidden` attribútummal** zár, ezért JS nélkül sem marad nyitva lógva.
+- **Egérrel ráállásra nyílik** (`(hover:hover) and (pointer:fine)` mellett, `pointerType`
+  szűréssel). Három időzítés teszi használhatóvá: **120 ms** szándék-küszöb nyitásra (az
+  áthaladó egér ne nyisson panelt), **260 ms** türelem záráskor (a menüpont és a panel
+  közti rést az egérnek át kell szelnie), és **azonnali váltás**, ha már nyitva van egy
+  panel. Kattintással zárt panel a menüpont elhagyásáig nem nyílik vissza hoverre.
+- **Nincs almenü-jelző nyíl.** A hozzátartozást három jel mondja ki: a nyitott menüpont
+  felülete, a felirat alatt középről kinövő **aláhúzás** (`--nav-jel`), és a panel tetején
+  ülő csúcs. A panel fejléce (`.mega-eyebrow`) szóban is megismétli, tehát a jelzés nem
+  csak színnel közölt információ.
+- Az animáció **nyitásra 200 ms, zárásra 130 ms** — a zárás csak eltakarít. Panelváltáskor
+  (`[data-nav-valt]`) nincs lecsúszás, csak 120 ms-os átúszás, különben a menüsor mentén
+  mozgó egér alatt ugrálna a panel.
 - Egyszerre egy panel nyitott; **Esc** és a panelen kívüli kattintás zár, a fókusz
   visszatér a nyitó gombra. Nézetváltásnál (`matchMedia`) automatikusan zár, mert a
   pozicionálás is más.
@@ -503,8 +545,39 @@ logó és a CTA mellett.
 - A menücímke rövidíthető (`Projekt-előkészítés` → `Előkészítés`); a panel fejléce és a
   cél-hivatkozás a **teljes** kategórianevet viszi.
 
-> A `.nav-list` oszlopköze `--space-16` (nem 24): öt nagybetűs menüpont a lenyíló
-> nyilakkal 24px-es közzel két sorba tördelt 1440px-en.
+> A `.nav-list` oszlopköze a fokozatból jön (`--nav-koz`): 16px tág, 8px tömör és sűrű
+> fokozatban.
+
+### CTA-kapszula — `.cta-kapszula`
+
+A fejléc jobb szélén három lépés áll egyetlen sínben, a döntés sorrendjében:
+
+```html
+<div class="cta-kapszula" role="group" aria-label="Kapcsolatfelvétel">
+  <span class="cta-jelolo" aria-hidden="true"></span>
+  <a class="cta-szegmens" href="konzultacio">Konzultáció</a>
+  <a class="cta-szegmens" href="ajanlat">Ajánlat</a>
+  <a class="cta-szegmens" href="megrendeles">Megrendelés</a>
+</div>
+```
+
+- A forma a **telefonos szegmensvezérlő** mintája: sín, benne lekerekített szegmensek.
+  Három egyenrangú gomb egymás mellett három CTA-nak látszana; a kapszula egyetlen
+  elemként olvasódik, amin belül **egy** aktív van.
+- **Egy jelölő csúszik**, nem a szegmensek gyulladnak ki egyenként (`.cta-jelolo`).
+  Három egyenlő hasáb (`grid`), így a mozgás egyszerű eltolás — 0 / 100% / 200% —,
+  nincs mit mérni futásidőben: a csúszás JS nélkül, CSS-ből pontos.
+- **A pirula a sín belső ívét követi:** a szélső helyzetekben kívül teljes ív, belül
+  egyenes él (4px), középen mindkét oldala egyenes. Így nem kell köré hézag: pontosan
+  kitölti a sín belsejét, és a felszabaduló hely a feliratoké.
+- **Három állapot, három szín.** Nyugalomban az első szegmens **zöld** (a konzultáció a
+  belépő lépés). Ráállásra a pirula **világos** lesz és odacsúszik — kipróbálás, nem
+  döntés, és a sötét felirat így marad olvasható a zöld helyett. Megnyomásra
+  (`:active`) visszavált **zöldre**: a mozdulat véglegesedik.
+- Méretben visszafogott (13px felirat, 36px szegmens), és a **sűrűségi fokozatokkal
+  együtt** szűkül — a kapszula nem viheti fiókba a menüsort.
+- ≤640px-en a fejléc második sorába kerül, teljes szélességben, három egyenlő hasábbal.
+- `role="group"`, nem `nav`: összetartozó műveletek, de nem navigációs terület.
 
 ---
 
@@ -1966,3 +2039,68 @@ alatt egy.
 Az idézet függőlegesen középen áll (`.vel-szoveg{margin-block:auto}`) — ez a
 szalagnál hozott döntés, és a rácsban is helytálló: a rövid vélemények alatt nem
 gyűlik egyetlen lyukká a hely.
+
+---
+
+## Dokumentum — `.dok-*`
+
+A **megrendelőlap** (`/megrendeles`) nem „űrlap egy weboldalon", hanem **okirat**: a
+látogató kitölti, kinyomtatja, aláírja és beküldi. Ezért A4-nyi hasábban ül, saját
+fejléccel, számozott szakaszokkal, jogi lábjegyzetekkel és aláírásblokkal.
+
+```html
+<form class="dok dok-lap" method="post" action="api/megrendeles"
+      enctype="multipart/form-data" data-urlap>
+  <header class="dok-fej">…kiállító… <div class="dok-azon">…sorszám, kelt…</div></header>
+  <h2 class="dok-cim">Megrendelőlap</h2>
+  <section class="dok-szakasz">
+    <h3 class="dok-szakasz-cim">Megrendelő adatai</h3>
+    <div class="dok-racs">…mezők…</div>
+  </section>
+  …
+  <div class="dok-alairas">…két aláírásvonal…</div>
+</form>
+```
+
+- **Miért nem lépésekre bontott varázsló.** A megrendelés jogi nyilatkozat: látni kell,
+  mit ír alá az ember — egyben, a feltételekkel együtt. A konzultációkérésnél a varázsló
+  a jó forma, itt nem.
+- **A szakaszok sorszáma CSS-ből jön** (`counter-increment: dok-szakasz`), így egy új
+  szakasz beszúrása nem írja át a többi számát a markupban.
+- **A választható tételek kártyák** (`.dok-opcio`), nem apró rádiógombok: érintőn is
+  megfoghatók, és a bejelölt állapot a teljes felületen látszik (`:has(input:checked)`).
+- **Nyomtatásban** (`@media print`) a lap körül minden eltűnik — fejléc, lábléc, kísérő,
+  eszköztár —, a `@page` A4, 14 mm margóval; a szakaszok és az aláírásblokk nem törnek
+  ketté (`break-inside: avoid`).
+- **Jogi hivatkozások**: a szövegben felső indexes `[n]` (`.dok-jog`), a szakasz alján a
+  `.dok-labjegyzet` feloldással. Tájékoztató jellegűek — a kötelező tartalom maga a
+  feltételszöveg.
+
+### Mellékletek — `.urlap-fajl`
+
+Fájlfeltöltés a `/ajanlat` és a `/megrendeles` lapon. A natív mező csak annyit ír ki,
+hogy „3 fájl"; az `assets/js/dokumentum.js` kiírja a **nevet és a méretet**, és azonnal
+szól, ha valami túllépi a korlátot — nem a beküldés után, a szerver válaszából. A korlát
+mindkét oldalon ugyanaz (**3 fájl, egyenként 10 MB**, pdf/jpg/png/docx/xlsx), és a
+szerver `OthVedelem::fajlLista()` metódusa a kiterjesztést a **tartalommal is** összeveti
+— a `.pdf`-re átnevezett futtatható fájl itt bukik el.
+
+---
+
+## Ajánlatkérés és Megrendelés — a két új útvonal
+
+| Lap | Végpont | Postaláda | Mit visz |
+|---|---|---|---|
+| `/ajanlat` | `api/ajanlat` | `cimzettek['ajanlat']`, tartalék: `kapcsolat` | kapcsolat, ingatlan, terhelés, irány, határidő, melléklet |
+| `/megrendeles` | `api/megrendeles` | `cimzettek['megrendeles']`, tartalék: `kapcsolat` | megrendelői adatok, szolgáltatásválasztás, mellékletek, nyilatkozatok |
+
+- A **kötelező nyilatkozatok a szerveren is kötelezők**: a feltételek elfogadása nélkül
+  érkező beküldést a végpont visszautasítja. A jelölőnégyzet kliensoldali `required`-je
+  megkerülhető, ez nem.
+- A visszaigazoló levél kimondja, hogy **a szerződés az ÖkoTech-Home külön
+  visszaigazolásával jön létre** — a rendszerüzenet nem elfogadás.
+- A megrendelés kap egy **azonosítót** (`MR-ÉÉÉÉHHNN-ÓÓPPMM-XXXX`), ami a levélben, a
+  visszaigazolásban és a CRM-rekordban ugyanaz.
+- A postaláda-kulcsok hiánya nem hiba: a végpontok a `kapcsolat` postaládába esnek
+  vissza, tehát a beküldés a szerver configjának módosítása nélkül is megérkezik.
+

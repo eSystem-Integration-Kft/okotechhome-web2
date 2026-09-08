@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=199">
+<link rel="stylesheet" href="../assets/css/app.css?v=205">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -97,7 +97,7 @@
           <li class="nav-item">
             <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-helyzetem">
-              Helyzetem<span class="nav-caret" aria-hidden="true"></span>
+              Helyzetem
             </button>
             <div class="mega" id="mega-helyzetem" hidden>
               <div class="mega-inner">
@@ -176,7 +176,7 @@
           <li class="nav-item">
             <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-megoldasok">
-              Megoldások<span class="nav-caret" aria-hidden="true"></span>
+              Megoldások
             </button>
             <div class="mega" id="mega-megoldasok" hidden>
               <div class="mega-inner">
@@ -186,71 +186,77 @@
                 </div>
                 <ul class="mega-oszlopok" role="list">
                   <li class="mega-oszlop">
-                    <a class="mega-link" href="../megoldasok/"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Áttekintés</span></a>
-                    <ul class="mega-alista" role="list">
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/melyik-megoldas-mikor-megfelelo">Melyik megoldás mikor megfelelő?</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró és korlátozó feltételek</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/megoldastipus-eloszuro">Megoldástípus-előszűrő</a></li>
-                    </ul>
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../megoldasok/"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Áttekintés</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/melyik-megoldas-mikor-megfelelo">Melyik megoldás mikor megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró és korlátozó feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/megoldastipus-eloszuro">Megoldástípus-előszűrő</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../megoldasok/nagyobb-es-kozossegi-rendszerek"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozossegi"></span></span><span class="mega-label type-ui-body">Nagyobb rendszerek</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-kapacitasi-kategoriak">Kapacitási és projektkategóriák</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-terhelesi-profil">Terhelési profil</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-elokezeles-es-kiegeszitok">Előkezelés és kiegészítők</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-monitoring-es-uzemeltetes">Monitoring és üzemeltetés</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-engedelyezes">Engedélyezés</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-esettanulmanyok">Intézményi esettanulmányok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-szakmai-konzultacio">Szakmai konzultáció</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../megoldasok/alternativak"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-alternativak"></span></span><span class="mega-label type-ui-body">Alternatívák</span></a>
+                    </div>
                   </li>
                   <li class="mega-oszlop">
-                    <a class="mega-link" href="../megoldasok/biologiai-szennyviztisztitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-biologiai"></span></span><span class="mega-label type-ui-body">Biológiai tisztítás</span></a>
-                    <ul class="mega-alista" role="list">
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-hogyan-mukodik">Hogyan működik?</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-kinek-megfelelo">Kinek megfelelő?</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-telek-es-terhelesi-feltetelek">Telek- és terhelési feltételek</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-uzemeltetes-es-karbantartas">Üzemeltetés és karbantartás</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-koltsegtenyezok">Költségtényezők</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
-                    </ul>
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../megoldasok/biologiai-szennyviztisztitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-biologiai"></span></span><span class="mega-label type-ui-body">Biológiai tisztítás</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-hogyan-mukodik">Hogyan működik?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-kinek-megfelelo">Kinek megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-telek-es-terhelesi-feltetelek">Telek- és terhelési feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-uzemeltetes-es-karbantartas">Üzemeltetés és karbantartás</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-koltsegtenyezok">Költségtényezők</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/biologiai-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport mega-csoport-gyerek">
+                      <a class="mega-link" href="../megoldasok/ab-clear"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-biologiai"></span></span><span class="mega-label type-ui-body">A.B.Clear</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-muszaki-adatok">Műszaki adatok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-iszapzsakos-technologia">Iszapzsákos technológia</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-telepitesi-feltetelek">Telepítési feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-dokumentumok">Dokumentumok és tanúsítványok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-referenciak">Kapcsolódó referenciák</a></li>
+                      </ul>
+                    </div>
                   </li>
                   <li class="mega-oszlop">
-                    <a class="mega-link" href="../megoldasok/ab-clear"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-biologiai"></span></span><span class="mega-label type-ui-body">↳ A.B.Clear</span></a>
-                    <ul class="mega-alista" role="list">
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-muszaki-adatok">Műszaki adatok</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-iszapzsakos-technologia">Iszapzsákos technológia</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-telepitesi-feltetelek">Telepítési feltételek</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-dokumentumok">Dokumentumok és tanúsítványok</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/ab-clear-referenciak">Kapcsolódó referenciák</a></li>
-                    </ul>
-                  </li>
-                  <li class="mega-oszlop">
-                    <a class="mega-link" href="../megoldasok/oldomedences-rendszer"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-mukodes"></span></span><span class="mega-label type-ui-body">Oldómedencés rendszer</span></a>
-                    <ul class="mega-alista" role="list">
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-hogyan-mukodik">Hogyan működik?</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-kinek-megfelelo">Kinek megfelelő?</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-tisztitomezo">Tisztítómező és területigény</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-szippantas-es-karbantartas">Szippantás és karbantartás</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
-                    </ul>
-                  </li>
-                  <li class="mega-oszlop">
-                    <a class="mega-link" href="../megoldasok/epureco"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-oldomedence"></span></span><span class="mega-label type-ui-body">↳ EPURECO</span></a>
-                    <ul class="mega-alista" role="list">
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-muszaki-adatok">Műszaki adatok</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-telepitesi-feltetelek">Telepítési feltételek</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-dokumentumok">Dokumentumok</a></li>
-                    </ul>
-                  </li>
-                  <li class="mega-oszlop">
-                    <a class="mega-link" href="../megoldasok/nagyobb-es-kozossegi-rendszerek"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozossegi"></span></span><span class="mega-label type-ui-body">Nagyobb rendszerek</span></a>
-                    <ul class="mega-alista" role="list">
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-kapacitasi-kategoriak">Kapacitási és projektkategóriák</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-terhelesi-profil">Terhelési profil</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-elokezeles-es-kiegeszitok">Előkezelés és kiegészítők</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-monitoring-es-uzemeltetes">Monitoring és üzemeltetés</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-engedelyezes">Engedélyezés</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-esettanulmanyok">Intézményi esettanulmányok</a></li>
-                      <li><a class="mega-alink type-ui-caption" href="../megoldasok/nagyobb-szakmai-konzultacio">Szakmai konzultáció</a></li>
-                    </ul>
-                  </li>
-                  <li class="mega-oszlop">
-                    <a class="mega-link" href="../megoldasok/alternativak"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-alternativak"></span></span><span class="mega-label type-ui-body">Alternatívák</span></a>
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../megoldasok/oldomedences-rendszer"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-mukodes"></span></span><span class="mega-label type-ui-body">Oldómedencés rendszer</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-hogyan-mukodik">Hogyan működik?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-kinek-megfelelo">Kinek megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-tisztitomezo">Tisztítómező és területigény</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-szippantas-es-karbantartas">Szippantás és karbantartás</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/oldomedence-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport mega-csoport-gyerek">
+                      <a class="mega-link" href="../megoldasok/epureco"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-oldomedence"></span></span><span class="mega-label type-ui-body">EPURECO</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-muszaki-adatok">Műszaki adatok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-telepitesi-feltetelek">Telepítési feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../megoldasok/epureco-dokumentumok">Dokumentumok</a></li>
+                      </ul>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -259,7 +265,7 @@
           <li class="nav-item">
             <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-elokeszites">
-              Előkészítés<span class="nav-caret" aria-hidden="true"></span>
+              Előkészítés
             </button>
             <div class="mega" id="mega-elokeszites" hidden>
               <div class="mega-inner">
@@ -313,7 +319,7 @@
           <li class="nav-item">
             <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-tudastar">
-              Tudástár<span class="nav-caret" aria-hidden="true"></span>
+              Tudástár
             </button>
             <div class="mega" id="mega-tudastar" hidden>
               <div class="mega-inner">
@@ -346,7 +352,7 @@
           <li class="nav-item">
             <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-eredmenyek">
-              Eredmények<span class="nav-caret" aria-hidden="true"></span>
+              Eredmények
             </button>
             <div class="mega" id="mega-eredmenyek" hidden>
               <div class="mega-inner">
@@ -379,7 +385,7 @@
                   <li class="nav-item">
             <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-rolunk">
-              Rólunk<span class="nav-caret" aria-hidden="true"></span>
+              Rólunk
             </button>
             <div class="mega" id="mega-rolunk" hidden>
               <div class="mega-inner">
@@ -432,8 +438,19 @@
             data-tema-tipp>Váltás sötét témára</span>
     </div>
 
-    <a class="btn btn-primary header-cta" href="../konzultacio">
-      <span class="action-arrow" aria-hidden="true">&rarr;</span>Konzultációt kérek</a>
+    <!-- CTA-KAPSZULA. Három lépés egyetlen sínben, a döntés sorrendjében:
+         konzultáció → ajánlat → megrendelés. Az első a kiemelt (kitöltött
+         pirula), mert a másik kettő ezen keresztül vezet. `role="group"`:
+         összetartozó műveletek, de nem navigációs terület — a lap fő
+         navigációja a fenti `nav`. -->
+    <div class="cta-kapszula" role="group" aria-label="Kapcsolatfelvétel">
+      <!-- A csúszó jelölő: díszítés, nem tartalom — a `span` üres és rejtett
+           a képernyőolvasó elől. A helyzetét CSS mondja meg (5.12d). -->
+      <span class="cta-jelolo" aria-hidden="true"></span>
+      <a class="cta-szegmens" href="../konzultacio">Konzultáció</a>
+      <a class="cta-szegmens" href="../ajanlat">Ajánlat</a>
+      <a class="cta-szegmens" href="../megrendeles">Megrendelés</a>
+    </div>
   </div>
   </div>
 
@@ -730,7 +747,7 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=11" defer></script>
+<script src="../assets/js/site.js?v=12" defer></script>
 <script src="../assets/js/kalauz.js?v=43" defer></script>
 <script type="application/ld+json">
 {

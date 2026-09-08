@@ -226,4 +226,52 @@ final class OthVedelem
         $nev = preg_replace('/[^\p{L}\p{N}._\- ]+/u', '_', $nev) ?? 'fajl.' . $ext;
         return ['nev' => mb_substr($nev, 0, 120), 'mime' => $valodi, 'adat' => $adat];
     }
+
+    /**
+     * TÖBB FÁJL EGY MEZŐBŐL (`name="fajl[]"`).
+     *
+     * A PHP a többszörös feltöltést nem fájlonkénti tömbként adja át, hanem
+     * MEZŐNKÉNTI tömbökként (`name[0]`, `name[1]`, `size[0]`…). Ez a metódus
+     * ezt fordítja vissza fájlokra, és mindegyiket ugyanazon az ellenőrzésen
+     * futtatja át, ami az egyfájlos mezőt is védi.
+     *
+     * A DARABSZÁM-KORLÁT itt csendben vág: a fölös fájlokat nem dobjuk el
+     * hibával, mert a beküldés maga fontosabb — de a hívó megkapja az üzenetet
+     * a `$hiba` paraméterben, és eldöntheti, mit kezd vele.
+     */
+    public static function fajlLista(?array $mezo, array $cfg, ?string &$hiba = null): array
+    {
+        $hiba = '';
+        if (!$mezo || !isset($mezo['name'])) {
+            return [];
+        }
+        /* Egyfájlos mező is átjöhet ezen az úton — ilyenkor a `name` sztring. */
+        $nevek = is_array($mezo['name']) ? $mezo['name'] : [$mezo['name']];
+        $db = count($nevek);
+        $max = (int) ($cfg['max_darab'] ?? 3);
+
+        $ki = [];
+        for ($i = 0; $i < $db; $i++) {
+            $egy = [
+                'name'     => is_array($mezo['name'])     ? $mezo['name'][$i]     : $mezo['name'],
+                'type'     => is_array($mezo['type'])     ? $mezo['type'][$i]     : $mezo['type'],
+                'tmp_name' => is_array($mezo['tmp_name']) ? $mezo['tmp_name'][$i] : $mezo['tmp_name'],
+                'error'    => is_array($mezo['error'])    ? $mezo['error'][$i]    : $mezo['error'],
+                'size'     => is_array($mezo['size'])     ? $mezo['size'][$i]     : $mezo['size'],
+            ];
+            if (($egy['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+                continue;
+            }
+            if (count($ki) >= $max) {
+                $hiba = 'Legfeljebb ' . $max . ' fájl csatolható; a többit nem vettük át.';
+                break;
+            }
+            try {
+                $ki[] = self::fajl($egy, $cfg);
+            } catch (RuntimeException $e) {
+                $hiba = basename((string) $egy['name']) . ': ' . $e->getMessage();
+            }
+        }
+        return $ki;
+    }
 }

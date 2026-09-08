@@ -157,6 +157,11 @@ return [
         // postafiókba mennek — a végpontnak van tartaléka, tehát a beküldés
         // akkor sem vész el, ha ez a sor lemarad.
         'szippantasi-dij' => ['kapcsolat@example.hu'],
+        // AJÁNLATKÉRÉS és MEGRENDELÉS. Ha ez a két sor hiányzik, a végpontok a
+        // 'kapcsolat' postaládába esnek vissza — a beküldés tehát akkor sem vész
+        // el, ha a kulcs lemarad.
+        'ajanlat'         => ['kapcsolat@example.hu'],
+        'megrendeles'     => ['kapcsolat@example.hu'],
     ],
 
     /* --- Visszaigazolás a látogatónak ------------------------------------ */

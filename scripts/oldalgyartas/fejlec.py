@@ -2,6 +2,36 @@
 # -*- coding: utf-8 -*-
 """Fejléc — kontaktsáv + HÁROMSZINTŰ megamenü, minden oldalra.
 
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  FIGYELEM — EZ A SZKRIPT JELENLEG NEM FUTTATHATÓ BIZTONSÁGOSAN.              ║
+║                                                                              ║
+║  A `_web/` fejlécei két ponton ELŐBBRE JÁRNAK, mint az itteni adatok, mert   ║
+║  kézzel lettek átvezetve:                                                    ║
+║                                                                              ║
+║   · TUDÁSTÁR és EREDMÉNYEK panel — a holt menütételek élesítve lettek        ║
+║     (élő hivatkozások a megvalósult projektekre, az EN 12566 cikkre), itt    ║
+║     viszont még a `KESZUL` helykitöltő lista áll;                            ║
+║   · RÓLUNK kategória — a hatodik fül a webhelyen már megvan, a `MENU`-ben    ║
+║     még nincs.                                                               ║
+║                                                                              ║
+║  Amíg ez a kettő nincs átvezetve, a szkript futtatása VISSZAÍRNÁ a régi      ║
+║  állapotot mind a 126 oldalon. Az eltérés ellenőrzése (0 sor = futtatható):  ║
+║                                                                              ║
+║      python3 - <<\'EOF\'                                                      ║
+║      import importlib.util, pathlib, re, difflib                             ║
+║      sp = importlib.util.spec_from_file_location('f', 'scripts/oldalgyartas/fejlec.py')
+║      m = importlib.util.module_from_spec(sp); sp.loader.exec_module(m)       ║
+║      web = re.search(r'<a class="skip-link".*?</header>',                    ║
+║          pathlib.Path('_web/index.html').read_text(encoding='utf-8'), re.S).group(0)
+║      print('\\n'.join(difflib.unified_diff(web.splitlines(),                  ║
+║          m.epit('').splitlines(), 'web', 'gen', lineterm='', n=0)))          ║
+║      EOF                                                                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+A 2026-09-08-i fejléc-átdolgozás (nyilak elhagyása, CTA-kapszula, tematikus
+Megoldások-hasábok, rövidített hub-feliratok) ITT MÁR BENNE VAN.
+
+
 MIÉRT KELL EZ A SZKRIPT. A fejléc 120 oldalon duplikálódik, és eddig a
 `sablon.py` egy meglévő aloldalból emelte ki — tehát a szerkezete csak úgy volt
 módosítható, ha valaki kézzel átírja az egyik oldalt, majd mindent újragenerál.
@@ -35,21 +65,35 @@ WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
 # A `None` URL azt jelenti, hogy a hubnak nincs saját oldala; ilyenkor a
 # felirat nem hivatkozás, csak oszlopcím.
 #
-# A TERMÉKCSALÁDOK a fában a technológia ALATT vannak (Biológiai → A.B.Clear),
-# de a panelen saját hasábot kapnak, mert hat-hét aloldaluk van — beágyazva
-# olvashatatlan lenne. Az alárendeltséget a felirat elején álló ↳ jelzi, és az,
-# hogy közvetlenül a szülőjük után állnak.
+# A TERMÉKCSALÁDOK a fában a technológia ALATT vannak (Biológiai → A.B.Clear).
+# A panelen a SZÜLŐJÜK ALATT állnak, behúzva (`mega-csoport-gyerek`) — korábban
+# saját hasábot kaptak egy `↳` nyíllal, de a rács sorfolytonos kiosztása miatt a
+# szomszédjuk lehetett egy másik technológia is, és az A.B.Clear úgy festett,
+# mintha az EPURECO testvére volna. A hovatartozást a GYEREK halmaz mondja meg.
+# ---------------------------------------------------------------------------
+# Azok a hubok, amelyek az ELŐTTÜK álló hub gyerekei (termékcsalád).
+GYEREK = {'megoldasok/ab-clear', 'megoldasok/epureco'}
+
+# Ahol gyerek is van, ott a hasábok TEMATIKUSAK: egy hasáb több csoportot tart,
+# és a gyerek a szülője alatt marad. A többi kategóriában maradt a régi kiosztás
+# (egy hub = egy hasáb), mert ott nincs mit összetartani.
+HASAB_TEMAK = {
+    'Megoldások': [['megoldasok/', 'megoldasok/nagyobb-es-kozossegi-rendszerek',
+                    'megoldasok/alternativak'],
+                   ['megoldasok/biologiai-szennyviztisztitas', 'megoldasok/ab-clear'],
+                   ['megoldasok/oldomedences-rendszer', 'megoldasok/epureco']],
+}
 # ---------------------------------------------------------------------------
 MENU = [
     ('Helyzetem', 'helyzetem/', [
-        ('nav-kozcsatorna', 'Nincs elérhető közcsatorna',
+        ('nav-kozcsatorna', 'Nincs közcsatorna',
          'helyzetem/nincs-elerheto-kozcsatorna', [
              ('Milyen megoldási lehetőségek vannak?', 'helyzetem/milyen-megoldasi-lehetosegek-vannak'),
              ('Közcsatorna vagy egyedi rendszer?', 'helyzetem/kozcsatorna-vagy-egyedi-rendszer'),
              ('Milyen adatokat kell összegyűjteni?', 'helyzetem/milyen-adatokat-kell-osszegyujteni'),
              ('Projektindító / helyzetfelmérő', 'helyzetem/projektindito'),
          ]),
-        ('telek', 'Telekvásárlás vagy új építés előtt állok',
+        ('telek', 'Telekvásárlás, új építés',
          'helyzetem/telekvasarlas-vagy-uj-epites-elott-allok', [
              ('Alkalmas lehet-e a telek?', 'helyzetem/alkalmas-lehet-e-a-telek'),
              ('Talaj, talajvíz és vízelhelyezés', 'helyzetem/talaj-talajviz-es-vizelhelyezes'),
@@ -57,7 +101,7 @@ MENU = [
              ('Telekadat-ellenőrzőlista', 'helyzetem/telekadat-ellenorzolista'),
              ('Helyszíni felmérés', 'helyzetem/helyszini-felmeres'),
          ]),
-        ('emeszto', 'Meglévő emésztőt szeretnék kiváltani',
+        ('emeszto', 'Emésztő kiváltása',
          'helyzetem/meglevo-emesztot-szeretnek-kivaltani', [
              ('Mikor indokolt a csere?', 'helyzetem/mikor-indokolt-a-csere'),
              ('Emésztő, oldómedence vagy biológiai?', 'helyzetem/emeszto-oldomedence-vagy-biologiai'),
@@ -65,7 +109,7 @@ MENU = [
              ('Meglévő rendszer felmérése', 'helyzetem/meglevo-rendszer-felmerese'),
              ('Költség- és projektbrief', 'helyzetem/koltseg-es-projektbrief'),
          ]),
-        ('nyaralo', 'Nyaraló vagy szezonálisan használt ingatlan',
+        ('nyaralo', 'Nyaraló, szezonális ház',
          'helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan', [
              ('Mit jelent az időszakos terhelés?', 'helyzetem/mit-jelent-az-idoszakos-terheles'),
              ('Biológiai rendszer vagy oldómedence?', 'helyzetem/biologiai-rendszer-vagy-oldomedence'),
@@ -73,7 +117,7 @@ MENU = [
              ('Szezonális esettanulmányok', 'helyzetem/szezonalis-esettanulmanyok'),
              ('Használati profil elkészítése', 'helyzetem/hasznalati-profil'),
          ]),
-        ('epitkezes', 'Családi házhoz keresek rendszert',
+        ('epitkezes', 'Családi ház',
          'helyzetem/csaladi-hazhoz-keresek-rendszert', [
              ('Megoldástípus kiválasztása', 'helyzetem/megoldastipus-kivalasztasa'),
              ('Telekalkalmasság', 'helyzetem/telekalkalmassag'),
@@ -81,7 +125,7 @@ MENU = [
              ('Költség és telepítés', 'helyzetem/koltseg-es-telepites'),
              ('Ajánlatkérési készültség', 'helyzetem/ajanlatkeresi-keszultseg'),
          ]),
-        ('nav-vallalkozas', 'Vállalkozás vagy intézmény számára keresek megoldást',
+        ('nav-vallalkozas', 'Vállalkozás, intézmény',
          'helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast', [
              ('Panziók és szálláshelyek', 'helyzetem/vallalkozas-panziok-es-szallashelyek'),
              ('Éttermek és nagykonyhák', 'helyzetem/vallalkozas-ettermek-es-nagykonyhak'),
@@ -90,18 +134,18 @@ MENU = [
              ('Üzemek és speciális terhelések', 'helyzetem/vallalkozas-uzemek-es-specialis-terhelesek'),
              ('Szakmai projektbrief', 'helyzetem/vallalkozas-szakmai-projektbrief'),
          ]),
-        ('nav-szerviz', 'Már van rendszerem, segítségre van szükségem',
+        ('nav-szerviz', 'Már van rendszerem',
          'helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem', []),
     ]),
 
     ('Megoldások', 'megoldasok/', [
-        ('nav-attekintes', 'Megoldások áttekintése', 'megoldasok/', [
+        ('nav-attekintes', 'Áttekintés', 'megoldasok/', [
             ('Megoldástípusok összehasonlítása', 'megoldasok/megoldastipusok-osszehasonlitasa'),
             ('Melyik megoldás mikor megfelelő?', 'megoldasok/melyik-megoldas-mikor-megfelelo'),
             ('Kizáró és korlátozó feltételek', 'megoldasok/kizaro-es-korlatozo-feltetelek'),
             ('Megoldástípus-előszűrő', 'megoldasok/megoldastipus-eloszuro'),
         ]),
-        ('nav-biologiai', 'Biológiai szennyvíztisztítás',
+        ('nav-biologiai', 'Biológiai tisztítás',
          'megoldasok/biologiai-szennyviztisztitas', [
              ('Hogyan működik?', 'megoldasok/biologiai-hogyan-mukodik'),
              ('Kinek megfelelő?', 'megoldasok/biologiai-kinek-megfelelo'),
@@ -111,7 +155,7 @@ MENU = [
              ('Költségtényezők', 'megoldasok/biologiai-koltsegtenyezok'),
              ('Kapcsolódó esettanulmányok', 'megoldasok/biologiai-esettanulmanyok'),
          ]),
-        ('biologiai', '↳ A.B.Clear termékcsalád', 'megoldasok/ab-clear', [
+        ('biologiai', 'A.B.Clear', 'megoldasok/ab-clear', [
             ('Modellek és kapacitások', 'megoldasok/ab-clear-modellek-es-kapacitasok'),
             ('Műszaki adatok', 'megoldasok/ab-clear-muszaki-adatok'),
             ('Iszapzsákos technológia', 'megoldasok/ab-clear-iszapzsakos-technologia'),
@@ -127,13 +171,13 @@ MENU = [
             ('Szippantás és karbantartás', 'megoldasok/oldomedence-szippantas-es-karbantartas'),
             ('Kapcsolódó esettanulmányok', 'megoldasok/oldomedence-esettanulmanyok'),
         ]),
-        ('oldomedence', '↳ EPURECO termékcsalád', 'megoldasok/epureco', [
+        ('oldomedence', 'EPURECO', 'megoldasok/epureco', [
             ('Modellek és kapacitások', 'megoldasok/epureco-modellek-es-kapacitasok'),
             ('Műszaki adatok', 'megoldasok/epureco-muszaki-adatok'),
             ('Telepítési feltételek', 'megoldasok/epureco-telepitesi-feltetelek'),
             ('Dokumentumok', 'megoldasok/epureco-dokumentumok'),
         ]),
-        ('nav-kozossegi', 'Nagyobb és közösségi rendszerek',
+        ('nav-kozossegi', 'Nagyobb rendszerek',
          'megoldasok/nagyobb-es-kozossegi-rendszerek', [
              ('Kapacitási és projektkategóriák', 'megoldasok/nagyobb-kapacitasi-kategoriak'),
              ('Terhelési profil', 'megoldasok/nagyobb-terhelesi-profil'),
@@ -158,7 +202,7 @@ MENU = [
             ('Hogyan gyűjtsem össze a telekadatokat?', 'projekt-elokeszites/telekadatok-osszegyujtese'),
             ('Telek- és vízelhelyezési előszűrő', 'projekt-elokeszites/telek-es-vizelhelyezesi-eloszuro'),
         ]),
-        ('nav-vizelvezetes', 'Tisztított víz elhelyezése',
+        ('nav-vizelvezetes', 'Víz elhelyezése',
          'projekt-elokeszites/tisztitott-viz-elhelyezese', [
              ('Elszivárogtatás', 'projekt-elokeszites/elszivarogtatas'),
              ('Tisztítómező', 'projekt-elokeszites/tisztitomezo'),
@@ -221,7 +265,10 @@ def epit(elo=''):
     menuk = []
     for cim, katurl, hubok in MENU:
         az = slug(cim)
-        oszlopok = []
+        # Hubonként egy csoport (fejléc + aloldallista), URL szerint elérhetően.
+        csoportok = {}
+        burok_nelkul = {}
+        sorrend = []
         for ikon, hcim, hurl, alok in hubok:
             fej = (f'<a class="mega-link" href="{h(hurl)}">'
                    f'<span class="mega-ico" aria-hidden="true">'
@@ -235,17 +282,38 @@ def epit(elo=''):
             alista = ''
             if alok:
                 li = '\n'.join(
-                    f'                      <li><a class="mega-alink type-ui-caption" '
+                    f'                        <li><a class="mega-alink type-ui-caption" '
                     f'href="{h(u)}">{c}</a></li>' for c, u in alok)
-                alista = ('\n                    <ul class="mega-alista" role="list">\n'
-                          f'{li}\n                    </ul>')
-            oszlopok.append('                  <li class="mega-oszlop">\n'
-                            f'                    {fej}{alista}\n'
-                            '                  </li>')
+                alista = ('\n                      <ul class="mega-alista" role="list">\n'
+                          f'{li}\n                      </ul>')
+            oszt = 'mega-csoport mega-csoport-gyerek' if hurl in GYEREK else 'mega-csoport'
+            kulcs = hurl or hcim
+            # A csoport-burok CSAK a tematikus hasábokhoz kell; ahol egy hub =
+            # egy hasáb, ott fölösleges elem volna a fában, ezért két alakot
+            # tartunk el ugyanabból.
+            csoportok[kulcs] = ('                    <div class="' + oszt + '">\n'
+                                f'                      {fej}{alista}\n'
+                                '                    </div>')
+            burok_nelkul[kulcs] = ('                    ' + fej
+                                   + alista.replace('\n                      ', '\n                    ')
+                                           .replace('\n                        ', '\n                      '))
+            sorrend.append(kulcs)
+
+        temak = HASAB_TEMAK.get(cim)
+        if temak:
+            # Tematikus hasábok: egy hasáb több csoportot tart.
+            oszlopok = ['                  <li class="mega-oszlop">\n'
+                        + '\n'.join(csoportok[k] for k in hasab)
+                        + '\n                  </li>' for hasab in temak]
+        else:
+            # Régi kiosztás: egy hub = egy hasáb, a rács tölti sorfolytonosan.
+            oszlopok = ['                  <li class="mega-oszlop">\n'
+                        + burok_nelkul[k]
+                        + '\n                  </li>' for k in sorrend]
         menuk.append(f'''          <li class="nav-item">
-            <button type="button" class="nav-link nav-trigger type-ui-button"
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-{az}">
-              {cim}<span class="nav-caret" aria-hidden="true"></span>
+              {cim}
             </button>
             <div class="mega" id="mega-{az}" hidden>
               <div class="mega-inner">
@@ -266,9 +334,9 @@ def epit(elo=''):
             f'                      <li><span class="mega-alink mega-alink-passziv '
             f'type-ui-caption">{t}</span></li>' for t in tervek)
         menuk.append(f'''          <li class="nav-item">
-            <button type="button" class="nav-link nav-trigger type-ui-button"
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-{az}">
-              {cim}<span class="nav-caret" aria-hidden="true"></span>
+              {cim}
             </button>
             <div class="mega" id="mega-{az}" hidden>
               <div class="mega-inner">
@@ -355,7 +423,7 @@ def epit(elo=''):
     </a>
 
     <details class="nav-drawer" open>
-      <summary class="nav-toggle type-ui-button">Menü</summary>
+      <summary class="nav-toggle type-ui-nav">Menü</summary>
       <nav class="site-nav" aria-label="Fő navigáció">
         <ul class="nav-list" role="list">
 {chr(10).join(menuk)}
@@ -385,8 +453,15 @@ def epit(elo=''):
             data-tema-tipp>Váltás sötét témára</span>
     </div>
 
-    <a class="btn btn-primary header-cta" href="{h('kapcsolat')}">
-      <span class="action-arrow" aria-hidden="true">&rarr;</span>Konzultációt kérek</a>
+    <!-- CTA-KAPSZULA. Három lépés egyetlen sínben, a döntés sorrendjében:
+         konzultáció → ajánlat → megrendelés. A csúszó jelölő díszítés, ezért
+         `aria-hidden`; a helyzetét CSS mondja meg (app.css 5.12d). -->
+    <div class="cta-kapszula" role="group" aria-label="Kapcsolatfelvétel">
+      <span class="cta-jelolo" aria-hidden="true"></span>
+      <a class="cta-szegmens" href="{h('konzultacio')}">Konzultáció</a>
+      <a class="cta-szegmens" href="{h('ajanlat')}">Ajánlat</a>
+      <a class="cta-szegmens" href="{h('megrendeles')}">Megrendelés</a>
+    </div>
   </div>
   </div>
 

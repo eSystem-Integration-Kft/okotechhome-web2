@@ -31,6 +31,267 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ## [Nem kiadott]
 
+**A hibaüzenet lebeg, a lap alja levegőt kapott, és Öko megtanulta a két új
+lapot.**
+
+- **Lebegő figyelmeztetés.** A hibabuborék kikerült a folyamból
+  (`position:absolute`, `pointer-events:none`): nem tol el semmit, tehát gépelés
+  közben nem mozdul el a lap a kitöltő alól, és a mögötte lévő mezőre rajta
+  keresztül is rá lehet kattintani. Mérve: a lap eltolódása 0 képpont.
+  A hibaüzenetbe többé nem kerül bele a címke csillaga és a súgó szövege — a
+  címke másolatából olvassuk ki, nem szövegcserével.
+- **Záró blokk.** A beküldő gomb, az állapotjelző és a jogi mondat saját, elválasztott
+  blokkba került: a megrendelőlapon az aláírásvonal és a gomb között most 64 képpont
+  a tér, nem 8. A beküldés külön mozdulat, nem a kitöltés folytatása.
+- **Öko felokosítva.** A tartalomindex újraépült (**127 lap, 774 szakasz**), és
+  benne van mindkét új lap — a megrendelőlap hat szakasza horgonnyal, hogy Öko a
+  lap MELYIK részére tudjon mutatni. Ehhez a megrendelőlap címsorszintjei
+  rendbe kerültek (a lap saját címe már nem ismételt címsor, a hat szakasz `h2`,
+  a feltételek öt pontja `h3`).
+- **Két új Öko-üzemmód** (`data-kalauz-mod="ajanlat"` és `"megrendeles"`): a
+  segéd mezőnként ismeri a két űrlapot — mit írjon a létszámhoz nyaralónál, mi a
+  helyrajzi szám szerepe, mit jelent a „szerelés nélkül", mikor kell adószám. A
+  megrendelőlapon a feltételekre mutat, de **jogilag nem értelmez**. A vezetési
+  szabályok is bővültek: ajánlatot csak akkor kínál, ha a látogatónak megvannak
+  az alapadatai, megrendelést pedig **csak érvényes ajánlat sorszámával**.
+  Élőben ellenőrizve a teszten, valódi AI-hívással.
+
+**Élő űrlapellenőrzés — piros csillag, buborékos hiba, és beküldés csak
+hibátlanul.** Új réteg (`assets/js/urlap-ellenorzes.js`) az ajánlatkérőn és a
+megrendelőlapon:
+
+- **A kötelező csillag piros** — ugyanabban a színben, amiben a hiba is
+  megszólal, mert ugyanarról szól.
+- **Hiba = piros keret + magyar mondat buborékban**, a mező alatt, `role="alert"`
+  és `aria-describedby` kísérettel. Színnel közölt információ önmagában nem elég.
+- **Egyedi ellenőrzések.** Az **adószám** nem csak formátumra: a NAV
+  ellenőrzőszám-algoritmusa (9-7-3-1-9-7-3 súlyok) is lefut, tehát az elgépelt
+  szám már itt kiderül, nem a számlázásnál — ellenőrizve az ÖkoTech-Home saját
+  adószámán (12268687-2-11). A **telefon** nem formátumot ír elő (+36, 06 és
+  szóközös alak is jó), csak azt nézi, visszahívható-e; az **e-mail**, a szám- és
+  dátummezők a böngésző szabályait használják, magyar üzenettel.
+- **A beküldő gomb inaktív, amíg hiányzik valami** — a **nyilatkozatokat is
+  beleértve**: a feltételek, az e-számla és az adatkezelés elfogadása nélkül nem
+  aktiválódik. Nem `disabled`, hanem `aria-disabled`: a gomb fókuszálható marad,
+  a képernyőolvasó bejelenti, és **megnyomva megmutatja az összes hiányt**, majd
+  odaugrik az elsőhöz. A letiltott gomb néma zsákutca lenne.
+- **Hibát csak „érintett" mezőn mutat.** Az üres űrlap nem hibás, csak
+  kitöltetlen — piros mezőkkel fogadni a látogatót ellenséges.
+
+**A kelt az aláírás fölé került.** A dátummező a fejlécben állt, miközben a 6.
+szakasz címe „Kelt és aláírás" volt — magyar okiraton a *„Kelt: hely, dátum"* az
+aláírás fölött a helye. Mellé került a **település** mezője is (a szerver is
+kéri), a dátum pedig a mai napra töltődik előre. A fejlécben csak a hivatkozott
+árajánlat maradt.
+
+**Kereszthivatkozások javítva.** A lap „5. szakasz"-ra hivatkozott a feltételek
+helyett (azok a 4.-ben állnak), a kártyaszövegek pedig a feltételek belső
+pontjaira „szakaszként". Mostantól a dokumentum saját részei a **szakaszok**
+(1–6), a feltételeken belüli számozás a **pontok** (1–5) — és minden hivatkozás
+a helyére mutat.
+
+**Mérföldkő-idővonal (Történetünk) igazítása.** A vonal és a körök
+matematikailag egy tengelyen álltak, a rács viszont fél képpontra teszi a
+jelölő-hasábot, és a böngésző a 2px-es tömör sávot máshova kerekíti, mint a
+14px-es, élsimított gyűrűt — innen a látható elcsúszás. Közös `left:50%` +
+`translate:-50%` mellett mindkettő ugyanazt a kerekítést kapja. A pont ezenfelül
+pontosan a **cím első sorának közepén** ül (`0.5lh`), nem pár képponttal alatta.
+
+**A két új lap csiszolása — a kapszula marad, ahol vagyunk, és a jogi szöveg
+magyarázza magát.**
+
+- **A kapszula nem ugrik vissza.** A saját lapján az adott szegmens kapja az
+  `aria-current="page"`-et, és a pirula ott is marad, ha az egér elhagyja a
+  fejlécet. Eddig minden lapon a „Konzultáció" volt a nyugalmi helyzet — a
+  megrendelőlapon állva ez azt sugallta, valahol máshol járunk.
+- **Súgó-buborékok az űrlapokon** (13 helyen). Nem `title`: valódi gomb, amit a
+  `Tab` is elér, érintésre is működik, és nem másfél másodperc múlva jelenik meg.
+  Ott van, ahol a kitöltő elakad — mi az a helyrajzi szám, mit írjon a létszámhoz
+  nyaralónál, miért kell az ajánlat sorszáma, mit jelent a „szerelés".
+- **A jogi hivatkozás megmutatja magát.** A szövegbeli `[3]` felső index
+  ráállásra buborékban mutatja a jogszabály nevét — a szöveget a
+  `dokumentum.js` a lábjegyzetből emeli át, tehát EGY helyen él, nem csúszhat el.
+  Kattintásra sima gördüléssel odavisz, és a lábjegyzet **felvillan**, hogy
+  látszódjon, hova érkeztünk.
+- **Szerződéstipográfia.** A feltételszöveg saját, kisebb fokozatot és tágabb
+  sorközt kapott, a szakaszcímek elé vékony zöld vonal került, a felsorolások
+  visszakapták a jelölőiket (a lap `ul{list-style:none}` alapszabálya alól
+  kivéve), és a lábjegyzet külön, keretes panelbe került.
+- **A választókártyák jelölője a kártya közepén áll**, nagyobb körrel; a bejelölt
+  kártya belső kerettel is jelöl. Az ajánlatkérő űrlapszekciója ugyanazt a
+  hátteret kapta, mint a konzultációé és a megrendelőé — a három lap így egy
+  család.
+
+**Ajánlatkérés és megrendelés — két új lap, két új végpont.** A CTA-kapszula
+két szegmense eddig a kapcsolati lapra mutatott; mostantól saját oldala van
+mindkettőnek.
+
+- **`/ajanlat` — Ajánlatkérés.** Kapcsolat, ingatlan (típus, létszám, jelenlegi
+  megoldás, irány, határidő) és **melléklet**: helyszínrajz, tervrajz, korábbi
+  ajánlat. A lap kimondja, mit tartalmaz az ajánlat, és **mit nem** (engedélyezés,
+  tervezői és hatósági díjak, földmunka).
+- **`/megrendeles` — Megrendelőlap.** Az `okotechhome.hu/formok/megrendel.php`
+  átdolgozása **okirattá**: A4-nyi lap, kiállítói fejléc, sorszámozott szakaszok,
+  kártyás szolgáltatásválasztás (kivitelezés · üzembe helyezés · szállítás),
+  mellékletek, a **teljes megrendelési feltételek** jogszabályi lábjegyzetekkel
+  (Ptk., 45/2014. Korm. r., 151/2003. Korm. r., vízgazdálkodási tv., Áfa tv.,
+  GDPR), nyilatkozatok és aláírásblokk. **Nyomtatásban** a lap körül minden
+  eltűnik: `@page A4`, 14 mm margó, a szakaszok nem törnek ketté.
+- **A kötelező nyilatkozatok a szerveren is kötelezők.** A feltételek elfogadása
+  nélkül érkező megrendelést a végpont visszautasítja — a kliensoldali `required`
+  megkerülhető, ez nem. A visszaigazoló levél kimondja, hogy a szerződés az
+  ÖkoTech-Home **külön visszaigazolásával** jön létre.
+- **Mellékletkezelés.** Új `OthVedelem::fajlLista()`: a `name="fajl[]"` mezőt
+  fájlokra bontja, és mindegyiket ugyanazon az ellenőrzésen futtatja át
+  (kiterjesztés + a tartalom valódi MIME-típusa, 10 MB, 3 darab). Kliensoldalon
+  az `assets/js/dokumentum.js` már a kiválasztáskor kiírja a nevet, a méretet, és
+  megállítja a beküldést, ha valami túl nagy.
+- **A postaláda-kulcs hiánya nem hiba:** mindkét végpont a `kapcsolat`
+  postaládába esik vissza, tehát a beküldés a szerver `config.php`-jának
+  módosítása nélkül is megérkezik.
+
+> **Jogi átnézés kell.** A feltételszöveg az eredeti megrendelőlapról származik,
+> szerkesztve és tagolva; a lábjegyzetek tájékoztató hivatkozások. Élesítés előtt
+> nézze át ügyvéd — különösen az elállás kizárását, a kötbér- és tárolásidíj-
+> tételeket, valamint azt, hogy a berendezés a kötelező jótállási rendelet hatálya
+> alá tartozik-e.
+
+**A CTA-kapszula animált lett, és a menü tematikusan átrendezve.**
+
+- **Csúszó jelölő.** Nem a szegmensek gyulladnak ki egyenként: egy pirula mozog a
+  mutató alá. Három egyenlő hasáb, így a mozgás egyszerű eltolás (0 / 100% /
+  200%) — nincs mit mérni futásidőben, a csúszás CSS-ből pontos. A pirula a sín
+  **belső ívét követi**: kívül teljes ív, belül egyenes él; középen mindkét oldala
+  egyenes. Nem kell köré hézag, a felszabaduló hely a feliratoké.
+- **Három állapot.** Nyugalomban zöld az első szegmens; **ráállásra világos** lesz
+  a pirula (a zöld felületen a sötétzöld felirat alig volt olvasható);
+  **megnyomásra** visszavált zöldre.
+- **A termék a technológiája alatt.** A Megoldások panelben az A.B.Clear és az
+  EPURECO eddig külön hasábot kapott egy `↳` nyíllal — a rács sorfolytonos
+  kiosztása miatt viszont a szomszédjuk lehetett egy másik technológia is, és az
+  A.B.Clear úgy festett, mintha az EPURECO testvére volna. Mostantól a szülőjük
+  alatt állnak, behúzva; a nyíl elmaradt (a képernyőolvasó eddig fel is olvasta).
+  A panel három **tematikus** hasábra rendeződött, és 744-ről **691 képpontra**
+  rövidült.
+- **A `scripts/oldalgyartas/fejlec.py` átvezetve** (nyilak, kapszula, tematikus
+  hasábok, rövidített hub-feliratok) — de a Tudástár/Eredmények panel és a Rólunk
+  kategória **még az előző kézi átvezetésből hiányzik**, ezért a szkript egyelőre
+  nem futtatható. Figyelmeztetés és ellenőrző parancs a fájl fejlécében.
+
+**A feltöltés (`scripts/feltoltes.sh`) működésbe állt — három hibával, amitől
+eddig nem működhetett.**
+
+- **Rossz távoli útvonal.** A szkript a `/` gyökérbe tükrözött volna, csakhogy
+  az FTP-bejelentkezés a cPanel-fiók HOME könyvtárába érkezik (`.bashrc`,
+  `mail/`, `logs/`), nem a webgyökérbe. A kiszolgált tartalom a `public_html`
+  alatt van, a tesztoldal pedig annak alkönyvtára: **`/public_html/_tst`**
+  (= tst.okoth.hu), az éles a **`/public_html`**. Az eredeti beállítással a
+  webhely a fiók home-jába szóródott volna szét.
+- **A tanúsítványlánc nem állt össze.** A tárhely FTP-kiszolgálója csak a saját
+  tanúsítványát küldi, a köztes elemeket nem — így az `ssl:verify-certificate
+  true` jogosan utasította vissza a kapcsolatot. A hiányzó lánc (Let's Encrypt
+  YR2 → ISRG Root YR → ISRG Root X1) bekerült a repóba: `scripts/ftps-ca.pem`.
+  Az ellenőrzés **nem lett kikapcsolva** — enélkül a kapcsolat közbeékelhető, az
+  FTP-jelszóval együtt. Ráadásul a tanúsítvány a KISZOLGÁLÓ nevére szól
+  (`cullinan.versanus.eu`), nem a webhelyére: a kapcsolat ezért arra a névre
+  megy, a kulcskarika-bejegyzés viszont marad `okoth.hu`.
+- **A jelszó kiírásra került.** Az lftp minden műveletet teljes URL-lel naplóz,
+  benne a `felhasználó:jelszó@` résszel — próbamenetben soronként. A kimenet
+  mostantól átmegy egy kitakaró szűrőn (`oth:***@`), a hitelesítés pedig az
+  `open -u`-val az lftp saját szkriptjébe került, nem a parancssorba (ott a `ps`
+  kilistázná).
+
+Emellett a törlő tükrözés (`--torol`) kizárja azt, amit nem ő tesz a szerverre:
+`_tst` (az éles menetben), `.user.ini`, `php.ini`, `cgi-bin/`, `.well-known/`
+(a tanúsítvány-megújítás munkaterülete), valamint a csak szerveren élő
+`sitemap.html` és `_pic/`.
+
+**A fejléc rugalmas lett, a megamenü pedig hoverre nyílik.** A menüsor eddig fix
+töréspontokból élt — a hetedik menüpont után ez tördeléshez vezetett. Mostantól
+**mérés** dönt, nem képpontérték.
+
+- **Sűrűségi fokozatok (`data-nav`).** A sor `nowrap`, és három fokozatban tud
+  szűkülni: `tag` (15px betű, 16px köz, 48px logó, 80px sáv) → `tomor` (14px,
+  8px) → `suru` (13px, 8px, 40px logó, **60px sáv** — a fejléc a
+  vastagságából is enged) → és csak ezután `fiok`, a lenyitható menü. A `site.js`
+  sorra felveszi a fokozatokat, és mindegyiknél megkérdezi a böngészőt, elfér-e a
+  sor; az elsőt tartja meg, amelyik igen. **Új menüpont tehát nem tördel**, és
+  nincs mit áthangolni: mérve a mai hét menüponttal 1440-től tág, 1300-tól tömör,
+  1160-tól sűrű, alatta fiók — nyolcadik menüponttal ugyanez magától feljebb
+  csúszik.
+- **A logó nem zsugorodik többé** (`flex:none`). Rugalmas elemként a böngésző őt
+  nyomta össze először — 1180 képpontnál 154-ről **21**-re —, mert egy `img`
+  engedelmesebb minden másnál a sorban. A szóvédjegy olvashatatlan csíkká vált, a
+  menüsor pedig „elfért", holott nem fért el. Ez tette hazuggá a mérést is.
+- **A megamenü egérrel ráállásra nyílik.** Három időzítés választja el a
+  használhatót a bosszantótól: **120 ms** szándék-küszöb (az áthaladó egér ne
+  nyisson panelt), **260 ms** türelem záráskor (a menüpont és a panel közti 16
+  képpontos rést az egérnek át kell szelnie), és **azonnali váltás** szomszédos
+  menüpontra. Érintésre és billentyűvel változatlanul a kattintás (Enter/Space)
+  nyit; kattintással zárt panel a menüpont elhagyásáig nem nyílik vissza hoverre.
+- **Látszik, melyik menüponté a panel.** A nyitott menüpont felirata alatt
+  középről nő ki egy 2 képpontos aláhúzás (`--nav-jel`), a felülete és a panel
+  csúcsa mellé. A panel fejléce szóban is kimondja — a jelzés így nem csak
+  színnel közölt információ.
+- **Az animáció nyitásra 200 ms, zárásra 130.** A zárás csak eltakarít; ha
+  ugyanannyi ideig tart, a menü lomhának érződik. Panelváltáskor nincs lecsúszás,
+  csak 120 ms-os átúszás — különben a menüsor mentén mozgó egér alatt ugrálna a
+  panel.
+
+**CTA-kapszula a fejléc jobb szélén.** Az egyetlen „Konzultációt kérek" gomb
+helyén három lépés áll egyetlen sínben, a döntés sorrendjében: **Konzultáció →
+Ajánlat → Megrendelés**. A forma a telefonos szegmensvezérlő mintája — sín, benne
+lekerekített szegmensek —, mert három egyenrangú gomb egymás mellett három
+CTA-nak látszana; a kapszula egyetlen elemként olvasódik, amin belül egy kiemelt
+van. 288×44 képpont (a régi gomb 198 volt), 13 képpontos felirattal, és a
+sűrűségi fokozatokkal együtt szűkül: nem ő viszi fiókba a menüsort. ≤640px-en a
+fejléc második sorába kerül, három egyenlő hasábbal. Mind a **126 oldalon**
+átvezetve.
+
+> **Nyitott kérdés:** az „Ajánlat" és a „Megrendelés" egyelőre a `/kapcsolat`
+> lapra mutat — ilyen oldal még nincs. Amint megvan a cél (ajánlatkérő űrlap,
+> megrendelőlap), a három `href` cseréje egy sor.
+
+**A fejléc négy hibája — Windows-Chrome-on látszottak igazán.** A hetedik
+menüpont (Rólunk) óta a menüsor **kétsoros** volt, a logó mellett egy oda nem
+illő „Részletek" felirat állt, a megamenü panelje pedig **görgetősávot** kapott
+akkor is, amikor három sor volt benne. Négy különálló ok, mind a fejlécben — és
+három közülük macOS-en láthatatlan, mert ott a görgetősáv lebeg, és a `details`
+másképp esik vissza.
+
+- **A „Részletek" felirat a logó mellett.** A menüt tartó `<details>`
+  összefoglalója asztali nézetben `display:none` volt. Ha a szerző `summary`-je
+  nem kap dobozt, a Chrome a **saját alapértelmezett összefoglalóját** rajzolja
+  ki helyette: háromszög és a böngésző nyelvén „Részletek". A `summary`
+  mostantól dobozban marad, csak nulla méretű és `visibility:hidden` — így a
+  fókuszsorból és a képernyőolvasóból is kiesik, szűk nézetben pedig
+  változatlanul ez a „Menü" gomb.
+
+- **Görgetősávok a megamenüben.** Nem a tartalom volt hosszú: a panel jobb alsó
+  sarkában ülő **véset** (a logó jelrajza háttérdíszként) `-24px`-kel a panel
+  pereme alá lógott. A rajzot a túlcsordulás-vágás levágta, a **kigörgethető
+  terület** viszont megnőtt vele — vízszintesen és függőlegesen is, minden
+  panelen. A véset most beljebb ül (`right/bottom:1px`), teljes egészében
+  látszik, és nem csordul túl semmin. A panel emellett `overflow-x:clip` és
+  `scrollbar-width:thin` lett: vízszintesen soha nincs mit görgetni, függőleges
+  csúszka pedig csak akkor jelenik meg, ha a tartalom tényleg nem fér el
+  (900 képpontnál alacsonyabb ablakban a legnagyobb, „Megoldások" panel ilyen).
+
+- **A menüsor újra egy sor.** A fejléc navigációja visszakapta a **saját, tágabb
+  töréspontját (1240px)** — a tabletétől (1024px) elszakadva, ahogy a
+  nyelvváltó idején is állt. A hét felirat 14 képpontos betűvel, 8px
+  oszlopközzel 665 képpont; a logó (154), a témaváltó (64), a CTA (198), a
+  köztük lévő rések és a két oldalsó margó mellett ehhez **1225 képpont** kell.
+  1025 és 1409 között tehát a sor menthetetlenül tördelt volt — ott mostantól a
+  lenyitható panel jön. 1240 és 1439 között a betű 14px, az oszlopköz 8px;
+  1440-től marad a szellős 15px/16px. A `site.js` lekérdezése (`min-width:
+  1240px`) együtt mozog a CSS-sel — ez a két érték nem csúszhat el egymástól.
+
+- **Almenü-jelző nyilak eltávolítva** — 126 oldalról 756 darab. Menüpontonként
+  16 képpontot vittek el (nyíl + rés), összesen ~96-ot: pont annyit, amennyin a
+  sor egy- vagy kétsoros. A jelzés szerepét az állapot veszi át: a nyitott
+  menüpont felületet kap, és a panel csúcsa mutat rá.
+
 **Rólunk fül a menüben, és a holt menütételek élesítve.** A Tudástár és az
 Eredmények fül **helykitöltő panel** volt — „Ez a szakasz még készül", passzív
 `<span>`-ekkel linkek helyett. Akkor készültek, amikor tényleg nem volt mögöttük

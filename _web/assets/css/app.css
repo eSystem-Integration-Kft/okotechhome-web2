@@ -350,9 +350,14 @@
     --header-border:var(--border);
     --header-shadow:var(--shadow-1);
     --nav-text:var(--text-primary);
+    /* A NYITOTT MENÜPONT JELE (aláhúzás a felirat alatt). Világos felületen a
+       sötétebb zöld a kontrasztos — a `--primary` fern túl halvány volna egy
+       2 képpontos vonalhoz. */
+    --nav-jel:var(--primary-active);
     /* A fejléc teljes magassága, kizárólag skálaértékekből:
-       kontaktsáv (--space-48) + fő sáv (48px logó + 2 × --space-16). */
-    --header-h:calc(var(--space-48) + var(--space-48) + var(--space-32));
+       kontaktsáv (--space-48) + fő sáv (logó + 2 × sávtérköz). A logó és a
+       térköz a sűrűségi fokozattal változik, ezért TOKENBŐL számol. */
+    --header-h:calc(var(--space-48) + var(--logo-magassag) + 2 * var(--fejlec-terkoz));
 
     /* hero */
     /* Lágy folt (veil) a szöveg mögé: ellipszis, amely MINDEN irányban elhal —
@@ -474,6 +479,8 @@
     /* Sötét témában a mélységet a felület-lépcső viszi, nem az árnyék (3. fejezet). */
     --header-shadow:none;
     --nav-text:var(--text-primary);
+    /* Sötét felületen fordul a viszony: ott a világosabb fern a jól látható. */
+    --nav-jel:var(--color-fern);
 
     --hero-veil:color-mix(in srgb,var(--canvas) 90%,transparent);
     --hero-veil-soft:color-mix(in srgb,var(--canvas) 64%,transparent);
@@ -1087,6 +1094,57 @@
   .topbar-icon{color:var(--topbar-icon)}
   .topbar-sep{color:var(--text-tertiary)}
 
+  /* ===== A MENÜSOR SŰRŰSÉGI FOKOZATAI =====
+     A fejlécben a hely a szűkös erőforrás, és a menüpontok száma NŐNI fog.
+     A sor ezért három fokozatban tud szűkülni, és csak azután adja át a helyét
+     a fióknak (hamburger). A fokozat nem a képernyőszélességből következik,
+     hanem MÉRÉSBŐL: a `site.js` végigpróbálja a fokozatokat, és a legtágabbat
+     választja, amelyikben a sor még egyetlen sorban elfér. Új menüpont, hosszabb
+     felirat, más betűkészlet — mind magától érvényesül, nincs mit áthangolni.
+
+       tág   — 15px betű, 16px köz, 48px logó: az alapállapot;
+       tömör — 14px betű, 8px köz: a feliratok maradnak, a levegő fogy;
+       sűrű  — 13px betű, 8px köz, 40px logó, alacsonyabb sáv: a fejléc
+               vastagságából is enged, ahogy a magasságából;
+       fiók  — a sor sehogy sem fér el: lenyitható panel (a 6. RESPONSIVE-ban).
+
+     JS NÉLKÜL a `data-nav` attribútum sosem kerül ki, és a fokozatot a
+     médialekérdezés választja (6. RESPONSIVE) — pontosan úgy, ahogy a mérés
+     tenné a mai hét menüponttal. A `:root:not([data-nav])` őrszem ezért van a
+     médiablokkokon: amint a mérés megszólal, a lekérdezés elhallgat. */
+  :root{
+    --nav-koz:var(--space-16);
+    --nav-belso:var(--space-4);
+    --logo-magassag:var(--space-48);
+    --fejlec-terkoz:var(--space-16);
+    --fejlec-res:var(--space-16);
+    --kapszula-betu:13px;
+    --kapszula-magassag:36px;
+    --kapszula-terkoz:14px;
+    /* A sín belső tere: ennyivel ül beljebb a csúszó pirula minden oldalon. */
+    --kapszula-sin:3px;
+    /* Az „egyenes" él nem éles sarok: 4 képpont épp annyi, hogy a levágott
+       oldal egyenesnek lássék, de ne vágja meg a szemet a teljes ív mellett. */
+    --kapszula-el:4px;
+  }
+  :root[data-nav="tomor"]{
+    --type-ui-nav-size:14px;
+    --nav-koz:var(--space-8);
+    --fejlec-res:var(--space-8);
+    --kapszula-terkoz:12px;
+    --kapszula-magassag:34px;
+  }
+  :root[data-nav="suru"]{
+    --type-ui-nav-size:13px;
+    --nav-koz:var(--space-8);
+    --fejlec-res:var(--space-8);
+    --logo-magassag:var(--space-40);
+    --fejlec-terkoz:var(--space-8);
+    --kapszula-betu:12px;
+    --kapszula-terkoz:10px;
+    --kapszula-magassag:32px;
+  }
+
   /* Fő sáv: logó — navigáció — CTA */
   .header-inner{
     /* A megamenü VISZONYÍTÁSI PONTJA — a panel a konténer tartalmi szélességét
@@ -1097,37 +1155,157 @@
        sor, csak hat menüpont, két kapcsoló és egy gomb — ezeknek a hely kell,
        nem a mértéktartás. Enélkül a sor széles képernyőn is tördelt. */
     max-width:var(--header-container);margin-inline:auto;padding-inline:var(--header-gutter);
-    min-height:var(--topbar-h);padding-block:var(--space-16);
-    display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);
+    min-height:var(--topbar-h);padding-block:var(--fejlec-terkoz);
+    display:flex;align-items:center;justify-content:space-between;gap:var(--fejlec-res);
   }
-  .site-logo{display:inline-flex;align-items:center;text-decoration:none}
+  /* A LOGÓ NEM ZSUGORODIK. Rugalmas elemként a böngésző a képet nyomta össze
+     először — 1180 képpontnál 154-ről 21-re —, mert egy `img` engedelmesebb
+     minden másnál a sorban. A szóvédjegy így olvashatatlan csíkká vált, a
+     menüsor pedig „elfért", holott nem fért el. A `flex:none` teszi a mérést
+     is igazzá: ha nincs hely, az a menüsoron látszik meg, nem a logón. */
+  .site-logo{display:inline-flex;align-items:center;text-decoration:none;flex:none}
   /* A magasság a rögzített méret, a szélességet a rajzolat aránya adja. */
-  .site-logo img{display:block;height:var(--space-48);width:auto}
+  .site-logo img{display:block;height:var(--logo-magassag);width:auto}
   .site-logo:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:4px}
 
   .nav-drawer{display:flex;align-items:center}
-  /* Asztali nézetben a lenyitó gomb nem kell: a `details` nyitva marad. */
-  .nav-toggle{display:none}
-  /* A menüpontok köze RUGALMAS, ahogy a betűméret is. 1241 képpontnál — ahol a
-     sor épp csak elfér — 8px, 1680-nál 24px. Széles képernyőn bőven van hely
-     (mérve 1630-nál 341 pixel maradt szabadon), és a menü ott zsúfoltnak
-     látszott; a szűk végén viszont minden képpont számít, ezért ott marad a
-     korábbi érték. A menüpontok 4px belső terével együtt két felirat között
-     16-tól 32 képpontig terjed a távolság. */
-  .nav-list{display:flex;flex-wrap:wrap;align-items:center;column-gap:var(--space-16)}
+  /* Asztali nézetben a lenyitó gomb nem kell: a `details` nyitva marad —
+     DE NEM `display:none`-nal. Ha a szerző `summary`-je nem kap dobozt, a
+     Chrome a SAJÁT alapértelmezett összefoglalóját rajzolja ki helyette: a
+     logó mellett megjelenik egy háromszög és a böngésző nyelvén a „Részletek"
+     felirat (Windows/Chrome), ami ráadásul a menüsort is második sorba töri.
+     Ezért a `summary` DOBOZBAN MARAD, csak nulla méretű és láthatatlan — a
+     `visibility:hidden` a fókuszsorból és a képernyőolvasóból is kiveszi. */
+  .nav-toggle{
+    display:block;visibility:hidden;list-style:none;
+    width:0;height:0;min-height:0;padding:0;margin:0;border:0;overflow:hidden;
+  }
+  .nav-toggle::marker{content:''}
+  .nav-toggle::-webkit-details-marker{display:none}
+  /* A MENÜSOR SOSEM KÉTSOROS — ezért `nowrap`. A tördelt fejléc rosszabb minden
+     alternatívánál: megnő a fejléc magassága, elcsúszik a megamenü igazítása, és
+     a második sorba került menüpont úgy néz ki, mintha nem is a menühöz
+     tartozna. A szűkülést a SŰRŰSÉGI FOKOZATOK veszik fel (lásd feljebb),
+     legvégül a fiók. */
+  .nav-list{display:flex;flex-wrap:nowrap;align-items:center;column-gap:var(--nav-koz)}
+  .nav-link,.nav-trigger{white-space:nowrap}
   .nav-link{
     display:inline-flex;align-items:center;min-height:44px;
-    /* 4px belső tér + 8px oszlopköz = 16px két felirat között. Szűkebb, mint a
-       lap többi felülete, de a fejlécben a hely a szűkös erőforrás. */
-    padding-inline:var(--space-4);border-radius:var(--r-md);
+    /* A belső tér adja a hover- és az aktív felület formáját; a köz a
+       feliratok közti távolságot. Kettejük összege a fokozattal fogy. */
+    padding-inline:var(--nav-belso);border-radius:var(--r-md);
     color:var(--nav-text);text-decoration:none;text-transform:uppercase;
     transition:background var(--dur-fast) var(--ease-out);
   }
   .nav-link:hover{background:var(--canvas);text-decoration:none}
   .nav-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px;border-radius:4px}
   .nav-link[aria-current="page"]{background:var(--surface-muted)}
-  .header-cta{flex:none}
+  /* ===== 5.12d CTA-KAPSZULA — három út egyetlen sínben =====
+     A fejléc jobb szélén nem egy gomb áll, hanem HÁROM LÉPÉS ugyanabban a
+     kapszulában: konzultáció → ajánlat → megrendelés. A sorrend maga az üzenet;
+     balról jobbra halad, ahogy a döntés is.
 
+     A JELÖLŐ EGYETLEN ELEM, ami CSÚSZIK. Nem a szegmensek gyulladnak ki
+     egyenként — egy pirula mozog a mutató alá. Így a kapszula egyetlen
+     szerkezetnek látszik, amiben egy dolog aktív, nem három egyforma gombnak.
+
+     A PIRULA A SÍN BELSŐ ÍVÉT KÖVETI: a szélső helyzetekben kívül teljes ív,
+     belül egyenes él; középen mindkét oldala egyenes. Ezért nem kell köré
+     hézagot hagyni — a pirula pontosan kitölti a sín belsejét, és a felszabaduló
+     helyet a feliratok kapják.
+
+     HÁROM EGYENLŐ HASÁB (`grid`), nem tartalomhoz szabott szélesség: a csúszás
+     így egyszerű eltolás (0 / 100% / 200%), nincs mit mérni futásidőben — a
+     mozgás JS nélkül, pusztán CSS-ből pontos. */
+  .cta-kapszula{
+    position:relative;flex:none;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    padding:var(--kapszula-sin);border-radius:999px;
+    background:var(--surface-sunken);border:1px solid var(--border);
+  }
+  /* A JELÖLŐ a szegmensek ALATT ül (z-index 0 vs 1), és a sín belsejét tölti ki. */
+  .cta-jelolo{
+    position:absolute;z-index:0;pointer-events:none;
+    top:var(--kapszula-sin);bottom:var(--kapszula-sin);left:var(--kapszula-sin);
+    width:calc((100% - 2 * var(--kapszula-sin)) / 3);
+    background:var(--primary);box-shadow:var(--shadow-1);
+    /* Alaphelyzet: az ELSŐ szegmensen áll — kívül ív, belül egyenes él. */
+    border-radius:999px var(--kapszula-el) var(--kapszula-el) 999px;
+    transition:translate var(--dur-ui) var(--ease-out),
+               border-radius var(--dur-ui) var(--ease-out),
+               background var(--dur-fast) var(--ease-out);
+  }
+  .cta-szegmens{
+    position:relative;z-index:1;
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:var(--kapszula-magassag);padding-inline:var(--kapszula-terkoz);
+    border-radius:999px;white-space:nowrap;text-decoration:none;
+    font-family:var(--font-body);font-weight:600;line-height:1;
+    font-size:var(--kapszula-betu);
+    color:var(--text-secondary);
+    transition:color var(--dur-fast) var(--ease-out);
+  }
+  .cta-szegmens:hover{text-decoration:none}
+  .cta-szegmens:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+
+  /* NÉGY ÁLLAPOT — és a sorrendjük maga az üzenet:
+
+       NYUGALOM   a pirula az AKTUÁLIS LAP szegmensén áll, zölden. Ha egyik lapon
+                  sem vagyunk (főoldal, aloldalak), az elsőn: a konzultáció a
+                  belépő lépés, és a fejlécnek egy hangsúlyos hívása van, nem
+                  három. Az `aria-current="page"` a markupban dönti el, melyik —
+                  így a megrendelőlapon a „Megrendelés" marad kiemelve, nem ugrik
+                  vissza a pirula a konzultációra, amint elhagyjuk az egérrel.
+       RÁÁLLÁS    a pirula VILÁGOS lesz, és odacsúszik a mutató alá. Kipróbálás,
+                  nem döntés — és a sötét felirat így marad olvasható rajta
+                  (a zöld felületen a sötétzöld felirat kontrasztja gyenge volt);
+       MEGNYOMÁS  a pirula visszavált ZÖLDRE: a mozdulat véglegesedik;
+       ELENGEDÉS  a pirula visszatér az aktuális lap szegmensére.
+
+     A `:has()` a kapszulán ül, mert a jelölőnek és a TÖBBI szegmensnek is
+     tudnia kell, melyikük az aktív — testvérszelektor ehhez nem elég.
+
+     A SORREND ITT SZABÁLY: előbb a nyugalmi (lap szerinti) helyzet, utána a
+     ráállás. Fordítva a lap szerinti szabály felülírná a hovert, és a pirula
+     nem mozdulna. */
+
+  /* --- NYUGALOM: az aktuális lap szegmense (vagy alapból az első) ---------- */
+  .cta-kapszula:not(:has(.cta-szegmens[aria-current="page"])) .cta-szegmens:first-of-type,
+  .cta-szegmens[aria-current="page"]{color:var(--on-primary)}
+
+  .cta-kapszula:has(.cta-szegmens:nth-of-type(2)[aria-current="page"]) .cta-jelolo{
+    translate:100% 0;border-radius:var(--kapszula-el);
+  }
+  .cta-kapszula:has(.cta-szegmens:nth-of-type(3)[aria-current="page"]) .cta-jelolo{
+    translate:200% 0;border-radius:var(--kapszula-el) 999px 999px var(--kapszula-el);
+  }
+
+  /* --- RÁÁLLÁS: világos pirula a mutató alatt, sötét felirattal ------------ */
+  .cta-kapszula:has(.cta-szegmens:is(:hover,:focus-visible)) .cta-jelolo{
+    background:var(--surface);
+  }
+  /* Ráálláskor MINDEN felirat halkul, és csak a mutatott lesz sötét — így az
+     aktuális lap fehér felirata sem marad ott a világos pirula mellett. */
+  .cta-kapszula:has(.cta-szegmens:is(:hover,:focus-visible)) .cta-szegmens{
+    color:var(--text-secondary);
+  }
+  .cta-kapszula:has(.cta-szegmens:is(:hover,:focus-visible)) .cta-szegmens:is(:hover,:focus-visible){
+    color:var(--text-primary);
+  }
+
+  .cta-kapszula:has(.cta-szegmens:nth-of-type(1):is(:hover,:focus-visible)) .cta-jelolo{
+    translate:0 0;border-radius:999px var(--kapszula-el) var(--kapszula-el) 999px;
+  }
+  .cta-kapszula:has(.cta-szegmens:nth-of-type(2):is(:hover,:focus-visible)) .cta-jelolo{
+    translate:100% 0;border-radius:var(--kapszula-el);
+  }
+  .cta-kapszula:has(.cta-szegmens:nth-of-type(3):is(:hover,:focus-visible)) .cta-jelolo{
+    translate:200% 0;border-radius:var(--kapszula-el) 999px 999px var(--kapszula-el);
+  }
+
+  /* --- MEGNYOMÁS: a template zöldje, világos felirattal -------------------- */
+  .cta-kapszula:has(.cta-szegmens:active) .cta-jelolo{background:var(--primary)}
+  .cta-kapszula:has(.cta-szegmens:active) .cta-szegmens:active{color:var(--on-primary)}
 
   /* ===== 5.12c Témaváltó =====
      Csúszkakapcsoló a fejlécben: a fogó helyzete mondja meg, hol állunk, a
@@ -1151,7 +1329,7 @@
      szlugok nyelvenként mások), hanem a lap saját `hreflang` hivatkozásából;
      fordítás híján a nyelv nyitólapjára megy, sosem 404-re. */
 
-  .tema-doboz{position:relative;display:none;align-items:center}
+  .tema-doboz{position:relative;display:none;align-items:center;flex:none}
   :root[data-theme] .tema-doboz{display:flex}
 
   /* Színséma: a natív felületek (görgetősáv, űrlapelemek, dátumválasztó) is
@@ -1255,30 +1433,62 @@
   /* A `button` nem örökli a betűt, ezért a szerepet itt meg kell ismételni —
      és mivel a komponensréteg a tipográfiai fölött áll, a `.type-ui-nav`
      osztály önmagában nem érne el idáig. A navigáció saját tokenjét használja. */
+  /* NYÍL NINCS. A hét menüpontból hatnál almenü-jelző háromszög állt a felirat
+     mögött; ez menüpontonként 16 képpontot (nyíl + rés) vitt el, összesen
+     ~96-ot — pont annyit, amennyin a sor egy- vagy kétsoros. A jelzés szerepét
+     az állapot veszi át: a nyitott menüpont felületet kap, és a panel csúcsa
+     mutat rá. */
   .nav-trigger{position:relative;
-    display:inline-flex;align-items:center;gap:var(--space-8);
+    display:inline-flex;align-items:center;
     border:0;background:none;cursor:pointer;
     font-family:var(--font-body);font-size:var(--type-ui-nav-size);
     font-weight:var(--type-ui-nav-weight);line-height:var(--type-ui-nav-line-height);
   }
-  .nav-caret{
-    width:var(--space-8);height:var(--space-8);flex:none;
-    border-right:2px solid currentColor;border-bottom:2px solid currentColor;
-    transform:rotate(45deg) translate(-2px,-2px);
-    transition:transform var(--dur-fast) var(--ease-out);
-  }
-  .nav-trigger[aria-expanded="true"] .nav-caret{transform:rotate(-135deg) translate(-2px,-2px)}
-  /* A nyitott menüpont felülettel jelöl, nem aláhúzással — így a panel
-     „hozzátartozása" vizuálisan is folytonos. */
+  /* MELYIK MENÜPONTÉ A PANEL? Három jel mondja ki, és mind a háromra szükség
+     van, mert három különböző pillanatban dolgozik:
+
+       1. FELÜLET — a nyitott menüpont ugyanazt a hátteret kapja, mint a panel
+          környezete: a kettő egyetlen összefüggő formává olvad;
+       2. ALÁHÚZÁS — a felirat alatt kirajzolódó vonal a legerősebb jel, és ez
+          az egyetlen, ami SZÍNNEL is kiemel (`--nav-jel`). Középről nő ki, a
+          panel beúszásával egy ütemben;
+       3. CSÚCS — a panel tetején ülő kacsacsőr, ami fizikailag odamutat.
+
+     A panel fejléce ezt szóban is megismétli (`.mega-eyebrow`), tehát a
+     hozzátartozás nem csak színnel közölt információ. */
   .nav-trigger[aria-expanded="true"]{background:var(--canvas)}
+  .nav-trigger::before{
+    content:'';position:absolute;z-index:1;pointer-events:none;
+    left:var(--nav-belso);right:var(--nav-belso);bottom:var(--space-8);
+    height:2px;border-radius:2px;background:var(--nav-jel);
+    /* Középről nő ki — a felirat közepe a menüpont súlypontja. */
+    transform:scaleX(0);transform-origin:50% 50%;
+    transition:transform 200ms var(--ease-out);
+  }
+  .nav-trigger[aria-expanded="true"]::before{transform:scaleX(1)}
 
   /* Finom belépés: a panel néhány képpontnyit lejjebb csúszva halványul be.
      A `display` átmenete natívan, `allow-discrete`-tel megy — így a `hidden`
      attribútum megmarad az egyetlen állapotjelzőnek (nincs külön osztály).
      Régebbi böngészőn az átmenet elmarad, a panel egyszerűen megjelenik. */
-  .mega[hidden]{display:none;opacity:0;transform:translateY(calc(-1 * var(--space-8)))}
+  /* A ZÁRÁS GYORSABB A NYITÁSNÁL. A nyitás jelzi, hogy jött valami — annak
+     kell idő; a zárás csak eltakarít, és ha ugyanannyi ideig tart, a menü
+     lomhának érződik. Hovernél ez a különbség dönti el, hogy „követi a
+     kezemet" vagy „utánam kullog". */
+  .mega[hidden]{
+    display:none;opacity:0;transform:translateY(calc(-1 * var(--space-8)));
+    transition-duration:130ms;
+  }
   @starting-style{
     .mega:not([hidden]){opacity:0;transform:translateY(calc(-1 * var(--space-8)))}
+  }
+  /* PANELVÁLTÁS. Ha egyik menüpontról a másikra megy az egér, a NYITOTT panel
+     helyére jön a következő: ilyenkor a lefelé csúszás nem kísérőmozgás, hanem
+     ugrálás. Váltáskor tehát csak átúszik — gyorsabban is. A jelölést a
+     `site.js` teszi ki a váltás idejére. */
+  :root[data-nav-valt] .mega{transition-duration:120ms}
+  @starting-style{
+    :root[data-nav-valt] .mega:not([hidden]){opacity:0;transform:none}
   }
   /* KACSACSŐR. A csúcs a NYITÓ GOMBON ül, nem a panelen: a `.mega` görgethető
      és lekerekített, tehát bármit levágna, ami a szélén kilóg. Elforgatott
@@ -1294,6 +1504,13 @@
     /* Külön `translate` és `transform`: a böngésző előbb tolja, aztán forgatja.
        Egyetlen `transform`-ban a forgatás a tolás tengelyeit is elfordítaná. */
     translate:-50% 0;transform:rotate(45deg);
+    /* A csúcs a panellel EGYÜTT úszik be. Enélkül a panel halványan indul, a
+       csúcs viszont teljes erővel ott terem — és egy pillanatra magában áll a
+       menüpont alatt. */
+    opacity:1;transition:opacity 200ms var(--ease-out);
+  }
+  @starting-style{
+    .nav-trigger[aria-expanded="true"]::after{opacity:0}
   }
 
   /* A PANEL LEBEG a navigáció alatt, rögzített szélességgel. Három hasáb fér el
@@ -1302,8 +1519,8 @@
      nagy, széles és üres volt.) */
   .mega{
     opacity:1;transform:none;
-    transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),
-               display 180ms var(--ease-out) allow-discrete;
+    transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out),
+               display 200ms var(--ease-out) allow-discrete;
     /* A 16 képpontos rés a CSÚCS mérete miatt kell: a 16×16-os négyzet 45°-ban
        elforgatva 22,6 képpont átlójú, és a csúcsa akkor látszik teljes
        hosszában, ha a négyzet KÖZEPE éppen a panel felső élén ül. */
@@ -1320,9 +1537,19 @@
     border:1px solid var(--border);border-radius:var(--panel-radius);
     box-shadow:var(--shadow-2);
     /* Hosszú kategóriánál a panel magasabb lehet, mint a képernyő.
-       Görgethető, de a fejléc alatt marad. */
+       Görgethető, de a fejléc alatt marad. A görgetés VÉGSŐ MENEDÉK: normál
+       asztali ablakban (≥900px magas) minden panel elfér görgetés nélkül.
+       Ezért nem szabad, hogy bármi FÖLÖSLEGES görgethető területet csináljon —
+       lásd a véset megjegyzését lentebb.
+       Vízszintesen soha nincs mit görgetni: a hasábrács `minmax(0,1fr)`,
+       tehát a tartalom mindig belefér. A `clip` így nem rejt el semmit, csak
+       megakadályozza, hogy a Windows-Chrome vaskos csúszkája megjelenjen egy
+       képpontnyi kerekítési maradék miatt. */
     max-height:calc(100vh - var(--topbar-h) - var(--space-96));
-    overflow-y:auto;overscroll-behavior:contain;
+    overflow-x:clip;overflow-y:auto;overscroll-behavior:contain;
+    /* Ha mégis kell csúszka, legyen keskeny: macOS-en lebegő, Windowson 17px
+       széles sáv a panel jobb szélén — az utóbbi a hasábrácsból vesz el. */
+    scrollbar-width:thin;
   }
   /* VÉSET. A logó jelrajza nagyon halványan a panel jobb alsó sarkában, két
      egymáshoz képest egy képponttal eltolt sziluettből: alul a mélyedés
@@ -1332,14 +1559,27 @@
 
      Maszkkal rajzoljuk, nem képként: így a szín tokenből jön és témát vált. */
   .mega-inner{position:relative;isolation:isolate;padding:var(--space-24)}
+  /* A VÉSET A PANELEN BELÜL MARAD. Korábban a panel pereme alá lógott
+     (`right/bottom: -24px`): a rajzot a `.mega` túlcsordulás-vágása levágta,
+     a KIGÖRGETHETŐ terület viszont megnőtt vele — vagyis minden panel
+     görgethető lett vízszintesen és függőlegesen is, még a három sorból álló
+     is. macOS-en ez láthatatlan (lebegő csúszka), Windowson viszont két
+     állandó szürke sáv keretezte a panelt. A rajz így beljebb ül, teljes
+     egészében látszik, és nem csordul túl semmin. */
   .mega-inner::before,.mega-inner::after{
     content:'';position:absolute;z-index:-1;pointer-events:none;
-    right:calc(-1 * var(--space-24));bottom:calc(-1 * var(--space-24));
-    width:clamp(10rem,26%,15rem);aspect-ratio:387.49 / 289.93;
+    right:1px;bottom:1px;
+    /* Egy fokkal kisebb, mint amikor a panel pereme alá lógott: ott a rajz
+       fele levágódott, itt teljes egészében látszik — ugyanaz a méret így
+       háttérképnek tűnne, nem sarokjelnek. */
+    width:clamp(8rem,20%,12rem);aspect-ratio:387.49 / 289.93;
     -webkit-mask:var(--veset-jel) no-repeat center/contain;
             mask:var(--veset-jel) no-repeat center/contain;
   }
   .mega-inner::before{background:var(--veset-melyedes);opacity:var(--veset-melyedes-alfa)}
+  /* A kiemelés egy képponttal jobbra-lefelé tolva ül a mélyedésen — ezért van
+     a kettőnek 1px tartaléka a panel széléig (`right/bottom:1px`): a tolás így
+     sem lóg ki, tehát nem csinál görgethető területet. */
   .mega-inner::after{
     background:var(--veset-kiemeles);opacity:var(--veset-kiemeles-alfa);
     translate:1px 1px;
@@ -1369,6 +1609,20 @@
     gap:var(--space-24) var(--space-16);
   }
   .mega-oszlop{display:flex;flex-direction:column;gap:var(--space-8);min-width:0}
+  /* TÉMACSOPORT egy hasábon belül. Egy hasáb nem feltétlenül EGY hub: ahol a
+     tartalom összetartozik, ott több csoport ül egymás alatt.
+
+     A TERMÉK A TECHNOLÓGIÁJA ALATT ÁLL, behúzva (`-gyerek`). Korábban külön
+     hasábot kapott egy `↳` nyíllal, és a rács sorfolytonos kiosztása miatt a
+     szomszédja lehetett akár egy másik technológia is — az A.B.Clear így úgy
+     festett, mintha az EPURECO testvére volna, nem a biológiai tisztításé. A
+     behúzás és a szoros köz (8px, szemben a témák közti 24-gyel) magától
+     megmondja, mi mihez tartozik; a nyílra nincs többé szükség. */
+  .mega-csoport{display:flex;flex-direction:column;gap:var(--space-8);min-width:0}
+  /* A hasáb saját 8px rése + ez a 16 = 24 képpont két TÉMA között. */
+  .mega-csoport + .mega-csoport{margin-top:var(--space-16)}
+  /* A gyerek viszont SZOROSAN a szülője alatt marad: csak a hasáb 8px rése. */
+  .mega-csoport-gyerek{margin-top:0;margin-left:var(--space-16)}
   /* A még nem létező szakaszok panelje EGYETLEN hasábból áll: a tervezett hubok
      listája. Így a panel kétharmada üresen maradna, a lista pedig keskeny és
      hosszú lenne — ezért ott az egyetlen hasáb a teljes szélességet kapja, és
@@ -2411,6 +2665,18 @@
      szemantikus tokenből épülnek; a mezők 44px magasak (érintőcélpont), és a
      fókuszgyűrű minden elemen látszik. */
   .urlap{display:grid;gap:var(--space-16);max-width:44rem}
+  /* MEZŐCSOPORT. Hosszabb űrlapon a mezők nem egyenrangúak: a kapcsolat, az
+     ingatlan és a melléklet három külön gondolat. A `fieldset` ezt a szerkezetet
+     a képernyőolvasónak is elmondja (a `legend` a csoport neve), a keret és a
+     felső vonal pedig a szemnek. */
+  .urlap-csoport{
+    display:grid;gap:var(--space-16);
+    margin:0;padding:var(--space-24) 0 0;border:0;border-top:1px solid var(--border);
+  }
+  .urlap-csoport:first-of-type{padding-top:0;border-top:0}
+  /* A `legend` alapból a keretbe vágva ül és nem tölti ki a sort — itt sima
+     címsorként viselkedik. */
+  .urlap-csoport-cim{display:block;float:none;width:100%;padding:0;color:var(--text-primary)}
   .urlap-sor{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16)}
   .urlap-mezo{display:grid;gap:var(--space-4);margin:0}
   .urlap-cimke{color:var(--text-secondary)}
@@ -3596,83 +3862,152 @@
 
 /* ----------------------------------------------------------- 6. RESPONSIVE */
 @layer responsive {
-  /* Tablet 641–1024px */
-  /* FEJLÉC-NAVIGÁCIÓ. A hat nagybetűs menüpont a témaváltó és a CTA mellett
-     1024 pixel alatt nem fér el egy sorban; tördelt, kétsoros fejléc helyett
+  /* Tablet 641–1239px */
+  /* FEJLÉC-NAVIGÁCIÓ. A HÉT nagybetűs menüpont a témaváltó és a CTA mellett
+     1240 pixel alatt nem fér el egy sorban; tördelt, kétsoros fejléc helyett
      ott a lenyitható panel jön. A töréspontnak EGYEZNIE KELL a site.js
-     `(min-width: 1025px)` lekérdezésével: ha a kettő elcsúszik, a köztes
+     `(min-width: 1240px)` lekérdezésével: ha a kettő elcsúszik, a köztes
      szélességeken a `details` nyitva marad, miközben a CSS már panelként
-     jeleníti meg — a menü tartalma kattintás nélkül kilóg a lapra. */
-  @media (max-width:1024px){
-    /* Fejléc: a navigáció lenyitható panelbe kerül (natív `details`). */
-    .nav-toggle{
+     jeleníti meg — a menü tartalma kattintás nélkül kilóg a lapra.
+
+     A HATÁR MÉRVE, NEM BECSÜLVE. A hét felirat 14 képpontos betűvel, 8px
+     oszlopközzel 665 képpont; a logó (154), a témaváltó (64), a CTA (198) és a
+     négy elem közti három 16px-es rés együtt 464; a két oldalsó margó 96. Ez
+     1225 — ezért 1240 az első szélesség, ahol a sor kényelmesen elfér.
+     Korábban 1024 volt a határ, és 1025 és 1409 között a menü KÉTSOROS lett:
+     a hetedik menüpont (Kapcsolat) átcsúszott a logó alá. */
+  /* ===== FIÓK MÓD — a lenyitható („hamburger") fejléc-navigáció =====
+     Ugyanaz a szabálykészlet KÉT kapcsolóval, és a kettősség szándékos:
+
+     · `:root[data-nav="fiok"]` — a `site.js` MÉRÉSE kapcsolja be, BÁRMILYEN
+       széles az ablak. Ez a lényeg: ha egyszer nyolc-kilenc menüpont lesz, a
+       sor 1300 képpontnál sem fér el, és ezt egy fix töréspont nem tudhatja
+       előre. A mérés igen.
+     · `@media (max-width:1239.98px)` + `:root:not([data-nav])` — JS nélkül (és
+       a mérés lefutásáig) a töréspont dönt, a mai hét menüponthoz szabva. Az
+       őrszem miatt a lekérdezés ELHALLGAT, amint a mérés megszólalt: két
+       gazdája egy állapotnak nem lehet.
+
+     A KÉT BLOKK TÖRZSE SZÓ SZERINT AZONOS — a magyarázatok az elsőben állnak.
+     Ha az egyiket módosítod, a másikat is. */
+  /* A `width/height/visibility/overflow` visszaállítása azért kell, mert
+     asztali sorban a `summary` nulla méretű és láthatatlan (lásd 5.12) —
+     fiók módban viszont ez a gomb NYITJA a menüt. */
+  :root[data-nav="fiok"] .nav-toggle{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    visibility:visible;width:auto;height:auto;overflow:visible;
+    min-height:44px;padding:var(--space-8) var(--space-16);
+    border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--surface);color:var(--text-primary);
+    cursor:pointer;list-style:none;
+  }
+  :root[data-nav="fiok"] .nav-toggle::-webkit-details-marker{display:none}
+  :root[data-nav="fiok"] .nav-toggle:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+  /* A LENYITOTT PANELBEN a betű visszakapja a rendes fokát. A sűrűsödés a
+     fejlécSOR szűkösségét oldja meg — a panelben viszont nincs vízszintes
+     szorítás, egy 13px-es érintőmenü pedig csak rossz volna. */
+  :root[data-nav="fiok"]{--type-ui-nav-size:14px}
+  /* A PANEL A TELJES FEJLÉC ALATT NYÍLIK, nem a Menü gomb alatti kis dobozban.
+     Két korábbi próbálkozás bukott meg ezen:
+
+     · a fejléc jobb széléhez tapadva a gombtól elszakadva lebegett;
+     · a gombhoz kötve pedig — mivel `position:absolute`, tehát nem tolja
+       lejjebb a lapot — a háromszintű menü ALJA egyszerűen levágódott, és
+       nem lehetett hozzáférni. A „majd a lapot görgeti a látogató" feltevés
+       abszolút pozicionálású panelnél nem áll: nincs mit görgetni.
+
+     Ezért: a viszonyítási pont a `.header-main` (ott, az alaprétegben már
+     `position:relative`), a panel végigfut a fejléc szélességében, a
+     magassága korlátos, és SAJÁT GÖRGETÉST kap. Így minden menüpont elérhető,
+     bármilyen alacsony a képernyő. Az `overscroll-behavior` megakadályozza,
+     hogy a panel aljára érve a lap kezdjen görögni. */
+  :root[data-nav="fiok"] .nav-drawer{position:static;margin-left:auto}
+  :root[data-nav="fiok"] .nav-drawer .site-nav{
+    position:absolute;top:100%;left:0;right:0;z-index:20;
+    /* A magasságkorlát ARÁNY, nem kiszámolt pontos érték. A panel teteje a
+       fejlécverem alján kezdődik, aminek a magassága a sticky sáv
+       elgörgetésével változik — egy fix tokenből levont képlet ezért éppen a
+       legszűkebb esetben téved, és a panel a képernyő alá lóg. A `70dvh` a
+       szokásos ablakokra bőven elég, a `100dvh - 9rem` pedig a nagyon alacsony
+       ablakoknál fog: a kettő közül a kisebb nyer. Túlcsordulni így sem tud,
+       mert a panel saját görgetést kap. */
+    max-height:min(70dvh, calc(100dvh - 9rem));
+    overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;
+    padding:var(--space-16) var(--header-gutter) var(--space-32);
+    background:var(--surface);
+    border-top:1px solid var(--border);
+    box-shadow:var(--shadow-2);
+  }
+  :root[data-nav="fiok"] .nav-list{flex-direction:column;align-items:stretch;column-gap:0}
+  /* Megamenü fiók módban: a panel a menüpont alatt, a folyamban nyílik.
+     Nem lebeg, nincs magasságkorlátja és saját görgetése — a lapot görgeti a
+     látogató, nem a panelt. Csúcs és véset sincs: az egyik a lebegéshez
+     tartozik, a másik ekkora felületen csak zajt vinne. */
+  :root[data-nav="fiok"] .nav-item{position:relative}
+  :root[data-nav="fiok"] .mega{position:static;box-shadow:none;border:0;background:none;
+    width:auto;max-width:none;max-height:none;overflow:visible}
+  :root[data-nav="fiok"] .nav-trigger[aria-expanded="true"]::after{display:none}
+  :root[data-nav="fiok"] .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
+  :root[data-nav="fiok"] .mega-inner::before,:root[data-nav="fiok"] .mega-inner::after{content:none}
+  :root[data-nav="fiok"] .mega-oszlopok{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
+  /* Az aloldallista behúzása kisebb: szűk sávban a nagy behúzás elviszi a
+     sorhosszat. */
+  :root[data-nav="fiok"] .mega-alista{margin-left:var(--space-16);padding-left:var(--space-16)}
+  /* A kategória neve fölösleges: közvetlenül a menüpont alatt áll, amelyik
+     ugyanezt írja ki. A panelfej így csak az áttekintő hivatkozást tartja. */
+  :root[data-nav="fiok"] .mega-fej{display:block;margin-bottom:var(--space-8);
+    padding-bottom:0;border-bottom:0}
+  :root[data-nav="fiok"] .mega-eyebrow{display:none}
+
+  /* JS nélkül: ugyanez a törzs, a töréspont szerint. */
+  @media (max-width:1239.98px){
+    :root:not([data-nav]) .nav-toggle{
       display:inline-flex;align-items:center;gap:var(--space-8);
+      visibility:visible;width:auto;height:auto;overflow:visible;
       min-height:44px;padding:var(--space-8) var(--space-16);
       border:1px solid var(--border);border-radius:var(--r-md);
       background:var(--surface);color:var(--text-primary);
       cursor:pointer;list-style:none;
     }
-    .nav-toggle::-webkit-details-marker{display:none}
-    .nav-toggle:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
-    /* A lenyitó gomb a CTA mellé, a sor jobb végére kerül. */
-    /* A LENYITOTT PANELBEN a betű visszakapja a rendes fokát. A rugalmas
-       méret a fejlécsor szűkösségét oldja meg — a panelben viszont nincs
-       vízszintes szorítás, egy 11px-es érintőmenü pedig csak rossz volna. */
-    :root{--type-ui-nav-size:14px}
-
-    /* A PANEL A TELJES FEJLÉC ALATT NYÍLIK, nem a Menü gomb alatti kis dobozban.
-       Két korábbi próbálkozás bukott meg ezen:
-
-       · a fejléc jobb széléhez tapadva a gombtól elszakadva lebegett;
-       · a gombhoz kötve pedig — mivel `position:absolute`, tehát nem tolja
-         lejjebb a lapot — a háromszintű menü ALJA egyszerűen levágódott, és
-         nem lehetett hozzáférni. A „majd a lapot görgeti a látogató" feltevés
-         abszolút pozicionálású panelnél nem áll: nincs mit görgetni.
-
-       Ezért: a viszonyítási pont a `.header-main`, a panel végigfut a fejléc
-       szélességében, a magassága korlátos, és SAJÁT GÖRGETÉST kap. Így minden
-       menüpont elérhető, bármilyen alacsony a képernyő. Az `overscroll-behavior`
-       megakadályozza, hogy a panel aljára érve a lap kezdjen görögni. */
-    .header-main{position:relative}
-    .nav-drawer{position:static;margin-left:auto}
-    .nav-drawer .site-nav{
+    :root:not([data-nav]) .nav-toggle::-webkit-details-marker{display:none}
+    :root:not([data-nav]) .nav-toggle:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+    :root:not([data-nav]){--type-ui-nav-size:14px}
+    :root:not([data-nav]) .nav-drawer{position:static;margin-left:auto}
+    :root:not([data-nav]) .nav-drawer .site-nav{
       position:absolute;top:100%;left:0;right:0;z-index:20;
-      /* A magasságkorlát ARÁNY, nem kiszámolt pontos érték. A panel teteje a
-         fejlécverem alján kezdődik, aminek a magassága a sticky sáv
-         elgörgetésével változik — egy fix tokenből levont képlet ezért éppen a
-         legszűkebb esetben téved, és a panel a képernyő alá lóg. A `70dvh` a
-         szokásos ablakokra bőven elég, a `100dvh - 9rem` pedig a nagyon alacsony
-         ablakoknál fog: a kettő közül a kisebb nyer. Túlcsordulni így sem tud,
-         mert a panel saját görgetést kap. */
       max-height:min(70dvh, calc(100dvh - 9rem));
-      overflow-y:auto;overscroll-behavior:contain;
+      overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;
       padding:var(--space-16) var(--header-gutter) var(--space-32);
       background:var(--surface);
       border-top:1px solid var(--border);
       box-shadow:var(--shadow-2);
     }
-    .nav-list{flex-direction:column;align-items:stretch;column-gap:0}
-    /* Megamenü szűk nézetben: a panel a menüpont alatt, a folyamban nyílik. */
-    .nav-item{position:relative}
-    /* Szűk nézetben a panel nem lebeg: a lenyitott menü részeként, egy
-       oszlopban áll. A magasságkorlát és a saját görgetés is elmarad — a
-       lapot görgeti a látogató, nem a panelt. Csúcs és véset sincs: az egyik
-       a lebegéshez tartozik, a másik ekkora felületen csak zajt vinne. */
-    .mega{position:static;box-shadow:none;border:0;background:none;
+    :root:not([data-nav]) .nav-list{flex-direction:column;align-items:stretch;column-gap:0}
+    :root:not([data-nav]) .nav-item{position:relative}
+    :root:not([data-nav]) .mega{position:static;box-shadow:none;border:0;background:none;
       width:auto;max-width:none;max-height:none;overflow:visible}
-    .nav-trigger[aria-expanded="true"]::after{display:none}
-    .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
-    .mega-inner::before,.mega-inner::after{content:none}
-    .mega-oszlopok{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
-    /* Az aloldallista behúzása kisebb: szűk nézetben a nagy behúzás elviszi
-       a sorhosszat. */
-    .mega-alista{margin-left:var(--space-16);padding-left:var(--space-16)}
-    /* Szűk nézetben a kategória neve fölösleges: közvetlenül a menüpont alatt
-       áll, amelyik ugyanezt írja ki. A panelfej így csak az áttekintő
-       hivatkozást tartja, keret nélkül. */
-    .mega-fej{display:block;margin-bottom:var(--space-8);
+    :root:not([data-nav]) .nav-trigger[aria-expanded="true"]::after{display:none}
+    :root:not([data-nav]) .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
+    :root:not([data-nav]) .mega-inner::before,:root:not([data-nav]) .mega-inner::after{content:none}
+    :root:not([data-nav]) .mega-oszlopok{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
+    :root:not([data-nav]) .mega-alista{margin-left:var(--space-16);padding-left:var(--space-16)}
+    :root:not([data-nav]) .mega-fej{display:block;margin-bottom:var(--space-8);
       padding-bottom:0;border-bottom:0}
-    .mega-eyebrow{display:none}
+    :root:not([data-nav]) .mega-eyebrow{display:none}
+  }
+
+  /* 1240–1439px — a legszűkebb asztali sáv, ahol a menüsor még EGY SOR.
+     JS NÉLKÜL ez választja a „tömör" fokozatot; a mérés ugyanide jut a mai hét
+     menüponttal. A fejléc konténere itt még nem érte el az 1440-es felső
+     határát, tehát a hely az ablakkal együtt fogy: a betű 15-ről 14-re, az
+     oszlopköz 16-ról 8-ra enged. Ez ~136 képpont, épp annyi, amennyi 1240-nél
+     hiányozna. */
+  @media (min-width:1240px) and (max-width:1439.98px){
+    :root:not([data-nav]){
+      --type-ui-nav-size:14px;
+      --nav-koz:var(--space-8);
+      --fejlec-res:var(--space-8);
+    }
   }
 
   @media (max-width:1024px){
@@ -3800,11 +4135,14 @@
        a sávban maradnak, mert még nincs mögöttük oldal — csak feliratok. */
     .topbar-hide-narrow{display:none}
 
-    /* A fejléc három eleme (logó, menügomb, CTA) 640px alatt nem fér ki egy
-       sorba: a CTA a második sorba kerül, teljes szélességben. Tördelés nélkül
-       a sáv túlcsordulna, és az egész oldal vízszintesen görgethetővé válna. */
+    /* A fejléc három eleme (logó, menügomb, CTA-kapszula) 640px alatt nem fér ki
+       egy sorba: a kapszula a második sorba kerül, teljes szélességben. Tördelés
+       nélkül a sáv túlcsordulna, és az egész oldal vízszintesen görgethetővé
+       válna. Ott a három szegmens EGYENLŐ hasábot kap: a második sor a
+       kapszuláé, nincs miért aszimmetrikusnak lennie. */
     .header-inner{flex-wrap:wrap;row-gap:var(--space-8)}
-    .header-cta{width:100%}
+    .cta-kapszula{width:100%}
+    .cta-szegmens{min-height:40px;padding-inline:var(--space-8)}
 
     .hero{padding-top:var(--space-48)}
 
@@ -7258,24 +7596,50 @@
      A pont a cím első sorának magasságában ül (`.36em`), és a vonal FÖLÖTT van
      (`z-index`) — az átlátszatlan kitöltése takarja ki a mögötte futó vonalat,
      ettől lesz gyűrű a szakaszon. */
-  .merfoldko-jel{position:relative;width:var(--merfoldko-pont)}
+  /* A JELÖLŐ HASÁB a CÍM SORMAGASSÁGÁT veszi fel — ebből számol a pont
+     függőleges helye. Enélkül az `em`-ben megadott eltolás a jelölő saját
+     betűjéhez igazodna, ami nem a címé: a pont pár képponttal a cím optikai
+     közepe alá került. */
+  .merfoldko-jel{
+    position:relative;width:var(--merfoldko-pont);
+    font-size:var(--type-ui-card-title-size);
+    line-height:var(--type-ui-card-title-line-height);
+  }
 
+  /* A VONAL ÉS A PONT UGYANAZON A TENGELYEN, UGYANAZZAL A SZÁMÍTÁSSAL.
+     Korábban a vonal `left:calc(50% - 1px)`, a pont `left:calc(50% - 7px)`
+     szerint állt: matematikailag mindkettő a hasáb közepén, a rács viszont
+     fél képpontra teszi a hasábot (mérve: x = 361,5), és a böngésző a 2px-es
+     tömör sávot MÁSHOVA kerekíti, mint a 14px-es, élsimított gyűrűt. Innen a
+     látható elcsúszás. Közös `left:50%` + `translate:-50%` mellett mindkettő
+     ugyanazt a kerekítést kapja. */
   .merfoldko-jel::after{
     content:"";position:absolute;
-    left:calc(50% - 1px);width:2px;top:0;bottom:0;
+    left:50%;translate:-50% 0;width:2px;top:0;bottom:0;
     background:var(--merfoldko-vonal);
   }
   /* A szakasz nem a semmiből jön és nem a semmibe tart: az első elemnél a pont
-     KÖZEPÉTŐL indul, az utolsónál a pont KÖZEPÉIG tart. */
+     KÖZEPÉTŐL indul, az utolsónál a pont KÖZEPÉIG tart — a pont közepe pedig
+     pontosan a cím első sorának a fele (`0.5lh`). */
   .merfoldko-elem:first-child .merfoldko-jel::after{top:calc(.36em + var(--merfoldko-pont) / 2)}
   .merfoldko-elem:last-child  .merfoldko-jel::after{bottom:auto;height:calc(.36em + var(--merfoldko-pont) / 2)}
+  @supports (top: 1lh){
+    .merfoldko-elem:first-child .merfoldko-jel::after{top:calc(0.5lh)}
+    .merfoldko-elem:last-child  .merfoldko-jel::after{bottom:auto;height:calc(0.5lh)}
+  }
 
   .merfoldko-jel::before{
     content:"";position:absolute;z-index:1;
-    left:calc(50% - var(--merfoldko-pont) / 2);top:.36em;
+    left:50%;translate:-50% 0;top:.36em;
     width:var(--merfoldko-pont);height:var(--merfoldko-pont);
     border-radius:50%;
     background:var(--surface);border:2px solid var(--primary);
+  }
+
+  /* A pont a cím ELSŐ SORÁNAK közepén ül. Az `lh` egység nélküli böngészőkben
+     a fenti `.36em` marad — az is a sor közelébe teszi, csak nem képpontra. */
+  @supports (top: 1lh){
+    .merfoldko-jel::before{top:calc((1lh - var(--merfoldko-pont)) / 2)}
   }
 
   .merfoldko-test{padding-bottom:var(--space-32)}
@@ -7338,4 +7702,400 @@
 @layer responsive {
   @media (max-width:1024px){ .vel-racs{grid-template-columns:repeat(2,minmax(0,1fr))} }
   @media (max-width:640px){  .vel-racs{grid-template-columns:minmax(0,1fr)} }
+}
+
+/* ============================================================================
+   16. DOKUMENTUM — `.dok-*`
+   ----------------------------------------------------------------------------
+   A megrendelőlap nem „űrlap egy weboldalon", hanem OKIRAT, amit a látogató
+   kitölt, kinyomtat, aláír és beküld. Ezért a lap A4-nyi hasábban ül, saját
+   fejléccel, számozott szakaszokkal, jogi lábjegyzetekkel és aláírásblokkal —
+   és nyomtatásban minden más eltűnik körüle.
+
+   MIÉRT NEM SIMA ŰRLAP. A megrendelés jogi nyilatkozat: a látogatónak látnia
+   kell, mit ír alá, egyben, a feltételekkel együtt. Egy lépésekre szabdalt
+   varázsló ezt elrejtené — a konzultációkérésnél az a jó forma, itt nem.
+
+   A KÉPERNYŐN IS OKIRAT, csak kényelmesebb: a beviteli mezők a szövegben
+   állnak (kitöltendő helyek), a választható tételek pedig kártyák, nem apró
+   rádiógombok — érintőképernyőn is megfoghatók.
+   ========================================================================== */
+@layer components {
+
+  .dok{
+    max-width:210mm;margin-inline:auto;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--panel-radius);box-shadow:var(--shadow-1);
+    padding:clamp(var(--space-24),4vw,var(--space-48));
+  }
+
+  /* --- eszköztár: nyomtatás és ugrás; nyomtatásban nincs rá szükség -------- */
+  .dok-eszkozok{
+    display:flex;flex-wrap:wrap;gap:var(--space-8);
+    justify-content:flex-end;align-items:center;
+    max-width:210mm;margin:0 auto var(--space-16);
+  }
+
+  /* --- fejléc: kiállító, azonosító, dátum ---------------------------------- */
+  .dok-fej{
+    display:flex;flex-wrap:wrap;gap:var(--space-24);
+    justify-content:space-between;align-items:flex-start;
+    padding-bottom:var(--space-16);border-bottom:2px solid var(--text-primary);
+  }
+  .dok-kiallito{margin:0;color:var(--text-secondary)}
+  .dok-kiallito strong{display:block;color:var(--text-primary)}
+  .dok-azon{display:flex;flex-direction:column;gap:var(--space-8);min-width:14rem}
+  .dok-cim{margin:var(--space-24) 0 var(--space-8)}
+  .dok-alcim{margin:0;color:var(--text-secondary)}
+
+  /* --- szakaszok: sorszámozott cím, alatta a tartalom ---------------------- */
+  .dok-szakasz{margin-top:var(--space-32);counter-increment:dok-szakasz}
+  .dok-szakasz-cim{
+    display:flex;align-items:baseline;gap:var(--space-8);
+    margin:0 0 var(--space-16);padding-bottom:var(--space-8);
+    border-bottom:1px solid var(--border);
+  }
+  .dok-szakasz-cim::before{
+    content:counter(dok-szakasz) ".";
+    color:var(--primary-active);font-family:var(--font-mono);
+    font-size:var(--type-ui-caption-size);
+  }
+  .dok-lap{counter-reset:dok-szakasz}
+
+  /* --- mezőrács: két hasáb, szűk nézetben egy ------------------------------ */
+  .dok-racs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16)}
+  .dok-racs-teljes{grid-column:1 / -1}
+
+  /* --- választható tételek: kártya, nem apró rádiógomb --------------------- */
+  /* A `fieldset` a szemantika miatt kell (a `legend` a csoport neve a
+     képernyőolvasónak), de a böngésző alapértelmezett kerete és a keretbe
+     vágott felirat idegen ebben a lapban — ezért nullázva. */
+  .dok-valasztek{
+    display:grid;gap:var(--space-8);
+    margin:var(--space-24) 0 0;padding:0;border:0;min-width:0;
+  }
+  .dok-valasztek-cim{
+    display:block;float:none;width:100%;padding:0;
+    margin:0 0 var(--space-8);color:var(--text-secondary);
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .dok-opcio{
+    /* A JELÖLŐ A KÁRTYA FÜGGŐLEGES KÖZEPÉN ÁLL, nem a címsor mellett: a kártya
+       egésze a kapcsoló, tehát a köre is annak a közepére való. Fölülre igazítva
+       — ahogy először volt — az elcsúszás látszott, nem a szándék. */
+    display:flex;gap:var(--space-16);align-items:center;
+    padding:var(--space-16);border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--canvas);cursor:pointer;
+    transition:border-color var(--dur-ui) var(--ease-out),
+               background var(--dur-ui) var(--ease-out),
+               box-shadow var(--dur-ui) var(--ease-out);
+  }
+  .dok-opcio:hover{border-color:var(--border-strong);background:var(--surface)}
+  .dok-opcio input{
+    flex:none;margin:0;
+    /* Nagyobb kör: a natív 13px a kártya mellett aprónak és véletlennek hat. */
+    width:1.2rem;height:1.2rem;accent-color:var(--primary-active);cursor:pointer;
+  }
+  .dok-opcio:has(input:checked){
+    border-color:var(--primary);background:var(--surface-muted);
+    box-shadow:inset 0 0 0 1px var(--primary);
+  }
+  .dok-opcio:has(input:focus-visible){outline:3px solid var(--border-focus);outline-offset:2px}
+  .dok-opcio-szoveg{display:block}
+  .dok-opcio-mellek{display:block;color:var(--text-secondary);margin-top:var(--space-4)}
+
+  /* --- feltételek: a jogi törzsszöveg --------------------------------------
+     SZERZŐDÉSTIPOGRÁFIA. A jogi szöveg más olvasási mód, mint a lap többi
+     része: az ember nem folyamatosan olvassa, hanem KERESI benne a rá vonatkozó
+     pontot. Ezért kap saját, kisebb fokozatot, tágabb sorközt, számozott
+     szakaszcímeket és FÜGGŐ BEHÚZÁST — a felsorolás számai így kívül állnak a
+     szövegtükrön, és a szem végig tudja pásztázni őket. */
+  .dok-feltetelek{
+    color:var(--text-secondary);
+    font-size:var(--type-ui-subtitle-size);
+    line-height:1.62;
+  }
+  .dok-feltetelek h3{
+    display:flex;align-items:baseline;gap:var(--space-8);
+    margin:var(--space-32) 0 var(--space-8);color:var(--text-primary);
+    font-family:var(--font-body);font-size:var(--type-ui-card-title-size);
+    font-weight:var(--type-ui-card-title-weight);line-height:1.3;
+  }
+  /* Vékony vonal a szakaszcím fölött: a szerződésben ez választja el a
+     bekezdéscsoportokat, nem az üres hely. */
+  .dok-feltetelek h3::before{
+    content:'';flex:none;width:var(--space-24);height:2px;
+    background:var(--primary);border-radius:2px;translate:0 -.3em;
+  }
+  .dok-feltetelek h3:first-of-type{margin-top:var(--space-16)}
+  .dok-feltetelek p{margin:0 0 var(--space-8);max-width:78ch}
+  .dok-feltetelek ol,.dok-feltetelek ul{
+    margin:0 0 var(--space-16);padding-left:var(--space-24);max-width:78ch;
+  }
+  .dok-feltetelek ul{list-style:disc}
+  .dok-feltetelek ol{list-style:decimal}
+  .dok-feltetelek li{margin-bottom:var(--space-8);padding-left:var(--space-4)}
+  .dok-feltetelek li::marker{color:var(--text-tertiary)}
+
+  /* JOGSZABÁLY-HIVATKOZÁS a szövegben. Felső index, de nem kopott kis szám: a
+     saját, halvány felülete elválasztja a mondattól, és megfoghatóvá teszi
+     érintőn is. Ráállásra a magyarázat BUBORÉKBAN jelenik meg (a szöveget a
+     `dokumentum.js` emeli át a lábjegyzetből — nincs kétszer leírva),
+     kattintásra pedig odaugrik, és a lábjegyzet felvillan. */
+  .dok-jog{
+    display:inline-block;position:relative;
+    min-width:1.35em;padding:0 .28em;margin-left:.15em;
+    border-radius:.4em;background:var(--surface-muted);
+    font-family:var(--font-mono);font-size:.68em;line-height:1.5;
+    vertical-align:super;text-align:center;
+    color:var(--link);text-decoration:none;
+    transition:background var(--dur-fast) var(--ease-out),
+               color var(--dur-fast) var(--ease-out);
+  }
+  .dok-jog:hover,.dok-jog:focus-visible{
+    background:var(--primary);color:var(--on-primary);text-decoration:none;
+  }
+  .dok-jog:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
+
+  .dok-labjegyzet{
+    margin-top:var(--space-32);padding:var(--space-24);
+    border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--canvas);color:var(--text-tertiary);
+  }
+  .dok-labjegyzet > p{margin:0 0 var(--space-16);max-width:none}
+  .dok-labjegyzet ol{margin:0;padding-left:var(--space-24);max-width:none}
+  .dok-labjegyzet li{margin-bottom:var(--space-8);scroll-margin-top:var(--space-96)}
+  /* A megcélzott lábjegyzet FELVILLAN, majd visszahalványul: a szem így
+     megtalálja, de az állapot nem ragad ott. */
+  .dok-labjegyzet li:target,
+  .dok-labjegyzet li.is-villan{
+    color:var(--text-primary);
+    animation:dok-jog-villan 1600ms var(--ease-out) both;
+  }
+  @keyframes dok-jog-villan{
+    0%   {background:color-mix(in srgb,var(--primary) 26%,transparent);
+          box-shadow:0 0 0 var(--space-8) color-mix(in srgb,var(--primary) 26%,transparent)}
+    100% {background:transparent;box-shadow:0 0 0 var(--space-8) transparent}
+  }
+
+  /* --- aláírásblokk: nyomtatásban ez a lap alja ---------------------------- */
+  .dok-alairas{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:var(--space-32);margin-top:var(--space-48);
+  }
+  .dok-alairas-hely{padding-top:var(--space-48);border-bottom:1px solid var(--text-primary)}
+  .dok-alairas-cimke{margin:var(--space-8) 0 0;color:var(--text-secondary);text-align:center}
+
+  /* --- KÖTELEZŐ MEZŐ ÉS HIBAJELZÉS -----------------------------------------
+     A csillag PIROS: a kötelezőség nem díszítés, hanem a kitöltés feltétele —
+     ugyanabban a színben, amiben a hiba is megszólal, mert ugyanarról szól.
+
+     A HIBA NEM CSAK SZÍN. A piros keret mellett ott a buborékban a MONDAT, ami
+     megmondja, mi a baj és mit kell tenni; az `aria-invalid` és az
+     `aria-describedby` pedig a képernyőolvasónak mondja el ugyanezt. Színnel
+     közölt információ önmagában nem elég (WCAG 1.4.1). */
+  .urlap-cimke span[aria-hidden="true"]{color:var(--danger-border);font-weight:700}
+
+  .urlap-input[aria-invalid="true"],
+  .urlap-fajl[aria-invalid="true"]{
+    border-color:var(--danger-border);
+    background:color-mix(in srgb,var(--danger-bg) 55%,var(--surface));
+  }
+  .urlap-input[aria-invalid="true"]:focus-visible{outline-color:var(--danger-border)}
+
+  /* A HIBABUBORÉK LEBEG — nem told el semmit.
+     Ha a hibaüzenet beleül a folyamba, minden alatta lévő mező lejjebb ugrik,
+     és a kitöltő ott veszíti el a helyét, ahol éppen dolgozik: gépelés közben
+     mozdul el alóla a lap. Ezért a buborék KIKERÜL a folyamból, a mező alatt
+     lebeg, és a `pointer-events:none` miatt a mögötte lévő mezőre kattintani is
+     lehet rajta keresztül. Árnyékot kap, hogy egyértelműen réteg legyen, ne a
+     lap része.
+
+     A viszonyítási pont a mező doboza (`.urlap-mezo`, `.urlap-jelolo`,
+     `.dok-valasztek`) — ezért kapnak `position:relative`-et. */
+  .urlap-mezo,.urlap-jelolo,.dok-valasztek{position:relative}
+  .urlap-hiba{
+    position:absolute;z-index:30;top:100%;left:0;
+    margin-top:var(--space-8);pointer-events:none;
+    width:max-content;max-width:min(26rem,100%);
+    padding:var(--space-8) var(--space-16);
+    border-radius:var(--r-md);
+    background:var(--danger-bg);color:var(--danger-text);
+    border:1px solid var(--danger-border);box-shadow:var(--shadow-2);
+    animation:urlap-hiba-be var(--dur-ui) var(--ease-out) both;
+  }
+  .urlap-hiba::before{
+    content:'';position:absolute;bottom:100%;left:var(--space-16);
+    translate:0 50%;rotate:45deg;
+    width:var(--space-8);height:var(--space-8);
+    background:var(--danger-bg);
+    border-left:1px solid var(--danger-border);border-top:1px solid var(--danger-border);
+  }
+  /* Nyomtatásban nincs lebegő figyelmeztetés — az űrlap ott papír. */
+  @media print{ .urlap-hiba{display:none} }
+  @keyframes urlap-hiba-be{
+    from{opacity:0;translate:0 calc(-1 * var(--space-4))}
+    to  {opacity:1;translate:0 0}
+  }
+
+  /* A NYILATKOZATOK hibája a jelölőnégyzet sorához tartozik, nem egy mezőhöz. */
+  .urlap-jelolo[aria-invalid="true"] label,
+  .urlap-jelolo.is-hibas label{color:var(--danger-text)}
+  .urlap-jelolo input[aria-invalid="true"]{outline:2px solid var(--danger-border);outline-offset:3px}
+
+  /* BEKÜLDŐ GOMB, AMÍG HIÁNYZIK VALAMI. Nem `disabled`, hanem `aria-disabled`:
+     a gomb így FÓKUSZÁLHATÓ marad, a képernyőolvasó bejelenti, hogy jelenleg
+     nem működik, és megnyomva megmondja, MI hiányzik — ahelyett, hogy némán
+     nem történne semmi. Egy letiltott gomb a leggyakoribb űrlap-zsákutca. */
+  .btn[aria-disabled="true"]{
+    background:var(--primary-disabled);border-color:var(--primary-disabled);
+    color:var(--text-disabled);cursor:not-allowed;box-shadow:none;
+  }
+  .btn[aria-disabled="true"]:hover{transform:none;background:var(--primary-disabled)}
+  /* ZÁRÓ BLOKK. A beküldés nem a kitöltés folytatása, hanem külön mozdulat —
+     és a megrendelőlapon ráadásul közvetlenül az ALÁÍRÁSVONAL alatt áll. Ha
+     nincs közte tér, a gomb, az állapotjelző, a jogi mondat és az aláírás
+     egyetlen szürke tömbbé olvad, és a kitöltő nem tudja, hol tart.
+     Elválasztó vonal, bőséges térköz, és a blokkon belül is rendezett sorok. */
+  .urlap-zaras{
+    display:grid;gap:var(--space-16);
+    margin-top:var(--space-48);padding-top:var(--space-32);
+    border-top:1px solid var(--border);
+  }
+  .dok .urlap-zaras{margin-top:var(--space-64)}
+  .urlap-akcio{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-16);margin:0}
+  .urlap-zaras .urlap-jog{margin:0;max-width:64ch}
+  .urlap-hianyzik{color:var(--text-secondary)}
+  .urlap-hianyzik[data-kesz]{color:var(--success-text)}
+  /* Az állapotjelző a gomb MELLETT áll, de nem tapad rá: szűk nézetben új
+     sorba kerül, és ott sem ér hozzá. */
+  .urlap-akcio .urlap-hianyzik{flex:1 1 14rem;min-width:0}
+
+  /* --- SÚGÓ-BUBORÉK — `.sugo` ----------------------------------------------
+     Egy űrlapmező mellé nem fér el három mondat magyarázat, de a látogató
+     éppen ott akadna el: mi az a helyrajzi szám, mit jelent a lakosegyenérték,
+     miért kell az ajánlat sorszáma. A súgó ezt a három mondatot tartja
+     készenlétben, és csak akkor mutatja, amikor kérik.
+
+     GOMB, NEM `title`. A natív `title` érintőn nem létezik, billentyűvel nem
+     érhető el, és a megjelenéséig másfél másodperc telik el. Itt egy valódi
+     gomb áll, amit a `Tab` is elér; a buborékot a hover, a fókusz és a
+     kattintás egyaránt előhozza (a kattintás fókuszál).
+
+     A BUBORÉK NEM VÁGÓDIK LE: a mező fölött nyílik, a szélén balra igazodik,
+     szűk nézetben pedig a mező teljes szélességét megkapja. */
+  .sugo{position:relative;display:inline-flex;vertical-align:middle;margin-left:var(--space-4)}
+  .sugo-jel{
+    display:grid;place-items:center;width:1.15rem;height:1.15rem;padding:0;
+    border:1px solid var(--border-strong);border-radius:50%;
+    background:var(--surface);color:var(--text-secondary);cursor:help;
+    font-family:var(--font-mono);font-size:11px;line-height:1;
+    transition:background var(--dur-fast) var(--ease-out),
+               color var(--dur-fast) var(--ease-out),
+               border-color var(--dur-fast) var(--ease-out);
+  }
+  .sugo-jel:hover,.sugo-jel:focus-visible{
+    background:var(--primary);border-color:var(--primary);color:var(--on-primary);
+  }
+  .sugo-jel:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .sugo-buborek{
+    position:absolute;z-index:40;left:50%;bottom:calc(100% + var(--space-8));
+    width:max-content;max-width:min(22rem,70vw);
+    padding:var(--space-8) var(--space-16);
+    border-radius:var(--r-md);border:1px solid var(--border-strong);
+    background:var(--tipp-bg);color:var(--tipp-text);box-shadow:var(--shadow-2);
+    text-align:left;
+    opacity:0;visibility:hidden;
+    translate:-50% var(--space-8);
+    transition:opacity var(--dur-fast) var(--ease-out),
+               translate var(--dur-ui) var(--ease-out),
+               visibility var(--dur-ui);
+  }
+  /* A csücsök a jel felé mutat — a buborék így nem lebeg gazdátlanul. */
+  .sugo-buborek::after{
+    content:'';position:absolute;top:100%;left:50%;translate:-50% -50%;
+    width:var(--space-8);height:var(--space-8);rotate:45deg;
+    background:var(--tipp-bg);
+    border-right:1px solid var(--border-strong);border-bottom:1px solid var(--border-strong);
+  }
+  .sugo-jel:hover + .sugo-buborek,
+  .sugo-jel:focus-visible + .sugo-buborek,
+  .sugo:hover .sugo-buborek,
+  .dok-jog:hover .sugo-buborek,
+  .dok-jog:focus-visible .sugo-buborek{
+    opacity:1;visibility:visible;translate:-50% 0;
+  }
+  /* A LÁBJEGYZET-BUBORÉK a felső indexben ül, tehát örökölné annak apró,
+     mono, felső indexes betűjét — itt visszavesszük a rendes szöveget. */
+  .sugo-buborek-jog{
+    font-family:var(--font-body);font-size:var(--type-ui-caption-size);
+    line-height:var(--type-ui-caption-line-height);
+    vertical-align:baseline;font-weight:400;
+    white-space:normal;text-transform:none;letter-spacing:normal;
+    max-width:min(26rem,72vw);
+  }
+  .sugo-buborek-jog strong{color:var(--tipp-text)}
+
+  /* --- fájlmelléklet ------------------------------------------------------- */
+  .urlap-fajl{
+    display:block;width:100%;padding:var(--space-16);
+    border:1px dashed var(--border-strong);border-radius:var(--r-md);
+    background:var(--canvas);color:var(--text-secondary);
+    font-family:var(--font-body);font-size:var(--type-ui-subtitle-size);
+  }
+  .urlap-fajl::file-selector-button{
+    margin-right:var(--space-16);padding:var(--space-8) var(--space-16);
+    border:1px solid var(--border-strong);border-radius:999px;
+    background:var(--surface);color:var(--text-primary);
+    font-family:var(--font-body);font-weight:600;cursor:pointer;
+  }
+  .urlap-fajl::file-selector-button:hover{background:var(--surface-muted)}
+  .urlap-fajl:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .urlap-fajl-sugo{margin:var(--space-8) 0 0;color:var(--text-tertiary)}
+  /* A kiválasztott fájlok listája — a JS tölti fel, hogy a látogató lássa,
+     mit csatolt, és tudja törölni. */
+  .urlap-fajl-lista{list-style:none;margin:var(--space-8) 0 0;padding:0;display:grid;gap:var(--space-4)}
+  .urlap-fajl-lista li{
+    display:flex;align-items:center;gap:var(--space-8);
+    padding:var(--space-8);border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--surface);color:var(--text-secondary);
+  }
+  .urlap-fajl-meret{margin-left:auto;font-family:var(--font-mono);color:var(--text-tertiary)}
+  .urlap-fajl-hiba{color:var(--danger-text)}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    .dok{padding:var(--space-16);border-radius:var(--r-md)}
+    .dok-racs{grid-template-columns:minmax(0,1fr)}
+    .dok-alairas{grid-template-columns:minmax(0,1fr);gap:var(--space-24)}
+  }
+}
+
+/* ----------------------------------------------------------------- NYOMTATÁS
+   A dokumentum A4-re megy: körülötte MINDEN eltűnik — fejléc, lábléc, kísérő,
+   eszköztár, sütisáv. Ami marad, az a lap, kerettel és árnyék nélkül: a
+   nyomtató úgyis fehéren adja vissza, az árnyék csak tonert visz.
+
+   A `@page` margója 14mm: a legtöbb otthoni nyomtató nem tud ennél keskenyebb
+   szegélyre nyomtatni, és a levágott aláírásblokk használhatatlanná tenné a
+   lapot. */
+@media print{
+  @page{size:A4;margin:14mm}
+  html,body{background:#fff}
+  .site-header,.lablec,.oko,.dok-eszkozok,.skip-link,
+  .breadcrumb,.hero-media{display:none !important}
+  .hero.page-hero{padding:0;min-height:0}
+  .hero-copy{padding:0}
+  main{padding:0}
+  .dok{
+    max-width:none;margin:0;padding:0;
+    border:0;border-radius:0;box-shadow:none;background:#fff;
+  }
+  .dok-szakasz{break-inside:avoid}
+  .dok-alairas{break-inside:avoid;margin-top:20mm}
+  .dok-feltetelek{font-size:9.5pt;line-height:1.35}
+  .urlap-input,.dok-opcio{border-color:#888}
+  .urlap-akcio,.urlap-valasz,.urlap-csapda{display:none !important}
+  a[href]::after{content:''}
 }

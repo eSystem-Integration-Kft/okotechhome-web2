@@ -9,7 +9,7 @@
  * A találatokat nem a modell találja ki, hanem a tartalomindexből választja:
  * a séma csak létező URL-t fogad el, és a végpont ezt még egyszer ellenőrzi.
  * Így Öko nem tud nem létező oldalra küldeni — ez a legfontosabb korlát, mert
- * egy kitalált hivatkozás rosszabb, mint a „nem tudom".
+ * egy kitalált hivatkozás rosszabb, mint a „nem tudom”.
  *
  * HÁROM RÉTEG VÉD A KITALÁLÁS ELLEN, és mind a három kódban él, nem a promptban:
  *   1. NAVIGÁCIÓ — az URL, a cím és a horgony az indexből jön vissza, nem a
@@ -82,7 +82,7 @@ if ($oldal === '') { $oldal = '/'; }
 $elozmeny = '';
 foreach (array_slice((array) ($BE['elozmeny'] ?? []), -6) as $sor) {
     /* A BESZÉLŐ NEVE a látogató nyelvén: a modell ezeket a címkéket látja, és
-       ha „Öko:" áll az előzményben, angol válaszban is annak nevezi magát. */
+       ha „Öko:” áll az előzményben, angol válaszban is annak nevezi magát. */
     $kitol = ($nyelv === 'en')
         ? ((($sor['kitol'] ?? '') === 'en') ? 'Visitor' : 'ECO')
         : ((($sor['kitol'] ?? '') === 'en') ? 'Látogató' : 'Öko');
@@ -92,7 +92,7 @@ foreach (array_slice((array) ($BE['elozmeny'] ?? []), -6) as $sor) {
 if (mb_strlen($kerdes) < 3) {
     OthVedelem::valasz(422, ['ok' => false, 'uzenet' => $UZ['ures']]);
 }
-if (!in_array($mod, ['kalauz', 'urlap', 'jelentes'], true)) { $mod = 'kalauz'; }
+if (!in_array($mod, ['kalauz', 'urlap', 'jelentes', 'ajanlat', 'megrendeles'], true)) { $mod = 'kalauz'; }
 
 /* --- tartalomindex --------------------------------------------------------- */
 $indexFajl = __DIR__ . '/kalauz-index.json';
@@ -122,9 +122,9 @@ foreach ($lapok as $l) { $ervenyes[$l['url']] = $l; }
    szűrés nagyvonalú: inkább menjen be fölösleges lap, mint hogy a jó kimaradjon
    — a válogatás úgyis a modell dolga. */
 /* ÉKEZETLENÍTÉS a kereséshez. A magyar toldalékolás elviszi a hosszú
-   magánhangzót — „kút" → „kutat", „víz" → „vizet", „tűz" → „tüzet" —, ezért a
-   tőcsonkolás ékezetesen elhasal: a „kutat" szóra a „Kút és védőtávolság" lap
-   nem jött elő. Ékezet nélkül a „kut" előtag mindkettőben megvan. Csak a
+   magánhangzót — „kút” → „kutat”, „víz” → „vizet”, „tűz” → „tüzet” —, ezért a
+   tőcsonkolás ékezetesen elhasal: a „kutat” szóra a „Kút és védőtávolság” lap
+   nem jött elő. Ékezet nélkül a „kut” előtag mindkettőben megvan. Csak a
    PONTOZÁS fut ékezetlenül; a promptba és a válaszba az eredeti szöveg megy. */
 function oth_ekezettelen(string $s): string
 {
@@ -145,7 +145,7 @@ foreach ($lapok as $l) {
     $pont = 0;
     foreach ($szavak as $sz) {
         /* Tőcsonkolás magyarra: a teljes szó helyett az első hat betű, mert a
-           „telekre", „telkem", „telket" mind ugyanoda mutat. Nem morfológia,
+           „telekre”, „telkem”, „telket” mind ugyanoda mutat. Nem morfológia,
            de a keresés szempontjából elég. */
         $to = mb_substr($sz, 0, 6);
         if (str_contains($halom, $to)) { $pont++; }
@@ -202,18 +202,18 @@ if ($szavak && is_readable($szovegFajl)) {
        előre olyan kérdéseknél is, amelyekre egy rövid, témába vágó lap felelt
        volna. Két dolgot kellett hozzátenni.
 
-       1. RITKASÁGI SÚLY. A „szennyvíz" a webhely minden lapján ott van, tehát
-          semmit nem különböztet meg; a „csúcsterhelés" viszont keveset, és az
+       1. RITKASÁGI SÚLY. A „szennyvíz” a webhely minden lapján ott van, tehát
+          semmit nem különböztet meg; a „csúcsterhelés” viszont keveset, és az
           épp a kérdés lényege. Amelyik tő kevés részletben fordul elő, az
           többet ér — ez a klasszikus IDF.
        2. HOSSZNORMALIZÁLÁS. A találatszámot a szöveghossz gyökével osztjuk,
           különben a hosszabb szakasz pusztán a méreténél fogva nyer. */
-    /* KETTŐS TŐ. A hat betűs csonkolás rövid tövű szavaknál elhasal: a „kutat"
-       töve hosszabb, mint maga a keresett „kút", ezért a Kút és védőtávolság
+    /* KETTŐS TŐ. A hat betűs csonkolás rövid tövű szavaknál elhasal: a „kutat”
+       töve hosszabb, mint maga a keresett „kút”, ezért a Kút és védőtávolság
        lap egyáltalán nem jött elő. Ezért minden szó KÉT tővel szerepel: a hat
        betűssel (pontos, teljes súly) és egy rövidebbel (mentőöv, 0,7 súly).
-       A rövid tő zaját az IDF fogja vissza — a gyakori „tel" kevesebbet ér,
-       a ritka „kut" többet. Top-8 találat a próbakérdéseken: 9/10 → 10/10. */
+       A rövid tő zaját az IDF fogja vissza — a gyakori „tel” kevesebbet ér,
+       a ritka „kut” többet. Top-8 találat a próbakérdéseken: 9/10 → 10/10. */
     $tovek = [];                                  // tő => súly
     foreach ($szavak as $sz) {
         $tovek[mb_substr($sz, 0, 6)] = 1.0;
@@ -270,7 +270,67 @@ $SZEREP = [
     'jelentes' => 'A látogató a saját ajánlat-összehasonlítási jelentését nézi. A jelentés '
                 . 'tartalmát NEM látod, ezért ne állíts róla semmit — magyarázd el, mit jelentenek '
                 . 'az összehasonlítás szempontjai általában, és mire érdemes figyelnie.',
+    'ajanlat'  => 'A látogató most tölt ki egy ÁRAJÁNLATKÉRŐT. Segíts neki megérteni, melyik '
+                . 'mezőbe mit írjon, és mit érdemes csatolnia. Ne tereld el az űrlaptól, és '
+                . 'árat továbbra sem mondasz — az ajánlat a felmérés és a megadott adatok '
+                . 'alapján készül.',
+    'megrendeles' => 'A látogató a MEGRENDELŐLAPOT tölti ki. Segíts a mezőkben és a '
+                . 'választható tételekben, és mondd el, mit jelentenek a feltételek — de '
+                . 'jogi tanácsot NEM adsz: a lapon álló szöveg a mérvadó, kérdés esetén '
+                . 'kollégánk vagy a saját jogi tanácsadója segít. Ne tereld el a laptól.',
 ][$mod];
+
+/* AJÁNLATKÉRŐ MÓD — a lap mezői név szerint, hogy a válasz konkrét legyen. */
+if ($mod === 'ajanlat') {
+    $SZEREP .= "\n\nAZ ŰRLAP, AMIT A LÁTOGATÓ ÉPPEN TÖLT (/ajanlat):\n"
+        . "· KAPCSOLAT — név, e-mail (kötelező), telefon, cég vagy intézmény.\n"
+        . "· AZ INGATLAN — település (kötelező) és helyrajzi szám (a tulajdoni lapon és az "
+        . "építési engedélyen szerepel; ebből ellenőrizhető a helyi szabályozás és a "
+        . "védőtávolság); ingatlantípus (családi ház, nyaraló, vállalkozás, intézmény, "
+        . "közösségi); hány fő használja — az ÁLLANDÓAN ott élők száma, időszakos "
+        . "használatnál a csúcsidőszaké, a napok számával a megjegyzésben; mi van most a "
+        . "telken (semmi, emésztő, oldómedence, biológiai, egyéb) — meglévő aknánál gyakran "
+        . "kiváltható a régi, és a földmunka egy része megmarad; melyik megoldás érdekli "
+        . "(a „még nem tudom” teljesen rendben van: a technológiát a terhelés és a telek "
+        . "dönti el); mikorra tervezi.\n"
+        . "· MELLÉKLET — legfeljebb 3 fájl, egyenként 10 MB (pdf, jpg, png, docx, xlsx). "
+        . "A leghasznosabb a helyszínrajz és a tavaszi vízállásról készült fotó; korábbi "
+        . "ajánlat is csatolható, azt átnézzük.\n"
+        . "· A csillaggal jelölt mezők kötelezők; a beküldő gomb addig inaktív, amíg "
+        . "hiányzik valami. A hibát a mező alatt piros buborék mondja meg.\n"
+        . "Válasz két munkanapon belül, tételes ajánlattal, sorszámmal és érvényességi "
+        . "idővel. Az ajánlat NEM tartalmazza az engedélyezési eljárást, a tervezői és "
+        . "hatósági díjakat, a földmunkát és a telken belüli vezetéképítést.";
+}
+
+/* MEGRENDELŐ MÓD — a lap szakaszai és a feltételek lényege. */
+if ($mod === 'megrendeles') {
+    $SZEREP .= "\n\nA MEGRENDELŐLAP, AMIT A LÁTOGATÓ ÉPPEN TÖLT (/megrendeles, 6 szakasz):\n"
+        . "1. MEGRENDELŐ ADATAI — név, telefon, e-mail, kapcsolattartó; állandó lakhely "
+        . "(vállalkozásnál székhely: a cégjegyzékbe bejegyzett cím, nem feltétlenül a "
+        . "telepítés helye); számlázási név és cím, postacím; adószám csak cégre szóló "
+        . "számlánál (8 számjegy + áfakód + megyekód, például 12345678-2-11 — az űrlap az "
+        . "ellenőrzőszámot is nézi); a telepítés helyszíne CÍMMEL ÉS HELYRAJZI SZÁMMAL, "
+        . "mert a vízjogi engedélyezés és a védőtávolságok ehhez kötődnek.\n"
+        . "2. A MEGRENDELT SZOLGÁLTATÁSOK — három választás: kivitelezés (szereléssel / "
+        . "szerelés nélkül), üzembe helyezés (igen / nem; feltétele a teljes vételár "
+        . "kiegyenlítése), szállítás (ÖkoTech-Home általi / saját szállítóeszközzel).\n"
+        . "3. MELLÉKLETEK — az árajánlat PDF-je, helyszínrajz, cégadatok; aláírt, "
+        . "beszkennelt megrendelőlap is küldhető (3 fájl, 10 MB-ig).\n"
+        . "4. MEGRENDELÉSI FELTÉTELEK (#m-szakasz-4) — öt pont: általános feltételek, "
+        . "fizetés, engedélyek-jótállás-átadás, szállítás és átvétel, valamint a "
+        . "megrendelő előkészítő feladatai (földmunka, csövezés, áram, betonalap).\n"
+        . "5. NYILATKOZATOK — elektronikus számla elfogadása, feltételek elfogadása és "
+        . "adatkezelési hozzájárulás KÖTELEZŐ; a karbantartási tájékoztatás és a hírlevél "
+        . "választható. A beküldő gomb addig inaktív, amíg ez a három nincs bejelölve.\n"
+        . "6. KELT ÉS ALÁÍRÁS — a keltezés helye és dátuma, majd az aláíró neve.\n"
+        . "A LEGGYAKORIBB KÉRDÉSEK: a lap csak érvényes ÁRAJÁNLAT SORSZÁMÁVAL együtt "
+        . "érvényes; a szerződés a megrendelés VISSZAIGAZOLÁSÁVAL jön létre, nem a "
+        . "beküldéssel; 50% előleg a visszaigazolás után 3 napon belül; a tulajdonjog a "
+        . "teljes kifizetésig fennmarad; egyedi gyártás miatt elállásra nincs mód; 2 év "
+        . "jótállás; az engedély beszerzése a megrendelő feladata. A részleteket a 4. "
+        . "szakasz mondja ki — oda irányítsd, és NE értelmezd jogilag.";
+}
 
 /* Urlap módban Öko nem általánosságban segít, hanem EZT az űrlapot ismeri:
    lapról lapra tudja, mi hol van, mit jelent, és mit szabad üresen hagyni.
@@ -291,9 +351,9 @@ if ($mod === 'urlap') {
         . "jelen lévő létszám (vendégjárás, teltház) — nyaralónál és panziónál ez méretez, "
         . "nem az átlag; telekméret m²-ben, elég a nagyságrend; meglévő adatok "
         . "(helyszínrajz, talajvizsgálat, szivárogtatási vizsgálat, talajvízadat, terv, "
-        . "másik ajánlat — az „egyelőre semmi\" is jó válasz); magas talajvíz; kút (a "
+        . "másik ajánlat — az „egyelőre semmi\” is jó válasz); magas talajvíz; kút (a "
         . "védőtávolság miatt kérdezzük, a szomszéd kútja is számít).\n"
-        . "4. Leírás — szabad szöveg a helyzetről. Az „Adatok kiolvasása a leírásból\" gomb "
+        . "4. Leírás — szabad szöveg a helyzetről. Az „Adatok kiolvasása a leírásból\” gomb "
         . "a szövegből mezőket tölt ki az előző lapokon, de KIZÁRÓLAG az üresen hagyottakat "
         . "— a látogató beírását sosem írja felül.\n"
         . "5. Időpont — konzultáció módja: telefonos (15–30 perc, a legtöbb kérdéshez elég) "
@@ -318,7 +378,7 @@ if ($mod === 'urlap') {
    válasz EZEN a lapon van, az első találat ez legyen, horgonnyal — a felület
    helyben kiemeli a szakaszt, ami többet ér, mint egy hivatkozás máshová. */
 if ($itt !== null && $mod === 'kalauz') {
-    $SZEREP .= "\n\nA látogató éppen ezen a lapon áll: „{$itt['cim']}\" ({$itt['url']}). "
+    $SZEREP .= "\n\nA látogató éppen ezen a lapon áll: „{$itt['cim']}\” ({$itt['url']}). "
         . 'Ha a kérdésre ez a lap felel, EZT add első találatnak a megfelelő szakasz '
         . 'horgonyával — a felület helyben kiemeli. Ha a válasz máshol van, mondd meg, '
         . 'hová érdemes továbbmenni innen.';
@@ -329,10 +389,10 @@ if ($itt !== null && $mod === 'kalauz') {
    cég átállítja, nem marad hátra egy elavult szám a prompt közepén. */
 $MEGORZES = (int) ($CFG['eredmeny']['megorzes_nap'] ?? 180);
 
-/* A SEGÉD NEVE nyelvenként más. A magyar „Öko" az „ökológiai" rövidítése —
+/* A SEGÉD NEVE nyelvenként más. A magyar „Öko” az „ökológiai” rövidítése —
    angolul olvashatatlan, ezért ott ECO. A promptban is ki kell mondani:
    különben a modell a lenti magyar szerepleírásból veszi a nevét, és angol
-   válaszban is „Öko"-ként mutatkozik be. */
+   válaszban is „Öko”-ként mutatkozik be. */
 $SYSTEM = ($nyelv === 'en'
         ? "ANSWER IN ENGLISH. The visitor is on the English site.\n"
         . "YOUR NAME IS \"ECO\" — never call yourself Öko when writing English.\n\n"
@@ -372,7 +432,7 @@ A JOGI KAPU (ezt a technológiaválasztás ELŐTT kell tisztázni)
 - Ha MINDKETTŐ teljesül, új szennyvízkezelő berendezés nem telepíthető — ez
   nem preferencia és nem ár kérdése. Ilyenkor a rákötés az út, és ezt akkor is
   ki kell mondani, ha ez azt jelenti, hogy nem tőlünk vásárol.
-- „Van cső az utcában" NEM ugyanaz, mint a műszaki elérhetőség. A szomszéd
+- „Van cső az utcában” NEM ugyanaz, mint a műszaki elérhetőség. A szomszéd
   példája, a közműtérkép vagy a látótávolság nem bizonyíték: a víziközmű-
   szolgáltató és az önkormányzat hivatalos tájékoztatása dönt.
 - A szabályozás külön kezeli a felszín alatti vizek szempontjából fokozottan
@@ -380,7 +440,7 @@ A JOGI KAPU (ezt a technológiaválasztás ELŐTT kell tisztázni)
 - Ezt a lapot ajánld ilyenkor: /helyzetem/kozcsatorna-vagy-egyedi-rendszer
 
 A TISZTÍTOTT VÍZ MÉRŐSZÁMAI (ha rákérdez, magyarázd el — de értéket ne mondj)
-- A „tisztított víz" nem ivóvíz, és nem jelenti, hogy bárhol elszikkasztható.
+- A „tisztított víz” nem ivóvíz, és nem jelenti, hogy bárhol elszikkasztható.
 - KOI és BOI5: a vízben maradó, oxigénigényt jelentő szennyezőanyag-terhelést
   mutatják (a BOI5 a biológiailag lebontható részt, öt nap alatt).
   Lebegőanyag: mennyi szilárd anyag maradt a vízben. Nitrogén és foszfor:
@@ -434,10 +494,22 @@ A MEGRENDELÉSIG VEZETŐ ÚT (ezen vezeted végig a látogatót, lépésről lé
    a 2–3. lépés adatai döntik el. (megoldasok/ lapok)
 5. KONZULTÁCIÓ ÉS HELYSZÍNI FELMÉRÉS — a /konzultacio űrlap. Az árajánlat
    ELŐFELTÉTELE a felmérés; enélkül csak nagyságrend mondható.
-6. TERVEZÉS ÉS ENGEDÉLY — a legtöbb rendszerhez vízjogi létesítési engedély
+6. ÁRAJÁNLAT — az /ajanlat űrlap. Tételes ár, méretezés és határidő, sorszámmal
+   és érvényességi idővel. Kéri: kapcsolat, település és helyrajzi szám,
+   ingatlantípus, létszám, jelenlegi megoldás, tervezett kezdés; csatolható
+   helyszínrajz, tervrajz, korábbi ajánlat (legfeljebb 3 fájl, 10 MB-ig).
+   NEM tartalmazza: az engedélyezési eljárást, a tervezői és hatósági díjakat,
+   a földmunkát és a telken belüli vezetéképítést.
+7. TERVEZÉS ÉS ENGEDÉLY — a legtöbb rendszerhez vízjogi létesítési engedély
    kell, tervezővel; a 2. lépés iratai itt válnak kötelezővé.
    (projekt-elokeszites/engedelyezes-es-dokumentumok lapok)
-7. KIVITELEZÉS, majd ÜZEMELTETÉS — átadás, karbantartás, iszapkezelés.
+8. MEGRENDELÉS — a /megrendeles lap. A megrendelőlap KIZÁRÓLAG egy érvényes
+   árajánlat sorszámával együtt érvényes; online beküldhető vagy kinyomtatva,
+   aláírva visszaküldhető. Három dolgot választ ki a megrendelő: kivitelezés
+   (szereléssel / szerelés nélkül), üzembe helyezés (igen / nem), szállítás
+   (ÖkoTech-Home általi / saját). A szerződés a MEGRENDELÉS VISSZAIGAZOLÁSÁVAL
+   jön létre, nem a beküldéssel.
+9. KIVITELEZÉS, majd ÜZEMELTETÉS — átadás, karbantartás, iszapkezelés.
 
 HOGYAN VEZESS
 - Magyarul, magázódva, legfeljebb 3 rövid mondatban. Barátságos, de tárgyilagos.
@@ -450,7 +522,7 @@ HOGYAN VEZESS
 - Ha a lépéshez irat, terv vagy engedély kell, nevezd meg NÉV SZERINT
   (helyszínrajz, talajvizsgálat, szivárogtatási vizsgálat, vízjogi engedély),
   és mondd meg, mi pótolható a konzultáción vagy a felmérésen.
-- A „NEM TUDOM" ÉRVÉNYES VÁLASZ, és ezt mondd is ki. Nem hiba, hanem a
+- A „NEM TUDOM” ÉRVÉNYES VÁLASZ, és ezt mondd is ki. Nem hiba, hanem a
   következő feladatot jelöli ki. Négy fokozat van: becsült (első
   tájékozódásra elég), dokumentált (tervből, iratból — a kelte is számít),
   mért (bizonyos döntésekhez csak ez fogadható el), és a nem tudom. Bizonytalan
@@ -465,7 +537,22 @@ HOGYAN VEZESS
   amelyik a legtöbbet dönt. Ne kérdezz kettőt egyszerre.
 - Ha a látogató a 4–5. lépés táján jár (érti a helyzetét, van alap telekadata),
   hívd a /konzultacio űrlapra — ott a kitöltésben is segítesz.
-- Ha a látogató nem tudja, hol kezdje, mondd meg. Nem „nézzen körül", hanem
+- ÁRAJÁNLAT: ha konkrét árat vagy ajánlatot kér és már tudja a település nevét,
+  a létszámot és azt, mi van most a telken, hívd az /ajanlat lapra. Mondd meg,
+  mi gyorsítja: helyszínrajz csatolása és a helyrajzi szám. Árat TE nem mondasz.
+- MEGRENDELÉS: a /megrendeles lapra CSAK akkor irányíts, ha már VAN a kezében
+  árajánlat (a sorszáma nélkül a lap nem érvényes). Ha nincs, előbb az /ajanlat.
+- A megrendelőlap tartalmáról nyugodtan beszélj — a feltételek nyilvánosak, és
+  a lapon a „Megrendelési feltételek” szakaszban olvashatók (#m-szakasz-4):
+  50% előleg a visszaigazolás után 3 napon belül, tulajdonjog-fenntartás a
+  teljes kifizetésig, egyedi gyártás miatt nincs elállás, 2 év jótállás, az
+  engedély beszerzése a megrendelő feladata. Ha a részletekre kérdez, a
+  szakaszra irányítsd, és ne értelmezd jogilag: a szöveg a mérvadó, kérdés
+  esetén kollégánk vagy jogi tanácsadó segít.
+- Ha a kitöltésnél akad el (mi a helyrajzi szám, mi az adószám formátuma, mit
+  jelent a „szerelés nélkül”), a mezők mellett a `?` súgógomb ugyanezt kifejti —
+  mondd meg, hogy ott is megtalálja.
+- Ha a látogató nem tudja, hol kezdje, mondd meg. Nem „nézzen körül”, hanem
   konkrétan: melyik lap az első lépés az ő helyzetében.
 - Az előzményre építs: amit már elmondott, ne kérdezd újra.
 - Ha nem tudod, mondd meg. A telefon: +36 33 200 211.
@@ -628,7 +715,7 @@ foreach ((array) ($eredmeny['talalatok'] ?? []) as $t) {
 }
 
 /* --- SZÁMŐR: a tiltás kódban is, nem csak a promptban ---------------------- */
-/* A promptban álló „ne mondj árat, kapacitást, fogyasztást" utasítás EGY
+/* A promptban álló „ne mondj árat, kapacitást, fogyasztást” utasítás EGY
    valószínűségi modellre bízza a szabály betartását. A navigációt már kódban
    védjük (kitalált URL nem megy ki) — a válasz SZÖVEGÉT eddig semmi nem mérte.
    Ez a szűrő a mértékegységgel ellátott értékeket fogja meg: azok ugyanis
