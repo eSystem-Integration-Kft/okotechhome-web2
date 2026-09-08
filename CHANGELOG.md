@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.05.00-36C5E6?style=flat-square" alt="verzió 0.05.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.06.00-36C5E6?style=flat-square" alt="verzió 0.06.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-5-6f42c1?style=flat-square" alt="5 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-6-6f42c1?style=flat-square" alt="6 kiadás">
 </p>
 
 ---
@@ -29,7 +29,16 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
-## [Nem kiadott]
+## [0.06.00] — 2026-09-08
+
+**Az angol webhely felépült, majd külön projektbe költözött.**
+A magyar oldal ezalatt megkapta a bizonyítékait — esettanulmányok, ügyféltapasztalatok,
+ISO 9001 tanúsítvány, a cég története és a két szabvány különbsége —, a
+megkeresés útja pedig végigjárhatóvá vált: ajánlatkérő és megrendelőlap élő
+űrlapellenőrzéssel. A beérkező kitöltés mostantól közvetlenül a CRM
+MySQL-táblájába is mehet, átadási naplóval.
+
+**105 commit**, 2026-08-17 — 2026-09-08.
 
 **Öko panelje üres volt a két új lapon.** A szövegtár üzemmódonként áll
 (`kalauz`, `urlap`, `jelentes`), és az ismeretlen kulcsra üres objektumot adott:
