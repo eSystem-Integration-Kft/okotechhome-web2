@@ -12,6 +12,10 @@ Thumbs.db
 !.env.example
 *.key
 *.pem
+# KIVÉTEL: a feltöltés tanúsítványlánca. Nyilvános adat (Let's Encrypt köztes
+# és gyökér tanúsítványok), nem titok — viszont NÉLKÜLE a `feltoltes.sh` nem
+# tud kapcsolódni, mert a tárhely FTP-kiszolgálója nem küldi el a láncot.
+!scripts/ftps-ca.pem
 
 # ═════════════════════════════════════════════════════════════════════════════
 #  HELYI MUNKAKÖNYVTÁRAK — NEM kerülnek a távoli repóba
