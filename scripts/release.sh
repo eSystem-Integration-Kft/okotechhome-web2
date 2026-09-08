@@ -83,8 +83,11 @@ grep -qE "^## \[$NEW_VERSION\]" "$CHANGELOG_FILE" \
   || die "A $CHANGELOG_FILE nem tartalmaz '## [$NEW_VERSION]' szekciót. Írd meg előbb a naplót."
 
 # one-line summary = first non-empty, non-heading line under the version heading
-SUMMARY="$(awk -v ver="## \\[$NEW_VERSION\\]" '
-  $0 ~ ver {found=1; next}
+# The heading is matched literally with index(), not as a regex: awk's -v
+# unescapes "\\[" to "[", so a regex would read "[0.06.00]" as a character
+# class and never match the heading — the summary silently fell back to "kiadás".
+SUMMARY="$(awk -v hdr="## [$NEW_VERSION]" '
+  index($0, hdr) == 1 {found=1; next}
   found && /^## \[/ {exit}
   found && NF && $0 !~ /^#/ && $0 !~ /^>/ {print; exit}
 ' "$CHANGELOG_FILE" | sed 's/[*_`]//g' | cut -c1-100)"
