@@ -13,7 +13,7 @@
 #   1. validate the version string (padded format) and that it is greater than the current one
 #   2. verify clean worktree on main
 #   3. verify CHANGELOG.md has a section for the new version
-#   4. write VERSION, commit as chore(release), create an annotated tag
+#   4. write VERSION and _web/VERSION, commit as chore(release), create an annotated tag
 #   5. print the push command (never pushes on its own)
 #
 set -euo pipefail
@@ -22,6 +22,11 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
 VERSION_FILE="VERSION"
+# A webkimenetnek SAJÁT VERSION fájlja van, mert ez az egyetlen, ami a
+# kiszolgálóra is felkerül: ebből lehet megnézni, melyik kiadás fut élesben.
+# Kézzel vezetve elcsúszott (0.05.00 maradt egy 0.06.00-s kiadásban), ezért a
+# kiadás írja mindkettőt.
+WEB_VERSION_FILE="_web/VERSION"
 CHANGELOG_FILE="CHANGELOG.md"
 MAIN_BRANCH="main"
 
@@ -100,6 +105,7 @@ cat <<EOF
   Ág          : $BRANCH
   Jelenlegi   : $CURRENT_VERSION
   Új verzió   : $NEW_VERSION
+  Verziófájl  : $VERSION_FILE + $WEB_VERSION_FILE
   Tag         : v$NEW_VERSION
   Összefoglaló: $SUMMARY
 
@@ -112,7 +118,8 @@ fi
 
 # --- 5. execute -------------------------------------------------------------
 echo "$NEW_VERSION" > "$VERSION_FILE"
-git add "$VERSION_FILE" "$CHANGELOG_FILE"
+echo "$NEW_VERSION" > "$WEB_VERSION_FILE"
+git add "$VERSION_FILE" "$WEB_VERSION_FILE" "$CHANGELOG_FILE"
 git commit -m "chore(release): v$NEW_VERSION"
 git tag -a "v$NEW_VERSION" -m "v$NEW_VERSION — $SUMMARY"
 

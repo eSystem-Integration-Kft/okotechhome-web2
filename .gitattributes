@@ -1,0 +1,76 @@
+# ═════════════════════════════════════════════════════════════════════════════
+#  .gitattributes — okotechhome-web2 (Test2)
+# ═════════════════════════════════════════════════════════════════════════════
+#  Három dolgot intéz: (1) sorvégek, (2) mi bináris és mi nem, (3) mi marad ki
+#  a `git archive`-ból — vagyis a deployból.
+# ═════════════════════════════════════════════════════════════════════════════
+
+# ── 1. Sorvégek ──────────────────────────────────────────────────────────────
+# A repóban MINDIG LF. A fejlesztés macOS-en folyik, a kiszolgáló Linux, de a
+# Windowsról érkező szerkesztés (ügyfél, alvállalkozó) CRLF-et hozna, és a
+# következő diff az egész fájlt átírtnak mutatná — a valódi változás pedig
+# eltűnne a zajban.
+* text=auto eol=lf
+
+*.html   text eol=lf diff=html
+*.css    text eol=lf diff=css
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf diff=markdown
+*.php    text eol=lf diff=php
+*.py     text eol=lf diff=python
+*.sql    text eol=lf
+*.txt    text eol=lf
+*.xml    text eol=lf
+*.svg    text eol=lf
+*.webmanifest text eol=lf
+
+# A shell-szkriptek sorvége NEM ízlés kérdése: CRLF esetén a `#!/usr/bin/env
+# bash` sor `bash\r`-t keres, és a szkript „not found"-dal áll meg.
+*.sh     text eol=lf
+.htaccess text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# ── 2. Binárisok ─────────────────────────────────────────────────────────────
+# Sorvég-átalakítás és szövegdiff nélkül. Enélkül a git megpróbálná
+# „normalizálni" őket, és a fájl használhatatlanná válna.
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.webp   binary
+*.gif    binary
+*.ico    binary
+*.avif   binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.otf    binary
+*.mp4    binary
+*.webm   binary
+*.pdf    binary
+*.docx   binary
+*.xlsx   binary
+*.zip    binary
+
+# ── 3. Deploy — `git archive` ────────────────────────────────────────────────
+# Élesre KIZÁRÓLAG a `_web/` tartalma megy, azon belül sem minden. A README a
+# következő parancsot ajánlja:
+#
+#     git archive v0.07.00 --prefix=okotechhome2/ -o /tmp/oth.tar.gz _web
+#
+# Az alábbi `export-ignore` sorok miatt ez az archívum MÁR deploykész: a
+# fejlesztői segédfájlok nem kerülnek bele, tehát nem kell rájuk emlékezni.
+# (A `feltoltes.sh` tükrözése ettől független, saját kizárólistával dolgozik.)
+_web/README.md      export-ignore
+_web/COMPONENTS.md  export-ignore
+_web/serve.py       export-ignore
+_web/.router-dev.php export-ignore
+
+# A repó dokumentációs és verziókezelési rétege sem való a kiszolgálóra.
+README.md      export-ignore
+CHANGELOG.md   export-ignore
+VERSIONING.md  export-ignore
+.github/       export-ignore
+.claude/       export-ignore
+scripts/       export-ignore

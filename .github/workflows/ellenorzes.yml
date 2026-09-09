@@ -1,0 +1,49 @@
+# ═════════════════════════════════════════════════════════════════════════════
+#  Repó-ellenőrzés — okotechhome-web2 (Test2)
+# ─────────────────────────────────────────────────────────────────────────────
+#  Ugyanazt futtatja, amit a fejlesztő helyben: `scripts/ellenorzes.sh`.
+#  A logika SZÁNDÉKOSAN nem YAML-ben él, hanem a szkriptben — így a hiba még
+#  commit előtt kiderül, nem húsz perccel később egy piros pipából.
+# ═════════════════════════════════════════════════════════════════════════════
+name: Ellenőrzés
+
+on:
+  push:
+    branches: [main, design-uj-bevezetes]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # Egy ágon egyszerre egy futás: az új push érvényteleníti a régit.
+  group: ellenorzes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ellenorzes:
+    name: Repó-ellenőrzés
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Kód letöltése
+        uses: actions/checkout@v4
+        with:
+          # Teljes történet nem kell; a `git ls-files` a munkakönyvtárból dolgozik.
+          fetch-depth: 1
+
+      - name: Node (JS-szintaxis)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Python (generátorok szintaxisa)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Ellenőrzések futtatása
+        run: bash scripts/ellenorzes.sh

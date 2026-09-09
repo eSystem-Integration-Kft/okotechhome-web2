@@ -1,0 +1,49 @@
+name: Hibabejelentés
+description: Valami nem úgy működik, ahogy kellene
+labels: ["hiba"]
+body:
+  - type: textarea
+    id: mi-tortent
+    attributes:
+      label: Mi történt
+      description: Mit csináltál, mi történt helyette, és mit vártál.
+      placeholder: |
+        1. Megnyitottam a /megrendeles lapot
+        2. Ráhúztam egy PDF-et a mellékletmezőre
+        3. Nem történt semmi — vártam, hogy megjelenjen a fájl neve
+    validations:
+      required: true
+
+  - type: input
+    id: hol
+    attributes:
+      label: Melyik lapon
+      placeholder: /megrendeles
+    validations:
+      required: true
+
+  - type: input
+    id: kornyezet
+    attributes:
+      label: Böngésző és eszköz
+      placeholder: Safari 18, iPhone 14 / Chrome 141, Windows
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tema
+    attributes:
+      label: Téma
+      options:
+        - Világos
+        - Sötét
+        - Mindkettőben
+        - Nem tudom
+    validations:
+      required: false
+
+  - type: textarea
+    id: kepernyokep
+    attributes:
+      label: Képernyőkép
+      description: Ha van, ide húzható. Sokat segít.
