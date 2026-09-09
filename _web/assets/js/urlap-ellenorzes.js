@@ -129,6 +129,11 @@
     };
 
     const egyediHiba = (m) => {
+      /* A FÁJLMEZŐ HIBÁJA MÁSHONNAN JÖN. A mellékletmodul (`urlap-fajl.js`)
+         állapítja meg — darabszám, méret —, ez a réteg csak VISSZAÍRJA.
+         Enélkül a következő billentyűleütés `setCustomValidity('')`-vel némán
+         letörölné, a gomb kizöldülne, és a túl nagy melléklet elindulna. */
+      if (m.type === 'file') return m.dataset.fajlHiba || '';
       const szabaly = SZABALYOK[m.dataset.ellenoriz];
       if (!szabaly || !m.value.trim()) return '';
       return szabaly(m.value);
@@ -163,7 +168,10 @@
       const egyedi = egyediHiba(m);
       m.setCustomValidity(egyedi);
       const rendben = m.checkValidity();
-      if (mutat && elsoACsoportban(m)) hibaMutat(m, rendben ? '' : uzenet(m));
+      /* A fájlmező nem kap buborékot: a baj a MELLÉKLETLISTÁBAN áll, a fájl
+         mellett, amelyikre vonatkozik — a buborék ugyanazt mondaná el
+         másodszor, a lista fölött lebegve. */
+      if (mutat && elsoACsoportban(m) && m.type !== 'file') hibaMutat(m, rendben ? '' : uzenet(m));
       return rendben;
     };
 

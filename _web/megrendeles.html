@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=205">
+<link rel="stylesheet" href="assets/css/app.css?v=206">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -626,7 +626,7 @@
             <label class="type-ui-caption urlap-cimke" for="m-fajl">Csatolható dokumentumok<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-mfajl">?<span class="visually-hidden"> Súgó: mellékletek</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-mfajl">Hasznos: a kapott <strong>árajánlat</strong> PDF-je, a helyszínrajz és — cégre szóló számlánál — a cégadatok. Ha kinyomtatva, aláírva küldi vissza a lapot, a beszkennelt példányt is ide csatolhatja.</span></span></label>
             <input class="urlap-fajl" type="file" id="m-fajl" name="fajl[]" multiple
                    accept=".pdf,.png,.jpg,.jpeg,.docx,.xlsx" data-urlap-fajl>
-            <span class="type-ui-caption urlap-fajl-sugo">Legfeljebb 3 fájl, egyenként 10 MB. Ide csatolható a kapott árajánlat, a helyszínrajz, a telepítés helyének fotója vagy a cégadatokat igazoló dokumentum. Aláírt, beszkennelt megrendelőlapot is küldhet.</span>
+            <span class="type-ui-caption urlap-fajl-sugo"><span data-fajl-korlat>Legfeljebb 3 fájl, egyenként 10 MB. </span>Ide csatolható a kapott árajánlat, a helyszínrajz, a telepítés helyének fotója vagy a cégadatokat igazoló dokumentum. Aláírt, beszkennelt megrendelőlapot is küldhet.</span>
           </p>
           <p class="urlap-mezo">
             <label class="type-ui-caption urlap-cimke" for="m-megjegyzes">Megjegyzés a megrendeléshez</label>
@@ -890,8 +890,9 @@
 <script src="assets/js/site.js?v=12" defer></script>
 <script src="assets/js/kalauz.js?v=44" defer></script>
 <script src="assets/js/urlap.js?v=1" defer></script>
-<script src="assets/js/urlap-ellenorzes.js?v=2" defer></script>
-<script src="assets/js/dokumentum.js?v=3" defer></script>
+<script src="assets/js/urlap-ellenorzes.js?v=3" defer></script>
+<script src="assets/js/urlap-fajl.js?v=1" defer></script>
+<script src="assets/js/dokumentum.js?v=4" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

@@ -2104,3 +2104,69 @@ szerver `OthVedelem::fajlLista()` metódusa a kiterjesztést a **tartalommal is*
 - A postaláda-kulcsok hiánya nem hiba: a végpontok a `kapcsolat` postaládába esnek
   vissza, tehát a beküldés a szerver configjának módosítása nélkül is megérkezik.
 
+
+---
+
+## 31. Fájl-ledobó felület — `.urlap-ledob`
+
+**Hol:** `/ajanlat` és `/megrendeles` mellékletmezője.
+**Kód:** `assets/js/urlap-fajl.js` + `app.css` → `@layer components` *(fájlmelléklet)*.
+
+A natív `<input type="file">` két dolgot tud rosszul: **nem lehet ráhúzni** a fájlt (csak
+tallózni), és a kiválasztásról annyit közöl, hogy *„3 fájl"* — a nevüket nem, a méretüket
+nem, és egyet közülük nem lehet levenni, csak az egészet elölről kezdeni.
+
+| | Előtte | Utána |
+|---|---|---|
+| behúzás | ✕ | ✅ a felületre és bárhonnan a lapról |
+| mit lát a látogató | „Nincs fájl kiválasztva" | fájlnév, méret, típusjel, pipa |
+| egy fájl levétele | ✕ (csak az egész) | ✅ soronként |
+| második választás | felülírja az elsőt | **hozzáad** |
+| korlát-hiba | beküldés után, a szervertől | azonnal, a fájl mellett |
+
+### A mező marad, csak nem látszik
+
+A vezérlő továbbra is a valódi `<input type="file">`. `visually-hidden` elrejtést kap,
+**nem `display:none`-t**: így fókuszálható marad, a `<label for>` kapcsolata ép, és a
+képernyőolvasó a valódi fájlmezőt jelenti be a saját címkéjével. A fókuszkeretet a
+ledobó felület viseli (`.urlap-fajl-rejtve:focus-visible + .urlap-ledob`).
+
+> JS nélkül a felület létre sem jön: marad a natív mező a régi stílusával, és a
+> korlátok szövege (`[data-fajl-korlat]`) is a súgóban marad. A modul azt a mondatot
+> csak akkor veszi ki, ha a felület — amelyik kiírja — tényleg ott van.
+
+### A keret SVG, nem `border`
+
+Egyetlen oka van: behúzás közben a szaggatásnak **körbe kell futnia**, és a
+`border-style:dashed` mintáját nem lehet animálni. Az SVG-nek szándékosan **nincs
+`viewBox`-a** — a rajzegység így képpont, a lekerekítés nem torzul a felület arányával.
+
+### Négy állapot
+
+| Osztály | Mikor | Mit mond |
+|---|---|---|
+| `is-keszen` | fájl lóg a kurzoron **bárhol a lapon** | halk keretszín — *„ide teheted"* |
+| `is-huzas` | a fájl a **felület fölött** van | márkaszín, körbefutó szaggatás, ritmusra emelkedő nyíl |
+| `is-hibas` | korlátsértés | veszélyszínű keret; a mondat a listában áll |
+| `is-telt` | megvan mind a 3 fájl | a jel visszahúzódik — de behúzáskor újra válaszol |
+
+**Állóban semmi nem mozog.** A körbefutó szaggatás és a nyíl ritmusa pontosan addig tart,
+amíg a fájl a felület fölött lóg; a sorok beúszása és a pipa megrajzolása egyszeri, és
+**csak az új soron** fut le (`.is-uj`) — enélkül egy fájl csatolásakor az egész lista
+újravillanna. `prefers-reduced-motion` esetén mindegyik elmarad.
+
+### A lap fölötti behúzás elkapva
+
+A böngésző alapértelmezése az, hogy a lap **helyett** nyitja meg a behúzott fájlt — egy
+elvétett mozdulat a kitöltött űrlapba kerülne. A modul ezért a dokumentumon is elfogja a
+`dragover`/`drop` eseményt, **de csak akkor, ha a behúzott adat `Files` típusú**: enélkül
+a megjegyzés-mezőbe nem lehetne szöveget húzni.
+
+### A korlát ellenőrzése egy helyen dől el
+
+A darabszám és a méret a **szerverrel egyező** korlát (`api/lib/vedelem.php` → `fajl`), de
+ez a réteg csak közöl. A `setCustomValidity()` miatt viszont van egy csapda: az élő
+űrlapellenőrzés (`urlap-ellenorzes.js`) minden billentyűleütésnél újraszámolja minden mező
+egyedi hibáját, és a fájlmezőét némán letörölte volna. Ezért a mellékletmodul a hibát
+`dataset.fajlHiba`-ba is beírja, az ellenőrző pedig **onnan olvassa vissza** — a beküldő
+gomb így marad inaktív, amíg a melléklet hibás.

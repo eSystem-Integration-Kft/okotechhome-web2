@@ -1,18 +1,21 @@
 /* =============================================================================
    ÖkoTech Home — Test2 · dokumentum.js
-   Okirat-oldalak segédje: nyomtatás és mellékletek
+   Okirat-oldalak segédje: nyomtatás, keltezés, jogszabályi lábjegyzetek
    -----------------------------------------------------------------------------
-   Két apró viselkedés, mindkettő progressive enhancement — JS nélkül az oldal
-   teljes értékű marad:
+   Három apró viselkedés, mindegyik progressive enhancement — JS nélkül az
+   oldal teljes értékű marad:
 
      1) NYOMTATÁS. A gomb a böngésző saját nyomtatási párbeszédét nyitja meg
         (onnan PDF-be is menthető). JS nélkül a gomb elrejtve marad, mert a
         `Ctrl/⌘+P` amúgy is működik — hamis gombot nem mutatunk.
 
-     2) MELLÉKLETEK. A natív fájlválasztó csak annyit ír ki, hogy „3 fájl".
-        Itt kiírjuk a NEVÜKET és a MÉRETÜKET, és azonnal szólunk, ha valami
-        túllépi a korlátot — nem a beküldés után, a szerver válaszából.
-        A korlátok a szerverrel egyeznek (api/lib/vedelem.php `fajl`).
+     2) KELTEZÉS. A „Kelt" dátuma a mai napra töltődik elő, de nem zárul le.
+
+     3) JOGSZABÁLYI LÁBJEGYZETEK. A felső index szövege buborékban is olvasható,
+        anélkül hogy a lap aljára kellene ugrani.
+
+   A MELLÉKLETEK KÜLÖN MODULBAN élnek: `urlap-fajl.js` (ledobó felület,
+   fájllista, korlátok).
    ============================================================================= */
 
 (() => {
@@ -76,61 +79,4 @@
     });
   });
 
-  /* ------------------------------------------------------------ mellékletek */
-  const MAX_DARAB = 3;
-  const MAX_MERET = 10 * 1024 * 1024;
-
-  const meret = (b) => (b < 1024 ? b + ' B'
-    : b < 1048576 ? Math.round(b / 1024) + ' KB'
-    : (b / 1048576).toFixed(1).replace('.', ',') + ' MB');
-
-  document.querySelectorAll('[data-urlap-fajl]').forEach((mezo) => {
-    const lista = document.createElement('ul');
-    lista.className = 'urlap-fajl-lista';
-    /* A lista ÉLŐ régió: a képernyőolvasó felolvassa, mi került be és mi a baj
-       vele — enélkül a nem látó felhasználó csak a beküldéskor tudná meg. */
-    lista.setAttribute('aria-live', 'polite');
-    mezo.insertAdjacentElement('afterend', lista);
-
-    const rajzol = () => {
-      lista.textContent = '';
-      const fajlok = Array.from(mezo.files || []);
-      let hiba = '';
-
-      if (fajlok.length > MAX_DARAB) {
-        hiba = `Legfeljebb ${MAX_DARAB} fájl csatolható — most ${fajlok.length} van kiválasztva.`;
-      }
-
-      fajlok.forEach((f) => {
-        const li = document.createElement('li');
-        const nev = document.createElement('span');
-        nev.className = 'type-ui-caption';
-        nev.textContent = f.name;
-        const m = document.createElement('span');
-        m.className = 'type-ui-caption urlap-fajl-meret';
-        m.textContent = meret(f.size);
-        if (f.size > MAX_MERET) {
-          li.classList.add('urlap-fajl-hiba');
-          m.textContent += ' — túl nagy';
-          hiba = hiba || 'Egy fájl legfeljebb 10 MB lehet.';
-        }
-        li.append(nev, m);
-        lista.append(li);
-      });
-
-      if (hiba) {
-        const li = document.createElement('li');
-        li.className = 'type-ui-caption urlap-fajl-hiba';
-        li.textContent = hiba;
-        lista.append(li);
-        /* A natív ellenőrzés így a beküldést is megállítja — nem kell külön
-           kezelő az űrlapra, és JS nélkül a szerver mondja ugyanezt. */
-        mezo.setCustomValidity(hiba);
-      } else {
-        mezo.setCustomValidity('');
-      }
-    };
-
-    mezo.addEventListener('change', rajzol);
-  });
 })();
