@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" role="img"
+     aria-label="A döntéstámogató tölcsér: helyzetfelismeréstől a megrendelésig, és a mellé rendelt AI-modulok">
+  <title>A döntéstámogató tölcsér</title>
+  <desc>Öt lépcső a helyzetfelismeréstől a megrendelésig, laponkénti darabszámmal, mellette a hat AI-modul, amelyik végigkíséri a látogatót.</desc>
+
+  <defs>
+    <linearGradient id="hatter" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0E2712"/>
+      <stop offset="0.6" stop-color="#133216"/>
+      <stop offset="1" stop-color="#1B3F1D"/>
+    </linearGradient>
+    <radialGradient id="fenymag" cx="0.32" cy="0.2" r="0.75">
+      <stop offset="0" stop-color="#80A640" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#80A640" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="660" fill="url(#hatter)"/>
+  <rect width="1200" height="660" fill="url(#fenymag)"/>
+
+  <text x="60" y="52" fill="#80A640" font-size="13" font-weight="700" letter-spacing="3">DÖNTÉSTÁMOGATÓ TÖLCSÉR</text>
+  <text x="60" y="86" fill="#FAFAFA" font-size="27" font-weight="700">„Hol tartok?” — öt lépcső a megrendelésig</text>
+  <text x="60" y="112" fill="#94A98D" font-size="15">A webhely nem katalógus: a látogatót a saját helyzetétől vezeti el a döntésig. Az útvonalon 132 lap áll.</text>
+
+  <!-- ══ tölcsér ═══════════════════════════════════════════════════════════ -->
+  <g>
+    <!-- 1 -->
+    <rect x="70" y="156" width="620" height="62" rx="10" fill="#1E4520" stroke="#80A640" stroke-opacity="0.45"/>
+    <text x="98" y="184" fill="#FAFAFA" font-size="18" font-weight="700">Helyzetem</text>
+    <text x="98" y="206" fill="#94A98D" font-size="13.5">új építés · emésztő kiváltása · nyaraló · telekvásárlás · vállalkozás</text>
+    <text x="662" y="194" fill="#80A640" font-size="24" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">38</text>
+
+    <!-- 2 -->
+    <rect x="100" y="228" width="560" height="62" rx="10" fill="#224E24" stroke="#80A640" stroke-opacity="0.55"/>
+    <text x="128" y="256" fill="#FAFAFA" font-size="18" font-weight="700">Megoldások</text>
+    <text x="128" y="278" fill="#A8BFA2" font-size="13.5">A.B. Clear · EPURECO · oldómedence · nagyobb és közösségi rendszerek</text>
+    <text x="632" y="266" fill="#80A640" font-size="24" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">41</text>
+
+    <!-- 3 -->
+    <rect x="130" y="300" width="500" height="62" rx="10" fill="#265724" stroke="#80A640" stroke-opacity="0.65"/>
+    <text x="158" y="328" fill="#FAFAFA" font-size="18" font-weight="700">Projekt-előkészítés</text>
+    <text x="158" y="350" fill="#B6CBB0" font-size="13.5">telekadatok · engedélyezés · költség · ütemezés · kivitelező</text>
+    <text x="602" y="338" fill="#80A640" font-size="24" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">27</text>
+
+    <!-- 4 -->
+    <rect x="160" y="372" width="440" height="62" rx="10" fill="#2C6327" stroke="#80A640" stroke-opacity="0.75"/>
+    <text x="188" y="400" fill="#FAFAFA" font-size="18" font-weight="700">Eredmények</text>
+    <text x="188" y="422" fill="#C3D6BD" font-size="13.5">esettanulmányok · ISO 9001 · ügyféltapasztalatok</text>
+    <text x="572" y="410" fill="#B9D67A" font-size="24" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">7</text>
+
+    <!-- 5 -->
+    <rect x="190" y="444" width="380" height="62" rx="10" fill="#80A640"/>
+    <text x="218" y="472" fill="#133216" font-size="18" font-weight="700">Ajánlatkérés</text>
+    <text x="218" y="494" fill="#1E4520" font-size="13.5">élő űrlapellenőrzés · melléklet ráhúzással</text>
+    <text x="542" y="472" fill="#133216" font-size="15" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">/ajanlat</text>
+
+    <!-- 6 -->
+    <rect x="220" y="516" width="320" height="62" rx="10" fill="#E5EBBB"/>
+    <text x="248" y="544" fill="#133216" font-size="18" font-weight="700">Megrendelés</text>
+    <text x="248" y="566" fill="#56642B" font-size="13.5">okirat, feltételekkel és aláírással</text>
+    <text x="512" y="544" fill="#56642B" font-size="14" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">/megrendeles</text>
+
+    <!-- nyíl a tölcsér mentén -->
+    <path d="M60 176 L60 596 L1140 596" fill="none" stroke="#80A640" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="4 6"/>
+  </g>
+
+  <!-- ══ AI-sáv ════════════════════════════════════════════════════════════ -->
+  <g>
+    <rect x="740" y="156" width="400" height="422" rx="14" fill="#0E2712" stroke="#80A640" stroke-opacity="0.35"/>
+    <text x="768" y="190" fill="#80A640" font-size="12.5" font-weight="700" letter-spacing="2.5">AMI VÉGIGKÍSÉRI</text>
+
+    <g font-size="14.5">
+      <g transform="translate(768,224)">
+        <text fill="#FAFAFA" font-size="16" font-weight="700">Öko — a kísérő kalauz</text>
+        <text y="21" fill="#94A98D">minden lapon; 127 lap, 774 szakasz, 943 részlet</text>
+      </g>
+      <line x1="768" y1="262" x2="1112" y2="262" stroke="#2C6327"/>
+
+      <g transform="translate(768,290)">
+        <text fill="#FAFAFA" font-size="16" font-weight="700">AI megoldás-ajánló</text>
+        <text y="21" fill="#94A98D">kérdéssor → melyik technológia jöhet szóba</text>
+      </g>
+      <line x1="768" y1="328" x2="1112" y2="328" stroke="#2C6327"/>
+
+      <g transform="translate(768,356)">
+        <text fill="#FAFAFA" font-size="16" font-weight="700">AI döntéstámogató</text>
+        <text y="21" fill="#94A98D">a helyzet szöveges leírásából ad irányt</text>
+      </g>
+      <line x1="768" y1="394" x2="1112" y2="394" stroke="#2C6327"/>
+
+      <g transform="translate(768,422)">
+        <text fill="#FAFAFA" font-size="16" font-weight="700">Ajánlat-összehasonlító</text>
+        <text y="21" fill="#94A98D">három kapott árajánlat egy táblában, jelentéssel</text>
+      </g>
+      <line x1="768" y1="460" x2="1112" y2="460" stroke="#2C6327"/>
+
+      <g transform="translate(768,488)">
+        <text fill="#FAFAFA" font-size="16" font-weight="700">Konzultációkérő varázsló</text>
+        <text y="21" fill="#94A98D">hat lépés, három AI-hívás, személyes visszaigazolás</text>
+      </g>
+      <line x1="768" y1="526" x2="1112" y2="526" stroke="#2C6327"/>
+
+      <g transform="translate(768,554)">
+        <text fill="#FAFAFA" font-size="16" font-weight="700">Szippantási díjkalkulátor</text>
+      </g>
+    </g>
+  </g>
+
+  <text x="60" y="632" fill="#94A98D" font-size="13.5">Az AI soha nem ad jogi vagy engedélyezési értelmezést, és árat sem mond — csak azt, ami a lapokon le van írva.</text>
+</svg>

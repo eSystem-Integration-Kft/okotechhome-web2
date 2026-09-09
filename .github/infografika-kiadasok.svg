@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" role="img"
+     aria-label="Kiadás-idővonal v0.01.01-től v0.07.00-ig">
+  <title>Kiadás-idővonal</title>
+  <desc>Hét kiadás 2026 júliusától szeptemberéig, mindegyiknél a dátum, a verziószám és egy mondat arról, mi történt.</desc>
+
+  <rect width="1200" height="780" fill="#F3F2EC"/>
+  <rect width="1200" height="104" fill="#133216"/>
+  <rect y="102" width="1200" height="2" fill="#80A640"/>
+
+  <text x="60" y="44" fill="#80A640" font-size="13" font-weight="700" letter-spacing="3">FELTÖLTÖTT SEMVER · KEEP A CHANGELOG 1.1.0</text>
+  <text x="60" y="78" fill="#FAFAFA" font-size="27" font-weight="700">Kiadás-idővonal — 224 commit, hét kiadás, hat hét</text>
+
+  <!-- függőleges tengely -->
+  <line x1="238" y1="164" x2="238" y2="706" stroke="#E2E1D6" stroke-width="2"/>
+
+  <!-- 1 -->
+  <g>
+    <text x="206" y="180" fill="#56642B" font-size="14" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-07-26</text>
+    <circle cx="238" cy="175" r="8" fill="#F3F2EC" stroke="#80A640" stroke-width="3"/>
+    <text x="276" y="172" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.01.01</text>
+    <text x="276" y="194" fill="#56642B" font-size="15">A Test2 repó inicializálása — webkimenet-váz, verziókezelési réteg, friss git-történet</text>
+  </g>
+
+  <!-- 2 -->
+  <g>
+    <text x="206" y="262" fill="#56642B" font-size="14" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-08-08</text>
+    <circle cx="238" cy="257" r="8" fill="#F3F2EC" stroke="#80A640" stroke-width="3"/>
+    <text x="276" y="254" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.02.00</text>
+    <text x="276" y="276" fill="#56642B" font-size="15">Visszaállási pont a következő designfeldolgozás előtt</text>
+  </g>
+
+  <!-- 3 -->
+  <g>
+    <text x="206" y="344" fill="#56642B" font-size="14" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-08-09</text>
+    <circle cx="238" cy="339" r="8" fill="#F3F2EC" stroke="#80A640" stroke-width="3"/>
+    <text x="276" y="336" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.03.00</text>
+    <text x="276" y="358" fill="#56642B" font-size="15">Öko, a kísérő kalauz — és a hatlépéses konzultációkérő varázsló</text>
+  </g>
+
+  <!-- 4 -->
+  <g>
+    <text x="206" y="426" fill="#56642B" font-size="14" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-08-10</text>
+    <circle cx="238" cy="421" r="8" fill="#F3F2EC" stroke="#80A640" stroke-width="3"/>
+    <text x="276" y="418" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.04.00</text>
+    <text x="276" y="440" fill="#56642B" font-size="15">A kalauz vezet, a varázsló hülyebiztos, a keret tart</text>
+  </g>
+
+  <!-- 5 -->
+  <g>
+    <text x="206" y="508" fill="#56642B" font-size="14" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-08-11</text>
+    <circle cx="238" cy="503" r="8" fill="#F3F2EC" stroke="#80A640" stroke-width="3"/>
+    <text x="276" y="500" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.05.00</text>
+    <text x="276" y="522" fill="#56642B" font-size="15">A kalauz a lapok tényleges mondataiból válaszol — nem a saját emlékezetéből</text>
+  </g>
+
+  <!-- 6 -->
+  <g>
+    <text x="206" y="590" fill="#56642B" font-size="14" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-09-08</text>
+    <circle cx="238" cy="585" r="8" fill="#F3F2EC" stroke="#80A640" stroke-width="3"/>
+    <text x="276" y="582" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.06.00</text>
+    <text x="276" y="604" fill="#56642B" font-size="15">Az angol webhely felépült, majd külön projektbe költözött; jött az ajánlatkérő és a megrendelőlap</text>
+  </g>
+
+  <!-- 7 — a mostani -->
+  <g>
+    <rect x="252" y="638" width="888" height="72" rx="12" fill="#E5EBBB"/>
+    <text x="206" y="672" fill="#133216" font-size="14" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-09-09</text>
+    <circle cx="238" cy="667" r="10" fill="#80A640" stroke="#133216" stroke-width="3"/>
+    <text x="276" y="664" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.07.00</text>
+    <text x="392" y="664" fill="#56642B" font-size="12" font-weight="700" letter-spacing="2">MOST</text>
+    <text x="276" y="688" fill="#133216" font-size="15">A melléklet ráhúzható — és a repó megkapta a saját kapuit (ellenőrzés, sorvégek, sablonok)</text>
+  </g>
+
+  <!-- jövő -->
+  <g opacity="0.55">
+    <circle cx="238" cy="740" r="8" fill="none" stroke="#56642B" stroke-width="2" stroke-dasharray="3 3"/>
+    <text x="276" y="736" fill="#56642B" font-size="17" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">1.00.00</text>
+    <text x="392" y="736" fill="#56642B" font-size="15">— az ügyfél-átvétel (go-live) elfogadásakor. Addig a MAJOR marad 0.</text>
+  </g>
+</svg>

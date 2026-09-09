@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" role="img"
+     aria-label="A repó hatóköre: mi verziózódik és mi marad a fejlesztőgépen">
+  <title>A repó hatóköre</title>
+  <desc>Bal oldalon a verziózott könyvtárak (_web, scripts, .claude, .github, gyökérdokumentáció), jobb oldalon a szándékosan helyben maradó munkakönyvtárak (_memory, _work, _files, _OTH_tesztfileok, _kepek_videok).</desc>
+
+  <defs>
+    <linearGradient id="fej" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#133216"/>
+      <stop offset="1" stop-color="#1E4520"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="640" fill="#F3F2EC"/>
+  <rect width="1200" height="104" fill="url(#fej)"/>
+  <rect y="102" width="1200" height="2" fill="#80A640"/>
+
+  <text x="60" y="44" fill="#80A640" font-size="13" font-weight="700" letter-spacing="3">OKOTECHHOME-WEB2 · TEST2</text>
+  <text x="60" y="78" fill="#FAFAFA" font-size="27" font-weight="700">A repó hatóköre — mi verziózódik, és mi marad a gépen</text>
+
+  <!-- ══ BAL: verziózott ═══════════════════════════════════════════════════ -->
+  <g>
+    <rect x="60" y="148" width="518" height="404" rx="14" fill="#FAFAFA" stroke="#E2E1D6"/>
+    <rect x="60" y="148" width="518" height="56" rx="14" fill="#E5EBBB"/>
+    <rect x="60" y="186" width="518" height="18" fill="#E5EBBB"/>
+    <circle cx="92" cy="176" r="11" fill="#80A640"/>
+    <path d="M86.5 176.5l4 4 7-8" fill="none" stroke="#133216" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="114" y="182" fill="#133216" font-size="17" font-weight="700">Verziózott — a távoli repóba kerül</text>
+
+    <g font-size="15">
+      <g transform="translate(0,236)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">_web/</text>
+        <text x="92" y="22" fill="#56642B">a telepíthető statikus site — ez megy élesre</text>
+        <text x="546" y="0" fill="#80A640" font-size="20" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">617</text>
+      </g>
+      <line x1="92" y1="276" x2="546" y2="276" stroke="#E2E1D6"/>
+
+      <g transform="translate(0,314)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">scripts/</text>
+        <text x="92" y="22" fill="#56642B">kiadás, feltöltés, 33 oldalgenerátor, ellenőrzés</text>
+        <text x="546" y="0" fill="#80A640" font-size="20" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">43</text>
+      </g>
+      <line x1="92" y1="354" x2="546" y2="354" stroke="#E2E1D6"/>
+
+      <g transform="translate(0,392)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">.claude/</text>
+        <text x="92" y="22" fill="#56642B">a két projekt-skill: oldalgyártás + szakmai tudás</text>
+        <text x="546" y="0" fill="#80A640" font-size="20" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">13</text>
+      </g>
+      <line x1="92" y1="432" x2="546" y2="432" stroke="#E2E1D6"/>
+
+      <g transform="translate(0,470)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">.github/ + gyökér</text>
+        <text x="92" y="22" fill="#56642B">README, CHANGELOG, VERSIONING, VERSION, sablonok</text>
+        <text x="546" y="0" fill="#80A640" font-size="20" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">18</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ══ JOBB: helyi ═══════════════════════════════════════════════════════ -->
+  <g>
+    <rect x="622" y="148" width="518" height="404" rx="14" fill="#FAFAFA" stroke="#E2E1D6"/>
+    <rect x="622" y="148" width="518" height="56" rx="14" fill="#DEECEA"/>
+    <rect x="622" y="186" width="518" height="18" fill="#DEECEA"/>
+    <circle cx="654" cy="176" r="11" fill="#B23B2B"/>
+    <path d="M649.5 171.5l9 9M658.5 171.5l-9 9" fill="none" stroke="#FAFAFA" stroke-width="2.2" stroke-linecap="round"/>
+    <text x="676" y="182" fill="#133216" font-size="17" font-weight="700">Helyi — szándékosan nem kerül fel</text>
+
+    <g font-size="15">
+      <g transform="translate(562,236)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">_kepek_videok/</text>
+        <text x="92" y="22" fill="#56642B">videó- és képmesterek — a git nem bináris-tár</text>
+        <text x="546" y="0" fill="#56642B" font-size="19" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">1,5 GB</text>
+      </g>
+      <line x1="654" y1="276" x2="1108" y2="276" stroke="#E2E1D6"/>
+
+      <g transform="translate(562,314)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">_files/</text>
+        <text x="92" y="22" fill="#56642B">ügyfél-leszállítandók: ajánlat, stratégia, jogi anyag</text>
+        <text x="546" y="0" fill="#56642B" font-size="19" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">39 MB</text>
+      </g>
+      <line x1="654" y1="354" x2="1108" y2="354" stroke="#E2E1D6"/>
+
+      <g transform="translate(562,392)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">_work/ · _OTH_tesztfileok/</text>
+        <text x="92" y="22" fill="#56642B">jegyzetek, promptok, kutatás, teszt-ajánlatok</text>
+        <text x="546" y="0" fill="#56642B" font-size="19" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2,3 MB</text>
+      </g>
+      <line x1="654" y1="432" x2="1108" y2="432" stroke="#E2E1D6"/>
+
+      <g transform="translate(562,470)">
+        <text x="92" y="0" fill="#133216" font-size="16" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">_memory/</text>
+        <text x="92" y="22" fill="#56642B">projektmemória — belső, gépspecifikus</text>
+        <text x="546" y="0" fill="#56642B" font-size="19" font-weight="700" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">—</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ══ lábjegyzet ════════════════════════════════════════════════════════ -->
+  <rect x="60" y="576" width="1080" height="44" rx="10" fill="#E5EBBB"/>
+  <path d="M84 590v8M84 602.5h.01M81.5 583l-6.6 11.4a2 2 0 0 0 1.7 3h13.2a2 2 0 0 0 1.7-3L86.5 583a2 2 0 0 0-3.4 0Z"
+        fill="none" stroke="#56642B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,4)"/>
+  <text x="118" y="604" fill="#133216" font-size="15">A helyi könyvtárak mentése <tspan font-weight="700">nem git feladata</tspan> — külső meghajtó vagy felhő-tárhely, időbélyeges mappával.</text>
+</svg>

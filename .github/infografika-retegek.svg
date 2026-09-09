@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" role="img"
+     aria-label="A webhely technológiai rétegei: böngésző, Apache, PHP-végpontok, külső szolgáltatások">
+  <title>Technológiai rétegek</title>
+  <desc>Négy réteg a böngészőtől a külső szolgáltatásokig, mellette az a lista, ami szándékosan hiányzik a rendszerből.</desc>
+
+  <rect width="1200" height="660" fill="#F3F2EC"/>
+  <rect width="1200" height="104" fill="#133216"/>
+  <rect y="102" width="1200" height="2" fill="#80A640"/>
+
+  <text x="60" y="44" fill="#80A640" font-size="13" font-weight="700" letter-spacing="3">MOTOR ÉS TECHNOLÓGIA</text>
+  <text x="60" y="78" fill="#FAFAFA" font-size="27" font-weight="700">Négy réteg — és ami szándékosan nincs benne</text>
+
+  <!-- ══ rétegek ═══════════════════════════════════════════════════════════ -->
+  <g>
+    <!-- 1. böngésző -->
+    <rect x="60" y="146" width="700" height="104" rx="12" fill="#FAFAFA" stroke="#E2E1D6"/>
+    <rect x="60" y="146" width="6" height="104" rx="3" fill="#80A640"/>
+    <text x="90" y="178" fill="#133216" font-size="19" font-weight="700">Böngésző</text>
+    <text x="90" y="204" fill="#56642B" font-size="14.5">132 statikus lap · CSS <tspan font-family="'SF Mono',Menlo,Consolas,monospace">@layer</tspan> architektúrában · 19 vanilla JS-modul</text>
+    <text x="90" y="228" fill="#56642B" font-size="14.5">világos/sötét téma · háromszintű megamenü · <tspan font-family="'SF Mono',Menlo,Consolas,monospace">prefers-reduced-motion</tspan></text>
+    <text x="730" y="204" fill="#80A640" font-size="13" font-weight="700" text-anchor="end" letter-spacing="1.5">1</text>
+
+    <!-- 2. apache -->
+    <rect x="60" y="266" width="700" height="104" rx="12" fill="#FAFAFA" stroke="#E2E1D6"/>
+    <rect x="60" y="266" width="6" height="104" rx="3" fill="#56642B"/>
+    <text x="90" y="298" fill="#133216" font-size="19" font-weight="700">Apache — <tspan font-family="'SF Mono',Menlo,Consolas,monospace" font-size="17">.htaccess</tspan></text>
+    <text x="90" y="324" fill="#56642B" font-size="14.5">kiterjesztés nélküli útvonalak (clean URL) · 301-ek · cache-fejlécek</text>
+    <text x="90" y="348" fill="#56642B" font-size="14.5">CSP <tspan font-family="'SF Mono',Menlo,Consolas,monospace">unsafe-inline</tspan> nélkül · HSTS · <tspan font-family="'SF Mono',Menlo,Consolas,monospace">X-Frame-Options: DENY</tspan> · nosniff</text>
+    <text x="730" y="324" fill="#56642B" font-size="13" font-weight="700" text-anchor="end" letter-spacing="1.5">2</text>
+
+    <!-- 3. php -->
+    <rect x="60" y="386" width="700" height="104" rx="12" fill="#FAFAFA" stroke="#E2E1D6"/>
+    <rect x="60" y="386" width="6" height="104" rx="3" fill="#99C6D4"/>
+    <text x="90" y="418" fill="#133216" font-size="19" font-weight="700">PHP-végpontok</text>
+    <text x="90" y="444" fill="#56642B" font-size="14.5">16 végpont + 9 közös modul (<tspan font-family="'SF Mono',Menlo,Consolas,monospace">api/lib/</tspan>) — levél, AI-proxy, CRM, mentés</text>
+    <text x="90" y="468" fill="#56642B" font-size="14.5">szerveroldali ellenőrzés · sebességkorlát · mézesbödön · titkok csak env/fájlból</text>
+    <text x="730" y="444" fill="#56642B" font-size="13" font-weight="700" text-anchor="end" letter-spacing="1.5">3</text>
+
+    <!-- 4. külső -->
+    <rect x="60" y="506" width="700" height="104" rx="12" fill="#133216"/>
+    <rect x="60" y="506" width="6" height="104" rx="3" fill="#80A640"/>
+    <text x="90" y="538" fill="#FAFAFA" font-size="19" font-weight="700">Külső szolgáltatások</text>
+    <text x="90" y="564" fill="#A8BFA2" font-size="14.5">Claude API — Öko, megoldás-ajánló, döntéstámogató, ajánlat-jelentés</text>
+    <text x="90" y="588" fill="#A8BFA2" font-size="14.5">SMTP (levélküldés) · CRM MySQL-tábla, átadási naplóval · Google Maps (opcionális)</text>
+    <text x="730" y="564" fill="#80A640" font-size="13" font-weight="700" text-anchor="end" letter-spacing="1.5">4</text>
+
+    <!-- nyilak a rétegek között -->
+    <g fill="none" stroke="#B9C0A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M410 252v10M404 256l6 6 6-6"/>
+      <path d="M410 372v10M404 376l6 6 6-6"/>
+      <path d="M410 492v10M404 496l6 6 6-6"/>
+    </g>
+  </g>
+
+  <!-- ══ ami nincs ═════════════════════════════════════════════════════════ -->
+  <g>
+    <rect x="800" y="146" width="340" height="464" rx="14" fill="#FAFAFA" stroke="#E2E1D6"/>
+    <rect x="800" y="146" width="340" height="52" rx="14" fill="#DEECEA"/>
+    <rect x="800" y="184" width="340" height="14" fill="#DEECEA"/>
+    <text x="828" y="178" fill="#133216" font-size="15.5" font-weight="700">Ami szándékosan nincs</text>
+
+    <g font-size="14.5" fill="#56642B">
+      <g transform="translate(828,232)">
+        <path d="M0 -12l12 12M12 -12L0 0" stroke="#B23B2B" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <text x="30" y="0" fill="#133216" font-size="15" font-weight="700">Build lépés</text>
+        <text x="30" y="20">a forrás megegyezik a kimenettel</text>
+      </g>
+      <g transform="translate(828,304)">
+        <path d="M0 -12l12 12M12 -12L0 0" stroke="#B23B2B" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <text x="30" y="0" fill="#133216" font-size="15" font-weight="700">Framework</text>
+        <text x="30" y="20">a designrendszer 0.7 szabálya tiltja</text>
+      </g>
+      <g transform="translate(828,376)">
+        <path d="M0 -12l12 12M12 -12L0 0" stroke="#B23B2B" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <text x="30" y="0" fill="#133216" font-size="15" font-weight="700">node_modules</text>
+        <text x="30" y="20">nincs csomagfüggőség a fronton</text>
+      </g>
+      <g transform="translate(828,448)">
+        <path d="M0 -12l12 12M12 -12L0 0" stroke="#B23B2B" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <text x="30" y="0" fill="#133216" font-size="15" font-weight="700">Adatbázis a lapok mögött</text>
+        <text x="30" y="20">a tartalom a HTML-ben él</text>
+      </g>
+      <g transform="translate(828,520)">
+        <path d="M0 -12l12 12M12 -12L0 0" stroke="#B23B2B" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <text x="30" y="0" fill="#133216" font-size="15" font-weight="700">Nyomkövető süti</text>
+        <text x="30" y="20">a mentett ügy a látogató gépén marad</text>
+      </g>
+    </g>
+  </g>
+
+  <text x="60" y="640" fill="#56642B" font-size="13.5">A hiánylista nem szegénységi bizonyítvány: mindegyik döntés mögött a designrendszer vagy a biztonsági szabályzat egy konkrét pontja áll.</text>
+</svg>

@@ -672,15 +672,15 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 |---|---|
 | **Designrendszer** | `OTH-design-system-Teszt.v2` **v0.5** implementálva (`assets/css/app.css`) |
 | **Kész szekciók** | fejléc · 1. — *Hero* · 2. — *Bizalmi sáv* · 3. — *Kiinduló helyzet* · 4. — *Technológiák* · 5. — *Megoldásaink* · **6. — *AI megoldás-ajánló*** · **7. — *Az A.B. Clear működése*** · 8. — *AI-alapú döntéstámogató* · 9. — *Üzemeltetés* · 10. — *Tudástár* · 11. — *AI ajánlat-összehasonlító* · 12. — *Dokumentált projektek* · 13. — *Egy kézben* · 14. — *Szakértői továbblépés* · 15. — *GYIK* |
-| **Kész aloldalak** | **Megoldások** (5) · **Helyzetem** (8) · **Kapcsolat** — összesen 14 aloldal |
+| **Kész aloldalak** | **Megoldások** (41) · **Helyzetem** (38) · **Projekt-előkészítés** (27) · **Eredmények** (7) · megkeresés és jogi lapok — a főoldallal együtt **132 lap** |
 | **Szippantási kalkulátor** | `/szippantasi-dij-kalkulator` — egy képlet mind a három díjszabás-szerkezetre, csempetérkép a díjadatbázis állásáról, díjbeküldő űrlap. A díjadatbázis **üres**, a beküldés emberi ellenőrzés után kerül be |
 | **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
-| **Hiányzik** | a sitemap 5 további főkategóriája, `sitemap.xml` |
+| **Hiányzik** | `sitemap.xml`; a szippantási díjadatbázis tartalma; a termékoldalak gyártói adatai |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
-| **JS** | 16 modul, összesen ~4100 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
+| **JS** | 19 modul, összesen ~7770 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
 | **Téma** | világos/sötét, csúszkakapcsolóval a fejlécben. Első látogatáskor a rendszerbeállítás, utána a látogató választása (`localStorage`). JS nélkül világos marad, és a kapcsoló meg sem jelenik. |
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
-| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: 118 lap, 717 szakasz. **Szövegindex: 857 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` **Helyszíni segítség:** a `data-oko-pont` attribútummal jelölt felületeknél (ügyazonosító, mentés) magától megszólal, amikor a látogató odagörget. |
+| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: **127 lap, 774 szakasz**. **Szövegindex: 943 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` **Helyszíni segítség:** a `data-oko-pont` attribútummal jelölt felületeknél (ügyazonosító, mentés) magától megszólal, amikor a látogató odagörget. |
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
 | **Fejlécképek** | 63 kép / 116 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) |
 
@@ -693,8 +693,12 @@ _web/
 ├─ jelentes.html                 # az ajánlat-összehasonlítási jelentés nyomtatható nézete
 ├─ eredmeny.html                 # a MENTETT ÜGY lapja — a 6. és a 8. szekció kimenete együtt
 ├─ szippantasi-dij-kalkulator.html  # díjkalkulátor + települési díjadatbázis (modul-oldal)
-├─ megoldasok/                   # index + 4 technológia-oldal
-├─ helyzetem/                    # index + 7 helyzet-oldal
+├─ megoldasok/                   # index + 40 technológia- és termékoldal
+├─ helyzetem/                    # index + 37 helyzet-oldal
+├─ projekt-elokeszites/          # index + 26 előkészítés-oldal
+├─ eredmenyek/                   # esettanulmányok, tanúsítványok, ügyféltapasztalatok
+├─ ajanlat.html                  # ajánlatkérő — élő űrlapellenőrzés, melléklet ráhúzással
+├─ megrendeles.html              # megrendelőlap — okirat, feltételekkel és aláírással
 ├─ .htaccess                     # clean URL rewrite, 301-ek, biztonsági fejlécek, cache
 ├─ robots.txt                    # TESZT ÜZEMMÓD: Disallow: / — élesítéskor cserélni
 ├─ {401,403,404,500}.html        # egyedi hibaoldalak — külön stíluslappal (lásd lent)
@@ -708,6 +712,9 @@ _web/
    ├─ css/jelentes.css           # a jelentés stíluslapja — a letöltött fájlba is BEÉPÜL
    ├─ js/site.js                 # menüpanel + hero videó (progressive enhancement)
    ├─ js/tema.js                 # világos/sötét téma — `<head>`-ben, HALASZTÁS NÉLKÜL fut
+   ├─ js/urlap.js                # űrlapbeküldés oldalfrissítés nélkül
+   ├─ js/urlap-ellenorzes.js     # élő űrlapellenőrzés — piros csillag, buborékos hiba
+   ├─ js/urlap-fajl.js           # MELLÉKLET: ledobó felület, fájllista, korlátok
    ├─ js/ajanlo.js               # 6. szekció — AI megoldás-ajánló (motor; a tartalom konfigban)
    ├─ js/ugy.js                  # KÖZÖS: ügyazonosító, mentés, átadás a modulok között
    ├─ js/eredmeny-oldal.js       # a mentett ügy lapja — azonosító alapján olvas

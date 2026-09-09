@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.06.00-36C5E6?style=flat-square" alt="verzió 0.06.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.07.00-80A640?style=flat-square" alt="verzió 0.07.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-6-6f42c1?style=flat-square" alt="6 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-7-56642B?style=flat-square" alt="7 kiadás">
 </p>
 
 ---
@@ -26,6 +26,153 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.07.00] — 2026-09-09
+
+**A melléklet ráhúzható — és a repó megkapta a saját kapuit.**
+Az ajánlatkérőn és a megrendelőlapon a natív fájlmező helyére ledobó felület
+került: ide húzható a fájl, a csatolt fájlok névvel és mérettel látszanak, és
+egyenként levehetők. Mellette a repó körüli réteg állt sorba — ellenőrző
+szkript, CI-workflow, sorvégszabályok, sablonok —, a README pedig újraíródott
+a mostani állapotra, négy infografikával.
+
+### Hozzáadva — fájl-ledobó felület (`assets/js/urlap-fajl.js`)
+
+A natív `<input type="file">` két dolgot tud rosszul: **nem lehet ráhúzni** a
+fájlt, és a kiválasztásról annyit közöl, hogy „3 fájl" — a nevüket nem, a
+méretüket nem, és egyet közülük nem lehet levenni, csak az egészet elölről
+kezdeni. A megrendelőlapon ez különösen fájt: oda a kapott árajánlat PDF-jét, a
+helyszínrajzot és a beszkennelt lapot kell felrakni, jellemzően egyszerre.
+
+| | Előtte | Utána |
+|---|---|---|
+| behúzás | ✕ | ✅ a felületre — és a lap bármely pontjáról elkapva |
+| mit lát a látogató | „Nincs fájl kiválasztva" | fájlnév, méret, típusjel, pipa |
+| egy fájl levétele | ✕ (csak az egész) | ✅ soronként |
+| második választás | felülírja az elsőt | **hozzáad** (azonos fájl nem kerül be kétszer) |
+| korlát-hiba | beküldés után, a szervertől | azonnal, a fájl mellett |
+
+- **A mező marad, csak nem látszik.** A vezérlő továbbra is a valódi fájlmező;
+  `visually-hidden` elrejtést kap, **nem `display:none`-t**, így fókuszálható
+  marad, a címke `for` kapcsolata ép, és a képernyőolvasó a valódi fájlmezőt
+  jelenti be. A fókuszkeretet a ledobó felület veszi át. Billentyűzettel
+  ellenőrizve: `Tab` → a mező kap fókuszt, a felület 3px-es keretet.
+- **A keret SVG, nem `border`.** Egyetlen oka van: behúzás közben a szaggatásnak
+  körbe kell futnia, és a `border-style:dashed` mintáját nem lehet animálni. Az
+  SVG-nek szándékosan nincs `viewBox`-a — a rajzegység így képpont, a
+  lekerekítés nem torzul a felület arányával.
+- **Négy állapot.** `is-keszen` (fájl lóg a kurzoron bárhol a lapon — halk
+  keretszín), `is-huzas` (a fájl a felület fölött — márkaszín, körbefutó
+  szaggatás, ritmusra emelkedő nyíl), `is-hibas`, `is-telt`.
+- **Állóban semmi nem mozog.** A körbefutó szaggatás pontosan addig tart, amíg a
+  fájl a felület fölött lóg; a sor beúszása és a pipa megrajzolása egyszeri, és
+  **csak az új soron** fut le (`.is-uj`) — enélkül egy fájl csatolásakor az
+  egész lista újravillanna. `prefers-reduced-motion` mellett mindegyik elmarad.
+- **A lap fölötti behúzás elkapva.** A böngésző alapértelmezése az, hogy a lap
+  *helyett* nyitja meg a behúzott fájlt: egy elvétett mozdulat a kitöltött
+  űrlapba kerülne. Az elkapás **csak `Files` típusú behúzásra** történik —
+  enélkül a megjegyzés-mezőbe nem lehetne szöveget húzni.
+- **Halmozódás `DataTransfer`-rel.** A tallózó minden megnyitása felülírja az
+  input listáját; a látogató viszont azt várja, hogy a második behúzás hozzáad.
+  A lista ezért tömbként él, és minden változás után visszaíródik az inputba —
+  a beküldés pontosan azt küldi, amit a látogató lát. Ahol a böngésző nem ismeri
+  a `DataTransfer` konstruktort, ott a felület szűkebb képességgel működik
+  tovább, hibaüzenet nélkül.
+- **JS nélkül** a felület létre sem jön: marad a natív mező, és a korlátok
+  mondata (`[data-fajl-korlat]`) a súgóban marad. A modul azt a mondatot csak
+  akkor veszi ki, ha a felület — amelyik kiírja — tényleg ott van.
+
+### Javítva — a mellékletkorlát megint megállítja a beküldést
+
+Az élő űrlapellenőrzés (`urlap-ellenorzes.js`) **minden billentyűleütésnél**
+újraszámolja minden mező egyedi hibáját, és `setCustomValidity('')`-vel törli,
+amit nem ő állított be. A fájlmező korlátja (3 darab, egyenként 10 MB) így
+néma módon eltűnt: a lista kiírta a hibát, a gomb viszont kizöldült, és a túl
+nagy melléklet elindult a szerver felé — ahol aztán elhasalt.
+
+A mellékletmodul mostantól `dataset.fajlHiba`-ba is beírja a hibát, az ellenőrző
+pedig **onnan olvassa vissza**. Buborékot a fájlmező szándékosan nem kap: a baj
+a mellékletlistában áll, a fájl mellett, amelyikre vonatkozik.
+
+### Javítva — a megrendelőlapon a súgószöveg ráragadt a következő címkére
+
+A `.urlap-mezo` térköze `0`, mert máshol rácsban ül (`.urlap-csoport` `gap`).
+A megrendelőlap 3. szakaszában viszont a mezők a szakasz **közvetlen gyermekei**,
+így a mellékletek súgómondata és a „Megjegyzés a megrendeléshez" címke között
+nem maradt levegő. Új szabály: `.dok-szakasz > .urlap-mezo + .urlap-mezo`.
+
+### Hozzáadva — `scripts/ellenorzes.sh` és a hozzá tartozó CI
+
+Hét mechanikus kapu, mindegyik egy olyan kérdésre válaszol, ami **legalább
+egyszer már elromlott** ebben a repóban:
+
+1. `VERSION` = `_web/VERSION`, és van hozzá CHANGELOG-szekció
+2. nincs titok a verziókövetésben (`.env`, `*.key`, `config.php`, `oth-titkok/`)
+3. minden lap **ugyanazt** az `app.css?v=NN`-t kéri
+4. minden hivatkozott JS/CSS létezik — az elgépelt szkriptnév néma
+5. JS-szintaxis (`node --check`)
+6. a Python-generátorok szintaxisa
+7. teszt üzemmód állapota (figyelmeztetés, nem hiba)
+
+A logika **szándékosan a szkriptben él, nem a workflow YAML-jében**: így a hiba
+még commit előtt kiderül, nem húsz perccel később egy piros pipából. A
+`.github/workflows/ellenorzes.yml` ugyanezt futtatja push és PR után.
+
+### Hozzáadva — `.gitattributes`
+
+- **Sorvégek.** A repóban mindig LF. A shell-szkripteknél ez nem ízlés kérdése:
+  CRLF esetén a `#!/usr/bin/env bash` sor `bash\r`-t keres, és a szkript
+  „not found"-dal áll meg. A normalizálás hat ikon-SVG-t érintett, amelyek
+  CRLF-fel érkeztek — tartalmi változás nélkül.
+- **Binárisok** kijelölve (kép, videó, betűtípus, PDF, Office): a git így nem
+  próbálja „normalizálni" őket.
+- **`export-ignore`**: a `git archive` mostantól **deploykész** archívumot ad — a
+  fejlesztői segédfájlok (`_web/README.md`, `COMPONENTS.md`, `serve.py`,
+  `.router-dev.php`) és a teljes dokumentációs réteg kimarad belőle.
+
+### Hozzáadva — GitHub-sablonok
+
+`pull_request_template.md` (ellenőrzőlistával: sötét téma, billentyűzet,
+cache-buster, „nincs titok a diffben") és `ISSUE_TEMPLATE/hiba.yml`.
+
+### Javítva — `_web/VERSION` elcsúszott a gyökértől
+
+A webkimenetnek saját `VERSION` fájlja van, mert **ez az egyetlen, ami a
+kiszolgálóra is felkerül**: ebből lehet megnézni, melyik kiadás fut élesben.
+Kézzel vezetve viszont lemaradt — a `0.06.00`-s kiadásban `0.05.00` állt benne,
+vagyis pontosan arra a kérdésre adott rossz választ, amiért létezik. A
+`release.sh` mostantól **mindkét fájlt** írja, és az `ellenorzes.sh` első kapuja
+az egyezésüket nézi.
+
+### Módosítva — README újraírva, négy infografikával
+
+A README a `0.01.01`-es állapotot írta le: „kész szekciók: 3., 4., 5.", „a
+hivatkozott aloldalak még nem léteznek", 434 MB médiamester. Azóta 132 lap
+épült meg, hat AI-modul, két űrlapos okirat és egy CRM-átadás.
+
+Az új README a **mostani** állapotot írja le, és négy SVG-infografikát hoz
+(`.github/infografika-*.svg`, a Test2 palettájával, nem a Test1 örökölt
+smaragd-aqua színeivel):
+
+| Infografika | Mit mutat |
+|---|---|
+| `infografika-repo.svg` | a repó hatóköre — mi verziózódik (617 + 43 + 13 + 18 fájl) és mi marad a gépen (1,5 GB médiamester) |
+| `infografika-tolcser.svg` | a döntéstámogató tölcsér öt lépcsője laponkénti darabszámmal, mellette a hat AI-modul |
+| `infografika-kiadasok.svg` | kiadás-idővonal `v0.01.01`-től `v0.07.00`-ig, a `1.00.00` szellemsorával |
+| `infografika-retegek.svg` | a négy technológiai réteg — és ami **szándékosan** nincs benne (build, framework, `node_modules`, adatbázis, nyomkövető süti) |
+
+Egy tényadat is javult közben: a lábléc az esztergomi **Csendesvölgy utca 27.**
+címet írja (ez áll a megrendelőlap szerződéses szövegében is), nem a korábbi,
+elavult Strázsa utcait.
+
+### Módosítva — cache-busting
+
+`app.css?v=206` mind a **128 lapon**, `urlap-ellenorzes.js?v=3`,
+`dokumentum.js?v=4`, új: `urlap-fajl.js?v=1`. A mellékletkezelés kikerült a
+`dokumentum.js`-ből a saját moduljába; a `dokumentum.js` innentől a nyomtatás, a
+keltezés és a jogszabályi lábjegyzetek gazdája.
 
 ---
 
@@ -1339,6 +1486,15 @@ CRM napokig üres maradhat úgy, hogy minden működőnek tűnik.
    félrevezető „Access denied” jött, pedig a jelszó jó volt. Az alapértelmezés
    ezért `127.0.0.1`, és a beállítás kimondja, hogy egy gépen belül vagy a
    `socket` mezőt kell pontosan kitölteni, vagy IP-t írni.
+
+### Javítva — a kiadás-szkript sosem olvasta ki az összefoglalót
+
+Az `awk -v` **feloldja** a `\[` szekvenciát sima `[`-re, így a szakaszcím
+mintája a `## [0.06.00]` regex lett — egy karakterosztály a `0`, a `.` és a `6`
+jegyekből —, ami a `## [0.06.00] — 2026-09-08` sorra soha nem illeszkedett.
+Minden kiadás némán a `kiadás` helyettesítő összefoglalóra esett vissza, és a
+korábbi tagek üzenetét kézzel kellett megírni. A címet mostantól az `index()`
+**betű szerint** keresi. (`a3d0836`)
 
 ---
 
