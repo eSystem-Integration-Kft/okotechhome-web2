@@ -280,10 +280,53 @@ else
   ylw "python3 nincs telepítve — a hivatkozás-ellenőrzés kimarad"
 fi
 
-# ── 8. Teszt üzemmód ─────────────────────────────────────────────────────────
+# ── 8. Fejlécképek alt-szövege ───────────────────────────────────────────────
+# UGYANAZ a kép több lapon: ha a leírásaik EGYMÁSNAK ELLENTMONDANAK, akkor
+# legalább az egyik hamis — a képernyőolvasó használójának mást mondunk, mint
+# amit a látó látogató lát. Ez háromszor fordult már elő: a levegoztetes egy
+# légszivattyú (nem buborékos medence), az eloszuro egy táblagép a gyepen
+# (nem előszűrő akna), az oldomedence-mukodes talajmetszet (nem munkagödör).
+# A fájlnév MEGTÉVESZT — csak a kép megnézése dönt.
+#
+# Nem bukik el: két eltérő megfogalmazás lehet mindkettő helyes. De átnézendő.
+cim "8. Fejlécképek alt-szövege"
+if command -v python3 >/dev/null 2>&1; then
+  ALTOK="$(python3 - <<'PYVEG'
+import os, re, collections
+
+KEP = re.compile(r'<img src="[^"]*oldalak/(hero-[a-z0-9-]+)\.webp[^"]*"[^>]*?alt="([^"]*)"', re.S)
+valtozat = collections.defaultdict(set)
+
+for gyoker, konyvtarak, fajlok in os.walk('_web'):
+    konyvtarak[:] = [k for k in konyvtarak if k not in ('.git', 'node_modules')]
+    for nev in sorted(fajlok):
+        if not nev.endswith('.html'):
+            continue
+        with open(os.path.join(gyoker, nev), encoding='utf-8', errors='replace') as f:
+            talalat = KEP.search(f.read())
+        if talalat:
+            valtozat[talalat.group(1)].add(talalat.group(2))
+
+for kep, altok in sorted(valtozat.items()):
+    if len(altok) > 1:
+        print('%s\t%d' % (kep, len(altok)))
+PYVEG
+)"
+  if [[ -z "$ALTOK" ]]; then
+    grn "minden fejléckép egyetlen leírással szerepel"
+  else
+    DB=$(printf '%s\n' "$ALTOK" | wc -l | tr -d ' ')
+    ylw "$DB fejléckép visel többféle alt-szöveget — nézd át, nem mond-e egyik hamisat:"
+    while IFS=$'\t' read -r kep n; do
+      printf '      %-34s %s különböző leírás\n' "$kep" "$n"
+    done <<< "$ALTOK"
+  fi
+fi
+
+# ── 9. Teszt üzemmód ─────────────────────────────────────────────────────────
 # NEM hiba, csak emlékeztető: a `Disallow: /` szándékos, amíg a webhely a
 # tesztaldomainen fut. Élesítéskor viszont HÁROM helyen kell feloldani.
-cim "8. Teszt üzemmód"
+cim "9. Teszt üzemmód"
 if grep -qE '^\s*Disallow:\s*/\s*$' _web/robots.txt 2>/dev/null; then
   ylw "TESZT ÜZEMMÓD aktív: robots.txt tiltja az indexelést (élesítéskor 3 réteget kell oldani — lásd _web/README.md)"
 else

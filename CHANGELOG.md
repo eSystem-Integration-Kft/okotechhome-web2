@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.16.00-80A640?style=flat-square" alt="verzió 0.16.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.17.00-80A640?style=flat-square" alt="verzió 0.17.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-16-56642B?style=flat-square" alt="16 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-17-56642B?style=flat-square" alt="17 kiadás">
 </p>
 
 ---
@@ -28,6 +28,68 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.17.00] — 2026-09-10
+
+**Három szekció eddig 403-at adott a saját menüpontjára. Ma mind a három lap.**
+Mellette egy új tudástár-cikk arról, hogyan tisztul meg a víz — és négy hamis
+képleírás javítása, amiket egy új kapu talált meg.
+
+### Hozzáadva — `/tudastar/`, `/eredmenyek/`, `/okotech-home/` hub-lapok
+
+A megamenü és a lábléc hasábcíme mind a 140 lapon ezekre mutatott, a mappákban
+viszont nem volt `index.html`. A `.htaccess` `Options -Indexes` + `DirectoryIndex`
+párosa miatt ez **403** volt élesben — a tesztkiszolgálón is mérve. Most:
+
+| Hub | Mit tartalmaz |
+|---|---|
+| **Tudástár** | A kilenc cikk két teli sorban: *Hogyan működik* (az élő rendszer belülről) és *Döntés előtt* (összehasonlítás, szabvány, kivitelezés). Kimondja, hogy a lap kérdésekre válaszol, nem terméket mutat be — és hogy az „ezt nem tudjuk" is válasz. |
+| **Eredmények** | Négy településszintű projekt időrendben (Óbudavár → Csikvánd → Diósberény → Bakonypéterd), majd a hosszú távú tapasztalat: hét otthon tizenhárom éve, tizenöt ügyfélvélemény, tanúsítványok. „Nem referencialista — dokumentált projektek." |
+| **ÖkoTech-Home** | Kik állnak a berendezés mögött: 2004 óta, saját fejlesztés, esztergomi gyártás. Adatok, történet, pályázatok — és hogy miért számít, ha fejlesztés, gyártás, telepítés és szerviz egy kézben van. |
+
+A hubok **nem sorolják fel gépiesen** a gyerekoldalakat: mindegyik kártya a saját
+lap tényleges tartalmát írja le, a lapok saját felvezetőjéből. A `situation-grid`
+oszlopszáma úgy van megválasztva, hogy **egyik sor se maradjon hiányos**.
+
+### Hozzáadva — `/tudastar/hogyan-tisztul-meg-a-szennyviz`
+
+*„Hogyan lesz a szennyvízből tisztított víz?"* A víz útja a berendezésen át, öt
+lépésben: beérkezés → biológiai tisztítás első szakaszai → levegőztetett
+biológiai tisztítás → ülepítés → távozás, a végén a folyamat összefoglalásával.
+
+A cikk **megtartja a forrásanyag visszafogottságát**: a recirkulációk részletes
+műszaki kialakításáról annyit mond, hogy az az A.B. Clear saját technológiai
+megoldásának része — számot, kamraszámot, méretet nem talál ki hozzá. A lap
+`HowTo` és `FAQPage` strukturált adatot is kap.
+
+### Javítva — négy fejléckép leírása mást mondott, mint amit a kép mutat
+
+Ugyanaz a hibaosztály, mint a 0.16.00-ban a `hero-levegoztetes`-nél. **A fájlnév
+megtéveszt** — csak a kép megnézése dönt:
+
+- **`hero-eloszuro` nem előszűrő akna**, hanem egy táblagép a gyepen, képernyőjén
+  adatbekérő űrlappal: a webhely „előszűrője" *kérdőív*, nem alkatrész. Az új
+  cikk emiatt kapott volna teljesen oda nem illő fejlécet — `hero-biologiai`-ra
+  cserélve (talajmetszet az A.B. Clear tartállyal), ami a téma is.
+- **`hero-oldomedence-mukodes` nem munkagödör**, hanem stilizált talajmetszet
+  nyírt gyeppel; a hozzá írt „frissen kiásott munkagödör… tisztítómező
+  nyomvonala" a képen nincs rajta.
+- **`hero-gyokerzona` nem gondozott kert növényágyásokkal**, hanem fóliával
+  bélelt, kaviccsal feltöltött szivárogtató árok.
+- **`hero-dokumentumok` nem irodai polc**, hanem íróasztal — és „aláírásra
+  előkészített" sincs a képen (nincs toll, nincs aláírássor).
+
+### Módosítva — `scripts/ellenorzes.sh`: 8. kapu az alt-szövegekre
+
+Ha ugyanaz a fejléckép több lapon **egymásnak ellentmondó** leírást visel, akkor
+legalább az egyik hamis. A kapu felsorolja az eltéréseket — figyelmeztetésként,
+mert két eltérő megfogalmazás lehet mindkettő helyes. Ez a kapu találta meg a
+fenti négyet. **Ma négy kép visel többféle leírást**, mind ugyanannak a
+jelenetnek más szavakkal — átnézve.
+
+A 7. kapu közben leadta a három hubot: 14 útvonalról **11-re** csökkent a
+lista, és abban már csak a sitemap szerint tervezett, meg nem épített lapok
+vannak.
 
 ## [0.16.00] — 2026-09-10
 
