@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.08.00-80A640?style=flat-square" alt="verzió 0.08.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.09.00-80A640?style=flat-square" alt="verzió 0.09.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-8-56642B?style=flat-square" alt="8 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-9-56642B?style=flat-square" alt="9 kiadás">
 </p>
 
 ---
@@ -26,6 +26,79 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.09.00] — 2026-09-10
+
+**Két gyártói anyag megérkezett — és nem csak egy-egy lapot töltött fel.**
+Az iszapzsákos technológia lapja újraépült a kapott szerkesztett szöveggel, a
+műszaki adatok lap megkapta az elhelyezést, a hét műszaki feltételt és a
+garanciát. Ahol ugyanez az adat máshol is **hiányzott**, oda is bekerült — a
+jelöléseket pedig nem töröltük, hanem szűkítettük.
+
+### Módosítva — `/megoldasok/ab-clear-iszapzsakos-technologia` újraépült
+
+Ügyféltől kapott, szerkesztett szöveg, a megadott SEO-adatokkal (fókusz
+kulcsszó: *iszapzsákos szennyvíztisztító*). A lap eddig **a hiányról** szólt —
+„a valós adatokat még gyűjtjük" —, most **magáról a technológiáról**.
+
+- **A három lépés kimondva:** elősűrítés → **mamutszivattyú** → víztelenítés.
+  Ez a lap addig nem mondta ki, hogy az iszapot mi emeli fel: a mamutszivattyú
+  a berendezésben amúgy is meglévő levegőt hasznosítja, tehát **nincs benne
+  forgó gépelem, és nem kell külön elektromos iszapszivattyú**. Ez a különbség
+  lényege, nem mellékes részlet.
+- **Hét soros összevető tábla** (`.compare-table`) az időszakos iszapeltávolítás
+  és az iszapzsákos technológia között — a korábbi kétoszlopos `.split` helyett,
+  mert soronként ugyanarra a szempontra ad két választ.
+- **Hat GYIK**, köztük a kérdés, amit a régi lap nem mert megválaszolni:
+  *„Tényleg megszűnik a szippantás?"*
+- **JSON-LD `HowTo` + `FAQPage`** — a `HowTo` a három lépést viszi.
+
+### Módosítva — `/megoldasok/ab-clear-muszaki-adatok` három új szakasszal
+
+A gyártói műszaki tájékoztatóból (`Muszaki.adatok.docx`):
+
+- **Elhelyezés** — 10 cm szerelőbeton, a tartály teteje ~5 cm-rel a terepszint
+  fölé, a feltöltés a kifolyócső magasságáig **a visszatöltés előtt**.
+- **Műszaki feltételek** — hét pont: villamos kábel, csövek **közvetlenül a
+  fagyhatár alatt**, a tisztított víz útja, fogadó-szint, magas talajvíznél
+  **betonmedence a talajvízszintnél 30 cm-rel magasabb peremmel**, a perzisztens
+  szennyezők távoltartása, és a két meghibásodási pont (kompresszor,
+  vezérlőegység).
+- **Két év teljes körű garancia** rendeltetésszerű használat esetén — és a
+  „rendeltetésszerű" itt konkrétan is értelmezhető, mert a perzisztens
+  szennyezők a garancia feltételei közé tartoznak.
+- A kibocsátási értékek mellé odakerült, **mihez képest** felelnek meg:
+  28/2004. (XII. 25.) KvVM-rendelet 2. sz. melléklet, **3. területi kategória**
+  (időszakos vízfolyás befogadó) — és hogy szigorúbb követelménynél homokszűrő
+  vagy vegyszeradagolás jöhet szóba.
+
+### Módosítva — ugyanaz az adat ott is, ahol hiányzott
+
+A két anyag olyan kérdésekre is választ adott, amiket **más lapok `ADATHIÁNY`
+jelölése kért**. Ahol az adat odaillett, beírtuk, és a jelölést a maradékra
+szűkítettük — nem töröltük:
+
+| Lap | Mi került bele | Mi hiányzik továbbra is |
+|---|---|---|
+| `projekt-elokeszites/talajviz` · `magas-talajvizi-helyzetek` | a betonmedence **peremszabálya** (talajvízszint + 30 cm) | a vállalt **maximális** talajvízszint — az más kérdés |
+| `helyzetem/koltseg-es-telepites` | az iszapzsák cseréje: **néhány perc, évi 3–4 alkalom** négyfős családnál, **1 200 Ft körül négy darabért** | a kompresszor- és membráncsere valós gyakorisága, a projektek tényleges költségsávjai |
+| `megoldasok/ab-clear-muszaki-adatok` | elhelyezés, műszaki feltételek, garancia, rendeleti kategória | a teljes VITUKI-jegyzőkönyv, a modellenkénti CE, rajzok, kamratérfogatok, kompresszoradatok |
+| `megoldasok/ab-clear-iszapzsakos-technologia` | **EP 2766313** európai szabadalom, cseregyakoriság, higiéniai teendő, a szippantás kivételes esetei | a szabadalom státusza a magyar, EAPO és vietnámi eljárásban |
+
+> A jelölés szűkítése szándékos: a következő olvasó így látja, **mi jött meg és
+> mikor**, és mi az, amire még mindig várunk. Egy törölt `ADATHIÁNY` azt
+> sugallná, hogy a kérdés megszűnt.
+
+### Módosítva — a kereszthivatkozások oda-vissza mennek
+
+A telepítési cikk a szerelőbetonnál és a fagyhatárnál a műszaki adatokra mutat,
+a műszaki adatok elhelyezés-szakasza vissza a telepítési cikkre; a talajvizes
+lapok a peremszabálynál a műszaki adatokra, a költséglap az iszapzsákos lapra.
+Minden új hivatkozás célja ellenőrizve.
+
+**Öko indexe:** 128 lap, **793 szakasz**, **963 szövegrészlet**.
 
 ---
 
