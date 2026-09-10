@@ -672,7 +672,7 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 |---|---|
 | **Designrendszer** | `OTH-design-system-Teszt.v2` **v0.5** implementálva (`assets/css/app.css`) |
 | **Kész szekciók** | fejléc · 1. — *Hero* · 2. — *Bizalmi sáv* · 3. — *Kiinduló helyzet* · 4. — *Technológiák* · 5. — *Megoldásaink* · **6. — *AI megoldás-ajánló*** · **7. — *Az A.B. Clear működése*** · 8. — *AI-alapú döntéstámogató* · 9. — *Üzemeltetés* · 10. — *Tudástár* · 11. — *AI ajánlat-összehasonlító* · 12. — *Dokumentált projektek* · 13. — *Egy kézben* · 14. — *Szakértői továbblépés* · 15. — *GYIK* |
-| **Kész aloldalak** | **Megoldások** (41) · **Helyzetem** (38) · **Projekt-előkészítés** (27) · **Eredmények** (7) · megkeresés és jogi lapok — a főoldallal együtt **135 lap** |
+| **Kész aloldalak** | **Megoldások** (41) · **Helyzetem** (38) · **Projekt-előkészítés** (27) · **Eredmények** (7) · megkeresés és jogi lapok — a főoldallal együtt **136 lap** |
 | **Szippantási kalkulátor** | `/szippantasi-dij-kalkulator` — egy képlet mind a három díjszabás-szerkezetre, csempetérkép a díjadatbázis állásáról, díjbeküldő űrlap. A díjadatbázis **üres**, a beküldés emberi ellenőrzés után kerül be |
 | **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
 | **Hiányzik** | `sitemap.xml`; a szippantási díjadatbázis tartalma; a termékoldalak gyártói adatai |
@@ -680,7 +680,7 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 | **JS** | 19 modul, összesen ~7770 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
 | **Téma** | világos/sötét, csúszkakapcsolóval a fejlécben. Első látogatáskor a rendszerbeállítás, utána a látogató választása (`localStorage`). JS nélkül világos marad, és a kapcsoló meg sem jelenik. |
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
-| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: **130 lap, 827 szakasz**. **Szövegindex: 1005 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` **Helyszíni segítség:** a `data-oko-pont` attribútummal jelölt felületeknél (ügyazonosító, mentés) magától megszólal, amikor a látogató odagörget. |
+| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: **131 lap, 832 szakasz**. **Szövegindex: 1011 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` **Helyszíni segítség:** a `data-oko-pont` attribútummal jelölt felületeknél (ügyazonosító, mentés) magától megszólal, amikor a látogató odagörget. |
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
 | **Fejlécképek** | 63 kép / 116 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) |
 

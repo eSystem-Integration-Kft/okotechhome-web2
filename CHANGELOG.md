@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.13.00-80A640?style=flat-square" alt="verzió 0.13.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.14.00-80A640?style=flat-square" alt="verzió 0.14.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-13-56642B?style=flat-square" alt="13 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-14-56642B?style=flat-square" alt="14 kiadás">
 </p>
 
 ---
@@ -26,6 +26,53 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.14.00] — 2026-09-10
+
+**Cégünkről — a Rólunk ág belépő lapja.**
+
+### Hozzáadva — `/okotech-home/cegunkrol`
+
+A *Rólunk* panel eddig a **Történetünkkel** kezdődött: az alapítók személyes
+elbeszélésével. Az a lap jó, de nem arra válaszol, amit egy döntés előtt álló
+látogató kérdez — *kik ezek, mit tudnak, és miért bízhatok bennük?* A Cégünkről
+ezt viszi, és a panelben a Történetünk **elé** került.
+
+Amit hoz, és eddig nem szerepelt a webhelyen:
+
+- **Kreditpontos továbbképzés** — tananyag építészek és gépész szakemberek
+  szakmai továbbképzéséhez;
+- **egyetemi diplomamunkák** konzulensi támogatása;
+- tagság a **Magyar Víz- és Szennyvíztechnikai Szövetségben (MaSzeSz)**;
+- **nemzetközi hidrogeológiai konferencia** Budapesten, 2026 szeptemberében.
+
+A szabadalom és a CONSTRUMA Nagydíj innen is elérhető, a
+[megadási okiratra](https://okoth.hu/eredmenyek/tanusitvanyok-es-dokumentumok)
+mutató hivatkozással.
+
+**`Organization` JSON-LD**, alapítási évvel (2004), székhellyel és a MaSzeSz-
+tagsággal — ez a webhely első olyan strukturált adata, ami magáról a cégről szól,
+nem egy termékről vagy egy cikkről.
+
+### Az átfedésről
+
+A *Történetünk* lapon már van „Kiállítások és fórumok" szakasz. A kettő nem
+ugyanazt mondja: a Történetünk **elbeszélés** (hogyan jutottunk ide), a Cégünkről
+**jelenlegi képesség** (mit tudunk ma). A két lap egymásra hivatkozik, a
+tartalom nem ismétlődik.
+
+### Szövegjavítás
+
+A kapott anyagban a MaSzeSz-mondat végén két pont állt; javítva.
+
+> **Egy dátum figyelmet kér.** A „2026 szeptemberében… adunk elő" mondat **ebben
+> a hónapban** aktuális. Néhány hét múlva múlt időbe kell tenni, vagy a
+> konferencia nevével és pontos dátumával kiegészíteni — különben a lap
+> elavultnak látszik. Ez nem `ADATHIÁNY`, hanem naptári teendő.
+
+`app.css` változatlan. Öko indexe: **131 lap, 832 szakasz, 1011 szövegrészlet**.
 
 ---
 
