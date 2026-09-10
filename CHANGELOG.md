@@ -225,9 +225,10 @@ smaragd-aqua színeivel):
 | `infografika-kiadasok.svg` | kiadás-idővonal `v0.01.01`-től `v0.07.00`-ig, a `1.00.00` szellemsorával |
 | `infografika-retegek.svg` | a négy technológiai réteg — és ami **szándékosan** nincs benne (build, framework, `node_modules`, adatbázis, nyomkövető süti) |
 
-Egy tényadat is javult közben: a lábléc az esztergomi **Csendesvölgy utca 27.**
-címet írja (ez áll a megrendelőlap szerződéses szövegében is), nem a korábbi,
-elavult Strázsa utcait.
+A lábléc mostantól **mindkét címet** közli, megkülönböztetve: a bejegyzett
+székhely a **Csendesvölgy utca 27.**, az ügyfélszolgálat és telephely a
+**Strázsa u. 12.** (Ez a kettő a webhelyen sem ugyanaz: a lábléc az
+ügyfélszolgálati címet viseli, a székhelyet a jogi oldalak közlik.)
 
 ### Módosítva — cache-busting
 

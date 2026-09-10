@@ -372,6 +372,7 @@ A kettő együtt használandó: az első a gyártási kézikönyv, a második a 
 ---
 
 <p align="center">
-  <sub>Belső dokumentum · Ökotech-Home Kft. · 2500 Esztergom, Csendesvölgy utca 27.<br>
+  <sub>Belső dokumentum · Ökotech-Home Kft. · székhely: 2500 Esztergom, Csendesvölgy utca 27.<br>
+  Ügyfélszolgálat és telephely: 2509 Esztergom, Strázsa u. 12.<br>
   Fejlesztés: eSystem-Integration Kft. (eSI Kft.), Érd</sub>
 </p>
