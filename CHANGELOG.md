@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.09.00-80A640?style=flat-square" alt="verzió 0.09.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.10.00-80A640?style=flat-square" alt="verzió 0.10.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-9-56642B?style=flat-square" alt="9 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-10-56642B?style=flat-square" alt="10 kiadás">
 </p>
 
 ---
@@ -26,6 +26,76 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.10.00] — 2026-09-10
+
+**Az oldómedence két oldalról: a saját lapja és a nagy összehasonlítás.**
+Az oldómedencés rendszer lapja újraépült, és mellé megérkezett a tudástár
+harmadik cikke — a legnagyobb döntési kérdés tételes összevetése. Ez utóbbi
+egyben az első lap, ahol **kimondottan hiányzó adatokkal** kellett dolgozni.
+
+### Módosítva — `/megoldasok/oldomedences-rendszer` újraépült
+
+A lap eddig a fogalmi tisztázással kezdett („nem tartály — rendszer"), most
+azzal, **kinek való**: időszakosan használt ingatlanhoz. A hat kártyás
+szakasz-navigáció megmaradt, a prózát a kapott szöveg váltotta.
+
+- **Három szakasz, energia nélkül:** ülepítés → anaerob lebontás → tisztítómező.
+- **Háromoszlopos fogalomtábla** — zárt tároló / oldómedence / biológiai —,
+  mert a három fogalmat a hétköznapi beszéd összemossa. A *derítő* mint
+  szinonima is bekerült: sokan így keresnek rá.
+- **A tisztítómező a szűk keresztmetszet:** a biológiai rendszer
+  szivárogtatójának akár a **két-háromszorosa**. Ez a lap fő számadata, és eddig
+  nem szerepelt sehol.
+- **Tanúsítványok:** EN 12566-1:2000, EN 12566-1:2000/A1:2003, és a német
+  **PIA n° 1739** — ez a webhelyen eddig sehol nem volt leírva.
+
+**A szippantás-ADATHIÁNY feloldódott — a helyes módon.** A jelölés azt kérte,
+hogy a két egymásnak ellentmondó belső forrást (kétévente / 1,5 évente) *ne*
+írjuk át „átlagosan 1,5–2 évre". A kapott szöveg nem is fix számot mond, hanem
+**feltételhez köti**: a létszám és a használat módja határozza meg. A két belső
+forrás ellentmondása viszont az EPURECO lapon továbbra is feloldandó.
+
+### Hozzáadva — `/tudastar/oldomedence-vagy-biologiai-szennyviztisztito`
+
+A tudástár harmadik cikke, a megadott SEO-adatokkal. **Tizenhét soros**
+összehasonlító tábla, tízéves költségszámítás, és egy hétpontos **ellenőrző
+lista a jegyzői egyeztetéshez** — ez utóbbi a webhely első olyan tartalma,
+amit a látogató kinyomtatva visz magával az önkormányzatra.
+
+Jogi és műszaki adatok, amelyek eddig nem szerepeltek a webhelyen:
+
+- a **147/2010. Korm. rendelet** három kategóriája egymás mellett;
+- **500 m³/év alatt**: mintavétel az engedélyezéskor, majd háromévente, az
+  eredményt **15 napon belül** a jegyzőnek;
+- a **2024/3019/EU irányelv** — hatályba 2025-01-01, átültetés **2027-07-31-ig**;
+- áramigény számokkal: **50 W**, folyamatos üzemben **438 kWh/év**, 7/3 perces
+  üzemmódban **~307 kWh**;
+- garancia mindkét oldalról: A.B. Clear **2 év teljes körű**, oldómedencés
+  tartály **10 év** gyártói.
+
+### Ahogy a hiányzó adatokat kezeltük
+
+A kapott szövegben **tizennégy helyen** `[ANNA PONTOSÍTJA]` állt. Ezek egyike
+sem került a lapra — sem üresen, sem kitalált értékkel:
+
+| Hol volt | Mit tettünk |
+|---|---|
+| tízéves költségtábla (berendezésár, telepítés, szippantás darabszáma, baktériumkészítmény, vízvizsgálat, mezőfelújítás) | a tábla **csak a telektől független** tételeket hozza (áram, iszapzsák, membrán); a többiről a lap kimondja, hogy árajánlatban mondható meg felelősen |
+| megtérülési pont években | a mondat kimaradt |
+| kompresszor zajszintje · helyigény · telepítési idő | a három GYIK-kérdés **kimaradt** — egy kérdés „[ANNA PONTOSÍTJA]" válasszal rosszabb, mint ha nem szerepelne |
+
+Mind a tizennégy tétel tételesen felsorolva a lap `ADATHIÁNY` jelölésében, hogy
+pótláskor egy helyen látszódjon, mi hiányzik és hova kerül.
+
+### Módosítva — bekötés és index
+
+Megamenü és lábléc **mind a 130 lapon**; Öko indexe **129 lap, 811 szakasz,
+985 szövegrészlet**. A két lap oda-vissza hivatkozik egymásra, és onnan tovább
+a talaj-, talajvíz-, felmérés- és iszapzsák-lapokra — 31 új belső hivatkozás,
+mind ellenőrizve.
 
 ---
 
