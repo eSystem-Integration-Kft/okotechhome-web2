@@ -395,7 +395,7 @@ return [
         'min_kitoltes' => 3,
         'max_uzenet'   => 5000,
         // Csak ezekről az origin-ekről fogadunk beküldést (CSRF-védelem).
-        'origin'       => ['https://okoth.hu', 'https://tst.okoth.hu'],
+        'origin'       => ['https://okotechhome.hu', 'https://tst.okoth.hu'],
     ],
 
     /* --- Csatolmányok (ajánlat-átnézés) ----------------------------------- */
@@ -435,8 +435,8 @@ return [
     /* --- Megjelenés a levélben -------------------------------------------- */
     'webhely' => [
         'nev'   => 'ÖkoTech Home',
-        'url'   => 'https://okoth.hu',
-        'logo'  => 'https://okoth.hu/assets/img/logo-email.png',
+        'url'   => 'https://okotechhome.hu',
+        'logo'  => 'https://okotechhome.hu/assets/img/logo-email.png',
         'cim'   => '2509 Esztergom, Strázsa u. 12.',
         'tel'   => '+36 33 200 211',
         'email' => 'kapcsolat@okotechhome.hu',

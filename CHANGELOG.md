@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.24.01-80A640?style=flat-square" alt="verzió 0.24.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.25.00-80A640?style=flat-square" alt="verzió 0.25.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-24-56642B?style=flat-square" alt="24 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-25-56642B?style=flat-square" alt="25 kiadás">
 </p>
 
 ---
@@ -28,6 +28,63 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.25.00] — 2026-09-10
+
+**Az éles domain `okoth.hu` helyett `okotechhome.hu` — a webhely a régi
+WordPress helyére kerül, a DNS nem mozdul.**
+
+### ⚠️ Javítva — az átirányítás az élő webhelyet küldte volna egy halott kiszolgálóra
+
+A 0.24-es blokk az `okotechhome.hu` kéréseit **301-gyel az `okoth.hu`-ra**
+irányította. Amíg úgy tudtuk, hogy a DNS ide fordul, ez helyes volt. Bela
+pontosítása szerint viszont a **`tst.okoth.hu` tartalma kerül át a régi
+kiszolgálóra**, a WordPress helyére, és a **DNS nem mozdul** — vagyis a webhely
+az `okotechhome.hu`-n fog élni, az `okoth.hu` pedig marad üres (ma **403**).
+
+Élesítve ez a blokk **minden látogatót egy 403-as kiszolgálóra terelt volna**.
+A 13 szabály ezért **azonos domainen belüli útvonal-átirányítás** lett: nincs
+benne `HTTP_HOST` feltétel és nincs abszolút URL. A régi útvonalak egyike sem
+ütközik az új webhely lapjaival — ellenőrizve.
+
+### Módosítva — kanonikus domain mind a 143 fájlban
+
+**786 abszolút URL** cserélve `https://okoth.hu` → `https://okotechhome.hu`:
+kanonikusok, `og:image`, JSON-LD, `robots.txt`, `config.example.php`, az e-mail
+`X-Mailer` fejléce. Kanonikus nélkül — pontosabban egy **403-as domainre mutató**
+kanonikussal — a Google az egész webhelyet egy nem létező címre mutató
+duplikátumnak látta volna.
+
+A **`tst.okoth.hu` érintetlen**: a tesztoldal ott marad, a minta a `https://`
+után közvetlenül várta az `okoth.hu`-t, tehát az aldomainre nem illeszkedett.
+
+### Hozzáadva — a főoldalnak nem volt kanonikusa és `og:` adata
+
+A webhely legfontosabb lapja **kanonikus nélkül** állt. Ez Ads-forgalomnál
+komoly: a hirdetések `?gclid=…` paraméterrel érkeznek, és kanonikus nélkül
+minden kattintás **külön URL-nek** látszik. Most a gyökér a kanonikus alak,
+mellette `og:type`, `og:title`, `og:description`, `og:image` (a hero állóképe)
+és `og:locale`.
+
+*(A `jelentes` és az `eredmeny` továbbra sem kap kanonikust — mindkettő
+`noindex`, ott ez helyes. A négy hibalap szintén.)*
+
+### Dokumentálva — mit kell a kiszolgálón kézzel elvégezni
+
+- **Az `.htaccess` várhatóan működni fog.** A `/cgi-sys/defaultwebpage.cgi` →
+  `200` és a `/whm-server-status` → `403` **cPanelt** jelez, ahol az nginx csak
+  proxy az Apache előtt. Élesítéskor **két percben ellenőrizendő** — ha mégsem
+  Apache szolgálná ki, a kiterjesztés nélküli URL-ek **mind 404-eznének**.
+- **Az `api/config.php` git-ignorált**, csak a kiszolgálón él. Az `origin`
+  listába fel kell venni az `https://okotechhome.hu`-t, különben a CORS miatt
+  **egyetlen űrlap sem küldhető be**; az e-mail `url`/`logo` szintén.
+  A `config.example.php` a repóban már az új domaint tartalmazza.
+
+### Nyitva maradt
+
+A `scripts/feltoltes.sh` `eles` célja továbbra is
+`cullinan.versanus.eu:/public_html` — az a **másik** kiszolgáló. Az új célhoz
+FTP-hozzáférés kell; amíg nincs meg, az éles feltöltés nem futtatható.
 
 ## [0.24.01] — 2026-09-10
 

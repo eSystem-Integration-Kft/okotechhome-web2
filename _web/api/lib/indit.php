@@ -80,7 +80,7 @@ function oth_kuld(array $CFG, array $cimzettek, string $targy, string $szoveg,
            domainünk marad — különben az SPF elbukik és a levél spambe kerül. */
         $fejlecek[] = 'Reply-To: ' . OthSmtp::fejlecNev($valaszNev ?: $valaszCim) . " <{$valaszCim}>";
     }
-    $fejlecek[] = 'X-Mailer: okoth.hu';
+    $fejlecek[] = 'X-Mailer: okotechhome.hu';
     $fejlecek[] = 'Auto-Submitted: auto-generated';
 
     (new OthSmtp($CFG['smtp']))->kuld(

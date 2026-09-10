@@ -8,7 +8,10 @@ Kizárólag ennek a tartalma kerül élesre — a repó gyökerében élő `READ
 ## ⚠️ TESZT ÜZEMMÓD — élesítési ellenőrzőlista
 
 Az oldal jelenleg a **`https://tst.okoth.hu`** aldomainen fut, és **minden keresőmotor
-elől el van zárva**. Az éles domain: **`https://okoth.hu`**.
+elől el van zárva**. Az éles domain: **`https://okotechhome.hu`** — a webhely a régi
+WordPress helyére kerül, **ugyanarra a kiszolgálóra** (`79.172.249.246`), és az
+`okoth.hu` DNS-e **nem** fordul át. Az `okoth.hu` marad az, ami: a `tst.` aldomain
+gazdája.
 
 A zárás **három rétegben** él — élesítéskor mindhármat fel kell oldani:
 
@@ -17,7 +20,8 @@ A zárás **három rétegben** él — élesítéskor mindhármat fel kell oldan
 | 1 | `.htaccess` → *TESZT ÜZEMMÓD* blokk | az `X-Robots-Tag` sort törölni vagy kikommentezni |
 | 2 | `robots.txt` | a `Disallow: /` helyére az élesítési változat (a fájlban kommentben ott áll) |
 | 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` sort törölni |
-| 4 | `.htaccess` → *RÉGI DOMAIN → ÚJ DOMAIN* blokk | **csak akkor él, ha az `okotechhome.hu` EZT a kiszolgálót éri el.** Ha a régi domain máshol marad, ugyanazokat a szabályokat a RÉGI kiszolgáló `.htaccess`-ébe kell tenni |
+| 4 | `.htaccess` → *RÉGI WORDPRESS-URL-EK* blokk | ellenőrizd, hogy az Apache olvassa-e az `.htaccess`-t az új kiszolgálón — enélkül a 13 Ads-átirányítás és **az összes kiterjesztés nélküli URL** sem működik |
+| 5 | `api/config.php` a szerveren | `origin` és az e-mail `url`/`logo` az új domainre (git-ignorált fájl, lásd lentebb) |
 
 **Külön, a keresőktől független megfelelőségi pont:** a Kapcsolat oldalon a Google
 Térkép **alapértelmezésben** töltődik be. A beágyazás sütit tesz le és elküldi a
@@ -34,12 +38,10 @@ működő céloldalú hirdetést **„Destination not working"** címen elutasí
 kampány leállhat. Ezért a `.htaccess` *RÉGI DOMAIN → ÚJ DOMAIN* blokkjának
 **már az átállás pillanatában élnie kell**, nem utólag.
 
-**Két eset van, és ez dönti el, hova kerül a szabály:**
-
-| Ha… | Akkor… |
-|---|---|
-| az `okotechhome.hu` DNS-e az új kiszolgálóra mutat | a mostani `.htaccess`-blokk elvégzi (a `RewriteCond %{HTTP_HOST}` őrzi) |
-| az `okotechhome.hu` a régi tárhelyen marad | ugyanezeket a sorokat a **régi kiszolgáló** `.htaccess`-ébe kell bemásolni — a célok ott is abszolút URL-ek, tehát változtatás nélkül működnek |
+Mivel a webhely **ugyanarra a domainre** kerül, ahol a régi URL-ek éltek, ezek
+**azonos domainen belüli útvonal-átirányítások** — nincs bennük domainváltás, és
+nincs `HTTP_HOST` feltétel sem. A 13 régi útvonal **egyike sem ütközik** az új
+webhely lapjaival; ellenőrizve.
 
 A lekérdezőstringet (`?gclid=…`) az Apache alapból hozzáfűzi, tehát az Ads
 kattintáskövetése nem sérül.
@@ -60,15 +62,29 @@ Mérés, 2026-09-10:
 
 | Domain | IP | Mi fut rajta |
 |---|---|---|
-| `okotechhome.hu`, `www.okotechhome.hu` | `79.172.249.246` | nginx + **WordPress** (a régi webhely) |
-| `okoth.hu`, `tst.okoth.hu`, `cullinan.versanus.eu` | `81.0.107.145` | ide tölt a `scripts/feltoltes.sh` |
+| `okotechhome.hu`, `www.` | `79.172.249.246` | nginx (cPanel-proxy) + **WordPress** — ide kerül a webhely |
+| `okoth.hu`, `tst.okoth.hu`, `cullinan.versanus.eu` | `81.0.107.145` | a **teszt** gazdája marad |
 
-Az `okoth.hu` gyökere jelenleg **403** — a `/public_html` üres, csak a `_tst`
-alkönyvtár él benne. Ez az élesítésig rendben van.
+**A DNS nem mozdul.** A `tst.okoth.hu` tartalma kerül át a régi kiszolgálóra, a
+WordPress helyére — ezért az átirányítások **azonos domainen belüli**
+útvonal-átirányítások, nem domainváltás.
 
-**Az átirányítás csak akkor lép működésbe, ha az `okotechhome.hu` DNS-e a
-`81.0.107.145`-re fordul.** Amíg a régi kiszolgálón marad, a szabályokat oda
-kell bemásolni.
+**Az `.htaccess` működni fog:** a `/cgi-sys/defaultwebpage.cgi` → `200` és a
+`/whm-server-status` → `403` **cPanelt** jelez, ahol az nginx csak proxy az
+Apache előtt. Ezt élesítéskor **két percben érdemes ellenőrizni** (tölts fel egy
+próbaszabályt, és nézd meg, érvényesül-e), mert ha mégsem Apache szolgálná ki, a
+kiterjesztés nélküli URL-ek **mind 404-eznének**.
+
+### A szerveren kézzel elvégzendő — nem git alatt
+
+A `_web/api/config.php` **git-ignorált**, csak a kiszolgálón él. Élesítéskor
+benne:
+
+- `'origin' => [...]` — vegyél fel `https://okotechhome.hu`-t, különben a
+  CORS miatt **egyetlen űrlap sem küldhető be**;
+- az e-mail sablon `url` és `logo` mezője szintén az új domainre mutasson.
+
+A `config.example.php` a repóban már az új domaint tartalmazza — abból másolható.
 
 > **Az Adsben magát a végső URL-t is érdemes átírni.** Az átirányítás működik,
 > de a Google a céloldal és a megadott URL egyezését minőségi jelként kezeli, és

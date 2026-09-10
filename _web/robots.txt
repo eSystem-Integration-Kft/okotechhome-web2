@@ -20,7 +20,7 @@
 # ÉLESÍTÉSKOR (okoth.hu, amikor indexelhető lesz):
 #   - a .htaccess X-Robots-Tag blokkját vedd ki,
 #   - a lapok <meta name="robots"> sorát cseréld "index, follow"-ra,
-#   - ide vedd fel:  Sitemap: https://okoth.hu/sitemap.xml
+#   - ide vedd fel:  Sitemap: https://okotechhome.hu/sitemap.xml
 #   Az alábbi AI/SEO-tiltó blokkok élesben is MARADNAK.
 # =============================================================================
 
