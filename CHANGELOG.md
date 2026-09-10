@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.22.00-80A640?style=flat-square" alt="verzió 0.22.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.23.00-80A640?style=flat-square" alt="verzió 0.23.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-22-56642B?style=flat-square" alt="22 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-23-56642B?style=flat-square" alt="23 kiadás">
 </p>
 
 ---
@@ -28,6 +28,52 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.23.00] — 2026-09-10
+
+**A hero mostantól a felvétel elejétől fut, vágás nélkül — és a főoldal végre
+megkapta a cégadatait strukturált adatként.**
+
+### Javítva — a hero videóból hiányzott a felvétel eleje
+
+A 0.22.00-ban a klip első **3,4 másodpercét** kivágtam, mert az a tartály
+feltöltődése, és a hurok emiatt körönként visszaugrott az üres állapotra. Ez
+**rossz döntés volt**: a felvétel épp azzal kezdődik, ami a lényege — a
+berendezés feltöltődik és dolgozni kezd. Bela jelezte, hogy nem az elejétől
+indul.
+
+Mostantól **mind a 193 képkocka** fent van, 0-tól 8,04 másodpercig, vágás
+nélkül. Ellenőrizve: az MP4 és a WebM is 193 kockát tartalmaz.
+
+| | 0.22.00 | 0.23.00 |
+|---|---|---|
+| felhasznált szakasz | 3,4–8,0 s (4,6 s) | **0–8,04 s (teljes)** |
+| MP4 | 0,95 MB | 2,53 MB |
+| WebM | 0,60 MB | 1,52 MB |
+
+Az állókép ennek megfelelően a felvétel **valódi nyitóképe** lett, a forrás
+teljes felbontásából — így a videó beúszásakor nincs ugrás. Az `alt` is ehhez
+igazodik: a nyitóképen a berendezés belső terei még üresen látszanak.
+
+**Marad egy következmény, amit tudni kell:** a klip üres tartállyal indul és
+tele fejeződik be, ezért a `loop` fordulópontján látszik a visszaugrás. Ezt
+átúsztatással el lehetne rejteni, de az ~1,2 másodpercnyi képkockát felemésztene
+— a vágásmentesség most fontosabb volt.
+
+### Hozzáadva — `LocalBusiness` és `WebSite` strukturált adat a főoldalon
+
+A főoldalon eddig **csak `FAQPage`** volt. Most a gráf három elemű:
+
+- **`LocalBusiness`** — név, leírás, alapítás éve, e-mail, telefon, adószám,
+  az ügyfélszolgálati cím (2509 Esztergom, Strázsa u. 12.), a kiszolgált
+  terület és a MaSzeSz-tagság;
+- **`WebSite`** — `inLanguage: hu-HU`, kiadóként a fenti szervezetre hivatkozva;
+- a meglévő **`FAQPage`** változatlanul.
+
+**Minden mező a `jogi-nyilatkozat` lapról származik.** Ami nincs meg, az nem
+került bele: **földrajzi koordináta, nyitvatartás és az ügyvezető neve** —
+ezeket kitalálni nem szabad, a jogi lap `ADATHIÁNY` jelölése is számon tartja
+az utóbbit.
 
 ## [0.22.00] — 2026-09-10
 

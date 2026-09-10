@@ -25,11 +25,11 @@
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
-<link rel="preload" as="image" media="(min-width: 1025px)" href="assets/img/hero-rendszer-allokep.webp?v=4"
-      imagesrcset="assets/img/hero-rendszer-allokep-1024.webp?v=4 1024w, assets/img/hero-rendszer-allokep.webp?v=4 1600w"
+<link rel="preload" as="image" media="(min-width: 1025px)" href="assets/img/hero-rendszer-allokep.webp?v=5"
+      imagesrcset="assets/img/hero-rendszer-allokep-1024.webp?v=5 1024w, assets/img/hero-rendszer-allokep.webp?v=5 1600w"
       imagesizes="100vw">
-<link rel="preload" as="image" media="(max-width: 1024px)" href="assets/img/hero-rendszer-allokep-szuk.webp?v=4"
-      imagesrcset="assets/img/hero-rendszer-allokep-szuk-800.webp?v=4 800w, assets/img/hero-rendszer-allokep-szuk.webp?v=4 1300w"
+<link rel="preload" as="image" media="(max-width: 1024px)" href="assets/img/hero-rendszer-allokep-szuk.webp?v=5"
+      imagesrcset="assets/img/hero-rendszer-allokep-szuk-800.webp?v=5 800w, assets/img/hero-rendszer-allokep-szuk.webp?v=5 1300w"
       imagesizes="100vw">
 </head>
 <body>
@@ -537,19 +537,19 @@
     <figure class="hero-media"
             data-hero-video
             data-video-sebesseg="0.7"
-            data-video-webm="assets/video/hero-rendszer.webm?v=3"
-            data-video-mp4="assets/video/hero-rendszer.mp4?v=3">
+            data-video-webm="assets/video/hero-rendszer.webm?v=4"
+            data-video-mp4="assets/video/hero-rendszer.mp4?v=4">
       <picture>
         <!-- Szűkebb nézetben más KIVÁGÁS kell, nem csak kisebb fájl: a 16:9-es
              képkocka egy oszlopban túl alacsony lenne, és a gödör részletei
              elvesznének. A 3:2-es kivágat a berendezésre és a házra szűkít. -->
         <source media="(max-width: 1024px)"
-                srcset="assets/img/hero-rendszer-allokep-szuk-800.webp?v=4 800w, assets/img/hero-rendszer-allokep-szuk.webp?v=4 1300w"
+                srcset="assets/img/hero-rendszer-allokep-szuk-800.webp?v=5 800w, assets/img/hero-rendszer-allokep-szuk.webp?v=5 1300w"
                 sizes="100vw" width="1300" height="866">
-        <img src="assets/img/hero-rendszer-allokep.webp?v=4"
-             srcset="assets/img/hero-rendszer-allokep-1024.webp?v=4 1024w, assets/img/hero-rendszer-allokep.webp?v=4 1600w"
+        <img src="assets/img/hero-rendszer-allokep.webp?v=5"
+             srcset="assets/img/hero-rendszer-allokep-1024.webp?v=5 1024w, assets/img/hero-rendszer-allokep.webp?v=5 1600w"
              sizes="100vw" width="1600" height="900"
-             alt="Családi ház kertje naplementében, a feltárt munkagödörben az A.B. Clear biológiai szennyvíztisztító metszete: a levegőztetett térben mozgó víz, mellette a szikkasztóalagút, amelyből a tisztított víz a kavicságyba szivárog"
+             alt="Családi ház kertje naplementében, a feltárt munkagödörben az A.B. Clear biológiai szennyvíztisztító metszete a belső terekkel, mellette a kavicságyra fektetett szikkasztóalagút"
              fetchpriority="high" decoding="async">
       </picture>
     </figure>
@@ -3449,119 +3449,161 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  "@graph": [
     {
-      "@type": "Question",
-      "name": "Kell engedély a házi szennyvíztisztító telepítéséhez?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Az engedélyezés menete településenként eltérhet. Van, ahol egyszerűbb bejelentés elegendő, máshol részletesebb vízjogi vagy hatósági eljárás szükséges. Az első lépés mindig ugyanaz: tisztázni kell a helyi előírásokat, a kezelt víz elhelyezését és a telek adottságait."
+      "@type": "LocalBusiness",
+      "@id": "https://okoth.hu/#szervezet",
+      "name": "ÖkoTech-Home Kft.",
+      "url": "https://okoth.hu/",
+      "description": "Biológiai szennyvíztisztító kisberendezések fejlesztése, gyártása, telepítése és szervize közcsatorna nélküli ingatlanokhoz.",
+      "foundingDate": "2004",
+      "email": "kapcsolat@okotechhome.hu",
+      "telephone": "+36 33 200 211",
+      "vatID": "12268687-2-11",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Strázsa utca 12.",
+        "postalCode": "2509",
+        "addressLocality": "Esztergom",
+        "addressCountry": "HU"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Magyarország"
+      },
+      "knowsLanguage": "hu",
+      "memberOf": {
+        "@type": "Organization",
+        "name": "Magyar Víz- és Szennyvíztechnikai Szövetség (MaSzeSz)"
       }
     },
     {
-      "@type": "Question",
-      "name": "Mitől függ, hogy telepíthető-e szennyvíztisztító az adott telken?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Elsősorban a kezelt víz elhelyezésétől, a talaj szikkasztóképességétől, a talajvízszinttől, a csőkivezetés mélységétől és a helyi előírásoktól. Nem elég azt tudni, van-e hely a tartálynak. Azt is látni kell, hová kerül a víz."
+      "@type": "WebSite",
+      "@id": "https://okoth.hu/#honlap",
+      "url": "https://okoth.hu/",
+      "name": "ÖkoTech Home",
+      "inLanguage": "hu-HU",
+      "publisher": {
+        "@id": "https://okoth.hu/#szervezet"
       }
     },
     {
-      "@type": "Question",
-      "name": "Magas talajvíznél is telepíthető biológiai szennyvíztisztító?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A magas talajvíz nem feltétlenül kizáró ok, de külön műszaki kialakítást igényelhet. Ilyenkor a tartály védelmét és a kezelt víz elhelyezését külön kell megtervezni. Ez az a helyzet, amikor a helyszíni szaktanácsadás különösen hasznos lehet, mert a talajviszonyok a helyszínen ítélhetők meg a legpontosabban — igénybe venni egyébként bármikor, szabadon lehet."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Hová kerül a tisztított víz?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Jellemzően telken belüli elszivárogtatással vagy gyökérzónás hasznosítással kerül vissza a környezetbe. A feltételeket a talaj, a talajvíz, a helyi előírások és a választott technológia együtt határozzák meg."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Mi a különbség a zárt tároló, az oldómedence és a biológiai szennyvíztisztító között?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A zárt tároló gyűjti a szennyvizet, ezért rendszeres szippantást igényel. Az oldómedence ülepít és részlegesen kezel. A biológiai szennyvíztisztító ténylegesen biológiai tisztítást végez, amelynek végén tisztított víz távozik."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Nyaralóhoz vagy időszakos használathoz jó a biológiai szennyvíztisztító?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Nem minden esetben. A baktériumkultúra rendszeres terhelés mellett működik a legjobban. Alacsony vagy hektikus terhelésnél ezért gyakran az oldómedence a járhatóbb út: egyszerűbb, passzív technológia, amely jobban tolerálja a terhelésingadozást. Fontos azonban tudni, hogy ez nem ugyanaz az eredmény: az oldómedence elsősorban ülepít, a tisztítás nagy része a talajban zajlik, tehát alacsonyabb tisztítási teljesítménnyel, mint az aktív biológiai tisztítás."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Mi történik a régi emésztővel, ha biológiai szennyvíztisztítóra váltunk?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A meglévő emésztőt szakszerűen kell kezelni: kiürítés, megszüntetés, betömedékelés vagy más funkcióra alakítás merülhet fel. Ezt a telepítés előtt kell tisztázni, mert a régi rendszer helye és állapota a kivitelezést is befolyásolja."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Kell szippantani az A.B. Clear biológiai szennyvíztisztítót?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Nem. Az iszapzsákos technológia miatt a rendszer nem igényel rendszeres szippantást. A tisztítás során keletkező fölösiszap zsákban gyűlik, víztelenített formában kivehető, majd komposztálható."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Van szaga a biológiai szennyvíztisztítónak?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Megfelelő működés mellett nincs szaghatás. A biológiai tisztítás levegőztetett folyamat, nem rothasztásra épül. Az erős szag jellemzően hibára, túlterhelésre vagy karbantartási problémára utal."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Kell baktériumot, tablettát vagy adalékanyagot adagolni?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Az A.B. Clear rendszerben a baktériumkultúra önfenntartó, a beérkező szennyvíz táplálja. Normál használat mellett nincs szükség baktériumtablettára, porra vagy más adalékanyagra."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Miből áll az éves üzemeltetési költség?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A technológiától függ. Zárt tárolónál a fő tétel a szippantás. Biológiai rendszereknél áramfogyasztás, alkatrészcsere, karbantartás és iszapkezelés merülhet fel. Az A.B. Clear esetében nincs szippantás és nincs adalékanyag, ezért az éves költség jobban tervezhető."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Miért nem adható pontos ár telefonon vagy néhány adat alapján?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A végleges ár nem csak a berendezéstől függ. Számít a kapacitás, a földmunka, a telek hozzáférhetősége, a csőkivezetés mélysége, a talajvíz, a kezelt víz elhelyezése, és az is, ki végzi a telepítést. Pontos ajánlatot ezért csak az ingatlan adatainak ismeretében lehet adni."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Mire érdemes figyelni, ha már van ajánlatom?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Ellenőrizze, mire terjed ki az ajánlat: csak a berendezésre, vagy tartalmazza a telepítést, a földmunkát, a kezelt víz elhelyezését, az engedélyezési dokumentációt, a beüzemelést és a szervizhátteret is. A hiányzó tételek később külön költségként jelenhetnek meg."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Mikor érdemes online vagy helyszíni szaktanácsadást kérni?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Az első egyeztetéshez egyik sem szükséges: sok kérdés az ingatlan adatai, rajzai és fotói alapján is tisztázható. Ha viszont a konkrét helyszínt szeretné szakértőnkkel részletesebben átbeszélni, online vagy személyes helyszíni szaktanácsadás bármikor kérhető — nem feltétele az ajánlatnak, és nem függ attól, hogy mi indokoltnak tartjuk-e. Az online forma gyors és időtakarékos, ugyanakkor bizonyos adottságok — például a terep pontos lejtése — online nem minden esetben ítélhetők meg megbízhatóan. Összetettebb helyszíni adottságoknál ezért a helyszíni forma ad pontosabb képet."
-      }
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Kell engedély a házi szennyvíztisztító telepítéséhez?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Az engedélyezés menete településenként eltérhet. Van, ahol egyszerűbb bejelentés elegendő, máshol részletesebb vízjogi vagy hatósági eljárás szükséges. Az első lépés mindig ugyanaz: tisztázni kell a helyi előírásokat, a kezelt víz elhelyezését és a telek adottságait."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mitől függ, hogy telepíthető-e szennyvíztisztító az adott telken?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Elsősorban a kezelt víz elhelyezésétől, a talaj szikkasztóképességétől, a talajvízszinttől, a csőkivezetés mélységétől és a helyi előírásoktól. Nem elég azt tudni, van-e hely a tartálynak. Azt is látni kell, hová kerül a víz."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Magas talajvíznél is telepíthető biológiai szennyvíztisztító?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A magas talajvíz nem feltétlenül kizáró ok, de külön műszaki kialakítást igényelhet. Ilyenkor a tartály védelmét és a kezelt víz elhelyezését külön kell megtervezni. Ez az a helyzet, amikor a helyszíni szaktanácsadás különösen hasznos lehet, mert a talajviszonyok a helyszínen ítélhetők meg a legpontosabban — igénybe venni egyébként bármikor, szabadon lehet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hová kerül a tisztított víz?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jellemzően telken belüli elszivárogtatással vagy gyökérzónás hasznosítással kerül vissza a környezetbe. A feltételeket a talaj, a talajvíz, a helyi előírások és a választott technológia együtt határozzák meg."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi a különbség a zárt tároló, az oldómedence és a biológiai szennyvíztisztító között?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A zárt tároló gyűjti a szennyvizet, ezért rendszeres szippantást igényel. Az oldómedence ülepít és részlegesen kezel. A biológiai szennyvíztisztító ténylegesen biológiai tisztítást végez, amelynek végén tisztított víz távozik."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Nyaralóhoz vagy időszakos használathoz jó a biológiai szennyvíztisztító?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem minden esetben. A baktériumkultúra rendszeres terhelés mellett működik a legjobban. Alacsony vagy hektikus terhelésnél ezért gyakran az oldómedence a járhatóbb út: egyszerűbb, passzív technológia, amely jobban tolerálja a terhelésingadozást. Fontos azonban tudni, hogy ez nem ugyanaz az eredmény: az oldómedence elsősorban ülepít, a tisztítás nagy része a talajban zajlik, tehát alacsonyabb tisztítási teljesítménnyel, mint az aktív biológiai tisztítás."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi történik a régi emésztővel, ha biológiai szennyvíztisztítóra váltunk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A meglévő emésztőt szakszerűen kell kezelni: kiürítés, megszüntetés, betömedékelés vagy más funkcióra alakítás merülhet fel. Ezt a telepítés előtt kell tisztázni, mert a régi rendszer helye és állapota a kivitelezést is befolyásolja."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kell szippantani az A.B. Clear biológiai szennyvíztisztítót?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nem. Az iszapzsákos technológia miatt a rendszer nem igényel rendszeres szippantást. A tisztítás során keletkező fölösiszap zsákban gyűlik, víztelenített formában kivehető, majd komposztálható."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Van szaga a biológiai szennyvíztisztítónak?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Megfelelő működés mellett nincs szaghatás. A biológiai tisztítás levegőztetett folyamat, nem rothasztásra épül. Az erős szag jellemzően hibára, túlterhelésre vagy karbantartási problémára utal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kell baktériumot, tablettát vagy adalékanyagot adagolni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Az A.B. Clear rendszerben a baktériumkultúra önfenntartó, a beérkező szennyvíz táplálja. Normál használat mellett nincs szükség baktériumtablettára, porra vagy más adalékanyagra."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Miből áll az éves üzemeltetési költség?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A technológiától függ. Zárt tárolónál a fő tétel a szippantás. Biológiai rendszereknél áramfogyasztás, alkatrészcsere, karbantartás és iszapkezelés merülhet fel. Az A.B. Clear esetében nincs szippantás és nincs adalékanyag, ezért az éves költség jobban tervezhető."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Miért nem adható pontos ár telefonon vagy néhány adat alapján?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A végleges ár nem csak a berendezéstől függ. Számít a kapacitás, a földmunka, a telek hozzáférhetősége, a csőkivezetés mélysége, a talajvíz, a kezelt víz elhelyezése, és az is, ki végzi a telepítést. Pontos ajánlatot ezért csak az ingatlan adatainak ismeretében lehet adni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mire érdemes figyelni, ha már van ajánlatom?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ellenőrizze, mire terjed ki az ajánlat: csak a berendezésre, vagy tartalmazza a telepítést, a földmunkát, a kezelt víz elhelyezését, az engedélyezési dokumentációt, a beüzemelést és a szervizhátteret is. A hiányzó tételek később külön költségként jelenhetnek meg."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mikor érdemes online vagy helyszíni szaktanácsadást kérni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Az első egyeztetéshez egyik sem szükséges: sok kérdés az ingatlan adatai, rajzai és fotói alapján is tisztázható. Ha viszont a konkrét helyszínt szeretné szakértőnkkel részletesebben átbeszélni, online vagy személyes helyszíni szaktanácsadás bármikor kérhető — nem feltétele az ajánlatnak, és nem függ attól, hogy mi indokoltnak tartjuk-e. Az online forma gyors és időtakarékos, ugyanakkor bizonyos adottságok — például a terep pontos lejtése — online nem minden esetben ítélhetők meg megbízhatóan. Összetettebb helyszíni adottságoknál ezért a helyszíni forma ad pontosabb képet."
+          }
+        }
+      ]
     }
   ]
 }
