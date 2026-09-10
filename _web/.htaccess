@@ -12,6 +12,58 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # ===========================================================================
+  # RÉGI DOMAIN → ÚJ DOMAIN (Google Ads céloldalak)
+  # ---------------------------------------------------------------------------
+  # A Google Ads hirdetésekbe a RÉGI webhely URL-jei vannak beégetve
+  # (okotechhome.hu). Élesítés után minden ilyen kattintás 404-re futna, a
+  # Google pedig a nem működő céloldalú hirdetést „Destination not working"
+  # címen ELUTASÍTJA — a kampány leállhat. Ezért ezeknek a szabályoknak MÁR AZ
+  # ÁTÁLLÁS PILLANATÁBAN élniük kell, nem utólag.
+  #
+  # HOL FUT LE EZ A BLOKK? Csak akkor, ha a kérés a RÉGI domainre érkezik, és
+  # az a domain EZT a kiszolgálót éri el. Ha az okotechhome.hu máshol marad,
+  # ugyanezeket a szabályokat A RÉGI KISZOLGÁLÓ .htaccess-ébe kell betenni —
+  # ott a cél már abszolút URL, ahogy itt is.
+  #
+  # A lekérdezőstringet (?gclid=…) az Apache alapból hozzáfűzi a célhoz, tehát
+  # az Ads kattintáskövetése nem sérül.
+  #
+  # A záró perjel MINDKÉT alakra illeszkedik (`/?$`): a régi webhelyen
+  # következetlen volt.
+  # ===========================================================================
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^biologiai-szenyviztisztito-1-50-foig/?$            https://okoth.hu/megoldasok/biologiai-szennyviztisztitas [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^szennyviztisztito-oldomedencek/?$                  https://okoth.hu/megoldasok/oldomedences-rendszer [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^a-szennyviztisztito-telepitese-lepesrol-lepesre/?$ https://okoth.hu/tudastar/telepites-lepesrol-lepesre [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^az-iszapzsakos-szennyviztisztito-elonyei/?$        https://okoth.hu/megoldasok/ab-clear-iszapzsakos-technologia [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^oldomedence-kontra-biologiai-szennyviztisztito/?$  https://okoth.hu/tudastar/oldomedence-vagy-biologiai-szennyviztisztito [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^javasolt-tisztitoszerek/?$                         https://okoth.hu/tudastar/tisztitoszerek [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^biologiai-szennyviztisztito-telepek/?$             https://okoth.hu/megoldasok/nagyobb-es-kozossegi-rendszerek [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^formok/ajanlatkeres\.php$                          https://okoth.hu/ajanlat [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^muszaki/?$                                         https://okoth.hu/megoldasok/ab-clear-muszaki-adatok [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^referenciaink/?$                                   https://okoth.hu/eredmenyek/esettanulmanyok [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^cegunkrol/?$                                       https://okoth.hu/okotech-home/tortenetunk [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^elszivarogtatas/?$                                 https://okoth.hu/projekt-elokeszites/elszivarogtatas [R=301,L,NE]
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^kiknek/?$                                          https://okoth.hu/megoldasok/biologiai-szennyviztisztitas [R=301,L,NE]
+
+  # Ami a fenti listából KIMARADT, az a régi domain gyökerére megy — jobb a
+  # főoldal, mint egy 404. A sitemap többi régi URL-jét külön kell felmérni.
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteRule ^(.*)$ https://okoth.hu/ [R=301,L,NE]
+
   # ALKÖNYVTÁRAS TELEPÍTÉS
   # A site domaingyökérben és alkönyvtárban (pl. /_work/oko22/) is működik.
   # Ehhez az átirányítások célja RELATÍV — a `RewriteBase`-hez, illetve annak

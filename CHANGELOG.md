@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.23.01-80A640?style=flat-square" alt="verzió 0.23.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.24.00-80A640?style=flat-square" alt="verzió 0.24.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-23-56642B?style=flat-square" alt="23 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-24-56642B?style=flat-square" alt="24 kiadás">
 </p>
 
 ---
@@ -28,6 +28,39 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.24.00] — 2026-09-10
+
+### Hozzáadva — a régi Ads-céloldalak átirányítása (`.htaccess`)
+
+A Google Ads hirdetésekbe a **régi webhely** URL-jei vannak beégetve
+(`okotechhome.hu`). Élesítés után ezek 404-re futnának, a Google pedig a nem
+működő céloldalú hirdetést **„Destination not working"** címen elutasítja — a
+kampány leállhat. A blokk ezért **most, előre** bekerült; a kapott 14 soros
+listából **13 útvonal** él benne, plusz egy záró szabály, ami a maradékot a
+főoldalra viszi.
+
+A szabályokat `RewriteCond %{HTTP_HOST}` őrzi, tehát az `okoth.hu`-n és a
+teszten **semmit nem csinálnak** — csak akkor lépnek életbe, ha a régi domain
+ezt a kiszolgálót éri el. A záró perjel mindkét alakra illeszkedik (`/?$`), mert
+a régi webhelyen következetlen volt, a `?gclid=…` pedig automatikusan
+átöröklődik.
+
+### Javítva — három hiba a kapott listában
+
+| Sor | Mi volt a baj | Mi lett |
+|---|---|---|
+| `/javasolt-tisztitoszerek` | **kétszer szerepelt**, két különböző céllal (`/vallalkozas-…` és `/tudastar/tisztitoszerek`) | a tisztítószeres lap — a másik láthatóan elírás |
+| `/javasolt-tisztitoszerek` első célja | `/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast` — **ilyen útvonal nincs**, hiányzott róla a `helyzetem/` előtag | kiesett |
+| `/elszivarogtatas` | **nem volt hozzá cél** | `/projekt-elokeszites/elszivarogtatas` — pontos névegyezés az új webhelyen |
+
+A maradék **11 cél mind létezik**, egyenként ellenőrizve.
+
+### Módosítva — `_web/README.md`
+
+Az élesítési ellenőrzőlista **4. pontot** kapott, és külön szakasz írja le, hogy
+a szabály hova kerül, ha a régi domain a régi tárhelyen marad (akkor a **régi
+kiszolgáló** `.htaccess`-ébe, változtatás nélkül — a célok abszolút URL-ek).
 
 ## [0.23.01] — 2026-09-10
 

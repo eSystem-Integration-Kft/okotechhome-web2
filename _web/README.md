@@ -17,6 +17,7 @@ A zárás **három rétegben** él — élesítéskor mindhármat fel kell oldan
 | 1 | `.htaccess` → *TESZT ÜZEMMÓD* blokk | az `X-Robots-Tag` sort törölni vagy kikommentezni |
 | 2 | `robots.txt` | a `Disallow: /` helyére az élesítési változat (a fájlban kommentben ott áll) |
 | 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` sort törölni |
+| 4 | `.htaccess` → *RÉGI DOMAIN → ÚJ DOMAIN* blokk | **csak akkor él, ha az `okotechhome.hu` EZT a kiszolgálót éri el.** Ha a régi domain máshol marad, ugyanazokat a szabályokat a RÉGI kiszolgáló `.htaccess`-ébe kell tenni |
 
 **Külön, a keresőktől független megfelelőségi pont:** a Kapcsolat oldalon a Google
 Térkép **alapértelmezésben** töltődik be. A beágyazás sütit tesz le és elküldi a
@@ -24,6 +25,32 @@ látogató IP-jét a Google-nek, ezért a **cookie-tájékoztatóban nevesíteni
 (harmadik féltől származó süti, cél, adatkezelő), és a cookie-hozzájárulásnak ki kell
 terjednie rá. Amíg ezek nem élnek, ez nyitott pont — a beágyazás a
 `kapcsolat.html` `.terkep` szekciójában van.
+
+### Google Ads céloldalak — a régi URL-ek átirányítása
+
+A Google Ads hirdetésekbe a **régi webhely** URL-jei vannak beégetve
+(`okotechhome.hu`). Élesítés után ezek 404-re futnának, a Google pedig a nem
+működő céloldalú hirdetést **„Destination not working"** címen elutasítja — a
+kampány leállhat. Ezért a `.htaccess` *RÉGI DOMAIN → ÚJ DOMAIN* blokkjának
+**már az átállás pillanatában élnie kell**, nem utólag.
+
+**Két eset van, és ez dönti el, hova kerül a szabály:**
+
+| Ha… | Akkor… |
+|---|---|
+| az `okotechhome.hu` DNS-e az új kiszolgálóra mutat | a mostani `.htaccess`-blokk elvégzi (a `RewriteCond %{HTTP_HOST}` őrzi) |
+| az `okotechhome.hu` a régi tárhelyen marad | ugyanezeket a sorokat a **régi kiszolgáló** `.htaccess`-ébe kell bemásolni — a célok ott is abszolút URL-ek, tehát változtatás nélkül működnek |
+
+A lekérdezőstringet (`?gclid=…`) az Apache alapból hozzáfűzi, tehát az Ads
+kattintáskövetése nem sérül.
+
+**A lista 13 útvonalat fed le** (2026-09-10-i átadás). Ami nincs benne, azt a
+záró szabály a **főoldalra** viszi — jobb, mint a 404, de a régi sitemap többi
+URL-jét külön fel kell mérni.
+
+> **Az Adsben magát a végső URL-t is érdemes átírni.** Az átirányítás működik,
+> de a Google a céloldal és a megadott URL egyezését minőségi jelként kezeli, és
+> egy 301-es ugrás a betöltést is lassítja.
 
 ### Google-térkép — a Maps API-kulcs beállítása
 
