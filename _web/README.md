@@ -396,7 +396,7 @@ A lap **nincs benne a sitemapban** ezen a szlugon. A sitemap a *Költségek és 
 kategória alatt „Szippantási költség" tételt ismer; ez a lap ennél több (interaktív modul +
 adatbázis), és a megrendelő a gyökérbeli `/szippantasi-dij-kalkulator` útvonalat kérte.
 Ezért a lap **nem kapott megamenü-pontot** (a menü szerkezete a `fejlec.py`-ban adatként él,
-és onnan kerül mind a 144 lapra). Egyetlen bejövő hivatkozása van:
+és onnan kerül mind a 145 lapra). Egyetlen bejövő hivatkozása van:
 `megoldasok/oldomedence-szippantas-es-karbantartas` → „Következő lépés" panel.
 
 Ha a lap a menübe kerül, a `fejlec.py` *Előkészítés › Költségek és ajánlatok* hasábja a
@@ -456,7 +456,7 @@ tölcsérben előre vigyen**.
   ezért visszavettük.)
 - **Laptémák:** a köszönés, a belépő kérdések és a fül kérdései a webhely
   szakaszához igazodnak (`helyzetem/`, `megoldasok/`, `projekt-elokeszites/`,
-  `eredmenyek/`, `tudastar/`) — útvonal szerint, mert 144 lapra kézi lista
+  `eredmenyek/`, `tudastar/`) — útvonal szerint, mert 145 lapra kézi lista
   karbantarthatatlan volna.
 
 ### Három üzemmód
@@ -527,7 +527,7 @@ rákötést kell mondania, akkor is, ha az nem vezet vásárláshoz.
 
 ### A tartalomindex
 
-`scripts/kalauz-index.py` → `api/kalauz-index.json` (139 lap, 896 szakasz).
+`scripts/kalauz-index.py` → `api/kalauz-index.json` (140 lap, 903 szakasz).
 
 A **kiadott HTML-ből** épül, nem külön karbantartott listából: ha egy lap
 megszűnik, kiesik innen is. Lapon: útvonal, cím, meta-leírás, és a szakaszcímek a
@@ -672,17 +672,18 @@ nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 |---|---|
 | **Designrendszer** | `OTH-design-system-Teszt.v2` **v0.5** implementálva (`assets/css/app.css`) |
 | **Kész szekciók** | fejléc · 1. — *Hero* · 2. — *Bizalmi sáv* · 3. — *Kiinduló helyzet* · 4. — *Technológiák* · 5. — *Megoldásaink* · **6. — *AI megoldás-ajánló*** · **7. — *Az A.B. Clear működése*** · 8. — *AI-alapú döntéstámogató* · 9. — *Üzemeltetés* · 10. — *Tudástár* · 11. — *AI ajánlat-összehasonlító* · 12. — *Dokumentált projektek* · 13. — *Egy kézben* · 14. — *Szakértői továbblépés* · 15. — *GYIK* |
-| **Kész aloldalak** | **Megoldások** (41) · **Kiindulópont** (38) · **Projekt-előkészítés** (27) · **Eredmények** (8) · **Tudástár** (9) · **Rólunk** (4) · megkeresés és jogi lapok — a főoldallal együtt **144 lap**. Minden szekció saját hub-lappal |
+| **Kész aloldalak** | **Megoldások** (41) · **Kiindulópont** (38) · **Projekt-előkészítés** (27) · **Eredmények** (8) · **Tudástár** (10) · **Rólunk** (4) · megkeresés és jogi lapok — a főoldallal együtt **145 lap**. Minden szekció saját hub-lappal |
 | **Szippantási kalkulátor** | `/szippantasi-dij-kalkulator` — egy képlet mind a három díjszabás-szerkezetre, csempetérkép a díjadatbázis állásáról, díjbeküldő űrlap. A díjadatbázis **üres**, a beküldés emberi ellenőrzés után kerül be |
 | **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
 | **Hiányzik** | `sitemap.xml`; a szippantási díjadatbázis tartalma; a termékoldalak gyártói adatai |
+| **Eldöntendő** | **Két különböző éves üzemeltetési költség él a webhelyen** ugyanarra a berendezésre: a főoldal 9. szekciója és a `tudastar/uzemeltetes-teendok-es-koltsegek` **35 700 Ft/év**-et közöl (áram 24 000 Ft), a `tudastar/oldomedence-vagy-biologiai-szennyviztisztito` tízéves táblája **22 700–27 500 Ft/év**-et (áram 11 000–15 800 Ft). Az iszapzsák és a membrán a két helyen azonos — **kizárólag az áramfeltételezés tér el**. Mindkét lapon HTML-megjegyzés jelöli |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
 | **JS** | 19 modul, összesen ~7770 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |
 | **Téma** | világos/sötét, csúszkakapcsolóval a fejlécben. Első látogatáskor a rendszerbeállítás, utána a látogató választása (`localStorage`). JS nélkül világos marad, és a kapcsoló meg sem jelenik. |
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
-| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: **139 lap, 896 szakasz**. **Szövegindex: 1083 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` **Helyszíni segítség:** a `data-oko-pont` attribútummal jelölt felületeknél (ügyazonosító, mentés) magától megszólal, amikor a látogató odagörget. |
+| **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: **140 lap, 903 szakasz**. **Szövegindex: 1091 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` **Helyszíni segítség:** a `data-oko-pont` attribútummal jelölt felületeknél (ügyazonosító, mentés) magától megszólal, amikor a látogató odagörget. |
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
-| **Fejlécképek** | 63 kép / 137 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) |
+| **Fejlécképek** | 63 kép / 138 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) |
 
 ### Hivatkozott, de még meg nem épített útvonalak
 

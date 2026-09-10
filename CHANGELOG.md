@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.17.00-80A640?style=flat-square" alt="verzió 0.17.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.18.00-80A640?style=flat-square" alt="verzió 0.18.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-17-56642B?style=flat-square" alt="17 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-18-56642B?style=flat-square" alt="18 kiadás">
 </p>
 
 ---
@@ -28,6 +28,77 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.18.00] — 2026-09-10
+
+**Az üzemeltetés ára — és egy ellentmondás, ami eddig két lapon élt egyszerre.**
+
+### Hozzáadva — `/tudastar/uzemeltetes-teendok-es-koltsegek`
+
+*„Mennyi teendővel és költséggel jár az A.B. Clear üzemeltetése?"* A lap négy
+külön kérdésre bontja azt, amit egyben szokás kérdezni: **mit kell csinálni**
+(heti ellenőrzés, iszappróba, fölösiszap, iszapzsák — mind néhány perc),
+**mit kell cserélni** (membrán 3–4 évente), **mibe kerül egy normál év**
+(tételes tábla, összesen 35&nbsp;700&nbsp;Ft), és **mi az, ami ebbe nincs
+beleszámolva** (dugulás, meghibásodás, kiszállás, újraindítás).
+
+A negyedéves karbantartás úgy szerepel, ahogy az `eredmenyek/esettanulmanyok`
+lapon is: **választható, nem kötelező**.
+
+### Javítva — a kapott szöveg hiányzó szakaszai, találgatás nélkül
+
+A forrásanyagból **kimaradt a 2. és a 3. szakasz fejléce és tartalma**, miközben
+a későbbi része hivatkozik rájuk (10&nbsp;500&nbsp;Ft membrán, 35&nbsp;700&nbsp;Ft/év
+összesen). Amit ebből tettünk, tételesen a lap `ADATHIÁNY` megjegyzésében áll:
+
+- **A költségbontás nem találgatás.** A főoldal 9. szekciója már közli tételesen
+  (áram 24&nbsp;000 + iszapzsák 300&nbsp;Ft/db × max. 4 + membrán évesítve
+  10&nbsp;500), és ez **pontosan kiadja** a forrásban szereplő 35&nbsp;700-at.
+  A tábla ezt veszi át, nem új számot.
+- **A 2. szakasz csak abból áll, ami tényleg megérkezett** — a membrán 3–4 éves
+  ciklusa és a választható negyedéves karbantartás. Hogy van-e további
+  időszakos teendő, az `ADATHIÁNY`-ban kérdésként áll, nem kitalált listaként.
+
+### ⚠️ Feltárva — a webhely két különböző éves üzemeltetési költséget közöl
+
+Ugyanarra a berendezésre:
+
+| Hol | Éves összeg | Ebből áram |
+|---|---|---|
+| főoldal 9. szekció · új üzemeltetési lap | **35&nbsp;700&nbsp;Ft** | 24&nbsp;000&nbsp;Ft |
+| `tudastar/oldomedence-vagy-biologiai-szennyviztisztito` tízéves tábla | **22&nbsp;700–27&nbsp;500&nbsp;Ft** | 11&nbsp;000–15&nbsp;800&nbsp;Ft |
+
+Az **iszapzsák (1&nbsp;200&nbsp;Ft/év) és a membrán (10&nbsp;500&nbsp;Ft/év) a két
+helyen azonos** — a különbség kizárólag az áramfeltételezés. Mindkettő
+„példaszámításként" van jelölve, de a látogató így **60%-kal eltérő** összeget
+kap attól függően, melyik lapra jut.
+
+**Nem javítottuk ki egyoldalúan**: melyik az érvényes áramfeltételezés, az üzleti
+döntés. Mindkét lapon HTML-megjegyzés jelöli, és a `_web/README.md` *Eldöntendő*
+sora is rögzíti.
+
+### Módosítva — főoldal, 7. szekció: a cím megnevezi a mechanizmust
+
+A javasolt tartalom **lényegében már fent volt** — a hat felsoroláspont és a
+*Hogyan működik?* három lépése (Elkülönül · Besűrűsödik · Víztelenedik) szó
+szerint egyezett. Két valódi eltérés maradt, mindkettő beépítve:
+
+- **A kártya címe** eddig „Szabadalmaztatott, szippantásmentes iszapkezelés"
+  volt; most **„Az A.B. Clear szabadalmaztatott hidraulikus fölösiszap-kezelési
+  rendszere"**. A *hidraulikus* a tényleges megkülönböztető — épp azt mondja ki,
+  amit a harmadik felsoroláspont (nincs szükség külön elektromos
+  iszapszivattyúra), és amit a régi cím elhallgatott.
+- **„Szippantásmentes működés."** önálló felsoroláspontként visszakerült: eddig
+  csak a címben állt, amit az új cím már nem hordoz.
+
+A szekció **nem hízott**: egy cím pontosabb lett, és egy állítás átkerült a
+címből a felsorolásba.
+
+### Módosítva — a Tudástár hub 3×3-ra
+
+A tizedik cikkel a 4+4-es elrendezés egy magányos kártyát hagyott volna a
+harmadik sorban. Az új felosztás — *Hogyan működik* · *A mindennapokban* ·
+*Döntés előtt* — kilenc cikket rendez három teli sorba; a tizedik a hub maga.
 
 ## [0.17.00] — 2026-09-10
 
