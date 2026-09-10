@@ -662,8 +662,18 @@
      eddig is itt állt — ez a párja hiányzott. */
   /* `text-wrap:pretty`: a bekezdés utolsó sorára nem maradhat egyetlen szó
      (a bevezető végén a „nélkül." állt magában egy sorban). */
-  .section-lead{color:var(--text-secondary);margin-top:var(--space-16);max-width:62ch;margin-inline:auto;text-wrap:pretty}
-  .section-head-start .section-lead{margin-inline:0}
+  /* A BEVEZETŐ ALAPÉRTELMEZÉSE BALRA ZÁRT. Korábban fordítva volt: az
+     alapérték `margin-inline:auto` (középre), és a `.section-head-start`
+     leszármazottjaként állt vissza nullára.
+     Csakhogy a bevezető NEM MINDIG a fejlécen belül áll — 101 lapon, 439
+     helyen közvetlenül a `.section-inner` gyereke. Ott a leszármazott-szabály
+     nem fogott, a 62ch-s blokk középre ugrott, a fölötte lévő cím viszont
+     balra maradt: a szöveg beljebb kezdődött, mint a saját címe.
+     A webhelyen 773 balra zárt fejléc áll 4 középre zárttal szemben, tehát a
+     balra zárt az alapeset — a középre igazítás a kivétel, és most az kap
+     külön szabályt. (Ugyanezt kerülte meg korábban a `.galeria-bevezeto`.) */
+  .section-lead{color:var(--text-secondary);margin-top:var(--space-16);max-width:62ch;margin-inline:0;text-wrap:pretty}
+  .section-head:not(.section-head-start) .section-lead{margin-inline:auto}
   /* Variáns: a bevezető a teljes konténerszélességet használhatja, hogy a
      mondatok a terv szerinti sortörésnél váljanak el. A 62ch olvashatósági
      korlát itt szándékosan nem érvényes. */

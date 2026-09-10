@@ -2392,3 +2392,52 @@ nélkül a hero néma állókép maradt volna. Két kimenet kell:
 
 Hang nincs egyikben sem (`-an`): a felvétel dekoratív, és a `site.js` amúgy is
 némán indítja.
+
+## 37. Szekció-bevezető igazítása — `.section-lead`
+
+A bevezető alapértelmezése **balra zárt**; a középre igazítás a kivétel:
+
+```css
+.section-lead{ … margin-inline:0 … }
+.section-head:not(.section-head-start) .section-lead{margin-inline:auto}
+```
+
+### Miért fordítva volt, és miért rossz úgy
+
+Eredetileg az alapérték `margin-inline:auto` (középre) volt, és a
+`.section-head-start` **leszármazottjaként** állt vissza nullára:
+
+```css
+.section-lead{ … margin-inline:auto … }
+.section-head-start .section-lead{margin-inline:0}   /* ← csak a fejlécen BELÜL */
+```
+
+Csakhogy a bevezető **nem mindig a fejlécen belül áll**. A webhelyen **101
+lapon, 439 helyen** közvetlenül a `.section-inner` gyereke:
+
+```html
+<header class="section-head section-head-start">
+  <p class="section-eyebrow">…</p>
+  <h2 class="section-title">…</h2>
+</header>
+<p class="type-ui-body section-lead">…</p>   ← a fejlécen KÍVÜL
+```
+
+Ott a leszármazott-szabály nem fogott, a 62ch-s blokk **középre ugrott**, a
+fölötte lévő cím viszont balra maradt — a szöveg beljebb kezdődött, mint a saját
+címe. A hiba **minden ilyen szekcióban** ott volt, csak nem tűnt fel.
+
+### Miért az igazítás fordítása a helyes javítás
+
+- **773 balra zárt** szekciófejléc áll **4 középre zárttal** szemben: a balra
+  zárt az alapeset.
+- A markup mozgatása 439 helyen kockázatosabb: van, ahol a bevezető
+  szándékosan áll a fejléc után (táblázat vagy kártyasor közé ékelve), és a
+  `<header>`-be húzva megváltozna az olvasási sorrend.
+- Az új szabály **mindkét helyen jól működik**: a fejlécen belül és kívül is
+  balra zár, a középre zárt fejlécben viszont továbbra is középre húz.
+
+> **Ugyanezt kerülte meg korábban a `.galeria-bevezeto`** (30.): a galériafej
+> balra zárt, ezért a `.section-lead` helyett saját osztályt kapott. Az új
+> alapértelmezéssel erre már nem volna szükség — a meglévő osztály marad, mert
+> a szélessége is más.

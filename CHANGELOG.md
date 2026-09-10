@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.27.00-80A640?style=flat-square" alt="verzió 0.27.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.28.00-80A640?style=flat-square" alt="verzió 0.28.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-27-56642B?style=flat-square" alt="27 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-28-56642B?style=flat-square" alt="28 kiadás">
 </p>
 
 ---
@@ -28,6 +28,45 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.28.00] — 2026-09-10
+
+### ⚠️ Javítva — a szekció-bevezetők középre ugrottak a balra zárt cím alatt
+
+Bela szúrta ki egy képernyőképen: *„középen a szöveg, balra a cím."* A hiba
+**101 lapon, 439 helyen** ott volt.
+
+A `.section-lead` alapértelmezése `margin-inline:auto` (középre) volt, és a
+`.section-head-start` **leszármazottjaként** állt vissza nullára. Csakhogy a
+bevezető **nem mindig a fejlécen belül áll** — 439 helyen közvetlenül a
+`.section-inner` gyereke. Ott a leszármazott-szabály nem fogott: a 62ch-s blokk
+középre ugrott, a fölötte lévő cím viszont balra maradt.
+
+**Megmérve, nem szemre:** a bevezető bal margója 294,4 px volt, a jobb 294,4 px
+— szimmetrikusan középen, miközben a cím a konténer bal élén. A javítás után a
+cím és a szöveg egyaránt a 248. képpontnál kezdődik.
+
+**A javítás az igazítás megfordítása**, nem 439 markupmozgatás:
+
+```css
+.section-lead{ … margin-inline:0 … }
+.section-head:not(.section-head-start) .section-lead{margin-inline:auto}
+```
+
+Három okból ez a helyes:
+
+- **773 balra zárt** szekciófejléc áll **4 középre zárttal** szemben — a balra
+  zárt az alapeset, tehát az legyen az alapértelmezés is;
+- a markup mozgatása kockázatosabb: van, ahol a bevezető szándékosan áll a
+  fejléc után, és a `<header>`-be húzva **megváltozna az olvasási sorrend**;
+- az új szabály **a fejlécen belül és kívül is** ugyanúgy viselkedik.
+
+**A négy középre zárt szekció érintetlen** — ellenőrizve: a bevezetőjük margója
+továbbra is 294,4 px mindkét oldalon.
+
+Ugyanezt a hibát egyszer már megkerülték: a galériafejléc azért kapott saját
+`.galeria-bevezeto` osztályt, mert a `.section-lead` ott is középre húzott
+volna. Dokumentálva: `_web/COMPONENTS.md` 37. (`app.css?v=212`)
 
 ## [0.27.00] — 2026-09-10
 
