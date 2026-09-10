@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.07.00-80A640?style=flat-square" alt="verzió 0.07.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.08.00-80A640?style=flat-square" alt="verzió 0.08.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-7-56642B?style=flat-square" alt="7 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-8-56642B?style=flat-square" alt="8 kiadás">
 </p>
 
 ---
@@ -26,6 +26,68 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.08.00] — 2026-09-10
+
+**A telepítés lépésről lépésre — új tudástár-cikk, 23 munkafázissal.**
+Az első olyan lap, amelyik nem azt magyarázza el, *mit* vesz a látogató, hanem
+azt, hogy *hogyan kerül a földbe*. Egyben ez a tudástár második élő cikke.
+
+### Hozzáadva — `/tudastar/telepites-lepesrol-lepesre`
+
+Az A.B. Clear alap, gravitációs telepítésének teljes folyamata, a nyomvonalak
+kitűzésétől a végleges tereprendezésig. **Ügyféltől kapott szöveg**
+(`2026-09-09_telepites_lepesrol_lepesre.docx`), szerkesztve és megszerkesztve —
+szakmai állítás, szám és arány nem került hozzá és nem is veszett el belőle.
+
+**A 23 lépés hét szakaszra bontva.** A forrás egyetlen, 23 elemű felsorolás
+volt; végigolvasva ez fárasztó, és nem látszik belőle a szerkezet. A hét szakasz
+**a víz útját követi** — kitűzés → a berendezés → gépészet → a tisztított víz
+vezetéke → szivárogtató → visszatemetés → átadás —, ami egyben a cikk állítása
+is: a sorrend nem kényelmi kérdés, mert *az egyik ténylegesen elkészült
+munkafázis szintje meghatározza a következőt*.
+
+- A sorszámozás **végig folytonos** (1–23) a szakaszhatárokon át: minden
+  `<ol>` `start` attribútummal indul, tehát a képernyőolvasó is a helyes
+  sorszámot mondja, nem hétszer kezd újra egytől.
+- **A lépéslista a folyószöveg mértékén áll.** Először a `.section-inner`
+  közvetlen gyermeke volt, és teljes konténerszélességben futott: ~120 karakteres
+  sorok a 72ch-s bekezdések mellett. A `.folyoszoveg` blokkba került, új CSS
+  nélkül.
+- Komponens: a meglévő `.mukodes-lepesek[data-tagolt]` — a főoldal 7. szekciójából
+  ismert számozott lépések, most először a kártyáján kívül.
+
+**Tizennyolc belső hivatkozás.** A szakaszok bevezetői oda mutatnak, ahol a
+részletek állnak: *lejtés és csőmélység*, *talajvíz*, *magas talajvízi
+helyzetek*, *talaj és szivárgóképesség*, *elszivárogtatás*, *a tisztított víz
+elhelyezése*, *járműterhelés és hozzáférés*, *A.B. Clear telepítési feltételei*,
+*üzemeltetés és karbantartás*, *helyszíni felmérés*. Mind a tizennyolc cél
+létezik — ellenőrizve.
+
+**Strukturált adat: `HowTo` + `FAQPage` + `BreadcrumbList`.** A `HowTo` mind a 23
+lépést tartalmazza névvel és szöveggel: ez a formátum az, amit az AI-keresők egy
+folyamatleírásból ténylegesen idézni tudnak. A négy GYIK-kérdés a lap valódi
+számadataira kérdez rá (lejtés, alaplemez-szint, vízzel feltöltés, kavicságy).
+
+**A hatókör kimondva.** A lap első szakasza rögzíti, hogy ez az **alap,
+gravitációs** telepítés ideális körülmények között — magas talajvíz, kedvezőtlen
+terepviszonyok vagy szivattyús továbbítás esetén más a folyamat. Enélkül a cikk
+ígéretnek látszana, nem leírásnak.
+
+### Módosítva — a cikk bekötése
+
+- **Megamenü és lábléc mind a 129 lapon** (a négy hibaoldalnak nincs menüje).
+  A relatív előtag a fájl mélységéből számítva: 26 gyökérszintű és 232
+  aloldali hivatkozás, mind ellenőrizve.
+- **Öko tartalomindexe újraépítve**: 128 lap, 786 szakasz, 956 szövegrészlet.
+  Az új lap mind a 12 szakasza horgonnyal szerepel benne, tehát Öko nem csak a
+  lapra, hanem a lap megfelelő *részére* tud mutatni.
+
+> A fejléc adatforrása (`scripts/oldalgyartas/fejlec.py`) továbbra sem futtatható:
+> a `_web/` fejlécei előrébb járnak nála. A bekötés ezért — a korábbi cikkhez
+> hasonlóan — közvetlenül a lapokba történt.
 
 ---
 
