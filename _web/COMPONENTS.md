@@ -1926,11 +1926,11 @@ Az érték a **markupból** jön, hogy hangoláshoz ne kelljen szkriptet nyitni:
 
 ```html
 <figure data-hero-video
-        data-video-sebesseg="0.75"
+        data-video-sebesseg="0.7"
         data-video-webm="…" data-video-mp4="…">
 ```
 
-Alapérték `0.75` (a felvétel 33%-kal hosszabban fut). A `site.js` **0,5 és 1,5
+Jelenlegi érték `0.7` (a felvétel ~43%-kal hosszabban fut). A `site.js` **0,5 és 1,5
 közé szorítja**: 0,5 alatt a böngésző ugyanazt a képkockát tartja ki hosszan, és
 a folyamatos mozgás akadozásba vált át.
 
@@ -2324,3 +2324,71 @@ kapja, de **jelzőt nem** — nincs mit nyitni rajta.
 
 Mozgáscsökkentésnél a jelző forgása magától elmarad: a 8. réteg globális
 `*,*::before,*::after` szabálya minden átmenetet levesz.
+
+## 36. Hero videó — a hurok varrata és az állókép egyezése
+
+A hero videó `loop`-ban fut, és **fölé úszik be** ugyanannak a jelenetnek az
+állóképe. Ebből két olyan követelmény következik, amit a nyers felvétel magától
+nem teljesít.
+
+### 1. A hurok varrata
+
+A felvétel eleje és vége nem ugyanaz a képkocka, tehát a `loop` minden körben
+**ugrik egyet**. A 2026-09-i felvételnél ez az eltérés a teljes klipen **4,5%**
+volt (RMSE), mert a klip üres tartállyal indul és tele fejeződik be.
+
+Két lépés oldja meg:
+
+1. **Vágás a stabil szakaszra.** A klip első ~3,4 másodperce a feltöltődés —
+   ott a kép fundamentálisan más. A vizes szakaszon (3,4–8,0 s) a kamera alig
+   mozdul: az eltérés eleve csak **2,0%**.
+2. **A farok átúsztatása a fejbe.** A vágott klip utolsó 0,8 másodperce
+   keresztbe olvad az első 0,8 másodpercbe, és a hurok ennyivel rövidül:
+
+```
+[0:v]trim=start=3.40:end=8.04,setpts=PTS-STARTPTS,scale=1600:900[v];
+[v]split=2[a][b];
+[a]trim=0:3.84,setpts=PTS-STARTPTS[main];
+[b]trim=3.84:4.64,setpts=PTS-STARTPTS[tail];
+[main]split=2[m1][m2];
+[m1]trim=0:0.8,setpts=PTS-STARTPTS[head];
+[m2]trim=start=0.8,setpts=PTS-STARTPTS[rest];
+[tail][head]blend=all_expr='A*(1-(T/0.8))+B*(T/0.8)'[mix];
+[mix][rest]concat=n=2:v=1:a=0[out]
+```
+
+Eredmény: **0,27%** — láthatatlan. Az átúsztatás azért nem szellemképes, mert
+a szerkezet (tartály, csövek) végig azonos helyen áll; csak a **víz** keveredik,
+ami eleve lágy és turbulens.
+
+### 2. Az állókép a hurok NYITÓKOCKÁJA
+
+Az állókép nem díszlet: **1025 képpont alatt, csökkentett mozgásnál és
+adattakarékos módban ez az egyetlen, amit a látogató lát** (`site.js`). Ezért:
+
+- **a hurokba a vizes szakasz kerül**, nem a feltöltődés — különben a mobilos
+  látogató üres tartályt látna;
+- **az állókép pontosan a hurok első képkockája**, a forrás teljes
+  felbontásából kivéve. Így a videó beúszásakor nincs ugrás.
+
+> **Ellenőrizd méréssel, ne szemre.** A 2026-09-i cserénél a *kapott*
+> állóképek egyik videókockához sem illeszkedtek (a legjobb egyezés is 13%
+> volt) — más renderből származtak. Szemre ugyanaz a jelenet; beúszáskor
+> viszont ugrott volna a kivágás.
+>
+> ```sh
+> magick compare -metric RMSE allokep.png hurok-elso-kocka.png null:
+> ```
+
+### Kódolás
+
+A forrás **HEVC** volt, amit a Chrome és a Firefox nem játszik le — átkódolás
+nélkül a hero néma állókép maradt volna. Két kimenet kell:
+
+| Formátum | Beállítás | 2026-09-i méret |
+|---|---|---|
+| H.264 MP4 | `-crf 22 -preset slow -profile:v high -movflags +faststart` | 0,95 MB |
+| VP9 WebM | `-crf 34 -b:v 0 -row-mt 1` | 0,60 MB |
+
+Hang nincs egyikben sem (`-an`): a felvétel dekoratív, és a `site.js` amúgy is
+némán indítja.

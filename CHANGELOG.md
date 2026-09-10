@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.21.00-80A640?style=flat-square" alt="verzió 0.21.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.22.00-80A640?style=flat-square" alt="verzió 0.22.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-21-56642B?style=flat-square" alt="21 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-22-56642B?style=flat-square" alt="22 kiadás">
 </p>
 
 ---
@@ -28,6 +28,68 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.22.00] — 2026-09-10
+
+**Új hero-felvétel a főoldalon — varrat nélküli hurokkal, és harmadakkora fájlból.**
+
+### Módosítva — hero videó és állókép cseréje
+
+A kapott felvétel **HEVC** volt, amit a Chrome és a Firefox **nem játszik le**:
+átkódolás nélkül a hero néma állókép maradt volna. Két kimenet készült,
+hang nélkül:
+
+| | Előtte | Utána |
+|---|---|---|
+| MP4 (H.264) | 2,83 MB | **0,95 MB** |
+| WebM (VP9) | 2,74 MB | **0,60 MB** |
+
+Együtt **5,57 MB → 1,56 MB**, miközben a felbontás változatlanul 1600×900.
+
+### Javítva — a hurok minden körben ugrott egyet
+
+A nyers klip **üres tartállyal indul és tele fejeződik be**, tehát a `loop`
+körönként visszaugrott az üres állapotra: az első és az utolsó képkocka
+eltérése **4,5%** (RMSE). Két lépésben megoldva:
+
+1. **Vágás a vizes szakaszra** (3,4–8,0 s). Ott a kamera alig mozdul, az
+   eltérés eleve csak **2,0%**.
+2. **A farok átúsztatása a fejbe** (0,8 s keresztolvadás).
+
+Az eredmény **0,27%** — láthatatlan. Szellemkép sincs: a tartály és a csövek
+végig azonos helyen állnak, csak a **víz** keveredik, ami eleve lágy.
+
+### Javítva — az állókép mostantól a hurok nyitókockája
+
+Az állókép nem díszlet: **1025 képpont alatt, csökkentett mozgásnál és
+adattakarékos módban ez az egyetlen, amit a látogató lát.** Ezért két dolog
+következik, és mindkettő teljesül:
+
+- **a hurok a vizes szakaszon indul**, nem a feltöltődésen — így a mobilos
+  látogató sem üres tartályt lát;
+- **az állókép pontosan a hurok első képkockája**, a forrás teljes
+  felbontásából — a videó beúszásakor nincs ugrás (egyezés: **0,5%**).
+
+**A kapott két állókép nem került fel.** Szemre ugyanaz a jelenet, méréssel
+viszont **egyetlen videókockához sem illeszkedtek** (a legjobb egyezés is 13%):
+más renderből származnak, szűkebb kivágással. Poszterként minden betöltéskor
+ugrott volna a kép.
+
+### Módosítva — lassítás 0,75 → 0,7
+
+A hurok rövidebb lett (8,04 s → 3,88 s), ezért a lassítás egy fokkal
+erősebb: a ciklus így 5,5 másodperc. Bőven a `site.js` biztonságos
+tartományában marad (0,5 alatt akadozásba váltana).
+
+### Javítva — `serve.py`: egyszálúról többszálúra
+
+A fejlesztői kiszolgáló **egyetlen szálon** futott, így a hosszan élő
+videókapcsolat **minden további kérést blokkolt** — a főoldal előnézete
+gyakorlatilag megállt a hero-videón. Mostantól `ThreadingTCPServer`,
+`daemon_threads`-szel, hogy a Ctrl+C ne várjon a nyitott streamekre.
+
+Dokumentálva: `_web/COMPONENTS.md` 26. és **36.** (a hurokvarrat és az
+állókép-egyezés mérési recepttel)
 
 ## [0.21.00] — 2026-09-10
 

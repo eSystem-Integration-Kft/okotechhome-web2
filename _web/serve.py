@@ -224,8 +224,16 @@ def main():
             print(f"Érvénytelen port: {sys.argv[1]}", file=sys.stderr)
             return 1
 
-    socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("127.0.0.1", port), CleanURLHandler) as httpd:
+    # SZÁLANKÉNT egy kérés. Az egyszálú kiszolgáló a hero-VIDEÓN elakad: a
+    # böngésző a felvételt hosszan élő kapcsolaton tölti, és amíg az tart, a
+    # kiszolgáló egyetlen további kérést sem vesz fel — a főoldal előnézete
+    # ezért egyszálúan nem is nézhető meg rendesen. (A Range-kezelés önmagában
+    # nem elég hozzá: a kapcsolat akkor is nyitva marad.)
+    class Kiszolgalo(socketserver.ThreadingTCPServer):
+        daemon_threads = True      # a Ctrl+C ne várjon a nyitott streamekre
+        allow_reuse_address = True
+
+    with Kiszolgalo(("127.0.0.1", port), CleanURLHandler) as httpd:
         print(f"ÖkoTech Home Test2 — preview:  http://localhost:{port}")
         print(f"Gyökér: {ROOT}")
         print("Leállítás: Ctrl+C")
