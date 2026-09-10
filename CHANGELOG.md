@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.19.00-80A640?style=flat-square" alt="verzió 0.19.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.20.00-80A640?style=flat-square" alt="verzió 0.20.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-19-56642B?style=flat-square" alt="19 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-20-56642B?style=flat-square" alt="20 kiadás">
 </p>
 
 ---
@@ -28,6 +28,40 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.20.00] — 2026-09-10
+
+**A szűk nézetű menü eddig nem árulta el, hogy hat menüpont mögött almenü van.**
+
+### Javítva — fiók módú menü: nyitásjelző, teljes szélességű sor, elválasztó
+
+Szűk nézetben a megamenü eddig is nyílt a menüpont alatt — csak **semmi nem
+jelezte, hogy van mit nyitni**. A hét felirat csupasz szótömbként állt egymás
+alatt. Asztali nézetben ezt a ráállás mondja el; érintőn nincs ráállás, tehát
+mondani kell:
+
+- **Teljes szélességű sor.** Felirat balra, jelző jobbra, közte kattintható
+  felület — nem egy szó közepét kell eltalálni.
+- **Nyitásjelző**, ami nyitáskor átfordul. A rajz **szándékosan ugyanaz**, mint
+  a GYIK-harmonikáé: a lapon egyetlen „ide még nyílik valami" jel legyen, ne
+  kettő. Az `aria-expanded` eddig is ott volt a gombon — a képernyőolvasó tehát
+  tudta, csak a szem nem.
+- **Sorelválasztó**, amitől a hét pont listaként olvasható.
+
+A **Kapcsolat** ugyanazt a sort kapja, de **jelzőt nem**: nincs mögötte almenü.
+
+### Amit vissza kellett venni
+
+Az `::after` asztali nézetben a **kacsacsőr**, az `::before` az **aláhúzás** —
+mindkettőt felül kell írni, különben a fiókban egy 16 képpontos, abszolút
+pozicionált négyzet ülne a sor alatt. Az asztali megamenü **változatlan**:
+ellenőrizve, hogy a csúcs (16×16, `position:absolute`) és az aláhúzás
+(`scaleX(1)`) nyitott panelnél továbbra is a helyén van.
+
+A szabály **mindkét ágba** bekerült — a mérés kapcsolta `[data-nav="fiok"]`-ba
+és a JS nélküli, töréspontos ágba is —, ahogy az `app.css` elő is írja.
+Sötét témában ellenőrizve. Mozgáscsökkentésnél a forgás magától elmarad.
+Dokumentálva: `_web/COMPONENTS.md` 35. (`app.css?v=211`)
 
 ## [0.19.00] — 2026-09-10
 

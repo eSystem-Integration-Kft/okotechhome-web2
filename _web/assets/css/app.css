@@ -3959,7 +3959,36 @@
   :root[data-nav="fiok"] .nav-item{position:relative}
   :root[data-nav="fiok"] .mega{position:static;box-shadow:none;border:0;background:none;
     width:auto;max-width:none;max-height:none;overflow:visible}
-  :root[data-nav="fiok"] .nav-trigger[aria-expanded="true"]::after{display:none}
+  /* SOR, NEM CÍMKE. Fiók módban a menüpont a TELJES szélességet felveszi: a
+     felirat balra, a nyitásjelző jobbra, közte kattintható felület. Enélkül a
+     hét menüpont csak egy szótömb, amiről semmi nem árulja el, hogy hat mögötte
+     még egy egész almenü áll — asztali nézetben ezt a ráállás mondja el, itt
+     viszont nem mondta el semmi. */
+  :root[data-nav="fiok"] .nav-link,
+  :root[data-nav="fiok"] .nav-trigger{
+    display:flex;align-items:center;gap:var(--space-16);
+    width:100%;min-height:44px;padding:var(--space-16) var(--space-8);
+    text-align:left;border-radius:var(--r-md);
+  }
+  /* Az asztali ALÁHÚZÁS-jel itt zavaró: a teljes sor alatt futna végig. */
+  :root[data-nav="fiok"] .nav-trigger::before{content:none}
+  /* NYITÁSJELZŐ — ugyanaz a rajz, mint a GYIK-harmonikánál (5.20). Szándékos:
+     a lapon EGYETLEN „ide még nyílik valami" jel legyen, ne kettő. Az asztali
+     kacsacsőr minden tulajdonságát vissza kell venni, mert ugyanezt az
+     `::after`-t használjuk más célra. */
+  :root[data-nav="fiok"] .nav-trigger::after{
+    content:'';display:block;position:static;margin-left:auto;flex:none;
+    width:var(--space-8);height:var(--space-8);
+    border:0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    background:none;box-shadow:none;translate:none;opacity:1;
+    transform:rotate(45deg) translate(-2px,-2px);
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+  :root[data-nav="fiok"] .nav-trigger[aria-expanded="true"]::after{
+    display:block;transform:rotate(-135deg) translate(-2px,-2px);
+  }
+  /* Sorelválasztó: így a menüpontok LISTAKÉNT olvashatók, nem tömbként. */
+  :root[data-nav="fiok"] .nav-item + .nav-item{border-top:1px solid var(--border)}
   :root[data-nav="fiok"] .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
   :root[data-nav="fiok"] .mega-inner::before,:root[data-nav="fiok"] .mega-inner::after{content:none}
   :root[data-nav="fiok"] .mega-oszlopok{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}
@@ -3999,7 +4028,36 @@
     :root:not([data-nav]) .nav-item{position:relative}
     :root:not([data-nav]) .mega{position:static;box-shadow:none;border:0;background:none;
       width:auto;max-width:none;max-height:none;overflow:visible}
-    :root:not([data-nav]) .nav-trigger[aria-expanded="true"]::after{display:none}
+    /* SOR, NEM CÍMKE. Fiók módban a menüpont a TELJES szélességet felveszi: a
+     felirat balra, a nyitásjelző jobbra, közte kattintható felület. Enélkül a
+     hét menüpont csak egy szótömb, amiről semmi nem árulja el, hogy hat mögötte
+     még egy egész almenü áll — asztali nézetben ezt a ráállás mondja el, itt
+     viszont nem mondta el semmi. */
+  :root:not([data-nav]) .nav-link,
+  :root:not([data-nav]) .nav-trigger{
+    display:flex;align-items:center;gap:var(--space-16);
+    width:100%;min-height:44px;padding:var(--space-16) var(--space-8);
+    text-align:left;border-radius:var(--r-md);
+  }
+  /* Az asztali ALÁHÚZÁS-jel itt zavaró: a teljes sor alatt futna végig. */
+  :root:not([data-nav]) .nav-trigger::before{content:none}
+  /* NYITÁSJELZŐ — ugyanaz a rajz, mint a GYIK-harmonikánál (5.20). Szándékos:
+     a lapon EGYETLEN „ide még nyílik valami" jel legyen, ne kettő. Az asztali
+     kacsacsőr minden tulajdonságát vissza kell venni, mert ugyanezt az
+     `::after`-t használjuk más célra. */
+  :root:not([data-nav]) .nav-trigger::after{
+    content:'';display:block;position:static;margin-left:auto;flex:none;
+    width:var(--space-8);height:var(--space-8);
+    border:0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    background:none;box-shadow:none;translate:none;opacity:1;
+    transform:rotate(45deg) translate(-2px,-2px);
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+  :root:not([data-nav]) .nav-trigger[aria-expanded="true"]::after{
+    display:block;transform:rotate(-135deg) translate(-2px,-2px);
+  }
+  /* Sorelválasztó: így a menüpontok LISTAKÉNT olvashatók, nem tömbként. */
+  :root:not([data-nav]) .nav-item + .nav-item{border-top:1px solid var(--border)}
     :root:not([data-nav]) .mega-inner{padding:0 0 var(--space-16) var(--space-16)}
     :root:not([data-nav]) .mega-inner::before,:root:not([data-nav]) .mega-inner::after{content:none}
     :root:not([data-nav]) .mega-oszlopok{grid-template-columns:minmax(0,1fr);gap:var(--space-16)}

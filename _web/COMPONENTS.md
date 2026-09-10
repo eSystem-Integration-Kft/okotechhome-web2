@@ -2276,3 +2276,51 @@ A hosszú cím így **a foltban törik** két sorra; a rövid címeket a szabál
 
 > **Új aloldalnál** nem kell külön tenni semmit: a szabály minden `.page-hero`-ra
 > él. Nagyon hosszú címnél viszont érdemes ránézni, nem lett-e három sor.
+
+## 35. Fiók módú menü — nyitásjelző és sorok
+
+Szűk nézetben a fejléc `.nav-drawer` fiókká alakul (`:root[data-nav="fiok"]`,
+illetve JS nélkül `@media (max-width:1239.98px)`). A megamenü ilyenkor **a
+menüpont alatt, a folyamban** nyílik — ez eddig is így volt.
+
+**Ami hiányzott: a jel.** A hét menüpont csupasz feliratként állt egymás alatt,
+és semmi nem árulta el, hogy hat mögött egy egész almenü van. Asztali nézetben
+ezt a ráállás mondja el; érintőn nincs ráállás, tehát **mondani kell**.
+
+```css
+:root[data-nav="fiok"] .nav-link,
+:root[data-nav="fiok"] .nav-trigger{ display:flex; width:100%; … }
+:root[data-nav="fiok"] .nav-trigger::after{ /* elforgatott szögletű nyíl */ }
+:root[data-nav="fiok"] .nav-item + .nav-item{ border-top:1px solid var(--border) }
+```
+
+Három dolog együtt:
+
+1. **Teljes szélességű sor.** A felirat balra, a jelző jobbra, közte kattintható
+   felület — nem egy szó közepén kell eltalálni a menüpontot.
+2. **Nyitásjelző**, ami nyitáskor átfordul. A rajz **szándékosan ugyanaz**, mint
+   a GYIK-harmonikáé (5.20): a lapon egyetlen „ide még nyílik valami" jel
+   legyen, ne kettő. Az `aria-expanded` amúgy is ott van a gombon, tehát a
+   képernyőolvasó eddig is tudta — csak a szem nem.
+3. **Sorelválasztó**, amitől a hét pont listaként olvasható, nem szótömbként.
+
+### Amit vissza kell venni
+
+Az `::after` asztali nézetben a **kacsacsőr** (14.), az `::before` az
+**aláhúzás** — mindkettőt felül kell írni, különben a fiókban egy 16 képpontos,
+abszolút pozicionált négyzet ülne a sor alatt:
+
+```css
+::after{ position:static; background:none; box-shadow:none; translate:none; border:0; … }
+::before{ content:none }
+```
+
+> **A két blokk törzse szó szerint azonos** (`[data-nav="fiok"]` és a
+> töréspontos, JS nélküli ág). Ha az egyiket módosítod, a másikat is — ezt az
+> `app.css` is kimondja a fiók-szakasz elején.
+
+A `.nav-link` (almenü nélküli menüpont, ma a **Kapcsolat**) ugyanazt a sort
+kapja, de **jelzőt nem** — nincs mit nyitni rajta.
+
+Mozgáscsökkentésnél a jelző forgása magától elmarad: a 8. réteg globális
+`*,*::before,*::after` szabálya minden átmenetet levesz.
