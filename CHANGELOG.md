@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.18.00-80A640?style=flat-square" alt="verzió 0.18.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.19.00-80A640?style=flat-square" alt="verzió 0.19.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-18-56642B?style=flat-square" alt="18 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-19-56642B?style=flat-square" alt="19 kiadás">
 </p>
 
 ---
@@ -28,6 +28,63 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.19.00] — 2026-09-10
+
+**Az EPURECO-lap megkapta a gyártói adatokat — és ezzel öt `ADATHIÁNY`-jelölés
+szűkült, egy régi állítás pedig megdőlt.**
+
+### Módosítva — `/megoldasok/epureco` teljes újraépítés
+
+A lap eddig **hub volt konkrét adat nélkül**: az `ADATHIÁNY` azt kérdezte, mely
+modelleket forgalmazzuk egyáltalán. Most tételes termékleírás, a kapott
+2026-09-i anyagból:
+
+- **Három modell** (epureco 4 / 6 / 7), űrtartalommal, névleges létszámmal,
+  mérettel, tömeggel és **modellenkénti drénmező-hosszal** — két táblázatban.
+- **Telepítési feltételek** számozott kártyákon: talajvíz legfeljebb 600 mm-ig,
+  járműforgalom alá nem telepíthető, betonágy a talajviszonyok szerint, plusz a
+  Ø110 mm-es magas szellőző.
+- **Tartozékok**, üzemeltetés és ürítés, megfelelőség, ár, nyolc GYIK-kérdés.
+
+**A lap fő állítása nem a tartály, hanem a mező.** A kapott szöveg maga mondja
+ki, hogy a választás sorrendje fordított: előbb azt kell megnézni, elfér-e a
+drénmező. Hagyományos dréncsővel átlagos talajon **8 folyóméter/fő**,
+szivárogtató alagúttal **4,8 méter** — hatfős rendszernél 48 versus 28,8 méter,
+nagyjából **40%-kal kevesebb**. Ez a lap gerince lett, nem lábjegyzet.
+
+A számok **belső ellenőrzésen átmentek**: mindhárom modellnél kijön a 8 fm/fő és
+az 1,2 m/elem, és a 40%-os különbség is stimmel.
+
+### Módosítva — öt `ADATHIÁNY`-jelölés szűkítve, nem törölve
+
+| Lap | Mi dőlt el | Mi maradt nyitva |
+|---|---|---|
+| `epureco` | mely modellek, garancia, csomagtartalom | szállítási határidő |
+| `epureco-modellek-es-kapacitasok` | a 8 kért oszlopból **01–05** — be is került egy valódi táblázat a „hiányzó adatok listája" helyére | magyar termékkód, be-/kifolyási szintek, szűrőtípus |
+| `epureco-muszaki-adatok` | méret, anyag, D400, szabványok | magyar adatlap, teljesítménynyilatkozat |
+| `epureco-telepitesi-feltetelek` | a három feltétel, a szellőző, és hogy **mindkét** szivárogtató konfigurációt értékesítjük | rétegrend, mezőméretezési algoritmus |
+| `epureco-dokumentumok` | EN 12566-1:2000 · /A1:2003 · PIA n° 1739 · 10 év garancia | maga a teljesítménynyilatkozat mint dokumentum |
+
+### ⚠️ Megdőlt — „gépjárműbeálló alatt is használható"
+
+Két `ADATHIÁNY` is külön kiemelte ezt az állítást ellenőrzendőként. A gyártói
+adat most egyértelmű: **az EPURECO tartály nem telepíthető járműforgalom alá**,
+és a forgalmi felülettől tartandó legkisebb távolság a munkagödör mélységével
+egyezik. Ez a lapon GYIK-kérdésként is szerepel.
+
+**Publikált szövegben ez az állítás nem szerepelt** — csak a belső jelölések
+hivatkoztak rá mint a korábbi tájékoztatásunk állítására —, ezért javítani nem
+kellett, viszont a kérdés eldőlt. A **tisztítómező** járműterhelhetősége ettől
+külön kérdés, és nyitva marad.
+
+### Amit nem tettünk meg
+
+A kapott anyagban **három fénykép** szerepelt (tartály pónival a méretarányhoz,
+földbe épített metszet, stúdiós termékfotó). Ezek **fájlként nem érkeztek meg**,
+csak a beszélgetésbe ágyazva, ezért a lap egyelőre a meglévő
+`termek-epureco-oldomedence.webp` felvételt használja. A hiány a lap
+`ADATHIÁNY` megjegyzésében is szerepel.
 
 ## [0.18.00] — 2026-09-10
 
