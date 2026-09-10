@@ -2246,3 +2246,33 @@ A módosító a kép alját tartja meg (`object-position:center bottom`) — ugy
 
 > **Új fejléckép beillesztésekor érdemes ellenőrizni**, hova esik a téma. Ha a
 > kép alsó harmadában, ez a módosító kell; ha középen, marad az alapértelmezés.
+
+## 34. Aloldali fejléccím szélessége — `.page-hero .hero-title{max-width:34ch}`
+
+A fejlécsáv fényereje **nem egyenletes**. A cím olvashatóságát a szöveg mögé
+tett lágy folt adja (`.hero-media::after`, `radial-gradient` a szövegoszlop
+közepén). Ez a folt a konténer bal oldalán ül, és kifelé elhal.
+
+Egy **hosszú**, a teljes konténerszélességet átfogó `<h1>` vége ezért kifut a
+foltból. Ha ott épp sötét a felvétel, a sötétzöld cím a sötét képen landol:
+
+> „Milyen tisztítószerek használhatók biológiai szennyvíztisztító mellett?" —
+> a mondat vége pontosan a felnyitott, fekete tartályfedélre esett, és
+> gyakorlatilag olvashatatlan volt.
+
+Ez **WCAG 2.2 AA kontraszthiba**, nem szépészeti kérdés — és nem az adott képen
+múlik, hanem a cím hosszán. Ezért nem képcsere a megoldás, hanem korlát:
+
+```css
+.page-hero .hero-title{max-width:34ch}
+```
+
+A hosszú cím így **a foltban törik** két sorra; a rövid címeket a szabály nem
+érinti. A `34ch` a folt vízszintes kiterjedéséhez igazodik.
+
+> **Miért nem a `.page-hero-media-alul` (33.) oldja meg?** Az a *függőleges*
+> kivágáson állít. Itt a sötét folt a sáv jobb felső részén van, amit a
+> függőleges eltolás nem visz ki a cím alól — kipróbáltuk, nem segített.
+
+> **Új aloldalnál** nem kell külön tenni semmit: a szabály minden `.page-hero`-ra
+> él. Nagyon hosszú címnél viszont érdemes ránézni, nem lett-e három sor.

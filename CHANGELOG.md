@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.15.00-80A640?style=flat-square" alt="verzió 0.15.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.16.00-80A640?style=flat-square" alt="verzió 0.16.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-15-56642B?style=flat-square" alt="15 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-16-56642B?style=flat-square" alt="16 kiadás">
 </p>
 
 ---
@@ -28,6 +28,163 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.16.00] — 2026-09-10
+
+**Két új tudástár-cikk, egy főoldal, ami végre oda visz, ahová mutat — és három
+új kapu, hogy ez ne fordulhasson elő újra.** A kiadás nagyobbik fele hibajavítás:
+a kiadási kapuk eddig **átengedtek** három hibaosztályt, amit nem lett volna
+szabad — a nem létező fejlécképet, a nem létező belső útvonalat, és a `403`-at
+adó, `index.html` nélküli mappát.
+
+### Hozzáadva — `/tudastar/mikrobiologiai-ujjlenyomat`
+
+*„Két ugyanolyan berendezés — mégsem ugyanaz a mikrobiológiai világ dolgozik
+bennük."* A lap a szennyvíztisztítót **élő rendszerként** mutatja be, és közben
+végig őszintén elválasztja, mit bizonyít a szakirodalom, és mit nem:
+
+- A hivatkozott **2023-as japán vizsgálat biofilmhordozós rendszereken** készült,
+  nem A.B. Clearen és nem eleveniszapos technológián — a lap ezt kimondja.
+- A **2024-es kutatás nem bizonyítja**, hogy minden egyes A.B. Clearnek egyedi
+  ujjlenyomata van; azt mutatja, hogy a közösség összetétele telepenként eltér.
+- Külön **Hivatkozások** szakasz: BacDive, Nature Microbiology, Journal of Water
+  Process Engineering (2023), Applied and Environmental Microbiology (2024).
+
+A cikk így nem marketingállítást tesz, hanem egy jelenséget magyaráz el.
+
+### Hozzáadva — `/tudastar/tisztitoszerek`
+
+*„Milyen tisztítószerek használhatók biológiai szennyvíztisztító mellett?"* A lap
+a leggyakoribb üzemeltetői kérdést **két külön kérdésre bontja**, és ez a
+szétválasztás a cikk egész gondolatmenete:
+
+1. **Károsítja-e a szer a berendezés biológiáját?** A hétköznapi mosó- és
+   mosogatószerek rendeltetésszerű használat mellett nem — a lap ezt kimondja,
+   ahelyett hogy „csak öko szerek" tanácsot adna. Az erős fertőtlenítő,
+   klóros, savas-lúgos és lefolyótisztító vegyszerek viszont igen.
+2. **Szeretném-e az összetevőit visszakapni a saját kertembe?** Egy szer lehet
+   ártalmatlan a biológiára, és mégis lehet nála jobb választás — ez már nem
+   műszaki, hanem környezetvédelmi szempont.
+
+Külön szakasz a **hajfestékről** (a koncentrátum és a tisztálkodási szennyvíz
+nem ugyanaz), és arról, aminek **eleve nincs helye a lefolyóban** — ez utóbbi
+nem tisztítószer-választási, hanem hulladékkezelési kérdés.
+
+**Kereszthivatkozások mindkét irányban:** a lap az A.B. Clear működésére, a
+tisztított víz elhelyezésére és a gyökérzónás öntözésre mutat; visszafelé a
+*Büdös lesz a kertben?*, a *Mikrobiológiai ujjlenyomat* és az *Üzemeltetés és
+karbantartás* lap vezet ide. A *Mikrobiológiai ujjlenyomat* „háztartási
+szerek" hivatkozása eddig a **CE-vizsgálat** cikkre mutatott, ami a vizsgálati
+protokollról szól, nem a szerekről — most a saját lapjára megy.
+
+### Javítva — hosszú fejléccím a sötét képrészen: olvashatatlan
+
+A fejlécsáv fényereje nem egyenletes; a cím olvashatóságát a szöveg mögötti lágy
+folt adja, ami a konténer bal oldalán ül és kifelé elhal. Egy **hosszú** `<h1>`
+vége kifut ebből a foltból — az új lap címe pontosan a felnyitott, fekete
+tartályfedélre esett.
+
+Ez **WCAG 2.2 AA kontraszthiba**, és nem az adott képen múlik, hanem a cím
+hosszán, ezért nem képcserével oldottuk meg, hanem korláttal:
+
+```css
+.page-hero .hero-title{max-width:34ch}
+```
+
+A hosszú cím így a foltban törik két sorra. **Minden aloldalt érint**, és ahol
+eddig is hosszú volt a cím, ott is javult — a *Mikrobiológiai ujjlenyomat* és a
+*Családi ház* fejléce is olvashatóbb lett. Rövid címekre nincs hatása.
+Dokumentálva: `_web/COMPONENTS.md` 34. (`app.css?v=210`)
+
+### Javítva — `scripts/oldalgyartas/lablec.py` szinkronba hozva a lábléccel
+
+A generátor Tudástár-hasábja **hét cikkel** volt kevesebb a kiadott HTML-nél, az
+Eredmények-hasábból pedig hiányzott az *Ügyféltapasztalatok*. Aki lefuttatta
+volna a generátort, **visszaírta volna a láblécet** egy régebbi állapotra, néma
+tartalomvesztéssel. Most tételesen egyezik.
+
+### Javítva — 7. kapu: a mappahivatkozás nem elég, `index.html` is kell
+
+A kapu elfogadta a `tudastar/` alakú hivatkozást pusztán azért, mert a **mappa
+létezik**. Élesben viszont a `.htaccess` `Options -Indexes` + `DirectoryIndex
+index.html` párosa dönt, és a kiterjesztés nélküli URL-t átíró szabály csak
+nem-könyvtárra fut le — index nélkül a válasz **403**.
+
+**A tesztkiszolgálón ellenőrizve:** `tudastar/`, `eredmenyek/` és
+`okotech-home/` mind a hármat **403**-mal válaszolja meg, miközben a megamenü és
+a lábléc hasábcíme mind a 140 lapon odamutat. A `megoldasok/` azért `200`, mert
+annak van `index.html`-je. A három hiányzó hub **nem tervezett hiány, hanem
+hiba** — a `_web/README.md`-ben külön, figyelmeztetéssel jelölve; a javítás
+három hub-lap megírása, ami tartalmi döntés.
+
+### Javítva — a főoldal hét hivatkozása közül egy sem működött
+
+A *Megoldásaink* négy kártyája, a nagyobb rendszerek paneljének átvezetője, a
+hero alatti ajánlat-chip és a tudástár-csempe **csupasz szlugra** mutatott
+(`iszapzsak`, `telepek`, `oldomedencek`, …), amihez soha nem tartozott lap. Mind
+a hét **404 volt a webhely legforgalmasabb lapján**:
+
+| Ami volt | Ahová most megy |
+|---|---|
+| `ajanlat-osszehasonlitas` | `#ajanlat-osszehasonlito` — a lap saját szekciója; a szlug el volt gépelve, és a `#` is hiányzott |
+| `biologiai-szennyviztisztito-1-50` | `megoldasok/ab-clear` |
+| `telepek` · `szervezeti-telepulesi-megoldasok` | `megoldasok/nagyobb-es-kozossegi-rendszerek` |
+| `oldomedencek` | `megoldasok/epureco` |
+| `iszapzsak` | `megoldasok/ab-clear-iszapzsakos-technologia` |
+| `projekt-elokeszites/telepites-es-beuzemeles` | `tudastar/telepites-lepesrol-lepesre` |
+
+### Javítva — egy fejléckép, ami mást ábrázolt, mint amit az `alt` mondott
+
+A `hero-levegoztetes` **a membrános légszivattyú fényképe**. Két lap mégis
+„felszálló buborékok a szennyvízben" felirattal hivatkozta — vagyis a képernyőolvasó
+használójának mást mondtunk, mint amit a látó látogató lát. Ez nem kozmetika,
+hanem akadálymentességi hiba:
+
+- `tudastar/mikrobiologiai-ujjlenyomat` — a kép **cseréje** `hero-labor`-ra: a
+  téma is stimmel, és a sötétzöld cím a sötétkék tartályon **olvashatatlan volt**.
+- `okotech-home/cegunkrol` — az `alt` mostantól azt írja le, ami a képen van.
+
+### Javítva — egy `preload`, ami sosem találkozott a saját képével
+
+A `tudastar/en-12566-1-vagy-en-12566-3` lapon a `<link rel="preload">` a kép
+`?v=3` változatát kérte elő, a `<img>` viszont `?v=2`-t. A böngésző így **két
+külön erőforrásnak látta**: letöltötte mindkettőt, és épp az LCP-kép előtöltése
+veszett el. A `hero-labor.webp` 2026-08-09 óta változatlan, tehát a `v=2` a jó.
+
+### Módosítva — `scripts/ellenorzes.sh`: három új kapu, mert a régiek átengedték a fentieket
+
+A 4. kapu eddig **csak a `src`/`href` attribútumot** nézte, és csak JS-re meg
+CSS-re. A fejlécképek viszont `srcset`/`imagesrcset` alatt élnek — így egy nem
+létező hero némán 404-ezett, és a lap üres sávval jelent meg. Ezt a hibát ez a
+szkript engedte át, ezért:
+
+- **4. kapu — képek.** Minden `src`, `srcset` és `imagesrcset`, a vesszős listák
+  minden elemével, a laphoz képest **relatív útvonalat feloldva**, a `?v=NN`-t és
+  a méretjelölőt levágva.
+- **4. kapu — `preload` egyezés.** Ha az előtöltött URL akár csak a
+  cache-busterben eltér a megjelenített képtől, az **hiba**.
+- **7. kapu — belső hivatkozások (új).** Feloldja az összes belső `href`-et, és
+  a **mappahivatkozáshoz `index.html`-t követel** (lásd fentebb, miért 403).
+  Figyelmeztet, nem bukik el: a lábléc a *sitemap* szerkezetét viszi, és a sitemap
+  több lapot ismer, mint amennyi elkészült. **Ma 14 ilyen útvonal van** — 11
+  tervezett lap és a 3 hiányzó hub —, tételesen felsorolva a `_web/README.md`-ben.
+  Ha a lista ennél hosszabb lesz, az elgépelés.
+
+Mindhárom új kapu **visszaméréssel igazolva**: a javítás előtti hibás állapotot
+elkapják (a nem létező hero mindhárom változatát, az eltérő `preload`-ot és a
+`index.html` nélküli mappát is).
+
+### Módosítva — `_web/README.md`
+
+- A számok a valósághoz igazítva: **140 lap**, Öko-index **135 lap / 875 szakasz**,
+  szövegindex **1058 részlet**, fejlécképek **63 kép / 133 oldal**. A „Kész
+  aloldalak" sor eddig meg sem említette a **Tudástárat** és a **Rólunk** ágat.
+- **Új szakasz:** *Hivatkozott, de még meg nem épített útvonalak* — mind a 11
+  útvonal, mit takarna, és honnan hivatkozzuk. Enélkül egy elgépelt szlug
+  ugyanúgy néz ki, mint egy tervezett lap.
+- **Új szakasz:** *Három hubnak nincs `index.html`-je — élesben 403*, a
+  tesztkiszolgálón mért státuszkódokkal. Ez hiba, nem tervezett hiány, ezért
+  külön áll a fenti listától.
 
 ## [0.15.00] — 2026-09-10
 

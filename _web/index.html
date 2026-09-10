@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=209">
+<link rel="stylesheet" href="assets/css/app.css?v=210">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -351,6 +351,8 @@
                       <li><a class="mega-alink type-ui-caption" href="tudastar/oldomedence-vagy-biologiai-szennyviztisztito">Oldómedence vagy biológiai?</a></li>
                       <li><a class="mega-alink type-ui-caption" href="tudastar/42-hetes-ce-vizsgalat">A 42 hetes CE-vizsgálat</a></li>
                       <li><a class="mega-alink type-ui-caption" href="tudastar/budos-lesz-a-kertben">Büdös lesz a kertben?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="tudastar/mikrobiologiai-ujjlenyomat">Mikrobiológiai ujjlenyomat</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="tudastar/tisztitoszerek">Milyen tisztítószer használható?</a></li>
                       <li><span class="mega-alink mega-alink-passziv type-ui-caption">Kereshető GYIK</span></li>
                     </ul>
                   </li>
@@ -507,7 +509,7 @@
             <a class="btn btn-inverse" href="#megoldas-ajanlo">Megoldások összehasonlítása</a>
           </div>
 
-          <a class="chip-link type-ui-button" href="ajanlat-osszehasonlitas">
+          <a class="chip-link type-ui-button" href="#ajanlat-osszehasonlito">
             <span class="icon icon-inline icon-inline-lg icon-dokumentum" aria-hidden="true"></span>
             Már van ajánlata? Nézze meg, mit tartalmaz — és mi maradhatott ki
             <span class="chip-arrow" aria-hidden="true">→</span>
@@ -684,7 +686,7 @@
             A használat jellege, a csúcsterhelés, az engedélyezés és az üzemeltetés együtt
             határozza meg a pontos megoldást.
           </p>
-          <a class="text-link" href="szervezeti-telepulesi-megoldasok">
+          <a class="text-link" href="megoldasok/nagyobb-es-kozossegi-rendszerek">
             <span class="link-label">Kérdezzen elérhetőségeinken, hogy az Ön igényéhez mennyi és milyen berendezés illik<span class="action-arrow-end" aria-hidden="true">→</span></span>
           </a>
         </div>
@@ -959,8 +961,8 @@
         <li class="card">
           <span class="card-tag type-ui-label">Állandó használatra</span>
           <figure class="card-media card-media-product">
-            <img src="assets/img/megoldas-ab-clear.webp?v=2" width="450" height="600"
-                 alt="A.B. Clear biológiai szennyvíztisztító metszete: a beérkező szennyvíz ülepítő tere, a buborékoltatott levegőztetett kamra és a tisztított víz zónája"
+            <img src="assets/img/megoldas-ab-clear.webp?v=3" width="450" height="600"
+                 alt="A.B. Clear biológiai szennyvíztisztító metszete: a beérkező szennyvíz ülepítő tere, a buborékoltatott levegőztetett kamra és a tisztított víz kék zónája"
                  loading="lazy" decoding="async">
           </figure>
           <h3 class="type-ui-card-title card-title">A.B. Clear biológiai szennyvíztisztító</h3>
@@ -969,7 +971,7 @@
             kapacitásig — a szükséges méretet a használati adatok alapján mi határozzuk meg.
             Szabadalmaztatott iszapzsákos technológiával, szippantásmentesen.
           </p>
-          <a class="text-link card-action" href="biologiai-szennyviztisztito-1-50">
+          <a class="text-link card-action" href="megoldasok/ab-clear">
             <span class="action-arrow" aria-hidden="true">→</span>Tovább
           </a>
         </li>
@@ -977,7 +979,7 @@
         <li class="card">
           <span class="card-tag type-ui-label">Nagy kapacitásra</span>
           <figure class="card-media card-media-product">
-            <img src="assets/img/megoldas-telepek.webp?v=2" width="600" height="338"
+            <img src="assets/img/megoldas-telepek.webp?v=3" width="600" height="338"
                  alt="Szennyvíztisztító telep metszete a földben: három sorba kötött tartály narancs csővezetékekkel, betonalapon, a felszínen kompresszorral és vezérlőszekrénnyel"
                  loading="lazy" decoding="async">
           </figure>
@@ -988,7 +990,7 @@
             Referenciáink között szerepel Bakonypéterd négy darab 50 fős berendezésből álló,
             közműszolgáltató által üzemeltetett telepe is.
           </p>
-          <a class="text-link card-action" href="telepek">
+          <a class="text-link card-action" href="megoldasok/nagyobb-es-kozossegi-rendszerek">
             <span class="action-arrow" aria-hidden="true">→</span>Tovább
           </a>
         </li>
@@ -1008,7 +1010,7 @@
             tisztítás nagy része a talajban fejeződik be, alacsonyabb tisztítási
             teljesítménnyel, mint az aktív biológiai tisztítás.
           </p>
-          <a class="text-link card-action" href="oldomedencek">
+          <a class="text-link card-action" href="megoldasok/epureco">
             <span class="action-arrow" aria-hidden="true">→</span>Tovább
           </a>
         </li>
@@ -1025,7 +1027,7 @@
             Egyszerűbb, stabilabb üzemeltetés, szippantásmentes működés, komposztálható
             iszappal. Több országban szabadalmaztatott saját fejlesztésünk.
           </p>
-          <a class="text-link card-action" href="iszapzsak">
+          <a class="text-link card-action" href="megoldasok/ab-clear-iszapzsakos-technologia">
             <span class="action-arrow" aria-hidden="true">→</span>Tovább
           </a>
         </li>
@@ -1638,7 +1640,7 @@
         </li>
 
         <li class="situation">
-          <a class="type-ui-card-title kb-title" href="projekt-elokeszites/telepites-es-beuzemeles">
+          <a class="type-ui-card-title kb-title" href="tudastar/telepites-lepesrol-lepesre">
             <span class="kb-arrow" aria-hidden="true">→</span>Telepítés és beüzemelés
           </a>
           <p class="type-ui-caption kb-eg">
@@ -3380,6 +3382,8 @@
           <li><a class="lablec-link" href="tudastar/oldomedence-vagy-biologiai-szennyviztisztito">Oldómedence vagy biológiai?</a></li>
           <li><a class="lablec-link" href="tudastar/42-hetes-ce-vizsgalat">A 42 hetes CE-vizsgálat</a></li>
           <li><a class="lablec-link" href="tudastar/budos-lesz-a-kertben">Büdös lesz a kertben?</a></li>
+          <li><a class="lablec-link" href="tudastar/mikrobiologiai-ujjlenyomat">Mikrobiológiai ujjlenyomat</a></li>
+          <li><a class="lablec-link" href="tudastar/tisztitoszerek">Tisztítószerek</a></li>
           <li><a class="lablec-link" href="tudastar/uzemeltetes-es-hibamegelozes">Üzemeltetés</a></li>
           <li><a class="lablec-link" href="tudastar/koltseg-es-megvalositas">Költség és megvalósítás</a></li>
           <li><a class="lablec-link" href="tudastar/fogalomtar">Fogalomtár</a></li>

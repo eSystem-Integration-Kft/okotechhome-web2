@@ -47,10 +47,21 @@ HASABOK = [
         ('Helyszíni felmérés', 'projekt-elokeszites/helyszini-felmeres'),
         ('Költségek és ajánlatok', 'projekt-elokeszites/koltsegek-es-ajanlatok'),
     ]),
+    # A hasáb KEVERT: a sitemap szerinti hat téma-hub (ezek MÉG NEM léteznek,
+    # felsorolásuk a _web/README.md-ben), közéjük fűzve a már megírt cikkek.
+    # A HTML-ben ez a sorrend él — ha itt elcsúszik, a generátor futása
+    # visszaírná a cikkeket a láblécből.
     ('Tudástár', 'tudastar/', [
         ('Telek, talaj és víz', 'tudastar/telek-talaj-es-viz'),
         ('Terhelés és méretezés', 'tudastar/terheles-es-meretezes'),
         ('Engedélyezés', 'tudastar/engedelyezes-es-megfeleloseg'),
+        ('EN 12566-1 vagy -3', 'tudastar/en-12566-1-vagy-en-12566-3'),
+        ('Telepítés lépésről lépésre', 'tudastar/telepites-lepesrol-lepesre'),
+        ('Oldómedence vagy biológiai?', 'tudastar/oldomedence-vagy-biologiai-szennyviztisztito'),
+        ('A 42 hetes CE-vizsgálat', 'tudastar/42-hetes-ce-vizsgalat'),
+        ('Büdös lesz a kertben?', 'tudastar/budos-lesz-a-kertben'),
+        ('Mikrobiológiai ujjlenyomat', 'tudastar/mikrobiologiai-ujjlenyomat'),
+        ('Tisztítószerek', 'tudastar/tisztitoszerek'),
         ('Üzemeltetés', 'tudastar/uzemeltetes-es-hibamegelozes'),
         ('Költség és megvalósítás', 'tudastar/koltseg-es-megvalositas'),
         ('Fogalomtár', 'tudastar/fogalomtar'),
@@ -62,6 +73,7 @@ HASABOK = [
         ('Óbudavár — a kezdet', 'eredmenyek/obudavar'),
         ('Esettanulmányok', 'eredmenyek/esettanulmanyok'),
         ('Tanúsítványok', 'eredmenyek/tanusitvanyok-es-dokumentumok'),
+        ('Ügyféltapasztalatok', 'eredmenyek/ugyfeltapasztalatok'),
     ]),
 ]
 

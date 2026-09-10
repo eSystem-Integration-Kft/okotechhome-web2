@@ -1820,6 +1820,13 @@
     position:relative;z-index:1;align-self:start;
     padding-block:var(--space-48);
   }
+  /* A CÍM SZÉLESSÉGE a fátyolhoz igazodik. A fejlécsáv fényereje nem egyenletes:
+     a szöveg mögé tett lágy folt (`.hero-media::after`) csak a szövegoszlop
+     környékét csendesíti. Egy hosszú, teljes konténerszélességet átfogó H1 vége
+     KIFUT ebből a foltból, és ha ott épp sötét a felvétel, a sötétzöld cím
+     olvashatatlanná válik — WCAG-kontraszthiba, nem szépészeti kérdés.
+     A korlát a foltban tartja a sort; a rövid címeket nem érinti. */
+  .page-hero .hero-title{max-width:34ch}
   .page-hero .hero-lead{max-width:62ch;color:var(--text-primary)}
   .page-hero-media{
     position:relative;aspect-ratio:var(--page-hero-ratio);

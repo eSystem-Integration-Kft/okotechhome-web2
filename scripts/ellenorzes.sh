@@ -95,6 +95,10 @@ cim "4. Hivatkozott eszközök"
 # CSAK az attribútumból: a prózában és a kommentekben is szerepelnek
 # fájlnevek („a tartalom az assets/data/ajanlo-konfig.js-ben él"), azok viszont
 # nem hivatkozások, és mondat közepén levágva sosem léteznének.
+#
+# A KÉPEK IS IDE TARTOZNAK. Ez a kapu sokáig csak a `src`/`href` attribútumot
+# nézte, a fejlécképek viszont `srcset`/`imagesrcset` alatt élnek — így egy nem
+# létező hero NÉMÁN 404-ezett, és a lap egy üres sávval jelent meg.
 HIANY=0
 while IFS= read -r sor; do
   lap="${sor%%:*}"
@@ -105,7 +109,89 @@ while IFS= read -r sor; do
   red "hiányzó eszköz: $cel (hivatkozza: ${lap#_web/})"
   HIANY=1
 done < <(grep -rhoE --include='*.html' -H '(src|href)="assets/[A-Za-z0-9/_.-]+\.(js|css)(\?v=[0-9]+)?"' _web 2>/dev/null | sort -u)
-[[ $HIANY -eq 0 ]] && grn "minden hivatkozott JS/CSS eszköz létezik"
+
+# Képek: `src`, `srcset` és `imagesrcset`. Három csapda van bennük, ezért megy
+# Pythonnal és nem grep-pel:
+#   1. a `srcset` vesszős lista, minden eleme külön fájl, méretjelölővel a végén,
+#   2. az útvonal a laphoz képest relatív (`../assets/…`), nem a gyökérhez,
+#   3. a `?v=NN` cache-bustert le kell vágni, mielőtt fájlt keresünk.
+if command -v python3 >/dev/null 2>&1; then
+  KEPHIBA="$(python3 - <<'PYVEG'
+import os, re, sys
+
+ATTR = re.compile(r'(?:\bsrc|\bsrcset|\bimagesrcset)="([^"]*)"', re.I)
+hibak = []
+
+for gyoker, konyvtarak, fajlok in os.walk('_web'):
+    konyvtarak[:] = [k for k in konyvtarak if k not in ('.git', 'node_modules')]
+    for nev in fajlok:
+        if not nev.endswith('.html'):
+            continue
+        lap = os.path.join(gyoker, nev)
+        with open(lap, encoding='utf-8', errors='replace') as f:
+            szoveg = f.read()
+        for ertek in ATTR.findall(szoveg):
+            for darab in ertek.split(','):
+                ut = darab.strip().split()[0] if darab.strip() else ''
+                if not ut or '/img/' not in ut:
+                    continue
+                if ut.startswith(('http://', 'https://', 'data:', '//')):
+                    continue
+                cel = os.path.normpath(os.path.join(gyoker, ut.split('?')[0]))
+                if not os.path.isfile(cel):
+                    hibak.append((cel, os.path.relpath(lap, '_web')))
+
+for cel, lap in sorted(set(hibak)):
+    print('%s\t%s' % (cel, lap))
+PYVEG
+)"
+  if [[ -n "$KEPHIBA" ]]; then
+    while IFS=$'\t' read -r cel lap; do
+      red "hiányzó kép: $cel (hivatkozza: $lap)"
+    done <<< "$KEPHIBA"
+    HIANY=1
+  fi
+else
+  ylw "python3 nincs telepítve — a képellenőrzés kimarad"
+fi
+
+# A fejlécképet `<link rel="preload">` tölti elő. Ha a preload URL-je akár csak a
+# `?v=NN`-ben eltér a tényleges `<img src>`-től, a böngésző KÉT külön erőforrásnak
+# látja: letölti mindkettőt, és épp az LCP-kép előtöltése vész el. Némán.
+if command -v python3 >/dev/null 2>&1; then
+  ELTER="$(python3 - <<'PYVEG'
+import os, re
+
+PRE = re.compile(r'<link rel="preload" as="image" href="([^"]+)"')
+IMG = re.compile(r'<img src="([^"]*oldalak/[^"]+)"')
+
+for gyoker, konyvtarak, fajlok in os.walk('_web'):
+    konyvtarak[:] = [k for k in konyvtarak if k not in ('.git', 'node_modules')]
+    for nev in sorted(fajlok):
+        if not nev.endswith('.html'):
+            continue
+        lap = os.path.join(gyoker, nev)
+        with open(lap, encoding='utf-8', errors='replace') as f:
+            szoveg = f.read()
+        elo = PRE.search(szoveg)
+        kep = IMG.search(szoveg)
+        if not elo or not kep:
+            continue
+        if os.path.basename(elo.group(1)) != os.path.basename(kep.group(1)):
+            print('%s\t%s\t%s' % (os.path.relpath(lap, '_web'),
+                                   os.path.basename(elo.group(1)),
+                                   os.path.basename(kep.group(1))))
+PYVEG
+)"
+  if [[ -n "$ELTER" ]]; then
+    while IFS=$'\t' read -r lap elo kep; do
+      red "a preload nem a megjelenített képre mutat: $lap (preload=$elo, img=$kep)"
+    done <<< "$ELTER"
+    HIANY=1
+  fi
+fi
+
+[[ $HIANY -eq 0 ]] && grn "minden hivatkozott JS/CSS és kép létezik"
 
 # ── 5. JS szintaxis ──────────────────────────────────────────────────────────
 cim "5. JS szintaxis"
@@ -132,10 +218,72 @@ else
   ylw "python3 nincs telepítve — a Python-ellenőrzés kimarad"
 fi
 
-# ── 7. Teszt üzemmód ─────────────────────────────────────────────────────────
+# ── 7. Belső hivatkozások ────────────────────────────────────────────────────
+# NEM hiba: a lábléc és a megamenü a *sitemap* szerkezetét viszi, és a sitemap
+# több lapot ismer, mint amennyi elkészült. Az viszont baj volna, ha ez a lista
+# észrevétlenül NŐNE — egy elgépelt szlug pontosan úgy néz ki, mint egy még meg
+# nem épített lap. Ezért felsoroljuk, és a _web/README.md-ben tételesen tartjuk.
+cim "7. Belső hivatkozások"
+if command -v python3 >/dev/null 2>&1; then
+  LINKEK="$(python3 - <<'PYVEG'
+import os, re, collections
+
+HREF = re.compile(r'href="([^"#?][^"]*)"')
+hianyzo = collections.defaultdict(set)
+
+for gyoker, konyvtarak, fajlok in os.walk('_web'):
+    konyvtarak[:] = [k for k in konyvtarak if k not in ('.git', 'node_modules')]
+    for nev in fajlok:
+        if not nev.endswith('.html'):
+            continue
+        lap = os.path.join(gyoker, nev)
+        with open(lap, encoding='utf-8', errors='replace') as f:
+            szoveg = f.read()
+        for h in HREF.findall(szoveg):
+            if h.startswith(('http://', 'https://', 'mailto:', 'tel:', 'data:', '//', 'javascript:')):
+                continue
+            ut = h.split('#')[0].split('?')[0]
+            if not ut:
+                continue
+            # a gyökér-abszolút útvonal a kiszolgáló gyökeréhez képest él
+            alap = '_web' if ut.startswith('/') else gyoker
+            cel = os.path.normpath(os.path.join(alap, ut.lstrip('/')))
+            # KÖNYVTÁRRA mutató hivatkozás CSAK akkor jó, ha van benne index.html.
+            # A .htaccess Options -Indexes + DirectoryIndex index.html párosa
+            # miatt az index nélküli mappa élesben 403-at ad: a nem-könyvtár
+            # feltétel miatt a .html-re átíró szabály ilyenkor NEM lép be. A puszta
+            # egyszeru mappa-letezes vizsgalata ezt elengedte.
+            if os.path.isdir(cel):
+                if os.path.isfile(os.path.join(cel, 'index.html')):
+                    continue
+            elif os.path.isfile(cel) or os.path.isfile(cel + '.html'):
+                continue
+            # a FELOLDOTT célt jelentjük, nem a nyers href-et: a ./ és a
+            # tudastar/ ugyanoda mutat, és a nyers alak egy ures cimket adna
+            hianyzo[os.path.relpath(cel, '_web')].add(os.path.relpath(lap, '_web'))
+
+for ut, lapok in sorted(hianyzo.items()):
+    print('%s\t%d' % (ut, len(lapok)))
+PYVEG
+)"
+  if [[ -z "$LINKEK" ]]; then
+    grn "minden belső hivatkozás feloldható"
+  else
+    DB=$(printf '%s\n' "$LINKEK" | wc -l | tr -d ' ')
+    ylw "$DB még meg nem épített útvonalra mutat hivatkozás (sitemap szerint tervezett):"
+    while IFS=$'\t' read -r ut lapdb; do
+      printf '      %-52s %s lapon\n' "$ut" "$lapdb"
+    done <<< "$LINKEK"
+    ylw "ha ezek közt ELGÉPELT szlug van, az itt hiba — lásd _web/README.md"
+  fi
+else
+  ylw "python3 nincs telepítve — a hivatkozás-ellenőrzés kimarad"
+fi
+
+# ── 8. Teszt üzemmód ─────────────────────────────────────────────────────────
 # NEM hiba, csak emlékeztető: a `Disallow: /` szándékos, amíg a webhely a
 # tesztaldomainen fut. Élesítéskor viszont HÁROM helyen kell feloldani.
-cim "7. Teszt üzemmód"
+cim "8. Teszt üzemmód"
 if grep -qE '^\s*Disallow:\s*/\s*$' _web/robots.txt 2>/dev/null; then
   ylw "TESZT ÜZEMMÓD aktív: robots.txt tiltja az indexelést (élesítéskor 3 réteget kell oldani — lásd _web/README.md)"
 else
