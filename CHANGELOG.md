@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.20.00-80A640?style=flat-square" alt="verzió 0.20.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.21.00-80A640?style=flat-square" alt="verzió 0.21.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-20-56642B?style=flat-square" alt="20 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-21-56642B?style=flat-square" alt="21 kiadás">
 </p>
 
 ---
@@ -28,6 +28,51 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.21.00] — 2026-09-10
+
+**Egy cikk, amit korábban megkaptunk, elkezdtünk — és soha nem fejeztünk be.**
+
+### Hozzáadva — `/tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito`
+
+*„Bioemésztő, ökoemésztő, házi szennyvíztisztító – mit jelentenek valójában?"*
+
+Bela jelezte, hogy nem találja a lapot, pedig szerinte feldolgoztuk. **Igaza volt
+abban is, hogy megérkezett, és abban is, hogy nincs meg:** a szöveg egy korábbi
+munkamenetben megjött, a munka el is indult — a lap viszont **soha nem készült
+el**, a git-előzményben egyetlen commit sem érinti. A forrásszöveget a korábbi
+beszélgetés naplójából állítottam vissza.
+
+A lap **kilenc elnevezést vezet vissza három technológiára**:
+
+| Amit csinál | Ahogy nevezik |
+|---|---|
+| **csak gyűjt** | zárt emésztő — valójában zárt, vízzáró szennyvíztároló |
+| **ülepít és anaerob módon előkezel** | oldómedence · szeptikus tartály · septic tank |
+| **levegőztetéssel, eleveniszaposan tisztít** | (levegőztetett) biológiai szennyvíztisztító |
+
+A cikk **nem söpri le** azt a kifogást, hogy az oldómedencében is baktériumok
+dolgoznak — kimondja, hogy ez igaz, és épp ezért nem elég ismérv: gyakorlatilag
+minden szennyvízben dolgoznak mikroorganizmusok. A kérdés a **körülmény és az
+eredmény**. Ugyanígy kimondja, hogy a „bio" és az „öko" előtag **nem műszaki
+megnevezés**, és mögötte anaerob és levegőztetett rendszer egyaránt állhat.
+
+Külön szakasz a **régi, nem vízzáró emésztőkről**: attól, hogy a szennyvíz
+eltűnik, még nem tisztult meg.
+
+### Módosítva — a kapott szöveg tegezett, a webhely magáz
+
+A forrás végig tegező alakot használt („ingatlanodnál", „keresel",
+„hasonlítasz"). A webhelyen **155 magázó alak áll és nulla tegező** — a cikket
+ezért végig „Ön"-re fordítottam. Ez nem stílusízlés: egyetlen tegező lap a
+százötven magázó között kilógna, és a látogató észrevenné.
+
+### Módosítva — a Tudástár hub 3+3+4-re
+
+A tizedik cikkel a 3×3 egy magányos kártyát hagyott volna. Az új felosztás —
+*Hogyan működik* (3) · *A mindennapokban* (3) · *Döntés előtt* (4) — mind a tíz
+cikket teli sorokba rendezi. Az új lap a *Döntés előtt* sorba került, mert épp
+azt teszi rendbe, amit a látogató összehasonlítani próbál.
 
 ## [0.20.00] — 2026-09-10
 
