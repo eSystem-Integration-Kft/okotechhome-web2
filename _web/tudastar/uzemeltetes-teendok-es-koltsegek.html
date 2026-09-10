@@ -474,31 +474,29 @@
 
 <main id="fotartalom">
 
-<!-- ADATHIÁNY / FORRÁSKIEGÉSZÍTÉS (2026-09-10)
+<!-- ADATHIÁNY / FORRÁSKIEGÉSZÍTÉS — FRISSÍTVE 2026-09-10 (este)
 
      A kapott szöveg HIÁNYOS volt: a „2. Időszakos karbantartás" és a
-     „3. Normál üzemeltetési költségek" FEJLÉCE ÉS TARTALMA nem érkezett meg,
-     miközben a szöveg későbbi része rájuk hivatkozik (10 500 Ft membrán,
-     35 700 Ft/év összesen). Amit ebből tettünk:
+     „3. Normál üzemeltetési költségek" fejléce és tartalma nem érkezett meg.
 
-     · 2. rész — a forrás két időszakos tényt tartalmaz (a membrán 3-4 évente
-       cserélendő; választható negyedéves karbantartás). A szakasz CSAK ezekből
-       áll. HIÁNYZIK: az időszakos teendők teljes listája és gyakorisága
-       (pl. levegőztető elemek, vezérlés, előszűrő) — ha van ilyen.
+     · 2. rész — a forrás két időszakos tényt tartalmazott (membrán 3-4 évente;
+       választható negyedéves karbantartás), és időközben megjött a kompresszor
+       adata is: 50 W, folyamatos vagy 7/3 perces ciklusú üzem.
+       HIÁNYZIK MÉG: az időszakos teendők teljes listája és gyakorisága.
 
-     · 3. rész — a költségbontás NEM találgatás: a főoldal 9. szekciója már
-       közli tételesen (áram 24 000 Ft + iszapzsák 300 Ft/db, évi max. 4 db
-       + membrán évesítve 10 500 Ft), és ez PONTOSAN kiadja a forrásban
-       szereplő 35 700 Ft/év végösszeget. A táblázat ezt veszi át.
+     · 3. rész — a költségbontás VÉGLEGES számítási logikája (Bela döntése,
+       2026-09-10): 50 W-os kompresszor, 36 Ft/kWh, ebből 11 000-15 800 Ft/év
+       áram; ezzel az iszapzsákkal (1 200 Ft) és az évesített membráncserével
+       (10 500 Ft) együtt 22 700-27 500 Ft/év.
 
-     · ELLENTMONDÁS A WEBHELYEN BELÜL — DÖNTÉST IGÉNYEL:
-       a `tudastar/oldomedence-vagy-biologiai-szennyviztisztito` lap tízéves
-       táblája ugyanerre 22 700-27 500 Ft/év-et közöl. A különbség KIZÁRÓLAG
-       az áram: ott 110 000-158 000 Ft / 10 év (= 11 000-15 800 Ft/év), itt és
-       a főoldalon 24 000 Ft/év. Az iszapzsák (1 200 Ft/év) és a membrán
-       (10 500 Ft/év) a két helyen AZONOS. Amíg nincs döntés, melyik az
-       érvényes áramfeltételezés, a webhely két különböző éves összeget közöl.
--->
+       A korábbi 35 700 Ft/év (24 000 Ft árammal) MEGSZŰNT: nem volt
+       következetes az 50 W-os kompresszorral. A webhelyen ma MINDENHOL ez az
+       egy logika él — főoldal 9. szekció, ez a lap, és a
+       `tudastar/oldomedence-vagy-biologiai-szennyviztisztito` tízéves táblája.
+
+     · ELLENŐRZÉS: 50 W × 8760 h = 438 kWh → 15 768 Ft (folyamatos);
+       ennek 70%-a 306,6 kWh → 11 038 Ft (7/3 ciklus). A kerekített
+       11 000-15 800 Ft, végösszegben 22 738-27 468 → 22 700-27 500 Ft. -->
   <section class="hero page-hero" aria-labelledby="oldal-cim">
     <div class="hero-inner">
       <div class="hero-copy">
@@ -595,7 +593,8 @@
         <h2 class="type-display-section-title section-title" id="idoszakos-cim">Időszakos karbantartás</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">A rendszer egyetlen mozgó alkatrésze a membrános légszivattyú. A <strong>membránt nem évente, hanem jellemzően 3–4 évente</strong> kell cserélni — a lenti költségtáblában ezért <em>évesített</em> összegként szerepel.</p>
+        <p class="type-ui-body">A rendszer egyetlen mozgó alkatrésze a <strong>membrános légszivattyú</strong> — a hatfős A.B. Clearnél <strong>50&nbsp;W</strong>-os. Üzemmódtól függően vagy folyamatosan működik, vagy megfelelő terhelés mellett <strong>7 perc működés / 3 perc szünet</strong> ciklusban; a lenti áramköltség alsó és felső határa épp ebből a két üzemmódból adódik.</p>
+        <p class="type-ui-body">A membránt nem évente, hanem jellemzően 3–4 évente</strong> kell cserélni — a lenti költségtáblában ezért <em>évesített</em> összegként szerepel.</p>
         <p class="type-ui-body">Aki szeretné csökkenteni annak esélyét, hogy egy kialakuló probléma csak akkor derüljön ki, amikor már komolyabb beavatkozás szükséges, választhatja a <a href="../megoldasok/biologiai-uzemeltetes-es-karbantartas">negyedéves karbantartást</a> is. Ez <strong>nem kötelező</strong>: a berendezés e nélkül is üzemeltethető.</p>
       </div>
     </div>
@@ -620,8 +619,8 @@
           <tbody>
             <tr>
               <th scope="row" class="type-ui-subtitle">Kompresszor áramfelhasználása</th>
-              <td class="type-ui-body">24&nbsp;000&nbsp;Ft</td>
-              <td class="type-ui-body">Számított érték — az aktuális áramdíjtól és a tényleges üzemeltetéstől függően változhat</td>
+              <td class="type-ui-body">11&nbsp;000–15&nbsp;800&nbsp;Ft</td>
+              <td class="type-ui-body">50&nbsp;W-os kompresszor, 36&nbsp;Ft/kWh árral. Az alsó érték a 7 perc működés / 3 perc szünet ciklusé, a felső a folyamatos üzemé</td>
             </tr>
             <tr>
               <th scope="row" class="type-ui-subtitle">Iszapzsák</th>
@@ -640,7 +639,7 @@
             </tr>
             <tr>
               <th scope="row" class="type-ui-subtitle"><strong>Összesen</strong></th>
-              <td class="type-ui-body"><strong>35&nbsp;700&nbsp;Ft</strong></td>
+              <td class="type-ui-body"><strong>22&nbsp;700–27&nbsp;500&nbsp;Ft</strong></td>
               <td class="type-ui-body">A normál, megfelelő üzemeltetés számított éves költsége</td>
             </tr>
           </tbody>
@@ -659,7 +658,7 @@
       <header class="section-head section-head-start">
         <p class="type-data-eyebrow section-eyebrow">4. rész</p>
         <h2 class="type-display-section-title section-title" id="rendkivuli-cim">Rendkívüli költségek</h2>
-        <p class="type-ui-body section-lead">A 35&nbsp;700&nbsp;Ft/év a <strong>normál, megfelelő</strong> üzemeltetés számított költsége. Nem tartalmazza a meghibásodások és a nem megfelelő használat következményeinek elhárítását.</p>
+        <p class="type-ui-body section-lead">A 22&nbsp;700–27&nbsp;500&nbsp;Ft/év a <strong>normál, megfelelő</strong> üzemeltetés számított költsége. Nem tartalmazza a meghibásodások és a nem megfelelő használat következményeinek elhárítását.</p>
       </header>
       <div class="folyoszoveg">
         <p class="type-ui-body">Ilyen rendkívüli eset lehet például:</p>
@@ -853,7 +852,15 @@
           "name": "Mennyibe kerül évente egy A.B. Clear üzemeltetése?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Négy-öt fős, egész évben lakott háztartással számolva a normál üzemeltetés számított éves költsége 35 700 Ft: a kompresszor áramfelhasználása 24 000 Ft, az iszapzsák 1 200 Ft (300 Ft/db, évi legfeljebb 4 db), a membráncsere évesítve 10 500 Ft. Technológiai vegyszerköltség nincs. A forintösszegek példaszámítások, a villamosenergia-költség a tarifától függ."
+            "text": "Négy-öt fős, egész évben lakott háztartással számolva a normál üzemeltetés számított éves költsége 22 700-27 500 Ft: a kompresszor 50 W-os, 36 Ft/kWh árral 11 000-15 800 Ft, az iszapzsák 1 200 Ft (300 Ft/db, évi legfeljebb 4 db), a membráncsere évesítve 10 500 Ft. Technológiai vegyszerköltség nincs. A forintösszegek példaszámítások, a villamosenergia-költség a tarifától függ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mennyi áramot fogyaszt egy biológiai szennyvíztisztító?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A hatfős A.B. Clear kompresszora 50 W-os. Üzemmódtól függően vagy folyamatosan működik, vagy megfelelő terhelés mellett 7 perc működés / 3 perc szünet ciklusban. 36 Ft/kWh árral számolva ez évi 11 000-15 800 Ft villamosenergia-költséget jelent; az alsó érték a ciklusos, a felső a folyamatos üzemé."
           }
         },
         {
@@ -885,7 +892,7 @@
           "name": "Mit nem tartalmaz az éves üzemeltetési költség?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A 35 700 Ft/év a normál, megfelelő üzemeltetés számított költsége. Nem tartalmazza a meghibásodások és a nem megfelelő használat következményeinek elhárítását: a biológia súlyos károsodását, dugulást, meghibásodást, rendkívüli helyszíni kiszállást, illetve a szükségessé váló tisztítást, javítást vagy teljes kiszippantást és újraindítást."
+            "text": "A 22 700-27 500 Ft/év a normál, megfelelő üzemeltetés számított költsége. Nem tartalmazza a meghibásodások és a nem megfelelő használat következményeinek elhárítását: a biológia súlyos károsodását, dugulást, meghibásodást, rendkívüli helyszíni kiszállást, illetve a szükségessé váló tisztítást, javítást vagy teljes kiszippantást és újraindítást."
           }
         }
       ]

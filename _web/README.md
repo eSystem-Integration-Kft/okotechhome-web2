@@ -75,6 +75,51 @@ Apache előtt. Ezt élesítéskor **két percben érdemes ellenőrizni** (tölts
 próbaszabályt, és nézd meg, érvényesül-e), mert ha mégsem Apache szolgálná ki, a
 kiterjesztés nélküli URL-ek **mind 404-eznének**.
 
+### PHP-követelmények az új kiszolgálón
+
+A `_web/api/` alatt **17 PHP-fájl** fut élesben (űrlapok, levélküldés, CRM,
+Öko kalauz).
+
+| Amit igényel | Miért |
+|---|---|
+| **PHP 8.0 minimum** | a kód `match()`, `str_contains()` és `str_starts_with()` hívásokat használ — ezek 8.0-tól léteznek |
+| `curl`, `json`, `mbstring` | AI-hívások, űrlapfeldolgozás, ékezetes szövegkezelés |
+| `PDO` + `pdo_mysql` | a CRM-napló (`api/lib/crm-mysql.php`) |
+| `openssl` | az SMTP `stream_socket_enable_crypto`-val TLS-re vált (`api/lib/smtp.php`) — enélkül **nem megy ki levél** |
+| kimenő kapcsolat az SMTP-portra | ugyanezért |
+
+**A 8.0 EOL.** A biztonsági támogatása 2022 novemberében lejárt, ezért érdemes a
+cPanel MultiPHP-ben **8.2-re vagy 8.3-ra** állítani. Átnéztem a kódot: nincs
+benne 8.2-ben elavuló minta (`utf8_encode`, `${}` interpoláció,
+`FILTER_SANITIZE_STRING`, `strftime`), tehát a váltás elvileg mellékhatás
+nélküli. A `crm-mysql.php` és a `crm.php` megjegyzései **8.5-ös** viselkedésre
+készültek fel, nem korábbira.
+
+### A kapott `php.ini` értékelése (2026-09-10)
+
+Ami **rendben van**: `display_errors = Off` (élesben kötelező),
+`max_execution_time`/`max_input_time` 600, `memory_limit 1024M`,
+`max_input_vars 10000` — mind bőven elég.
+
+Ami **nem stimmel**, két tétel:
+
+1. **`zlib.output_compression = On` ütközik a `mod_deflate`-tel.** Az
+   `.htaccess` már tömöríti az `application/json`-t is, vagyis a PHP-válaszokat
+   — két tömörítő ugyanarra a válaszra. Ez a legjobb esetben fölösleges
+   processzoridő, rosszabb esetben `ERR_CONTENT_DECODING_FAILED`.
+   **Javaslat: `zlib.output_compression = Off`**, a tömörítést hagyjuk az
+   Apache-ra, ahol amúgy is szabályozva van.
+
+2. **`post_max_size = 800M` és `upload_max_filesize = 512M` nagyságrenddel
+   túlméretezett.** A webhely saját korlátja **10 MB** melléklet
+   (`api/config.php` → `max_meret`). A jelenlegi beállítással a PHP előbb
+   *befogad* egy 800 MB-os POST-ot, és csak utána utasítja el az alkalmazás —
+   ez fölösleges támadási felület. **Javaslat: `post_max_size = 32M`,
+   `upload_max_filesize = 16M`** (a `post_max_size` mindig legyen nagyobb).
+
+**Nem számít:** a `session.gc_maxlifetime` és a `session.save_path` — a webhely
+**nem használ PHP-session-t** (`session_start` és `$_SESSION` sehol).
+
 ### A szerveren kézzel elvégzendő — nem git alatt
 
 A `_web/api/config.php` **git-ignorált**, csak a kiszolgálón él. Élesítéskor

@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.26.00-80A640?style=flat-square" alt="verzió 0.26.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.27.00-80A640?style=flat-square" alt="verzió 0.27.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-26-56642B?style=flat-square" alt="26 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-27-56642B?style=flat-square" alt="27 kiadás">
 </p>
 
 ---
@@ -28,6 +28,68 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.27.00] — 2026-09-10
+
+**Eldőlt az éves üzemeltetési költség, és a webhelyen mindenhol egy számítás él.**
+
+### Eldöntve — 22 700–27 500 Ft/év, 50 W-os kompresszorral
+
+Bela döntése: a **hatfős A.B. Clear kompresszora 50 W**, és üzemmódtól függően
+vagy folyamatosan működik, vagy megfelelő terhelés mellett **7 perc működés /
+3 perc szünet** ciklusban. **36 Ft/kWh** árral ez évi
+**11 000–15 800 Ft** villamos energia.
+
+A korábbi **35 700 Ft/év** (24 000 Ft árammal) ezzel **megszűnt**: nem volt
+következetes az 50 W-os kompresszorral. Az érvényes egységes összeg
+**22 700–27 500 Ft/év**, amiben az áram mellett az iszapzsák (1 200 Ft) és az
+évesített membráncsere (10 500 Ft) is benne van.
+
+**Átszámolva, mielőtt bárhol leírtuk:**
+
+| Üzemmód | Fogyasztás | Áram 36 Ft/kWh-val | Végösszeg |
+|---|---|---|---|
+| 7/3 perces ciklus (70%) | 306,6 kWh/év | 11 038 Ft | **22 738 Ft** |
+| folyamatos | 438 kWh/év | 15 768 Ft | **27 468 Ft** |
+
+A kerekített 11 000–15 800, illetve 22 700–27 500 Ft tehát pontosan kijön.
+
+### Módosítva — három helyen, egy logika szerint
+
+- **Főoldal, 9. szekció** — a szám mellé bekerült az **indoklás** is: 50 W,
+  a két üzemmód és a 36 Ft/kWh. Eddig csak egy végösszeg állt ott, forrás nélkül.
+- **`/tudastar/uzemeltetes-teendok-es-koltsegek`** — a költségtábla áram-sora,
+  a végösszeg, a 4. szakasz felvezetője, két GYIK-válasz és a `FAQPage`
+  strukturált adat. A **2. rész** megkapta a kompresszor műszaki adatát, mert
+  az áramköltség alsó és felső határa épp a két üzemmódból adódik. Új
+  GYIK-kérdés: *„Mennyi áramot fogyaszt egy biológiai szennyvíztisztító?"*
+- **`/tudastar/oldomedence-vagy-biologiai-szennyviztisztito`** — a tízéves tábla
+  változatlan: **ez lett az érvényes logika**, a másik kettő igazodott hozzá.
+
+A két lapon álló *„döntést igényel"* jelölés **lezárva**, a döntés dátumával és
+az ellenőrző számítással együtt.
+
+### Dokumentálva — PHP-követelmények és a kapott `php.ini` értékelése
+
+Az `api/` alatt **17 PHP-fájl** fut élesben. A kód **PHP 8.0 minimumot** kíván
+(`match`, `str_contains`, `str_starts_with`), és kell hozzá `curl`, `json`,
+`mbstring`, `PDO`/`pdo_mysql`, valamint **`openssl`** — az SMTP TLS-re vált,
+enélkül **nem megy ki levél**.
+
+A kapott `php.ini` nagyrészt rendben, **két tétel viszont nem**:
+
+1. **`zlib.output_compression = On` ütközik a `mod_deflate`-tel** — az
+   `.htaccess` már tömöríti az `application/json`-t is. Két tömörítő ugyanarra a
+   válaszra: fölösleges processzoridő, rosszabb esetben
+   `ERR_CONTENT_DECODING_FAILED`. **Kapcsold ki.**
+2. **`post_max_size = 800M` / `upload_max_filesize = 512M`** — a webhely saját
+   korlátja **10 MB** melléklet. Így a PHP előbb befogad egy 800 MB-os POST-ot,
+   és csak utána utasítja el az alkalmazás. **32M / 16M elég.**
+
+A `session.*` sorok nem számítanak: a webhely **nem használ PHP-session-t**.
+A `session.save_path` egyébként **alt-php80**-ra mutat — a 8.0 biztonsági
+támogatása 2022 novemberében lejárt, ezért érdemes **8.2-re vagy 8.3-ra**
+váltani. A kódot átnéztem: nincs benne 8.2-ben elavuló minta.
 
 ## [0.26.00] — 2026-09-10
 
