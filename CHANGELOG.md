@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.25.00-80A640?style=flat-square" alt="verzió 0.25.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.26.00-80A640?style=flat-square" alt="verzió 0.26.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-25-56642B?style=flat-square" alt="25 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-26-56642B?style=flat-square" alt="26 kiadás">
 </p>
 
 ---
@@ -28,6 +28,64 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.26.00] — 2026-09-10
+
+### Hozzáadva — `/tudastar/elszivarogtatas`
+
+*„Elszivárogtatás: mi történik a megtisztított vízzel?"* Bela rákérdezett, hogy
+megcsináltuk-e — **nem**, és a korábbi munkamenetekben sem érkezett hozzá anyag
+(végigkerestem mindet). Most megjött, és elkészült.
+
+A lap fő állítása, hogy a szikkasztómező **nem kiegészítő, hanem a rendszer
+része** — és a leggyakoribb hibaforrás. A legfontosabb szabály tétele: *annyi
+vizet kell elszivárogtatni, amennyi keletkezik*, mert a tisztítás nem tünteti el
+a vizet. Innen következik minden más: a méretezés három tényezője, a
+szivárogtatási próba, a jegyzői engedélyezés (**147/2010. Korm. rendelet** — a
+webhely máshol is így hivatkozza), és a négy tipikus hiba.
+
+Az **alulméretezett mező** külön kiemelést kap, mert a víz visszaduzzadhat a
+berendezés felé, és a hiba így **elsőre a tisztító hibájának tűnik**.
+
+Már meglévő lap az **Előkészítés** ágon is szól az elszivárogtatásról; a kettő
+egymásra mutat: a Tudástár-cikk a *miért és hogyan*, az Előkészítés-lap a
+*mit kell tisztázni a saját telkemen*.
+
+**A régi Ads-URL célja átállt** erre a cikkre: az `okotechhome.hu/elszivarogtatas`
+egy magyarázó lap volt, ahhoz ez áll közelebb.
+
+### ⚠️ Javítva — öt lapon hiányos volt a megamenü és a lábléc
+
+A hiba **fél napja gyűlt észrevétlenül.** Az új menüpontokat tömeges beszúrás
+viszi be minden lapra, és az őrfeltétel — „hagyd ki, ha már szerepel benne a
+szlug" — a lap **saját kanonikus URL-jére** is illeszkedett. Így minden új cikk
+kimaradt a **saját menüjéből**, és a `hogyan-tisztul-meg-a-szennyviz` négy
+további lapról is.
+
+A lap ilyenkor tökéletesen működik, csak épp két menüpont hiányzik róla — ezért
+nem tűnt fel. Mind az öt lap javítva, a főoldal blokkjából átvéve.
+
+### Módosítva — `scripts/ellenorzes.sh`: 9. kapu a navigációra
+
+Nincs generátor, ami futásidőben rakná össze a menüt, tehát ez a hibaosztály
+bármikor visszatérhet. A kapu **a főoldal menüjét és láblécét veszi mintának**,
+és minden lapot ehhez mér — nemcsak a darabszámot, hanem a **sorrendet** is.
+Visszaméréssel igazolva.
+
+### Módosítva — a Tudástár hub 4+3+4-re
+
+A tizenkettedik lappal (11 cikk + hub) a 3+3+4 egy magányos kártyát hagyott
+volna. Az új felosztás: *Hogyan működik* (4) · *A mindennapokban* (3) ·
+*Döntés előtt* (4).
+
+### Nem került fel — három fénykép
+
+A kapott szövegben három beépítendő fotó szerepelt (alagútelemek kavicságyon,
+szivárogtatási próba, kiemelt szivárogtató), **fájl nélkül**. A meglévő
+készletben csak az elsőhöz van illeszkedő felvétel, az viszont ugyanazt mutatja,
+mint a fejléckép. A `szivarogtatasi-vizsgalat` nevű kép **munkaárkot** ábrázol,
+nem próbát; a `talajviz` nevű vizes munkagödröt, nem kiemelt szivárogtatót —
+ezeket nem címkézzük másnak, mint amik. Rögzítve a lap `ADATHIÁNY` jelölésében.
 
 ## [0.25.00] — 2026-09-10
 

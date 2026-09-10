@@ -41,7 +41,7 @@ DirectoryIndex index.html
   RewriteRule ^muszaki/?$                                         /megoldasok/ab-clear-muszaki-adatok [R=301,L,NE]
   RewriteRule ^referenciaink/?$                                   /eredmenyek/esettanulmanyok [R=301,L,NE]
   RewriteRule ^cegunkrol/?$                                       /okotech-home/tortenetunk [R=301,L,NE]
-  RewriteRule ^elszivarogtatas/?$                                 /projekt-elokeszites/elszivarogtatas [R=301,L,NE]
+  RewriteRule ^elszivarogtatas/?$                                 /tudastar/elszivarogtatas [R=301,L,NE]
   RewriteRule ^kiknek/?$                                          /megoldasok/biologiai-szennyviztisztitas [R=301,L,NE]
 
   # ALKÖNYVTÁRAS TELEPÍTÉS

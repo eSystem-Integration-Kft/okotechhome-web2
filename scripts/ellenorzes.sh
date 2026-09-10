@@ -323,10 +323,65 @@ PYVEG
   fi
 fi
 
-# ── 9. Teszt üzemmód ─────────────────────────────────────────────────────────
+# ── 9. Navigáció egységessége ────────────────────────────────────────────────
+# A megamenü és a lábléc MINDEN lapon ugyanaz — nincs generátor, ami futásidőben
+# összerakná, tehát az új menüpontot egy tömeges beszúrás viszi be. Az ilyen
+# menet KIHAGYHAT lapokat, és a hiány néma: a lap tökéletesen működik, csak épp
+# két menüpont hiányzik róla.
+#
+# Pontosan ez történt: az őrfeltétel a lap SAJÁT kanonikus URL-jére is
+# illeszkedett, ezért az új cikkek kimaradtak a saját menüjükből. Öt lapon gyűlt
+# fel, mire kiderült.
+cim "9. Navigáció egységessége"
+if command -v python3 >/dev/null 2>&1; then
+  NAVELTER="$(python3 - <<'PYVEG'
+import os, re, io
+
+MENU = r'mega-alink type-ui-caption" href="(?:\.\./)?([a-z0-9/-]+)"'
+LABL = r'lablec-link" href="(?:\.\./)?([a-z0-9/-]+)"'
+
+def kinyer(szoveg):
+    return (tuple(re.findall(MENU, szoveg)), tuple(re.findall(LABL, szoveg)))
+
+with io.open('_web/index.html', encoding='utf-8') as f:
+    minta = kinyer(f.read())
+
+for gyoker, konyvtarak, fajlok in os.walk('_web'):
+    konyvtarak[:] = [k for k in konyvtarak if k not in ('.git', 'node_modules')]
+    for nev in sorted(fajlok):
+        if not nev.endswith('.html'):
+            continue
+        ut = os.path.join(gyoker, nev)
+        with io.open(ut, encoding='utf-8', errors='replace') as f:
+            szoveg = f.read()
+        if 'mega-alink' not in szoveg:      # a hibalapoknak nincs megamenüje
+            continue
+        menu, lablec = kinyer(szoveg)
+        baj = []
+        if menu != minta[0]:
+            baj.append('menu %d/%d' % (len(menu), len(minta[0])))
+        if lablec != minta[1]:
+            baj.append('lablec %d/%d' % (len(lablec), len(minta[1])))
+        if baj:
+            print('%s\t%s' % (os.path.relpath(ut, '_web'), ', '.join(baj)))
+PYVEG
+)"
+  if [[ -z "$NAVELTER" ]]; then
+    grn "minden lap ugyanazt a megamenüt és láblécet viseli"
+  else
+    DB=$(printf '%s\n' "$NAVELTER" | wc -l | tr -d ' ')
+    red "$DB lap navigációja eltér a főoldalétól:"
+    while IFS=$'\t' read -r lap baj; do
+      printf '      %-52s %s\n' "$lap" "$baj"
+    done <<< "$NAVELTER"
+    HIBA=1
+  fi
+fi
+
+# ── 10. Teszt üzemmód ─────────────────────────────────────────────────────────
 # NEM hiba, csak emlékeztető: a `Disallow: /` szándékos, amíg a webhely a
 # tesztaldomainen fut. Élesítéskor viszont HÁROM helyen kell feloldani.
-cim "9. Teszt üzemmód"
+cim "10. Teszt üzemmód"
 if grep -qE '^\s*Disallow:\s*/\s*$' _web/robots.txt 2>/dev/null; then
   ylw "TESZT ÜZEMMÓD aktív: robots.txt tiltja az indexelést (élesítéskor 3 réteget kell oldani — lásd _web/README.md)"
 else
