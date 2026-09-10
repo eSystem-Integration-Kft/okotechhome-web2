@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=206">
+<link rel="stylesheet" href="assets/css/app.css?v=208">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -829,10 +829,6 @@
               </table>
             </div>
           </div>
-
-          <a class="btn btn-primary compare-action" href="tudastar/technologiak-osszehasonlitasa">
-            <span class="action-arrow" aria-hidden="true">→</span>A három technológia részletes összehasonlítása a tudástárban
-          </a>
         </div>
 
         <div class="split-card">
@@ -889,6 +885,44 @@
         </div>
 
       </div>
+
+      <!-- ÁTVEZETÉS a részletes összehasonlításra. Szándékosan a kéthasábos
+           rész UTÁN, teljes szélességben: a gomb korábban a bal hasáb alján
+           ült, a jobb hasáb hosszabb szövege mellett gyakorlatilag eltűnt.
+
+           A három csempe SÚLYA AZONOS. Kézenfekvő lenne kiemelni azt, amit
+           árulunk, de a szekasz egész érve az, hogy „nem ugyanazt végzik" —
+           egy vizuálisan megnyert összehasonlítás pont ezt az érvet gyengítené.
+           A figyelem a blokktól és a gombtól jön, nem a mérleg elbillentésétől. -->
+      <aside class="tech-hivas" aria-labelledby="tech-hivas-cim">
+        <div class="tech-hivas-fej">
+          <p class="type-data-eyebrow tech-hivas-eyebrow">Mielőtt választ</p>
+          <h3 class="type-display-highlight-title tech-hivas-cim" id="tech-hivas-cim">Három technológia, három különböző válasz</h3>
+          <p class="type-ui-body tech-hivas-lead">Melyik mit csinál a szennyvízzel, mennyibe kerül tíz év, és mit enged az Ön telke — tételesen, egy helyen.</p>
+        </div>
+
+        <ul class="tech-hivas-sor" role="list">
+          <li class="tech-hivas-elem">
+            <span class="tech-hivas-ikon" aria-hidden="true"><span class="icon icon-zart-tarolo"></span></span>
+            <b class="type-ui-card-title tech-hivas-nev">Zárt tároló</b>
+            <span class="type-ui-caption tech-hivas-mit">gyűjt</span>
+          </li>
+          <li class="tech-hivas-elem">
+            <span class="tech-hivas-ikon" aria-hidden="true"><span class="icon icon-oldomedence"></span></span>
+            <b class="type-ui-card-title tech-hivas-nev">Oldómedence</b>
+            <span class="type-ui-caption tech-hivas-mit">ülepít</span>
+          </li>
+          <li class="tech-hivas-elem">
+            <span class="tech-hivas-ikon" aria-hidden="true"><span class="icon icon-biologiai"></span></span>
+            <b class="type-ui-card-title tech-hivas-nev">Biológiai tisztító</b>
+            <span class="type-ui-caption tech-hivas-mit">tisztít</span>
+          </li>
+        </ul>
+
+        <a class="btn btn-primary tech-hivas-akcio" href="tudastar/oldomedence-vagy-biologiai-szennyviztisztito">
+          <span class="action-arrow" aria-hidden="true">→</span>A három technológia részletes összehasonlítása
+        </a>
+      </aside>
 
     </div>
   </section>

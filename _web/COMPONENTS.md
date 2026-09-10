@@ -2170,3 +2170,56 @@ ez a réteg csak közöl. A `setCustomValidity()` miatt viszont van egy csapda: 
 egyedi hibáját, és a fájlmezőét némán letörölte volna. Ezért a mellékletmodul a hibát
 `dataset.fajlHiba`-ba is beírja, az ellenőrző pedig **onnan olvassa vissza** — a beküldő
 gomb így marad inaktív, amíg a melléklet hibás.
+
+---
+
+## 32. Átvezetés a technológia-összehasonlításra — `.tech-hivas`
+
+**Hol:** főoldal, 4. szekció (*Technológiák*), a kéthasábos rész alatt.
+**Kód:** `app.css` → `@layer components` és `@layer motion`.
+
+A részletes összehasonlításra mutató gomb eddig a **bal hasáb alján** ült, a jobb
+hasáb hosszabb szövege mellett — és gyakorlatilag eltűnt. Most teljes szélességű,
+elkülönített sávot kap.
+
+### A három csempe súlya azonos — szándékosan
+
+Kézenfekvő lenne kiemelni azt, amit a cég árul. A szekció **egész érve viszont az,
+hogy „nem ugyanazt végzik"** — egy vizuálisan megnyert összehasonlítás pont ezt az
+érvet gyengítené. A figyelem a sávtól és a gombtól jön, nem a mérleg elbillentésétől.
+
+### Az ikonok a táblázat fejlécéből jönnek
+
+`icon-zart-tarolo`, `icon-oldomedence`, `icon-biologiai` — ugyanaz a három
+rajzolat, mint a fölötte álló *Gyors összehasonlítás* tábla oszlopfejléceiben. A
+kettő így egy dologról beszél, nem két külön vizuális nyelven.
+
+Az ikon **tányéron ül** (80×80 px kör, `--badge-lg-size`), maga a rajzolat 48 px:
+vonalas ikon világos felületen tányér nélkül lebegne. A művelet — *gyűjt · ülepít ·
+tisztít* — pill alakú címke, mert ez az egyetlen szó, ami a hármat megkülönbözteti.
+
+### Mozgás: görgetésvezérelt, két lépcsőben
+
+```css
+@supports (animation-timeline: view()){ … }
+```
+
+A csempék balról jobbra épülnek fel, a lépcsőzést a **sorrend adja**
+(`:nth-child`), nem `animation-delay` — görgetésvezérelt animációnál a
+késleltetés nem értelmezhető. Ugyanaz a szabály, mint a szippantási térkép
+csempéinél (20. fejezet).
+
+A tányér egy hajszállal a csempe **után** ér a helyére: a szem így előbb a
+kártyát látja meg, aztán az ikont — nem egyszerre mindent.
+
+Ráálláskor a **sáv egészben válaszol** (minden csempe keretet vált), a megérintett
+csempe pedig kiemelkedik belőle, és az ikonja márkaszínű tányért kap. Az egész
+blokk egy hívás, nem három külön ajánlat.
+
+`prefers-reduced-motion` esetén a görgetésvezérelt rész elmarad; a ráállás
+átmenetei megmaradnak, mert azok nem önjáró mozgások.
+
+### Mobilon egymás alá
+
+360 képpontos kijelzőn három csempe 80 képpont széles lenne, és a felirat
+kettétörne — 640 px alatt egy hasáb.

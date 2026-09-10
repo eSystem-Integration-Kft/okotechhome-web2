@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.11.00-80A640?style=flat-square" alt="verzió 0.11.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.12.00-80A640?style=flat-square" alt="verzió 0.12.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-11-56642B?style=flat-square" alt="11 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-12-56642B?style=flat-square" alt="12 kiadás">
 </p>
 
 ---
@@ -26,6 +26,74 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.12.00] — 2026-09-10
+
+**Négy helyzet-oldal a kapott szövegekkel, és egy figyelemterelő sáv a
+főoldalon.** A *Helyzetem* ág négy lapja újraépült — telekvásárlás, családi ház,
+nyaraló, vállalkozás —, a technológia-szekció alján pedig új átvezető blokk áll.
+
+### Hozzáadva — `.tech-hivas` átvezető sáv a főoldalon
+
+**A gomb eddig eltűnt.** A részletes összehasonlításra mutató hivatkozás a
+kéthasábos szekcióalj bal oldalán ült, a jobb hasáb hosszabb szövege mellett.
+Most teljes szélességű, elkülönített sáv: három ikonos csempe (*gyűjt · ülepít ·
+tisztít*) és alattuk a gomb.
+
+- **Az ikonok a fölötte álló tábla fejlécéből jönnek** — ugyanaz a három
+  rajzolat, tehát a kettő egy dologról beszél. 48 px-es ikon 80 px-es tányéron:
+  a vonalas rajzolat világos felületen tányér nélkül lebegne.
+- **Görgetésvezérelt belépés** (`animation-timeline: view()`), balról jobbra; a
+  lépcsőzést a sorrend adja, nem `animation-delay` — görgetésvezérelt
+  animációnál az nem értelmezhető. A tányér egy hajszállal a csempe után ér a
+  helyére.
+- **A három csempe súlya azonos.** Kézenfekvő lenne kiemelni, amit a cég árul,
+  de a szekció egész érve az, hogy „nem ugyanazt végzik" — egy vizuálisan
+  megnyert összehasonlítás pont ezt gyengítené.
+
+**A gomb célja döglött link volt.** A `tudastar/technologiak-osszehasonlitasa`
+lap nem létezik, és soha nem is létezett — a főoldalról egy 404-re mutattunk.
+Mostantól a `0.10.00`-ban megépült
+`tudastar/oldomedence-vagy-biologiai-szennyviztisztito` cikkre visz, amelynek
+első szakasza éppen a három jogi kategóriát választja szét.
+
+### Módosítva — négy helyzet-oldal
+
+| Lap | Mi került bele |
+|---|---|
+| **Telekvásárlás, új építés** | a 147/2010 szerinti korlát, a HÉSZ-ellenőrzés menete, a bekötési költség mint a telekárhoz adandó tétel, két ügyfél esete (elutasított engedély, ~évi 700 000 Ft zárt tárolóval, végül telekeladás), négypontos ellenőrzőlista |
+| **Családi ház** | a méretezés alapja: **135 l/fő/nap**, négyfősre 540 l/nap, **6 LE** a legkisebb, **30%** időszakos túlterhelés; áram **1000–1500 Ft/hó** |
+| **Nyaraló, szezonális** | miért számít a terhelés ritmusa, téliesítés vagy időszakos tápanyag, a tisztítómező **2–3-szoros** helyigénye, 72/1996 + 500 m³/év alatt a jegyző |
+| **Vállalkozás, intézmény** | a **50 LE** határ a két termékvonal között, Bakonypéterd 4×50 fő = 200 fő, VITUKI-értékek táblában, CE/EN 12566-3 + ISO 9001, **2 év** jótállás és **15 év** tartálygarancia, nyolclépéses projektmenet, öt intézményi referencia |
+
+**Egy független vizsgálat is felkerült.** A családi ház lapon: egy magyar
+családi házban működő Ökotech-Home berendezésről a *Science of the Total
+Environment* közölt tanulmányt 2021-ben (Knisz J., Shetty P., Wirth R.,
+Maróti G. és társaik, 766. kötet). A lap **nem szépíti**: a mért értékek a
+határértékek alatt maradtak, de rosszabbak voltak a gyártói jellemző
+értékeknél, és a tanulmány szerint a tulajdonos a heti ellenőrzés helyett
+havonta nézte meg a rendszert. Ez így hitelesebb, mint egy idealizált
+laboradat — és pontosan azt támasztja alá, amit a karbantartási szerződésről
+mondunk.
+
+### Két dolog, amit nem vettünk át szó szerint
+
+- **A kapott szövegben egy mondat sérülten érkezett** („Ezt gyorsabb megnézni,
+  mint k senki, hogy minden kérdést előre megoldjon"). Nem találgattuk ki a
+  hiányzó részt: a mondat a szándéka szerint íródott újra, és ezt itt jelezzük.
+- **Az SEO-cím „1 főtől 750 főig" felső határa** sem a lap szövegében, sem
+  máshol a webhelyen nem szerepel — az A.B. Clear 6–50 LE, fölötte
+  „projekt-specifikus méretezés". A címet meghagytuk, de a lap `ADATHIÁNY`
+  jelölése rögzíti: vagy a telepek felső kapacitáshatárát kell megadni, vagy a
+  címet igazítani. Alátámasztás nélküli szám a találati címben nem marad úgy,
+  hogy senki ne tudjon róla.
+
+### Módosítva — bekötés és index
+
+`app.css?v=208` mind a 130 lapon. Öko indexe: **129 lap, 823 szakasz,
+1000 szövegrészlet**.
 
 ---
 

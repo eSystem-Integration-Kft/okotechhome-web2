@@ -8041,6 +8041,57 @@
   }
   .sugo-buborek-jog strong{color:var(--tipp-text)}
 
+  /* --- átvezetés a technológia-összehasonlításra --------------------------
+     A gomb korábban a kéthasábos szekcióalj bal oldalán ült, és a jobb hasáb
+     hosszabb szövege mellett elveszett. Itt teljes szélességű, elkülönített
+     sávot kap, három azonos súlyú csempével — a táblázat fejlécének
+     ikonjaival, hogy a kettő ugyanarról beszéljen. */
+  .tech-hivas{
+    margin-top:var(--space-32);
+    padding:var(--space-32) var(--space-24);
+    display:grid;justify-items:center;gap:var(--space-24);
+    text-align:center;
+    background:var(--surface-muted);
+    border:1px solid var(--border);
+    border-radius:var(--panel-radius);
+  }
+  .tech-hivas-fej{display:grid;justify-items:center;gap:var(--space-8);max-width:52ch}
+  .tech-hivas-eyebrow{color:var(--text-tertiary)}
+  .tech-hivas-cim{color:var(--text-primary)}
+  .tech-hivas-lead{color:var(--text-secondary)}
+  .tech-hivas-sor{
+    list-style:none;margin:0;padding:0;width:100%;max-width:46rem;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-16);
+  }
+  .tech-hivas-elem{
+    display:grid;justify-items:center;align-content:start;gap:var(--space-16);
+    padding:var(--space-24) var(--space-16);
+    background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--card-radius);
+  }
+  /* Az ikon TÁNYÉRON ül: a rajzolat vonalas és világos felületen önmagában
+     lebegne. A kör a designrendszer `.icon-badge` mintája, de saját méretben,
+     mert itt az ikon a csempe főszereplője, nem kísérő jel. */
+  .tech-hivas-ikon{
+    display:grid;place-items:center;
+    width:var(--badge-lg-size);height:var(--badge-lg-size);
+    border-radius:50%;
+    background:var(--surface-muted);
+    color:var(--text-secondary);
+  }
+  /* Az `.icon` alapból --icon-size (48px) magas; a tányérhoz kötjük. */
+  .tech-hivas-ikon .icon{height:var(--space-48)}
+  .tech-hivas-nev{color:var(--text-primary)}
+  /* A művelet (gyűjt / ülepít / tisztít) az egyetlen szó, ami a hármat
+     megkülönbözteti — címkeként áll, nem futó szövegként. */
+  .tech-hivas-mit{
+    color:var(--text-secondary);
+    padding:var(--space-4) var(--space-16);
+    border-radius:999px;
+    background:var(--surface-muted);
+  }
+  .tech-hivas-akcio{align-self:center}
+
   /* --- fájlmelléklet -------------------------------------------------------
      KÉT ÁLLAPOT, EGY VEZÉRLŐ. Alul a natív mező (`.urlap-fajl`): ez a JS
      NÉLKÜLI kép, és önmagában is használható. Ha a `urlap-fajl.js` lefut,
@@ -8208,6 +8259,10 @@
 
 @layer responsive {
   @media (max-width:640px){
+    /* Három csempe 360 képpontos kijelzőn 80 képpont széles lenne — a
+       felirat kettétörne. Kettő+egy elrendezés helyett egymás alá. */
+    .tech-hivas{padding:var(--space-24) var(--space-16)}
+    .tech-hivas-sor{grid-template-columns:minmax(0,1fr)}
     .dok{padding:var(--space-16);border-radius:var(--r-md)}
     .dok-racs{grid-template-columns:minmax(0,1fr)}
     .dok-alairas{grid-template-columns:minmax(0,1fr);gap:var(--space-24)}
@@ -8240,4 +8295,59 @@
   .urlap-input,.dok-opcio{border-color:#888}
   .urlap-akcio,.urlap-valasz,.urlap-csapda{display:none !important}
   a[href]::after{content:''}
+}
+
+@layer motion {
+  /* A három csempe a görgetéssel épül fel, balról jobbra. A lépcsőzést a
+     sorrend adja (`:nth-child`), nem `animation-delay`: görgetésvezérelt
+     animációnál a késleltetés nem értelmezhető — ugyanaz a szabály, mint a
+     szippantási térkép csempéinél. */
+  @supports (animation-timeline: view()){
+    @media (prefers-reduced-motion:no-preference){
+      .tech-hivas-elem{
+        animation:tech-hivas-be linear both;
+        animation-timeline:view();
+      }
+      .tech-hivas-elem:nth-child(1){animation-range:entry 8% entry 52%}
+      .tech-hivas-elem:nth-child(2){animation-range:entry 16% entry 60%}
+      .tech-hivas-elem:nth-child(3){animation-range:entry 24% entry 68%}
+      @keyframes tech-hivas-be{
+        from{opacity:0;translate:0 var(--space-24);scale:.94}
+        to{opacity:1;translate:none;scale:1}
+      }
+      /* A tányér egy hajszállal a csempe után ér a helyére: a szem így előbb
+         a kártyát látja meg, aztán az ikont — nem egyszerre mindent. */
+      .tech-hivas-ikon{
+        animation:tech-hivas-tanyer linear both;
+        animation-timeline:view();
+        animation-range:entry 18% entry 72%;
+      }
+      @keyframes tech-hivas-tanyer{
+        from{scale:.7;opacity:.4}
+        to{scale:1;opacity:1}
+      }
+    }
+  }
+
+  /* Ráállás: a sáv egészben válaszol — az egész blokk egy hívás, nem három
+     külön ajánlat. A megérintett csempe emelkedik ki belőle. */
+  .tech-hivas-elem{
+    transition:transform var(--dur-ui) var(--ease-out),
+               border-color var(--dur-ui) var(--ease-out),
+               box-shadow var(--dur-ui) var(--ease-out);
+  }
+  .tech-hivas-ikon{
+    transition:color var(--dur-ui) var(--ease-out),
+               background var(--dur-ui) var(--ease-out),
+               transform var(--dur-ui) var(--ease-out);
+  }
+  .tech-hivas:hover .tech-hivas-elem{border-color:var(--primary)}
+  .tech-hivas:hover .tech-hivas-ikon{color:var(--primary)}
+  .tech-hivas-elem:hover{transform:translateY(-4px);box-shadow:var(--shadow-2)}
+  .tech-hivas-elem:hover .tech-hivas-ikon{
+    background:var(--primary);color:var(--on-primary);transform:scale(1.06);
+  }
+  /* A gomb nyila előrelép — a lap többi CTA-ja is így viselkedik. */
+  .tech-hivas-akcio .action-arrow{transition:translate var(--dur-fast) var(--ease-out)}
+  .tech-hivas-akcio:hover .action-arrow{translate:var(--space-4) 0}
 }
