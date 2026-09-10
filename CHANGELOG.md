@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.10.00-80A640?style=flat-square" alt="verzió 0.10.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.11.00-80A640?style=flat-square" alt="verzió 0.11.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-10-56642B?style=flat-square" alt="10 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-11-56642B?style=flat-square" alt="11 kiadás">
 </p>
 
 ---
@@ -26,6 +26,64 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.11.00] — 2026-09-10
+
+**Három képcsere és az emésztő-kiváltás lap.** A főoldali Megoldásaink két
+kártyája és az üzemek-lap fejlécképe új felvételt kapott, az emésztő tartály
+kiváltása pedig a kapott szöveggel épült újra — benne azzal a költségtáblával,
+amit a lap `ADATHIÁNY` jelölése két hónapja kért.
+
+### Módosítva — három kép
+
+| Hol | Eddig | Mostantól |
+|---|---|---|
+| Főoldal · 1. kártya | `megoldas-ab-clear.webp` | **A.B. Clear metszete** — ülepítő tér, buborékoltatott levegőztetett kamra, tisztított vizes zóna. A forrás arány pontosan 450×600, tehát vágás nélkül illeszkedik |
+| Főoldal · 2. kártya | `megoldas-telepek.webp` 600×400 | **Telep-metszet a földben** — három sorba kötött tartály, kompresszor és vezérlőszekrény a felszínen. 600×338 (16:9), a `card-media` `object-fit:contain` miatt vágás nélkül fér be |
+| Üzemek és speciális terhelések · fejléckép | élelmiszeripari csarnok rozsdamentes tartályokkal | **ipari park irodájából nyíló kilátás**: aknafedlapok a gyepben, szellőzőcső, vezérlőszekrény |
+
+**Két dolog, ami könnyen kimaradt volna.** A `hero-uzem` képet **két lap**
+használja — a `specialis-vagy-ipari-szennyviz` is —, ezért ott is emelni kellett
+a cache-bustert (`?v=2` → `?v=3`) **és** cserélni az `alt` szöveget: a régi
+leírás („élelmiszeripari üzem csarnoka") már egy másik képet írt volna le, ami
+hozzáférhetőségi hiba. A két kártyaképnek eddig **nem volt cache-bustere**;
+mostantól `?v=2`, különben a visszatérő látogatók a régi képet látnák — a
+`.htaccess` egy évet ad a statikus fájloknak.
+
+A fejlécképnél a forrás 1672×941, a hely 1800×764: felülről-alulról vágtunk,
+hogy a gyepben álló tartálysor maradjon és az előtéri íróasztal ne. A szűk
+(mobil) változat oldalt vág, a vezérlőszekrényt megtartva.
+
+### Módosítva — `/helyzetem/meglevo-emesztot-szeretnek-kivaltani` újraépült
+
+Az ügyféltől kapott szöveggel, a megadott SEO-adatokkal (fókusz kulcsszó:
+*emésztő tartály*). A lap eddig a döntési szempontokat sorolta; most **számol**.
+
+- **A jelenlegi megoldás ára** — a szippantáson túl a szagtalanító, a dugulás,
+  és a **talajterhelési díj**, amiről a lap kimondja, hogy *nem mindenkire*
+  vonatkozik: a 2003. évi LXXXIX. törvény a kötelezettséget ahhoz köti, hogy a
+  közcsatorna műszakilag rendelkezésre áll-e és rákötöttek-e.
+- **Öt és tíz év:** 35 000 Ft × évi 8 alkalom = 280 000 Ft/év, 1 400 000 / öt év,
+  2 800 000 / tíz év. A `[SZIPPANTÁSI KALKULÁTOR HELYE]` jelölés helyére a
+  meglévő `/szippantasi-dij-kalkulator` került — nem kellett új modul.
+- **Háromoszlopos fogalomtábla** a `[táblázat]` jelölés helyén: zárt tároló /
+  oldómedence / biológiai, öt szempont szerint.
+- **Az üzemeltetés tételesen:** 50 W kompresszor, 438 kWh/év folyamatos üzemben,
+  ~307 kWh a 7/3 perces módban, iszapzsák ≤1 200 Ft/év, membráncsere 3–4 évente
+  ~10 500 Ft/év évesítve — összesen **22 700–27 500 Ft/év**.
+- **Jogszabályi háttér** öt tétellel, a 147/2010. **24–27. §** megjelölésével.
+
+**A lap ADATHIÁNY jelölése nagyrészt feloldódott.** A korábbi kérés
+(„kompresszor energiafogyasztás W, iszapürítési gyakoriság, szippantási
+átlagdíj") két elemét a szöveg megadja. A **szippantási átlagdíj szándékosan
+kimarad**: régiónként jelentősen eltér, ezért a lap a látogató saját számlájára
+és a díjkalkulátorra irányít — ez pontosabb minden országos átlagnál. Nyitva
+maradt: a membráncsere 3–4 éves ciklusa valós szervizadatból, és a negyedéves
+karbantartási szerződés díja.
+
+**Öko indexe:** 129 lap, 817 szakasz, 992 szövegrészlet.
 
 ---
 
