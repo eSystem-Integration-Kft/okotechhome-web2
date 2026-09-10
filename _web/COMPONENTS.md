@@ -1926,11 +1926,11 @@ Az érték a **markupból** jön, hogy hangoláshoz ne kelljen szkriptet nyitni:
 
 ```html
 <figure data-hero-video
-        data-video-sebesseg="0.7"
+        data-video-sebesseg="0.85"
         data-video-webm="…" data-video-mp4="…">
 ```
 
-Jelenlegi érték `0.7` (a felvétel ~43%-kal hosszabban fut). A `site.js` **0,5 és 1,5
+Jelenlegi érték `0.85` (a felvétel ~18%-kal hosszabban fut). A `site.js` **0,5 és 1,5
 közé szorítja**: 0,5 alatt a böngésző ugyanazt a képkockát tartja ki hosszan, és
 a folyamatos mozgás akadozásba vált át.
 

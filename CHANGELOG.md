@@ -5,7 +5,7 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.23.00-80A640?style=flat-square" alt="verzió 0.23.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.23.01-80A640?style=flat-square" alt="verzió 0.23.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
   <img src="https://img.shields.io/badge/kiad%C3%A1sok-23-56642B?style=flat-square" alt="23 kiadás">
@@ -28,6 +28,17 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.23.01] — 2026-09-10
+
+### Módosítva — hero videó lassítása 0,7 → 0,85
+
+Bela kérésére. A felvétel így ~18%-kal fut hosszabban az eredetinél (a 0,7
+~43%-ot jelentett), a teljes ciklus **9,5 másodperc**. Bőven a `site.js`
+biztonságos tartományában (0,5–1,5).
+
+Egyetlen szám az `index.html`-ben — pontosan ezért él a markupban:
+`data-video-sebesseg`. Dokumentálva: `_web/COMPONENTS.md` 26.
 
 ## [0.23.00] — 2026-09-10
 
