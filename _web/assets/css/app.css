@@ -1832,6 +1832,12 @@
   /* A felvétel eleve banner-arányú és a megoldás a jobb kétharmadban áll,
      ezért nincs függőleges kivágás — a kép teljes egészében látszik. */
   .page-hero-media img{object-position:center}
+  /* A fejlécsáv SZÉLESEBB, mint a kép aránya (jellemzően 3,1:1 a kép
+     2,36:1-éhez), ezért a `cover` fölül-alul egyenlően vág. Ahol a téma a
+     kép ALSÓ felében ül — földbe helyezett tartály, munkagödör —, ott a
+     középre igazítás pont a lényeget vágja le, és csak a gyep meg az ég
+     marad. Ez a módosító a kép alját tartja meg. */
+  .page-hero-media-alul img{object-position:center bottom}
   /* A folt közepe feljebb ül, mint a főoldalon: itt rövidebb a szövegblokk. */
   .page-hero-media::after{--hero-veil-y:calc(var(--space-96) + var(--space-32))}
 

@@ -466,7 +466,7 @@ def epit_felmeres():
     ]
 
 
-CRUMB = [('Főoldal', '../'), ('Helyzetem', './'),
+CRUMB = [('Főoldal', '../'), ('Kiindulópont', './'),
          ('Telekvásárlás vagy új építés', 'telekvasarlas-vagy-uj-epites-elott-allok')]
 
 OLDALAK = [

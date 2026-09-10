@@ -23,7 +23,7 @@ import pathlib, re
 WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
 
 HASABOK = [
-    ('Helyzetem', 'helyzetem/', [
+    ('Kiindulópont', 'helyzetem/', [
         ('Nincs elérhető közcsatorna', 'helyzetem/nincs-elerheto-kozcsatorna'),
         ('Telekvásárlás, új építés', 'helyzetem/telekvasarlas-vagy-uj-epites-elott-allok'),
         ('Emésztő kiváltása', 'helyzetem/meglevo-emesztot-szeretnek-kivaltani'),

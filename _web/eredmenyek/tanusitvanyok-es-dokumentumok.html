@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=208">
+<link rel="stylesheet" href="../assets/css/app.css?v=209">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
@@ -97,12 +97,12 @@
           <li class="nav-item">
             <button type="button" class="nav-link nav-trigger type-ui-nav"
                     aria-expanded="false" aria-controls="mega-helyzetem">
-              Helyzetem
+              Kiindulópont
             </button>
             <div class="mega" id="mega-helyzetem" hidden>
               <div class="mega-inner">
                 <div class="mega-fej">
-                  <p class="type-data-eyebrow mega-eyebrow">Helyzetem</p>
+                  <p class="type-data-eyebrow mega-eyebrow">Kiindulópont</p>
                   <a class="text-link mega-attekintes" href="../helyzetem/"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
                 </div>
                 <ul class="mega-oszlopok" role="list">
@@ -407,6 +407,9 @@
                   <li class="mega-oszlop">
                     <a class="mega-link" href="../eredmenyek/ugyfeltapasztalatok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-velemeny"></span></span><span class="mega-label type-ui-body">Ügyféltapasztalatok</span></a>
                   </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../okotech-home/palyazatok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-bizonyitek"></span></span><span class="mega-label type-ui-body">Pályázatok</span></a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -526,6 +529,44 @@
     </div>
   </section>
 
+  <section class="section" aria-labelledby="szabadalom-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Iparjogvédelem</p>
+        <h2 class="type-display-section-title section-title" id="szabadalom-cim">Európai szabadalom — EP 2766313</h2>
+      </header>
+      <p class="type-ui-body section-lead section-lead-wide">Az <a href="../megoldasok/ab-clear-iszapzsakos-technologia">iszapzsákos technológiára</a> a nemzetközi eljárást követően <strong>európai szabadalmat</strong> adott ki az Európai Szabadalmi Hivatal. Itt az okirat — számmal, jogosultakkal és kiadási dátummal.</p>
+
+      <div class="compare-scroll" role="region" aria-labelledby="szabadalom-cim" tabindex="0">
+        <table class="compare-table">
+          <tbody>
+          <tr><th scope="row" class="type-ui-subtitle">Okirat</th>
+            <td class="type-ui-subtitle">Európai szabadalom megadásáról szóló okirat (Urkunde · Certificate · Certificat)</td></tr>
+          <tr><th scope="row" class="type-ui-subtitle">Európai szabadalom száma</th>
+            <td class="type-ui-subtitle">EP 2766313</td></tr>
+          <tr><th scope="row" class="type-ui-subtitle">Jogosultak</th>
+            <td class="type-ui-subtitle">Schuster Péter és Krasznói Anna · 2500 Esztergom, Döbönkút dűlő 10282/5</td></tr>
+          <tr><th scope="row" class="type-ui-subtitle">Kiállító</th>
+            <td class="type-ui-subtitle">Európai Szabadalmi Hivatal (European Patent Office), München</td></tr>
+          <tr><th scope="row" class="type-ui-subtitle">Aláíró</th>
+            <td class="type-ui-subtitle">Benoît Battistelli, az Európai Szabadalmi Hivatal elnöke</td></tr>
+          <tr><th scope="row" class="type-ui-subtitle">Kiadás</th>
+            <td class="type-ui-subtitle">München, 2016. 07. 27.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="type-ui-body">
+        <a class="btn btn-primary" href="../assets/dok/okotechhome-ep-2766313-szabadalom.pdf?v=1" download>
+          <span class="action-arrow" aria-hidden="true">&darr;</span>Szabadalmi okirat letöltése (PDF, 533 KB)</a>
+      </p>
+
+      <p class="type-ui-caption section-note">A szabadalom <strong>jogosultjai magánszemélyek</strong> — a berendezést gyártó ÖkoTech-Home Kft. alapítói —, nem maga a társaság. Ezt azért írjuk ki, mert a szabadalmi nyilvántartásban is így szerepel, és így ellenőrizhető. Az <strong>EP 2766313</strong> szám alapján az Európai Szabadalmi Hivatal nyilvános adatbázisában (Espacenet) bárki visszakeresheti.</p>
+
+      <p class="type-ui-caption section-note">Az európai szabadalom <strong>nem egyetlen, egész Európára szóló oltalom</strong>: a megadás után országonként kell hatályosítani. A magyar, valamint az egyéb nemzeti eljárások aktuális státusza még nem szerepel itt — lásd lentebb.</p>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="ellenorzes-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
@@ -557,8 +598,8 @@
           <p class="type-ui-body card-text">A berendezések akkreditált laboratóriumi vizsgálat alapján viselik a CE-jelölést. A teljesítménynyilatkozatot és a vizsgálati jegyzőkönyvet <strong>kérésre megküldjük</strong>; a közvetlen letöltés előkészítés alatt áll.</p>
         </li>
         <li class="card">
-          <h3 class="type-ui-card-title">Szabadalmi dokumentumok</h3>
-          <p class="type-ui-body card-text">Az iszapzsákos technológia szabadalmi oltalom alatt áll, a hazai mellett európai igénnyel. A szabadalmi azonosítókat és az országonkénti státuszt itt tesszük majd elérhetővé.</p>
+          <h3 class="type-ui-card-title">A szabadalom országonkénti státusza</h3>
+          <p class="type-ui-body card-text">Az <a href="#szabadalom-cim">európai szabadalmi okirat (EP 2766313)</a> fentebb letölthető. Az európai szabadalmat a megadás után <strong>országonként kell hatályosítani</strong>; a magyar és az egyéb nemzeti eljárások aktuális státusza még nem szerepel itt.</p>
         </li>
         <li class="card">
           <h3 class="type-ui-card-title">Construma Nagydíj, 2014</h3>
@@ -618,7 +659,7 @@
 
       <nav class="lablec-hasab" aria-labelledby="lf-helyzetem">
         <h2 class="type-data-eyebrow lablec-cim" id="lf-helyzetem">
-          <a class="lablec-cim-link" href="../helyzetem/">Helyzetem</a>
+          <a class="lablec-cim-link" href="../helyzetem/">Kiindulópont</a>
         </h2>
         <ul class="lablec-lista" role="list">
           <li><a class="lablec-link" href="../helyzetem/nincs-elerheto-kozcsatorna">Nincs elérhető közcsatorna</a></li>

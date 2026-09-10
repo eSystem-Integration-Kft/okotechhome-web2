@@ -2223,3 +2223,26 @@ blokk egy hívás, nem három külön ajánlat.
 
 360 képpontos kijelzőn három csempe 80 képpont széles lenne, és a felirat
 kettétörne — 640 px alatt egy hasáb.
+
+---
+
+## 33. Fejléckép-kivágás módosító — `.page-hero-media-alul`
+
+A fejlécsáv **szélesebb**, mint a fejlécképek aránya: a sáv jellemzően 3,1:1, a
+kép 2,36:1. Az `object-fit:cover` ezért fölül-alul egyenlően vág, a
+`.page-hero-media img{object-position:center}` pedig középre igazít.
+
+Ahol a téma a kép **alsó felében** ül — földbe helyezett tartály, munkagödör —,
+ott a középre igazítás pont a lényeget vágja le, és csak a gyep meg az ég marad.
+Ez történt az *Oldómedence vagy biológiai?* cikk fejlécénél: a képen ott volt a
+tartály, a sávban mégsem látszott.
+
+```html
+<figure class="hero-media page-hero-media page-hero-media-alul">
+```
+
+A módosító a kép alját tartja meg (`object-position:center bottom`) — ugyanaz az
+érték, ami a főoldali `.hero-media`-nál alapból él.
+
+> **Új fejléckép beillesztésekor érdemes ellenőrizni**, hova esik a téma. Ha a
+> kép alsó harmadában, ez a módosító kell; ha középen, marad az alapértelmezés.

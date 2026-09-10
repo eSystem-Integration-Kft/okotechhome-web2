@@ -13,8 +13,8 @@ from sablon import (build, sec_numbered, sec_split, sec_prose,
 
 WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
 HOME = ('Főoldal', '../')
-HELY = ('Helyzetem', './')
-HELY_UP = ('Helyzetem', '../helyzetem/')
+HELY = ('Kiindulópont', './')
+HELY_UP = ('Kiindulópont', '../helyzetem/')
 
 PAGES = []
 

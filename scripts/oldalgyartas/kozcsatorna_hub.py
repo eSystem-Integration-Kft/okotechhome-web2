@@ -365,7 +365,7 @@ def epit_projektindito():
     ]
 
 
-CRUMB = [('Főoldal', '../'), ('Helyzetem', './'),
+CRUMB = [('Főoldal', '../'), ('Kiindulópont', './'),
          ('Nincs elérhető közcsatorna', 'nincs-elerheto-kozcsatorna')]
 
 OLDALAK = [

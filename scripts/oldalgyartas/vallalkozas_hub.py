@@ -45,7 +45,7 @@ def hiany(mi, honnan):
 
 
 HOME = ('Főoldal', '../')
-HELY = ('Helyzetem', './')
+HELY = ('Kiindulópont', './')
 CRUMB = [HOME, HELY]
 HUB = [HOME, HELY,
        ('Vállalkozás vagy intézmény', 'vallalkozas-vagy-intezmeny-szamara-keresek-megoldast')]

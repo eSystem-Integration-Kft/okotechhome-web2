@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.12.00-80A640?style=flat-square" alt="verzió 0.12.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.13.00-80A640?style=flat-square" alt="verzió 0.13.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-12-56642B?style=flat-square" alt="12 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-13-56642B?style=flat-square" alt="13 kiadás">
 </p>
 
 ---
@@ -26,6 +26,68 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.13.00] — 2026-09-10
+
+**A menü első pontja új nevet kapott, és két dokumentum bekerült a helyére.**
+A *Helyzetem* mostantól **Kiindulópont**; megérkezett az európai szabadalmi
+okirat és a GINOP-pályázat kötelező tájékoztatása.
+
+### Módosítva — `Helyzetem` → `Kiindulópont`
+
+Öt navigációs felületen, összesen **464 helyen**: főmenügomb (130), megapanel
+eyebrow (130), lábléc hasábcím (130), morzsamenü (37) és a morzsa JSON-LD
+párja (37).
+
+- **Az URL nem változott.** A `/helyzetem/` útvonalra 5909 hivatkozás mutat a
+  webhelyen; az átnevezés felirat, nem útvonal. Külső link, könyvjelző, keresői
+  találat mind érvényes marad.
+- **A generátorok adatai is átírva** (`fejlec.py`, `lablec.py`, `helyzetem.py`
+  és négy hub-szkript). Enélkül a következő futtatás visszaírta volna a régi
+  nevet mind a 130 lapra.
+- **Menet közben egy hiba is javult:** a morzsamenü JSON-LD-jében a *Helyzetem*
+  elem `item` mezője a **főoldalra** mutatott, nem a `/helyzetem/` szakaszra.
+  36 lapon javítva.
+
+### Hozzáadva — EP 2766313 szabadalmi okirat
+
+Az iszapzsákos technológia európai szabadalmának megadási okirata letölthető a
+`/eredmenyek/tanusitvanyok-es-dokumentumok` lapon, adattáblával: szám, jogosultak, kiállító, aláíró, dátum.
+
+**Amit a lap kimond:** a szabadalom **jogosultjai magánszemélyek** — Schuster
+Péter és Krasznói Anna, a cég alapítói —, nem maga a társaság. Ez így szerepel a
+szabadalmi nyilvántartásban, és így ellenőrizhető az Espacenet adatbázisában.
+Az sem marad el, hogy az európai szabadalmat a megadás után **országonként kell
+hatályosítani**, tehát önmagában nem egész Európára szóló oltalom.
+
+A lap „Amin dolgozunk" listájából a *Szabadalmi dokumentumok* kártya
+átfogalmazódott: az okirat megvan, a **nemzeti eljárások státusza** hiányzik.
+
+### Hozzáadva — `/okotech-home/palyazatok`
+
+A **GINOP-3.2.2-8-2-4-16-2017-01059** projekt kötelező tájékoztatása:
+kedvezményezett, azonosító, a fejlesztés tárgya, **3 523 776 Ft** szerződött
+támogatás, tervezett befejezés (2019. 11. 29.), és a projekt részletes
+bemutatása. Bekötve a *Rólunk* megapanelbe mind a 131 lapon.
+
+> A kapott szövegben a rendszer neve két alakban szerepelt (*StarSoft* a projekt
+> címében, *StartSoft* a leírásban). A projektcím szerinti **StarSoft** alakot
+> használtuk végig, és a „testrteszabás" elgépelés is javítva.
+
+### Javítva — a fejlécképről lemaradt a téma
+
+Az *Oldómedence vagy biológiai?* cikk fejlécében a tartály **rajta volt a képen,
+a sávban mégsem látszott**. Az ok nem a kép: a fejlécsáv 3,09:1, a kép 2,36:1,
+és az `object-position:center` fölül-alul egyenlően vág — a témát, ami a kép
+alsó felében ül, éppen levágta.
+
+Új, dokumentált módosító: **`.page-hero-media-alul`** (COMPONENTS.md 33.), ami a
+kép alját tartja meg. Ugyanaz az érték, ami a főoldali `.hero-media`-nál alapból
+él. Új fejléckép beillesztésekor érdemes ellenőrizni, hova esik a téma.
+
+`app.css?v=209`. Öko indexe: **130 lap, 827 szakasz, 1005 szövegrészlet**.
 
 ---
 

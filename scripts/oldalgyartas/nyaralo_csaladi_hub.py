@@ -602,7 +602,7 @@ def cs_keszultseg():
 
 NY = [('Nyaraló, szezonális', 'nyaralo-vagy-szezonalisan-hasznalt-ingatlan')]
 CS = [('Családi ház', 'csaladi-hazhoz-keresek-rendszert')]
-ALAP = [('Főoldal', '../'), ('Helyzetem', './')]
+ALAP = [('Főoldal', '../'), ('Kiindulópont', './')]
 
 OLDALAK = [
     ('mit-jelent-az-idoszakos-terheles', 'Mit jelent az időszakos terhelés?', 'nyaralo',

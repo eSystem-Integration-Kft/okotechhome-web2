@@ -422,7 +422,7 @@ def epit_brief():
     ]
 
 
-CRUMB = [('Főoldal', '../'), ('Helyzetem', './'),
+CRUMB = [('Főoldal', '../'), ('Kiindulópont', './'),
          ('Emésztő kiváltása', 'meglevo-emesztot-szeretnek-kivaltani')]
 
 OLDALAK = [

@@ -85,7 +85,7 @@ HASAB_TEMAK = {
 }
 # ---------------------------------------------------------------------------
 MENU = [
-    ('Helyzetem', 'helyzetem/', [
+    ('Kiindulópont', 'helyzetem/', [
         ('nav-kozcsatorna', 'Nincs közcsatorna',
          'helyzetem/nincs-elerheto-kozcsatorna', [
              ('Milyen megoldási lehetőségek vannak?', 'helyzetem/milyen-megoldasi-lehetosegek-vannak'),
