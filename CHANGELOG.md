@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.14.00-80A640?style=flat-square" alt="verzió 0.14.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.15.00-80A640?style=flat-square" alt="verzió 0.15.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-14-56642B?style=flat-square" alt="14 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-15-56642B?style=flat-square" alt="15 kiadás">
 </p>
 
 ---
@@ -26,6 +26,62 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.15.00] — 2026-09-10
+
+**Két tudástár-cikk a két leggyakoribb félelemről.** A tudástár öt élő cikkre
+nőtt; mindkét új lap olyan kérdésre válaszol, amit a látogató kimond, de a
+prospektusok elhallgatnak.
+
+### Hozzáadva — `/tudastar/budos-lesz-a-kertben`
+
+Az egyedi szennyvíztisztító iránt érdeklődők leggyakoribb kérdése. A lap nem
+azzal kezd, hogy „nem, dehogy" — hanem **szétválasztja** a normális működés
+jellegzetes szagát az üzemzavar jelétől:
+
+- **Felnyitva van szaga**, és ezt a lap kimondja: őszi avarra, nedves földre
+  emlékeztető, „földes" jellegű — a szakirodalom is így nevezi. Kertben viszont
+  normál működésnél nincs szaghatás.
+- **A szag diagnosztikai jel.** A megváltozott szag a biológiai folyamat
+  megváltozását jelzi, ezért nem elfedni kell, hanem megkeresni az okát.
+- **Négy tipikus ok** (levegőztetés, szokatlan terhelés, károsító anyag, tartós
+  tápanyaghiány) és **hét kérdés**, amit a tulajdonos maga is végig tud gondolni,
+  mielőtt hív valakit. Köztük az, ami sokakat meglep: <em>nem minden, a ház körül
+  érezhető szennyvízszag forrása maga a tisztítóberendezés.</em>
+- **Az oldómedence külön bekezdést kap**, mert ott a helyzet más: anaerob
+  folyamatok, és bizonyos légnyomási viszonyok mellett a szellőzőn át szeptikus
+  szag is érezhető. Ezt a lap nem szépíti.
+
+### Hozzáadva — `/tudastar/42-hetes-ce-vizsgalat`
+
+*„Egy családi ház nem laboratórium."* A cikk azt mutatja meg, **miért tart 42
+hétig** egy CE-vizsgálat: mert nem egyetlen jól sikerült mintát mérnek, hanem
+normál terhelést, alulterhelést, átmeneti túlterhelést, a terhelés ingadozását,
+áramkimaradást — és azt, hogy a rendszer utána **hogyan áll vissza**.
+
+Egy gyakori félreértést is eloszlat: biológiai szennyvíztisztító mellett **nem
+kell különleges „bio" tisztítószer**. A hagyományos háztartási szerek normál
+mennyiségben rendben vannak; a mérték számít, nem a címke.
+
+A cikk zárása egy kérdéssor, amit a látogató bármelyik gyártónak feltehet — nem
+csak azt, hogy hány főre készült a berendezés, hanem azt is, milyen hosszú,
+valós terheléseket modellező vizsgálaton vett részt.
+
+### Módosítva — a két cikk beköti a többit
+
+A szagos lap az áramszünetnél a CE-vizsgálatra mutat, a CE-lap a szagokra;
+mindkettő tovább az `EN 12566-1 vagy -3?` cikkre, a műszaki adatokra, a
+családi ház és a nyaraló lapjára. Megamenü és lábléc **134 lapon**.
+
+**Öko indexe: 133 lap, 854 szakasz, 1035 szövegrészlet.**
+
+### Szövegjavítás
+
+A kapott anyagban egy elgépelés („tossz esetben") és egy nyelvtanilag sérült
+mondat volt a szagokról szóló szakaszban; mindkettő a szándéka szerint íródott
+újra.
 
 ---
 
