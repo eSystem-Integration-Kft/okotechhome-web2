@@ -5,7 +5,7 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.24.00-80A640?style=flat-square" alt="verzió 0.24.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.24.01-80A640?style=flat-square" alt="verzió 0.24.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
   <img src="https://img.shields.io/badge/kiad%C3%A1sok-24-56642B?style=flat-square" alt="24 kiadás">
@@ -28,6 +28,31 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.24.01] — 2026-09-10
+
+### Javítva — a régi domain záró szabálya elnyelte volna az élő útvonalakat
+
+A 0.24.00-ban minden nem listázott `okotechhome.hu`-útvonal a **főoldalra**
+ment. Ez a régi WordPress-URL-ekre helyes, de rosszul sül el abban a
+forgatókönyvben, amit Bela leírt: a WordPress törlődik, és a régi domain
+**ugyanezt a webhelyet** kezdi kiszolgálni. Olyankor az
+`okotechhome.hu/megoldasok/ab-clear` egy **élő lap** címe — a főoldalra dobni
+hiba volna.
+
+A záró szabály ezért kétlépcsős lett: ha az útvonalhoz **létezik lap**, az
+azonos útvonalra megy az új domainen; csak ami tényleg nincs, az kerül a
+főoldalra.
+
+### Dokumentálva — a két domain ma két külön kiszolgálón van
+
+Mérve (2026-09-10): `okotechhome.hu` → `79.172.249.246` (nginx + WordPress),
+`okoth.hu` és a feltöltési cél → `81.0.107.145`. Az `okoth.hu` gyökere még
+**403**, mert a `/public_html` üres — az élesítésig ez rendben van.
+
+**Az átirányítás tehát csak akkor lép működésbe, ha az `okotechhome.hu` DNS-e
+átfordul a `81.0.107.145`-re.** Amíg a régi kiszolgálón marad, a szabályokat
+oda kell bemásolni. Rögzítve a `_web/README.md`-ben.
 
 ## [0.24.00] — 2026-09-10
 

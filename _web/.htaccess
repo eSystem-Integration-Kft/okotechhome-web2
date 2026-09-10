@@ -59,8 +59,19 @@ DirectoryIndex index.html
   RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
   RewriteRule ^kiknek/?$                                          https://okoth.hu/megoldasok/biologiai-szennyviztisztitas [R=301,L,NE]
 
-  # Ami a fenti listából KIMARADT, az a régi domain gyökerére megy — jobb a
-  # főoldal, mint egy 404. A sitemap többi régi URL-jét külön kell felmérni.
+  # Ami a fenti listából kimaradt, két lépcsőben dől el.
+  #
+  # 1) HA UGYANAZ AZ ÚTVONAL LÉTEZIK az új webhelyen, oda megy — nem a
+  #    főoldalra. Ez akkor számít, amikor a régi domain már EZT a webhelyet
+  #    szolgálja ki: olyankor az `okotechhome.hu/megoldasok/ab-clear` egy
+  #    ÉLŐ lap címe, és bűn volna a főoldalra dobni.
+  RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^(.+?)/?$ https://okoth.hu/$1 [R=301,L,NE]
+
+  # 2) Minden más a főoldalra — jobb, mint a 404. A régi sitemap többi URL-jét
+  #    külön kell felmérni; addig ez a háló.
   RewriteCond %{HTTP_HOST} ^(www\.)?okotechhome\.hu$ [NC]
   RewriteRule ^(.*)$ https://okoth.hu/ [R=301,L,NE]
 

@@ -44,9 +44,31 @@ kampány leállhat. Ezért a `.htaccess` *RÉGI DOMAIN → ÚJ DOMAIN* blokkján
 A lekérdezőstringet (`?gclid=…`) az Apache alapból hozzáfűzi, tehát az Ads
 kattintáskövetése nem sérül.
 
-**A lista 13 útvonalat fed le** (2026-09-10-i átadás). Ami nincs benne, azt a
-záró szabály a **főoldalra** viszi — jobb, mint a 404, de a régi sitemap többi
-URL-jét külön fel kell mérni.
+**A lista 13 útvonalat fed le** (2026-09-10-i átadás). Ami nincs benne, az két
+lépcsőben dől el:
+
+1. **ha ugyanaz az útvonal létezik az új webhelyen**, oda megy (nem a
+   főoldalra) — ez akkor számít, amikor a régi domain már ezt a webhelyet
+   szolgálja ki, és az `okotechhome.hu/megoldasok/ab-clear` egy **élő lap**
+   címe;
+2. minden más a **főoldalra** — jobb, mint a 404. A régi sitemap többi URL-jét
+   külön fel kell mérni; addig ez a háló.
+
+### A két domain ma két külön kiszolgálón van
+
+Mérés, 2026-09-10:
+
+| Domain | IP | Mi fut rajta |
+|---|---|---|
+| `okotechhome.hu`, `www.okotechhome.hu` | `79.172.249.246` | nginx + **WordPress** (a régi webhely) |
+| `okoth.hu`, `tst.okoth.hu`, `cullinan.versanus.eu` | `81.0.107.145` | ide tölt a `scripts/feltoltes.sh` |
+
+Az `okoth.hu` gyökere jelenleg **403** — a `/public_html` üres, csak a `_tst`
+alkönyvtár él benne. Ez az élesítésig rendben van.
+
+**Az átirányítás csak akkor lép működésbe, ha az `okotechhome.hu` DNS-e a
+`81.0.107.145`-re fordul.** Amíg a régi kiszolgálón marad, a szabályokat oda
+kell bemásolni.
 
 > **Az Adsben magát a végső URL-t is érdemes átírni.** Az átirányítás működik,
 > de a Google a céloldal és a megadott URL egyezését minőségi jelként kezeli, és
