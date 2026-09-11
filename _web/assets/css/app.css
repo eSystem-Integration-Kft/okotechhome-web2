@@ -9206,6 +9206,13 @@
     --suti-sav-bg:var(--panel-bg);
     --suti-sav-keret:var(--border-strong);
     --terkep-helyorzo-keret:var(--border-strong);
+    /* A VÉSETNEK ITT SAJÁT ERŐSSÉGE VAN. A megamenü értékei (`.085` mélyedés,
+       `.62` kiemelés) ott jók, ahol a rajz nagy és halvány háttérdísz. Ezen a
+       világos zöld sávon ugyanaz kimosódott fehér foltnak látszott, nem
+       belemart jelnek: a fehér kiemelés elnyomta a mélyedést. Itt fordítva
+       arányos — erősebb mélyedés, visszafogott kiemelés. */
+    --suti-veset-melyedes-alfa:.22;
+    --suti-veset-kiemeles-alfa:.18;
   }
   /* A KERETSZÍN TÉMAFÜGGŐ, a felület nem. A `--border-strong` primitívje
      (`oliveleaf`, #56642B) világos alapon jól látszik, a sötét téma sötét
@@ -9219,6 +9226,10 @@
     --suti-sav-bg:var(--surface-sunken);
     --suti-sav-keret:var(--text-secondary);
     --terkep-helyorzo-keret:var(--text-secondary);
+    /* Sötét témán a fény iránya nem változik, az arány viszont igen: a sötét
+       felületen a mélyedés kevésbé látszik, a kiemelés annál inkább. */
+    --suti-veset-melyedes-alfa:.34;
+    --suti-veset-kiemeles-alfa:.16;
   }
 }
 
@@ -9233,6 +9244,10 @@
     background:var(--suti-sav-bg);
     border:2px solid var(--suti-sav-keret);
     border-radius:var(--r-xl);
+    /* A VÉSET BEFOGLALÓJA ÉS VÁGÓJA. Az `isolation` kell ahhoz, hogy a
+       `z-index:-1` a kártya SAJÁT háttere fölé kerüljön (különben eltűnne
+       alatta), az `overflow` pedig a sarkon túlnyúló részt vágja le. */
+    isolation:isolate;overflow:hidden;
     box-shadow:var(--shadow-3);
     padding:var(--space-24);
     /* Az `env()` a telefon alsó gesztussávja miatt kell: nélküle a gombok
@@ -9240,29 +9255,49 @@
     padding-bottom:calc(var(--space-24) + env(safe-area-inset-bottom,0px));
   }
   .suti-sav-doboz{
-    position:relative;isolation:isolate;
     max-width:var(--container-max);margin-inline:auto;
     display:flex;flex-wrap:wrap;align-items:center;
     gap:var(--space-16) var(--space-24);
   }
   /* A VÉSET — ugyanaz a jelrajz és ugyanaz a technika, mint a megamenüben
-     (5.12b): maszkkal rajzolva, hogy a szín tokenből jöjjön és témát váltson,
-     a mélyedés és a kiemelés pedig egy képponttal eltolva adja a belevésett
-     hatást. A süti-kérdés így nem idegen doboz a lapon, hanem a márkáé. */
-  .suti-sav-doboz::before,.suti-sav-doboz::after,
+     (5.12b): maszkkal rajzolva, hogy a szín tokenből jöjjön és témát váltson.
+     A mélyedés a helyén marad, a kiemelés egy képponttal jobbra-lefelé tolva
+     ül rajta — a fény balról-fentről esik, tehát az árnyék a bal felső, a
+     csillanás a jobb alsó peremre kerül: ettől MÉLYEDÉSNEK látszik, nem
+     kiemelkedésnek.
+     A süti-kérdés így nem idegen doboz a lapon, hanem a márkáé.
+     A BAL ALSÓ SAROKBAN ÜL, kilógva, és a kártya lekerekítése elvágja —
+     ettől lesz a lapba MART jel, nem ráhelyezett matrica. Kilógva nem nő a
+     kigörgethető terület sem: a kártya `overflow:hidden`. */
+  .suti-sav::before,.suti-sav::after,
   .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{
     content:'';position:absolute;z-index:-1;pointer-events:none;
-    right:0;bottom:0;
-    width:clamp(6rem,16%,9rem);aspect-ratio:387.49 / 289.93;
+    width:clamp(5rem,11%,7.5rem);aspect-ratio:387.49 / 289.93;
     -webkit-mask:var(--veset-jel) no-repeat center/contain;
             mask:var(--veset-jel) no-repeat center/contain;
   }
-  .suti-sav-doboz::before,
-  .suti-parbeszed-urlap::before{background:var(--veset-melyedes);opacity:var(--veset-melyedes-alfa)}
-  .suti-sav-doboz::after,
+  /* A SÁVON KILÓG a sarkon, és a kártya lekerekítése vágja el — ettől lesz
+     belemart jel, nem ráhelyezett matrica. Kilógva sem nő a kigörgethető
+     terület: a kártya `overflow:hidden`. */
+  .suti-sav::before,.suti-sav::after{left:-1.25rem;bottom:-1.75rem}
+  /* A PÁRBESZÉDBEN BENT MARAD. Annak a doboznak `overflow:auto`-ja van (a
+     magasságkorlát miatt), és ott egy negatív pozíciójú elem GÖRGETHETŐ
+     TERÜLETET csinálna — a megamenünél ezt egyszer már megjártuk: minden
+     panel görgethető lett tőle, Windowson két állandó szürke sávval. */
+  .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{left:0;bottom:0}
+  .suti-sav::before,
+  .suti-parbeszed-urlap::before{
+    background:var(--veset-melyedes);opacity:var(--suti-veset-melyedes-alfa);
+  }
+  .suti-sav::after,
   .suti-parbeszed-urlap::after{
-    background:var(--veset-kiemeles);opacity:var(--veset-kiemeles-alfa);
-    translate:1px 1px;
+    background:var(--veset-kiemeles);opacity:var(--suti-veset-kiemeles-alfa);
+    /* KÉT KÉPPONT, nem egy. A jelrajz TÖMÖR sziluett: egy képpontnyi eltolás
+       mellett a felső réteg egyszerűen letakarja az alsót, és az egészből
+       csak egy fehér folt látszik — a véset hatása elvész. Két képponttal a
+       jobb alsó peremen kilóg a csillanás, a bal felsőn megmarad az árnyék,
+       és a szem ebből olvassa ki a mélyedést. */
+    translate:2px 2px;
   }
   .suti-sav-szoveg{flex:1 1 22rem;min-width:0;display:grid;gap:var(--space-4)}
   .suti-sav-szoveg p{margin:0;color:var(--text-secondary)}
@@ -9371,7 +9406,7 @@
       padding:var(--space-16);
       padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
     }
-    .suti-sav-doboz::before,.suti-sav-doboz::after{display:none}
+    .suti-sav::before,.suti-sav::after{display:none}
     /* Keskenyen a szöveg fölé kerülnek a gombok egy oszlopban — a sorban
        maradó három gomb ekkora szélességen egyenként 6rem alá esne. */
     .suti-sav-gombok{flex:1 1 100%}
