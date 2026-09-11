@@ -142,10 +142,23 @@ A `_web/api/` alatt **17 PHP-fájl** fut élesben (űrlapok, levélküldés, CRM
 | Amit igényel | Miért |
 |---|---|
 | **PHP 8.0 minimum** | a kód `match()`, `str_contains()` és `str_starts_with()` hívásokat használ — ezek 8.0-tól léteznek |
-| `curl`, `json`, `mbstring` | AI-hívások, űrlapfeldolgozás, ékezetes szövegkezelés |
-| `PDO` + `pdo_mysql` | a CRM-napló (`api/lib/crm-mysql.php`) |
+| `curl` | AI-hívások és a CRM-átadás (4 fájl) |
+| `mbstring` | ékezetes szövegkezelés — 16 fájlban |
 | `openssl` | az SMTP `stream_socket_enable_crypto`-val TLS-re vált (`api/lib/smtp.php`) — enélkül **nem megy ki levél** |
-| kimenő kapcsolat az SMTP-portra | ugyanezért |
+| `PDO` + `pdo_mysql` | a CRM-napló (`api/lib/crm-mysql.php`) |
+| **`fileinfo`** | a feltöltött melléklet valódi típusának ellenőrzése (`api/lib/vedelem.php`) — enélkül a **melléklet-ellenőrzés dől el**, nem a kiterjesztésre hagyatkozunk |
+| **`zip`** | `ZipArchive` a dokumentumkezeléshez (`api/lib/office.php`) |
+| `json`, `pcre`, `filter`, `hash` | a PHP magjában, külön bekapcsolni nem kell |
+| kimenő kapcsolat az SMTP- és a HTTPS-portra | levélküldés és AI-hívás |
+
+> A `fileinfo` és a `zip` **korábban hiányzott ebből a listából**. Nem elméleti
+> kockázat: a kód `finfo_open()`-t és `ZipArchive`-ot hív, és mindkettő
+> végzetes hiba, ha a bővítmény nincs fent. A lista most a kódból van
+> visszafejtve, nem emlékezetből.
+
+**MÉRVE AZ ÉLES KISZOLGÁLÓN (2026-09-11):** mind a hét jelen van, a
+`PDO::getAvailableDrivers()` tartalmazza a `mysql`-t, és a kimenő kapcsolat is
+nyitva van (`mail.okoth.hu:465` 80 ms, `api.anthropic.com:443` 39 ms).
 
 **MÉRVE AZ ÉLES KISZOLGÁLÓN (2026-09-11): PHP 8.5.9, `cgi-fcgi`** — és mind az
 öt igényelt bővítmény (`curl`, `json`, `mbstring`, `pdo_mysql`, `openssl`) jelen
@@ -156,136 +169,40 @@ megjegyzései épp 8.5-ös viselkedésre készültek fel.
 > fájl 2021-ből való, és **félrevezet**: a domain tényleges kezelője 8.5. A
 > verziót ne ebből olvasd ki, hanem mérd meg.
 
-### A kapott `php.ini` értékelése (2026-09-10)
+### A `php.ini` mért állapota (2026-09-11, éles kiszolgáló)
 
-Ami **rendben van**: `display_errors = Off` (élesben kötelező),
-`max_execution_time`/`max_input_time` 600, `memory_limit 1024M`,
-`max_input_vars 10000` — mind bőven elég.
-
-Ami **nem stimmel**, két tétel:
-
-1. **`zlib.output_compression = On` ütközik a `mod_deflate`-tel.** Az
-   `.htaccess` már tömöríti az `application/json`-t is, vagyis a PHP-válaszokat
-   — két tömörítő ugyanarra a válaszra. Ez a legjobb esetben fölösleges
-   processzoridő, rosszabb esetben `ERR_CONTENT_DECODING_FAILED`.
-   **Javaslat: `zlib.output_compression = Off`**, a tömörítést hagyjuk az
-   Apache-ra, ahol amúgy is szabályozva van.
-
-2. **`post_max_size = 800M` és `upload_max_filesize = 512M` nagyságrenddel
-   túlméretezett.** A webhely saját korlátja **10 MB** melléklet
-   (`api/config.php` → `max_meret`). A jelenlegi beállítással a PHP előbb
-   *befogad* egy 800 MB-os POST-ot, és csak utána utasítja el az alkalmazás —
-   ez fölösleges támadási felület. **Javaslat: `post_max_size = 32M`,
-   `upload_max_filesize = 16M`** (a `post_max_size` mindig legyen nagyobb).
-
-**Nem számít:** a `session.gc_maxlifetime` és a `session.save_path` — a webhely
-**nem használ PHP-session-t** (`session_start` és `$_SESSION` sehol).
-
-### A szerveren kézzel elvégzendő — nem git alatt
-
-A `_web/api/config.php` **git-ignorált**, csak a kiszolgálón él. Élesítéskor
-benne:
-
-- `'origin' => [...]` — vegyél fel `https://okotechhome.hu`-t, különben a
-  CORS miatt **egyetlen űrlap sem küldhető be**;
-- az e-mail sablon `url` és `logo` mezője szintén az új domainre mutasson.
-
-A `config.example.php` a repóban már az új domaint tartalmazza — abból másolható.
-
-> **Az Adsben magát a végső URL-t is érdemes átírni.** Az átirányítás működik,
-> de a Google a céloldal és a megadott URL egyezését minőségi jelként kezeli, és
-> egy 301-es ugrás a betöltést is lassítja.
-
-### Google-térkép — a Maps API-kulcs beállítása
-
-A kapcsolat oldal térképe **két üzemmódot** ismer, és kulcs nélkül is működik.
-
-| | kulcs nélkül (mai állapot) | kulccsal |
+| Beállítás | Érték | Ítélet |
 |---|---|---|
-| térkép | beágyazott `iframe` | valódi Maps JavaScript API |
-| logós jelölés | saját réteg a keret fölött; húzáskor eltűnik | **valódi térképjelölő**, a házon marad |
-| színezés | CSS-szűrő + fátyol | a Google saját stílusrétege, a designtokenekből |
-| külső forrás | `www.google.com` | + `maps.googleapis.com`, `maps.gstatic.com` |
+| `display_errors` | Off | ✅ élesben kötelező |
+| `log_errors` | On, `error_log` | ✅ |
+| `max_execution_time`, `max_input_time` | 600 | ✅ bőven elég |
+| `max_input_vars` | 10000 | ✅ |
+| `memory_limit` | 1024M | ✅ |
+| `zlib.output_compression` | **Off** | ✅ *(korábban On volt, és ütközött a `mod_deflate`-tel — azóta kikapcsolva)* |
+| `allow_url_fopen` | Off | ✅ a kód curl-t használ, távoli `fopen`-t sehol |
+| `post_max_size` | **800M** | ⚠️ túlméretezett |
+| `upload_max_filesize` | **512M** | ⚠️ túlméretezett |
+| `session.save_path` | `…/alt-php80` | ⚠️ elavult út (a gép 8.5-öt futtat) |
+| `date.timezone` | `UTC` | a kód már nem függ tőle — lásd lentebb |
 
-**A kulcs beszerzése** (Google Cloud Console): új projekt → *APIs & Services* →
-**Maps JavaScript API** engedélyezése → *Credentials* → **Create credentials → API key**.
-A projekthez számlázási profil kell; egy kapcsolat oldal forgalmát a havi ingyenkeret
-fedezi, de a profil nélkül a térkép „for development purposes only" vízjelet kap.
+**A két méretkorlát.** A webhely saját korlátja **10 MB** melléklet
+(`api/config.php` → `max_meret`). A jelenlegi beállítással a PHP előbb
+*befogad* egy 800 MB-os POST-ot, és csak utána utasítja el az alkalmazás — ez
+fölösleges támadási felület és fölösleges lemezforgalom.
+**Javaslat: `post_max_size = 32M`, `upload_max_filesize = 16M`.**
 
-**A kulcsot korlátozni KELL.** Ez a kulcs a böngészőben fut, tehát bárki elolvashatja
-az oldal forrásából — ez nem hiba, hanem a Maps JS API működése. Nem a titkosság védi,
-hanem a korlátozás: *Application restrictions* → **Websites**. *API restrictions* →
-csak a **Maps JavaScript API**. Korlátozás nélkül a kulccsal más webhelyről is lehet a
-te számládra terhelni.
+**A `session.save_path`** a PHP 8.0 munkakönyvtárára mutat, miközben a gép
+8.5-öt futtat. A webhely API-ja **nem használ munkamenetet**, tehát ma nincs
+következménye — de ha egyszer lesz, csendben rossz helyre írna. Érdemes
+kiüríteni a mezőt, hogy a cPanel a verzióhoz tartozót generálja.
 
-**A LISTÁN MINDEN TÉRKÉPES LAP SZEREPELJEN — nyelvenként külön**, ha az útvonalra
-szűkíted. A jelenleg térképes lapok:
-
-    https://okoth.hu/kapcsolat          https://okoth.hu/en/contact
-    https://tst.okoth.hu/kapcsolat      https://tst.okoth.hu/en/contact
-
-**A KULCS NEM AZ EGYETLEN KAPU — a CSP is az.** Az élő térkép attól is elmaradhat,
-hogy a lap `Content-Security-Policy` fejléce nem engedi a `maps.googleapis.com`
-szkriptet. Ezt a `.htaccess` állítja, FÁJLNÉVRE illesztve, ezért egy nyelvi klón
-(`kapcsolat.html` → `en/contact.html`) kimaradhat belőle — velünk ez meg is történt.
-A tünet megtévesztő: a hálózati naplóban a Maps-kérés `503`, mintha a Google
-utasítaná el, pedig a böngésző tiltja le.
-
-**A két ok szétválasztása.** Ugyanaz a kérés `curl`-lel, a lap Referer fejlécével:
-
-    curl -s -o /dev/null -w '%{http_code}\n' -H 'Referer: https://okoth.hu/en/contact' \
-      'https://maps.googleapis.com/maps/api/js?key=<KULCS>&callback=x&v=weekly&cb=1'
-
-`200` = a kulcs engedi ezt az útvonalat, tehát a böngészőbeli hiba a CSP-től van —
-nézd meg a lap fejlécét: `curl -s -D- -o /dev/null <lap-URL> | grep -i content-security`.
-`403`/`503` = a kulcs korlátozása szűk, azt kell bővíteni. A `cb=` a gyorsítótárat
-kerüli meg: enélkül egy korábbi sikeres válasz elfedi a hibát.
-
-A lapon a `.terkep` szekciónak `terkep-el` osztályt kell kapnia; ha nem kapja, az élő
-térkép nem épült fel.
-
-**Beállítás:** a kulcs a `kapcsolat.html` `<section class="terkep" …>` elemének
-`data-terkep-kulcs` attribútumába kerül (és a `scripts/oldalgyartas/kapcsolat.py`
-`terkep_kulcs` változójába, hogy az újragenerálás ne írja felül). Üresen hagyva minden
-a mai módon működik — a kulcs hiánya nem tör el semmit.
-
-**A `.htaccess` CSP-je** külön blokkban engedi a Maps forrásait, kizárólag a
-`kapcsolat.html`-re. Ebben szerepel a `style-src 'unsafe-inline'` is, mert a Maps a
-saját elemeit beágyazott stílussal formázza. **Élesítés után érdemes megpróbálni
-nélküle:** ha a böngésző konzoljában nincs CSP-hiba és a térkép hibátlan, vedd ki —
-a beágyazott stílus engedélyezése egy XSS-hez való támadási felület. A `serve.py`
-ugyanezt a fejlécet küldi helyben, hogy az eltérés ne csak élesben derüljön ki.
-
-**Második nyitott megfelelőségi pont: a hivatkozások aláhúzása.** A hivatkozások
-alapállapotban aláhúzás nélkül állnak (`a{text-decoration:none}`), egérrel és
-billentyűzet-fókuszban aláhúzottak. Ez a **különálló** hivatkozásoknál (telefon,
-e-mail, menü, kártyacím) rendben van. A **folyószövegbe ágyazott** hivatkozásnál a
-WCAG 2.2 1.4.1 nem-szín alapú megkülönböztetést vár: a linkszín (`--link`, `#2F6F82`)
-és a törzsszöveg (`--text-primary`, `#133216`) kontrasztja **2,49:1**, ami a 3:1 alatt
-van, tehát ott formailag hiányosság. Világos háttéren ez nem is oldható meg pusztán
-színnel: a 3:1 a szöveghez és a 4,5:1 a háttérhez egyszerre nem teljesíthető.
-Ha az EAA-megfelelés élesben követelmény, a folyószövegbe ágyazott linkeknél
-vissza kell tenni egy vékony aláhúzást — egyetlen szabály az `app.css` `@layer base`
-blokkjában: `p a,li a{text-decoration:underline;text-decoration-thickness:1px;
-text-underline-offset:.18em}`.
-
-**Miért három réteg.** Önmagában a `robots.txt` nem elég: az URL link alapján akkor is
-indexelődhet, tartalom nélkül. Az `X-Robots-Tag` fejléc a valódi tiltás, a `<meta>` pedig
-akkor is véd, ha a fájl olyan szerverre kerül, ahol a `.htaccess` nem érvényesül.
-
-**A legerősebb védelem a jelszó.** A `.htaccess`-ben előkészítve, kommentben áll a HTTP
-Basic Auth blokk — ha a teszt-aldomain nyilvános URL-en érhető el, érdemes bekapcsolni.
-
-**Ellenőrzés élesítés után:**
-
-```bash
-curl -I https://okoth.hu/ | grep -i x-robots-tag   # semmit nem adhat vissza
-curl -s https://okoth.hu/robots.txt                 # Allow: / kell benne legyen
-```
-
-> A `canonical` és az Open Graph URL-ek **már az éles domainre** (`okoth.hu`) mutatnak,
-> így élesítéskor azokhoz nem kell hozzányúlni. A kapcsolati e-mail cím maradt
-> `kapcsolat@okotechhome.hu` — ha az is változik, azt külön kell átvezetni.
+**Az időzóna** `UTC`-n állt, és ez a kiírt időpontokat nyáron két órával
+csúsztatta el: az értesítő levelek „Beérkezett" sorát, a jelentés keltezését, a
+mentett ügyek fájlnevét és a CRM-naplót. **A kódban javítva** (v0.30.01): az
+`api/lib/indit.php` maga állítja be az `Europe/Budapest` zónát, ugyanazzal a
+megfontolással, mint fölötte a hibakezelést — ami a működés helyességéhez kell,
+azt ne a tárhely beállításaira bízzuk. A kiszolgálón tehát **nincs teendő**;
+ha mégis átállítod, az sem árt.
 
 ## Backend — levélküldés
 

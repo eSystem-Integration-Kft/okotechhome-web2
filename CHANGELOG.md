@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.30.00-80A640?style=flat-square" alt="verzió 0.30.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.30.01-80A640?style=flat-square" alt="verzió 0.30.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-33-56642B?style=flat-square" alt="33 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-34-56642B?style=flat-square" alt="34 kiadás">
 </p>
 
 ---
@@ -26,6 +26,62 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.30.01] — 2026-09-11
+
+### ⚠️ Javítva — minden kiírt időpont két órával csúszott
+
+Az éles kiszolgáló `date.timezone`-ja `UTC`-n áll (mérve). A webhely huszonhat
+dátumhívása ezt örökölte, és így nyáron két, télen egy órával korábbi időt írt
+ki — ott, ahol az ügyfél is látja:
+
+- „Beérkezett: …" az értesítő levelekben,
+- a jelentés keltezése,
+- a mentett ügyek és a feltöltött ajánlatok fájlneve (`YmdHis`),
+- a CRM-napló bejegyzései.
+
+A `crm-naplo.php` eddig **egyetlen** helyen, kézzel tette helyre
+(`setTimezone(new DateTimeZone('Europe/Budapest'))`) — pont ez mutatja, hogy a
+hiba ismert volt, csak nem a gyökerénél orvosolva.
+
+A javítás az `api/lib/indit.php`-ba került, a közös belépési pontra, amit mind a
+tizennégy végpont betölt: `date_default_timezone_set('Europe/Budapest')`.
+Ugyanazzal a megfontolással, mint fölötte a hibakezelés — **ami a működés
+helyességéhez kell, azt ne a tárhely beállításaira bízzuk**. Így a teszt és az
+éles gép ugyanazt az időt írja, akkor is, ha a két cPanel másképp van állítva.
+
+### Helyesbítve — a PHP-bővítmények listája hiányos volt
+
+A README öt bővítményt sorolt fel. A kódból visszafejtve **hét** kell, és a két
+hiányzó nem mellékes:
+
+| Hiányzott | Hol | Mi történne nélküle |
+|---|---|---|
+| `fileinfo` | `api/lib/vedelem.php` | a `finfo_open()` végzetes hiba — **a melléklet valódi típusának ellenőrzése dől el**, és csak a kiterjesztés maradna |
+| `zip` | `api/lib/office.php` | a `ZipArchive` végzetes hiba |
+
+A lista mostantól a kódból van visszafejtve, nem emlékezetből. **Mind a hét
+jelen van az éles kiszolgálón** (mérve), a `PDO::getAvailableDrivers()`
+tartalmazza a `mysql`-t, és a kimenő kapcsolat is nyitva: `mail.okoth.hu:465`
+80 ms, `api.anthropic.com:443` 39 ms.
+
+### Helyesbítve — a `php.ini` értékelése mérésre cserélve
+
+A korábbi szakasz egy 2026-09-10-i *kapott* fájlt értékelt. Most a **futó**
+állapot áll benne, a cPanel MultiPHP INI Editorból és a szerveren mérve. Ami
+azóta rendbe jött: a `zlib.output_compression` **ki van kapcsolva**, tehát a
+`mod_deflate`-tel való ütközés megszűnt.
+
+Ami nyitva maradt, és a kiszolgálón kell állítani:
+
+- **`post_max_size` 800M, `upload_max_filesize` 512M** — a webhely saját
+  korlátja 10 MB melléklet. Így a PHP előbb *befogad* egy 800 MB-os POST-ot, és
+  csak utána utasítja el az alkalmazás. Javaslat: 32M / 16M.
+- **`session.save_path` `…/alt-php80`** — a gép 8.5-öt futtat. Az API nem
+  használ munkamenetet, tehát ma nincs következménye; a mezőt kiürítve a cPanel
+  a verzióhoz tartozót generálja.
 
 ---
 

@@ -17,6 +17,29 @@ ini_set('log_errors', '1');
 ini_set('error_log', __DIR__ . '/../hiba.log');
 error_reporting(E_ALL);
 
+/*
+ * AZ IDŐZÓNA A KÓDBÓL JÖN, NEM A KISZOLGÁLÓRÓL.
+ *
+ * A `date.timezone` az éles gépen `UTC`-n állt (mérve 2026-09-11-én), és ez a
+ * webhely minden kiírt időpontját elcsúsztatta: nyáron két, télen egy órával.
+ * Nem elméleti hiba — ezek látszanak is:
+ *
+ *   · „Beérkezett: …" az értesítő levelekben,
+ *   · a jelentés keltezése,
+ *   · a mentett ügyek és a feltöltött ajánlatok fájlneve (`YmdHis`),
+ *   · a CRM-napló bejegyzései.
+ *
+ * A `crm-naplo.php` eddig egyetlen helyen, kézzel tette helyre
+ * (`setTimezone(new DateTimeZone('Europe/Budapest'))`) — a többi huszonhat
+ * dátumhívás viszont a kiszolgáló beállítását örökölte.
+ *
+ * ITT ÁLLÍTJUK BE, ugyanazzal a megfontolással, mint fölötte a hibakezelést:
+ * ami a működés helyességéhez kell, azt ne a tárhely beállításaira bízzuk.
+ * Így a teszt és az éles gép ugyanazt az időt írja, akkor is, ha a két cPanel
+ * másképp van beállítva.
+ */
+date_default_timezone_set('Europe/Budapest');
+
 require __DIR__ . '/smtp.php';
 require __DIR__ . '/level.php';
 require __DIR__ . '/vedelem.php';
