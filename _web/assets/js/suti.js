@@ -127,10 +127,15 @@
     szov.append(elem('p', 'type-ui-body-strong', 'Sütiket használunk'));
 
     const p = elem('p', 'type-ui-body');
+    /* RÖVIDEN, hogy két sor legyen és ne három. A sáv a lap alján ül, és
+       minden sora takar valamit abból, amiért a látogató jött — a hosszú
+       magyarázat itt nem udvariasság, hanem útban van. Ami jogilag kell, az
+       benne maradt: mit teszünk hozzájárulás nélkül, mihez kérünk engedélyt,
+       és hogy visszavonható. A „ugyanolyan egyszerűen" vállalást a
+       Cookie-tájékoztató mondja ki, a láblécben lévő gomb pedig teljesíti. */
     p.append(document.createTextNode(
-      'A működéshez szükségeseket mindig elhelyezzük. A méréshez és a beágyazott ' +
-      'térképhez az Ön hozzájárulását kérjük — ezt bármikor, ugyanilyen egyszerűen ' +
-      'visszavonhatja. Részletek a '));
+      'A működéshez szükségeseket mindig elhelyezzük; a méréshez és a beágyazott ' +
+      'térképhez a hozzájárulását kérjük — bármikor visszavonhatja. Részletek a '));
     const hiv = elem('a', 'suti-sav-link', 'Cookie-tájékoztatóban');
     hiv.href = '/cookie-tajekoztato';
     p.append(hiv, document.createTextNode('.'));

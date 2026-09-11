@@ -9281,12 +9281,19 @@
     /* A FELSŐ BELSŐ CSILLANÁS adja az üvegtábla vastagságát: valódi üvegen a
        felső él fogja meg a fényt. E nélkül az áttetsző felület lapos fóliának
        látszik, nem táblának. */
-    box-shadow:var(--shadow-3),
+    /* A KÖZEPES ÁRNYÉK, nem a legnagyobb: a `--shadow-3` mély vetülete egy
+       vastag táblát rajzol a kártya alá, és épp a vastagság érzetét erősíti,
+       amit az üveg oldani hivatott. */
+    box-shadow:var(--shadow-2),
                inset 0 1px 0 color-mix(in srgb,#FFFFFF 45%,transparent);
-    padding:var(--space-24);
+    /* SZŰK BELSŐ TÉRKÖZ. A sáv a lap alján ül, és minden képpontja takar
+       valamit abból, amiért a látogató jött. Huszonnégyről tizenhatra véve a
+       kártya tizenhat képponttal alacsonyabb — a szöveg körül ennyi levegő
+       még bőven elég ahhoz, hogy ne legyen szoros. */
+    padding:var(--space-16);
     /* Az `env()` a telefon alsó gesztussávja miatt kell: nélküle a gombok
        alsó széle a rendszer csíkja alá csúszik, és nem lehet rájuk találni. */
-    padding-bottom:calc(var(--space-24) + env(safe-area-inset-bottom,0px));
+    padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
   }
   .suti-sav-doboz{
     max-width:var(--container-max);margin-inline:auto;
@@ -9306,7 +9313,7 @@
   .suti-sav::before,.suti-sav::after,
   .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{
     content:'';position:absolute;z-index:-1;pointer-events:none;
-    width:clamp(5rem,11%,7.5rem);aspect-ratio:387.49 / 289.93;
+    width:clamp(3.5rem,8%,5.5rem);aspect-ratio:387.49 / 289.93;
     -webkit-mask:var(--veset-jel) no-repeat center/contain;
             mask:var(--veset-jel) no-repeat center/contain;
   }
@@ -9314,7 +9321,7 @@
      lekerekítésnél elvágva egy ívnek látszott, nem a márka jelének — a
      félbevágott logó véletlennek hat, nem szándéknak. Behúzva teljes,
      felismerhető, és a szöveg alá sem ér. */
-  .suti-sav::before,.suti-sav::after{left:var(--space-24);bottom:var(--space-16)}
+  .suti-sav::before,.suti-sav::after{left:var(--space-16);bottom:var(--space-8)}
   /* A PÁRBESZÉDBEN BENT MARAD. Annak a doboznak `overflow:auto`-ja van (a
      magasságkorlát miatt), és ott egy negatív pozíciójú elem GÖRGETHETŐ
      TERÜLETET csinálna — a megamenünél ezt egyszer már megjártuk: minden
@@ -9334,7 +9341,9 @@
        és a szem ebből olvassa ki a mélyedést. */
     translate:2px 2px;
   }
-  .suti-sav-szoveg{flex:1 1 22rem;min-width:0;display:grid;gap:var(--space-4)}
+  /* A SZÖVEGOSZLOP SZÉLESEBB alapszélességet kap: keskenyebben három sorra
+     törne, és minden sor a lapot takarja. */
+  .suti-sav-szoveg{flex:1 1 34rem;min-width:0;display:grid;gap:var(--space-4)}
   /* ELSŐDLEGES SZÖVEGSZÍN, nem másodlagos — és ez mérés, nem ízlés. A sáv
      áttetsző, a legrosszabb eset egy SÖTÉT videokocka mögötte: az sötétíti a
      felületet, és a szürkészöld másodlagos szín ott 3,99:1-re esik, vagyis
