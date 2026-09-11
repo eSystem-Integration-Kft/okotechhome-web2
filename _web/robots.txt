@@ -34,10 +34,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-# A régi WordPress helye. A kiszolgáló 404-et ad rá (lásd .htaccess), ez a sor
-# csak annyit tesz hozzá, hogy a robot rá se forduljon — a régi webhely
-# évekre visszamenő URL-jei sok kereső indexében ott vannak még.
-Disallow: /__old/
 
 # Az /api/ tiltása CSAK a robotoknak szól. Az Öko kalauz (és a többi modul) a
 # LÁTOGATÓ böngészőjéből hívja ezeket a végpontokat — az nem robot, rá a

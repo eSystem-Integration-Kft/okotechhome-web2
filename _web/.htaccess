@@ -13,42 +13,6 @@ DirectoryIndex index.html
   RewriteEngine On
 
   # ===========================================================================
-  # A RÉGI WORDPRESS (`__old/`) — TELJES ZÁR
-  # ---------------------------------------------------------------------------
-  # A régi webhely a `/public_html/__old/` alá került, amikor ez a webhely a
-  # helyére lépett. Nem volt elzárva, csak „nem látszott" — és ez mérve NEM
-  # ugyanaz:
-  #
-  #     /__old/xmlrpc.php ................ 200      ← lefut
-  #     /__old/wp-includes/version.php ... 200      ← lefut
-  #     /__old/index.php ................. 500      ← lefut, csak hibára
-  #     /__old/wp-config.php ............. 500      ← a PHP értelmezi
-  #
-  # Az 500 nem védelem: azt jelenti, hogy a PHP ELINDULT és menet közben
-  # akadt el (a régi WordPress nem bírja a 8.2-t). Egy PHP-verzió visszaállítás
-  # vagy egy kezelőbeállítás máris élő, évek óta nem frissített WordPresst
-  # adna vissza — nyilvános `wp-login.php`-val és `xmlrpc.php`-val, amit
-  # jelszótöréshez és pingback-erősítéshez tömegesen szondáznak.
-  #
-  # 404, NEM 403. A 403 azt mondja: „van itt valami, csak nem kapod meg" — ez
-  # felhívás a további kutatásra. A 404 azt mondja: nincs itt semmi.
-  #
-  # AZ ELSŐ SZABÁLY, még a www-normalizálás előtt is: ami ide esik, azzal nem
-  # foglalkozunk tovább semmilyen szinten.
-  #
-  # EZ A RÉTEG ÖNMAGÁBAN NEM ELÉG. Amíg a könyvtár a webgyökér ALATT van, a
-  # saját `.htaccess`-ét az Apache beolvassa, és a `.htaccess` szintjéről ezt
-  # nem lehet megtiltani (ahhoz `AllowOverride None` kellene a
-  # kiszolgálókonfigban). A végleges megoldás a fa ÁTHELYEZÉSE a `public_html`
-  # fölé — oda, ahol az `oth-titkok` is van. Amíg az meg nem történt, a régi
-  # `.htaccess` ki van kapcsolva (átnevezve) a kiszolgálón.
-  RewriteRule ^__old(/|$) - [R=404,L]
-
-  # Mod_rewrite nélkül is álljon: a mod_alias a fordítási fázisban dönt.
-  RedirectMatch 404 ^/__old(/|$)
-
-
-  # ===========================================================================
   # www → NEM-www, EGYETLEN UGRÁSSAL
   # ---------------------------------------------------------------------------
   # A `www.okotechhome.hu` eddig 200-zal kiszolgálta a teljes webhelyet (mérve).

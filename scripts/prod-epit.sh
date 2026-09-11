@@ -401,6 +401,63 @@ print(f'kicsinyítve: {elotte / 1024:.0f} KB → {utana / 1024:.0f} KB '
       f'(−{(elotte - utana) / 1024:.0f} KB, {100 * (elotte - utana) / elotte:.0f}%)')
 PYKICSI
 
+# ------------------------- 9. réteg: a régi WordPress (`__old/`) elzárása
+#
+# MIÉRT RÉTEG ÉS NEM A `_web/`-BEN. A `__old/` KÖRNYEZETFÜGGŐ tény: az éles
+# kiszolgálón ott a régi WordPress (a `/public_html/__old/` alatt), a teszten
+# viszont NINCS ilyen könyvtár (mérve: 404). Ami csak az egyik környezetre
+# igaz, annak nincs helye a közös forrásban — ott csak félrevezet, és a
+# következő olvasó azt hiszi, mindkét helyen van mit elzárni.
+#
+# MIT ZÁR EL. A régi telepítés nem volt elzárva, csak „nem látszott", és ez
+# mérve nem ugyanaz: az `xmlrpc.php` és a `wp-includes/version.php` 200-at
+# adott, az `index.php` és a `wp-config.php` 500-at — vagyis a PHP MINDET
+# lefuttatta, a régi WordPress csak a 8.2-t nem bírja. Egy verzió-visszaállítás
+# máris élő, évek óta nem frissített WordPresst adna vissza.
+#
+# 404, NEM 403: a 403 azt mondja, „van itt valami, csak nem kapod meg" — ez
+# felhívás a további kutatásra.
+#
+# EZ A RÉTEG ÖNMAGÁBAN NEM ELÉG. Amíg a könyvtár a webgyökér alatt van, az
+# Apache beolvassa a SAJÁT `.htaccess`-ét, amit `.htaccess` szintjéről nem
+# lehet megtiltani. A végleges megoldás: `scripts/regi-wp-kivitel.sh`.
+python3 - "$CEL" <<'PYOLD'
+import pathlib, re, sys
+cel = pathlib.Path(sys.argv[1])
+
+blokk = """
+  # =========================================================================
+  # A RÉGI WORDPRESS (`__old/`) — TELJES ZÁR.  GENERÁLT: prod-epit.sh 9. réteg
+  # Indoklás a szkriptben. 404, nem 403. Az ELSŐ szabály: ami ide esik, azzal
+  # semmilyen szinten nem foglalkozunk tovább.
+  RewriteRule ^__old(/|$) - [R=404,L]
+  # Mod_rewrite nélkül is álljon: a mod_alias a fordítási fázisban dönt.
+  RedirectMatch 404 ^/__old(/|$)
+"""
+
+h = cel / '.htaccess'
+t = h.read_text(encoding='utf-8')
+if '^__old' not in t:
+    horgony = '  RewriteEngine On\n'
+    if t.count(horgony) != 1:
+        sys.exit('HIBA: nem találom a RewriteEngine sort a .htaccess-ben.')
+    h.write_text(t.replace(horgony, horgony + blokk, 1), encoding='utf-8')
+
+r = cel / 'robots.txt'
+t = r.read_text(encoding='utf-8')
+if '/__old/' not in t:
+    horgony = 'Disallow: /api/\n'
+    if t.count(horgony) != 1:
+        sys.exit('HIBA: nem találom a Disallow: /api/ sort a robots.txt-ben.')
+    t = t.replace(horgony, horgony
+                  + '# A régi WordPress helye (csak az ÉLES kiszolgálón létezik). A szerver\n'
+                    '# 404-et ad rá; ez a sor annyit tesz hozzá, hogy a robot rá se forduljon —\n'
+                    '# a régi webhely URL-jei sok kereső indexében még ott vannak.\n'
+                    'Disallow: /__old/\n', 1)
+    r.write_text(t, encoding='utf-8')
+print('__old elzárva: .htaccess + robots.txt')
+PYOLD
+
 # ------------------------------------------------------------------- jelölés
 cat > "$CEL/.epult" <<EOF
 $(date '+%Y-%m-%d %H:%M:%S')
@@ -422,6 +479,11 @@ EOF
 # A `|| true` NEM ELHAGYHATÓ. A `set -o pipefail` mellett a találat nélküli
 # `grep` (kilépés 1) az EGÉSZ csővezetéket bukottá teszi, a `set -e` pedig
 # megállítja a szkriptet — épp akkor, amikor a helyes eredményt találta meg.
+# MINDKÉT SZABÁLYT MEGSZÁMOLJUK: a `RewriteRule ^__old…` és a
+# `RedirectMatch 404 ^/__old…` — a második perjellel, ezért nem elég a `^__old`
+# mintára szűrni. A kettő egymás tartaléka (mod_rewrite, illetve mod_alias),
+# tehát ha csak az egyik van meg, az hiba.
+REGIWP=$(grep -c '__old(/|\$)' "$CEL/.htaccess" 2>/dev/null || true)
 HSTS=$(grep -c '^  Header always set Strict-Transport-Security' "$CEL/.htaccess" 2>/dev/null || true)
 MERES=$( { grep -rl 'assets/js/meres.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
 SUTI=$( { grep -rl 'assets/js/suti.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
@@ -440,6 +502,7 @@ if [ "$SITEMAP_VAN" = 1 ]; then
 else
   printf '  robots.txt Sitemap sor ...... –  (nincs sitemap.xml, ezért nem is jelentjük be)\n'
 fi
+printf '  régi WordPress elzárva ...... %s  %s\n' "${REGIWP:-0}" "$([ "${REGIWP:-0}" -ge 2 ] && echo '✓' || echo '✕ HIBA')"
 printf '  HSTS fejléc ................. %s  %s\n' "${HSTS:-0}" "$([ "${HSTS:-0}" = 1 ] && echo '✓' || echo '✕ HIBA')"
 printf '  mérés (GA4) a lapokon ....... %s  %s\n' "$MERES" "$([ "${MERES:-0}" -gt 0 ] && echo '✓' || echo '✕ HIBA')"
 # A SORREND ITT ÁLLÍTÁS: hozzájárulási felület nélkül mérés nem mehet ki. Ha a
@@ -455,6 +518,7 @@ echo
 # leállás — az ilyen hiba némán keletkezik, és utólag nem javítható ki.
 if [ "$MARADT_META" != 0 ] || [ "${MARADT_FEJLEC:-0}" != 0 ] || [ "${PHPKEZ:-0}" != 1 ] \
    || [ "${MERES:-0}" -eq 0 ] || [ "${SUTI:-0}" -lt "${MERES:-0}" ] || [ "${HSTS:-0}" != 1 ] \
+   || [ "${REGIWP:-0}" -lt 2 ] \
    || { [ "$SITEMAP_VAN" = 1 ] && [ "${SITEMAP:-0}" != 1 ]; }; then
   piros "A _web_prod/ NEM élesíthető — a fenti ellenőrzés bukott."
   exit 1

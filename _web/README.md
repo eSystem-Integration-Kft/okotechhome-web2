@@ -850,6 +850,44 @@ tölt. Egy megkeresés többet ér, mint száz csevegés.
 korlátja magasabb, mint a webhely kerete, addig a keret emelése csak azt növeli,
 amit egyetlen gép elvihet. Előbb a címenkénti plafon, aztán a keret.
 
+## A két környezet szétválasztása — mi hova tartozik
+
+**AMI CSAK AZ EGYIK KÖRNYEZETRE IGAZ, AZ NEM A KÖZÖS FORRÁSBAN VAN.** A `_web/`
+mindkét webhely forrása; az élesre jellemző beállítások a `prod-epit.sh`
+rétegei, és csak a `_web_prod/`-ba kerülnek bele. Ami a közös fába kerül, az
+félrevezeti a következő olvasót: azt hiszi, mindkét helyen van mit elzárni
+vagy bekapcsolni.
+
+| réteg | mit tesz csak az élesbe | miért nem közös |
+|---|---|---|
+| 1. | `noindex` → `index, follow` | a teszt szándékosan kimarad az indexből |
+| 2. | az `X-Robots-Tag` fejléc kivétele | ugyanaz |
+| 2/b. | `sitemap.xml`, `llms.txt`, `llms-full.txt` | a teszten nincs mit bejelenteni |
+| 3. | `robots.txt` Sitemap-sora | egy 404-re mutató sor rosszabb a hiányánál |
+| 4. | a PHP-kezelő rögzítése (`ea-php82`) | a két tárhely másképp van beállítva |
+| 5. | az AI-robotok beengedése | a teszten félkész szövegek vannak |
+| 6. | a mérés (GA4) | a fejlesztői forgalom nem szennyezheti az adatot |
+| 7. | HSTS | két évre szóló ígéret nem való eldobható címre |
+| 8. | kicsinyítés | a forrás kommentjei a dokumentáció java része |
+| 9. | a régi WordPress (`__old/`) elzárása | **a teszten nincs ilyen könyvtár** |
+
+**A 9. réteg a tanulságos eset.** A `__old/` blokk először a közös
+`_web/.htaccess`-be került — pedig az a régi WordPress az ÉLES kiszolgálón van,
+a teszten nincs (mérve: 404). Környezetfüggő tényt közös fájlba írni akkor is
+hiba, ha ártalmatlan.
+
+**Amit a közös fa HELYESEN tartalmaz**, mert mindkét környezetre igaz: a
+`www` → nem-`www` átirányítás (általános minta; a teszten nincs `www`, tehát
+nem illeszkedik), a `FileETag`, a saját kiszolgálós betűk és a hozzájuk szűkített
+CSP, valamint a süti-hozzájárulási felület.
+
+**Egy tudatos kivétel:** a `_web/` lapjainak kanonikusa és abszolút URL-jei az
+`okotechhome.hu`-ra mutatnak (v0.25.00). A teszt `noindex`, tehát a kanonikusa
+úgysem számít, két domaint karbantartani viszont folyamatos elcsúszás-forrás.
+
+**Az építés le is áll**, ha bármelyik réteg kimarad: a `prod-epit.sh` mind a
+kilencet visszaméri, és bukott ellenőrzésnél nem enged feltöltést.
+
 ## Hírek — a régi WordPress-blog átemelése
 
 A régi webhely blogja **42 bejegyzést** tartott 2014 és 2026 között, és az
