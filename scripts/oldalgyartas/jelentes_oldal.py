@@ -38,11 +38,14 @@ OLDAL = f'''<!DOCTYPE html>
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
      stíluslap renderelést blokkolna két idegen kézfogás után, és a
      látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
+
+     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
+     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
+     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
+     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
+     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
+     adjuk oda az LCP-t.
      Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
-<link rel="preload" as="font" type="font/woff2" crossorigin
-      href="/assets/fonts/zilla-slab-600-latin.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin
-      href="/assets/fonts/ibm-plex-sans-400-latin.woff2">
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="assets/css/app.css?{CSS_V}">
 <link rel="stylesheet" href="assets/css/jelentes.css?v=1">

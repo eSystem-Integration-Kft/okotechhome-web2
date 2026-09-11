@@ -37,13 +37,16 @@
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
      stíluslap renderelést blokkolna két idegen kézfogás után, és a
      látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
+
+     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
+     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
+     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
+     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
+     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
+     adjuk oda az LCP-t.
      Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
-<link rel="preload" as="font" type="font/woff2" crossorigin
-      href="/assets/fonts/zilla-slab-600-latin.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin
-      href="/assets/fonts/ibm-plex-sans-400-latin.woff2">
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
-<link rel="stylesheet" href="assets/css/app.css?v=223">
+<link rel="stylesheet" href="assets/css/app.css?v=229">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -2989,28 +2992,28 @@
           <div class="gyik-oszlopok">
             <ul class="gyik-kerdesek" role="list">
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-1" aria-selected="true"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-1" aria-expanded="true"
                         aria-controls="valasz-1-1">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Kell engedély a házi szennyvíztisztító telepítéséhez?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-2" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-2" aria-expanded="false"
                         aria-controls="valasz-1-2">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Mitől függ, hogy telepíthető-e szennyvíztisztító az adott telken?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-3" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-3" aria-expanded="false"
                         aria-controls="valasz-1-3">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">3</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Magas talajvíznél is telepíthető biológiai szennyvíztisztító?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-4" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="1-4" aria-expanded="false"
                         aria-controls="valasz-1-4">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">4</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Hová kerül a tisztított víz?</span>
@@ -3082,21 +3085,21 @@
           <div class="gyik-oszlopok">
             <ul class="gyik-kerdesek" role="list">
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-1" aria-selected="true"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-1" aria-expanded="true"
                         aria-controls="valasz-2-1">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Mi a különbség a zárt tároló, az oldómedence és a biológiai szennyvíztisztító között?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-2" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-2" aria-expanded="false"
                         aria-controls="valasz-2-2">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Nyaralóhoz vagy időszakos használathoz jó a biológiai szennyvíztisztító?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-3" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="2-3" aria-expanded="false"
                         aria-controls="valasz-2-3">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">3</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Mi történik a régi emésztővel, ha biológiai szennyvíztisztítóra váltunk?</span>
@@ -3154,28 +3157,28 @@
           <div class="gyik-oszlopok">
             <ul class="gyik-kerdesek" role="list">
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-1" aria-selected="true"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-1" aria-expanded="true"
                         aria-controls="valasz-3-1">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Kell szippantani az A.B. Clear biológiai szennyvíztisztítót?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-2" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-2" aria-expanded="false"
                         aria-controls="valasz-3-2">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Van szaga a biológiai szennyvíztisztítónak?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-3" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-3" aria-expanded="false"
                         aria-controls="valasz-3-3">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">3</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Kell baktériumot, tablettát vagy adalékanyagot adagolni?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-4" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="3-4" aria-expanded="false"
                         aria-controls="valasz-3-4">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">4</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Miből áll az éves üzemeltetési költség?</span>
@@ -3247,14 +3250,14 @@
           <div class="gyik-oszlopok">
             <ul class="gyik-kerdesek" role="list">
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="4-1" aria-selected="true"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="4-1" aria-expanded="true"
                         aria-controls="valasz-4-1">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Miért nem adható pontos ár telefonon vagy néhány adat alapján?</span>
                 </button>
               </li>
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="4-2" aria-selected="false"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="4-2" aria-expanded="false"
                         aria-controls="valasz-4-2">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">2</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Mire érdemes figyelni, ha már van ajánlatom?</span>
@@ -3298,7 +3301,7 @@
           <div class="gyik-oszlopok">
             <ul class="gyik-kerdesek" role="list">
               <li>
-                <button type="button" class="gyik-kerdes" data-gyik-kerdes="5-1" aria-selected="true"
+                <button type="button" class="gyik-kerdes" data-gyik-kerdes="5-1" aria-expanded="true"
                         aria-controls="valasz-5-1">
                   <span class="gyik-kerdes-szam type-ui-subtitle" aria-hidden="true">1</span>
                   <span class="type-ui-body gyik-kerdes-szoveg">Mikor érdemes online vagy helyszíni szaktanácsadást kérni?</span>

@@ -228,7 +228,16 @@ def epit():
              a GYIK-sor `True` értékét `False`-ra váltva publikálható. -->''')
                 continue
             kv = f'{ci}-{qi}'
-            aktk = ' aria-selected="true"' if qi == 1 else ' aria-selected="false"'
+            # `aria-expanded`, NEM `aria-selected`. A fülek (`gyik-ful`)
+            # valódi `role="tab"`-ok, ott az `aria-selected` a helyes; ezeknek
+            # a gomboknak viszont nincs szerepük, és az `aria-selected` csak
+            # néhány szerepen (option, tab, row, gridcell, treeitem) értelmes.
+            # Szerep nélkül ÉRVÉNYTELEN — a Lighthouse „Elements must only use
+            # supported ARIA attributes" néven jelenti, és a képernyőolvasó
+            # egyszerűen figyelmen kívül hagyja, tehát az állapot elveszik.
+            # A kérdésgomb egy válaszpanelt nyit (`aria-controls`), erre az
+            # `aria-expanded` a szabvány szerinti attribútum.
+            aktk = ' aria-expanded="true"' if qi == 1 else ' aria-expanded="false"'
             sorok.append(f'''              <li>
                 <button type="button" class="gyik-kerdes" data-gyik-kerdes="{kv}"{aktk}
                         aria-controls="valasz-{kv}">

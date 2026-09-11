@@ -2439,10 +2439,10 @@
   .gyik-kerdes-szam{display:grid;place-items:center;flex:none;
     width:var(--space-32);height:var(--space-32);border-radius:50%;
     border:1px solid var(--border);color:var(--text-tertiary)}
-  .gyik-kerdes[aria-selected="true"]{background:var(--surface);border-left-color:var(--primary)}
-  .gyik-kerdes[aria-selected="true"] .gyik-kerdes-szam{background:var(--color-forest,#133216);
+  .gyik-kerdes[aria-expanded="true"]{background:var(--surface);border-left-color:var(--primary)}
+  .gyik-kerdes[aria-expanded="true"] .gyik-kerdes-szam{background:var(--color-forest,#133216);
     border-color:transparent;color:var(--color-stardust,#FAFAFA)}
-  .gyik-kerdes[aria-selected="true"] .gyik-kerdes-szoveg{color:var(--text-primary)}
+  .gyik-kerdes[aria-expanded="true"] .gyik-kerdes-szoveg{color:var(--text-primary)}
 
   .gyik-valaszok{border:1px solid var(--border);border-radius:var(--card-radius);
     padding:var(--space-32)}
@@ -9213,6 +9213,13 @@
        arányos — erősebb mélyedés, visszafogott kiemelés. */
     --suti-veset-melyedes-alfa:.22;
     --suti-veset-kiemeles-alfa:.18;
+    /* AZ ÜVEG ÁTLÁTSZATLANSÁGA TÉMÁNKÉNT MÁS, mert nem ugyanaz a rossz eset.
+       Világos témán a sáv világos és a szöveg sötét: a SÖTÉT videokocka a
+       veszélyes (az sötétíti a felületet). Sötét témán fordítva — ott a sáv
+       sötét és a szöveg világos, tehát a VILÁGOS kocka viszi el a kontrasztot.
+       És a sötét oldal a szűkebb: 72%-nál ott 3,69:1 jön ki (megbukik),
+       85%-nál 5,08:1. Mérve mindkét irányban. */
+    --suti-sav-uveg:72%;
   }
   /* A KERETSZÍN TÉMAFÜGGŐ, a felület nem. A `--border-strong` primitívje
      (`oliveleaf`, #56642B) világos alapon jól látszik, a sötét téma sötét
@@ -9230,6 +9237,7 @@
        felületen a mélyedés kevésbé látszik, a kiemelés annál inkább. */
     --suti-veset-melyedes-alfa:.34;
     --suti-veset-kiemeles-alfa:.16;
+    --suti-sav-uveg:85%;
   }
 }
 
@@ -9241,14 +9249,34 @@
   .suti-sav{
     position:fixed;inset:auto var(--space-16) var(--space-16) var(--space-16);
     z-index:60;
-    background:var(--suti-sav-bg);
-    border:2px solid var(--suti-sav-keret);
+    /* ÜVEG. A lap alján háttérvideó fut; egy tömör tábla ráülve kitakarja
+       és idegen testként ül rajta. Áttetsző, homályosított felületen a mozgás
+       átdereng, de a szöveg alatt nyugodt marad — a `blur` épp attól segít,
+       hogy a mögötte lévő RÉSZLETET eltünteti, a világosságot viszont
+       megtartja.
+       AZ ARÁNY TOKENBŐL JÖN (`--suti-sav-uveg`), és témánként más — a
+       számok és az indoklás a tokennél állnak. Mérésből, nem ízlésből: ez az
+       a pont, ameddig a mosott üveg hatása mehet anélkül, hogy az
+       olvashatóság elfogyna.
+       A NAGY `blur` NEM DÍSZ, hanem ez teszi olvashatóvá: a homályosítás a
+       mögöttes RÉSZLETET tünteti el (az éleket, a kontrasztos foltokat),
+       miközben az átlagos világosságot megtartja. Éles háttéren ugyanez az
+       áttetszőség olvashatatlan volna — a szem a betű és a mögötte mozgó
+       él között nem tudna választani. */
+    background:color-mix(in srgb,var(--suti-sav-bg) var(--suti-sav-uveg),transparent);
+    -webkit-backdrop-filter:blur(28px) saturate(1.5);
+            backdrop-filter:blur(28px) saturate(1.5);
+    border:1px solid color-mix(in srgb,var(--suti-sav-keret) 55%,transparent);
     border-radius:var(--r-xl);
     /* A VÉSET BEFOGLALÓJA ÉS VÁGÓJA. Az `isolation` kell ahhoz, hogy a
        `z-index:-1` a kártya SAJÁT háttere fölé kerüljön (különben eltűnne
        alatta), az `overflow` pedig a sarkon túlnyúló részt vágja le. */
     isolation:isolate;overflow:hidden;
-    box-shadow:var(--shadow-3);
+    /* A FELSŐ BELSŐ CSILLANÁS adja az üvegtábla vastagságát: valódi üvegen a
+       felső él fogja meg a fényt. E nélkül az áttetsző felület lapos fóliának
+       látszik, nem táblának. */
+    box-shadow:var(--shadow-3),
+               inset 0 1px 0 color-mix(in srgb,#FFFFFF 45%,transparent);
     padding:var(--space-24);
     /* Az `env()` a telefon alsó gesztussávja miatt kell: nélküle a gombok
        alsó széle a rendszer csíkja alá csúszik, és nem lehet rájuk találni. */
@@ -9276,10 +9304,11 @@
     -webkit-mask:var(--veset-jel) no-repeat center/contain;
             mask:var(--veset-jel) no-repeat center/contain;
   }
-  /* A SÁVON KILÓG a sarkon, és a kártya lekerekítése vágja el — ettől lesz
-     belemart jel, nem ráhelyezett matrica. Kilógva sem nő a kigörgethető
-     terület: a kártya `overflow:hidden`. */
-  .suti-sav::before,.suti-sav::after{left:-1.25rem;bottom:-1.75rem}
+  /* A JEL TELJES EGÉSZÉBEN LÁTSZIK, a saroktól behúzva. Kilógva és a
+     lekerekítésnél elvágva egy ívnek látszott, nem a márka jelének — a
+     félbevágott logó véletlennek hat, nem szándéknak. Behúzva teljes,
+     felismerhető, és a szöveg alá sem ér. */
+  .suti-sav::before,.suti-sav::after{left:var(--space-24);bottom:var(--space-16)}
   /* A PÁRBESZÉDBEN BENT MARAD. Annak a doboznak `overflow:auto`-ja van (a
      magasságkorlát miatt), és ott egy negatív pozíciójú elem GÖRGETHETŐ
      TERÜLETET csinálna — a megamenünél ezt egyszer már megjártuk: minden
@@ -9300,9 +9329,27 @@
     translate:2px 2px;
   }
   .suti-sav-szoveg{flex:1 1 22rem;min-width:0;display:grid;gap:var(--space-4)}
-  .suti-sav-szoveg p{margin:0;color:var(--text-secondary)}
-  .suti-sav-szoveg p:first-child{color:var(--text-primary)}
-  .suti-sav-link{color:var(--link);text-underline-offset:.2em}
+  /* ELSŐDLEGES SZÖVEGSZÍN, nem másodlagos — és ez mérés, nem ízlés. A sáv
+     áttetsző, a legrosszabb eset egy SÖTÉT videokocka mögötte: az sötétíti a
+     felületet, és a szürkészöld másodlagos szín ott 3,99:1-re esik, vagyis
+     megbukik a WCAG 4,5:1-en. Ugyanott az elsődleges 8,68:1.
+     Egy áttetsző felületen amúgy sincs helye halványított szövegnek: a
+     „másodlagos" szerep azt feltételezi, hogy a háttér nyugodt. */
+  .suti-sav-szoveg p{margin:0;color:var(--text-primary)}
+  /* A HIVATKOZÁS A SZÖVEG SZÍNÉT VISELI, és aláhúzás jelöli. A `--link` kék
+     árnyalata áttetsző felületen nem tartja a kontrasztot: mérve 3,25:1 egy
+     sötét videokockán (a WCAG 4,5:1-et kér), sötét témán pedig 3,63:1 egy
+     világoson. Hozzá kellene nyúlni a webhely link-tokenjéhez, ami minden
+     más lapot is érintene — holott a hivatkozást úgysem a szín teszi
+     felismerhetővé. A WCAG amúgy is tiltja, hogy EGYEDÜL a szín hordozzon
+     jelentést: az aláhúzás önmagában elég, és a kontraszt így a szövegé. */
+  .suti-sav-link{
+    color:inherit;
+    text-decoration:underline;text-decoration-thickness:from-font;
+    text-underline-offset:.2em;
+  }
+  .suti-sav-link:hover{text-decoration-thickness:2px}
+  .suti-sav-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
   .suti-sav-gombok{
     display:flex;flex-wrap:wrap;gap:var(--space-8);
     /* Keskenyen a gombok a sáv teljes szélességét kapják: egymás alatt
@@ -9392,6 +9439,20 @@
   .terkep-helyorzo p{margin:0;max-width:34rem}
   .terkep-helyorzo p + p{color:var(--text-secondary)}
   .terkep-helyorzo .btn{margin-block-start:var(--space-8)}
+}
+
+@layer components {
+  /* AHOL NINCS `backdrop-filter`, ott TÖMÖR a felület. Áttetsző háttér
+     homályosítás nélkül azt jelentené, hogy a videó élesen átüt a szövegen —
+     az olvashatatlan. A tartalék nem szebb, de működik. */
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+    .suti-sav{background:var(--suti-sav-bg)}
+  }
+  /* Aki KEVESEBB ÁTTETSZŐSÉGET kért a rendszerében, annak tömör felület jár:
+     a homályosított üveg épp az a hatás, amit ez a beállítás kikapcsolna. */
+  @media (prefers-reduced-transparency:reduce){
+    .suti-sav{background:var(--suti-sav-bg);backdrop-filter:none;-webkit-backdrop-filter:none}
+  }
 }
 
 @layer responsive {

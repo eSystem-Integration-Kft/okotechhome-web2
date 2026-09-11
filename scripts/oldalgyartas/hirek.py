@@ -28,7 +28,7 @@ GYOKER = pathlib.Path(__file__).resolve().parents[2]
 WEB = GYOKER / '_web'
 FORRAS = pathlib.Path(__file__).resolve().parent / 'hirek-forras.json'
 
-CSS_V = 223          # süti-hozzájárulás: sáv és beállításkezelő
+CSS_V = 229          # süti-hozzájárulás: sáv és beállításkezelő
 JS_SITE_V = 12
 JS_KALAUZ_V = 45
 JS_HIREK_V = 3      # a szűrő csak a kártyákat veszi
@@ -322,11 +322,14 @@ def lap(*, elo, cim, leiras, url, og_kep, torzs, ld, fejlec, lablec,
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
      stíluslap renderelést blokkolna két idegen kézfogás után, és a
      látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
+
+     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
+     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
+     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
+     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
+     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
+     adjuk oda az LCP-t.
      Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
-<link rel="preload" as="font" type="font/woff2" crossorigin
-      href="/assets/fonts/zilla-slab-600-latin.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin
-      href="/assets/fonts/ibm-plex-sans-400-latin.woff2">
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="{elo}assets/css/app.css?v={CSS_V}">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs

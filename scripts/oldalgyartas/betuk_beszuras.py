@@ -41,10 +41,6 @@ UJ = ('<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betölt
       '     stíluslap renderelést blokkolna két idegen kézfogás után, és a\n'
       '     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.\n'
       '     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->\n'
-      '<link rel="preload" as="font" type="font/woff2" crossorigin\n'
-      '      href="/assets/fonts/zilla-slab-600-latin.woff2">\n'
-      '<link rel="preload" as="font" type="font/woff2" crossorigin\n'
-      '      href="/assets/fonts/ibm-plex-sans-400-latin.woff2">\n'
       '<link rel="stylesheet" href="/assets/css/betuk.css?v={v}">\n')
 
 

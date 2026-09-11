@@ -6,8 +6,15 @@
    attribútumot ez a szkript teszi rájuk. A tizennégy kérdés-válasz így a
    keresők számára is teljes egészében elérhető marad.
 
-   Az állapotot `aria-selected` hordozza, nem osztály: a képernyőolvasó ebből
+   Az állapotot ARIA-attribútum hordozza, nem osztály: a képernyőolvasó ebből
    tudja, melyik fül és melyik kérdés aktív, és a stílus is ebből következik.
+
+   KÉT KÜLÖNBÖZŐ ATTRIBÚTUM, és ez nem következetlenség. A kategóriafülek
+   valódi `role="tab"`-ok, rajtuk az `aria-selected` a szabványos. A
+   kérdésgomboknak nincs szerepük, és az `aria-selected` csak néhány szerepen
+   (option, tab, row, gridcell, treeitem) értelmes — szerep nélkül érvénytelen,
+   a képernyőolvasó figyelmen kívül hagyja, tehát az állapot NÉMÁN elveszik.
+   Ők egy válaszpanelt nyitnak, arra az `aria-expanded` való.
    ============================================================================= */
 (() => {
   'use strict';
@@ -18,7 +25,7 @@
 
     const kerdesValt = (tabla, kulcs) => {
       tabla.querySelectorAll('[data-gyik-kerdes]').forEach((k) =>
-        k.setAttribute('aria-selected', String(k.dataset.gyikKerdes === kulcs)));
+        k.setAttribute('aria-expanded', String(k.dataset.gyikKerdes === kulcs)));
       tabla.querySelectorAll('[data-gyik-valasz]').forEach((v) => {
         v.hidden = v.dataset.gyikValasz !== kulcs;
       });
