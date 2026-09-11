@@ -306,6 +306,32 @@ for f in sorted(cel.rglob('*.html')):
 print(f'mérés beszúrva: {n} lapon ({ga4})')
 PYGA
 
+# ------------------------------------------------- 7. réteg: HSTS bekapcsolása
+#
+# A HSTS azt mondja a böngészőnek: ezt a címet két évig CSAK HTTPS-en keresd.
+# Ettől a `http://` kérés el sem indul — nincs az a pillanat, amikor egy
+# közbeékelődő átirányíthatná. Ez a `.htaccess`-ben előkészítve, megjegyzésben
+# áll; itt vesszük ki belőle.
+#
+# MIÉRT NEM A `_web/`-BEN. Mert a teszt címe (`tst.okoth.hu`) ideiglenes, a
+# HSTS ígérete viszont két évre szól és a böngészőben ragad — egy eldobható
+# címre ilyet nem ígérünk.
+python3 - "$CEL" <<'PYHSTS'
+import pathlib, sys
+h = pathlib.Path(sys.argv[1]) / '.htaccess'
+t = h.read_text(encoding='utf-8')
+regi = '  # Header always set Strict-Transport-Security "max-age=63072000"'
+uj   = '  Header always set Strict-Transport-Security "max-age=63072000"'
+if uj in t and regi not in t:
+    print('HSTS: már aktív')
+elif t.count(regi) == 1:
+    h.write_text(t.replace(regi, uj), encoding='utf-8')
+    print('HSTS bekapcsolva (max-age 2 év, includeSubDomains nélkül)')
+else:
+    sys.exit('HIBA: a HSTS sorát nem találom a .htaccess-ben — '
+             'a szerkezet megváltozott, a prod-epit.sh-t hozzá kell igazítani.')
+PYHSTS
+
 # ------------------------------------------------------------------- jelölés
 cat > "$CEL/.epult" <<EOF
 $(date '+%Y-%m-%d %H:%M:%S')
@@ -327,6 +353,7 @@ EOF
 # A `|| true` NEM ELHAGYHATÓ. A `set -o pipefail` mellett a találat nélküli
 # `grep` (kilépés 1) az EGÉSZ csővezetéket bukottá teszi, a `set -e` pedig
 # megállítja a szkriptet — épp akkor, amikor a helyes eredményt találta meg.
+HSTS=$(grep -c '^  Header always set Strict-Transport-Security' "$CEL/.htaccess" 2>/dev/null || true)
 MERES=$( { grep -rl 'assets/js/meres.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
 SUTI=$( { grep -rl 'assets/js/suti.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
 MARADT_META=$( { grep -rlF 'content="noindex' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
@@ -344,6 +371,7 @@ if [ "$SITEMAP_VAN" = 1 ]; then
 else
   printf '  robots.txt Sitemap sor ...... –  (nincs sitemap.xml, ezért nem is jelentjük be)\n'
 fi
+printf '  HSTS fejléc ................. %s  %s\n' "${HSTS:-0}" "$([ "${HSTS:-0}" = 1 ] && echo '✓' || echo '✕ HIBA')"
 printf '  mérés (GA4) a lapokon ....... %s  %s\n' "$MERES" "$([ "${MERES:-0}" -gt 0 ] && echo '✓' || echo '✕ HIBA')"
 # A SORREND ITT ÁLLÍTÁS: hozzájárulási felület nélkül mérés nem mehet ki. Ha a
 # `suti.js` valamiért kevesebb lapon van, mint a `meres.js`, az különbség némán
@@ -357,7 +385,7 @@ echo
 # a GA4 a látogató beleegyezése nélkül futna. Ez nem figyelmeztetés, hanem
 # leállás — az ilyen hiba némán keletkezik, és utólag nem javítható ki.
 if [ "$MARADT_META" != 0 ] || [ "${MARADT_FEJLEC:-0}" != 0 ] || [ "${PHPKEZ:-0}" != 1 ] \
-   || [ "${MERES:-0}" -eq 0 ] || [ "${SUTI:-0}" -lt "${MERES:-0}" ] \
+   || [ "${MERES:-0}" -eq 0 ] || [ "${SUTI:-0}" -lt "${MERES:-0}" ] || [ "${HSTS:-0}" != 1 ] \
    || { [ "$SITEMAP_VAN" = 1 ] && [ "${SITEMAP:-0}" != 1 ]; }; then
   piros "A _web_prod/ NEM élesíthető — a fenti ellenőrzés bukott."
   exit 1

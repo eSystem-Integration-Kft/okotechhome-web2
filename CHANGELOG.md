@@ -29,6 +29,61 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.34.00] — 2026-09-11
+
+### Hozzáadva — a maradék SEO/GEO tételek, mind mérve
+
+**ETag és `Last-Modified` a HTML-en.** A dokumentumok szándékosan nem kapnak
+gyorsítótárat (`max-age=0`), tehát a böngésző minden látogatáskor visszakérdez
+— de érvényesítő nélkül nem volt mire, és a kiszolgáló a **teljes lapot**
+küldte újra. A főoldalnál ez 236 KB, minden egyes alkalommal. Mérve most:
+`If-None-Match` → **HTTP 304, 0 bájt**. `FileETag MTime Size`, nem az Apache
+alapértelmezése: abban az inode is benne van, ami gépenként más, és minden
+költöztetésnél fölöslegesen érvénytelenítené az egész gyorsítótárat.
+
+**`www` → nem-www, 301.** A `www.okotechhome.hu` eddig **200-zal** szolgálta ki
+a teljes webhelyet: a Google két címen látta ugyanazt. A szabály mindenki más
+elé került, hogy a gazdanév a további szabályok kiértékelése ELŐTT
+normalizálódjon. A `www.` és régi útvonal együtt továbbra is két 301 — egy
+ugrássá csak úgy válna, ha mind az ötvenöt régi szabály abszolút célt írna ki,
+és az ötvenöt helyen karbantartott gazdanév drágább, mint a plusz ugrás.
+
+**HSTS — `includeSubDomains` NÉLKÜL, és ez mérés eredménye.** Az
+`autodiscover.okotechhome.hu` a Microsoft `autodiscover.outlook.com`-jára mutat,
+és HTTPS-en **hibára fut** (a tanúsítvány nem fedi ezt a nevet).
+`includeSubDomains` mellett a böngésző kötelezően HTTPS-t erőltetne rá, és a
+levelezőkliensek autodiscoverje elszállna — némán, és **két évig
+visszavonhatatlanul**. `preload` sincs: a listára felkerülni napok, lekerülni
+hónapok. A sor a `prod-epit.sh` 7. rétege; a teszten marad kikapcsolva, mert
+egy két évre szóló ígéret nem való olyan címre, amit holnap átnevezhetünk.
+
+**A megosztási kártya öt hiányzó mezője** (`scripts/oldalgyartas/kozossegi.py`,
+184 lap):
+
+| mező | mi romlott el nélküle |
+|---|---|
+| `og:url` | a Facebook/LinkedIn azt az URL-t jegyezte meg, AMIN a megosztó állt — `?gclid=…` farokkal; ugyanannak a lapnak több „megosztási identitása" lett |
+| `og:site_name` | a domain állt a márkanév helyén |
+| `og:image:width/height` | méret nélkül a gyűjtő előbb letölti a képet, hogy megmérje — addig a kártya **kép nélkül** jelenik meg. Épp az első megosztás romlik el, ami a legfontosabb |
+| `og:image:alt` | a kép leírása képernyőolvasónak |
+| `twitter:card` | ez dönti el, nagy képes vagy apró bélyeges kártya lesz-e. Az X a többit az `og:`-ból veszi, **ezt viszont nem** |
+
+A képméret a **fájlból** jön, nem kézzel beírt számból: az `og:image` URL-jét
+visszafejtjük a helyi fájlra és megmérjük — képcsere után a szám magától követi.
+
+`twitter:title`, `twitter:description` és `twitter:image` SZÁNDÉKOSAN nincs: az
+X ezeket az `og:` megfelelőikből veszi. Kiírva ugyanaz a szöveg állna kétszer
+minden lapon, két helyen karbantartva — ami két helyen áll, az előbb-utóbb két
+különbözőt mond.
+
+**Hat régi hír megosztási képe.** Nincs borítójuk, és kép nélkül a hírfolyamban
+a csupasz szöveges kártya gyakorlatilag láthatatlan. Az `og:image` tartaléka a
+márkakép lett — a JSON-LD `image` mezőjébe viszont **nem** került: az a cikk
+SAJÁT képe, és ott a hiány az igazság.
+
+Mérve élesítés után: HSTS 2 év · ETag → 304 · `www` 301 · mind a 184 lapon a
+teljes kártya · az AI-keresők 200, az Ahrefs 403.
+
 ## [0.33.00] — 2026-09-11
 
 ### Hozzáadva — mérés (GA4) minden lapon, és a hozzájárulási felület alatta

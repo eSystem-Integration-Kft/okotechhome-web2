@@ -13,6 +13,31 @@ DirectoryIndex index.html
   RewriteEngine On
 
   # ===========================================================================
+  # www → NEM-www, EGYETLEN UGRÁSSAL
+  # ---------------------------------------------------------------------------
+  # A `www.okotechhome.hu` eddig 200-zal kiszolgálta a teljes webhelyet (mérve).
+  # A lapok kanonikus hivatkozása a nem-www alakra mutat, tehát a Google
+  # végül úgyis összevonta volna őket — de addig két címen látja ugyanazt, és
+  # a hivatkozási súly is megoszlik a kettő között.
+  #
+  # ELÖL ÁLL, mindenki más előtt: a gazdanév normalizálódik, MIELŐTT bármelyik
+  # további szabály kiértékelődne. Így egyetlen szabálynak sem kell tudnia,
+  # melyik gazdanéven futott, és a látogató nem áll meg olyan `www.` címen,
+  # ahol utána még dolgozunk.
+  #
+  # AMIT EZ NEM OLD MEG: a `www.` ÉS régi útvonal együtt továbbra is két 301.
+  # (`www/blog/` → `okotechhome.hu/blog/` → `…/hirek/` — mérve.) Egy ugrássá
+  # csak akkor válna, ha mind az ötvenöt régi szabály abszolút, nem-www célt
+  # írna ki; az ötvenöt helyen karbantartott gazdanév viszont drágább, mint a
+  # plusz ugrás, amit a Google amúgy is követ (öt átirányításig).
+  #
+  # A minta ÁLTALÁNOS (`^www\.(.+)$`), nem domainre égetett: ugyanez a fájl
+  # települ a tesztre is, ahol nincs `www.` — ott egyszerűen nem illeszkedik.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L,NE]
+
+
+  # ===========================================================================
   # RÉGI WORDPRESS-URL-EK → AZ ÚJ ÚTVONALAK (Google Ads céloldalak)
   # ---------------------------------------------------------------------------
   # A Google Ads hirdetésekbe a RÉGI webhely URL-jei vannak beégetve. Ezek
@@ -170,9 +195,20 @@ Options -Indexes
   # Egyetlen mérőeszközért kinyitni az egész webhelyet XSS-re rossz üzlet.
   Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; frame-src https://www.google.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com"
 
-  # HSTS — CSAK éles, HTTPS-en kiszolgált domainen kapcsold be.
-  # Staging vagy HTTP alatt hagyd kikommentezve.
-  # Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  # HSTS — a sort a `prod-epit.sh` 7. rétege veszi ki a megjegyzésből, tehát
+  # CSAK az éles fában él. A teszten szándékosan marad kikapcsolva: egy két
+  # évre szóló ígéret nem való olyan címre, amit holnap átnevezhetünk.
+  #
+  # `includeSubDomains` NINCS BENNE, és ez MÉRÉS EREDMÉNYE, nem óvatosság:
+  # az `autodiscover.okotechhome.hu` a Microsoft `autodiscover.outlook.com`-jára
+  # mutat, és HTTPS-en hibára fut (a tanúsítvány nem fedi ezt a nevet).
+  # `includeSubDomains` mellett a böngésző kötelezően HTTPS-t erőltetne rá —
+  # és a levelezőkliensek autodiscoverje elszállna. A hiba NÉMA lenne és két
+  # évig visszavonhatatlan.
+  #
+  # `preload` sincs: a preload-listára felkerülni napok, lekerülni hónapok.
+  # Amíg az aldomainek nincsenek rendben, oda nem kérezkedünk be.
+  # Header always set Strict-Transport-Security "max-age=63072000"
 
   # --- Kapcsolat oldalak: az élő Google-térkép többletforrásai ---------------
   # A Maps JavaScript API saját szkriptet, csempéket és betűket tölt be, ezért
@@ -208,6 +244,17 @@ Options -Indexes
 </IfModule>
 
 # --- Cache --------------------------------------------------------------------
+# AZ ETag ÚJRAÉRVÉNYESÍTÉST AD A HTML-NEK. A dokumentumok szándékosan nem
+# kapnak gyorsítótárat (`max-age=0`), tehát a böngésző minden látogatáskor
+# visszakérdez — de érvényesítő nélkül nincs mire visszakérdeznie, és a
+# kiszolgáló a teljes lapot küldi újra. Ez a főoldalnál 236 KB, minden egyes
+# alkalommal. ETaggel a válasz `304 Not Modified`, néhány száz bájt.
+#
+# `MTime Size`, nem az Apache alapértelmezése. Az alapból az inode is benne
+# van, ami gépenként más — megosztott tárhelyen és minden költöztetésnél
+# fölöslegesen érvénytelenítené az egész gyorsítótárat.
+FileETag MTime Size
+
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html "access plus 0 seconds"

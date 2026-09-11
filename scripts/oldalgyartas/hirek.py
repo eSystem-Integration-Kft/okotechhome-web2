@@ -467,7 +467,13 @@ def gyujtolap(adat):
                leiras='Az ÖkoTech-Home Kft. hírei 2014 óta: fejlesztések, átadott '
                       'projektek, kiállítások, tanúsítványok és pályázatok.',
                url=SZAKASZ_URL + '/',
-               og_kep=(f'assets/img/hirek/{bor["fajl"]}.webp' if bor else None),
+               # BORÍTÓ NÉLKÜLI HÍRNÉL A MÁRKAKÉP a tartalék. Hat régi
+               # bejegyzésnek nincs képe, és kép nélkül a Facebook/LinkedIn
+               # csupasz szöveges kártyát rajzol — az a hírfolyamban
+               # gyakorlatilag láthatatlan. A márkakép nem hazudik: a lap
+               # tényleg az ÖkoTech Home híre.
+               og_kep=(f'assets/img/hirek/{bor["fajl"]}.webp' if bor
+                       else 'assets/img/hero-rendszer-allokep.webp'),
                torzs=torzs, ld=ld, fejlec=melyebb(FEJLEC), lablec=melyebb(LABLEC),
                hirek_js=True)
 
@@ -619,7 +625,15 @@ def reszletlap(h, i, adat):
     return lap(elo=elo, cim=f'{h["cim"]} — Hírek | ÖkoTech Home',
                leiras=szoveg(h['lead'])[:300] or h['cim'],
                url=f'{SZAKASZ_URL}/{h["szlug"]}',
-               og_kep=kep_url, torzs=torzs, ld=ld,
+               # A MEGOSZTÁSI KÉP ÉS A CIKK KÉPE NEM UGYANAZ. A `kep_url` a
+               # cikk SAJÁT képe, és a JSON-LD `image` mezőjébe csak az
+               # kerülhet — borító híján ott a hiány az igazság. Az `og:image`
+               # viszont a megosztási kártyáé: kép nélkül a Facebook és a
+               # LinkedIn csupasz szöveges kártyát rajzol, ami a hírfolyamban
+               # gyakorlatilag láthatatlan. Hat régi bejegyzésnek nincs
+               # borítója; azoknak a márkakép a tartaléka.
+               og_kep=kep_url or 'assets/img/hero-rendszer-allokep.webp',
+               torzs=torzs, ld=ld,
                fejlec=melyebb(FEJLEC), lablec=melyebb(LABLEC),
                hirek_js=True)
 
