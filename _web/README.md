@@ -13,15 +13,74 @@ WordPress helyére kerül, **ugyanarra a kiszolgálóra** (`79.172.249.246`), é
 `okoth.hu` DNS-e **nem** fordul át. Az `okoth.hu` marad az, ami: a `tst.` aldomain
 gazdája.
 
-A zárás **három rétegben** él — élesítéskor mindhármat fel kell oldani:
+A zárás **három rétegben** él. **Ezt a hármat NEM kézzel oldjuk fel**: a
+`scripts/prod-epit.sh` teszi meg, az élesbe menő fa építésekor (lásd lentebb,
+*Két fa, egy forrás*). A táblázat azért van itt, hogy tudni lehessen, mit csinál:
 
 | # | Hol | Mit kell tenni élesítéskor |
 |---|---|---|
 | 1 | `.htaccess` → *TESZT ÜZEMMÓD* blokk | az `X-Robots-Tag` sort törölni vagy kikommentezni |
-| 2 | `robots.txt` | a `Disallow: /` helyére az élesítési változat (a fájlban kommentben ott áll) |
-| 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` sort törölni |
+| 2 | `robots.txt` | a `Sitemap:` sor felvétele — **csak ha már van `sitemap.xml`**. (A fájlban NINCS általános `Disallow: /`: a letöltés szándékosan szabad, az indexelést a noindex tiltja. Az AI- és SEO-botok tiltása élesben is marad.) |
+| 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` → `index, follow` |
 | 4 | `.htaccess` → *RÉGI WORDPRESS-URL-EK* blokk | ellenőrizd, hogy az Apache olvassa-e az `.htaccess`-t az új kiszolgálón — enélkül a 13 Ads-átirányítás és **az összes kiterjesztés nélküli URL** sem működik |
 | 5 | `api/config.php` a szerveren | `origin` és az e-mail `url`/`logo` az új domainre (git-ignorált fájl, lásd lentebb) |
+
+### Két fa, egy forrás — hogyan megy ki a teszt és az éles
+
+```text
+_web/       →  tst.okoth.hu      (itt fejlesztünk, ezt nézzük meg)
+_web_prod/  →  okotechhome.hu    (ez megy élesbe — a _web/-ből GENERÁLVA)
+```
+
+A `_web_prod/` **nem második forrás, hanem kimenet**. Ha a két fát kézzel
+tartanánk karban, néhány héten belül elcsúsznának: minden javítást kétszer
+kellene megcsinálni, és a „melyik az igazi?" kérdésre valamelyik mindig rossz
+választ adna. Így a `_web/` az egyetlen igazság, a `_web_prod/` pedig bármikor
+eldobható és újraépíthető. **Kézzel soha ne írj bele**; a `.gitignore` ezért is
+zárja ki a verziókövetésből.
+
+A kettő között **csak a teszt üzemmód három rétege** a különbség — a tartalom,
+a stílus, a szkriptek és a képek bájtra azonosak. Mérve: 190 HTML + a
+`.htaccess` tér el, más semmi.
+
+**A munkamenet:**
+
+```bash
+# 1. fejlesztés után ki a tesztre, és megnézzük a tst.okoth.hu-n
+scripts/feltoltes.sh tst --eles
+
+# 2. ha jó, felépítjük az éles fát a _web/-ből
+scripts/prod-epit.sh
+
+# 3. próbamenet: mit írna felül? (nem ír semmit)
+scripts/feltoltes.sh eles
+
+# 4. és fel az élesre
+scripts/feltoltes.sh eles --eles
+```
+
+**A 4. lépés előtt három kapu áll**, és egyik sem kerülhető meg véletlenül:
+
+1. **Van-e mit feltölteni, és naprakész-e.** A `prod-epit.sh --ellenoriz` megnézi,
+   változott-e a `_web/` az utolsó építés óta; ha igen, megmondja, mi.
+2. **Teszt üzemmód nem mehet élesbe.** Egyetlen bennmaradt `noindex` elég ahhoz,
+   hogy a Google kiejtse a lapot az indexből — és a visszaállítás után is hetekig
+   tart, mire visszamászik.
+3. **A megerősítés a domaint kéri**, nem egy „igen"-t. Az „igen" reflexből
+   leüthető; a domain nevét kiírni már döntés.
+
+**A két kiszolgáló két külön fiók**, két külön jelszóval a kulcskarikán:
+
+| Környezet | Kapcsolódás | Távoli út | Kulcskarika-bejegyzés |
+|---|---|---|---|
+| `tst`, `okoth` | `cullinan.versanus.eu` | `/public_html/_tst`, `/public_html` | `okoth.hu` |
+| `eles` | `cpanel60.sybell.hu` | `/public_html` | `okotechhome.hu` |
+
+A kapcsolódási név mindkét helyen a **kiszolgálóé**, nem a webhelyé: az
+FTPS-tanúsítvány arra szól (`*.sybell.hu`, RapidSSL), és az
+`ssl:verify-certificate true` nem alku tárgya. Mérve 2026-09-11-én: az éles
+gépen Pure-FTPd fut TLS-sel a 21-es porton, a lánc a rendszer CA-készletéből
+hitelesül.
 
 **Külön, a keresőktől független megfelelőségi pont:** a Kapcsolat oldalon a Google
 Térkép **alapértelmezésben** töltődik be. A beágyazás sütit tesz le és elküldi a

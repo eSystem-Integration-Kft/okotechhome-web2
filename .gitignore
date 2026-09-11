@@ -79,3 +79,9 @@ _web/api/.eredmenyek/
 _web/oth-titkok/*
 !_web/oth-titkok/.htaccess
 !_web/oth-titkok/README.md
+
+# --- A GENERÁLT ÉLES FA -------------------------------------------------------
+# A `_web_prod/` a `_web/` KIMENETE (scripts/prod-epit.sh), nem második forrás:
+# kézzel nem szerkesztjük, és nem is verziózzuk. Aki klónozza a repót, egy
+# paranccsal előállítja.
+_web_prod/

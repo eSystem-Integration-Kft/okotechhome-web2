@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.03-80A640?style=flat-square" alt="verzió 0.29.03">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.30.00-80A640?style=flat-square" alt="verzió 0.30.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-32-56642B?style=flat-square" alt="32 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-33-56642B?style=flat-square" alt="33 kiadás">
 </p>
 
 ---
@@ -26,6 +26,75 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.30.00] — 2026-09-11
+
+### Hozzáadva — külön éles környezet: fejlesztés → teszt → okotechhome.hu
+
+Eddig egy webhelyünk volt (`tst.okoth.hu`), és a `feltoltes.sh` `eles` célja
+félrevezetően az `okoth.hu` gyökerét jelentette — a TESZT kiszolgálón. Innentől
+a munkamenet háromlépcsős, és az éles a valódi éles:
+
+```bash
+scripts/feltoltes.sh tst --eles     # 1. ki a tesztre, megnézzük
+scripts/prod-epit.sh                # 2. az éles fa felépítése
+scripts/feltoltes.sh eles --eles    # 3. és fel az okotechhome.hu-ra
+```
+
+**Két fa, egy forrás.** A `_web_prod/` nem második forrás, hanem a `_web/`
+kimenete:
+
+```text
+_web/       →  tst.okoth.hu      (itt fejlesztünk)
+_web_prod/  →  okotechhome.hu    (a _web/-ből GENERÁLVA, git-ignorált)
+```
+
+Kézzel karbantartva a két fa néhány héten belül elcsúszna: minden javítást
+kétszer kellene megcsinálni, és a „melyik az igazi?" kérdésre valamelyik mindig
+rossz választ adna. Így a `_web/` az egyetlen igazság, a `_web_prod/` bármikor
+eldobható. A különbség **csak a teszt üzemmód három rétege** — mérve: 190 HTML
+és a `.htaccess` tér el, más semmi.
+
+**Három kapu az éles feltöltés előtt**, egyik sem kerülhető meg véletlenül:
+
+1. **Naprakész-e a fa.** Ha a `_web/` az utolsó építés óta változott, a szkript
+   megmondja, mi.
+2. **Teszt üzemmód nem mehet élesbe.** Egyetlen bennmaradt `noindex` elég ahhoz,
+   hogy a Google kiejtse a lapot az indexből — a visszaállítás után is hetekig
+   tart, mire visszamászik. Mindkét kapu kipróbálva: szándékosan visszatett
+   `noindex`-re és elavult fára is megállt.
+3. **A megerősítés a domaint kéri**, nem egy „igen"-t. Az „igen" reflexből
+   leüthető; a domain nevét kiírni már döntés.
+
+### Hozzáadva — `scripts/ftps-ca-eles.pem`
+
+A két tárhely FTPS-tanúsítványa **két külön hitelesítőtől** jön: a teszté
+Let's Encrypt, az élesé DigiCert. A közös CA-fájllal az éles kapcsolat jogosan
+bukott el („unable to get local issuer certificate"), és ez a hiba csak az első
+éles feltöltésnél derült volna ki. A horgony ezért környezetenként külön fájl —
+szándékosan nem összeolvasztva, hogy mindkét kapcsolaton pontosan egy lánc
+legyen elfogadható.
+
+Mérve 2026-09-11-én: `cpanel60.sybell.hu`, Pure-FTPd TLS-sel a 21-es porton, a
+köztes tanúsítványt a kiszolgáló elküldi, csak a `DigiCert Global Root G2`
+gyökér kell hozzá.
+
+### Javítva — a `pipefail` megölte az ellenőrző lépéseket
+
+A `MARADT_META=$(grep -rlF … | wc -l)` alakú sorok `set -o pipefail` mellett a
+TALÁLAT NÉLKÜLI grep miatt bukottá tették a csővezetéket, a `set -e` pedig
+megállította a szkriptet — pontosan akkor, amikor a helyes eredményt (nulla
+találat) megtalálta. A `prod-epit.sh` emiatt némán, félúton állt le.
+
+### Helyesbítve — a README teszt-üzemmódi táblázata
+
+Azt írta, hogy élesítéskor a `robots.txt` `Disallow: /` sorát kell cserélni.
+Ilyen sor nincs benne: a letöltés szándékosan szabad, az indexelést a noindex
+tiltja. Ami valóban kell: a `Sitemap:` sor — de **csak ha már van
+`sitemap.xml`**, mert egy 404-re mutató bejelentés rosszabb a hiányánál. A
+`prod-epit.sh` ezért meg is nézi, van-e mit bejelenteni.
 
 ---
 
