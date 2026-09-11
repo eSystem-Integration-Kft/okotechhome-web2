@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.30.02-80A640?style=flat-square" alt="verzió 0.30.02">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.31.00-80A640?style=flat-square" alt="verzió 0.31.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-35-56642B?style=flat-square" alt="35 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-36-56642B?style=flat-square" alt="36 kiadás">
 </p>
 
 ---
@@ -26,6 +26,75 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.31.00] — 2026-09-11
+
+### Hozzáadva — `sitemap.xml`, `llms.txt`, és az AI-keresők beengedése
+
+Bela kérdése: mi hiányzik a kereső-, AI- és GEO-láthatósághoz. Végigmértem az
+éles oldalt, és három dolog derült ki — egy hiány, egy ellentmondás és egy hiba.
+
+**1. Nem volt webhelytérkép.** `scripts/oldalgyartas/sitemap.py` — 184 URL,
+valódi `lastmod`-dal (a fájl módosítási ideje, nem kitalált dátum). `priority`
+és `changefreq` szándékosan nincs benne: a Google 2023 óta figyelmen kívül
+hagyja mindkettőt, és amit nem vesznek figyelembe, azt karbantartani csak
+félrevezető. A `robots.txt` mostantól be is jelenti.
+
+A térkép az **éles fából** készül, nem a `_web/`-ből: ott minden lap `noindex`,
+tehát onnan szükségszerűen üres lenne — és ha mégsem szűrnénk, olyan lapokat
+jelentene be, amiket ugyanaz a lap a metasorában letilt.
+
+**2. Nem volt `llms.txt`.** `scripts/oldalgyartas/llms.py` — 178 hivatkozás, a
+lapok saját `<title>`-jéből és `meta description`-jéből generálva, tehát nem
+tud elcsúszni a tartalomtól. A `sitemap.xml` a gépnek sorolja fel az URL-eket;
+ez a modellnek magyarázza el, melyik lap melyik kérdésre felel.
+
+**3. ⚠️ Az AI-keresők ki voltak zárva — a GEO-láthatóság pontosan nulla volt.**
+Mérve: mind a tizenkét próbált AI-ügynök **403**-at kapott, a `robots.txt` és a
+`.htaccess` együtt. Ez csendben ellentmondott annak, amit az oldaltól vártunk.
+
+Bela döntése: az éles oldal **minden AI-robotot beenged** — a válaszadókat
+(OAI-SearchBot, ChatGPT-User, Perplexity, Claude-SearchBot) és a
+modelltanítókat (GPTBot, ClaudeBot, CCBot, Google-Extended) is.
+
+**A teszt zárva marad.** A `tst.okoth.hu` `noindex`, nincs kihirdetve, és
+félkész szövegek vannak rajta — annak nincs helye sem modellben, sem AI-válaszban.
+Ezért ez is a `prod-epit.sh` rétege lett, nem a `_web/` szerkesztése.
+
+**A SEO-elemző botok tiltva maradnak** mindkét helyen (Ahrefs, Semrush, MJ12,
+DotBot): nem hoznak látogatót és nem idéznek, csak a szerkezetet mérik fel
+harmadik fél eszközéhez.
+
+Mérve élesítés után: mind a tíz próbált AI-ügynök 200 · a négy SEO-elemző 403 ·
+Googlebot és bingbot 200 · a teszten az AI-ügynökök továbbra is 403.
+
+### Mérve, de NEM javítva — ami a kiszolgálón dől el
+
+**A tömörítés az élesen nem működik.** Ugyanazzal a `.htaccess`-szel:
+
+| | gzip kérésre | tömörítés nélkül |
+|---|---|---|
+| `tst.okoth.hu` | **45 423 B** (`Content-Encoding: gzip`) | 236 804 B |
+| `okotechhome.hu` | **236 371 B** (nincs `Content-Encoding`) | 236 371 B |
+
+Az éles oldal tehát minden látogatónak **ötszörös adatmennyiséget** küld. Nem a
+`.htaccess` hibája — a `mod_deflate` blokk ott van, és a teszten ugyanaz
+működik —, hanem az éles gép nginx-proxyja. Kiszolgálói beállítás; a legnagyobb
+egyetlen LCP-tétel a lapon.
+
+**Nincs mérőkód és nincs keresőkonzol-hitelesítés.** Sem GA4, sem GTM, sem
+semmilyen analitika; a `sitemap.xml` nincs beküldve a Google/Bing konzolba.
+Amíg ez így van, a marketingteljesítményről nincs adat.
+
+**Ami rendben van:** a feltételes kérés 304-et ad (az újratöltés nem tölt le
+újra), a verziózott eszközök egy évet kapnak, a strukturált adat négyféle
+sémával él (`LocalBusiness`, `WebSite`, `FAQPage`, `BreadcrumbList`, a hírekben
+`NewsArticle`). ETag nincs, de a `Last-Modified` ugyanazt a munkát elvégzi.
+
+**Kisebb hiányok az Open Graphban:** nincs `og:url`, `og:site_name`,
+`og:image:width/height`, és nincs Twitter Card.
 
 ---
 

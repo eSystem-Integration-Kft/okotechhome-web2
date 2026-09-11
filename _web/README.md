@@ -26,6 +26,52 @@ A zárás **három rétegben** él. **Ezt a hármat NEM kézzel oldjuk fel**: a
 | 5 | `api/config.php` a szerveren | **ELINTÉZVE**: a fájl már mindkét domainre írva (`origin` tartalmazza mindkettőt, az e-mail `url`/`logo` az élesre mutat), és fent van |
 | 6 | **`/oth-titkok/*.txt` a szerveren** | **KÜLÖN LÉPÉS**, lásd lentebb — a `config.php` NEM elég: az AI-kulcs és a CRM-tokenek külön fájlokban élnek, a webgyökér FÖLÖTT |
 
+### Kereső, AI-kereső (GEO) és mérés — a mért állapot
+
+**Az éles oldal indexelhető** (`index, follow`, nincs `X-Robots-Tag`), és a
+Google/Bing be van engedve. Ami ezen felül él vagy hiányzik:
+
+| | Állapot | Hol |
+|---|---|---|
+| `sitemap.xml` | ✅ 184 URL, `lastmod`-dal | `scripts/oldalgyartas/sitemap.py`, az éles fába generálva |
+| `robots.txt` → `Sitemap:` | ✅ | `prod-epit.sh` 3. réteg |
+| `llms.txt` | ✅ 178 hivatkozás | `scripts/oldalgyartas/llms.py` |
+| Strukturált adat | ✅ `LocalBusiness` · `WebSite` · `FAQPage` · `BreadcrumbList` · hírekben `NewsArticle` | a lapokban |
+| **AI-robotok** | ✅ **élesben beengedve** (2026-09-11-i döntés), a teszten tiltva | `prod-epit.sh` 5. réteg |
+| SEO-elemző botok | ⛔ tiltva marad mindkét helyen | `robots.txt` 3) + `.htaccess` |
+| Open Graph | ✅ `type`/`title`/`description`/`image`/`locale` | hiányzik: `og:url`, `og:site_name`, `og:image:width/height` |
+| Twitter Card | ❌ nincs | |
+| **Mérőkód** | ❌ **nincs GA4, GTM, sem semmilyen analitika** | |
+| **Keresőkonzol** | ❌ nincs Google/Bing hitelesítés, a sitemap nincs beküldve | |
+| Tömörítés | ❌ **az élesen nem működik** — lásd lentebb | |
+
+#### ⚠️ A tömörítés az éles kiszolgálón nem működik
+
+Mérve 2026-09-11-én, ugyanazzal a `.htaccess`-szel:
+
+| | gzip kérésre | tömörítés nélkül |
+|---|---|---|
+| `tst.okoth.hu` | **45 423 bájt** (`Content-Encoding: gzip`) | 236 804 bájt |
+| `okotechhome.hu` | **236 371 bájt** (nincs `Content-Encoding`) | 236 371 bájt |
+
+Vagyis az éles oldal minden látogatónak **ötszörös adatmennyiséget** küld. Ez a
+legnagyobb egyetlen teljesítménytétel a lapon, és közvetlenül az LCP-t rontja.
+
+Az ok nem a `.htaccess` (a `mod_deflate` blokk ott van, és a teszten ugyanaz
+működik), hanem az éles gép **nginx-proxyja**: a cPanel nginx vagy elveszi az
+`Accept-Encoding` fejlécet az Apache elől, vagy maga nem tömörít. **Kiszolgálói
+beállítás**, a tárhelyen kell rendezni (cPanel → *Optimize Website*, illetve az
+nginx `gzip`/`brotli` kapcsolója).
+
+A `Vary: Accept-Encoding,User-Agent` fejlécben a `User-Agent` a bot-szűrésből
+ered; CDN mögött ez rontja a gyorsítótár-találatot, enélkül viszont a szűrés
+nem volna helyes. Ma nincs CDN, tehát nem sürgős.
+
+**Ami rendben van:** a feltételes kérés (`If-Modified-Since`) **304**-et ad,
+tehát a lap újratöltéskor nem tölt le újra; a verziózott eszközök egy évet
+kapnak (`max-age=31536000`). ETag nincs, de a `Last-Modified` ugyanazt a
+munkát elvégzi — külön ETag nem hozna mérhetőt.
+
 ### A titkok — három hely, egyik sincs a repóban
 
 A webhely három forrásból vesz titkot:
@@ -854,7 +900,7 @@ tudástári cikkre visz.
 | **Kész aloldalak** | **Megoldások** (41) · **Kiindulópont** (38) · **Projekt-előkészítés** (27) · **Eredmények** (8) · **Tudástár** (12) · **Rólunk** (4) · megkeresés és jogi lapok — a főoldallal együtt **147 lap**. Minden szekció saját hub-lappal |
 | **Szippantási kalkulátor** | `/szippantasi-dij-kalkulator` — egy képlet mind a három díjszabás-szerkezetre, csempetérkép a díjadatbázis állásáról, díjbeküldő űrlap. A díjadatbázis **üres**, a beküldés emberi ellenőrzés után kerül be |
 | **Szövegforrás** | `Okoteh-Home.fooldal.szoveg-vagleges.docx` (főoldal) · `Site map.docx` + `okotechhome-oldalgyartas` skill (aloldalak) |
-| **Hiányzik** | `sitemap.xml`; a szippantási díjadatbázis tartalma; a termékoldalak gyártói adatai |
+| **Hiányzik** | a szippantási díjadatbázis tartalma; a termékoldalak gyártói adatai; **mérőkód (GA4/GTM) és keresőkonzol-hitelesítés**; **a tömörítés az éles kiszolgálón** |
 | **Eldöntendő** | **Két különböző éves üzemeltetési költség él a webhelyen** ugyanarra a berendezésre: a főoldal 9. szekciója és a `tudastar/uzemeltetes-teendok-es-koltsegek` **35 700 Ft/év**-et közöl (áram 24 000 Ft), a `tudastar/oldomedence-vagy-biologiai-szennyviztisztito` tízéves táblája **22 700–27 500 Ft/év**-et (áram 11 000–15 800 Ft). Az iszapzsák és a membrán a két helyen azonos — **kizárólag az áramfeltételezés tér el**. Mindkét lapon HTML-megjegyzés jelöli |
 | **URL-séma** | kiterjesztés nélküli (clean URL), `.htaccess` + `serve.py` |
 | **JS** | 19 modul, összesen ~7770 sor. A legnagyobbak: `ai-advisor.js` (8. szekció), `ofc.js` (11. szekció), `jelentes.js` (jelentés), `terkep.js` (kapcsolati térkép). Mindegyik `defer`, **egyetlen kivétellel**: a `tema.js` a `<head>`-ben, halasztás nélkül fut, különben minden oldalbetöltéskor felvillanna a világos téma. |

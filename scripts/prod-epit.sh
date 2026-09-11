@@ -144,6 +144,15 @@ t = t.replace(sor,
 p.write_text(t, encoding='utf-8')
 PY
 
+# --------------------------------------- 2/b. réteg: sitemap.xml és llms.txt
+# A TÉRKÉP ITT KÉSZÜL, nem a `_web/`-ben: ott minden lap `noindex`, tehát a
+# térkép szükségszerűen üres lenne — és ha mégsem szűrnénk, olyan lapokat
+# jelentene be, amiket ugyanaz a lap a metasorában letilt. A sorrend kötött:
+# a noindex-réteg UTÁN, a robots.txt-réteg ELŐTT (az onnan tudja meg, hogy van
+# már mit bejelenteni).
+python3 "$GYOKER/scripts/oldalgyartas/sitemap.py" "$CEL" | sed 's/^/  /'
+python3 "$GYOKER/scripts/oldalgyartas/llms.py" "$CEL" | sed 's/^/  /'
+
 # ----------------------------------------------- 3. réteg: robots.txt sitemap
 # CSAK AKKOR JELENTJÜK BE, HA VAN MIT. Egy 404-re mutató `Sitemap:` sor
 # rosszabb, mint a hiánya: a kereső hibaként naplózza, és a Search Console-ban
@@ -204,6 +213,65 @@ t = t.rstrip('\n') + (
     '</IfModule>\n')
 p.write_text(t, encoding='utf-8')
 PYPHP
+
+# ------------------------------------- 5. réteg: az AI-robotok beengedése
+# DÖNTÉS (Bela, 2026-09-11): az ÉLES oldal MINDEN AI-robotot beenged — a
+# válaszadókat (OAI-SearchBot, PerplexityBot, Claude-SearchBot…) és a
+# modelltanítókat (GPTBot, ClaudeBot, CCBot, Google-Extended…) is. A cél az
+# AI-keresési láthatóság: ami nem érhető el, azt egyetlen AI-kereső sem tudja
+# idézni. Mérve élesítés előtt: mind a tizenkét próbált AI-ügynök 403-at kapott,
+# tehát a GEO-láthatóság pontosan nulla volt.
+#
+# A TESZT ZÁRVA MARAD. A `tst.okoth.hu` `noindex`, nincs kihirdetve, és
+# félkész szövegek vannak rajta — annak nincs helye sem modellben, sem AI-válaszban.
+# Ezért él ez a réteg csak itt, és nem a `_web/`-ben.
+#
+# A SEO-ELEMZŐ BOTOK TILTVA MARADNAK (Ahrefs, Semrush, MJ12, DotBot…): azok nem
+# hoznak látogatót és nem idéznek, csak a szerkezetet mérik fel harmadik fél
+# eszközéhez.
+python3 - "$CEL" <<'PYAI'
+import re, sys, pathlib
+
+CEL = pathlib.Path(sys.argv[1])
+
+# --- robots.txt: a 2) szakasz (AI-botok) kivétele ---
+r = CEL / 'robots.txt'
+t = r.read_text(encoding='utf-8')
+kezd = t.find('# --- 2) AI-tanító')
+veg = t.find('# --- 3) SEO-elemző')
+if kezd == -1 or veg == -1 or veg < kezd:
+    sys.exit('HIBA: a robots.txt szakaszhatárai nem találhatók — '
+             'a szerkezet megváltozott, a prod-epit.sh-t hozzá kell igazítani.')
+t = t[:kezd] + (
+    '# --- 2) AI-tanító és AI-kereső (GEO) botok — ÉLESBEN ENGEDVE ---------------\n'
+    '# A tiltólistát a `prod-epit.sh` vette ki. Az éles oldal célja az\n'
+    '# AI-keresési láthatóság: amit a robot nem tud letölteni, azt egyetlen\n'
+    '# AI-kereső sem tudja idézni. A TESZT oldalon (`_web/`) a tiltás megmarad.\n'
+    '# A felsorolás ott van, ha egyszer vissza kell kapcsolni.\n\n\n'
+) + t[veg:]
+r.write_text(t, encoding='utf-8')
+
+# --- .htaccess: az AI-ügynökök SetEnvIf sorainak kivétele ---
+# A SEO-botok sora (Ahrefs, Semrush…) MARAD. A kettőt a tartalmuk különíti el,
+# nem a sorszámuk: a sorszám az első átrendezésnél elcsúszna.
+h = CEL / '.htaccess'
+t = h.read_text(encoding='utf-8')
+AI_JEL = ('GPTBot', 'meta-externalagent', 'CCBot')     # a három AI-sor kezdő mintája
+SEO_JEL = ('AhrefsBot',)
+uj_sorok, kivett = [], 0
+for sor in t.split('\n'):
+    ai = sor.lstrip().startswith('SetEnvIfNoCase User-Agent') and any(j in sor for j in AI_JEL)
+    if ai and not any(j in sor for j in SEO_JEL):
+        uj_sorok.append('  # ÉLESBEN ENGEDVE (prod-epit.sh) — AI-robotok: ' + sor.strip()[:60] + '…')
+        kivett += 1
+        continue
+    uj_sorok.append(sor)
+if kivett != 3:
+    sys.exit(f'HIBA: {kivett} AI-sort találtam a .htaccess-ben 3 helyett — '
+             'a szerkezet megváltozott, a prod-epit.sh-t hozzá kell igazítani.')
+h.write_text('\n'.join(uj_sorok), encoding='utf-8')
+print(f'AI-robotok beengedve: robots.txt 2) szakasz + {kivett} .htaccess-sor')
+PYAI
 
 # ------------------------------------------------------------------- jelölés
 cat > "$CEL/.epult" <<EOF
