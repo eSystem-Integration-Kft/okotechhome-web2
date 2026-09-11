@@ -28,10 +28,10 @@ GYOKER = pathlib.Path(__file__).resolve().parents[2]
 WEB = GYOKER / '_web'
 FORRAS = pathlib.Path(__file__).resolve().parent / 'hirek-forras.json'
 
-CSS_V = 214          # hírek: teljes borító a részletlapon, idővonal-finomítás
+CSS_V = 215          # hírek: a [hidden] érvényre juttatása a szűrésnél
 JS_SITE_V = 12
 JS_KALAUZ_V = 44
-JS_HIREK_V = 2      # nagyított képnézet
+JS_HIREK_V = 3      # a szűrő csak a kártyákat veszi
 KEP_V = 1            # az assets/img/hirek/ első kiadása
 
 DOMAIN = 'https://okotechhome.hu'
@@ -305,7 +305,7 @@ def morzsa_ld(elemek):
 def gyujtolap(adat):
     hirek, kategoriak = adat['hirek'], adat['kategoriak']
     nev = {k['szlug']: k['nev'] for k in kategoriak}
-    elso, tobbi = hirek[0], hirek[1:]
+    elso = hirek[0]
 
     chipek = [
         '          <button type="button" class="hir-chip type-ui-button"\n'
@@ -323,8 +323,13 @@ def gyujtolap(adat):
             f'            <span class="hir-chip-db type-data-value">{db}</span>\n'
             '          </button>')
 
+    # A RÁCS MINDEN HÍRT TARTALMAZ, a legfrissebbet is. Korábban kimaradt
+    # belőle, mert fölötte külön panelben áll — csakhogy a szűrőgombon álló
+    # darabszám a TELJES rovatot mondja, és a rács eggyel kevesebbet mutatott:
+    # „Pályázatok és fejlesztések 8", alatta hét kártya. A kiemelés hangsúly,
+    # nem kivétel; a szakasz címe pedig „Minden hír".
     kartyak = '\n'.join(kartya(h, nev[h['kategoria']], '../../', '')
-                        for h in tobbi)
+                        for h in hirek)
 
     bor = elso['borito']
     if bor:

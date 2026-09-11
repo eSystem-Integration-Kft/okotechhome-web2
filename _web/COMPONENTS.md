@@ -2480,6 +2480,25 @@ chipeken álló darabszám akkor sem hazudik: az statikus adat. A választás
 bekerül az URL-be (`?rovat=…`, `replaceState`), de **nem** ír előzményt — a
 „vissza" gomb a lapról kifelé vigyen, ne a szűrő korábbi állásaiba.
 
+> ⚠️ **A `hidden` önmagában nem rejt el semmit, ha az elemnek van saját
+> `display`-e.** A böngésző `[hidden]{display:none}` szabálya a legalacsonyabb
+> rendű, és a `.card-item{display:flex}` felülírja — a rovatszűrés emiatt
+> látszólag nem működött: a chip „6"-ot mondott, a rács negyvenkettőt mutatott.
+> Ugyanez a lapon már háromszor előfordult (`.terkep-elo`, `.gyik-tabla`,
+> `.folyamat-panel`); a megoldás mindannyiszor ugyanaz: az attribútumos
+> szabályt ki kell mondani (`.card-item[hidden]{display:none}`). Nagyobb
+> fajsúlyú, mint az osztályszabály, ezért `!important` nem kell hozzá.
+
+> A szűrő **csak a kártyákat** veszi (`.card-item[data-rovat]`). A puszta
+> `[data-rovat]` a szűrőgombokat is megtalálta — azokon ugyanez az adatjelző
+> áll —, így a szűrés a saját vezérlőit is elrejtette volna, a találatszámba
+> pedig beleszámolta a négy gombot.
+
+> A rács **minden hírt tartalmaz**, a legfrissebbet is, pedig az fölötte külön
+> panelben is áll. A szűrőgombon ugyanis a TELJES rovat darabszáma szerepel:
+> ha a kiemelt hír kimaradna a rácsból, a gomb nyolcat ígérne, alatta hét
+> kártya állna. A kiemelés hangsúly, nem kivétel.
+
 **Három rovat**, a sitemap szerint: Vállalati hírek · Kiállítások és események ·
 Pályázatok és fejlesztések. A WordPress hat kategóriát használt, és azok
 keveredtek (a „Sajtóközlemény" a kötelező pályázati közleményeket és a

@@ -26,7 +26,11 @@
   if (!gyoker) return;
 
   var chipek = Array.prototype.slice.call(gyoker.querySelectorAll(".hir-chip"));
-  var elemek = Array.prototype.slice.call(gyoker.querySelectorAll("[data-rovat]"));
+  /* CSAK A KÁRTYÁK. A puszta `[data-rovat]` a szűrőgombokat is megtalálta —
+     azokon ugyanez az adatjelző áll —, így a szűrés a saját vezérlőit is
+     elrejtette volna, a találatszámba pedig beleszámolta a négy gombot. */
+  var elemek = Array.prototype.slice.call(
+    gyoker.querySelectorAll(".card-item[data-rovat]"));
   var talalat = gyoker.querySelector("[data-hir-talalat]");
   var ures = gyoker.querySelector("[data-hir-ures]");
   if (!chipek.length || !elemek.length) return;

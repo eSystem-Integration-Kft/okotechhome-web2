@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.00-80A640?style=flat-square" alt="verzió 0.29.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.01-80A640?style=flat-square" alt="verzió 0.29.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-29-56642B?style=flat-square" alt="29 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-30-56642B?style=flat-square" alt="30 kiadás">
 </p>
 
 ---
@@ -26,6 +26,53 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.29.01] — 2026-09-11
+
+### ⚠️ Javítva — a rovatszűrő nem szűrt
+
+Bela szúrta ki egy képernyőképen: a „Kiállítások és események" gomb be volt
+nyomva, alatta mégis ott állt egy Dun & Bradstreet-tanúsítvány. **Két hiba
+egyszerre, ugyanabból a családból.**
+
+**1. A `hidden` nem rejtett el semmit.** A böngésző `[hidden]{display:none}`
+szabálya a legalacsonyabb rendű, és bármely szerzői `display` felülírja — a
+hírkártya pedig `.card-item{display:flex}`. A szkript tehát rendesen rátette a
+`hidden` attribútumot mind a harminchat nem illeszkedő kártyára, azok viszont
+a helyükön maradtak.
+
+Ez a lapon **már háromszor** előfordult (`.terkep-elo`, `.gyik-tabla`,
+`.folyamat-panel`), és az app.css 2835. sora nevesítve is figyelmeztet rá. A
+megoldás mindannyiszor ugyanaz: az attribútumos szabályt ki kell mondani.
+Nagyobb fajsúlyú, mint az osztályszabály, ezért `!important` nem kell hozzá:
+
+```css
+.card-item[hidden],
+.hir-chip[hidden],
+.hir-idovonal-vezerlok[hidden]{display:none}
+```
+
+A `.hir-chip` és a `.hir-idovonal-vezerlok` ugyanebbe futott volna bele, csak
+még nem derült ki: az egyik a szűrőgomboké, a másik az idővonal
+léptetőgombjaié, amelyeket akkor rejtünk el, ha a sor kifér.
+
+**2. A szűrő a saját gombjait is elemnek vette.** A `[data-rovat]` válogató a
+négy szűrőgombot is megtalálta — azokon ugyanez az adatjelző áll —, tehát a
+szűrés elrejtette volna a saját vezérlőit, a találatszámba pedig beleszámolta
+őket. Mostantól `.card-item[data-rovat]`.
+
+### Javítva — a szűrőgomb darabszáma és a rács nem ugyanazt mondta
+
+A legfrissebb hír fölül külön panelben áll, és eddig kimaradt a rács alól. A
+gombon viszont a TELJES rovat darabszáma szerepel: „Pályázatok és fejlesztések
+8", alatta hét kártya. A kiemelés hangsúly, nem kivétel — és a szakasz címe
+„Minden hír" —, ezért a rács mostantól mind a negyvenkettőt tartalmazza.
+
+Mérve, mind a négy gombra: a chip darabszáma és a láthatóvá maradt kártyák
+száma megegyezik (42 · 8 · 6 · 28), és minden szűrt nézetben pontosan egy rovat
+kártyái maradnak.
 
 ---
 

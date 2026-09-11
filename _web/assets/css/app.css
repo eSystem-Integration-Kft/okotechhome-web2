@@ -8500,6 +8500,21 @@
      `@layer responsive` `.card-grid`-szabályai adják, azok később jönnek. */
   .card-grid[data-cols="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
 
+  /* ----- A REJTÉS ÉRVÉNYRE JUTTATÁSA -------------------------------------
+     A böngésző `[hidden]{display:none}` szabálya a legalacsonyabb rendű:
+     BÁRMELY szerzői `display` felülírja. A hírkártya `.card-item{display:flex}`,
+     a chip `display:inline-flex`, a vezérlősor `display:flex` — vagyis a
+     `hidden` attribútum egyiken sem rejtett volna el semmit, és a rovatszűrés
+     látszólag nem működött: a kártyák a helyükön maradtak.
+
+     Ugyanez a csapda a lapon már háromszor előfordult (`.terkep-elo`,
+     `.gyik-tabla`, `.folyamat-panel`); a megoldás mindannyiszor ugyanaz: az
+     attribútumos szabályt KI KELL MONDANI. Nagyobb fajsúlyú, mint az
+     osztályszabály, ezért `!important` nem kell hozzá. */
+  .card-item[hidden],
+  .hir-chip[hidden],
+  .hir-idovonal-vezerlok[hidden]{display:none}
+
   /* ----- Rovatszűrő ------------------------------------------------------ */
   .hir-szuro{
     display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-8);
