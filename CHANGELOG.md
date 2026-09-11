@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.31.00-80A640?style=flat-square" alt="verzió 0.31.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.32.00-80A640?style=flat-square" alt="verzió 0.32.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-36-56642B?style=flat-square" alt="36 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-37-56642B?style=flat-square" alt="37 kiadás">
 </p>
 
 ---
@@ -28,6 +28,57 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.32.00] — 2026-09-11
+
+### Módosítva — az AI-keret duplázva, alá pedig védelem
+
+Bela kérdése: meg tudjuk-e duplázni az AI-keretet, de védelemmel. Meg — de a
+mérés azt mutatta, hogy **nem a szám volt a gyenge pont, hanem az arány.**
+
+**A hiba, ami eddig nem látszott.** A csevegés IP-nkénti korlátja 30 hívás/óra
+volt, napi plafon nélkül. Ez egyetlen címről **napi 720 hívást** engedett —
+majdnem a duplája az egész webhely 400-as napi keretének. Vagyis egy gép
+egyedül megehette a napot, és a keret puszta emelése csak azt növelte volna,
+amit egyetlen gép elvihet. A védelem ezért nem a keret mellé került, hanem alá.
+
+**Négy réteg egymás fölött, kettő címenként, kettő webhelyszinten:**
+
+| réteg | előtte | most |
+|---|---|---|
+| IP / óra | 30 | 30 — marad bőkezű, mert mobilhálózaton (CGNAT) sok valódi látogató osztozik egy címen |
+| IP / nap | — | **80** — ez a réteg hiányzott |
+| webhely / óra | — | **140** (`ai.ora_keret`) — teljes gázzal is hat óra a nap kimerítése |
+| webhely / nap | 400 | **800** (`ai.napi_keret`), ebből a csevegésé 85% |
+
+Az ajánlat-elemzés (a legdrágább hívás, 8000 token) 60 → **120**/nap, és
+címenként napi 12 lett a plafon az eddigi óránkénti 5 mellé.
+
+**A konzultációkérő előjoga.** A csevegés és az űrlapok egyetlen számlálón
+osztoztak, tehát egy sokat kérdezett nap kiéheztette a pénzt hozó utat. A
+kalauz mostantól a napi keret **85%-ánál** megáll (`ai.kalauz_hanyad`), a
+konzultációs végpontok viszont a **teljes** keretet látják: az utolsó 15% azé,
+aki űrlapot tölt. Egy megkeresés többet ér, mint száz csevegés.
+
+**A `hiba.log` 80%-nál is szól**, nemcsak beteléskor — ott még lehet emelni
+vagy megnézni, ki eszi meg.
+
+### Javítva — a keretnap hajnali kettőkor fordult
+
+A számláló `gmdate()`-tel bélyegezte a fájlját, az `indit.php` viszont azóta
+`Europe/Budapest`-re állítja az időzónát. A keret így nyáron **02:00-kor**
+fordult, nem éjfélkor: egy esti merítés két naptári napra oszlott, és a napló
+nem a munkanappal járt együtt. `date()` lett belőle.
+
+### Javítva — a titokátvitel némán elhalt billentyűzet nélkül
+
+A `scripts/titkok-atvitel.sh` megerősítő kérdése feltétel nélkül olvasott a
+bemenetről. Terminál nélkül futtatva (`!` előtag, cron, csővezeték) a `read`
+azonnal EOF-ot kapott, és `set -e` mellett ez megölte a szkriptet, mielőtt egy
+bájt is mozdult volna — még a „Megszakítva" sem jutott ki. Most csak akkor
+kérdez, ha van kinek; egyébként a `--igen` kapcsoló a megerősítés.
+
+Ezzel ment fel az **AI-kulcs az élesre**: az Öko azóta `{"ok":true}`.
 
 ## [0.31.00] — 2026-09-11
 

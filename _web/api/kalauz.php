@@ -33,7 +33,14 @@ declare(strict_types=1);
 require __DIR__ . '/lib/indit.php';
 require __DIR__ . '/lib/ai.php';
 
+/* KÉT IDŐABLAK UGYANARRA A CÍMRE. Az órás a rohamot fogja meg, a napi a lassú,
+   kitartó merítést — 30/óra ugyanis magában napi 720 hívást engedne EGYETLEN
+   címről, vagyis egy gép egyedül megehetné az egész webhely napi keretét.
+   Az órás szándékosan marad bőkezű: mobilhálózaton (CGNAT) sok valódi látogató
+   osztozik egy címen, és őket nem büntethetjük meg a robot miatt. A napi 80-at
+   ember nem éri el; egy nap alatt nyolcvanszor kérdezni már nem böngészés. */
 OthVedelem::sebessegkorlat('kalauz', 30, 60);
+OthVedelem::sebessegkorlat('kalauz-nap', 80, 1440);
 
 /* A LÁTOGATÓ NYELVE a lap `<html lang>` attribútumából jön. Csak 'en'-t
    fogadunk el a magyar mellett: ismeretlen érték esetén marad a magyar. */
@@ -53,10 +60,28 @@ $UZ = $nyelv === 'en' ? [
     'nincsAi'=> 'Most nem érem el a keresőt. A menü Tudástár pontja alatt megtalálja a témákat, vagy hívjon minket: +36 33 200 211.',
 ];
 
-/* Webhelyszintű napi keret: az IP-korlátot proxylistával meg lehet kerülni,
-   ezt nem. Ha betelt, Öko őszintén elköszön a napra — a statikus tartalom és
-   a telefon ettől még működik. */
-if (!OthVedelem::napiKeret('ai', (int) ($CFG['ai']['napi_keret'] ?? 400))) {
+/* KÉT WEBHELYSZINTŰ KERET A CSEVEGÉS FÖLÖTT. Mindkettő címtől független — az
+   IP-korlátot proxylistával meg lehet kerülni, ezeket nem.
+     1. ÓRÁS PLAFON. Egy elosztott roham ne tudja egyetlen óra alatt elvinni a
+        napot. Alapértéke a napi keret hatoda: a kimerítéshez így akkor is hat
+        óra kell, ha végig teljes gázzal megy — van idő észrevenni.
+     2. A NAPI KERET 85%-A A CSEVEGÉSÉ. Az utolsó 15% a KONZULTÁCIÓKÉRŐÉ:
+        aki űrlapot tölt, annak a kitöltéssegéd akkor is működjön, ha Ökót
+        aznap agyonkérdezték. Egy megkeresés többet ér, mint száz csevegés,
+        és eddig egy közös számlálón osztoztak — a csevegés kiéheztette a
+        pénzt hozó utat. Ez a réteg választja szét őket, egy szám emelése
+        nélkül. A konzultációs végpontok továbbra is a TELJES keretet látják.
+   Betelte után Öko őszintén elköszön a napra; a statikus tartalom, a Tudástár
+   és a telefon ettől még működik. */
+$napiKeret   = (int) ($CFG['ai']['napi_keret'] ?? 400);
+$oraKeret    = (int) ($CFG['ai']['ora_keret'] ?? max(20, (int) ceil($napiKeret / 6)));
+$csevegResz  = (int) ($CFG['ai']['kalauz_hanyad'] ?? 85);
+$csevegKeret = max(1, (int) ($napiKeret * $csevegResz / 100));
+
+/* A sorrend nem mindegy: a `||` rövidre zár, tehát ha az órás plafon betelt,
+   a napi számláló NEM lép — nem írunk le olyan hívást, ami el sem indult. */
+if (!OthVedelem::napiKeret('ai-ora', $oraKeret, 'Y-m-d-H')
+    || !OthVedelem::napiKeret('ai', $csevegKeret)) {
     OthVedelem::valasz(503, ['ok' => false,
         'uzenet' => $UZ['keret']]);
 }

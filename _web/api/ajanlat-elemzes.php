@@ -49,7 +49,11 @@ $phpKorlat = (int) ini_get('max_execution_time');
 $curlKorlat = $phpKorlat > 0 ? max(15, $phpKorlat - 10) : 150;
 
 /* Az elemzés drága művelet: szigorúbb korlát, mint a leveleknél. */
+/* A LEGDRÁGÁBB HÍVÁS (8000 token + a feltöltött ajánlatok szövege), ezért itt
+   a napi plafon címenként is szoros: öt óránként még elfér egy javítgató kör,
+   tizenkettő naponta viszont már nem valódi használat. */
 OthVedelem::sebessegkorlat('elemzes', 5, 60);
+OthVedelem::sebessegkorlat('elemzes-nap', 12, 1440);
 
 /* Webhelyszintű napi keret — a leghosszabb hívás a webhelyen (8000 token,
    dokumentumokkal), ezért külön, kisebb kerete van, mint a kalauznak. */

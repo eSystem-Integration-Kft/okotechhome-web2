@@ -136,12 +136,30 @@ return [
         // Elgépelt modellnév esetén a hiba a api/hiba.log-ban nevesítve jelenik meg.
         'modell'  => oth_env('OTH_AI_MODELL', 'claude-sonnet-5'),
         'timeout' => 120,
-        // WEBHELYSZINTŰ napi keretek — nem IP-nkénti: az IP-korlátot
-        // proxylistával meg lehet kerülni, ezt nem. Betelte után a kalauz és a
-        // kitöltéssegéd udvariasan elköszön, a konzultációkérés AI-összefoglaló
-        // nélkül is kimegy. 0 = nincs keret.
-        'napi_keret'         => 400,  // kalauz + kitöltéssegéd + beküldési brief
-        'napi_keret_elemzes' => 60,   // ajánlat-elemzés (a legdrágább hívás)
+        // ===================== KERETEK ======================================
+        // Mind WEBHELYSZINTŰ, nem IP-nkénti: az IP-korlátot proxylistával meg
+        // lehet kerülni, ezeket nem. 0 = nincs keret.
+        //
+        // Az EMELÉS ÖNMAGÁBAN NEM VESZÉLYES, az arány az. A csevegés IP-nkénti
+        // korlátja 30/óra; ez napi 720 hívást engedne EGYETLEN címről, vagyis
+        // egy gép egyedül megenné az egész napot — akármekkora a keret. Ezért
+        // a kalauz.php címenként napi 80-nál is megáll, és az alábbi órás
+        // plafon fogja meg az elosztott rohamot. A keret a HAVI SZÁMLÁT
+        // szabályozza, a két korlát pedig azt, hogy ki költi el.
+        'napi_keret'         => 800,  // kalauz + kitöltéssegéd + beküldési brief
+        'napi_keret_elemzes' => 120,  // ajánlat-elemzés (a legdrágább hívás)
+
+        // ÓRÁS PLAFON a csevegésre. Enélkül a napi keret reggel kilencig
+        // elfogyhat, és a nap többi látogatója üres kézzel megy el. A hatod
+        // azt jelenti: teljes gázzal is hat óra a kimerítés — van idő
+        // észrevenni (a hiba.log 80%-nál szól).
+        'ora_keret'          => 140,
+
+        // A NAPI KERET HÁNY SZÁZALÉKÁIG MEHET A CSEVEGÉS. A maradék a
+        // konzultációkérőé: aki űrlapot tölt, annak a kitöltéssegéd akkor is
+        // működjön, ha Ökót aznap agyonkérdezték. Egy megkeresés többet ér,
+        // mint száz csevegés — eddig viszont egy közös számlálón osztoztak.
+        'kalauz_hanyad'      => 85,
     ],
 
     /* --- Feladó és címzettek --------------------------------------------- */

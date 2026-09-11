@@ -760,9 +760,18 @@ Egyetlen elem mozgatásával nem volt megoldható: az elem helyzete inline
 
 ### Végpont
 
-`api/kalauz.php` — sebességkorlát 30/óra IP-nként, és **webhelyszintű napi keret**
-(`ai.napi_keret`, alapból 400 hívás/nap az összes AI-végponttal közösen): az
-IP-korlátot proxylistával meg lehet kerülni, ezt nem. A kérés a kérdést, az
+`api/kalauz.php` — **négy korlát egymás fölött**, kettő címenként, kettő
+webhelyszinten (ez utóbbit proxylistával nem lehet megkerülni):
+
+| réteg | érték | mit fog meg |
+|---|---|---|
+| IP / óra | 30 | a rohamot. Bőkezű, mert mobilhálózaton (CGNAT) sok valódi látogató osztozik egy címen |
+| IP / nap | 80 | a lassú, kitartó merítést. **Ez a réteg hiányzott:** 30/óra magában napi 720 hívást engedett egyetlen címről — többet, mint az egész webhely napi kerete, tehát egy gép egyedül megehette a napot |
+| webhely / óra | `ai.ora_keret`, 140 | az elosztott rohamot. Teljes gázzal is hat óra a napi keret kimerítése, van idő észrevenni |
+| webhely / nap | `ai.napi_keret` × `ai.kalauz_hanyad`, 800 × 85% = 680 | a havi számlát. A maradék 15% a konzultációkérőé — lásd lent |
+
+A `hiba.log` **80%-nál is szól**, nemcsak beteléskor: ott még lehet emelni vagy
+megnézni, ki eszi meg. A kérés a kérdést, az
 üzemmódot, az **aktuális lap útvonalát**, urlap módban a **lépésszámot** és a
 párbeszéd utolsó hat fordulóját viszi. A végpont az aktuális lapot betolja a
 katalógusba, és kimondja: ha a válasz ezen a lapon van, az legyen az első találat
@@ -825,10 +834,21 @@ kerül a böngészőbe**: a kliens csak a saját végpontjainkat látja. Sebess�
 kitöltéssegédre 20/óra, a beküldésre a `config.php` általános korlátja.
 
 Az IP-nkénti korlátok fölött **webhelyszintű napi keret** is él (`ai.napi_keret`,
-alapból 400 AI-hívás/nap; az ajánlat-elemzésnek külön `napi_keret_elemzes`, 60/nap):
-elosztott, IP-váltogató próbálkozás ellen a napi plafon véd, nem az IP-korlát.
-Betelte után a kitöltéssegéd kézi kitöltést ajánl, a beküldés viszont **AI-brief
-nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
+800 AI-hívás/nap; az ajánlat-elemzésnek külön `napi_keret_elemzes`, 120/nap, és
+ott címenként napi 12 a plafon): elosztott, IP-váltogató próbálkozás ellen a napi
+keret véd, nem az IP-korlát. Betelte után a kitöltéssegéd kézi kitöltést ajánl, a
+beküldés viszont **AI-brief nélkül is kimegy** — megkeresést keret miatt nem
+veszítünk.
+
+**A KONZULTÁCIÓKÉRŐ ELŐJOGA.** A csevegés és az űrlapok eddig egyetlen számlálón
+osztoztak, tehát egy sokat kérdezett nap kiéheztette a pénzt hozó utat. A kalauz
+ezért a napi keret **85%-ánál** megáll (`ai.kalauz_hanyad`), a konzultációs
+végpontok viszont a **teljes** keretet látják: az utolsó 15% azé, aki űrlapot
+tölt. Egy megkeresés többet ér, mint száz csevegés.
+
+**EMELÉSKOR A SZÁM A KISEBBIK KÉRDÉS.** Az arány a fontos: amíg egy cím napi
+korlátja magasabb, mint a webhely kerete, addig a keret emelése csak azt növeli,
+amit egyetlen gép elvihet. Előbb a címenkénti plafon, aztán a keret.
 
 ## Hírek — a régi WordPress-blog átemelése
 

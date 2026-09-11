@@ -112,16 +112,26 @@ final class OthVedelem
     }
 
     /**
-     * NAPI KERET — webhelyszintű, nem IP-nkénti. Az IP-korlátot elosztott
-     * támadás (botnet, proxylista) megkerüli: 30 hívás/óra szorozva ezer
-     * címmel már számla. Ez a számláló a NAPOT nézi, címtől függetlenül —
-     * a legrosszabb nap költsége így fix plafon alatt marad.
+     * KERET — webhelyszintű, nem IP-nkénti. Az IP-korlátot elosztott támadás
+     * (botnet, proxylista) megkerüli: 30 hívás/óra szorozva ezer címmel már
+     * számla. Ez a számláló CÍMTŐL FÜGGETLENÜL számol, tehát a legrosszabb
+     * nap költsége fix plafon alatt marad.
+     *
+     * AZ IDŐSZAK PARAMÉTER. Alapból a nap (`Y-m-d`), de `Y-m-d-H`-val órás
+     * plafon is kérhető ugyanezzel a kóddal. A kettő EGYÜTT ér valamit: a
+     * napi keret a havi számlát fogja meg, az órás azt, hogy egyetlen roham
+     * ne vihesse el reggel kilencig az egész napot. Ami marad, holnap is marad.
+     *
+     * AZ IDŐZÓNA A HELYI. Korábban `gmdate()` volt itt, ami nyáron 02:00-kor
+     * fordította a napot — a keret tehát nem a munkanappal járt együtt, és egy
+     * éjszakai merítés két naptári napra oszlott. Az `indit.php` beállítja az
+     * Europe/Budapest zónát, innentől a keretnap is éjfélkor kezdődik.
      *
      * NEM lép ki: igaz/hamis a válasza, mert a hívók nem egyformán reagálnak.
      * A kalauz udvarias 503-at ad, a konzultációkérő viszont AI nélkül is
      * kiküldi a levelet — a megkeresés elvesztése drágább minden keretnél.
      */
-    public static function napiKeret(string $kulcs, int $limit): bool
+    public static function napiKeret(string $kulcs, int $limit, string $idoszak = 'Y-m-d'): bool
     {
         if ($limit <= 0) { return true; }              // 0 vagy negatív: nincs keret
         $dir = __DIR__ . '/../.ratelimit';
@@ -129,7 +139,7 @@ final class OthVedelem
             return true;                               // írásképtelen tárhely: átengedjük
         }
         $f = $dir . '/keret-' . preg_replace('/[^a-z0-9_-]/', '', $kulcs)
-           . '-' . gmdate('Y-m-d') . '.txt';
+           . '-' . date($idoszak) . '.txt';
 
         /* Zárolt olvasás-írás: két egyidejű kérés ne számolhasson ugyanarra a
            sorszámra. A c+ mód létrehozza a fájlt, ha még nincs. */
@@ -146,10 +156,17 @@ final class OthVedelem
         flock($h, LOCK_UN);
         fclose($h);
 
-        /* Egyszer naplózunk, a keret betelésekor — nem minden elutasításnál,
-           különben a napló maga válna a támadás felületévé. */
+        /* KÉT PONTON naplózunk, és mindkettő egyszer szólal meg — nem minden
+           elutasításnál, különben a napló maga válna a támadás felületévé.
+           A nyolcvan százalék a HASZNÁLHATÓ jelzés: akkor még lehet emelni
+           vagy megnézni, ki eszi meg. A betelés már csak utólagos tudomásul
+           vétel. Emelt keretnél ez a különbség a lényeg. */
+        $jelzo = (int) ($limit * 0.8);
+        if ($enged && $jelzo > 0 && $jelzo < $limit && $db + 1 === $jelzo) {
+            error_log("OTH keret: a(z) „{$kulcs}\" keret 80%-on ({$jelzo}/{$limit}).");
+        }
         if ($enged && $db + 1 === $limit) {
-            error_log("OTH keret: a(z) „{$kulcs}\" napi keret ({$limit}) betelt.");
+            error_log("OTH keret: a(z) „{$kulcs}\" keret ({$limit}) betelt.");
         }
         /* A tegnapi számlálófájlokat az alkalmi takarítás viszi el. */
         if (random_int(1, 100) === 1) {
