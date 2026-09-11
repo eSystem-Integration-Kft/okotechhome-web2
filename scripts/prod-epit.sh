@@ -273,6 +273,39 @@ h.write_text('\n'.join(uj_sorok), encoding='utf-8')
 print(f'AI-robotok beengedve: robots.txt 2) szakasz + {kivett} .htaccess-sor')
 PYAI
 
+# ------------------------------------- 6. réteg: a mérés (GA4) bekapcsolása
+#
+# A MÉRÉS CSAK AZ ÉLES OLDALON FUT. Ha a `_web/`-be tennénk, a saját
+# fejlesztői forgalmunk és minden tesztbeküldés bekerülne a GA4-be — a
+# kiindulási adat pedig pont annyira ér, amennyire tiszta. Ezért a mérés is
+# réteg, ugyanúgy, mint a noindex eltávolítása.
+#
+# A MÉRŐAZONOSÍTÓ ITT ÁLL, egy helyen. A `meres.js` maga nem tartalmazza: a
+# beszúrt tag `data-ga4` attribútumából olvassa ki, és azonosító híján nem
+# csinál semmit. Így ugyanaz a fájl mehet mindkét fába.
+#
+# A HOZZÁJÁRULÁST NEM EZ A RÉTEG KEZELI. A `meres.js` alapból MINDENT tilt
+# (Consent Mode v2 `denied`), és csak akkor enged, ha a `suti.js` — ami
+# mindkét fában ott van — azt hirdeti, hogy a látogató a statisztikai
+# kategóriát engedélyezte. A mérés bekapcsolása tehát nem kerüli meg a
+# hozzájárulást, csak elérhetővé teszi.
+GA4="G-EN120W3K2Q"
+python3 - "$CEL" "$GA4" <<'PYGA'
+import pathlib, re, sys
+cel, ga4 = pathlib.Path(sys.argv[1]), sys.argv[2]
+sor = ('<!-- Mérés (GA4). Hozzájárulásig minden tárolás tiltva — lásd\n'
+       '     assets/js/meres.js és assets/js/suti.js. -->\n'
+       f'<script src="/assets/js/meres.js?v=1" data-ga4="{ga4}" defer></script>\n')
+n = 0
+for f in sorted(cel.rglob('*.html')):
+    t = f.read_text(encoding='utf-8')
+    if 'assets/js/meres.js' in t or '</head>' not in t:
+        continue
+    f.write_text(t.replace('</head>', sor + '</head>', 1), encoding='utf-8')
+    n += 1
+print(f'mérés beszúrva: {n} lapon ({ga4})')
+PYGA
+
 # ------------------------------------------------------------------- jelölés
 cat > "$CEL/.epult" <<EOF
 $(date '+%Y-%m-%d %H:%M:%S')
@@ -294,6 +327,8 @@ EOF
 # A `|| true` NEM ELHAGYHATÓ. A `set -o pipefail` mellett a találat nélküli
 # `grep` (kilépés 1) az EGÉSZ csővezetéket bukottá teszi, a `set -e` pedig
 # megállítja a szkriptet — épp akkor, amikor a helyes eredményt találta meg.
+MERES=$( { grep -rl 'assets/js/meres.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
+SUTI=$( { grep -rl 'assets/js/suti.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
 MARADT_META=$( { grep -rlF 'content="noindex' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
 MARADT_FEJLEC=$(grep -c '^  Header always set X-Robots-Tag' "$CEL/.htaccess" 2>/dev/null || true)
 SITEMAP=$( { grep -c '^Sitemap:' "$CEL/robots.txt" 2>/dev/null || true; } | head -1)
@@ -309,9 +344,20 @@ if [ "$SITEMAP_VAN" = 1 ]; then
 else
   printf '  robots.txt Sitemap sor ...... –  (nincs sitemap.xml, ezért nem is jelentjük be)\n'
 fi
+printf '  mérés (GA4) a lapokon ....... %s  %s\n' "$MERES" "$([ "${MERES:-0}" -gt 0 ] && echo '✓' || echo '✕ HIBA')"
+# A SORREND ITT ÁLLÍTÁS: hozzájárulási felület nélkül mérés nem mehet ki. Ha a
+# `suti.js` valamiért kevesebb lapon van, mint a `meres.js`, az különbség némán
+# jogsértő lapokat jelentene — ezért ez is kapu, nem tájékoztatás.
+printf '  süti-hozzájárulás a lapokon . %s  %s\n' "$SUTI" "$([ "${SUTI:-0}" -ge "${MERES:-0}" ] && [ "${SUTI:-0}" -gt 0 ] && echo '✓' || echo '✕ HIBA — mérés hozzájárulás nélkül')"
+
 echo
 
+# A MÉRÉS KAPUJA IS ITT VAN. Mérés hozzájárulási felület nélkül nem kerülhet
+# ki: ha a `suti.js` kevesebb lapon van, mint a `meres.js`, akkor a különbségen
+# a GA4 a látogató beleegyezése nélkül futna. Ez nem figyelmeztetés, hanem
+# leállás — az ilyen hiba némán keletkezik, és utólag nem javítható ki.
 if [ "$MARADT_META" != 0 ] || [ "${MARADT_FEJLEC:-0}" != 0 ] || [ "${PHPKEZ:-0}" != 1 ] \
+   || [ "${MERES:-0}" -eq 0 ] || [ "${SUTI:-0}" -lt "${MERES:-0}" ] \
    || { [ "$SITEMAP_VAN" = 1 ] && [ "${SITEMAP:-0}" != 1 ]; }; then
   piros "A _web_prod/ NEM élesíthető — a fenti ellenőrzés bukott."
   exit 1

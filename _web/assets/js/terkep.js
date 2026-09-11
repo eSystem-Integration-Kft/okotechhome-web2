@@ -45,10 +45,85 @@
   var hossz = parseFloat(szekcio.getAttribute('data-terkep-hosszusag'));
   var nagyitas = parseInt(szekcio.getAttribute('data-terkep-nagyitas'), 10) || 16;
 
-  if (kulcs && elo && isFinite(szel) && isFinite(hossz)) {
-    eloTerkep();
+  /* ---------------------------------------------------------------------
+   * 0) HOZZÁJÁRULÁSI KAPU
+   *
+   * A térkép HARMADIK FÉL beágyazása: a Google megkapja a látogató IP-címét
+   * és sütit helyezhet el. Az ePrivacy és a GDPR szerint ehhez előzetes
+   * hozzájárulás kell — a Cookie-tájékoztató ezt „Beágyazott térkép"
+   * kategóriaként be is ígéri.
+   *
+   * EZÉRT AZ IFRAME `data-src`-VEL ÉRKEZIK, `src` nélkül. Ha `src`-vel jönne,
+   * a böngésző már a HTML feldolgozásakor lekérné a Google-t, jóval azelőtt,
+   * hogy ez a szkript egyáltalán lefutna — a kapu tehát csak a jelszót kérné,
+   * miután az ajtó már kinyílt.
+   *
+   * HOZZÁJÁRULÁS NÉLKÜL a helyén gomb áll. A cím, a nyitvatartás és az
+   * útvonaltervezés hivatkozása a lapon marad: aki nem járul hozzá, nem veszít
+   * információt, csak a beágyazott képet.
+   * ------------------------------------------------------------------- */
+  var indult = false;
+  var helyorzo = null;
+
+  function terkepIndul() {
+    if (indult) return;
+    indult = true;
+    if (helyorzo) { helyorzo.remove(); helyorzo = null; }
+    if (!keret.getAttribute('src') && keret.dataset.src) {
+      keret.setAttribute('src', keret.dataset.src);
+    }
+    if (kulcs && elo && isFinite(szel) && isFinite(hossz)) {
+      eloTerkep();
+    } else {
+      beagyazottJeloles();
+    }
+  }
+
+  function engedett() {
+    return !!(window.OthSuti && window.OthSuti.enged('terkep'));
+  }
+
+  function helyorzoEpit() {
+    helyorzo = document.createElement('div');
+    helyorzo.className = 'terkep-helyorzo';
+
+    var cim = document.createElement('p');
+    cim.className = 'type-ui-body-strong';
+    cim.textContent = 'A térkép betöltéséhez az Ön hozzájárulása kell';
+    helyorzo.appendChild(cim);
+
+    var mit = document.createElement('p');
+    mit.className = 'type-ui-caption';
+    mit.textContent = 'A beágyazott Google Térkép megjelenítésével a Google '
+      + 'megkapja az IP-címét és sütit helyezhet el. A cím és az '
+      + 'útvonaltervezés enélkül is elérhető a lapon.';
+    helyorzo.appendChild(mit);
+
+    var gomb = document.createElement('button');
+    gomb.type = 'button';
+    gomb.className = 'btn btn-primary type-ui-button';
+    gomb.textContent = 'Térkép betöltése';
+    /* A gomb megnyomása MAGA a hozzájárulás erre az egy célra — a mérésre
+       nem terjed ki. Az `OthSuti.megad` el is menti, hogy a következő
+       látogatásnál ne kelljen újra rákérdezni. */
+    gomb.addEventListener('click', function () {
+      if (window.OthSuti && window.OthSuti.megad) window.OthSuti.megad('terkep');
+      terkepIndul();
+    });
+    helyorzo.appendChild(gomb);
+
+    vaszon.appendChild(helyorzo);
+  }
+
+  if (engedett()) {
+    terkepIndul();
   } else {
-    beagyazottJeloles();
+    helyorzoEpit();
+    /* Ha a látogató később a sávon vagy a beállításkezelőben engedélyezi, a
+       térkép azonnal betölt — nem kell újratölteni a lapot. */
+    document.addEventListener('oth:suti', function (e) {
+      if (e.detail && e.detail.terkep) terkepIndul();
+    });
   }
 
   /* ---------------------------------------------------------------------

@@ -116,6 +116,13 @@ def epit(elo=''):
     jogi = '\n'.join(
         f'        <li><a class="lablec-jogi-link" href="{elo}{h}">{t}</a></li>'
         for t, h in JOGI)
+    # A SÜTI-BEÁLLÍTÁS MINDEN LAPRÓL ELÉRHETŐ. A Cookie-tájékoztató azt vállalja,
+    # hogy „a visszavonás ugyanolyan egyszerű, mint a hozzájárulás megadása" —
+    # ez csak akkor igaz, ha nem kell hozzá előbb megtalálni a tájékoztatót.
+    # `<button>`, nem hivatkozás: nem visz sehova, hanem felületet nyit; és
+    # szkript nélkül a `suti.js` rejtve is hagyja (`[data-suti]` — app.css).
+    jogi += ('\n        <li><button type="button" class="lablec-jogi-link '
+             'lablec-jogi-gomb" data-suti hidden>Süti-beállítások</button></li>')
 
     return f'''
 <!-- ==========================================================================

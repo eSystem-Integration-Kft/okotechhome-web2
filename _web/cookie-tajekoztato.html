@@ -19,13 +19,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/app.css?v=216">
+<link rel="stylesheet" href="assets/css/app.css?v=220">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
 <link rel="preload" as="image" href="assets/img/oldalak/hero-cookie.webp?v=2"
       imagesrcset="assets/img/oldalak/hero-cookie-1024.webp?v=2 1100w, assets/img/oldalak/hero-cookie.webp?v=2 1800w"
       imagesizes="100vw">
+<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
+     Szkript nélkül nem marad a lapon árva, néma sáv. -->
+<script src="/assets/js/suti.js?v=1" defer></script>
 </head>
 <body>
 
@@ -547,7 +550,7 @@
         </tr>
         <tr>
           <th scope="row">Statisztikai</th>
-          <td class="type-ui-body">A látogatottság mérése összesített formában: mely oldalak népszerűek, hol akadnak el a látogatók.</td>
+          <td class="type-ui-body">A látogatottság mérése összesített formában: mely oldalak népszerűek, hol akadnak el a látogatók. Eszköz: Google Analytics 4 (Google Ireland Limited).</td>
           <td class="type-ui-body">GDPR 6. cikk (1) a) — hozzájárulás</td>
           <td class="type-ui-body">A mérőeszköz beállítása szerint</td>
         </tr>
@@ -569,7 +572,7 @@
         <p class="type-data-eyebrow section-eyebrow">Harmadik fél</p>
         <h2 class="type-display-section-title section-title" id="a-google-terkep-beagyazasa-cim">A Google Térkép beágyazása</h2>
       </header>
-      <div class="jogi-kiemelt type-ui-body"><p><strong>MEGFELELŐSÉGI NYITOTT PONT — élesítés előtt rendezendő:</strong> a Google Térkép jelenleg <em>alapértelmezésben</em> betöltődik, hozzájárulás bekérése nélkül. Az ePrivacy és a GDPR szerint ehhez előzetes hozzájárulás szükséges. Élesítés előtt vagy a süti-hozzájárulási felületet kell bevezetni a térkép betöltése elé, vagy a beágyazást kattintásra kell tölteni. A beágyazás helye: <code>kapcsolat.html</code>, <code>.terkep</code> szekció.</p></div>
+      <div class="jogi-kiemelt type-ui-body"><p>A beágyazás <strong>hozzájárulásig nem töltődik be</strong>: a térkép helyén gomb áll, és a Google csak akkor kap megkeresést, ha Ön megnyomja. A cím, a nyitvatartás és az útvonaltervezés hivatkozása enélkül is elérhető a lapon.</p></div>
       <div class="jogi-szoveg">
         <p class="type-ui-body">A Kapcsolat oldalon Google Térképet ágyazunk be, hogy a telephelyünk megközelítése egyszerűbb legyen. A beágyazás harmadik fél szolgáltatása.</p>
         <ul class="jogi-lista">
@@ -592,7 +595,7 @@
       <div class="jogi-szoveg">
         <h3 class="type-ui-card-title jogi-alcim">A webhelyen</h3>
         <p class="type-ui-body">A süti-beállítások felületén kategóriánként engedélyezheti vagy tilthatja a nem szükséges sütiket. A visszavonás ugyanolyan egyszerű, mint a hozzájárulás megadása, és a visszavonás nem érinti a korábbi adatkezelés jogszerűségét.</p>
-        <div class="jogi-kiemelt type-ui-body"><p><strong>ADATHIÁNY:</strong> a süti-hozzájárulási felület (banner és beállításkezelő) még nem került be a webhelyre. Amíg nincs, a hozzájáruláshoz kötött sütik nem helyezhetők el jogszerűen. Élesítés előtt pótolandó.</p></div>
+        <p class="type-ui-body"><button type="button" class="btn btn-secondary type-ui-button" data-suti>Süti-beállítások megnyitása</button></p>
         <h3 class="type-ui-card-title jogi-alcim">A böngészőben</h3>
         <p class="type-ui-body">Minden elterjedt böngésző lehetővé teszi a sütik megtekintését, törlését és blokkolását. A beállítás jellemzően az „Adatvédelem” vagy „Beállítások” menüpont alatt található. Ha az összes sütit blokkolja, a webhely egyes funkciói nem fognak működni.</p>
         <h3 class="type-ui-card-title jogi-alcim">A hozzájárulás nyilvántartása</h3>
@@ -749,6 +752,7 @@
         <li><a class="lablec-jogi-link" href="jogi-nyilatkozat">Jogi nyilatkozat</a></li>
         <li><a class="lablec-jogi-link" href="aszf">ÁSZF</a></li>
         <li><a class="lablec-jogi-link" href="akadalymentessegi-nyilatkozat">Akadálymentesség</a></li>
+        <li><button type="button" class="lablec-jogi-link lablec-jogi-gomb" data-suti hidden>Süti-beállítások</button></li>
       </ul>
     </div>
   </div>

@@ -19,13 +19,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/app.css?v=216">
+<link rel="stylesheet" href="../assets/css/app.css?v=220">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
 <link rel="preload" as="image" href="../assets/img/oldalak/hero-csaladi-haz.webp?v=3"
       imagesrcset="../assets/img/oldalak/hero-csaladi-haz-1024.webp?v=3 1100w, ../assets/img/oldalak/hero-csaladi-haz.webp?v=3 1800w"
       imagesizes="100vw">
+<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
+     Szkript nélkül nem marad a lapon árva, néma sáv. -->
+<script src="/assets/js/suti.js?v=1" defer></script>
 </head>
 <body>
 
@@ -732,6 +735,7 @@
         <li><a class="lablec-jogi-link" href="../jogi-nyilatkozat">Jogi nyilatkozat</a></li>
         <li><a class="lablec-jogi-link" href="../aszf">ÁSZF</a></li>
         <li><a class="lablec-jogi-link" href="../akadalymentessegi-nyilatkozat">Akadálymentesség</a></li>
+        <li><button type="button" class="lablec-jogi-link lablec-jogi-gomb" data-suti hidden>Süti-beállítások</button></li>
       </ul>
     </div>
   </div>

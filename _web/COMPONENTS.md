@@ -2756,3 +2756,72 @@ Ez viszont **az egész webhely hajszálvonala** — minden kártya, minden mező
 minden panel ezt hordja, a designfájlokból. Egyetlen komponensben átírni
 következetlenséget csinálna, mindenhol átírni pedig tervezői döntés, nem
 hibajavítás. **Eldöntendő**, nem elintézve.
+
+## 41. Süti-hozzájárulás — `.suti-sav`, `.suti-parbeszed`, `.terkep-helyorzo`
+
+A webhely Cookie-tájékoztatója **négy kategóriát** ígér, és azt, hogy a nem
+szükséges sütik csak hozzájárulás után kerülnek elhelyezésre. A felület eddig
+nem létezett; a tájékoztató ezt maga is jelezte két bejegyzett hiánnyal
+(„ADATHIÁNY: a süti-hozzájárulási felület … még nem került be", és a térkép
+alapértelmezett betöltéséről szóló „MEGFELELŐSÉGI NYITOTT PONT"). Ez a
+komponens váltja be mindkettőt, és ez teszi jogszerűen bekapcsolhatóvá a GA4-et.
+
+### A felelősség szétválasztása
+
+| fájl | mit csinál |
+|---|---|
+| `assets/js/suti.js` | **kérdez, tárol, kihirdet.** Semmit nem mér és nem ágyaz be |
+| `assets/js/meres.js` | GA4, alapból `denied`; a hirdetésre kapcsol |
+| `assets/js/terkep.js` | a Google Térkép, ugyanerre a hirdetésre |
+
+```js
+document.addEventListener('oth:suti', (e) => e.detail.statisztika && …);
+OthSuti.enged('terkep')     // pillanatnyi állapot
+OthSuti.megad('terkep')     // EGY kategória megadása (a térkép gombja)
+OthSuti.nyit()              // a beállításkezelő
+```
+
+Így a hozzájárulás **egy helyen dől el**. Ha minden modul maga olvasná a sütit,
+a következő modul írója elfelejtené — és a mulasztás néma.
+
+### Amit a DOM nem tartalmaz
+
+A sávot és a párbeszédet a **szkript építi**, nem az oldalgyártó. Száznegyven
+lap sablonját nem bontjuk meg egy olyan sávért, ami a lapok többségén egyszer
+látszik; és így egyetlen generátorból sem maradhat ki. Szkript nélkül nincs a
+lapon árva vezérlő — a lábléc gombja `hidden`-nel érkezik, és a `suti.js`
+mutatja meg.
+
+### A térkép `data-src`-vel érkezik
+
+```html
+<iframe class="terkep-beagyazott" data-src="https://www.google.com/maps?…">
+```
+
+`src`-vel a böngésző már a HTML feldolgozásakor lekérné a Google-t, jóval
+azelőtt, hogy bármelyik szkriptünk elindulna: a kapu csak a jelszót kérné,
+miután az ajtó kinyílt. Mérve hozzájárulás előtt: **nulla kérés** a Google felé.
+
+### Mérési pontok (WCAG 2.2 AA)
+
+| | világos | sötét |
+|---|---|---|
+| helyőrző kerete a felülethez | 5,32:1 | 4,91:1 |
+| helyőrző szövege | 11,56:1 | 7,52:1 |
+
+A keret **témafüggő token** (`--terkep-helyorzo-keret`): a `--border-strong`
+primitívje (`oliveleaf`) világos alapon jó, a sötét téma olívazöld felületén
+viszont eltűnik. Első próbálkozásra a `--text-tertiary` **2,88:1**-et adott —
+ránézésre semmi, a 3:1-es küszöbnél viszont pontosan a különbség; a
+`--text-secondary` viszi át.
+
+A felület maga alig tér el a mögötte álló szekciótól (mérve: világoson
+**1,08:1**), ezért kellett az explicit belső vonal. A `<dialog>` `margin:auto`-t
+kap: a `reset` réteg minden elemről leszedi a margót, és e nélkül a doboz a bal
+felső sarokba ragad (mérve: `margin: 0px`).
+
+### Amit szándékosan nem tettünk
+
+`'unsafe-inline'` nem került a CSP-be. A Google beillesztő kódja beágyazott
+`<script>`; egyetlen mérőeszközért kinyitni az egész webhelyet XSS-re rossz
+üzlet. Ugyanaz a kód külső fájlból fut, a CSP pedig szigorú marad.

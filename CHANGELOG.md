@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.32.00-80A640?style=flat-square" alt="verzió 0.32.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.33.00-80A640?style=flat-square" alt="verzió 0.33.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-37-56642B?style=flat-square" alt="37 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-38-56642B?style=flat-square" alt="38 kiadás">
 </p>
 
 ---
@@ -28,6 +28,79 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.33.00] — 2026-09-11
+
+### Hozzáadva — mérés (GA4) minden lapon, és a hozzájárulási felület alatta
+
+Bela kérése: a GA4 (`G-EN120W3K2Q`) kerüljön ki minden lapra. Kiderült, hogy
+ehhez előbb valami mást kell megépíteni.
+
+**A webhely saját Cookie-tájékoztatója már ma is ígért egy felületet, ami nem
+létezett.** Négy kategóriát sorol fel, és azt vállalja, hogy a nem szükséges
+sütik csak hozzájárulás után kerülnek elhelyezésre — a szöveg pedig két
+bejegyzett hiányt is tartalmazott: *„ADATHIÁNY: a süti-hozzájárulási felület
+(banner és beállításkezelő) még nem került be a webhelyre"*, és a beágyazott
+térképről szóló *„MEGFELELŐSÉGI NYITOTT PONT — élesítés előtt rendezendő"*. A
+mérés kitétele ezek mellé egy harmadikat tett volna.
+
+**A hozzájárulás egy helyen dől el.** A `suti.js` kérdez, tárol és **kihirdet**;
+mérni és beágyazni mások dolga:
+
+| fájl | szerep |
+|---|---|
+| `assets/js/suti.js` | a sáv, a beállításkezelő, a döntés tárolása és kihirdetése |
+| `assets/js/meres.js` | GA4 — alapból `denied`, a hirdetésre kapcsol |
+| `assets/js/terkep.js` | a Google Térkép — ugyanarra a hirdetésre |
+
+Ha minden modul maga olvasná a sütit, a következő modul írója elfelejtené — és
+a mulasztás néma.
+
+**A térkép `data-src`-vel érkezik, `src` nélkül.** `src`-vel a böngésző már a
+HTML feldolgozásakor lekérné a Google-t, jóval azelőtt, hogy bármelyik
+szkriptünk elindulna: a kapu csak a jelszót kérné, miután az ajtó kinyílt. A
+helyén gomb áll; a cím, a nyitvatartás és az útvonaltervezés a lapon marad.
+
+**A mérés CSAK az éles fába kerül** (`prod-epit.sh` 6. rétege). A `_web/`-ben
+nincs benne: a saját fejlesztői forgalmunk és minden tesztbeküldés
+beszennyezné az adatot. A mérőazonosító egyetlen helyen áll, a beszúrt tag
+`data-ga4` attribútumában; a `meres.js` azonosító nélkül nem csinál semmit.
+
+**Az építés le is áll, ha a kettő elcsúszna.** Ha a `suti.js` kevesebb lapon
+volna, mint a `meres.js`, a különbségen a GA4 hozzájárulás nélkül futna — ezért
+ez kapu, nem figyelmeztetés.
+
+**CSP: `'unsafe-inline'` nélkül.** A Google beillesztő kódja beágyazott
+`<script>`; egyetlen mérőeszközért kinyitni az egész webhelyet XSS-re rossz
+üzlet. Ugyanaz a kód külső fájlból fut. A `googletagmanager.com` és a
+`*.google-analytics.com` **mindkét** CSP-blokkba bekerült — a Kapcsolat lap
+saját szabályt kap, tehát nem örökli az alapot, és e nélkül a mérés pont a
+legértékesebb lapon némult volna el.
+
+**Élesben mérve.** Hozzájárulás előtt: **egyetlen süti sem**, `consent default
+denied`. Az „Elfogadom mindet" után: `_ga`, `_ga_EN120W3K2Q`, `consent update
+granted`. A térképnél hozzájárulás előtt **nulla kérés** a Google felé.
+
+### Javítva — két kontraszthiba, amit csak mérés mutatott meg
+
+A térkép helyőrzőjének felülete **1,08:1**-gyel tér el a mögötte álló
+szekciótól világos témán: nem panelnak látszott, hanem sík színfoltnak. Kapott
+explicit belső vonalat. A vonal első színe (`--text-tertiary`) sötét témán
+**2,88:1**-et adott — ránézésre semmi, a WCAG 3:1-es küszöbénél viszont
+pontosan a különbség. A `--text-secondary` viszi át: 4,91:1.
+
+A `<dialog>` a bal felső sarokba ragadt, mert a `reset` réteg minden elemről
+leszedi a margót, és ezzel a böngésző saját `margin:auto`-ját is — amitől a
+`<dialog>` középre kerülne.
+
+### Javítva — a feltöltés is némán elhalt billentyűzet nélkül
+
+Ugyanaz a hiba, mint a titokátvitelnél: a `scripts/feltoltes.sh` megerősítő
+kérdése feltétel nélkül olvasott a bemenetről, terminál nélkül futtatva pedig a
+`read` EOF-ot kapott, és `set -e` mellett ez megölte a szkriptet a fejlécdoboz
+kiírása után. Úgy nézett ki, mintha a feltöltés lefutott volna. A két kapu
+szigora különböző maradt: a tesztre `--igen` elég, az éleshez a domain nevét
+kell kiírni (`--igen=okotechhome.hu`).
 
 ## [0.32.00] — 2026-09-11
 

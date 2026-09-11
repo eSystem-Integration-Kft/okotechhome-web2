@@ -9180,3 +9180,172 @@
     .hir-nagykep-kep{transition:none}
   }
 }
+
+/* ============================================================================
+   SÜTI-HOZZÁJÁRULÁS — `.suti-sav`, `.suti-parbeszed`
+   ----------------------------------------------------------------------------
+   A Cookie-tájékoztató négy kategóriát ígér, és azt, hogy a hozzájárulás
+   visszavonása ugyanolyan egyszerű, mint a megadása. Ez a felület váltja be
+   mindkettőt: a sáv az első látogatáskor kérdez, a párbeszéd pedig bármikor
+   újranyitható a tájékoztató lapjáról (`[data-suti]`).
+
+   A SÁV ALUL ÜL, NEM TAKAR EL SEMMIT. Teljes képernyős fátyol helyett egy
+   vízszintes sáv: a tartalom olvasható marad mögötte, tehát a látogató nem
+   azért fogad el mindent, hogy lássa, amiért jött. Ez nem csak udvariasság —
+   a kikényszerített hozzájárulás jogilag sem érvényes.
+
+   AZ ELUTASÍTÁS UGYANOLYAN KÖZEL VAN, mint az elfogadás: mindkettő egy
+   kattintás, egymás mellett, azonos súlyú gombbal. A „csak elfogadás egy
+   gombbal" mintát az EDPB és a NAIH is kifogásolja.
+
+   A DOM-OT A `suti.js` ÉPÍTI. Itt csak a megjelenés van; szkript nélkül
+   egyetlen elem sem jön létre, tehát nincs a lapon árva, néma sáv.
+   ========================================================================== */
+@layer tokens {
+  :root{
+    --suti-sav-bg:var(--panel-bg);
+    --suti-sav-keret:var(--border-strong);
+    --terkep-helyorzo-keret:var(--border-strong);
+  }
+  /* A KERETSZÍN TÉMAFÜGGŐ, a felület nem. A `--border-strong` primitívje
+     (`oliveleaf`, #56642B) világos alapon jól látszik, a sötét téma sötét
+     olívazöld felületén viszont eltűnik benne — ugyanaz a csapda, ami az Öko
+     panelnél is előjött.
+
+     A `--text-tertiary` KEVÉS VOLT: 2,88:1 (mérve) — épp a WCAG 3:1 alatt,
+     ami ránézésre semmi, határértéknél viszont pontosan a különbség. A
+     `--text-secondary` viszi át. */
+  [data-theme="dark"]{
+    --suti-sav-bg:var(--surface-sunken);
+    --suti-sav-keret:var(--text-secondary);
+    --terkep-helyorzo-keret:var(--text-secondary);
+  }
+}
+
+@layer components {
+  .suti-sav{
+    position:fixed;inset:auto 0 0 0;z-index:60;
+    background:var(--suti-sav-bg);
+    border-top:2px solid var(--suti-sav-keret);
+    box-shadow:var(--shadow-3);
+    padding:var(--space-16);
+    /* Az `env()` a telefon alsó gesztussávja miatt kell: nélküle a gombok
+       alsó széle a rendszer csíkja alá csúszik, és nem lehet rájuk találni. */
+    padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
+  }
+  .suti-sav-doboz{
+    max-width:var(--container-max);margin-inline:auto;
+    display:flex;flex-wrap:wrap;align-items:center;
+    gap:var(--space-16) var(--space-24);
+  }
+  .suti-sav-szoveg{flex:1 1 22rem;min-width:0;display:grid;gap:var(--space-4)}
+  .suti-sav-szoveg p{margin:0;color:var(--text-secondary)}
+  .suti-sav-szoveg p:first-child{color:var(--text-primary)}
+  .suti-sav-link{color:var(--link);text-underline-offset:.2em}
+  .suti-sav-gombok{
+    display:flex;flex-wrap:wrap;gap:var(--space-8);
+    /* Keskenyen a gombok a sáv teljes szélességét kapják: egymás alatt
+       nagyobb az érintőcélpont, mint három összenyomott gomb egy sorban. */
+    flex:0 1 auto;
+  }
+  .suti-sav-gombok .btn{flex:1 1 auto}
+
+  .suti-parbeszed{
+    /* A `margin:auto` KELL. A `<dialog>`-ot a böngésző alapból középre teszi
+       vele, de a `reset` réteg minden elemről leszedi a margót — így a
+       doboz a bal felső sarokba ragadt. (Mérve: `margin: 0px`.) */
+    margin:auto;
+    max-width:38rem;width:calc(100% - var(--space-32));
+    max-height:calc(100dvh - var(--space-48));overflow:auto;
+    border:1px solid var(--panel-border);border-radius:var(--r-lg);
+    background:var(--panel-bg);color:var(--text-primary);
+    padding:var(--space-24);
+    box-shadow:var(--shadow-3);
+  }
+  .suti-parbeszed::backdrop{
+    background:color-mix(in srgb,var(--canvas) 62%,transparent);
+    backdrop-filter:blur(6px);
+  }
+  .suti-parbeszed-urlap{display:grid;gap:var(--space-16)}
+  .suti-parbeszed-cim{margin:0}
+  .suti-parbeszed-urlap > p{margin:0;color:var(--text-secondary)}
+
+  .suti-lista{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
+  .suti-sor{
+    border:1px solid var(--card-border);border-radius:var(--r-md);
+    background:var(--card-bg);
+  }
+  /* A CÍMKE a kattintható felület, nem csak a négyzet: a teljes sor válaszol,
+     és így az érintőcélpont bőven 44px fölött van. */
+  .suti-sor-cimke{
+    display:flex;align-items:flex-start;gap:var(--space-8);
+    padding:var(--space-8);cursor:pointer;
+  }
+  .suti-sor-cimke:has(.suti-jelolo:disabled){cursor:default}
+  .suti-jelolo{
+    flex:0 0 auto;inline-size:1.15rem;block-size:1.15rem;margin-block-start:.15rem;
+    accent-color:var(--button-primary-bg);
+  }
+  .suti-jelolo:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+  .suti-sor-szoveg{display:grid;gap:var(--space-4)}
+  .suti-sor-cim{color:var(--text-primary)}
+  .suti-sor-mit{color:var(--text-secondary)}
+
+  /* A lábléc süti-gombja HIVATKOZÁSNAK LÁTSZIK, mert a szomszédai azok — de
+     `<button>`, mert felületet nyit, nem lapra visz. A gombalapértelmezéseket
+     (felület, keret, betűméret) le kell venni róla, különben kilóg a sorból. */
+  .lablec-jogi-gomb{
+    appearance:none;background:none;border:0;padding:0;
+    font-family:inherit;font-weight:inherit;line-height:inherit;
+    cursor:pointer;text-align:inherit;
+  }
+
+  .suti-parbeszed-gombok{display:flex;flex-wrap:wrap;gap:var(--space-8);justify-content:flex-end}
+  .suti-parbeszed-gombok .btn{flex:1 1 auto}
+}
+
+@layer components {
+  /* A TÉRKÉP HELYE hozzájárulás előtt. A vászon méretét nem változtatjuk meg:
+     a doboz ugyanakkora marad, mint a betöltött térkép, tehát az engedélyezés
+     nem rántja el a lapot (CLS). */
+  .terkep-helyorzo{
+    position:absolute;inset:0;z-index:2;
+    display:grid;align-content:center;justify-items:center;
+    gap:var(--space-8);padding:var(--space-24);
+    text-align:center;
+    background:var(--surface-sunken);
+    color:var(--text-primary);
+    /* EXPLICIT HATÁR. A helyőrző felülete alig tér el a mögötte álló
+       szekciótól (mérve: világos témán 1.08:1, sötéten 1.79:1), tehát magától
+       nem olvasódik panelnak — sík színfoltnak látszana a lap közepén. A
+       WCAG 2.2 a jelentéssel bíró felülethatárra 3:1-et kér; ezt a belső
+       vonal adja meg, a felület megváltoztatása nélkül. Szaggatott, mert
+       ez egy VÁRAKOZÓ hely: nem kész doboz, hanem a térkép jövendő helye. */
+    box-shadow:inset 0 0 0 2px var(--terkep-helyorzo-keret);
+    border-radius:var(--r-md);
+  }
+  .terkep-helyorzo p{margin:0;max-width:34rem}
+  .terkep-helyorzo p + p{color:var(--text-secondary)}
+  .terkep-helyorzo .btn{margin-block-start:var(--space-8)}
+}
+
+@layer responsive {
+  @media (max-width:37.5rem){
+    /* Keskenyen a szöveg fölé kerülnek a gombok egy oszlopban — a sorban
+       maradó három gomb ekkora szélességen egyenként 6rem alá esne. */
+    .suti-sav-gombok{flex:1 1 100%}
+    .suti-sav-gombok .btn{flex:1 1 100%}
+    .suti-parbeszed-gombok .btn{flex:1 1 100%}
+  }
+}
+
+@layer motion {
+  .suti-sav{
+    transition:translate var(--dur-ui) var(--ease-out);
+  }
+  @starting-style{ .suti-sav{translate:0 100%} }
+  @media (prefers-reduced-motion:reduce){
+    .suti-sav{transition:none}
+    .suti-parbeszed::backdrop{backdrop-filter:none}
+  }
+}

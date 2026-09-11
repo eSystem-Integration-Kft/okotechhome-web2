@@ -158,7 +158,17 @@ Options -Indexes
 
   # CSP — a betűkészletek a Google Fonts-ról jönnek (designrendszer 1. fejezet).
   # Ha új külső forrás kerül az oldalra, ITT kell engedélyezni.
-  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; frame-src https://www.google.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'"
+  #
+  # A GA4 HÁROM IRÁNYT KÉR, és mind a három nevesítve van:
+  #   script-src   www.googletagmanager.com   — maga a `gtag.js`
+  #   connect-src  *.google-analytics.com     — ide megy a mérési jelzés
+  #                *.analytics.google.com       (régió szerinti végpont)
+  #   img-src      ugyanezek                  — pixeles tartalék, ha a
+  #                                             `fetch` nem megy át
+  # `'unsafe-inline'` NINCS köztük: a Google beillesztő kódja beágyazott
+  # szkript, ezért nem azt használjuk, hanem az `assets/js/meres.js`-t.
+  # Egyetlen mérőeszközért kinyitni az egész webhelyet XSS-re rossz üzlet.
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; frame-src https://www.google.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com"
 
   # HSTS — CSAK éles, HTTPS-en kiszolgált domainen kapcsold be.
   # Staging vagy HTTP alatt hagyd kikommentezve.
@@ -187,7 +197,7 @@ Options -Indexes
   # Ha a `data-terkep-kulcs` üres, az egész blokk fölösleges — akkor a lap a
   # beágyazott keretet használja, amihez a `frame-src` már megvan fent.
   <FilesMatch "^(kapcsolat|contact)\.html$">
-    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://*.ggpht.com; frame-src https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://maps.googleapis.com https://*.googleapis.com; worker-src 'self' blob:"
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.googleapis.com https://*.gstatic.com https://*.ggpht.com; frame-src https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://maps.googleapis.com https://*.googleapis.com; worker-src 'self' blob:"
   </FilesMatch>
 </IfModule>
 

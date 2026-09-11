@@ -218,9 +218,15 @@ TERKEP = '''
     </div>
 
     <div class="terkep-vaszon">
+      <!-- A `src` SZÁNDÉKOSAN `data-src`. Beágyazva a böngésző azonnal
+           lekérné a Google-t — még mielőtt bármelyik szkriptünk elindulna —,
+           és ezzel a látogató IP-címe hozzájárulás nélkül odakerülne. Az
+           `src`-t a `terkep.js` írja be, akkor és csak akkor, ha a
+           süti-hozzájárulásban a „beágyazott térkép" engedélyezve van.
+           A cím és az útvonaltervezés ettől függetlenül a lapon marad. -->
       <iframe class="terkep-beagyazott"
               title="ÖkoTech Home — {cim} a Google Térképen"
-              src="https://www.google.com/maps?q={terkep_jelolo}&amp;ll={terkep_kozep}&amp;z=16&amp;hl=hu&amp;output=embed"
+              data-src="https://www.google.com/maps?q={terkep_jelolo}&amp;ll={terkep_kozep}&amp;z=16&amp;hl=hu&amp;output=embed"
               loading="lazy" referrerpolicy="no-referrer-when-downgrade"
               allowfullscreen></iframe>
       <span class="terkep-fade" aria-hidden="true"></span>

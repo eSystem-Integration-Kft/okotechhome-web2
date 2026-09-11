@@ -8,6 +8,10 @@
 #     scripts/feltoltes.sh eles --eles      # tényleges feltöltés az ÉLESRE
 #     scripts/feltoltes.sh tst --eles --torol   # + a szerveren fölöslegessé vált fájlok törlése
 #
+# BILLENTYŰZET NÉLKÜL (Claude Code `!` futtatás, cron) a megerősítés kapcsoló:
+#     scripts/feltoltes.sh tst  --eles --igen
+#     scripts/feltoltes.sh eles --eles --igen=okotechhome.hu
+#
 # A MUNKAMENET: fejlesztés → `tst` → megnézzük a tst.okoth.hu-n → ha jó, `eles`.
 # Két webhely, KÉT KÜLÖN KISZOLGÁLÓN, két külön fiókkal; egymást nem érintik,
 # az élesítés nem szünteti meg a tesztoldalt.
@@ -49,11 +53,13 @@ halk()  { printf '\033[2m%s\033[0m\n' "$*"; }
 
 # ---------------------------------------------------------------- paraméterek
 KORNYEZET="${1:-}"; shift || true
-ELES=0; TOROL=0
+ELES=0; TOROL=0; IGEN=""
 for k in "$@"; do
   case "$k" in
     --eles)  ELES=1 ;;
     --torol) TOROL=1 ;;
+    --igen)    IGEN="igen" ;;
+    --igen=*)  IGEN="${k#--igen=}" ;;
     *) piros "Ismeretlen kapcsoló: $k"; exit 2 ;;
   esac
 done
@@ -245,15 +251,41 @@ if [ "$KORNYEZET" = eles ]; then
   fi
 fi
 
+# A MEGERŐSÍTÉS KÉTFÉLEKÉPPEN ADHATÓ MEG, mert a szkript nem mindig kap
+# billentyűzetet. Terminálból kérdezünk; ha a bemenet NEM terminál (a Claude
+# Code `!` futtatása, cron, csővezeték), akkor a kapcsoló a megerősítés.
+#
+# MIÉRT KELLETT EZ. A `read` billentyűzet nélkül azonnal EOF-ot kap, és `set -e`
+# mellett ez megölte a szkriptet — a fejlécdoboz még kiment, utána semmi. Nem
+# hibaüzenettel állt meg, hanem csendben, ami a legrosszabb fajta: úgy nézett
+# ki, mintha a feltöltés lefutott volna.
+#
+# A KÉT KAPU SZIGORA KÜLÖNBÖZŐ MARAD. A tesztre `--igen` elég. Az éleshez a
+# domain nevét kell kiírni (`--igen=okotechhome.hu`), ugyanazért, amiért
+# terminálból is azt kéri: az „igen" reflexből leüthető, a domain neve döntés.
 if [ "$ELES" = 1 ]; then
   if [ "$KORNYEZET" = eles ]; then
-    # 3) A MEGERŐSÍTÉS A DOMAINT KÉRI, nem egy „igen"-t. Az „igen" reflexből
-    #    leüthető; a domain nevét kiírni már döntés.
     piros "FIGYELEM: ez a CÉG ÉLES WEBHELYÉT írja felül ($CIMKE)."
-    read -r -p "Erősítsd meg a domain nevével — " valasz
+    if [ -t 0 ]; then
+      read -r -p "Erősítsd meg a domain nevével — " valasz
+    else
+      valasz="$IGEN"
+      [ -n "$valasz" ] || {
+        piros "Nem interaktív futtatás — a megerősítés így a kapcsoló:"
+        echo   "    scripts/feltoltes.sh eles --eles --igen=$CIMKE" >&2
+        exit 1; }
+    fi
     [ "$valasz" = "$CIMKE" ] || { sarga "Megszakítva."; exit 0; }
   else
-    read -r -p "Biztosan feltöltöd? Írd be: igen — " valasz
+    if [ -t 0 ]; then
+      read -r -p "Biztosan feltöltöd? Írd be: igen — " valasz
+    else
+      valasz="$IGEN"
+      [ -n "$valasz" ] || {
+        piros "Nem interaktív futtatás — a megerősítés így a kapcsoló:"
+        echo   "    scripts/feltoltes.sh $KORNYEZET --eles --igen" >&2
+        exit 1; }
+    fi
     [ "$valasz" = "igen" ] || { sarga "Megszakítva."; exit 0; }
   fi
 fi
