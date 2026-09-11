@@ -23,7 +23,37 @@ A zárás **három rétegben** él. **Ezt a hármat NEM kézzel oldjuk fel**: a
 | 2 | `robots.txt` | a `Sitemap:` sor felvétele — **csak ha már van `sitemap.xml`**. (A fájlban NINCS általános `Disallow: /`: a letöltés szándékosan szabad, az indexelést a noindex tiltja. Az AI- és SEO-botok tiltása élesben is marad.) |
 | 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` → `index, follow` |
 | 4 | `.htaccess` → *RÉGI WORDPRESS-URL-EK* blokk | **ELINTÉZVE 2026-09-11-én**: az Apache olvassa. Mérve élesben — a kiterjesztés nélküli URL-ek és mind a 301-es átirányítás (Ads + a régi blog 42 bejegyzése) működik |
-| 5 | `api/config.php` a szerveren | `origin` és az e-mail `url`/`logo` az új domainre (git-ignorált fájl, lásd lentebb) |
+| 5 | `api/config.php` a szerveren | **ELINTÉZVE**: a fájl már mindkét domainre írva (`origin` tartalmazza mindkettőt, az e-mail `url`/`logo` az élesre mutat), és fent van |
+| 6 | **`/oth-titkok/*.txt` a szerveren** | **KÜLÖN LÉPÉS**, lásd lentebb — a `config.php` NEM elég: az AI-kulcs és a CRM-tokenek külön fájlokban élnek, a webgyökér FÖLÖTT |
+
+### A titkok — három hely, egyik sincs a repóban
+
+A webhely három forrásból vesz titkot:
+
+| # | Hol | Mi van benne | Hogyan kerül a szerverre |
+|---|---|---|---|
+| 1 | `api/config.php` | SMTP-jelszó, címzettek, korlátok | a `feltoltes.sh` **szándékosan kihagyja** — egyszer, kézzel megy fel |
+| 2 | **`/oth-titkok/*.txt`** | **AI-kulcs**, CRM-tokenek | `scripts/titkok-atvitel.sh` |
+| 3 | környezeti változók | ugyanezek, ha valaki így adja meg | a tárhely beállításai |
+
+**A 2. pont a fiók HOME könyvtárában van, nem a `public_html`-ben.** Szándékosan:
+ami a webgyökéren kívül van, azt a kiszolgáló akkor sem tudja kiszolgálni, ha
+egyszer elromlik a `.htaccess`.
+
+> ⚠️ **Ez élesítéskor kimaradt, és Öko emiatt nem működött.** A `config.php`
+> felkerült, és ebből az a benyomás támadt, hogy a titkok megvannak — pedig az
+> **AI-kulcs külön fájl**. A napló egyértelmű volt:
+> `OTH AI: nincs beállítva API-kulcs — a hívás kimarad.`
+
+**A `crm-db.txt` nem vihető át.** Az a HELYI MySQL hozzáférése (`127.0.0.1`,
+`okoth_web`); az éles kiszolgálón ilyen adatbázis nincs. Ott létre kell hozni
+egyet, és a saját hozzáférését beírni. Amíg nincs, a **CRM-napló csendben
+kimarad** — a beküldések ettől még kimennek e-mailben.
+
+```bash
+scripts/titkok-atvitel.sh          # PRÓBA: megmutatja, mit vinne át
+scripts/titkok-atvitel.sh --eles   # tényleges átvitel
+```
 
 ### Két fa, egy forrás — hogyan megy ki a teszt és az éles
 
