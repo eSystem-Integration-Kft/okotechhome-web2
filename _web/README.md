@@ -22,7 +22,7 @@ A zárás **három rétegben** él. **Ezt a hármat NEM kézzel oldjuk fel**: a
 | 1 | `.htaccess` → *TESZT ÜZEMMÓD* blokk | az `X-Robots-Tag` sort törölni vagy kikommentezni |
 | 2 | `robots.txt` | a `Sitemap:` sor felvétele — **csak ha már van `sitemap.xml`**. (A fájlban NINCS általános `Disallow: /`: a letöltés szándékosan szabad, az indexelést a noindex tiltja. Az AI- és SEO-botok tiltása élesben is marad.) |
 | 3 | minden HTML `<head>` | a `<meta name="robots" content="noindex, …">` → `index, follow` |
-| 4 | `.htaccess` → *RÉGI WORDPRESS-URL-EK* blokk | ellenőrizd, hogy az Apache olvassa-e az `.htaccess`-t az új kiszolgálón — enélkül a 13 Ads-átirányítás és **az összes kiterjesztés nélküli URL** sem működik |
+| 4 | `.htaccess` → *RÉGI WORDPRESS-URL-EK* blokk | **ELINTÉZVE 2026-09-11-én**: az Apache olvassa. Mérve élesben — a kiterjesztés nélküli URL-ek és mind a 301-es átirányítás (Ads + a régi blog 42 bejegyzése) működik |
 | 5 | `api/config.php` a szerveren | `origin` és az e-mail `url`/`logo` az új domainre (git-ignorált fájl, lásd lentebb) |
 
 ### Két fa, egy forrás — hogyan megy ki a teszt és az éles
@@ -147,12 +147,14 @@ A `_web/api/` alatt **17 PHP-fájl** fut élesben (űrlapok, levélküldés, CRM
 | `openssl` | az SMTP `stream_socket_enable_crypto`-val TLS-re vált (`api/lib/smtp.php`) — enélkül **nem megy ki levél** |
 | kimenő kapcsolat az SMTP-portra | ugyanezért |
 
-**A 8.0 EOL.** A biztonsági támogatása 2022 novemberében lejárt, ezért érdemes a
-cPanel MultiPHP-ben **8.2-re vagy 8.3-ra** állítani. Átnéztem a kódot: nincs
-benne 8.2-ben elavuló minta (`utf8_encode`, `${}` interpoláció,
-`FILTER_SANITIZE_STRING`, `strftime`), tehát a váltás elvileg mellékhatás
-nélküli. A `crm-mysql.php` és a `crm.php` megjegyzései **8.5-ös** viselkedésre
-készültek fel, nem korábbira.
+**MÉRVE AZ ÉLES KISZOLGÁLÓN (2026-09-11): PHP 8.5.9, `cgi-fcgi`** — és mind az
+öt igényelt bővítmény (`curl`, `json`, `mbstring`, `pdo_mysql`, `openssl`) jelen
+van. A váltással tehát nincs teendő: a `crm-mysql.php` és a `crm.php`
+megjegyzései épp 8.5-ös viselkedésre készültek fel.
+
+> A `/public_html/.user.ini` `session.save_path`-ja `alt-php80`-ra mutat — az a
+> fájl 2021-ből való, és **félrevezet**: a domain tényleges kezelője 8.5. A
+> verziót ne ebből olvasd ki, hanem mérd meg.
 
 ### A kapott `php.ini` értékelése (2026-09-10)
 
