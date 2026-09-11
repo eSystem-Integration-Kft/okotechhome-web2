@@ -2655,3 +2655,59 @@ A hírek **egyetlen forrása** a `scripts/oldalgyartas/hirek-forras.json`; a
 lapokat a `scripts/oldalgyartas/hirek.py` rakja össze belőle. **Egy hír
 törlése** ezért annyi, hogy kivesszük a bejegyzését a JSON-ból, újrafuttatjuk a
 generátort, és töröljük a hozzá tartozó `.html`-t meg a képeit.
+
+---
+
+## 39. Öko szűk kijelzőn — a fül a nyugalmi állapot
+
+Öko eddig minden nézetben ugyanúgy viselkedett: hero-s lapon a fejléckép
+felének kigördülése után magától kinyílt. Telefonon ez rosszul sült el — a
+panel ott **teljes szélességű alsó lap** (`100vw − 32px`, `70vh`), fekvőben
+pedig a képernyő magasságának javát viszi el, tehát pont azt takarja ki,
+amiért a látogató a lapra jött.
+
+**Szűk nézetben Öko nem nyit rá.** A lap szélén ül fülként, onnan jelez
+időnként, és egy koppintásra nyílik. A sarokban álló figura sem marad: az is
+takar (60×64 a jobb alsó sarokban), a fül viszont a szélen ül, és csak a
+szemei lógnak be.
+
+```js
+const SZUK = matchMedia('(max-width: 640px), (max-height: 620px)');
+```
+
+**Két feltétel, VAGY-kapcsolattal, mert két különböző eset:**
+
+| Feltétel | Mire |
+|---|---|
+| `max-width: 640px` | álló telefon — a webhely saját mobil töréspontja |
+| `max-height: 620px` | **fekvő telefon** és alacsony ablak: a szélesség rendben volna, a magasság nem |
+
+A második feltétel nélkül a fekvő telefon kimaradt volna: 900×323-as nézetben a
+szélesség 640 fölött van, a nyitott panel viszont a képernyő egészét elviszi.
+Mérve: ott a `max-width` ág hamis, a `max-height` ág igaz.
+
+### Az elfordítás is számít
+
+Aki széles ablakban nyitotta meg a lapot, annál a panel kinyílt; ha ezután
+elfordítja a telefont vagy összehúzza az ablakot, ugyanaz a takarás áll elő. A
+`change` figyelő ilyenkor félrehúzza a panelt — de **csak a magától kinyíltat**
+(`kezzelNyitva`), és **fókuszlopás nélkül**: a `zar()` a fülre ugrasztaná a
+fókuszt, ami egy elfordítás közben indokolatlan volna.
+
+### Az első jelzés hamarabb jön
+
+A fül eddig is jelzett harmincnyolc másodpercenként: előrébb lép, megbillen és
+pislant. Széles ablakban ez elég, mert Öko addigra magától kinyílt — a látogató
+biztosan látta. Telefonon viszont némán a szélre húzódik, és a köszönő buborék
+kilenc másodperc után eltűnik; utána harmincnyolc másodpercig semmi nem mondaná,
+hogy ott van. Szűk nézetben ezért **tizennégy másodperc után** jön az első
+jelzés, onnantól a szokásos ütem.
+
+Csökkentett mozgás mellett továbbra sincs sem jelzés, sem animáció.
+
+### Egy döntési pont, nem kettő
+
+Az automatikus nyitás korábban két helyen állt (`mod === 'urlap'` és a hero-s
+ág), ugyanazzal a `if (!lezarta) nyit(false)` sorral. A szűk nézet szabályát
+mindkettőn külön kellett volna átvezetni — ez a fajta duplikáció csúszik szét
+leghamarabb —, ezért `bejelentkezik()` néven egyetlen függvénybe került.

@@ -22,6 +22,13 @@
    egy lapnézetre szól: ott fülre húzódik, a következő lapon újra aktív. A fül
    időnként jelez, és kétszer kérdez is. Csökkentett mozgás mellett minden
    animáció elmarad — a figura akkor egyszerűen ott van.
+
+   SZŰK KIJELZŐN NEM NYIT RÁ. Telefonon állóban a panel teljes szélességű alsó
+   lap, fekvőben a magasság javát viszi el — mindkettő eltakarja azt, amiért a
+   látogató jött. Ilyenkor Öko a lap szélén ül fülként (a sarokban álló figura
+   is takar), onnan jelez, és egy koppintásra nyílik. A határt a `SZUK`
+   médiafigyelő adja, és az ELFORDÍTÁSRA is reagál: ha a nézet menet közben
+   szűkül, a MAGÁTÓL kinyílt panel félrehúzódik.
    ============================================================================= */
 
 (() => {
@@ -30,6 +37,20 @@
   if (document.querySelector('.oko')) return;                 // kétszer ne
   const TAROLO = 'oth-oko-elrejtve';
   const csokkentett = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* SZŰK NÉZET — ahol a nyitott panel eltakarja azt, amiért a látogató jött.
+     Telefonon ÁLLÓBAN a panel teljes szélességű alsó lap (100vw − 32px, 70vh),
+     FEKVŐBEN pedig a képernyő magasságának javát viszi el: mindkét esetben a
+     tartalom nagy részét kitakarja. Ilyenkor Öko nem nyit rá magától — a lap
+     szélére húzódik fülként, onnan jelez időnként, és egy koppintásra nyílik.
+
+     KÉT FELTÉTEL, VAGY-kapcsolattal, mert két különböző eset:
+       · `max-width: 640px` — a webhely saját mobil töréspontja (álló telefon);
+       · `max-height: 620px` — fekvő telefon és alacsony ablak, ahol a
+         szélesség rendben volna, a magasság viszont nem.
+     A `change` figyelő miatt az ELFORDÍTÁS is számít, nem csak a betöltéskori
+     méret. */
+  const SZUK = matchMedia('(max-width: 640px), (max-height: 620px)');
   const mod = document.body.dataset.kalauzMod || 'kalauz';
 
   /* A bezárás hatóköre EGYETLEN lapnézet. Volt munkamenet-szintű is
@@ -581,7 +602,11 @@
       setTimeout(() => ful.classList.remove('is-int'), 1200);
     }, 230);
   }
-  gomb.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
+  /* KÉZZEL NYITOTTA-E. Az elfordításra reagáló szabály (lentebb) csak a
+     MAGÁTÓL kinyílt panelt húzza félre: amit a látogató nyitott ki, azt nem
+     csukjuk be alóla. */
+  let kezzelNyitva = false;
+  gomb.addEventListener('click', () => (panelNyitva() ? zar() : (kezzelNyitva = true, nyit())));
 
   /* A figura a sarokból a jobb szél közepére vonul, és fül lesz belőle. A
      sarok így felszabadul, Öko viszont látható marad — a szemei kilógnak. */
@@ -598,7 +623,7 @@
     gomb.hidden = be;
     ful.hidden = !be;
   }
-  ful.addEventListener('click', () => (panelNyitva() ? zar() : nyit()));
+  ful.addEventListener('click', () => (panelNyitva() ? zar() : (kezzelNyitva = true, nyit())));
 
   /* A KONZULTÁCIÓKÉRŐN Öko eleve a lap szélén ül, fülként — ott az űrlap a
      főszereplő, a sarokban álló figura a Tovább gomb útjában állna. A fül a
@@ -607,7 +632,10 @@
      nem a sarokban: ott az űrlap a főszereplő, a figura a gombok útjában
      állna. Három ilyen lap van — a konzultációkérő, az ajánlatkérő és a
      megrendelőlap. */
-  if (URLAPOS.has(mod)) fulre(true);
+  /* SZŰK KIJELZŐN UGYANEZ A NYUGALMI ÁLLAPOT, üzemmódtól függetlenül: a
+     sarokban álló figura is takar (a jobb alsó sarokban 60×64), a fül viszont
+     a lap szélén ül, és csak a szemei lógnak be. */
+  if (URLAPOS.has(mod) || SZUK.matches) fulre(true);
   /* ESEMÉNYDELEGÁLÁS a gyökéren. Az egyes gombokra kötött kezelők közül a
      kicsinyítőé néma maradt — a gomb ott volt, a kattintás rá is ment, kezelő
      viszont nem tartozott hozzá. Egyetlen figyelő a gyökéren ezt a hibaosztályt
@@ -1152,15 +1180,41 @@
      (`panel`, `ful`) még nem léteztek, a `megerkezik()` viszont hivatkozott
      rájuk — a dobott hiba pedig csendben megállította a szkript hátralévő
      részét, és a gombok kezelői sem épültek fel. */
+  /* AZ AUTOMATIKUS NYITÁS EGYETLEN DÖNTÉSI PONTJA. Korábban két helyen állt
+     ugyanaz a `if (!lezarta) nyit(false)`, és a szűk nézet szabályát mindkettőn
+     külön kellett volna átvezetni — ez a fajta duplikáció csúszik szét
+     leghamarabb. */
+  function bejelentkezik() {
+    megerkezik();
+    if (lezarta) return;
+    /* Szűk kijelzőn nem nyitunk rá: a fül a nyugalmi állapot, és az időnkénti
+       jelzés (a fájl végén) mondja el, hogy Öko itt van. */
+    if (SZUK.matches) { fulre(true); return; }
+    nyit(false);
+  }
+
+  /* ELFORDÍTÁS ÉS ÁTMÉRETEZÉS. Aki széles ablakban nyitotta meg a lapot, annál
+     a panel kinyílt; ha ezután elfordítja a telefont vagy összehúzza az
+     ablakot, a panel ugyanazt a takarást okozná. Ilyenkor félrehúzzuk — de
+     CSAK a magától kinyílt panelt, és fókuszlopás nélkül: a `zar()` a fülre
+     ugrasztaná a fókuszt, ami egy elfordítás közben indokolatlan. */
+  SZUK.addEventListener('change', (e) => {
+    if (!e.matches || !gyoker.classList.contains('is-erkezik')) return;
+    if (panelNyitva() && !kezzelNyitva) {
+      gomb.setAttribute('aria-expanded', 'false');
+      ful.setAttribute('aria-expanded', 'false');
+      gyoker.classList.remove('is-nyitva');
+      panel.hidden = true;
+    }
+    fulre(true);
+  });
+
   const hero = document.querySelector('.hero');
   if (mod === 'urlap') {
     /* A KONZULTÁCIÓKÉRŐN Öko nem várat magára: nyitva érkezik, a kísérővel és
        a lap kérdéseivel — itt ő a másodpilóta, nem díszlet. Fókuszt nem vesz
        el: a látogató az űrlapot tölti. */
-    setTimeout(() => {
-      megerkezik();
-      if (!lezarta) nyit(false);
-    }, csokkentett ? 200 : 900);
+    setTimeout(bejelentkezik, csokkentett ? 200 : 900);
   } else if (URLAPOS.has(mod)) {
     /* AZ ÚJ ŰRLAPLAPOKON Öko megérkezik és fülként várakozik, de NEM nyit rá a
        kitöltésre: a panel eltakarná a mezőket, és a látogató keze a
@@ -1178,8 +1232,7 @@
       if (scrollY > hero.offsetHeight * 0.5) {
         removeEventListener('scroll', gorgetesre);
         clearTimeout(vegso);
-        megerkezik();
-        if (!lezarta) nyit(false);
+        bejelentkezik();
       }
     };
     /* Ha a látogató nem görget, húsz másodperc után akkor is előlép — de csak
@@ -1199,7 +1252,7 @@
      néma jelzés marad. Csökkentett mozgás mellett semmi. */
   let jelzesDb = 0;
   if (!csokkentett) {
-    setInterval(() => {
+    const jelez = () => {
       if (ful.hidden || panelNyitva() || !gyoker.classList.contains('is-erkezik')) return;
       ful.classList.add('is-int');
       pislog();
@@ -1211,6 +1264,13 @@
         buborek.hidden = false;
         setTimeout(() => { if (!panelNyitva()) buborek.hidden = true; }, 8000);
       }
-    }, 38000);
+    };
+    /* SZŰK KIJELZŐN AZ ELSŐ JELZÉS HAMARABB JÖN. Széles ablakban Öko magától
+       kinyílik, tehát a látogató biztosan látta; telefonon viszont némán a lap
+       szélére húzódik, és a köszönő buborék kilenc másodperc után eltűnik —
+       utána harmincnyolc másodpercig semmi nem mondaná, hogy ott van. A
+       tizennégy másodperc a köszönés után jön, nem rá. */
+    if (SZUK.matches) setTimeout(jelez, 14000);
+    setInterval(jelez, 38000);
   }
 })();

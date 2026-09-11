@@ -30,7 +30,7 @@ FORRAS = pathlib.Path(__file__).resolve().parent / 'hirek-forras.json'
 
 CSS_V = 215          # hírek: a [hidden] érvényre juttatása a szűrésnél
 JS_SITE_V = 12
-JS_KALAUZ_V = 44
+JS_KALAUZ_V = 45
 JS_HIREK_V = 3      # a szűrő csak a kártyákat veszi
 KEP_V = 1            # az assets/img/hirek/ első kiadása
 

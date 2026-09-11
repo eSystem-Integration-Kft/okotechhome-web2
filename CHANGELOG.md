@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.01-80A640?style=flat-square" alt="verzió 0.29.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.02-80A640?style=flat-square" alt="verzió 0.29.02">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-30-56642B?style=flat-square" alt="30 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-31-56642B?style=flat-square" alt="31 kiadás">
 </p>
 
 ---
@@ -26,6 +26,58 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.29.02] — 2026-09-11
+
+### Javítva — Öko telefonon rányitott a tartalomra
+
+Bela jelezte: mobil nézetben a kinyíló panel sokat kitakar. Jogos — a panel ott
+**teljes szélességű alsó lap** (`100vw − 32px`, `70vh`), fekvőben pedig a
+képernyő magasságának javát viszi el, tehát pont azt fedi le, amiért a látogató
+a lapra jött.
+
+**Szűk nézetben Öko mostantól nem nyit rá.** A lap szélén ül fülként, onnan
+jelez, és egy koppintásra nyílik. A sarokban álló figura sem marad: az is takar
+(60×64 a jobb alsó sarokban), a fül viszont a szélen ül, és csak a szemei
+lógnak be. A mechanizmus nem új — az űrlaplapokon (konzultációkérő, ajánlatkérő,
+megrendelőlap) Öko eddig is így várakozott; most a képernyőméret is ezt váltja
+ki.
+
+```js
+const SZUK = matchMedia('(max-width: 640px), (max-height: 620px)');
+```
+
+**Két feltétel kell, nem egy.** A `max-width: 640px` az álló telefon (a webhely
+saját mobil töréspontja); a `max-height: 620px` a **fekvő telefon** és az alacsony
+ablak, ahol a szélesség rendben volna, a magasság nem. A második nélkül a fekvő
+készülék kimaradt volna — 900×323-as nézetben mérve a `max-width` ág hamis, a
+`max-height` ág igaz, és a panel ott viszi el a legtöbbet.
+
+**Az elfordítás is számít.** Aki széles ablakban nyitotta meg a lapot, annál a
+panel kinyílt; ha ezután elfordítja a telefont, ugyanaz a takarás áll elő. A
+`change` figyelő ilyenkor félrehúzza — de csak a MAGÁTÓL kinyílt panelt, és
+fókuszlopás nélkül: a `zar()` a fülre ugrasztaná a fókuszt, ami egy elfordítás
+közben indokolatlan.
+
+**Az első jelzés hamarabb jön.** A fül eddig is jelzett harmincnyolc
+másodpercenként — előrébb lép, megbillen, pislant. Széles ablakban ez elég, mert
+Öko addigra magától kinyílt. Telefonon viszont némán a szélre húzódik, és a
+köszönő buborék kilenc másodperc után eltűnik; utána semmi nem mondaná, hogy ott
+van. Szűk nézetben ezért tizennégy másodperc után jön az első jelzés, onnantól a
+szokásos ütem. Csökkentett mozgás mellett továbbra sincs semmi.
+
+**Egy döntési pont, nem kettő.** Az automatikus nyitás két helyen állt ugyanazzal
+a sorral; a szűk nézet szabályát mindkettőn külön kellett volna átvezetni. Most
+`bejelentkezik()` néven egyetlen függvényben van.
+
+Mérve, négy nézetben: álló telefon (420×703) fül, panel zárva · fekvő telefon
+(900×323) fül, panel zárva · asztali (1440×823) a panel magától kinyílik,
+változatlanul · asztaliról szűkre húzva a panel félrehúzódik, a fókusz a
+törzsön marad.
+
+`kalauz.js` **v45**.
 
 ---
 
