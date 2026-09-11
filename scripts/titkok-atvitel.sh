@@ -30,8 +30,9 @@
 # =============================================================================
 #
 # HASZNÁLAT
-#     scripts/titkok-atvitel.sh            # PRÓBA: megmutatja, mit vinne át
-#     scripts/titkok-atvitel.sh --eles     # tényleges átvitel
+#     scripts/titkok-atvitel.sh                 # PRÓBA: megmutatja, mit vinne át
+#     scripts/titkok-atvitel.sh --eles          # tényleges átvitel (terminálból)
+#     scripts/titkok-atvitel.sh --eles --igen   # ha nincs billentyűzet (pl. `!` futtatás)
 #
 # A jelszavak a macOS kulcskarikájáról jönnek, ugyanonnan, ahonnan a
 # `feltoltes.sh` veszi őket (`okoth.hu` és `okotechhome.hu` bejegyzés).
@@ -45,8 +46,14 @@ zold()  { printf '\033[32m%s\033[0m\n' "$*"; }
 sarga() { printf '\033[33m%s\033[0m\n' "$*"; }
 halk()  { printf '\033[2m%s\033[0m\n' "$*"; }
 
-ELES=0
-[[ "${1:-}" == "--eles" ]] && ELES=1
+ELES=0; IGEN=0
+for k in "$@"; do
+  case "$k" in
+    --eles) ELES=1 ;;
+    --igen) IGEN=1 ;;
+    *) printf 'Ismeretlen kapcsoló: %s\n' "$k" >&2; exit 2 ;;
+  esac
+done
 
 # A HORDOZHATÓ titkok. Az AI-kulcs ugyanaz az Anthropic-fiók, a CRM-tokenek
 # ugyanahhoz a külső szolgáltatáshoz (dealkeeper.hu) tartoznak — mindkettő
@@ -85,8 +92,19 @@ if [ "$ELES" = 0 ]; then
   exit 0
 fi
 
-read -r -p "Biztosan átviszed? Írd be: igen — " valasz
-[ "$valasz" = "igen" ] || { sarga "Megszakítva."; exit 0; }
+# A MEGERŐSÍTÉS KÉTFÉLEKÉPPEN ADHATÓ MEG, mert a szkript nem mindig kap
+# billentyűzetet. Terminálból kérdezünk; ha a bemenet nem terminál (a Claude
+# Code `!` futtatása, cron, csővezeték), akkor a `--igen` kapcsoló a
+# megerősítés. A `read` ilyenkor azonnal EOF-ot kapna, és `set -e` mellett
+# csendben megölné a szkriptet — pontosan ez történt az első futtatáskor.
+if [ -t 0 ]; then
+  read -r -p "Biztosan átviszed? Írd be: igen — " valasz
+  [ "$valasz" = "igen" ] || { sarga "Megszakítva."; exit 0; }
+elif [ "$IGEN" != 1 ]; then
+  piros "Nem interaktív futtatás — a megerősítés így a kapcsoló:"
+  echo   "    scripts/titkok-atvitel.sh --eles --igen" >&2
+  exit 1
+fi
 
 # A KÖZTES KÖNYVTÁR a felhasználó saját `mktemp`-je, 700-as jogosultsággal, és
 # a szkript minden kilépési ágon törli — megszakításnál is.
