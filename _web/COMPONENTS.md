@@ -2441,3 +2441,198 @@ címe. A hiba **minden ilyen szekcióban** ott volt, csak nem tűnt fel.
 > balra zárt, ezért a `.section-lead` helyett saját osztályt kapott. Az új
 > alapértelmezéssel erre már nem volna szükség — a meglévő osztály marad, mert
 > a szélessége is más.
+
+---
+
+## 38. Hírek — `.hir-*`, `.card-media-foto`, `.card-grid[data-cols="3"]`
+
+A régi WordPress-blog **negyvenkét bejegyzése** került át a Hírek szakaszba
+(`/okotech-home/hirek/`). A szakasz két lapfajtából áll: egy gyűjtőlapból és a
+hírrészletekből. Mindkettő a meglévő készletből épül — `.section`, `.card-grid`,
+`.card`, `.card-tag`, `.panel-dark` —, és csak ott vesz fel újat, ahol a régi
+komponens rossz választ adna.
+
+### ⚠️ Jelzett eltérés — a Hírek lapjain nincs fejléckép
+
+Minden más aloldal fejlécképet visel, és a cím a felvételen ül. A híreknél ez
+nem tartható: a szakasz képanyaga **tanúsítványlap, gyerekrajz, csoportkép és
+arculati elem**, amelyeken a sötétzöld cím kontrasztja nem tartható (WCAG 1.4.3).
+Az egyetlen becsületes megoldás az volna, hogy generálunk egy díszlet-felvételt
+— de a `designrendszer.md` szerint **egy fejléckép egy témát szolgál**, és a
+hírekhez nincs saját témája: a hír KÉPE maga a tartalom.
+
+Ezért a gyűjtőlap fejléce szöveges, a vizuális súlyt pedig az **idővonal** viszi
+(lásd lentebb), a részletlapokon a hír **saját borítója**.
+
+### Gyűjtőlap
+
+| Szekció | Komponens | Megjegyzés |
+|---|---|---|
+| fejléc | `.page-hero` kép nélkül + `.hir-idovonal` | az idővonal a fejléc része |
+| legfrissebb hír | `.hir-kiemelt` | tömör, egysoros — nem `.panel` |
+| minden hír | `.hir-szuro` + `.card-grid[data-cols="3"]` | 42 kártya, rovatra szűrhető |
+| továbblépés | `.panel-dark` | |
+
+**A rovatszűrés MŰVELET, nem navigáció** — ezért `<button>` és `aria-pressed`,
+nem hivatkozás. A lista teljes egészében a HTML-ben van; a szkript csak elrejt
+belőle (natív `hidden`). Szkript nélkül tehát minden hír olvasható, és a
+chipeken álló darabszám akkor sem hazudik: az statikus adat. A választás
+bekerül az URL-be (`?rovat=…`, `replaceState`), de **nem** ír előzményt — a
+„vissza" gomb a lapról kifelé vigyen, ne a szűrő korábbi állásaiba.
+
+**Három rovat**, a sitemap szerint: Vállalati hírek · Kiállítások és események ·
+Pályázatok és fejlesztések. A WordPress hat kategóriát használt, és azok
+keveredtek (a „Sajtóközlemény" a kötelező pályázati közleményeket és a
+médiamegjelenéseket is takarta), ezért nem a WP-címkét vettük át, hanem ebből a
+hármat képeztük — a leképezés a `hirek-forras.json`-ban rögzített.
+
+### Vízszintes idővonal — `.hir-idovonal`
+
+A rácsból nem derül ki, hogy ez **tizenkét év** anyaga. Az idővonal ezt egy
+pillantásra adja: évek a tengelyen, az események rajtuk ülnek, és minden pont
+hivatkozás — a látogató a történet bármely pontjára odaugorhat.
+
+- **A tengely a sáv felezővonalán fut**, az események pedig **felváltva** fölé
+  és alá kerülnek. Így egy eseményre kétszer annyi hely jut vízszintesen, és a
+  szem a cikcakkot követve magától halad. A hely a SORSZÁMBÓL adódik, nem az
+  évből: így a ritmus akkor is egyenletes, ha egy évre több hír jut.
+- **Az évszám csak évváltásnál** jelenik meg, a tengelyen ülve, a pont után —
+  a sáv tagolását ez adja, és nem kell minden ponthoz kiírni ugyanazt az évet.
+- **A léptetést a platform végzi** (`overflow-x` pálya): ujjal húzható,
+  trackpaddel görgethető, és a Tab-bal érkező fókusz magától begörgeti a
+  következő pontot. A `hirek.js` csak ráépül — lassú sodrást ad hozzá, és két
+  léptetőgombot, amelyeket **ő maga hoz létre**, hogy szkript nélkül ne
+  maradjon a lapon nem működő vezérlő.
+- **Két üzemmód, egy hurok.** Amíg senki nem nyúl hozzá, a sáv **magától**
+  sodródik 28 px/s-mal, és a végeken **visszafordul** — a szakasznak van eleje
+  és vége (2014 → ma), nem körkörös, ellentétben a vélemények szalagjával.
+  Amint az egér a sávra ér, átvált **egérvezérlésre**: ha a mutató a sáv
+  **széle felé** tart, arrafelé gördít, annál gyorsabban, minél közelebb van a
+  széléhez (a legszélén 520 px/s); a sáv közepén **áll**. Így a látogató a
+  gombok nélkül is végigpásztázhatja a tizenkét évet, egyetlen mozdulattal,
+  oda-vissza.
+- **A sebesség négyzetesen nő a zónában** (`k * k`), nem egyenesen: a zóna
+  belső határán így alig indul meg — az egyenes arányosság ott érezhető
+  rántást adna —, a legszélén viszont gyors. A zóna a sáv 22%-a oldalanként,
+  72 és 260 képpont közé szorítva: keskeny kijelzőn a puszta arány pár tíz
+  képpont volna (véletlenül is beletévednénk), széles kijelzőn a fél sávot
+  elvinné.
+- **A mutató alakja előre megmondja, mi fog történni** (`w-resize` /
+  `e-resize`, a `data-el` jelzőből). A jelzőt a szkript teszi rá, tehát
+  szkript nélkül nincs félrevezető mutató sem.
+- **Az egérvezérlés csak egérre szól** (`pointerType !== "touch"`): ujjal a
+  húzás a természetes mozdulat, és ott a „sáv széle" a képernyő széle is
+  egyben. Lenyomott gomb alatt (húzás) és a léptetőgomb megnyomása után
+  1,2 másodpercig a sáv áll, hogy a simított ugrás be tudjon fejeződni.
+- **Billentyűzetes olvasás közben áll** (`focusin`), `prefers-reduced-motion`
+  mellett el sem indul, háttérfülön és a képernyőn kívül leáll.
+- **A széli elhalványítás csak arra az oldalra kerül, amerre van még sor**
+  (`data-balra` / `data-vege`). Alapállapotban balra nincs: ha ott is
+  halványítanánk, a legkorábbi — és épp ezért a legfontosabb — esemény
+  tartósan kifakulva állna.
+
+#### Két buktató, amin átment
+
+1. **`scroll-snap` + lassú sodrás = nulla elmozdulás.** A pályán eredetileg
+   `scroll-snap-type: x proximity` állt. A böngésző minden képkocka után
+   visszarántotta a sávot a legközelebbi illesztési pontra, tehát a 28 px/s-os
+   haladásból semmi nem lett. Az idővonal folytonos — nincsenek „diák", amikre
+   illeszkedni kellene —, ezért a snap teljesen elmaradt.
+2. **`scroll-behavior: smooth` a konténeren ugyanígy megfojtja.** Minden
+   `scrollLeft`-írás új simított animációt indítana, azok egymásra torlódnak.
+   A simítást ezért a MŰVELET kéri (`scrollBy({behavior})` a gombokban), nem a
+   konténer; a sodrás közvetlenül ír.
+
+Hozzátartozik egy harmadik is: a pozíciót **saját számláló** tartja, nem a
+`scrollLeft` visszaolvasása. Képkockánként fél képpont a lépés, a getter pedig
+kerekíthet — akkor minden kör ugyanazt adná vissza, és a sáv nem mozdulna.
+
+### Kártya-médiakeret — három eset, három keret
+
+| Keret | Mikor | Illesztés |
+|---|---|---|
+| `.card-media-foto` | fénykép, fekvő grafika | `cover` — kitölti a keretet |
+| `.card-media-dok` | tanúsítvány, oklevél, plakát, arculati elem | `contain`, középre |
+| `.card-media-jel` | **nincs kép** ehhez a hírhez | a rovat ikonja lime alapon |
+
+A `.card-media` alapértelmezése (`contain`, alsó igazítás) kivágott
+illusztrációra való; egy fényképnél ettől a kártya tetején fehér sáv marad, és
+a rács „lyukasnak" látszik. Fordítva pedig egy A4-es tanúsítvány 3:2-be vágva
+olvashatatlan csonk lenne — azt egészben kell látni.
+
+Hat hírhez nem maradt fenn kép. Ezek **nem kapnak odaillesztett fotót**: a
+keretben a rovat ikonja áll. A látogató így azt látja, hogy nincs kép, nem
+pedig azt, hogy a hír egy odaillő, de valójában máshonnan vett felvételről szól.
+
+> A `.card-media-jel .icon`-nál a **szélességet is ki kell mondani**. A
+> menüikonok négyzetes 24-es rajzok, de nem hoznak saját `aspect-ratio`-t (a
+> megamenüben az `.icon-inline` adja a méretüket), az `.icon` alapszabálya
+> pedig `width:auto` — enélkül a maszk nulla széles, és a keret üresen marad.
+
+### Ráállás a hírkártyán
+
+A `.tech-hivas` mintáját követi, mert a hírkártya ugyanazt a szerepet tölti be:
+egy csempe, amelyik egy másik lapra visz. Három jel egyszerre — a kártya
+megemelkedik és mélyebb árnyékot kap, a kerete a márka zöldjére vált, a
+borítókép pedig **lassabban** nagyít egy hajszálnyit (420 ms a kártya 260
+ms-ához). A két külön ütem adja a mélységet; egy ütemben az egész csempe egy
+tömbben ugrana.
+
+A nagyítás **csak fényképnél** van: `contain`-nel illesztett oklevélen levágná
+a lap szélét, és egy csonka tanúsítvány nem hatáseffekt, hanem hiba. A
+jelzőkeretben az ikon nő meg helyette.
+
+`prefers-reduced-motion` mellett az **átmenet és az elmozdulás marad el, a
+jelzés nem**: a keret és az árnyék akkor is vált, csak ugrásszerűen. A ráállás
+visszajelzés, nem dísz. A `:focus-within` a billentyűzetes olvasóé — a kártya
+egyetlen célja a címben álló hivatkozás.
+
+### Nagyított képnézet — `.hir-nagykep`
+
+A cikkbeli képek **visszafogott méretben** állnak (legfeljebb 28rem magasan),
+hogy a szöveg maradjon a főszereplő. Aki közelebbről akarja látni valamelyiket
+— egy gyerekrajz részleteit, egy tanúsítvány sorait —, rákattint, és a kép
+előtérbe jön, miközben a lap mögötte **elmosódik**.
+
+**A dobozt a platform adja:** natív `<dialog>` + `showModal()`. Ebből magától
+jön a fókuszcsapda, az Esc, a háttér inertté tétele, a visszatérő fókusz és a
+`::backdrop` — mindaz, amit egy kézzel épített „modal" el szokott rontani. A
+háttérre kattintás is zár; mivel a `::backdrop` nem külön elem, a rá érkező
+kattintás a `<dialog>`-on jelenik meg, ezért csak akkor zárunk, ha a célpont
+**maga a doboz**.
+
+**A nagyítógombot a szkript teszi a képek köré**, nem a HTML — ugyanaz a
+szabály, mint a galériánál: szkript nélkül a kép nem kattintható, tehát nem is
+szabad úgy kinéznie. `<button>`, nem kattintható `<img>`: így billentyűzettel
+is elérhető. Egyetlen doboz szolgálja ki az összes képet; negyvenkét cikkben
+több száz `<dialog>` fölösleges DOM volna.
+
+**Az átúszás `@starting-style` + `allow-discrete` párossal megy.** A `<dialog>`
+zárva `display:none`, és abból nincs átmenet; a `display` és az `overlay`
+diszkrét animálhatóvá tétele nélkül a doboz csak felvillanna. Ahol a böngésző
+ezt nem ismeri, a nyitás egyszerűen azonnali.
+
+> **A `close` eseményre nem lehet takarítást bízni.** Kézenfekvő volna záráskor
+> elengedni a kép forrását, de az `allow-discrete` záróátmenettel futó dobozon
+> az esemény nem tüzel megbízhatóan — mérve: nem jött meg másfél másodperc
+> alatt sem. A forrást ezért **nyitás előtt** írjuk át, a gomb kezelőjében.
+
+### Hírrészlet — `.hir-cikk`
+
+A `.folyoszoveg` csak `> p`-t formáz; a hírtörzsben címsor, lista, idézet, kép
+és beágyazott videó is van. A szöveg 72ch-es mértéken fut (ugyanaz a sorhossz),
+a **kép és a videó viszont kilép belőle**: egy 1100 képpontos felvétel a 72ch-es
+hasábban apró lenne.
+
+A **YouTube-beágyazás a `youtube-nocookie.com`-ra megy**, és `aspect-ratio`-s
+keretben ül, nem `height` attribútummal — így a lap nem ugrik meg betöltéskor.
+
+A cikk alján `.hir-lepteto` (korábbi / újabb hír) és három kapcsolódó hír
+ugyanabból a rovatból.
+
+### Ahol a tartalom él
+
+A hírek **egyetlen forrása** a `scripts/oldalgyartas/hirek-forras.json`; a
+lapokat a `scripts/oldalgyartas/hirek.py` rakja össze belőle. **Egy hír
+törlése** ezért annyi, hogy kivesszük a bejegyzését a JSON-ból, újrafuttatjuk a
+generátort, és töröljük a hozzá tartozó `.html`-t meg a képeit.

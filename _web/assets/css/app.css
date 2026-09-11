@@ -856,6 +856,7 @@
   .icon-nav-felmeres{-webkit-mask-image:url("../icon/ui-nav-felmeres.svg?v=1");mask-image:url("../icon/ui-nav-felmeres.svg?v=1")}
   .icon-nav-fogalomtar{-webkit-mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1");mask-image:url("../icon/ui-nav-fogalomtar.svg?v=1")}
   .icon-nav-gyik{-webkit-mask-image:url("../icon/ui-nav-gyik.svg?v=1");mask-image:url("../icon/ui-nav-gyik.svg?v=1")}
+  .icon-nav-hirek{-webkit-mask-image:url("../icon/ui-nav-hirek.svg?v=1");mask-image:url("../icon/ui-nav-hirek.svg?v=1")}
   .icon-nav-inditas{-webkit-mask-image:url("../icon/ui-nav-inditas.svg?v=1");mask-image:url("../icon/ui-nav-inditas.svg?v=1")}
   /* Konzultációs szekció saját ikonjai — a menüikonoknál vastagabb rajzolattal,
      mert nagyobb korongban, kevesebb elem mellett állnak: ott a vékony vonal
@@ -8431,4 +8432,689 @@
   /* A gomb nyila előrelép — a lap többi CTA-ja is így viselkedik. */
   .tech-hivas-akcio .action-arrow{transition:translate var(--dur-fast) var(--ease-out)}
   .tech-hivas-akcio:hover .action-arrow{translate:var(--space-4) 0}
+}
+
+/* ============================================================================
+   HÍREK — rovatszűrő, hírkártya, cikktörzs (`.hir-*`)
+   ----------------------------------------------------------------------------
+   A Hírek szakasz két lapfajtát hoz: egy GYŰJTŐLAPOT (mind a negyvenkét hír
+   egy rácsban, rovat szerint szűrhetően) és a HÍR RÉSZLETÉT. Mindkettő a
+   meglévő készletből épül — `.card-grid`, `.card`, `.card-tag`, `.panel` —,
+   és csak ott vesz fel újat, ahol a régi komponens rossz választ adna:
+
+   · `.card-media-foto` — a `.card-media` KIVÁGOTT illusztrációra való
+     (`contain`, alsó igazítás). A hírborítók viszont FÉNYKÉPEK: azoknál a
+     keretet ki kell tölteni (`cover`), különben a kártya tetején fehér sáv
+     marad, és a rács „lyukasnak" látszik.
+   · `.card-media-jel` — hat hírhez nem maradt fenn kép. Ezek NEM kapnak
+     odaillesztett fotót: a keretben a rovat ikonja áll lime alapon. A
+     látogató így látja, hogy nincs kép, nem pedig azt, hogy a hír egy
+     odaillő, de valójában máshonnan vett felvételről szól.
+   · `.hir-szuro` — a rovatszűrés MŰVELET, nem navigáció, ezért `<button>` és
+     `aria-pressed`, nem hivatkozás. Szkript nélkül minden hír látszik: a
+     szűrő a teljes listára épül rá, nem az teszi láthatóvá.
+   · `.hir-cikk` — a `.folyoszoveg` csak `> p`-t formáz, a hírtörzsben viszont
+     címsor, lista, kép és beágyazott videó is van. Ez a szerepe.
+
+   ⚠️ JELZETT ELTÉRÉS — a Hírek lapjain NINCS fejléckép. Minden más aloldal
+   fejlécképet visel, itt viszont a szöveg a felvételen ÜLNE, és a hírek
+   képanyaga erre alkalmatlan: tanúsítványlapok, gyerekrajzok, csoportképek,
+   amelyeken a sötétzöld cím kontrasztja nem tartható (WCAG 1.4.3). A kép a
+   hírekben a TARTALOM, nem a díszlet — ezért a gyűjtőlapon a legfrissebb hír
+   panelje, a részletlapon a hír saját borítója viszi a vizuális súlyt.
+   Indoklás: `_web/COMPONENTS.md` 38.
+   ========================================================================== */
+@layer tokens {
+  :root{
+    /* rovatszűrő — alap- és kiválasztott állapot */
+    --hir-szuro-bg:var(--surface);
+    --hir-szuro-text:var(--text-secondary);
+    --hir-szuro-border:var(--border);
+    --hir-szuro-aktiv-bg:var(--surface-inverse);
+    --hir-szuro-aktiv-text:var(--text-on-dark);
+    /* képnélküli hír jelzőkerete */
+    --hir-jel-bg:var(--surface-muted);
+    --hir-jel-szin:var(--text-primary);
+  }
+  [data-theme="dark"]{
+    --hir-szuro-bg:var(--surface);
+    --hir-szuro-text:var(--text-secondary);
+    --hir-szuro-border:var(--border);
+    /* Sötét témán a Forest a sáv SAJÁT színe: a kiválasztott chip nem
+       emelkedne ki belőle. A felület-lépcső következő foka adja a jelet —
+       ugyanaz a megfontolás, mint a `--button-inverse-bg`-nél. */
+    --hir-szuro-aktiv-bg:var(--surface-muted);
+    --hir-szuro-aktiv-text:var(--text-primary);
+    --hir-jel-bg:var(--surface-muted);
+    --hir-jel-szin:var(--text-primary);
+  }
+}
+
+@layer components {
+
+  /* ----- Hármas kártyarács ----------------------------------------------- */
+  /* A `.card-grid` négy hasábbal indul (termék- és helyzetkártyák). A hírkártya
+     ennél többet visz — borító, rovat, dátum, cím, bevezető —, és négyes
+     osztásban a cím két-három szóra törne. A jelölés ugyanaz a mintát követi,
+     mint a `.situation-grid[data-cols]`. A szűkebb nézetek osztását a
+     `@layer responsive` `.card-grid`-szabályai adják, azok később jönnek. */
+  .card-grid[data-cols="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+  /* ----- Rovatszűrő ------------------------------------------------------ */
+  .hir-szuro{
+    display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-8);
+    margin-bottom:var(--space-32);
+  }
+  .hir-chip{
+    display:inline-flex;align-items:center;gap:var(--space-8);
+    min-height:44px;padding:var(--space-8) var(--space-16);
+    background:var(--hir-szuro-bg);color:var(--hir-szuro-text);
+    border:1px solid var(--hir-szuro-border);border-radius:var(--chip-radius);
+    cursor:pointer;
+    transition:background var(--dur-fast) var(--ease-out),
+               color var(--dur-fast) var(--ease-out),
+               border-color var(--dur-fast) var(--ease-out);
+  }
+  .hir-chip:hover{border-color:var(--primary);color:var(--text-primary)}
+  .hir-chip:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+  /* Az állapot NATÍV attribútum, nem osztály: a képernyőolvasó így magától
+     mondja, hogy a kapcsoló be van nyomva. */
+  .hir-chip[aria-pressed="true"]{
+    background:var(--hir-szuro-aktiv-bg);color:var(--hir-szuro-aktiv-text);
+    border-color:var(--hir-szuro-aktiv-bg);
+  }
+  /* A darabszám a chipen belül halványabb — kiegészítés, nem a felirat része. */
+  .hir-chip-db{opacity:.7}
+  /* A találatszám a szűrés visszajelzése: `aria-live` mondja ki, de csak
+     akkor, ha a szkript fut — enélkül a HTML-ben nincs mit visszajelezni. */
+  .hir-talalat{color:var(--text-tertiary);margin-left:auto}
+
+  /* ----- Hírkártya médiakerete ------------------------------------------ */
+  /* Fénykép: kitölti a keretet. A `.card-media` alapértelmezett `contain` +
+     alsó igazítása kivágott illusztrációra való, felvételre nem. */
+  .card-media-foto{align-items:stretch}
+  .card-media-foto img{object-fit:cover;object-position:center;border-radius:var(--r-md)}
+  /* Tanúsítvány, oklevél, arculati elem: EGÉSZBEN kell látszania, ezért marad
+     a `contain`, de középre igazítva — egy A4-es lap alulra húzva lebegne. */
+  .card-media-dok{align-items:center}
+  .card-media-dok img{object-position:center}
+  /* Kép nélküli hír: a rovat ikonja lime alapon. */
+  .card-media-jel{
+    align-items:center;justify-content:center;
+    background:var(--hir-jel-bg);color:var(--hir-jel-szin);
+    border-radius:var(--r-md);
+  }
+  /* A menüikonok 24-es rácson, NÉGYZETES rajzok, és nem hoznak saját
+     `aspect-ratio`-t (a megamenüben az `.icon-inline` adja a méretüket). Az
+     `.icon` alapszabálya `width:auto`, ezért itt a szélességet is ki kell
+     mondani — enélkül a maszk nulla széles lenne, és a keret üresen maradna. */
+  .card-media-jel .icon{
+    height:calc(var(--space-48) + var(--space-8));
+    width:calc(var(--space-48) + var(--space-8));
+    opacity:.55;
+  }
+
+  /* ----- Kártyafej: dátum és rovat --------------------------------------- */
+  .hir-meta{
+    display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-8);
+  }
+  .hir-datum{color:var(--text-tertiary)}
+  /* A kártyacím HIVATKOZÁS, és a kártyán belül ez az egyetlen cél: a „Tovább"
+     ugyanoda vinne, tehát a képernyőolvasó kétszer sorolná fel ugyanazt. */
+  .hir-cim-link{color:var(--text-primary);text-decoration:none}
+  .hir-cim-link:hover{color:var(--link-hover);text-decoration:underline}
+  .hir-cim-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+
+  /* ----- Kiemelt hír a gyűjtőlap élén ------------------------------------ */
+  /* A `.panel-media` `contain`-nel dolgozik (termékrender); a legfrissebb hír
+     borítója fénykép, azt ki kell töltenie. */
+  .panel-media-foto img{object-fit:cover;border-radius:var(--r-md)}
+  .panel-meta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-8)}
+
+  /* ----- Cikktörzs ------------------------------------------------------- */
+  /* 72ch: ugyanaz a sorhossz, mint a `.folyoszoveg`-é. A kép és a videó
+     KILÓG belőle (`.hir-figura`), mert a 72ch-es hasábban egy 1100px-es
+     felvétel apró lenne. */
+  .hir-cikk{max-width:72ch}
+  .hir-cikk > p{color:var(--text-secondary);margin-bottom:var(--space-16)}
+  .hir-cikk > p:last-child{margin-bottom:0}
+  .hir-cikk > h2{color:var(--text-primary);margin-top:var(--space-48);margin-bottom:var(--space-16)}
+  .hir-cikk > h2:first-child{margin-top:0}
+  .hir-cikk > ul,.hir-cikk > ol{
+    margin:0 0 var(--space-16);padding-left:var(--space-24);
+    color:var(--text-secondary);
+  }
+  .hir-cikk > ul > li,.hir-cikk > ol > li{margin-bottom:var(--space-8)}
+  .hir-cikk > blockquote{
+    margin:0 0 var(--space-16);padding-left:var(--space-24);
+    border-left:3px solid var(--primary);color:var(--text-primary);
+  }
+  .hir-figura{
+    /* A 72ch-es hasábból kilép, de a szekció konténerén belül marad. */
+    max-width:min(100%,var(--container-max));
+    margin:var(--space-32) 0;
+  }
+  /* A CIKKBELI KÉP NEM NAGYÍTÓDIK FEL. A `width:100%` egy 712 képpont széles
+     álló gyerekrajzot 1084-re húzott volna — elmosódva, és a lap harmadát
+     elfoglalva. Itt a kép a saját méretén áll, a hasáb szélességéig; ami
+     ennél nagyobb, az arányosan kisebbedik.
+
+     A MAGASSÁGKORLÁT az álló képek miatt kell: egy 712×1024-es rajz teljes
+     szélességben másfél képernyőnyi volna, és a szöveg elszakadna tőle. A
+     fekvő felvételeket gyakorlatilag nem érinti. */
+  /* A CIKKBELI KÉP NEM NAGYÍTÓDIK FEL, és nem is uralja a lapot: a saját
+     méretén áll, a hasáb szélességéig, magasságban visszafogva. Aki közelebbről
+     akarja látni, RÁKATTINT — a nagyított nézetet a `hirek.js` nyitja. */
+  .hir-figura img{
+    display:block;margin-inline:auto;
+    max-width:100%;max-height:min(58vh,28rem);
+    width:auto;height:auto;
+    border-radius:var(--panel-radius);
+  }
+  .hir-figura figcaption{color:var(--text-tertiary);margin-top:var(--space-8)}
+  /* Beágyazott videó. Az arányt a keret tartja, nem a `height` attribútum —
+     így a lap nem ugrik meg betöltéskor (CLS). */
+  .hir-video{
+    position:relative;aspect-ratio:16 / 9;
+    margin:var(--space-32) 0;max-width:min(100%,var(--container-max));
+    background:var(--surface-muted);border-radius:var(--panel-radius);
+    overflow:hidden;
+  }
+  .hir-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* ----- Léptetés a cikk alján ------------------------------------------ */
+  .hir-lepteto{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-24);
+    margin-top:var(--space-48);padding-top:var(--space-24);
+    border-top:1px solid var(--border);
+  }
+  .hir-lepteto-elem{display:flex;flex-direction:column;gap:var(--space-4)}
+  /* A „következő" a sor jobb széléhez zár — a két irány így magától olvasható. */
+  .hir-lepteto-elem[data-irany="kovetkezo"]{text-align:right}
+  .hir-lepteto-cimke{color:var(--text-tertiary)}
+}
+
+@layer responsive {
+  @media (max-width:1024px){
+    .hir-talalat{margin-left:0;flex-basis:100%}
+  }
+  @media (max-width:640px){
+    .hir-lepteto{grid-template-columns:minmax(0,1fr)}
+    .hir-lepteto-elem[data-irany="kovetkezo"]{text-align:left}
+  }
+}
+
+/* ============================================================================
+   HÍREK — vízszintes idővonal (`.hir-idovonal`) és tömör kiemelt hír
+   ----------------------------------------------------------------------------
+   MIÉRT VAN. A gyűjtőlap negyvenkét hírt sorol fel időrendben, de a rácsból
+   nem derül ki, hogy ez TIZENKÉT ÉV anyaga. Az idővonal ezt egy pillantásra
+   adja: évek a tengelyen, az események rajtuk ülnek, és minden pont
+   hivatkozás — a látogató a történet bármely pontjára odaugorhat.
+
+   A LÉPTETÉST A PLATFORM VÉGZI, ahogy a galériánál is: a sáv `overflow-x`
+   pálya `scroll-snap`-pel, tehát az ujjal húzás, a trackpad és a vízszintes
+   görgetés JavaScript nélkül is működik, a Tab-bal érkező fókusz pedig
+   magától begörgeti a soron következő pontot. A szkript csak RÁÉPÜL: lassú
+   sodrást ad hozzá, és léptetőgombokat tesz mellé.
+
+   A SODRÁS SOHA NEM ZAVARHAT. Megáll, amint az egérmutató a sávra ér, amint
+   valaki belefókuszál vagy hozzáér, és `prefers-reduced-motion` mellett el se
+   indul. A végeken visszafordul, nem ugrik: a szakasznak van eleje és vége,
+   nem körkörös — ellentétben a vélemények szalagjával, ahol a végtelenítés a
+   helyes, mert ott nincs sorrend.
+
+   A TENGELY EGYETLEN VONAL a sor `::before`-jában, nem elemenkénti szakasz:
+   így a hasábköznél nem szakad meg, és nem kell a pontokkal külön
+   összehangolni. A pontok fix magasságban ülnek (`--hir-ido-tengely`), ezért
+   a föléjük kerülő évszám csak ott jelenik meg, ahol évet vált a sor — a
+   helyét viszont minden elem kihagyja, különben a pontok elcsúsznának.
+   ========================================================================== */
+@layer tokens {
+  :root{
+    --hir-ido-elem:13.5rem;       /* egy esemény hasábszélessége */
+    --hir-ido-mag:14rem;          /* a sáv magassága; a tengely a felezőjén */
+    --hir-ido-szar:var(--space-24); /* a tengely és a szöveg közötti szár */
+    --hir-ido-pont:12px;
+    --hir-ido-vonal:var(--border);
+    --hir-ido-szar-szin:var(--border);
+    --hir-ido-oszlop:color-mix(in srgb,var(--border) 55%,transparent);
+    --hir-ido-pont-szin:var(--primary);
+    --hir-ido-pont-ev:var(--surface-inverse);
+    --hir-ido-ev-bg:var(--surface);
+    --hir-ido-ev-keret:var(--border);
+  }
+  [data-theme="dark"]{
+    --hir-ido-vonal:var(--border);
+    --hir-ido-szar-szin:var(--border);
+    --hir-ido-oszlop:color-mix(in srgb,var(--border) 55%,transparent);
+    --hir-ido-pont-szin:var(--primary);
+    /* Sötét témán a Forest a sáv saját színe — az évjelölő pont nem válna el
+       tőle. A felület-lépcső következő foka adja a jelet. */
+    --hir-ido-pont-ev:var(--surface-muted);
+    --hir-ido-ev-bg:var(--surface);
+    --hir-ido-ev-keret:var(--border);
+  }
+}
+
+@layer components {
+  .hir-idovonal{margin-top:var(--space-48)}
+  .hir-idovonal-fej{
+    display:flex;flex-wrap:wrap;align-items:baseline;
+    gap:var(--space-8) var(--space-16);margin-bottom:var(--space-16);
+  }
+  .hir-idovonal-sug{color:var(--text-tertiary)}
+  /* A léptetőgombokat a szkript teszi ide — ha nem fut le, nem marad a lapon
+     olyan gomb, ami nem csinál semmit (ugyanaz a szabály, mint a galériánál). */
+  .hir-idovonal-vezerlok{display:flex;gap:var(--space-8);margin-left:auto}
+
+  /* A sáv széle elhalványul, hogy látszódjon: a sor folytatódik. A maszkban
+     álló `#000` nem szín, hanem az „átlátszatlan" maszkcsatorna-érték. */
+  /* A SÁV SZÉLE ELHALVÁNYUL, de csak azon az oldalon, amerre a sor
+     FOLYTATÓDIK. Alapállapotban a pálya a bal szélén áll, tehát balra nincs
+     mit jelezni — ha ott is halványítanánk, az első esemény (a legkorábbi, és
+     épp ezért a legfontosabb) tartósan kifakulva állna. A szkript a görgetés
+     állásából állítja a két adatjelzőt; szkript nélkül a kiinduló állapot a
+     helyes. A maszkban álló `#000` nem szín, hanem az „átlátszatlan"
+     maszkcsatorna-érték — színtoken itt értelmetlen volna. */
+  .hir-idovonal-keret{
+    position:relative;
+    --ido-bal:#000;
+    --ido-jobb:transparent;
+    -webkit-mask-image:linear-gradient(90deg,var(--ido-bal),#000 9%,#000 91%,var(--ido-jobb));
+    mask-image:linear-gradient(90deg,var(--ido-bal),#000 9%,#000 91%,var(--ido-jobb));
+  }
+  .hir-idovonal-keret[data-balra]{--ido-bal:transparent}
+  .hir-idovonal-keret[data-vege]{--ido-jobb:#000}
+  /* A MUTATÓ ALAKJA MEGMONDJA, MI TÖRTÉNIK. A sáv két szélén az egér
+     odahúzása magától gördít (lásd hirek.js); az oldalra mutató nyíl ezt
+     jelzi előre, mielőtt a látogató megmozdulna. A sáv közepén a szokásos
+     mutató marad — ott nem történik semmi. A jelzőt a szkript teszi rá,
+     tehát szkript nélkül nincs félrevezető mutató sem. */
+  .hir-idovonal-keret[data-el="bal"] .hir-idovonal-palya{cursor:w-resize}
+  .hir-idovonal-keret[data-el="jobb"] .hir-idovonal-palya{cursor:e-resize}
+  /* NINCS `scroll-snap`. A vásznon korábban `x proximity` állt, és az
+     megette a lassú sodrást: a böngésző minden képkocka után visszarántotta a
+     sávot a legközelebbi illesztési pontra, tehát a 14 px/s-os haladás nulla
+     elmozdulássá vált. Az idővonal ráadásul FOLYTONOS — nincsenek „diák",
+     amikre illeszkedni kellene, mint egy galériában. */
+  .hir-idovonal-palya{
+    overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:none;
+    padding-bottom:var(--space-8);
+  }
+  .hir-idovonal-palya::-webkit-scrollbar{display:none}
+  .hir-idovonal-palya:focus-visible{outline:3px solid var(--border-focus);outline-offset:4px}
+
+  /* A SOR fix magasságú, és a TENGELY a felezővonalán fut. Az események
+     FELVÁLTVA kerülnek a vonal fölé és alá: így egy eseményre kétszer annyi
+     hely jut vízszintesen, mint egymás mellé zsúfolva, és a szem a cikcakkot
+     követve magától halad — ez a klasszikus idővonal-olvasás. */
+  .hir-idovonal-sor{
+    position:relative;display:flex;width:max-content;
+    height:var(--hir-ido-mag);
+    list-style:none;margin:0;padding:0;
+  }
+  .hir-idovonal-sor::before{
+    content:"";position:absolute;left:0;right:0;
+    top:50%;height:2px;translate:0 -50%;
+    background:var(--hir-ido-vonal);
+  }
+
+  .hir-idovonal-elem{position:relative;flex:0 0 var(--hir-ido-elem)}
+
+  /* ÉVOSZLOP. Évváltásnál egy hajszálvékony függőleges vonal fut végig a sáv
+     teljes magasságán. Ez adja az idővonalnak a gerincét: a szem évenkénti
+     oszlopokban olvassa a sort, nem negyvenkét egyforma pont sorozataként.
+     A LI `::before`-ja viszi, mert az `::after` a pont, a szár pedig a
+     hivatkozásra került — három réteg, három elem. */
+  .hir-idovonal-elem[data-evvaltas]::before{
+    content:"";position:absolute;
+    left:calc(var(--hir-ido-pont) / 2 - 0.5px);width:1px;
+    top:0;bottom:0;
+    background:var(--hir-ido-oszlop);
+  }
+
+  /* A SZÁR a tengelytől a szövegig. A pont bal széle az elem bal széle, tehát
+     a szár a pont KÖZEPÉN áll. */
+  .hir-idovonal-link::before{
+    content:"";position:absolute;
+    left:calc(var(--hir-ido-pont) / 2 - 1px);width:2px;
+    height:var(--hir-ido-szar);
+    background:var(--hir-ido-szar-szin);
+    transition:background var(--dur-fast) var(--ease-out);
+  }
+  .hir-idovonal-elem[data-hely="fent"] .hir-idovonal-link::before{bottom:calc(-1 * var(--hir-ido-szar))}
+  .hir-idovonal-elem[data-hely="lent"] .hir-idovonal-link::before{top:calc(-1 * var(--hir-ido-szar))}
+  .hir-idovonal-link:hover::before,
+  .hir-idovonal-link:focus-visible::before{background:var(--hir-ido-pont-szin)}
+
+  /* A PONT mindig a tengelyen ül, oldaltól függetlenül. */
+  .hir-idovonal-elem::after{
+    content:"";position:absolute;left:0;top:50%;
+    width:var(--hir-ido-pont);height:var(--hir-ido-pont);
+    translate:0 -50%;border-radius:50%;
+    background:var(--canvas);
+    box-shadow:0 0 0 2px var(--hir-ido-pont-szin);
+    transition:box-shadow var(--dur-fast) var(--ease-out),
+               scale var(--dur-fast) var(--ease-out);
+  }
+  /* Évváltásnál a pont tömör és nagyobb: a tengely tagolását ez adja. */
+  .hir-idovonal-elem[data-evvaltas]::after{
+    background:var(--hir-ido-pont-ev);
+    box-shadow:0 0 0 2px var(--hir-ido-pont-ev);
+    scale:1.25;
+  }
+  /* A pont a LI-n ül, a ráállás viszont a benne álló hivatkozáson történik —
+     a `:has()` köti össze a kettőt. A rács `:has()`-t már használ (5.7). */
+  .hir-idovonal-elem:has(.hir-idovonal-link:hover)::after,
+  .hir-idovonal-elem:has(.hir-idovonal-link:focus-visible)::after{
+    background:var(--hir-ido-pont-szin);
+    box-shadow:0 0 0 4px var(--primary-soft);
+    scale:1.4;
+  }
+
+  .hir-idovonal-link{
+    position:absolute;left:0;
+    width:calc(100% - var(--space-24));
+    color:var(--text-secondary);text-decoration:none;
+    transition:translate var(--dur-fast) var(--ease-out);
+  }
+  /* A fölé kerülő szöveg ALULRÓL épül (a tengelyhez tapad), az alá kerülő
+     fölülről — így a szár mindkét oldalon ugyanolyan hosszú, bármilyen
+     hosszú a cím. */
+  .hir-idovonal-elem[data-hely="fent"] .hir-idovonal-link{
+    bottom:calc(50% + var(--hir-ido-szar));
+  }
+  .hir-idovonal-elem[data-hely="lent"] .hir-idovonal-link{
+    top:calc(50% + var(--hir-ido-szar));
+  }
+  .hir-idovonal-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+
+  /* Az ÉVSZÁM a tengelyen ül, a pont után — a sáv tagolása. A háttér kitakarja
+     alatta a vonalat, különben az áthúzná a számot. */
+  /* Az ÉVSZÁM pirulában ül a tengelyen, a pont után. A puszta háttérfolt
+     kevés volt: a szám ugyanolyan súlyú maradt, mint a negyven dátum, és nem
+     látszott, hogy ő tagolja a sort. A hajszálkeret és a felületszín kiemeli
+     a vonalból, anélkül hogy hangosabb lenne a címeknél. */
+  .hir-idovonal-ev{
+    position:absolute;top:50%;
+    left:calc(var(--hir-ido-pont) + var(--space-8));
+    translate:0 -50%;
+    padding:var(--space-4) var(--space-8);
+    border:1px solid var(--hir-ido-ev-keret);border-radius:var(--tag-radius);
+    background:var(--hir-ido-ev-bg);color:var(--text-primary);
+    white-space:nowrap;
+  }
+  .hir-idovonal-datum{display:block;color:var(--text-tertiary);margin-bottom:var(--space-4)}
+  .hir-idovonal-cim{
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
+    overflow:hidden;color:var(--text-primary);
+  }
+  .hir-idovonal-link:hover .hir-idovonal-cim{color:var(--link-hover);text-decoration:underline}
+  /* A szövegblokk ráálláskor egy hajszálnyit a TENGELY FELÉ lép — a mozgás
+     iránya megmondja, melyik ponthoz tartozik. Két képpont: érezhető, de nem
+     ugrik szét tőle a sor. */
+  .hir-idovonal-elem[data-hely="fent"] .hir-idovonal-link:hover,
+  .hir-idovonal-elem[data-hely="fent"] .hir-idovonal-link:focus-visible{translate:0 2px}
+  .hir-idovonal-elem[data-hely="lent"] .hir-idovonal-link:hover,
+  .hir-idovonal-elem[data-hely="lent"] .hir-idovonal-link:focus-visible{translate:0 -2px}
+
+  /* Léptetőgomb — a galéria vezérlőivel azonos szerep, azonos méret. */
+  .hir-idovonal-gomb{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:44px;height:44px;
+    background:var(--surface);color:var(--text-secondary);
+    border:1px solid var(--border);border-radius:50%;cursor:pointer;
+  }
+  .hir-idovonal-gomb:hover:not(:disabled){border-color:var(--primary);color:var(--primary)}
+  .hir-idovonal-gomb:disabled{opacity:.4;cursor:default}
+  .hir-idovonal-gomb:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+  .hir-idovonal-gomb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}
+
+  /* ----- Tömör kiemelt hír ---------------------------------------------- */
+  /* A legfrissebb hír a lap élén áll, de NEM nyomja agyon a listát: egyetlen
+     sor, bélyegképpel. A `.panel` ehhez túl nagy — ott a kép a felület fele. */
+  .hir-kiemelt{
+    display:grid;grid-template-columns:auto minmax(0,1fr);
+    gap:var(--space-24);align-items:center;
+    padding:var(--space-16);
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:var(--card-radius);
+  }
+  .hir-kiemelt-media{
+    flex:none;width:10rem;aspect-ratio:var(--media-ratio-card);
+    margin:0;border-radius:var(--r-md);overflow:hidden;
+    background:var(--surface-muted);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hir-kiemelt-media img{width:100%;height:100%;object-fit:cover}
+  .hir-kiemelt-media[data-mod="dok"] img{object-fit:contain}
+  .hir-kiemelt-media .icon{height:var(--space-32);width:var(--space-32);opacity:.55}
+  .hir-kiemelt-torzs{display:flex;flex-direction:column;gap:var(--space-8);align-items:flex-start}
+}
+
+@layer responsive {
+  @media (max-width:640px){
+    :root{--hir-ido-elem:11rem}
+    .hir-kiemelt{grid-template-columns:minmax(0,1fr)}
+    .hir-kiemelt-media{width:100%}
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion:reduce){
+    .hir-idovonal-elem::after,
+    .hir-idovonal-link::before{transition:none}
+    /* A jelzés marad (szín, gyűrű), az ELMOZDULÁS megy el. */
+    .hir-idovonal-link:hover,
+    .hir-idovonal-link:focus-visible{translate:none}
+  }
+  /* A pályán NINCS `scroll-behavior:smooth`. A lassú sodrás képkockánként írja
+     a `scrollLeft`-et; ha a konténer maga simítana, minden egyes írás új
+     animációt indítana, azok egymásra torlódnának, és a sáv beragadna. A
+     léptetőgombok ezért maguk kérik a simítást (`scrollBy({behavior})`) —
+     ott egy művelet, egy animáció. */
+}
+
+/* ============================================================================
+   HÍREK — tömör szekció és a hírkártya ráállása
+   ----------------------------------------------------------------------------
+   A TÖMÖR SZEKCIÓ (`.section-tomor`) a szokásos szekciótávolság FELÉVEL
+   dolgozik. Egyetlen helyen kell: a fejléc alatti idővonal és a legfrissebb
+   hír egy gondolat — teljes szekcióköz választaná el őket, és a lap
+   szétesne.
+
+   A RÁÁLLÁS a `.tech-hivas` mintáját követi, mert a hírkártya ugyanazt a
+   szerepet tölti be: egy csempe, amelyik egy másik lapra visz. Három jel
+   egyszerre, mind ugyanabból a rendszerből:
+
+     · a kártya megemelkedik és mélyebb árnyékot kap (`--shadow-2`),
+     · a kerete a márka zöldjére vált,
+     · a borítókép LASSABBAN nagyít egy hajszálnyit, mint ahogy a kártya
+       mozdul — ettől lesz mélysége a mozgásnak (parallaxis-érzet) ahelyett,
+       hogy az egész csempe egy tömbben ugrana.
+
+   A nagyítás csak FÉNYKÉPNÉL van. Tanúsítványon és arculati elemen a kép a
+   keretbe illesztve áll (`contain`), ott a nagyítás levágná a lap szélét —
+   egy oklevél csonkja pedig nem hatáseffekt, hanem hiba. A jelzőkeretben
+   (kép nélküli hír) az IKON nő meg helyette, halványan.
+
+   `prefers-reduced-motion` mellett minden átmenet elmarad, de a jelzés NEM:
+   a keret és az árnyék akkor is vált, csak ugrásszerűen. A ráállás
+   visszajelzés, nem dísz.
+   ========================================================================== */
+@layer components {
+  .section-tomor{padding-block:calc(var(--space-section) / 2)}
+
+  /* A nagyításhoz a keretnek kell vágnia, nem a képnek: a kép saját
+     lekerekítése a nagyítással együtt nőne, és kilógna a sarkokból. */
+  .card-media-foto{overflow:hidden;border-radius:var(--r-md)}
+  .card-media-foto img{border-radius:0}
+
+  .hir-kiemelt{
+    transition:transform var(--dur-ui) var(--ease-out),
+               border-color var(--dur-ui) var(--ease-out),
+               box-shadow var(--dur-ui) var(--ease-out);
+  }
+  .hir-kiemelt:hover,
+  .hir-kiemelt:focus-within{
+    transform:translateY(-2px);
+    border-color:var(--primary);
+    box-shadow:var(--shadow-2);
+  }
+}
+
+@layer motion {
+  .card-item .card{
+    transition:transform var(--dur-ui) var(--ease-out),
+               border-color var(--dur-ui) var(--ease-out),
+               box-shadow var(--dur-ui) var(--ease-out);
+  }
+  /* A kép saját, LASSABB üteme adja a mélységet: 420ms a kártya 260ms-ához. */
+  .card-item .card-media-foto img{
+    transition:scale 420ms var(--ease-out);
+  }
+  .card-item .card-media-jel .icon{
+    transition:scale var(--dur-ui) var(--ease-out),
+               opacity var(--dur-ui) var(--ease-out);
+  }
+  /* `:focus-within` a billentyűzetes olvasóé: a kártya egyetlen célja a
+     címben álló hivatkozás, tehát a Tab is ugyanazt a kiemelést kapja. */
+  .card-item .card:hover,
+  .card-item .card:focus-within{
+    transform:translateY(-4px);
+    border-color:var(--primary);
+    box-shadow:var(--shadow-2);
+  }
+  .card-item .card:hover .card-media-foto img,
+  .card-item .card:focus-within .card-media-foto img{scale:1.05}
+  .card-item .card:hover .card-media-jel .icon,
+  .card-item .card:focus-within .card-media-jel .icon{scale:1.12;opacity:.75}
+
+  @media (prefers-reduced-motion:reduce){
+    /* A jelzés marad (keret, árnyék), az ÁTMENET és az elmozdulás megy el. */
+    .card-item .card,
+    .card-item .card-media-foto img,
+    .card-item .card-media-jel .icon,
+    .hir-kiemelt{transition:none}
+    .card-item .card:hover,
+    .card-item .card:focus-within,
+    .hir-kiemelt:hover,
+    .hir-kiemelt:focus-within{transform:none}
+    .card-item .card:hover .card-media-foto img,
+    .card-item .card:focus-within .card-media-foto img,
+    .card-item .card:hover .card-media-jel .icon,
+    .card-item .card:focus-within .card-media-jel .icon{scale:1}
+  }
+}
+
+/* ============================================================================
+   HÍREK — nagyított képnézet, `.hir-nagykep`
+   ----------------------------------------------------------------------------
+   A cikkbeli képek visszafogott méretben állnak, hogy a szöveg maradjon a
+   főszereplő. Aki közelebbről akarja látni valamelyiket — egy gyerekrajz
+   részleteit, egy tanúsítvány sorait —, rákattint, és a kép előtérbe jön,
+   miközben a lap mögötte elmosódik.
+
+   A DOBOZT A PLATFORM ADJA: natív `<dialog>` + `showModal()`. Ebből magától
+   jön a fókuszcsapda, az Esc, a háttér inertté tétele és a `::backdrop`
+   pszeudóelem — mindaz, amit egy kézzel épített „modal" jellemzően elront.
+
+   A NAGYÍTÓGOMBOT A SZKRIPT HOZZA LÉTRE, nem a HTML (ugyanaz a szabály, mint a
+   galériánál): szkript nélkül a képek egyszerűen képek maradnak, és nem ül a
+   lapon olyan vezérlő, ami nem csinál semmit. A gomb azért `<button>` és nem
+   kattintható `<img>`, mert így billentyűzettel is elérhető.
+
+   AZ ÁTÚSZÁS `@starting-style` + `allow-discrete` párossal megy. A `<dialog>`
+   zárva `display:none`, és abból nincs átmenet; a `display` és az `overlay`
+   diszkrét animálhatóvá tétele nélkül a doboz csak felvillanna. Ahol a
+   böngésző ezt nem ismeri, a nyitás egyszerűen azonnali — a működés nem függ
+   tőle.
+   ========================================================================== */
+@layer tokens {
+  :root{
+    --hir-nagykep-fatyol:color-mix(in srgb,var(--canvas) 62%,transparent);
+    --hir-nagykep-homaly:10px;
+  }
+  [data-theme="dark"]{
+    --hir-nagykep-fatyol:color-mix(in srgb,var(--canvas) 70%,transparent);
+  }
+}
+
+@layer components {
+  /* A kép köré tett nagyítógomb — se kerete, se felülete: a KÉP a gomb. */
+  .hir-nagyit{
+    display:block;width:100%;
+    margin:0;padding:0;border:0;background:none;
+    cursor:zoom-in;
+  }
+  .hir-nagyit:focus-visible{outline:3px solid var(--border-focus);outline-offset:4px}
+
+  .hir-nagykep{
+    margin:0;padding:0;border:0;background:none;
+    width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;
+    overflow:hidden;
+  }
+  .hir-nagykep:not([open]){display:none}
+  .hir-nagykep[open]{display:grid;place-items:center;align-content:center;gap:var(--space-16)}
+
+  .hir-nagykep-kep{
+    max-width:92vw;max-height:78dvh;width:auto;height:auto;
+    border-radius:var(--panel-radius);
+    box-shadow:var(--shadow-2);
+  }
+  /* A felirat SAJÁT felületen ül: mögötte a lap elmosott képe van, azon a
+     szabad szöveg kontrasztja kiszámíthatatlan volna. */
+  .hir-nagykep-felirat{
+    max-width:min(92vw,64ch);
+    padding:var(--space-8) var(--space-16);
+    border-radius:var(--tag-radius);
+    background:var(--surface);color:var(--text-secondary);
+    text-align:center;text-wrap:pretty;
+  }
+  .hir-nagykep-bezar{
+    position:fixed;top:var(--space-16);right:var(--space-16);
+    display:inline-flex;align-items:center;justify-content:center;
+    width:44px;height:44px;
+    background:var(--surface);color:var(--text-primary);
+    border:1px solid var(--border);border-radius:50%;cursor:pointer;
+  }
+  .hir-nagykep-bezar:hover{border-color:var(--primary);color:var(--primary)}
+  .hir-nagykep-bezar:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+  .hir-nagykep-bezar svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}
+}
+
+@layer motion {
+  .hir-nagykep,
+  .hir-nagykep::backdrop{
+    opacity:0;
+    transition:opacity var(--dur-ui) var(--ease-out),
+               display var(--dur-ui) var(--ease-out) allow-discrete,
+               overlay var(--dur-ui) var(--ease-out) allow-discrete;
+  }
+  .hir-nagykep::backdrop{
+    background:var(--hir-nagykep-fatyol);
+    backdrop-filter:blur(var(--hir-nagykep-homaly));
+    -webkit-backdrop-filter:blur(var(--hir-nagykep-homaly));
+  }
+  .hir-nagykep[open],
+  .hir-nagykep[open]::backdrop{opacity:1}
+  /* A NYITÓ ÁLLAPOT. E nélkül a `display:none`-ból nyíló doboznak nincs
+     kiindulási értéke, és az átmenet nem indul el. */
+  @starting-style{
+    .hir-nagykep[open],
+    .hir-nagykep[open]::backdrop{opacity:0}
+  }
+  /* A kép egy hajszálnyival kisebbről érkezik — ettől lesz „előrejön"
+     érzete ahelyett, hogy egyszerűen ott teremne. */
+  .hir-nagykep-kep{scale:1;transition:scale var(--dur-ui) var(--ease-out)}
+  @starting-style{ .hir-nagykep[open] .hir-nagykep-kep{scale:.96} }
+
+  @media (prefers-reduced-motion:reduce){
+    .hir-nagykep,
+    .hir-nagykep::backdrop,
+    .hir-nagykep-kep{transition:none}
+  }
 }

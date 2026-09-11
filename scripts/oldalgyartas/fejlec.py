@@ -12,10 +12,12 @@
 ║     (élő hivatkozások a megvalósult projektekre, az EN 12566 cikkre), itt    ║
 ║     viszont még a `KESZUL` helykitöltő lista áll;                            ║
 ║   · RÓLUNK kategória — a hatodik fül a webhelyen már megvan, a `MENU`-ben    ║
-║     még nincs.                                                               ║
+║     még nincs. 2026-09-11 óta a HÍREK tétel is benne áll a webhely RÓLUNK    ║
+║     paneljében (`okotech-home/hirek/`, `icon-nav-hirek` ikonnal), mind a     ║
+║     186 menüs lapon — a `MENU` ezt sem tartalmazza.                          ║
 ║                                                                              ║
-║  Amíg ez a kettő nincs átvezetve, a szkript futtatása VISSZAÍRNÁ a régi      ║
-║  állapotot mind a 126 oldalon. Az eltérés ellenőrzése (0 sor = futtatható):  ║
+║  Amíg ez a három nincs átvezetve, a szkript futtatása VISSZAÍRNÁ a régi      ║
+║  állapotot mind a 186 oldalon. Az eltérés ellenőrzése (0 sor = futtatható):  ║
 ║                                                                              ║
 ║      python3 - <<\'EOF\'                                                      ║
 ║      import importlib.util, pathlib, re, difflib                             ║

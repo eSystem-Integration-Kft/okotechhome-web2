@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
+     indexelheti, nem archiválhatja és nem idézhet belőle — ugyanezt küldi a
+     .htaccess X-Robots-Tag fejléce is. ÉLESÍTÉSKOR a lenti sor tartalmát
+     "index, follow"-ra kell cserélni, minden oldalon. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hírek — ÖkoTech-Home</title>
+<meta name="description" content="Az ÖkoTech-Home Kft. hírei 2014 óta: fejlesztések, átadott projektek, kiállítások, tanúsítványok és pályázatok.">
+<link rel="canonical" href="https://okotechhome.hu/okotech-home/hirek/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hírek — ÖkoTech-Home">
+<meta property="og:description" content="Az ÖkoTech-Home Kft. hírei 2014 óta: fejlesztések, átadott projektek, kiállítások, tanúsítványok és pályázatok.">
+<meta property="og:image" content="https://okotechhome.hu/assets/img/hirek/er-mis-es-starsoft-rendszerek-bevezetese-borito.webp">
+<meta property="og:locale" content="hu_HU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../assets/css/app.css?v=214">
+<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
+     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
+<script src="../../assets/js/tema.js?v=1"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#fotartalom">Ugrás a tartalomra</a>
+
+<!-- ==========================================================================
+     OLDALFEJLÉC — kontaktsáv + HÁROMSZINTŰ megamenü
+     A navigáció natív `details`/`summary`: szűk nézetben lenyitható panel,
+     asztali nézetben a lenyitó gomb elrejtve, a lista nyitva. JS csak annyit
+     tesz, hogy szűk nézetben becsukja az alapból nyitott panelt.
+
+     A menü SZERKEZETE a scripts/oldalgyartas/fejlec.py fájlban él, és onnan
+     kerül minden oldalba. NE ITT szerkeszd — a következő futtatás felülírja.
+     ========================================================================== -->
+<header class="site-header">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <ul class="topbar-list" role="list">
+        <li class="topbar-item type-ui-label topbar-hide-narrow">
+          <span class="icon icon-inline icon-helyszin topbar-icon" aria-hidden="true"></span>
+          2509 Esztergom, Strázsa u. 12.
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="mailto:kapcsolat@okotechhome.hu">
+            <span class="icon icon-inline icon-email topbar-icon" aria-hidden="true"></span>
+            kapcsolat@okotechhome.hu
+          </a>
+        </li>
+        <li>
+          <a class="topbar-link type-ui-label" href="tel:+3633200211">
+            <span class="icon icon-inline icon-telefon topbar-icon" aria-hidden="true"></span>
+            +36 33 200 211
+          </a>
+        </li>
+      </ul>
+
+      <!-- A sitemap nyolc főkategóriájából a három másodlagos itt kap helyet:
+           a fő sávban nyolc nagybetűs menüpont nem fér el a logó és a CTA mellett. -->
+      <ul class="topbar-list topbar-hide-narrow" role="list">
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">Ügyféltámogatás</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">Partnereknek</span></li>
+        <li aria-hidden="true" class="topbar-sep">|</li>
+        <li><span class="topbar-link topbar-link-passziv type-ui-label">ÖkoTech-Home</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- A kontaktsáv elgörög, a fő sáv tapad (sticky), finom árnyékkal. -->
+  <div class="header-main">
+  <div class="header-inner">
+    <!-- Két rajz, a téma választ: az `img`-ként betöltött SVG nem látja a
+         dokumentum `data-theme` attribútumát, ezért a szóvédjegy színe nem
+         tudná követni a váltást. Az `alt` csak az egyiken van kitöltve, a
+         másik `alt=""` — különben a képernyőolvasó kétszer mondaná ki a
+         cégnevet, hiszen a hivatkozásnak már van `aria-label`-je. -->
+    <a class="site-logo" href="../../" aria-label="ÖkoTech Home — főoldal">
+      <img class="site-logo-vilagos" src="../../assets/img/logo-okotechhome.svg"
+           width="928" height="290" alt="ÖkoTech Home" decoding="async">
+      <img class="site-logo-sotet" src="../../assets/img/logo-okotechhome-sotet.svg"
+           width="928" height="290" alt="" decoding="async">
+    </a>
+
+    <details class="nav-drawer" open>
+      <summary class="nav-toggle type-ui-nav">Menü</summary>
+      <nav class="site-nav" aria-label="Fő navigáció">
+        <ul class="nav-list" role="list">
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-helyzetem">
+              Kiindulópont
+            </button>
+            <div class="mega" id="mega-helyzetem" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Kiindulópont</p>
+                  <a class="text-link mega-attekintes" href="../../helyzetem/"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/nincs-elerheto-kozcsatorna"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozcsatorna"></span></span><span class="mega-label type-ui-body">Nincs közcsatorna</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/milyen-megoldasi-lehetosegek-vannak">Milyen megoldási lehetőségek vannak?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/kozcsatorna-vagy-egyedi-rendszer">Közcsatorna vagy egyedi rendszer?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/milyen-adatokat-kell-osszegyujteni">Milyen adatokat kell összegyűjteni?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/projektindito">Projektindító / helyzetfelmérő</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/telekvasarlas-vagy-uj-epites-elott-allok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-telek"></span></span><span class="mega-label type-ui-body">Telekvásárlás, új építés</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/alkalmas-lehet-e-a-telek">Alkalmas lehet-e a telek?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/talaj-talajviz-es-vizelhelyezes">Talaj, talajvíz és vízelhelyezés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/milyen-dokumentumokra-lehet-szukseg">Milyen dokumentumokra lehet szükség?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/telekadat-ellenorzolista">Telekadat-ellenőrzőlista</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/helyszini-felmeres">Helyszíni felmérés</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/meglevo-emesztot-szeretnek-kivaltani"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-emeszto"></span></span><span class="mega-label type-ui-body">Emésztő kiváltása</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/mikor-indokolt-a-csere">Mikor indokolt a csere?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/emeszto-oldomedence-vagy-biologiai">Emésztő, oldómedence vagy biológiai?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/teljes-koltseg-es-megterules">Teljes költség és megtérülés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/meglevo-rendszer-felmerese">Meglévő rendszer felmérése</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/koltseg-es-projektbrief">Költség- és projektbrief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nyaralo"></span></span><span class="mega-label type-ui-body">Nyaraló, szezonális ház</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/mit-jelent-az-idoszakos-terheles">Mit jelent az időszakos terhelés?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/biologiai-rendszer-vagy-oldomedence">Biológiai rendszer vagy oldómedence?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/hosszabb-tavollet-es-ujrainditas">Hosszabb távollét és újraindítás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/szezonalis-esettanulmanyok">Szezonális esettanulmányok</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/hasznalati-profil">Használati profil elkészítése</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/csaladi-hazhoz-keresek-rendszert"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-epitkezes"></span></span><span class="mega-label type-ui-body">Családi ház</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/megoldastipus-kivalasztasa">Megoldástípus kiválasztása</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/telekalkalmassag">Telekalkalmasság</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/kapacitas-es-letszam">Kapacitás és létszám</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/koltseg-es-telepites">Költség és telepítés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/ajanlatkeresi-keszultseg">Ajánlatkérési készültség</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vallalkozas"></span></span><span class="mega-label type-ui-body">Vállalkozás, intézmény</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-panziok-es-szallashelyek">Panziók és szálláshelyek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-ettermek-es-nagykonyhak">Éttermek és nagykonyhák</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-iskolak-es-intezmenyek">Iskolák és intézmények</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-kempingek-es-kozossegi">Kempingek és közösségi létesítmények</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-uzemek-es-specialis-terhelesek">Üzemek és speciális terhelések</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../helyzetem/vallalkozas-szakmai-projektbrief">Szakmai projektbrief</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-szerviz"></span></span><span class="mega-label type-ui-body">Már van rendszerem</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-megoldasok">
+              Megoldások
+            </button>
+            <div class="mega" id="mega-megoldasok" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Megoldások</p>
+                  <a class="text-link mega-attekintes" href="../../megoldasok/"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../../megoldasok/"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Áttekintés</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/melyik-megoldas-mikor-megfelelo">Melyik megoldás mikor megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró és korlátozó feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/megoldastipus-eloszuro">Megoldástípus-előszűrő</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../../megoldasok/nagyobb-es-kozossegi-rendszerek"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-kozossegi"></span></span><span class="mega-label type-ui-body">Nagyobb rendszerek</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-kapacitasi-kategoriak">Kapacitási és projektkategóriák</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-terhelesi-profil">Terhelési profil</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-elokezeles-es-kiegeszitok">Előkezelés és kiegészítők</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-monitoring-es-uzemeltetes">Monitoring és üzemeltetés</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-engedelyezes">Engedélyezés</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-esettanulmanyok">Intézményi esettanulmányok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/nagyobb-szakmai-konzultacio">Szakmai konzultáció</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../../megoldasok/alternativak"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-alternativak"></span></span><span class="mega-label type-ui-body">Alternatívák</span></a>
+                    </div>
+                  </li>
+                  <li class="mega-oszlop">
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../../megoldasok/biologiai-szennyviztisztitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-biologiai"></span></span><span class="mega-label type-ui-body">Biológiai tisztítás</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-hogyan-mukodik">Hogyan működik?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-kinek-megfelelo">Kinek megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-telek-es-terhelesi-feltetelek">Telek- és terhelési feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-uzemeltetes-es-karbantartas">Üzemeltetés és karbantartás</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-koltsegtenyezok">Költségtényezők</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/biologiai-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport mega-csoport-gyerek">
+                      <a class="mega-link" href="../../megoldasok/ab-clear"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-biologiai"></span></span><span class="mega-label type-ui-body">A.B.Clear</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-muszaki-adatok">Műszaki adatok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-iszapzsakos-technologia">Iszapzsákos technológia</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-telepitesi-feltetelek">Telepítési feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-dokumentumok">Dokumentumok és tanúsítványok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/ab-clear-referenciak">Kapcsolódó referenciák</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="mega-oszlop">
+                    <div class="mega-csoport">
+                      <a class="mega-link" href="../../megoldasok/oldomedences-rendszer"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-mukodes"></span></span><span class="mega-label type-ui-body">Oldómedencés rendszer</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-hogyan-mukodik">Hogyan működik?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-kinek-megfelelo">Kinek megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-mikor-nem-megfelelo">Mikor nem megfelelő?</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-tisztitomezo">Tisztítómező és területigény</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-szippantas-es-karbantartas">Szippantás és karbantartás</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/oldomedence-esettanulmanyok">Kapcsolódó esettanulmányok</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-csoport mega-csoport-gyerek">
+                      <a class="mega-link" href="../../megoldasok/epureco"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-oldomedence"></span></span><span class="mega-label type-ui-body">EPURECO</span></a>
+                      <ul class="mega-alista" role="list">
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-modellek-es-kapacitasok">Modellek és kapacitások</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-muszaki-adatok">Műszaki adatok</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-telepitesi-feltetelek">Telepítési feltételek</a></li>
+                        <li><a class="mega-alink type-ui-caption" href="../../megoldasok/epureco-dokumentumok">Dokumentumok</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-elokeszites">
+              Előkészítés
+            </button>
+            <div class="mega" id="mega-elokeszites" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Előkészítés</p>
+                  <a class="text-link mega-attekintes" href="../../projekt-elokeszites/"><span class="link-label">Áttekintés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../projekt-elokeszites/telekalkalmassag"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-talaj"></span></span><span class="mega-label type-ui-body">Telekalkalmasság</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telekalkalmassag-attekintese">Telekalkalmasság áttekintése</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/talaj-es-szivargokepesseg">Talaj és szivárgóképesség</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/talajviz">Talajvíz</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/kut-es-vedotavolsag">Kút és védőtávolság</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telekmeret-es-szabad-terulet">Telekméret és rendelkezésre álló terület</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/lejtes-es-csomelyseg">Lejtés és csőmélység</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/jarmuterheles-es-hozzaferes">Járműterhelés és hozzáférés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telekadatok-osszegyujtese">Hogyan gyűjtsem össze a telekadatokat?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/telek-es-vizelhelyezesi-eloszuro">Telek- és vízelhelyezési előszűrő</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../projekt-elokeszites/tisztitott-viz-elhelyezese"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-vizelvezetes"></span></span><span class="mega-label type-ui-body">Víz elhelyezése</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/elszivarogtatas">Elszivárogtatás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/tisztitomezo">Tisztítómező</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/gyokerzonas-elhelyezes">Gyökérzónás elhelyezés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/magas-talajvizi-helyzetek">Magas talajvízi helyzetek</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/szivarogtatasi-vizsgalat">Szivárogtatási vizsgálat</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/mikor-szukseges-szakerto">Mikor szükséges szakértő?</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../projekt-elokeszites/terheles-es-kapacitas"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-terheles"></span></span><span class="mega-label type-ui-body">Terhelés és kapacitás</span></a>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/lakosegyenertek">Lakosegyenérték</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/szemelyszam-es-vizfogyasztas">Személyszám és vízfogyasztás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/atlag-es-csucsterheles">Átlag- és csúcsterhelés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/szezonalis-hasznalat">Szezonális használat</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/panziok-es-vendeglatas">Panziók és vendéglátás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/intezmenyi-terheles">Intézményi terhelés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/specialis-vagy-ipari-szennyviz">Speciális vagy ipari szennyvíz</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../projekt-elokeszites/terhelesi-profil-eloszuro">Terhelési profil és előminősítő</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-tudastar">
+              Tudástár
+            </button>
+            <div class="mega" id="mega-tudastar" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Tudástár</p>
+                  <span class="type-ui-caption mega-keszul">Ez a szakasz még készül. Kérdésével addig is fordulhat hozzánk.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">A szakasz készül</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Tudástár kezdőoldal</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Megoldások és működés</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Telek, talaj és víz</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Terhelés és méretezés</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Engedélyezés és megfelelőség</span></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/en-12566-1-vagy-en-12566-3">EN 12566-1 vagy EN 12566-3?</a></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Költség és megvalósítás</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Üzemeltetés és hibamegelőzés</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Vízminőség és iszap</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Fogalomtár</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Gyakorlati útmutatók</span></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/telepites-lepesrol-lepesre">Telepítés lépésről lépésre</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/hogyan-tisztul-meg-a-szennyviz">Hogyan tisztul meg a szennyvíz?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/elszivarogtatas">Elszivárogtatás</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/oldomedence-vagy-biologiai-szennyviztisztito">Oldómedence vagy biológiai?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">Bioemésztő, ökoemésztő — mit jelentenek?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/42-hetes-ce-vizsgalat">A 42 hetes CE-vizsgálat</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/budos-lesz-a-kertben">Büdös lesz a kertben?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/mikrobiologiai-ujjlenyomat">Mikrobiológiai ujjlenyomat</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/tisztitoszerek">Milyen tisztítószer használható?</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../tudastar/uzemeltetes-teendok-es-koltsegek">Üzemeltetés: teendők és költségek</a></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Kereshető GYIK</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-eredmenyek">
+              Eredmények
+            </button>
+            <div class="mega" id="mega-eredmenyek" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Eredmények</p>
+                  <span class="type-ui-caption mega-keszul">A szakasz bővül: az áttekintő és a projektadatbázis még készül.</span>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-adatbazis"></span></span><span class="mega-label type-ui-body">Megvalósult projektek</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><a class="mega-alink type-ui-caption" href="../../eredmenyek/csikvand">Csikvánd — 128 berendezés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../eredmenyek/bakonypeterd">Bakonypéterd — központi telep</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../eredmenyek/diosbereny">Diósberény — 90 berendezés</a></li>
+                      <li><a class="mega-alink type-ui-caption" href="../../eredmenyek/obudavar">Óbudavár — a kezdet</a></li>
+                    </ul>
+                  </li>
+                  <li class="mega-oszlop">
+                    <p class="mega-link mega-link-passziv"><span class="mega-label type-ui-body">Készül</span></p>
+                    <ul class="mega-alista" role="list">
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Eredmények áttekintése</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Projektadatbázis</span></li>
+                      <li><span class="mega-alink mega-alink-passziv type-ui-caption">Műszaki bizonyítékok</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+                  <li class="nav-item">
+            <button type="button" class="nav-link nav-trigger type-ui-nav"
+                    aria-expanded="false" aria-controls="mega-rolunk">
+              Rólunk
+            </button>
+            <div class="mega" id="mega-rolunk" hidden>
+              <div class="mega-inner">
+                <div class="mega-fej">
+                  <p class="type-data-eyebrow mega-eyebrow">Rólunk</p>
+                </div>
+                <ul class="mega-oszlopok" role="list">
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../okotech-home/cegunkrol"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-iranytu"></span></span><span class="mega-label type-ui-body">Cégünkről</span></a>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../okotech-home/tortenetunk"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-attekintes"></span></span><span class="mega-label type-ui-body">Történetünk</span></a>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../okotech-home/hirek/"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-hirek"></span></span><span class="mega-label type-ui-body">Hírek</span></a>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../eredmenyek/esettanulmanyok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-esettanulmany"></span></span><span class="mega-label type-ui-body">Esettanulmányok</span></a>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../eredmenyek/tanusitvanyok-es-dokumentumok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-tanusitvany"></span></span><span class="mega-label type-ui-body">Tanúsítványok és dokumentumok</span></a>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../eredmenyek/ugyfeltapasztalatok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-velemeny"></span></span><span class="mega-label type-ui-body">Ügyféltapasztalatok</span></a>
+                  </li>
+                  <li class="mega-oszlop">
+                    <a class="mega-link" href="../../okotech-home/palyazatok"><span class="mega-ico" aria-hidden="true"><span class="icon icon-inline icon-inline-lg icon-nav-bizonyitek"></span></span><span class="mega-label type-ui-body">Pályázatok</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link type-ui-nav" href="../../kapcsolat">Kapcsolat</a>
+          </li>
+</ul>
+      </nav>
+    </details>
+
+    <!-- TÉMAVÁLTÓ. `role="switch"`: a gomb NEVE állandó („Sötét téma"), az
+         állapotot az `aria-checked` hordozza — ez a kapcsolók ARIA-mintája. A
+         lebegő súgó a MŰVELETET mondja ki, és `aria-hidden`, hogy a
+         képernyőolvasó ne ismételje meg ugyanazt más szavakkal.
+         A gomb csak akkor látszik, ha a tema.js lefutott (app.css 5.12c). -->
+    <div class="tema-doboz">
+      <button type="button" class="tema-valto" role="switch" aria-checked="false"
+              data-tema-valto>
+        <span class="visually-hidden">Sötét téma</span>
+        <span class="tema-sin" aria-hidden="true">
+          <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+          <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          <span class="tema-fogo">
+            <span class="icon icon-inline icon-tema-nap tema-jel"></span>
+            <span class="icon icon-inline icon-tema-hold tema-jel"></span>
+          </span>
+        </span>
+      </button>
+      <span class="tema-tipp type-ui-caption" aria-hidden="true"
+            data-tema-tipp>Váltás sötét témára</span>
+    </div>
+
+    <!-- CTA-KAPSZULA. Három lépés egyetlen sínben, a döntés sorrendjében:
+         konzultáció → ajánlat → megrendelés. Az első a kiemelt (kitöltött
+         pirula), mert a másik kettő ezen keresztül vezet. `role="group"`:
+         összetartozó műveletek, de nem navigációs terület — a lap fő
+         navigációja a fenti `nav`. -->
+    <div class="cta-kapszula" role="group" aria-label="Kapcsolatfelvétel">
+      <!-- A csúszó jelölő: díszítés, nem tartalom — a `span` üres és rejtett
+           a képernyőolvasó elől. A helyzetét CSS mondja meg (5.12d). -->
+      <span class="cta-jelolo" aria-hidden="true"></span>
+      <a class="cta-szegmens" href="../../konzultacio">Konzultáció</a>
+      <a class="cta-szegmens" href="../../ajanlat">Ajánlat</a>
+      <a class="cta-szegmens" href="../../megrendeles">Megrendelés</a>
+    </div>
+  </div>
+  </div>
+
+</header>
+
+<main id="fotartalom">
+
+  <!-- ==========================================================================
+       FEJLÉC — fejléckép NÉLKÜL. Lásd az app.css „HÍREK" szakaszának jelzett
+       eltérését: a hírek képanyagán a cím kontrasztja nem tartható. A vizuális
+       súlyt az IDŐVONAL viszi: az mondja el egy pillantásra, hogy ez
+       2014 óta tartó, folyamatos történet — és egyben navigáció is,
+       mert minden pontja hivatkozás.
+       ========================================================================== -->
+  <section class="hero page-hero" aria-labelledby="oldal-cim">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <nav class="breadcrumb" aria-label="Morzsamenü">
+          <ol class="breadcrumb-list type-ui-caption" role="list">
+            <li><a href="../../">Főoldal</a></li>
+            <li><a href="../">ÖkoTech-Home</a></li>
+            <li aria-current="page">Hírek</li>
+          </ol>
+        </nav>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Hírek</h1>
+        <p class="type-ui-body-strong hero-lead">Ami 2014 óta történt velünk: fejlesztések, átadott
+          projektek, kiállítások, tanúsítványok és pályázatok — időrendben, egy helyen.</p>
+      </div>
+
+      <div class="hir-idovonal">
+        <div class="hir-idovonal-fej">
+          <h2 class="type-data-eyebrow section-eyebrow" id="idovonal-cim">Idővonal · 2014–2026</h2>
+          <p class="type-ui-caption hir-idovonal-sug">Kattintson egy pontra a hírhez</p>
+          <div class="hir-idovonal-vezerlok"></div>
+        </div>
+        <div class="hir-idovonal-keret">
+          <div class="hir-idovonal-palya" tabindex="0" role="group"
+               aria-labelledby="idovonal-cim">
+            <ol class="hir-idovonal-sor">
+        <li class="hir-idovonal-elem" data-hely="fent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2014</span>
+          <a class="hir-idovonal-link" href="construma-nagydij-2014">
+            <time class="type-data-value hir-idovonal-datum" datetime="2014-04-13">ápr. 13.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Construma nagydíjat kaptunk!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="construma-2014-sorsolas">
+            <time class="type-data-value hir-idovonal-datum" datetime="2014-04-14">ápr. 14.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Sorsolás</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2015</span>
+          <a class="hir-idovonal-link" href="sajtokozlemeny-europai-szabadalom">
+            <time class="type-data-value hir-idovonal-datum" datetime="2015-09-01">szept. 1.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Sajtóközlemény – európai szabadalom</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2017</span>
+          <a class="hir-idovonal-link" href="okoindustria-2017">
+            <time class="type-data-value hir-idovonal-datum" datetime="2017-11-02">nov. 2.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Ökoindustria…</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="exportfejlesztesi-forum-2017">
+            <time class="type-data-value hir-idovonal-datum" datetime="2017-11-02">nov. 2.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Exportfejlesztési Fórum</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2018</span>
+          <a class="hir-idovonal-link" href="iparjog-oltalomvedelem-0075">
+            <time class="type-data-value hir-idovonal-datum" datetime="2018-01-12">jan. 12.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Pályázati hírek – IPARJOG_15-1-2016-0075 oltalomvédelem</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="iparjog-oltalomvedelem-0054">
+            <time class="type-data-value hir-idovonal-datum" datetime="2018-01-12">jan. 12.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Pályázati hírek – IPARJOG_15-1-2016-0054 oltalomvédelem</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="versenykepesseg-noveles-adaptiv-innovacio">
+            <time class="type-data-value hir-idovonal-datum" datetime="2018-12-10">dec. 10.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Pályázati támogatás: Az ÖkoTech-Home Kft. versenyképességének növelése adaptív technológiai innováció révén</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2019</span>
+          <a class="hir-idovonal-link" href="videkfejlesztesi-program-egyedi-szennyvizkezeles">
+            <time class="type-data-value hir-idovonal-datum" datetime="2019-02-06">febr. 6.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Beruházás a Vidékfejlesztési Program “Egyedi szennyvízkezelés” című pályázat támogatásával</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="ifat-munchen-2019">
+            <time class="type-data-value hir-idovonal-datum" datetime="2019-05-31">máj. 31.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Egy kiállítás, amiről minden évben beszélnek!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="ujabb-telepulesszintu-projekt-atadasa">
+            <time class="type-data-value hir-idovonal-datum" datetime="2019-06-26">jún. 26.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Újabb településszintű projektet adtunk át</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="a-jovo-nemzedeket-kepeztuk">
+            <time class="type-data-value hir-idovonal-datum" datetime="2019-07-03">júl. 3.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">A jövő nemzedékét képeztük…</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="mesterkulcs-trening">
+            <time class="type-data-value hir-idovonal-datum" datetime="2019-07-31">júl. 31.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Irány a vadnyugat! – Mesterkulcs tréning</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="sajtokozlemeny-eurazsiai-szabadalom">
+            <time class="type-data-value hir-idovonal-datum" datetime="2019-11-25">nov. 25.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Sajtóközlemény – kétmilliós NKFIA-támogatással európai szabadalom: biológiai szennyvíztisztító berendezés és tisztítási eljárás válik védetté</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2020</span>
+          <a class="hir-idovonal-link" href="szennyviztisztito-kezelese-koronavirus-idejen">
+            <time class="type-data-value hir-idovonal-datum" datetime="2020-03-18">márc. 18.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Biológiai szennyvíztisztító kezelése koronavírus idején</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="ab-clear-construma-dij-2014">
+            <time class="type-data-value hir-idovonal-datum" datetime="2020-04-08">ápr. 8.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">A.B.Clear szennyvíztisztító kisberendezés Construma díj – 2014</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="a-viz-minden-eloleny-leteleme">
+            <time class="type-data-value hir-idovonal-datum" datetime="2020-04-09">ápr. 9.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Minden élőlény – legyen az ember, állat vagy növény – lételeme a víz</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="onellato-gondolkodas">
+            <time class="type-data-value hir-idovonal-datum" datetime="2020-04-09">ápr. 9.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Az önellátó gondolkodás egyik fontos eleme, hogy mennyire tudunk függetlenedni a közművektől, szippantási terhektől</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="milyen-toban-usznak-az-aranyhalak">
+            <time class="type-data-value hir-idovonal-datum" datetime="2020-04-30">ápr. 30.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Milyen tóban úsznak az aranyhalak?</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="sajtokozlemeny-uj-termelesiranyitasi-rendszer">
+            <time class="type-data-value hir-idovonal-datum" datetime="2020-07-24">júl. 24.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Sajtóközlemény – Új termelésirányítási és ügyfélszolgálati rendszert vezetett be az ÖkoTech-Home Kft</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2021</span>
+          <a class="hir-idovonal-link" href="celegyenesben-a-tanyafejlesztes">
+            <time class="type-data-value hir-idovonal-datum" datetime="2021-02-01">febr. 1.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Célegyenesben a Tanyafejlesztés!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="iso-9001-tanusitvany">
+            <time class="type-data-value hir-idovonal-datum" datetime="2021-04-13">ápr. 13.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Magas gyártási minőség? Garantálva!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="penzugyi-stabilitasi-tanusitvany-2021">
+            <time class="type-data-value hir-idovonal-datum" datetime="2021-04-14">ápr. 14.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Magyarország pénzügyileg kiemelkedően legstabilabb cégei között az Ökotech-Home Kft</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2022</span>
+          <a class="hir-idovonal-link" href="penzugyi-stabilitasi-tanusitvany-2022">
+            <time class="type-data-value hir-idovonal-datum" datetime="2022-04-27">ápr. 27.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2022</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="pesti-tv-interju">
+            <time class="type-data-value hir-idovonal-datum" datetime="2022-05-30">máj. 30.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Interjút készített velünk a Pesti TV!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="het-szempont-a-szennyviztisztito-kivalasztasahoz">
+            <time class="type-data-value hir-idovonal-datum" datetime="2022-09-16">szept. 16.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">7 elengedhetetlen szempont az ideális szennyvíztisztító kiválasztásához</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="otthonfelujitasi-program-2022">
+            <time class="type-data-value hir-idovonal-datum" datetime="2022-11-02">nov. 2.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Még tart az Otthonfelújítási program! Használja ki szennyvíztisztító vásárlásához/telepítéséhez – akár a vételár 50%-át is visszakaphatja!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="karacsonyi-kedvezmeny-2022">
+            <time class="type-data-value hir-idovonal-datum" datetime="2022-12-08">dec. 8.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Karácsonyi kedvezmény 2022. december 06-15-ig!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2023</span>
+          <a class="hir-idovonal-link" href="rajzverseny-hatarido-meghosszabbitas-2023">
+            <time class="type-data-value hir-idovonal-datum" datetime="2023-03-09">márc. 9.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">MEGHOSSZABBÍTVA! Rajzverseny leadási határideje 2023. március 22.!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="marcius-22-a-viz-vilagnapja">
+            <time class="type-data-value hir-idovonal-datum" datetime="2023-03-22">márc. 22.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Március 22 a Víz Világnapja</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="bakteriumok-elete-rajzpalyazat-nyertesek">
+            <time class="type-data-value hir-idovonal-datum" datetime="2023-04-05">ápr. 5.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Megvannak a nyertes alkotások a “Hogyan képzeled el a baktériumok életét a szennyvíztisztító berendezésben” című pályázatra érkezett munkák közül</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="tv2-ertekteremtok-hazi-szennyviztisztitas">
+            <time class="type-data-value hir-idovonal-datum" datetime="2023-05-22">máj. 22.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Miért érdemes nagyobb hangsúlyt fekteteni a házi szennyvíztisztításra? – TV2 Értékteremtők</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="penzugyi-stabilitasi-tanusitvany-2023">
+            <time class="type-data-value hir-idovonal-datum" datetime="2023-05-24">máj. 24.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2023</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="tisztesseges-uzletpolitika">
+            <time class="type-data-value hir-idovonal-datum" datetime="2023-07-10">júl. 10.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Nemcsak a környezetünk védelme, hanem a tisztességes üzletpolitika is cégünk értékei közé tartoz</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="oldomedence-kontra-biologiai-szennyviztisztito">
+            <time class="type-data-value hir-idovonal-datum" datetime="2023-07-26">júl. 26.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">A nagy szennyvíztisztítási dilemma: oldómedence kontra biológiai szennyvíztisztító rendszer</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2024</span>
+          <a class="hir-idovonal-link" href="penzugyi-stabilitasi-tanusitvany-2024">
+            <time class="type-data-value hir-idovonal-datum" datetime="2024-06-06">jún. 6.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2024</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="viz-vilagnapja-rajzpalyazat-eredmeny-2024">
+            <time class="type-data-value hir-idovonal-datum" datetime="2024-06-14">jún. 14.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Víz Világnapja rajzpályázatunk eredményhirdetése</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="decentralizalt-szennyviztisztitas-konferencia-baja-2024">
+            <time class="type-data-value hir-idovonal-datum" datetime="2024-06-26">jún. 26.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">III. Decentralizált szennyvíztisztítás konferencia Baja, 2024. június 12</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2025</span>
+          <a class="hir-idovonal-link" href="elkeszult-a-sajat-csarnokunk">
+            <time class="type-data-value hir-idovonal-datum" datetime="2025-04-23">ápr. 23.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Elkészült a saját 700 m²-es csarnokunk!</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent">
+
+          <a class="hir-idovonal-link" href="penzugyi-stabilitasi-tanusitvany-2025">
+            <time class="type-data-value hir-idovonal-datum" datetime="2025-05-26">máj. 26.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2025</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="fent">
+
+          <a class="hir-idovonal-link" href="ket-fesztival-a-balaton-partjan">
+            <time class="type-data-value hir-idovonal-datum" datetime="2025-09-01">szept. 1.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">Kiállítottunk két fesztiválon is – fenntarthatóság a Balaton partján</span>
+          </a>
+        </li>
+        <li class="hir-idovonal-elem" data-hely="lent" data-evvaltas>
+
+            <span class="type-data-eyebrow hir-idovonal-ev">2026</span>
+          <a class="hir-idovonal-link" href="er-mis-es-starsoft-rendszerek-bevezetese">
+            <time class="type-data-value hir-idovonal-datum" datetime="2026-06-24">jún. 24.</time>
+            <span class="type-ui-subtitle hir-idovonal-cim">ER-MIS 1.3.34.02 és StarSoft 2.2 rendszerek bevezetése</span>
+          </a>
+        </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tomor" aria-labelledby="kiemelt-cim">
+    <div class="section-inner">
+      <p class="type-data-eyebrow section-eyebrow">Legfrissebb hírünk</p>
+      <article class="hir-kiemelt">
+        <figure class="hir-kiemelt-media" data-mod="dok">
+          <img src="../../assets/img/hirek/er-mis-es-starsoft-rendszerek-bevezetese-borito-600.webp?v=1"
+               width="740" height="511" alt="Széchenyi 2020 és Európai Unió — Európai Regionális Fejlesztési Alap arculati elem"
+               decoding="async">
+        </figure>
+        <div class="hir-kiemelt-torzs">
+          <p class="hir-meta">
+            <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+            <time class="type-data-value hir-datum" datetime="2026-06-24">2026. június 24.</time>
+          </p>
+          <h2 class="type-ui-card-title" id="kiemelt-cim">
+            <a class="hir-cim-link" href="er-mis-es-starsoft-rendszerek-bevezetese">ER-MIS 1.3.34.02 és StarSoft 2.2 rendszerek bevezetése</a>
+          </h2>
+          <p class="type-ui-subtitle card-text">A projektet a Támogatási kérelem benyújtását követően az ÖkoTech-Home Kft. saját kockázatára megkezdte, megkötötte a szállítókkal a Vállalkozási szerződéseket, és megkezdődött a kliensszoftverek és az ER-MIS V.I.R.…</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MINDEN HÍR. A lista TELJES EGÉSZÉBEN itt van; a rovatszűrő (hirek.js)
+       csak elrejt belőle. Szkript nélkül tehát minden hír olvasható, és a
+       szűrősor akkor sem hazudik: a chipek melletti darabszám statikus adat.
+       ========================================================================== -->
+  <section class="section" aria-labelledby="lista-cim" data-hirek>
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Archívum · 2014–2026</p>
+        <h2 class="type-display-section-title section-title" id="lista-cim">Minden hír</h2>
+        <p class="type-ui-body section-lead">A régi webhely blogjának teljes anyaga átkerült ide.
+          A rovatokra szűkítéshez válasszon a gombok közül.</p>
+      </header>
+
+      <div class="hir-szuro" role="group" aria-label="Szűrés rovatra">
+          <button type="button" class="hir-chip type-ui-button"
+                  data-rovat="mind" aria-pressed="true">Mind
+            <span class="hir-chip-db type-data-value">42</span>
+          </button>
+          <button type="button" class="hir-chip type-ui-button"
+                  data-rovat="palyazatok-es-fejlesztesek" aria-pressed="false">Pályázatok és fejlesztések
+            <span class="hir-chip-db type-data-value">8</span>
+          </button>
+          <button type="button" class="hir-chip type-ui-button"
+                  data-rovat="kiallitasok-es-esemenyek" aria-pressed="false">Kiállítások és események
+            <span class="hir-chip-db type-data-value">6</span>
+          </button>
+          <button type="button" class="hir-chip type-ui-button"
+                  data-rovat="vallalati-hirek" aria-pressed="false">Vállalati hírek
+            <span class="hir-chip-db type-data-value">28</span>
+          </button>
+        <p class="type-ui-subtitle hir-talalat" data-hir-talalat hidden></p>
+      </div>
+
+      <ul class="card-grid" data-cols="3" role="list">
+        <li class="card-item" data-rovat="kiallitasok-es-esemenyek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/ket-fesztival-a-balaton-partjan-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/ket-fesztival-a-balaton-partjan-borito-600.webp?v=1 600w, ../../assets/img/hirek/ket-fesztival-a-balaton-partjan-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Érdeklődők a fesztiválon, a fehér sátor alatt kiállított szennyvíztisztító berendezés körül" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Kiállítások és események</span>
+              <time class="type-data-value hir-datum" datetime="2025-09-01">2025. szeptember 1.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="ket-fesztival-a-balaton-partjan">Kiállítottunk két fesztiválon is – fenntarthatóság a Balaton partján</a>
+            </h3>
+            <p class="type-ui-body card-text">Augusztusban két különleges fesztiválon mutattuk be az ÖkoTech-Home Kft. A.B.Clear biológiai szennyvíztisztító berendezését: a Regio Earth Fesztiválon Balatonendréden és a Gyüttment Fesztiválon Lengyeltótiban.…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2025-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2025-borito-600.webp?v=1 600w, ../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2025-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="581" height="800"
+                   alt="Dun &amp; Bradstreet AAA Highest Creditworthiness 2025 tanúsítvány az ÖkoTech-Home Kft. nevére" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2025-05-26">2025. május 26.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="penzugyi-stabilitasi-tanusitvany-2025">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2025</a>
+            </h3>
+            <p class="type-ui-body card-text">A Dun &amp; Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/elkeszult-a-sajat-csarnokunk-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/elkeszult-a-sajat-csarnokunk-borito-600.webp?v=1 600w, ../../assets/img/hirek/elkeszult-a-sajat-csarnokunk-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="A saját, 700 m²-es műanyaghegesztő csarnok látványterve: hosszú, zöld-fehér ipari épület fás környezetben" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2025-04-23">2025. április 23.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="elkeszult-a-sajat-csarnokunk">Elkészült a saját 700 m²-es csarnokunk!</a>
+            </h3>
+            <p class="type-ui-body card-text">Felépült!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/decentralizalt-szennyviztisztitas-konferencia-baja-2024-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/decentralizalt-szennyviztisztitas-konferencia-baja-2024-borito-600.webp?v=1 600w, ../../assets/img/hirek/decentralizalt-szennyviztisztitas-konferencia-baja-2024-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="A konferencia helyszíne: téglaburkolatú főiskolai épület lépcsős bejárata" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2024-06-26">2024. június 26.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="decentralizalt-szennyviztisztitas-konferencia-baja-2024">III. Decentralizált szennyvíztisztítás konferencia Baja, 2024. június 12</a>
+            </h3>
+            <p class="type-ui-body card-text">Örömmel jelentjük be, hogy vállalkozásunk, az ÖkoTech-Home, ismét részt vett a szakma leginkább specifikus konferenciáján, a III. decentralizált szennyvíztisztítás konferencián. Nagy megtiszteltetés volt számunkra,…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/viz-vilagnapja-rajzpalyazat-eredmeny-2024-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/viz-vilagnapja-rajzpalyazat-eredmeny-2024-borito-600.webp?v=1 600w, ../../assets/img/hirek/viz-vilagnapja-rajzpalyazat-eredmeny-2024-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Első helyezett rajz: fa ágai között függő földgömb, alatta tiszta vizet adó szennyvíztisztító berendezés" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2024-06-14">2024. június 14.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="viz-vilagnapja-rajzpalyazat-eredmeny-2024">Víz Világnapja rajzpályázatunk eredményhirdetése</a>
+            </h3>
+            <p class="type-ui-body card-text">Elérkezett a várva várt pillanat, a Víz Világnapja alkalmából korábban meghirdetett, alsó tagozatos diákoknak szóló rajzpályázatunk nevezése lezárult. A mai nap nagy izgalmakat rejt magában, hiszen megvannak a nyertesek!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2024-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2024-borito-600.webp?v=1 600w, ../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2024-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="594" height="800"
+                   alt="Dun &amp; Bradstreet AAA Highest Creditworthiness 2024 tanúsítvány az ÖkoTech-Home Kft. nevére" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2024-06-06">2024. június 6.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="penzugyi-stabilitasi-tanusitvany-2024">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2024</a>
+            </h3>
+            <p class="type-ui-body card-text">A Dun &amp; Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/oldomedence-kontra-biologiai-szennyviztisztito-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/oldomedence-kontra-biologiai-szennyviztisztito-borito-600.webp?v=1 600w, ../../assets/img/hirek/oldomedence-kontra-biologiai-szennyviztisztito-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Gyerekrajz a szennyvíztisztító berendezésben dolgozó, mosolygó baktériumokról" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2023-07-26">2023. július 26.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="oldomedence-kontra-biologiai-szennyviztisztito">A nagy szennyvíztisztítási dilemma: oldómedence kontra biológiai szennyvíztisztító rendszer</a>
+            </h3>
+            <p class="type-ui-body card-text">A megfelelő szennyvíztisztítás fontosságát nem lehet alábecsülni, hiszen döntő szerepet játszik a tiszta és egészséges környezet fenntartásában. Ebben a cikkben egy valódi biológiai szennyvíztisztító berendezés és a…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <div class="card-media card-media-jel" aria-hidden="true">
+              <span class="icon icon-nav-hirek"></span>
+            </div>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2023-07-10">2023. július 10.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="tisztesseges-uzletpolitika">Nemcsak a környezetünk védelme, hanem a tisztességes üzletpolitika is cégünk értékei közé tartoz</a>
+            </h3>
+            <p class="type-ui-body card-text">Nemcsak a környezetünk védelme, hanem a tisztességes üzletpolitika is cégünk értékei közé tartozik. Épp ezért kérjük, szánjon rá egy percet, és olvassa végig az alábbi fontos közleményünket!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2023-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2023-borito-600.webp?v=1 600w, ../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2023-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="542" height="800"
+                   alt="Dun &amp; Bradstreet AAA Highest Creditworthiness 2023 tanúsítvány az ÖkoTech-Home Kft. nevére" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2023-05-24">2023. május 24.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="penzugyi-stabilitasi-tanusitvany-2023">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2023</a>
+            </h3>
+            <p class="type-ui-body card-text">A Dun &amp; Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/tv2-ertekteremtok-hazi-szennyviztisztitas-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/tv2-ertekteremtok-hazi-szennyviztisztitas-borito-600.webp?v=1 600w, ../../assets/img/hirek/tv2-ertekteremtok-hazi-szennyviztisztitas-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Képkocka a TV2 Értékteremtők adásából: gyerekrajz és a stúdióban ülő riportalany" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2023-05-22">2023. május 22.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="tv2-ertekteremtok-hazi-szennyviztisztitas">Miért érdemes nagyobb hangsúlyt fekteteni a házi szennyvíztisztításra? – TV2 Értékteremtők</a>
+            </h3>
+            <p class="type-ui-body card-text">Az elmúlt hetekben az TV2 Értékteremtők című műsorába kaptunk meghívást!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/bakteriumok-elete-rajzpalyazat-nyertesek-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/bakteriumok-elete-rajzpalyazat-nyertesek-borito-600.webp?v=1 600w, ../../assets/img/hirek/bakteriumok-elete-rajzpalyazat-nyertesek-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Nyertes rajz: a ház vízhasználata és a szennyvíztisztítás útja képregényszerű sávokban" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2023-04-05">2023. április 5.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="bakteriumok-elete-rajzpalyazat-nyertesek">Megvannak a nyertes alkotások a “Hogyan képzeled el a baktériumok életét a szennyvíztisztító berendezésben” című pályázatra érkezett munkák közül</a>
+            </h3>
+            <p class="type-ui-body card-text">Megszületett a döntés, megvannak a nyertes alkotások a “Hogyan képzeled el a baktériumok életét a szennyvíztisztító berendezésben” című pályázatra érkezett munkák közül. Aki követte a Facebook oldalunkat, láthatta…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/marcius-22-a-viz-vilagnapja-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/marcius-22-a-viz-vilagnapja-borito-600.webp?v=1 600w, ../../assets/img/hirek/marcius-22-a-viz-vilagnapja-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Kéz tart egy pohár tiszta vizet — a Víz világnapja" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2023-03-22">2023. március 22.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="marcius-22-a-viz-vilagnapja">Március 22 a Víz Világnapja</a>
+            </h3>
+            <p class="type-ui-body card-text">Mi az a víz újrahasznosítás, és miért válik egyre fontosabbá?</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/rajzverseny-hatarido-meghosszabbitas-2023-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/rajzverseny-hatarido-meghosszabbitas-2023-borito-600.webp?v=1 600w, ../../assets/img/hirek/rajzverseny-hatarido-meghosszabbitas-2023-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="800" height="800"
+                   alt="A Víz világnapi rajzpályázat plakátja: az ÖkoTech-Home Kft. felhívása alsó tagozatos tanulóknak" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2023-03-09">2023. március 9.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="rajzverseny-hatarido-meghosszabbitas-2023">MEGHOSSZABBÍTVA! Rajzverseny leadási határideje 2023. március 22.!</a>
+            </h3>
+            <p class="type-ui-body card-text">A Víz Világnapja alkalmából hirdetjük meg rajzpályázatunkat, amellyel szeretnénk felhívni a figyelmet a szennyvíztisztítás fontosságára!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/karacsonyi-kedvezmeny-2022-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/karacsonyi-kedvezmeny-2022-borito-600.webp?v=1 600w, ../../assets/img/hirek/karacsonyi-kedvezmeny-2022-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Karácsonyi kedvezmény plakát: 2022. december 6–15., 100 000 forint kedvezmény és ajándék gépészeti tartály" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2022-12-08">2022. december 8.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="karacsonyi-kedvezmeny-2022">Karácsonyi kedvezmény 2022. december 06-15-ig!</a>
+            </h3>
+            <p class="type-ui-body card-text">Vásárolja meg most az iszapzsákos szennyvíztisztító berendezésünket és a garantált 100.000 Ft kedvezmény mellé ajándékba adjuk a gépészeti tartályt is! Bővebb információért kérjen ajánlatot honlapunkon: okotechhome.hu</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/otthonfelujitasi-program-2022-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/otthonfelujitasi-program-2022-borito-600.webp?v=1 600w, ../../assets/img/hirek/otthonfelujitasi-program-2022-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Otthonfelújítási támogatás grafika: tableten az A.B. Clear telepítési rajza, mögötte családi ház látványterve" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2022-11-02">2022. november 2.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="otthonfelujitasi-program-2022">Még tart az Otthonfelújítási program! Használja ki szennyvíztisztító vásárlásához/telepítéséhez – akár a vételár 50%-át is visszakaphatja!</a>
+            </h3>
+            <p class="type-ui-body card-text">A gyermeket nevelő családok otthonfelújítási támogatásáról szóló 518/2020.(XI.25) Korm. Rendelet szerint megvalósítható a szennyvíz tisztítására és elhelyezésére szolgáló egyedi szennyvízkezelő berendezés telepítése.</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <div class="card-media card-media-jel" aria-hidden="true">
+              <span class="icon icon-nav-hirek"></span>
+            </div>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2022-09-16">2022. szeptember 16.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="het-szempont-a-szennyviztisztito-kivalasztasahoz">7 elengedhetetlen szempont az ideális szennyvíztisztító kiválasztásához</a>
+            </h3>
+            <p class="type-ui-body card-text">Szennyvíztisztító vásárlása előtt áll? Íme 7 elengedhetetlen szempont, melyek segítségével egyszerűen és gyorsan kiválaszthatja az Ön otthonához és szokásaihoz leginkább illeszkedő szennyvíztisztító berendezést.</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/pesti-tv-interju-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/pesti-tv-interju-borito-600.webp?v=1 600w, ../../assets/img/hirek/pesti-tv-interju-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Krasznói Anna a Pesti TV stúdiójában, a műsor asztalánál" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2022-05-30">2022. május 30.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="pesti-tv-interju">Interjút készített velünk a Pesti TV!</a>
+            </h3>
+            <p class="type-ui-body card-text">Megtudhatja belőle azt is, hogy indultunk el ezen a területen és hogyterjedtek el Magyarországon a biológiai szennyvíztisztítók…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <div class="card-media card-media-jel" aria-hidden="true">
+              <span class="icon icon-nav-hirek"></span>
+            </div>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2022-04-27">2022. április 27.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="penzugyi-stabilitasi-tanusitvany-2022">Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2022</a>
+            </h3>
+            <p class="type-ui-body card-text">A Dun &amp; Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2021-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2021-borito-600.webp?v=1 600w, ../../assets/img/hirek/penzugyi-stabilitasi-tanusitvany-2021-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="565" height="800"
+                   alt="Bisnode AAA Highest Creditworthiness 2021 tanúsítvány az ÖkoTech-Home Kft. nevére" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2021-04-14">2021. április 14.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="penzugyi-stabilitasi-tanusitvany-2021">Magyarország pénzügyileg kiemelkedően legstabilabb cégei között az Ökotech-Home Kft</a>
+            </h3>
+            <p class="type-ui-body card-text">Az Ökotech-Home Kft. megkapta a Bisnode AAA (tripla A) tanúsítványát, amely bizonyítja, hogy a cégünk pénzügyileg is Magyarország kiemelkedően legstabilabb cégei közé tartozik! Ez is azt jelzi, hogy velünk az üzleti…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/iso-9001-tanusitvany-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/iso-9001-tanusitvany-borito-600.webp?v=1 600w, ../../assets/img/hirek/iso-9001-tanusitvany-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="563" height="800"
+                   alt="Az ÉMI-TÜV SÜD által kiadott MSZ EN ISO 9001:2015 tanúsítvány az ÖkoTech-Home Kft. részére" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2021-04-13">2021. április 13.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="iso-9001-tanusitvany">Magas gyártási minőség? Garantálva!</a>
+            </h3>
+            <p class="type-ui-body card-text">Újabb 3 évre megkaptuk a ÉMI-TÜV SÜD Kft. tanúsítványát, amely elismerése, egyben garanciája annak, hogy cégünk biológiai szennyvíztisztító termékeinek gyártása ugyan azon a nagyon magas minőségi színvonalon…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <div class="card-media card-media-jel" aria-hidden="true">
+              <span class="icon icon-nav-hirek"></span>
+            </div>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2021-02-01">2021. február 1.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="celegyenesben-a-tanyafejlesztes">Célegyenesben a Tanyafejlesztés!</a>
+            </h3>
+            <p class="type-ui-body card-text">MÓDOSULT A „TANYÁK HÁZTARTÁSI LÉPTÉKŰ VILLAMOS ENERGIA ÉS VÍZELLÁTÁS, VALAMINT SZENNYVÍZKEZELÉSI FEJLESZTÉSEI” CÍMŰ (VP6-7.2.1.4-17 KÓDSZÁMÚ) FELHÍVÁS!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="palyazatok-es-fejlesztesek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/sajtokozlemeny-uj-termelesiranyitasi-rendszer-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/sajtokozlemeny-uj-termelesiranyitasi-rendszer-borito-600.webp?v=1 600w, ../../assets/img/hirek/sajtokozlemeny-uj-termelesiranyitasi-rendszer-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="284" height="200"
+                   alt="Széchenyi 2020 és Európai Unió — Európai Regionális Fejlesztési Alap arculati elem" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+              <time class="type-data-value hir-datum" datetime="2020-07-24">2020. július 24.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="sajtokozlemeny-uj-termelesiranyitasi-rendszer">Sajtóközlemény – Új termelésirányítási és ügyfélszolgálati rendszert vezetett be az ÖkoTech-Home Kft</a>
+            </h3>
+            <p class="type-ui-body card-text">A 3,59 millió forint európai uniós támogatás segítségével a biológiai szennyvíztisztító kisberendezése­ket gyártó esztergomi cégnél egyszerűsödnek a gyártási terület szervezési folyamatai, és gyorsul a megrendelők…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/milyen-toban-usznak-az-aranyhalak-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/milyen-toban-usznak-az-aranyhalak-borito-600.webp?v=1 600w, ../../assets/img/hirek/milyen-toban-usznak-az-aranyhalak-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Négy felvétel a tisztított víz újrahasznosításáról: városi tó, tavirózsa, aranyhalak és stég" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2020-04-30">2020. április 30.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="milyen-toban-usznak-az-aranyhalak">Milyen tóban úsznak az aranyhalak?</a>
+            </h3>
+            <p class="type-ui-body card-text">A tó a háttérben lévő lakótelep szennyvízének tisztított vize. A helyszínek Izraelben találhatóak, ahová üzleti partnerünk meghívására mentünk, még a tavalyi évben.</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/a-viz-minden-eloleny-leteleme-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/a-viz-minden-eloleny-leteleme-borito-600.webp?v=1 600w, ../../assets/img/hirek/a-viz-minden-eloleny-leteleme-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Kerti tó tavirózsákkal, kövekkel és évelő növényekkel szegélyezve" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2020-04-09">2020. április 9.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="a-viz-minden-eloleny-leteleme">Minden élőlény – legyen az ember, állat vagy növény – lételeme a víz</a>
+            </h3>
+            <p class="type-ui-body card-text">A lakóházak építésénél, felújításoknál és korszerűsítéseknél mindenki az energiahatékony megoldásokat helyezi előtérbe. És bár a fűtésen, világításon és elektromos energián rengeteget megtakaríthatunk, a vízzel is…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/onellato-gondolkodas-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/onellato-gondolkodas-borito-600.webp?v=1 600w, ../../assets/img/hirek/onellato-gondolkodas-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Füves tetejű, hagyományos házak zöld hegyoldalban" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2020-04-09">2020. április 9.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="onellato-gondolkodas">Az önellátó gondolkodás egyik fontos eleme, hogy mennyire tudunk függetlenedni a közművektől, szippantási terhektől</a>
+            </h3>
+            <p class="type-ui-body card-text">A jelen, sajnálatos helyzet ismét ráébresztett minket arra, hogy túlságosan ki vagyunk szolgáltatva a körülményeknek. Az ÖkoTech-Home környezettudatos és önellátó megoldása segítséget nyújt, a mindennapokban…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="kiallitasok-es-esemenyek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/ab-clear-construma-dij-2014-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/ab-clear-construma-dij-2014-borito-600.webp?v=1 600w, ../../assets/img/hirek/ab-clear-construma-dij-2014-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="A Construma nagydíj átvétele: bekeretezett oklevél átadása a kiállítás színpadán" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Kiállítások és események</span>
+              <time class="type-data-value hir-datum" datetime="2020-04-08">2020. április 8.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="ab-clear-construma-dij-2014">A.B.Clear szennyvíztisztító kisberendezés Construma díj – 2014</a>
+            </h3>
+            <p class="type-ui-body card-text">2014-ben, ezekben a napokban tartott a Construma kiállítás, ahol az ÖkoTech-Home Kft. az A.B.Clear szennyvíztisztító kisberendezésével elnyerte a Construma díj kitüntető címet.</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <div class="card-media card-media-jel" aria-hidden="true">
+              <span class="icon icon-nav-hirek"></span>
+            </div>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2020-03-18">2020. március 18.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="szennyviztisztito-kezelese-koronavirus-idejen">Biológiai szennyvíztisztító kezelése koronavírus idején</a>
+            </h3>
+            <p class="type-ui-body card-text">Kedves Felhasználóink! Kedves Ügyfeleink!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="palyazatok-es-fejlesztesek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/sajtokozlemeny-eurazsiai-szabadalom-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/sajtokozlemeny-eurazsiai-szabadalom-borito-600.webp?v=1 600w, ../../assets/img/hirek/sajtokozlemeny-eurazsiai-szabadalom-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="800" height="562"
+                   alt="Széchenyi 2020 és Nemzeti Kutatási, Fejlesztési és Innovációs Alap arculati elem" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+              <time class="type-data-value hir-datum" datetime="2019-11-25">2019. november 25.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="sajtokozlemeny-eurazsiai-szabadalom">Sajtóközlemény – kétmilliós NKFIA-támogatással európai szabadalom: biológiai szennyvíztisztító berendezés és tisztítási eljárás válik védetté</a>
+            </h3>
+            <p class="type-ui-body card-text">A Nemzeti Kutatási, Fejlesztési és Innovációs Alap (NKFIA) támogatásával szerez szabadalmi oltalmat Európa és Ázsia több országában Krasznói Anna, az esztergomi ÖkoTech-Home Kft. tulajdonosa. A „Megnövelt hatásfokú…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/mesterkulcs-trening-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/mesterkulcs-trening-borito-600.webp?v=1 600w, ../../assets/img/hirek/mesterkulcs-trening-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Az ÖkoTech-Home csapata csoportképen a tréning helyszínén, felülnézetből fotózva" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2019-07-31">2019. július 31.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="mesterkulcs-trening">Irány a vadnyugat! – Mesterkulcs tréning</a>
+            </h3>
+            <p class="type-ui-body card-text">Mi, az ÖkoTech-Home Kft-nél folyamatosan törekszünk a fejlődésre és tudjuk, hogy ehhez a munkatársak képzése elengedhetetlen. Ez volt az egyik oka, hogy részt vettünk a NetMaxx Magyarország szervezésében megvalósult…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/a-jovo-nemzedeket-kepeztuk-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/a-jovo-nemzedeket-kepeztuk-borito-600.webp?v=1 600w, ../../assets/img/hirek/a-jovo-nemzedeket-kepeztuk-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Téglaburkolatú főiskolai épület lépcsős bejárata, a képzés helyszíne" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2019-07-03">2019. július 3.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="a-jovo-nemzedeket-kepeztuk">A jövő nemzedékét képeztük…</a>
+            </h3>
+            <p class="type-ui-body card-text">Cégünk számára fontos az oktatás és képzés – arra törekszünk, hogy az általunk birtokolt tudást és látásmódot továbbadjuk. Ezért is megtisztelő számunkra, hogy a Közszolgálati Egyetem Víztudományi Kar meghívására…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/ujabb-telepulesszintu-projekt-atadasa-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/ujabb-telepulesszintu-projekt-atadasa-borito-600.webp?v=1 600w, ../../assets/img/hirek/ujabb-telepulesszintu-projekt-atadasa-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Szalagátvágás a településszintű szennyvíztisztító telep átadásán, ÖkoTech-Home zászlók előtt" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2019-06-26">2019. június 26.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="ujabb-telepulesszintu-projekt-atadasa">Újabb településszintű projektet adtunk át</a>
+            </h3>
+            <p class="type-ui-body card-text">2019. június 15-én megrendezésre került az átadó ünnepsége a Bakonypéterdi szennyvíztisztító telepnek. A telepet cégünk tervezte, illetve kivitelezte fővállalkozóként. 4 db 50 fős tisztító berendezést kapcsoltunk…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="kiallitasok-es-esemenyek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/ifat-munchen-2019-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/ifat-munchen-2019-borito-600.webp?v=1 600w, ../../assets/img/hirek/ifat-munchen-2019-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Kiállítási csarnok belső tere a standok sorával és a látogatók forgatagával" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Kiállítások és események</span>
+              <time class="type-data-value hir-datum" datetime="2019-05-31">2019. május 31.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="ifat-munchen-2019">Egy kiállítás, amiről minden évben beszélnek!</a>
+            </h3>
+            <p class="type-ui-body card-text">Nosztalgikus hangulatban vagyunk… a napokban volt egy éve, hogy kiállítóként mi is részt vehettünk Európa legnagyobb hagyományokkal rendelkező és széleskörű vízipari kiállításán az IFAT-on. Látogatóként már sokszor…</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="palyazatok-es-fejlesztesek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/videkfejlesztesi-program-egyedi-szennyvizkezeles-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/videkfejlesztesi-program-egyedi-szennyvizkezeles-borito-600.webp?v=1 600w, ../../assets/img/hirek/videkfejlesztesi-program-egyedi-szennyvizkezeles-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Szalagátvágás a boltíves pincetérben megrendezett átadóünnepségen" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+              <time class="type-data-value hir-datum" datetime="2019-02-06">2019. február 6.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="videkfejlesztesi-program-egyedi-szennyvizkezeles">Beruházás a Vidékfejlesztési Program “Egyedi szennyvízkezelés” című pályázat támogatásával</a>
+            </h3>
+            <p class="type-ui-body card-text">2019. január 25-én tartották Csikvándon az egyedi szennyvízkezelési projekt ünnepélyes átadóját, melynek keretében 128 db egyedi A.B.Clear szennyvíztisztító berendezés lett letelepitve.</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="palyazatok-es-fejlesztesek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/versenykepesseg-noveles-adaptiv-innovacio-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/versenykepesseg-noveles-adaptiv-innovacio-borito-600.webp?v=1 600w, ../../assets/img/hirek/versenykepesseg-noveles-adaptiv-innovacio-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="284" height="200"
+                   alt="Széchenyi 2020 és Európai Unió — Európai Regionális Fejlesztési Alap arculati elem" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+              <time class="type-data-value hir-datum" datetime="2018-12-10">2018. december 10.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="versenykepesseg-noveles-adaptiv-innovacio">Pályázati támogatás: Az ÖkoTech-Home Kft. versenyképességének növelése adaptív technológiai innováció révén</a>
+            </h3>
+            <p class="type-ui-body card-text">A projekt neve: A ÖkoTech-Home Kft. versenyképességének növelése adaptív technológiai innováció révén</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="palyazatok-es-fejlesztesek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/iparjog-oltalomvedelem-0075-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/iparjog-oltalomvedelem-0075-borito-600.webp?v=1 600w, ../../assets/img/hirek/iparjog-oltalomvedelem-0075-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="300" height="419"
+                   alt="Az IPARJOG_15-1-2016-0075 azonosítójú pályázat sajtóközleményének oldala" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+              <time class="type-data-value hir-datum" datetime="2018-01-12">2018. január 12.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="iparjog-oltalomvedelem-0075">Pályázati hírek – IPARJOG_15-1-2016-0075 oltalomvédelem</a>
+            </h3>
+            <p class="type-ui-body card-text">NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ 13 európai országban</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="palyazatok-es-fejlesztesek">
+          <article class="card">
+            <figure class="card-media card-media-dok">
+              <img src="../../assets/img/hirek/iparjog-oltalomvedelem-0054-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/iparjog-oltalomvedelem-0054-borito-600.webp?v=1 600w, ../../assets/img/hirek/iparjog-oltalomvedelem-0054-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="300" height="419"
+                   alt="Az IPARJOG_15-1-2016-0054 azonosítójú pályázat sajtóközleményének oldala" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+              <time class="type-data-value hir-datum" datetime="2018-01-12">2018. január 12.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="iparjog-oltalomvedelem-0054">Pályázati hírek – IPARJOG_15-1-2016-0054 oltalomvédelem</a>
+            </h3>
+            <p class="type-ui-body card-text">NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ 11 európai országban</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="kiallitasok-es-esemenyek">
+          <article class="card">
+            <div class="card-media card-media-jel" aria-hidden="true">
+              <span class="icon icon-nav-kozossegi"></span>
+            </div>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Kiállítások és események</span>
+              <time class="type-data-value hir-datum" datetime="2017-11-02">2017. november 2.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="okoindustria-2017">Ökoindustria…</a>
+            </h3>
+            <p class="type-ui-body card-text">November 8 és 10 között az Ökoindustrián állítunk ki a 7/C standon, minden kedves érdeklődőt szeretettel várunk! Ingyenes regisztráció!</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="kiallitasok-es-esemenyek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/exportfejlesztesi-forum-2017-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/exportfejlesztesi-forum-2017-borito-600.webp?v=1 600w, ../../assets/img/hirek/exportfejlesztesi-forum-2017-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Az ÖkoTech-Home kiállítói standja: nyitott fedelű szennyvíztisztító tartály, kompresszor és roll-up molinók" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Kiállítások és események</span>
+              <time class="type-data-value hir-datum" datetime="2017-11-02">2017. november 2.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="exportfejlesztesi-forum-2017">Exportfejlesztési Fórum</a>
+            </h3>
+            <p class="type-ui-body card-text">Cégünk október 24-26 között a Budapesti Kongresszusi Központban kiállítóként szerepelt a fejlődő országok képviselőinek részvételével is zajlott Exportfejlesztési Fórum ideje alatt.</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="palyazatok-es-fejlesztesek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/sajtokozlemeny-europai-szabadalom-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/sajtokozlemeny-europai-szabadalom-borito-600.webp?v=1 600w, ../../assets/img/hirek/sajtokozlemeny-europai-szabadalom-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Tabletgép hírújsággal, mellette számológép és kávéscsésze" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Pályázatok és fejlesztések</span>
+              <time class="type-data-value hir-datum" datetime="2015-09-01">2015. szeptember 1.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="sajtokozlemeny-europai-szabadalom">Sajtóközlemény – európai szabadalom</a>
+            </h3>
+            <p class="type-ui-body card-text">KÉTMILLIÓS NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ.</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="vallalati-hirek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/construma-2014-sorsolas-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/construma-2014-sorsolas-borito-600.webp?v=1 600w, ../../assets/img/hirek/construma-2014-sorsolas-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Kéz nyúl a kosárba összehajtott papírszeletekért — sorsolás" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Vállalati hírek</span>
+              <time class="type-data-value hir-datum" datetime="2014-04-14">2014. április 14.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="construma-2014-sorsolas">Sorsolás</a>
+            </h3>
+            <p class="type-ui-body card-text">2014. április 14-én közjegyző jelenlétében lezajlott az idei Construma kiállítás alkalmából megrendezett nyereményjátékunk sorsolása….</p>
+          </article>
+        </li>
+        <li class="card-item" data-rovat="kiallitasok-es-esemenyek">
+          <article class="card">
+            <figure class="card-media card-media-foto">
+              <img src="../../assets/img/hirek/construma-nagydij-2014-borito-600.webp?v=1"
+                   srcset="../../assets/img/hirek/construma-nagydij-2014-borito-600.webp?v=1 600w, ../../assets/img/hirek/construma-nagydij-2014-borito.webp?v=1 1200w"
+                   sizes="(min-width: 1025px) 360px, (min-width: 641px) 45vw, 90vw"
+                   width="1200" height="800"
+                   alt="Szónok a díjátadó ünnepség pulpitusánál, háttérben a rendezvény molinója" loading="lazy" decoding="async">
+            </figure>
+            <p class="hir-meta">
+              <span class="card-tag type-ui-label">Kiállítások és események</span>
+              <time class="type-data-value hir-datum" datetime="2014-04-13">2014. április 13.</time>
+            </p>
+            <h3 class="type-ui-card-title card-title">
+              <a class="hir-cim-link" href="construma-nagydij-2014">Construma nagydíjat kaptunk!</a>
+            </h3>
+            <p class="type-ui-body card-text">Örömmel tájékoztatjuk, hogy termékünk, az A.B.Clear biológiai szennyvíztisztító berendezés épületgépészeti kategóriában CONSTRUMA NAGYDÍJAT KAPOTT!</p>
+          </article>
+        </li>
+      </ul>
+
+      <p class="type-ui-body" data-hir-ures hidden>Ebben a rovatban jelenleg nincs hír.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tovabb-cim">
+    <div class="section-inner">
+      <aside class="panel-dark" aria-labelledby="tovabb-cim">
+        <div class="panel-dark-head">
+          <p class="type-data-eyebrow panel-dark-eyebrow">A cégről</p>
+          <h2 class="type-display-highlight-title panel-dark-title" id="tovabb-cim">Kik vagyunk?</h2>
+        </div>
+        <div class="panel-dark-body">
+          <p class="type-ui-body panel-dark-text">Az ÖkoTech-Home Kft. 2004 óta gyárt biológiai
+            szennyvíztisztító berendezéseket Esztergomban, több mint 3800 telepítéssel.</p>
+          <p class="type-ui-body panel-dark-text"><a href="../palyazatok">Pályázati tájékoztatás</a></p>
+          <p class="panel-dark-actions"><a class="btn btn-inverse" href="../tortenetunk">Történetünk</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==========================================================================
+     LÁBLÉC — egy sorban: márkablokk + öt hasáb.
+
+     A záró sáv cégadatai a cég impresszumából származnak. A láblécben az
+     ÜGYFÉLSZOLGÁLATI cím szerepel (2509 Esztergom, Strázsa u. 12.); a
+     bejegyzett SZÉKHELY ettől eltér, azt a jogi oldalak közlik.
+=========================================================================== -->
+<footer class="lablec">
+  <div class="lablec-inner">
+
+    <div class="lablec-marka">
+      <a class="lablec-logo" href="../../" aria-label="ÖkoTech Home — főoldal">
+        <img src="../../assets/img/logo-email.png" width="220" height="69"
+             alt="ÖkoTech Home" loading="lazy" decoding="async">
+      </a>
+      <p class="type-ui-body lablec-lead">
+        Biológiai szennyvíztisztítás közcsatorna nélküli ingatlanokhoz — a telek
+        felmérésétől az üzemeltetésig, egy kézben.
+      </p>
+      <ul class="lablec-kapcsolat" role="list">
+        <li><a class="lablec-link" href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></li>
+        <li><a class="lablec-link" href="tel:+3633200211">+36 33 200 211</a></li>
+        <li class="lablec-halvany">2509 Esztergom, Strázsa u. 12.</li>
+      </ul>
+      <p class="lablec-masodlagos"><a class="lablec-link" href="../../ugyfeltamogatas/">Ügyféltámogatás</a> <a class="lablec-link" href="../../partnereknek/">Partnereknek</a> <a class="lablec-link" href="../../okotech-home/">ÖkoTech-Home</a> <a class="lablec-link" href="../../kapcsolat">Kapcsolat</a></p>
+    </div>
+
+      <nav class="lablec-hasab" aria-labelledby="lf-helyzetem">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-helyzetem">
+          <a class="lablec-cim-link" href="../../helyzetem/">Kiindulópont</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../helyzetem/nincs-elerheto-kozcsatorna">Nincs elérhető közcsatorna</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/telekvasarlas-vagy-uj-epites-elott-allok">Telekvásárlás, új építés</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/meglevo-emesztot-szeretnek-kivaltani">Emésztő kiváltása</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/nyaralo-vagy-szezonalisan-hasznalt-ingatlan">Nyaraló, szezonális</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/csaladi-hazhoz-keresek-rendszert">Családi ház</a></li>
+          <li><a class="lablec-link" href="../../helyzetem/vallalkozas-vagy-intezmeny-szamara-keresek-megoldast">Vállalkozás, intézmény</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-megoldasok">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-megoldasok">
+          <a class="lablec-cim-link" href="../../megoldasok/">Megoldások</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../megoldasok/biologiai-szennyviztisztitas">Biológiai szennyvíztisztítás</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/oldomedences-rendszer">Oldómedencés rendszer</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/nagyobb-es-kozossegi-rendszerek">Nagyobb és közösségi</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/alternativak">Alternatívák</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összevetése</a></li>
+          <li><a class="lablec-link" href="../../megoldasok/kizaro-es-korlatozo-feltetelek">Kizáró feltételek</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-projekt-elokeszites">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-projekt-elokeszites">
+          <a class="lablec-cim-link" href="../../projekt-elokeszites/">Előkészítés</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../projekt-elokeszites/telekalkalmassag">Telekalkalmasság</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/terheles-es-kapacitas">Terhelés és kapacitás</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/tisztitott-viz-elhelyezese">Tisztított víz elhelyezése</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/engedelyezes-es-dokumentumok">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/helyszini-felmeres">Helyszíni felmérés</a></li>
+          <li><a class="lablec-link" href="../../projekt-elokeszites/koltsegek-es-ajanlatok">Költségek és ajánlatok</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-tudastar">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-tudastar">
+          <a class="lablec-cim-link" href="../../tudastar/">Tudástár</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../tudastar/telek-talaj-es-viz">Telek, talaj és víz</a></li>
+          <li><a class="lablec-link" href="../../tudastar/terheles-es-meretezes">Terhelés és méretezés</a></li>
+          <li><a class="lablec-link" href="../../tudastar/engedelyezes-es-megfeleloseg">Engedélyezés</a></li>
+          <li><a class="lablec-link" href="../../tudastar/en-12566-1-vagy-en-12566-3">EN 12566-1 vagy -3</a></li>
+          <li><a class="lablec-link" href="../../tudastar/telepites-lepesrol-lepesre">Telepítés lépésről lépésre</a></li>
+          <li><a class="lablec-link" href="../../tudastar/hogyan-tisztul-meg-a-szennyviz">Hogyan tisztul meg a szennyvíz?</a></li>
+          <li><a class="lablec-link" href="../../tudastar/elszivarogtatas">Elszivárogtatás</a></li>
+          <li><a class="lablec-link" href="../../tudastar/oldomedence-vagy-biologiai-szennyviztisztito">Oldómedence vagy biológiai?</a></li>
+          <li><a class="lablec-link" href="../../tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">Bioemésztő, ökoemésztő</a></li>
+          <li><a class="lablec-link" href="../../tudastar/42-hetes-ce-vizsgalat">A 42 hetes CE-vizsgálat</a></li>
+          <li><a class="lablec-link" href="../../tudastar/budos-lesz-a-kertben">Büdös lesz a kertben?</a></li>
+          <li><a class="lablec-link" href="../../tudastar/mikrobiologiai-ujjlenyomat">Mikrobiológiai ujjlenyomat</a></li>
+          <li><a class="lablec-link" href="../../tudastar/tisztitoszerek">Tisztítószerek</a></li>
+          <li><a class="lablec-link" href="../../tudastar/uzemeltetes-teendok-es-koltsegek">Üzemeltetés és költségek</a></li>
+          <li><a class="lablec-link" href="../../tudastar/uzemeltetes-es-hibamegelozes">Üzemeltetés</a></li>
+          <li><a class="lablec-link" href="../../tudastar/koltseg-es-megvalositas">Költség és megvalósítás</a></li>
+          <li><a class="lablec-link" href="../../tudastar/fogalomtar">Fogalomtár</a></li>
+        </ul>
+      </nav>
+      <nav class="lablec-hasab" aria-labelledby="lf-eredmenyek">
+        <h2 class="type-data-eyebrow lablec-cim" id="lf-eredmenyek">
+          <a class="lablec-cim-link" href="../../eredmenyek/">Eredmények</a>
+        </h2>
+        <ul class="lablec-lista" role="list">
+          <li><a class="lablec-link" href="../../eredmenyek/csikvand">Csikvánd — 128 berendezés</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/bakonypeterd">Bakonypéterd — központi telep</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/diosbereny">Diósberény — 90 berendezés</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/obudavar">Óbudavár — a kezdet</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/esettanulmanyok">Esettanulmányok</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/tanusitvanyok-es-dokumentumok">Tanúsítványok</a></li>
+          <li><a class="lablec-link" href="../../eredmenyek/ugyfeltapasztalatok">Ügyféltapasztalatok</a></li>
+        </ul>
+      </nav>
+
+  </div>
+
+  <div class="lablec-zaro">
+    <div class="lablec-inner lablec-zaro-inner">
+      <p class="type-ui-caption lablec-ceg">
+        © 2026 ÖkoTech-Home Kft. Minden jog fenntartva.
+        <span class="lablec-adat">Cégjegyzékszám: 11-09-008852</span>
+        <span class="lablec-adat">Adószám: 12268687-2-11</span>
+      </p>
+      <ul class="lablec-jogi" role="list">
+        <li><a class="lablec-jogi-link" href="../../adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="../../cookie-tajekoztato">Cookie-tájékoztató</a></li>
+        <li><a class="lablec-jogi-link" href="../../jogi-nyilatkozat">Jogi nyilatkozat</a></li>
+        <li><a class="lablec-jogi-link" href="../../aszf">ÁSZF</a></li>
+        <li><a class="lablec-jogi-link" href="../../akadalymentessegi-nyilatkozat">Akadálymentesség</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/site.js?v=12" defer></script>
+<script src="../../assets/js/kalauz.js?v=44" defer></script>
+<script src="../../assets/js/hirek.js?v=2" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Főoldal"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ÖkoTech-Home",
+          "item": "https://okotechhome.hu/okotech-home/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Hírek"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "ÖkoTech-Home hírek",
+      "numberOfItems": 42,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://okotechhome.hu/okotech-home/hirek/er-mis-es-starsoft-rendszerek-bevezetese",
+          "name": "ER-MIS 1.3.34.02 és StarSoft 2.2 rendszerek bevezetése"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://okotechhome.hu/okotech-home/hirek/ket-fesztival-a-balaton-partjan",
+          "name": "Kiállítottunk két fesztiválon is – fenntarthatóság a Balaton partján"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://okotechhome.hu/okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2025",
+          "name": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2025"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://okotechhome.hu/okotech-home/hirek/elkeszult-a-sajat-csarnokunk",
+          "name": "Elkészült a saját 700 m²-es csarnokunk!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "url": "https://okotechhome.hu/okotech-home/hirek/decentralizalt-szennyviztisztitas-konferencia-baja-2024",
+          "name": "III. Decentralizált szennyvíztisztítás konferencia Baja, 2024. június 12"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "url": "https://okotechhome.hu/okotech-home/hirek/viz-vilagnapja-rajzpalyazat-eredmeny-2024",
+          "name": "Víz Világnapja rajzpályázatunk eredményhirdetése"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "url": "https://okotechhome.hu/okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2024",
+          "name": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2024"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "url": "https://okotechhome.hu/okotech-home/hirek/oldomedence-kontra-biologiai-szennyviztisztito",
+          "name": "A nagy szennyvíztisztítási dilemma: oldómedence kontra biológiai szennyvíztisztító rendszer"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "url": "https://okotechhome.hu/okotech-home/hirek/tisztesseges-uzletpolitika",
+          "name": "Nemcsak a környezetünk védelme, hanem a tisztességes üzletpolitika is cégünk értékei közé tartoz"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "url": "https://okotechhome.hu/okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2023",
+          "name": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2023"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "url": "https://okotechhome.hu/okotech-home/hirek/tv2-ertekteremtok-hazi-szennyviztisztitas",
+          "name": "Miért érdemes nagyobb hangsúlyt fekteteni a házi szennyvíztisztításra? – TV2 Értékteremtők"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "url": "https://okotechhome.hu/okotech-home/hirek/bakteriumok-elete-rajzpalyazat-nyertesek",
+          "name": "Megvannak a nyertes alkotások a “Hogyan képzeled el a baktériumok életét a szennyvíztisztító berendezésben” című pályázatra érkezett munkák közül"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "url": "https://okotechhome.hu/okotech-home/hirek/marcius-22-a-viz-vilagnapja",
+          "name": "Március 22 a Víz Világnapja"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "url": "https://okotechhome.hu/okotech-home/hirek/rajzverseny-hatarido-meghosszabbitas-2023",
+          "name": "MEGHOSSZABBÍTVA! Rajzverseny leadási határideje 2023. március 22.!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "url": "https://okotechhome.hu/okotech-home/hirek/karacsonyi-kedvezmeny-2022",
+          "name": "Karácsonyi kedvezmény 2022. december 06-15-ig!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "url": "https://okotechhome.hu/okotech-home/hirek/otthonfelujitasi-program-2022",
+          "name": "Még tart az Otthonfelújítási program! Használja ki szennyvíztisztító vásárlásához/telepítéséhez – akár a vételár 50%-át is visszakaphatja!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "url": "https://okotechhome.hu/okotech-home/hirek/het-szempont-a-szennyviztisztito-kivalasztasahoz",
+          "name": "7 elengedhetetlen szempont az ideális szennyvíztisztító kiválasztásához"
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "url": "https://okotechhome.hu/okotech-home/hirek/pesti-tv-interju",
+          "name": "Interjút készített velünk a Pesti TV!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "url": "https://okotechhome.hu/okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2022",
+          "name": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2022"
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "url": "https://okotechhome.hu/okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2021",
+          "name": "Magyarország pénzügyileg kiemelkedően legstabilabb cégei között az Ökotech-Home Kft"
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "url": "https://okotechhome.hu/okotech-home/hirek/iso-9001-tanusitvany",
+          "name": "Magas gyártási minőség? Garantálva!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 22,
+          "url": "https://okotechhome.hu/okotech-home/hirek/celegyenesben-a-tanyafejlesztes",
+          "name": "Célegyenesben a Tanyafejlesztés!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 23,
+          "url": "https://okotechhome.hu/okotech-home/hirek/sajtokozlemeny-uj-termelesiranyitasi-rendszer",
+          "name": "Sajtóközlemény – Új termelésirányítási és ügyfélszolgálati rendszert vezetett be az ÖkoTech-Home Kft"
+        },
+        {
+          "@type": "ListItem",
+          "position": 24,
+          "url": "https://okotechhome.hu/okotech-home/hirek/milyen-toban-usznak-az-aranyhalak",
+          "name": "Milyen tóban úsznak az aranyhalak?"
+        },
+        {
+          "@type": "ListItem",
+          "position": 25,
+          "url": "https://okotechhome.hu/okotech-home/hirek/a-viz-minden-eloleny-leteleme",
+          "name": "Minden élőlény – legyen az ember, állat vagy növény – lételeme a víz"
+        },
+        {
+          "@type": "ListItem",
+          "position": 26,
+          "url": "https://okotechhome.hu/okotech-home/hirek/onellato-gondolkodas",
+          "name": "Az önellátó gondolkodás egyik fontos eleme, hogy mennyire tudunk függetlenedni a közművektől, szippantási terhektől"
+        },
+        {
+          "@type": "ListItem",
+          "position": 27,
+          "url": "https://okotechhome.hu/okotech-home/hirek/ab-clear-construma-dij-2014",
+          "name": "A.B.Clear szennyvíztisztító kisberendezés Construma díj – 2014"
+        },
+        {
+          "@type": "ListItem",
+          "position": 28,
+          "url": "https://okotechhome.hu/okotech-home/hirek/szennyviztisztito-kezelese-koronavirus-idejen",
+          "name": "Biológiai szennyvíztisztító kezelése koronavírus idején"
+        },
+        {
+          "@type": "ListItem",
+          "position": 29,
+          "url": "https://okotechhome.hu/okotech-home/hirek/sajtokozlemeny-eurazsiai-szabadalom",
+          "name": "Sajtóközlemény – kétmilliós NKFIA-támogatással európai szabadalom: biológiai szennyvíztisztító berendezés és tisztítási eljárás válik védetté"
+        },
+        {
+          "@type": "ListItem",
+          "position": 30,
+          "url": "https://okotechhome.hu/okotech-home/hirek/mesterkulcs-trening",
+          "name": "Irány a vadnyugat! – Mesterkulcs tréning"
+        },
+        {
+          "@type": "ListItem",
+          "position": 31,
+          "url": "https://okotechhome.hu/okotech-home/hirek/a-jovo-nemzedeket-kepeztuk",
+          "name": "A jövő nemzedékét képeztük…"
+        },
+        {
+          "@type": "ListItem",
+          "position": 32,
+          "url": "https://okotechhome.hu/okotech-home/hirek/ujabb-telepulesszintu-projekt-atadasa",
+          "name": "Újabb településszintű projektet adtunk át"
+        },
+        {
+          "@type": "ListItem",
+          "position": 33,
+          "url": "https://okotechhome.hu/okotech-home/hirek/ifat-munchen-2019",
+          "name": "Egy kiállítás, amiről minden évben beszélnek!"
+        },
+        {
+          "@type": "ListItem",
+          "position": 34,
+          "url": "https://okotechhome.hu/okotech-home/hirek/videkfejlesztesi-program-egyedi-szennyvizkezeles",
+          "name": "Beruházás a Vidékfejlesztési Program “Egyedi szennyvízkezelés” című pályázat támogatásával"
+        },
+        {
+          "@type": "ListItem",
+          "position": 35,
+          "url": "https://okotechhome.hu/okotech-home/hirek/versenykepesseg-noveles-adaptiv-innovacio",
+          "name": "Pályázati támogatás: Az ÖkoTech-Home Kft. versenyképességének növelése adaptív technológiai innováció révén"
+        },
+        {
+          "@type": "ListItem",
+          "position": 36,
+          "url": "https://okotechhome.hu/okotech-home/hirek/iparjog-oltalomvedelem-0075",
+          "name": "Pályázati hírek – IPARJOG_15-1-2016-0075 oltalomvédelem"
+        },
+        {
+          "@type": "ListItem",
+          "position": 37,
+          "url": "https://okotechhome.hu/okotech-home/hirek/iparjog-oltalomvedelem-0054",
+          "name": "Pályázati hírek – IPARJOG_15-1-2016-0054 oltalomvédelem"
+        },
+        {
+          "@type": "ListItem",
+          "position": 38,
+          "url": "https://okotechhome.hu/okotech-home/hirek/okoindustria-2017",
+          "name": "Ökoindustria…"
+        },
+        {
+          "@type": "ListItem",
+          "position": 39,
+          "url": "https://okotechhome.hu/okotech-home/hirek/exportfejlesztesi-forum-2017",
+          "name": "Exportfejlesztési Fórum"
+        },
+        {
+          "@type": "ListItem",
+          "position": 40,
+          "url": "https://okotechhome.hu/okotech-home/hirek/sajtokozlemeny-europai-szabadalom",
+          "name": "Sajtóközlemény – európai szabadalom"
+        },
+        {
+          "@type": "ListItem",
+          "position": 41,
+          "url": "https://okotechhome.hu/okotech-home/hirek/construma-2014-sorsolas",
+          "name": "Sorsolás"
+        },
+        {
+          "@type": "ListItem",
+          "position": 42,
+          "url": "https://okotechhome.hu/okotech-home/hirek/construma-nagydij-2014",
+          "name": "Construma nagydíjat kaptunk!"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+</body>
+</html>

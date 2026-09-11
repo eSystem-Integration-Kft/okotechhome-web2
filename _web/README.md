@@ -776,6 +776,67 @@ elosztott, IP-váltogató próbálkozás ellen a napi plafon véd, nem az IP-kor
 Betelte után a kitöltéssegéd kézi kitöltést ajánl, a beküldés viszont **AI-brief
 nélkül is kimegy** — megkeresést keret miatt nem veszítünk.
 
+## Hírek — a régi WordPress-blog átemelése
+
+A régi webhely blogja **42 bejegyzést** tartott 2014 és 2026 között, és az
+élesítéskor a WordPress helyére ez a webhely kerül — a tartalom tehát elveszne.
+Az anyag ezért átkerült a **`/okotech-home/hirek/`** szakaszba: gyűjtőlap +
+42 hírrészlet, képekkel, dokumentumokkal és a beágyazott videókkal együtt.
+
+### Mi került át és hogyan
+
+| | |
+|---|---|
+| **Hírek** | 42 — a blog teljes anyaga, egy bejegyzés sem veszett el |
+| **Képek** | 127 WebP az `assets/img/hirek/` alatt. Borítóból **három** méret: `-borito` 1200×800 és `-borito-600` 600×400 a kártyarácsnak (egységes 3:2), `-borito-teljes` pedig a hírrészletnek — ott a kép a tartalom, nem vághatjuk meg. A cikkbeli képek az eredeti arányukban, max. 1100px szélesen |
+| **Dokumentumok** | 5 PDF `assets/dok/` alatt (D&B- és ISO-tanúsítványok, IPARJOG-sajtóközlemények) — a régi oldalon `wp-content/uploads/` alatt éltek |
+| **Videó** | 2 YouTube-beágyazás, `youtube-nocookie.com`-ra irányítva |
+| **Rovatok** | 3, a sitemap szerint: Vállalati hírek (28) · Pályázatok és fejlesztések (8) · Kiállítások és események (6) |
+| **Forrás** | `scripts/oldalgyartas/hirek-forras.json` — ez a hírek EGYETLEN forrása |
+| **Generátor** | `scripts/oldalgyartas/hirek.py` |
+
+### Egy hír törlése
+
+A blog anyaga **változtatás nélkül** került át; a rostálás külön menet. Egy hír
+eltávolítása három lépés:
+
+1. vedd ki a bejegyzését a `hirek-forras.json` `hirek` tömbjéből,
+2. futtasd újra: `python3 scripts/oldalgyartas/hirek.py`,
+3. töröld a hozzá tartozó `_web/okotech-home/hirek/<szlug>.html`-t, a képeit
+   (`assets/img/hirek/<szlug>-*.webp`) és a `.htaccess` átirányító sorát.
+
+A generátor **nem takarít maga után** — ez szándékos: egy elgépelt szlug így
+nem törölne le fájlokat.
+
+### Amit a régi URL-ekkel tettünk
+
+A WordPress a bejegyzéseket a **gyökérben** szolgálta ki (`/elkeszult-sajat-csarnokunk/`),
+nem `/blog/` alatt, és ezek az URL-ek élnek a Google találati listájában meg a
+megosztásokban. Mind a 42 régi útvonalhoz **301-es átirányítás** került a
+`.htaccess`-be az új helyére, a `/blog/` gyűjtőlap és a lapozója pedig a Hírek
+lapra megy. A régi szlugok egyike sem ütközik az új webhely lapjaival —
+ellenőrizve.
+
+Az `oldomedence-kontra-biologiai-szennyviztisztito` **kivétel**: arra már volt
+szabály, a `tudastar/oldomedence-vagy-biologiai-szennyviztisztito` cikkre. Az
+maradt; a hír a Hírek szakaszban is ott van, de a régi URL továbbra is a
+tudástári cikkre visz.
+
+### Eldöntendő élesítés előtt
+
+- **Tartalmi átfedés.** Három blogbejegyzés ugyanazt mondja el, mint egy-egy
+  tudástári cikk (oldómedence kontra biológiai; a szennyvíztisztító
+  kiválasztásának szempontjai; kezelés koronavírus idején). Most mindkét helyen
+  megvan. Élesítés előtt el kell dönteni, melyik marad — két közel azonos lap
+  egymás ellen dolgozik a keresőben.
+- **Hosszú címek.** Négy hír címe 110 karakternél hosszabb (a leghosszabb 145),
+  mert a WordPressben bekezdésnyi cím volt. A szövegük **nem** lett
+  megváltoztatva, csak a három csupa nagybetűs cím került mondatkezdő
+  írásmódra. A rövidítés tartalmi döntés — az ügyfélé.
+- **Régi ajánlatok.** Néhány hír lejárt akciót hirdet (karácsonyi kedvezmény
+  2022, Otthonfelújítási program). Archívumban ez rendben van, de érdemes
+  átgondolni, kell-e melléjük jelölés.
+
 ## Jelenlegi állapot
 
 | | |
@@ -854,6 +915,8 @@ _web/
 ├─ projekt-elokeszites/          # index + 26 előkészítés-oldal
 ├─ eredmenyek/                   # esettanulmányok, tanúsítványok, ügyféltapasztalatok
 ├─ tudastar/                     # 5 szakmai cikk — EN 12566, telepítés, oldómedence vs. biológiai, szagok, CE-vizsgálat
+├─ okotech-home/                 # cégbemutatás: cégünkről, történetünk, pályázatok
+│  └─ hirek/                     # HÍREK — gyűjtőlap (index) + 42 hírrészlet, a régi WordPress-blog anyaga
 ├─ ajanlat.html                  # ajánlatkérő — élő űrlapellenőrzés, melléklet ráhúzással
 ├─ megrendeles.html              # megrendelőlap — okirat, feltételekkel és aláírással
 ├─ .htaccess                     # clean URL rewrite, 301-ek, biztonsági fejlécek, cache
@@ -868,6 +931,7 @@ _web/
    ├─ css/app.css                # a teljes designrendszer @layer architektúrában
    ├─ css/jelentes.css           # a jelentés stíluslapja — a letöltött fájlba is BEÉPÜL
    ├─ js/site.js                 # menüpanel + hero videó (progressive enhancement)
+   ├─ js/hirek.js                # HÍREK: rovatszűrő + a vízszintes idővonal lassú sodrása
    ├─ js/tema.js                 # világos/sötét téma — `<head>`-ben, HALASZTÁS NÉLKÜL fut
    ├─ js/urlap.js                # űrlapbeküldés oldalfrissítés nélkül
    ├─ js/urlap-ellenorzes.js     # élő űrlapellenőrzés — piros csillag, buborékos hiba

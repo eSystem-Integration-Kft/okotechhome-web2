@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.28.00-80A640?style=flat-square" alt="verzió 0.28.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.00-80A640?style=flat-square" alt="verzió 0.29.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-28-56642B?style=flat-square" alt="28 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-29-56642B?style=flat-square" alt="29 kiadás">
 </p>
 
 ---
@@ -26,6 +26,156 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.29.00] — 2026-09-11
+
+### Hozzáadva — HÍREK: a régi WordPress-blog átemelése az új webhelyre
+
+A régi oldal blogja **42 bejegyzést** tartott 2014 és 2026 között, és az
+élesítéskor a WordPress helyére ez a webhely kerül — a tartalom tehát elveszne.
+Az anyag ezért átkerült a **`/okotech-home/hirek/`** szakaszba, hiánytalanul:
+gyűjtőlap + 42 hírrészlet, képekkel, dokumentumokkal és a beágyazott videókkal
+együtt. A menüben a **Rólunk** panel alatt kapott helyet, a sitemap szerinti
+néven — nem „blog", hanem **Hírek**.
+
+**Amit a régi anyaggal tettünk:**
+
+| | |
+|---|---|
+| Hírek | 42 — a WP REST API-ból, tartalmi változtatás nélkül |
+| Képek | 55 fájlcsoport `assets/img/hirek/` alatt (WebP); a három PDF-borító Quick Lookkal renderelve |
+| Dokumentumok | 5 PDF az `assets/dok/`-ba mentve — a régi oldalon `wp-content/uploads/` alatt éltek, és az élesítéssel eltűnnének |
+| Videó | 2 YouTube-beágyazás, `youtube-nocookie.com`-ra átirányítva |
+| Rovatok | 3, a sitemap szerint (a WP hat kategóriája keveredett, ezért nem azt vettük át) |
+| Átirányítás | 42 darab 301-es a `.htaccess`-ben, plusz a `/blog/` gyűjtőlap és a lapozója |
+
+**A tartalom egyetlen forrása** a `scripts/oldalgyartas/hirek-forras.json`, a
+lapokat a `scripts/oldalgyartas/hirek.py` rakja össze belőle. Egy hír törlése
+ezért egy JSON-bejegyzés kivétele és egy újrafuttatás — a rostáláshoz nem kell
+HTML-t szerkeszteni.
+
+### Hozzáadva — vízszintes idővonal a Hírek fejlécében, `.hir-idovonal`
+
+A rácsból nem derül ki, hogy ez tizenkét év anyaga. Az idővonal ezt egy
+pillantásra adja: **a tengely a sáv felezővonalán fut, az események felváltva
+kerülnek fölé és alá**, az évszám csak évváltásnál jelenik meg, és minden pont
+hivatkozás.
+
+**Két üzemmód, egy hurok.** Magától 28 px/s-mal sodródik, a végeken
+visszafordul. Amint az egér a sávra ér, átvált egérvezérlésre: a sáv **széle
+felé** húzva arrafelé gördít, annál gyorsabban, minél közelebb van a széléhez
+(legfeljebb 520 px/s), a közepén pedig áll. A mutató alakja előre megmondja,
+mi fog történni.
+
+**Két buktatón ment át, mindkettő ugyanabból a családból:**
+
+1. **`scroll-snap` + képkockánkénti sodrás = nulla elmozdulás.** A pályán
+   `scroll-snap-type: x proximity` állt, és a böngésző minden képkocka után
+   visszarántotta a sávot a legközelebbi illesztési pontra. Az idővonal
+   folytonos — nincsenek „diák" —, ezért a snap elmaradt.
+2. **`scroll-behavior: smooth` a konténeren ugyanígy megfojtja.** Minden
+   `scrollLeft`-írás új simított animációt indítana, azok egymásra torlódnak.
+   A simítást ezért a művelet kéri (`scrollBy({behavior})` a gombokban), nem a
+   konténer.
+
+Hozzátartozik egy harmadik: a pozíciót **saját számláló** tartja, nem a
+`scrollLeft` visszaolvasása — képkockánként fél képpont a lépés, a getter pedig
+kerekíthet.
+
+### Javítva — a rácskártya ráállása és a hírkártyák médiakerete
+
+A hírkártya a `.tech-hivas` ráállásmintáját kapta meg: emelkedés, mélyebb
+árnyék, zöld keret — és a **borítókép lassabban nagyít**, mint ahogy a kártya
+mozdul (420 ms a 260-hoz). A két külön ütem adja a mélységet.
+
+A médiakeret három esetre vált szét: `.card-media-foto` (fénykép, `cover`),
+`.card-media-dok` (tanúsítvány, oklevél, `contain`) és `.card-media-jel` (nincs
+kép — a rovat ikonja lime alapon). Egy A4-es tanúsítvány 3:2-be vágva
+olvashatatlan csonk lenne; hat hírhez pedig nem maradt fenn kép, és azokhoz
+**nem tettünk odaillőnek látszó felvételt**.
+
+### ⚠️ Jelzett eltérés — a Hírek lapjain nincs fejléckép
+
+Minden más aloldal fejlécképet visel, és a cím a felvételen ül. A híreknél ez
+nem tartható: a szakasz képanyaga tanúsítványlap, gyerekrajz és csoportkép,
+amelyeken a sötétzöld cím kontrasztja nem tartható (WCAG 1.4.3). A vizuális
+súlyt ezért a gyűjtőlapon az idővonal viszi, a részletlapokon a hír saját
+borítója. Indoklás: `_web/COMPONENTS.md` 38.
+
+### Javítva — kétszeres HTML-escape a hírek bevezetőiben
+
+Négy bevezetőben `&amp;` jelent meg a `&` helyén: a szöveg a már escape-elt
+bekezdésből lett kivágva, majd a generátor újra escape-elte. A `lead` mostantól
+sima szöveg a forrásban, az escape-elés a generátoré.
+
+### Javítva — `.card-media-jel .icon` nulla széles volt
+
+A menüikonok négyzetes 24-es rajzok, de nem hoznak saját `aspect-ratio`-t (a
+megamenüben az `.icon-inline` adja a méretüket), az `.icon` alapszabálya pedig
+`width:auto`. A kép nélküli hírek kerete emiatt üresen maradt.
+
+### Javítva — a hírrészleten a kivágott borító állt a teljes kép helyett
+
+A kártyarács egységes 3:2-es kivágását a részletlap is megkapta. Fekvő
+felvételnél ez nem tűnt fel, egy **álló gyerekrajznál** viszont levágta a
+teteje-alját — és mivel a borító a törzsből kiesik, a rajz sehol nem maradt meg
+egészben. A borítóból ezért készül egy **teljes, vágatlan** változat is
+(`-borito-teljes`), és a részletlap azt mutatja.
+
+Ehhez tartozik a cikkbeli kép méretezése is: a `width:100%` egy 712 képpont
+széles rajzot 1084-re húzott volna, elmosódva. A kép mostantól a **saját
+méretén** áll, a hasáb szélességéig, és van magasságkorlátja — enélkül egy álló
+rajz másfél képernyőnyi volna.
+
+### Hozzáadva — nagyított képnézet a hírekben, `.hir-nagykep`
+
+Bela ötlete: kisebb képek a szövegben, és amelyiket közelebbről akarja látni az
+olvasó, arra rákattint — a kép előtérbe jön, a lap mögötte elmosódik. A cikkbeli
+képek ezért 28rem magasságra visszafogva állnak, és kattinthatók.
+
+A dobozt a platform adja: natív `<dialog>` + `showModal()`, abból jön a
+fókuszcsapda, az Esc, a háttér inertté tétele és a `::backdrop`. A nagyítógombot
+a szkript teszi a képek köré, nem a HTML — szkript nélkül a kép nem
+kattintható, tehát nem is néz ki úgy.
+
+Két dolog, ami menet közben derült ki:
+
+- **A `close` eseményre nem lehet takarítást bízni.** Az `allow-discrete`
+  záróátmenettel futó dobozon nem tüzel megbízhatóan — mérve: nem jött meg
+  másfél másodperc alatt sem. A kép forrását ezért nyitás ELŐTT írjuk át.
+- **A `hirek.js` eddig csak a gyűjtőlapra került be**, a részletlapokra nem —
+  ott viszont épp a nagyított nézetnek kell futnia. A modul három független
+  részből áll, és mindegyik kilép, ha a saját elemét nem találja, ezért
+  mindkét laptípus megkaphatja.
+
+### Módosítva — az idővonal olvashatóbb tagolása
+
+Bela kérdezte, lehet-e profibb. Három változás, mind ugyanazt szolgálja: hogy a
+sor **évenkénti oszlopokban** legyen olvasható, ne negyvenkét egyforma pont
+sorozataként.
+
+- **Évoszlop:** évváltásnál hajszálvékony függőleges vonal fut végig a sáv
+  teljes magasságán. Ez adja az idővonal gerincét.
+- **Az évszám pirulába került** a tengelyen. A puszta háttérfolt kevés volt: a
+  szám ugyanolyan súlyú maradt, mint a negyven dátum, és nem látszott, hogy ő
+  tagolja a sort.
+- **A szár láthatóvá vált**, és ráálláskor a márka zöldjére vált; a szövegblokk
+  ilyenkor két képpontot lép a tengely felé — a mozgás iránya mondja meg,
+  melyik ponthoz tartozik.
+
+A széli elhalványítás 4%-ról 9%-ra mélyült: a félbevágott szó a sáv szélén
+korábban hibának látszott, nem folytatásnak.
+
+### Módosítva — Rólunk menü, `okotech-home` hub, `.htaccess`
+
+- **Hírek** menütétel a Rólunk panelben, saját ikonnal (`ui-nav-hirek.svg` —
+  ideiglenes saját rajzolat), mind a **186 menüs lapon**.
+- Az `okotech-home/index.html` belépőrácsa négyesre bővült a Hírekkel.
+- `app.css` **v214**, `hirek.js` **v2** — új: `assets/js/hirek.js`.
+- A `fejlec.py` figyelmeztető blokkja jelöli, hogy a `MENU` a Hírek tétellel is
+  el van maradva a webhelytől.
 
 ---
 

@@ -44,6 +44,63 @@ DirectoryIndex index.html
   RewriteRule ^elszivarogtatas/?$                                 /tudastar/elszivarogtatas [R=301,L,NE]
   RewriteRule ^kiknek/?$                                          /megoldasok/biologiai-szennyviztisztitas [R=301,L,NE]
 
+  # ===========================================================================
+  # A RÉGI BLOG BEJEGYZÉSEI → /okotech-home/hirek/<szlug>
+  # ---------------------------------------------------------------------------
+  # A WordPress a bejegyzéseket a GYÖKÉRBEN szolgálta ki (nem /blog/ alatt), és
+  # ezek az URL-ek élnek a Google találati listájában, a megosztásokban és a
+  # sajtóanyagokban. Az új helyük a Hírek szakasz, más — rövidebb — szlugon,
+  # ezért a párosítást KÉZZEL kell megadni; kiszámítani nem lehet.
+  #
+  # A /blog/ gyűjtőlap és a lapozója is ide mutat: az archívum a Hírek lapon van.
+  #
+  # FORRÁS: scripts/oldalgyartas/hirek-forras.json (`regi_szlug` → `szlug`).
+  # Ha ott változik egy szlug, EZT is át kell vezetni.
+  # ===========================================================================
+  RewriteRule ^blog(/page/[0-9]+)?/?$                                                                             /okotech-home/hirek/ [R=301,L,NE]
+  RewriteRule ^er-mis-1-3-34-02-es-starsoft-2-2-rendszerek-bevezetese-az-okotech-home-kft-nel/?$                  /okotech-home/hirek/er-mis-es-starsoft-rendszerek-bevezetese [R=301,L,NE]
+  RewriteRule ^kiallitottunk-ket-fesztivalon-is-fenntarthatosag-a-balaton-partjan/?$                              /okotech-home/hirek/ket-fesztival-a-balaton-partjan [R=301,L,NE]
+  RewriteRule ^a-penzugyileg-legstabilabbak-kozott-az-okotech-home-2025/?$                                        /okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2025 [R=301,L,NE]
+  RewriteRule ^elkeszult-sajat-csarnokunk/?$                                                                      /okotech-home/hirek/elkeszult-a-sajat-csarnokunk [R=301,L,NE]
+  RewriteRule ^iii-decentralizalt-szennyviztisztitas-konferencia-baja-2024-junius-12/?$                           /okotech-home/hirek/decentralizalt-szennyviztisztitas-konferencia-baja-2024 [R=301,L,NE]
+  RewriteRule ^viz-vilagnapja-rajzpalyazatunk-eredmenyhirdetese-2/?$                                              /okotech-home/hirek/viz-vilagnapja-rajzpalyazat-eredmeny-2024 [R=301,L,NE]
+  RewriteRule ^a-penzugyileg-legstabilabbak-kozott-az-okotech-home-2024/?$                                        /okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2024 [R=301,L,NE]
+  # ^oldomedence-kontra-biologiai-szennyviztisztito — MÁR ÁTIRÁNYÍTVA a tudástári cikkre (lásd fent).
+  RewriteRule ^nemcsak-a-kornyezetunk-vedelme-hanem-a-tisztesseges-uzletpolitika-is-cegunk-ertekei-koze-tartoz/?$  /okotech-home/hirek/tisztesseges-uzletpolitika [R=301,L,NE]
+  RewriteRule ^a-penzugyileg-legstabilabbak-kozott-az-okotech-home-2023/?$                                        /okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2023 [R=301,L,NE]
+  RewriteRule ^miert-erdemes-nagyobb-hangsulyt-fekteteni-a-hazi-szennyviztisztitasra-tv2-ertekteremtok/?$         /okotech-home/hirek/tv2-ertekteremtok-hazi-szennyviztisztitas [R=301,L,NE]
+  RewriteRule ^megvannak-a-nyertes-alkotasok-a-hogyan-kepzeled-el-a-bakteriumok-eletet-a-szennyviztisztito-berendezesben-cimu-palyazatra-erkezett-munkak-kozul/?$  /okotech-home/hirek/bakteriumok-elete-rajzpalyazat-nyertesek [R=301,L,NE]
+  RewriteRule ^marcius-22-a-viz-vilagnapja/?$                                                                     /okotech-home/hirek/marcius-22-a-viz-vilagnapja [R=301,L,NE]
+  RewriteRule ^meghosszabbitva-rajzverseny-leadasi-hatarideje-2023-marcius-22/?$                                  /okotech-home/hirek/rajzverseny-hatarido-meghosszabbitas-2023 [R=301,L,NE]
+  RewriteRule ^meg-tart-az-otthonfelujitasi-program-2/?$                                                          /okotech-home/hirek/karacsonyi-kedvezmeny-2022 [R=301,L,NE]
+  RewriteRule ^meg-tart-az-otthonfelujitasi-program/?$                                                            /okotech-home/hirek/otthonfelujitasi-program-2022 [R=301,L,NE]
+  RewriteRule ^fontos-szempontok-a-szennyviztisztito-kivalasztasahoz/?$                                           /okotech-home/hirek/het-szempont-a-szennyviztisztito-kivalasztasahoz [R=301,L,NE]
+  RewriteRule ^interjut-keszitett-velunk-a-pesti-tv/?$                                                            /okotech-home/hirek/pesti-tv-interju [R=301,L,NE]
+  RewriteRule ^a-penzugyileg-legstabilabb-063-kozott-az-okotech-home-2/?$                                         /okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2022 [R=301,L,NE]
+  RewriteRule ^a-penzugyileg-legstabilabb-063-kozott-az-okotech-home/?$                                           /okotech-home/hirek/penzugyi-stabilitasi-tanusitvany-2021 [R=301,L,NE]
+  RewriteRule ^magas-gyartasi-minoseg-garantalva/?$                                                               /okotech-home/hirek/iso-9001-tanusitvany [R=301,L,NE]
+  RewriteRule ^celegyenesben-a-tanyafejlesztes/?$                                                                 /okotech-home/hirek/celegyenesben-a-tanyafejlesztes [R=301,L,NE]
+  RewriteRule ^sajtokozlemeny-uj-termelesiranyitasi-es-ugyfelszolgalati-rendszert-vezetett-be-az-okotech-home-kft/?$  /okotech-home/hirek/sajtokozlemeny-uj-termelesiranyitasi-rendszer [R=301,L,NE]
+  RewriteRule ^milyen-toban-usznak-az-aranyhalak/?$                                                               /okotech-home/hirek/milyen-toban-usznak-az-aranyhalak [R=301,L,NE]
+  RewriteRule ^minden-eloleny-legyen-az-ember-allat-vagy-noveny-leteleme-a-viz/?$                                 /okotech-home/hirek/a-viz-minden-eloleny-leteleme [R=301,L,NE]
+  RewriteRule ^az-onellato-gondolkodas-egyik-fontos-eleme-hogy-mennyire-tudunk-fuggetlenedni-a-kozmuvektol-szippantasi-terhektol/?$  /okotech-home/hirek/onellato-gondolkodas [R=301,L,NE]
+  RewriteRule ^a-b-clear-szennyviztisztito-kisberendezes-construma-dij-2014/?$                                    /okotech-home/hirek/ab-clear-construma-dij-2014 [R=301,L,NE]
+  RewriteRule ^biologiai-szennyviztisztito-kezelese-koronavirus-idejen/?$                                         /okotech-home/hirek/szennyviztisztito-kezelese-koronavirus-idejen [R=301,L,NE]
+  RewriteRule ^sajtokozlemeny-eurazsiai-szabadalom/?$                                                             /okotech-home/hirek/sajtokozlemeny-eurazsiai-szabadalom [R=301,L,NE]
+  RewriteRule ^irany-a-vadnyugat-mesterkulcs-trening/?$                                                           /okotech-home/hirek/mesterkulcs-trening [R=301,L,NE]
+  RewriteRule ^a-jovo-nemzedeket-kepeztuk/?$                                                                      /okotech-home/hirek/a-jovo-nemzedeket-kepeztuk [R=301,L,NE]
+  RewriteRule ^ujabb-telepulesszintu-projektet-adtunk-at/?$                                                       /okotech-home/hirek/ujabb-telepulesszintu-projekt-atadasa [R=301,L,NE]
+  RewriteRule ^egy-kiallitas-amirol-minden-evben-beszelnek/?$                                                     /okotech-home/hirek/ifat-munchen-2019 [R=301,L,NE]
+  RewriteRule ^beruhazas-a-videkfejlesztesi-program-egyedi-szennyvizkezeles-cimu-palyazat-tamogatasaval/?$        /okotech-home/hirek/videkfejlesztesi-program-egyedi-szennyvizkezeles [R=301,L,NE]
+  RewriteRule ^az-okotech-home-kft-versenykepessegenek-novelese-adaptiv-technologiai-innovacio-reven/?$           /okotech-home/hirek/versenykepesseg-noveles-adaptiv-innovacio [R=301,L,NE]
+  RewriteRule ^palyazati-hirek-iparjog_15-oltalomvedelem-0075/?$                                                  /okotech-home/hirek/iparjog-oltalomvedelem-0075 [R=301,L,NE]
+  RewriteRule ^palyazati-hirek-iparjog_15-oltalomvedelem-0054/?$                                                  /okotech-home/hirek/iparjog-oltalomvedelem-0054 [R=301,L,NE]
+  RewriteRule ^okoindustria/?$                                                                                    /okotech-home/hirek/okoindustria-2017 [R=301,L,NE]
+  RewriteRule ^exportfejlesztesi-forum/?$                                                                         /okotech-home/hirek/exportfejlesztesi-forum-2017 [R=301,L,NE]
+  RewriteRule ^sajtokozlemeny-europai-szabadalom/?$                                                               /okotech-home/hirek/sajtokozlemeny-europai-szabadalom [R=301,L,NE]
+  RewriteRule ^sorsolas-2014-construma/?$                                                                         /okotech-home/hirek/construma-2014-sorsolas [R=301,L,NE]
+  RewriteRule ^construma-nagydijat-kaptunk/?$                                                                     /okotech-home/hirek/construma-nagydij-2014 [R=301,L,NE]
+
   # ALKÖNYVTÁRAS TELEPÍTÉS
   # A site domaingyökérben és alkönyvtárban (pl. /_work/oko22/) is működik.
   # Ehhez az átirányítások célja RELATÍV — a `RewriteBase`-hez, illetve annak

@@ -337,8 +337,13 @@ if command -v python3 >/dev/null 2>&1; then
   NAVELTER="$(python3 - <<'PYVEG'
 import os, re, io
 
-MENU = r'mega-alink type-ui-caption" href="(?:\.\./)?([a-z0-9/-]+)"'
-LABL = r'lablec-link" href="(?:\.\./)?([a-z0-9/-]+)"'
+# A `(?:\.\./)*` — CSILLAG, nem kérdőjel. A webhely sokáig egy szint mély
+# volt, ezért egyetlen `../` levágása elég volt. A Hírek szakasz óta van KÉT
+# szint mély lap is (`okotech-home/hirek/<szlug>`), ahol a prefix `../../`:
+# kérdőjellel a minta ott egyáltalán nem illeszkedett, és mind a 43 lap úgy
+# látszott, mintha üres volna a menüje.
+MENU = r'mega-alink type-ui-caption" href="(?:\.\./)*([a-z0-9/-]+)"'
+LABL = r'lablec-link" href="(?:\.\./)*([a-z0-9/-]+)"'
 
 def kinyer(szoveg):
     return (tuple(re.findall(MENU, szoveg)), tuple(re.findall(LABL, szoveg)))

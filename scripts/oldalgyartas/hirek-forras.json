@@ -1,0 +1,2182 @@
+{
+  "kategoriak": [
+    {
+      "szlug": "palyazatok-es-fejlesztesek",
+      "nev": "Pályázatok és fejlesztések"
+    },
+    {
+      "szlug": "kiallitasok-es-esemenyek",
+      "nev": "Kiállítások és események"
+    },
+    {
+      "szlug": "vallalati-hirek",
+      "nev": "Vállalati hírek"
+    }
+  ],
+  "hirek": [
+    {
+      "szlug": "er-mis-es-starsoft-rendszerek-bevezetese",
+      "regi_szlug": "er-mis-1-3-34-02-es-starsoft-2-2-rendszerek-bevezetese-az-okotech-home-kft-nel",
+      "datum": "2026-06-24",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "ER-MIS 1.3.34.02 és StarSoft 2.2 rendszerek bevezetése",
+      "lead": "A projektet a Támogatási kérelem benyújtását követően az ÖkoTech-Home Kft. saját kockázatára megkezdte, megkötötte a szállítókkal a Vállalkozási szerződéseket, és megkezdődött a kliensszoftverek és az ER-MIS V.I.R.…",
+      "borito": {
+        "fajl": "er-mis-es-starsoft-rendszerek-bevezetese-borito",
+        "mod": "dok",
+        "w": 740,
+        "h": 511,
+        "alt": "Széchenyi 2020 és Európai Unió — Európai Regionális Fejlesztési Alap arculati elem",
+        "teljes": {
+          "fajl": "er-mis-es-starsoft-rendszerek-bevezetese-borito-teljes",
+          "w": 740,
+          "h": 511
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "lista",
+          "rendezett": false,
+          "pontok": [
+            "<strong>A kedvezményezett neve:</strong> ÖkoTech-Home Kereskedelmi és Szolgáltató Korlátolt Felelősségű Társaság",
+            "<strong>A projekt azonosító száma:</strong> GINOP-3.2.2-8-2-4-16-2017-01059",
+            "<strong>A fejlesztés tárgya:</strong> ER-MIS 1.3.34.02 és StarSoft 2.2 rendszerek bevezetése az ÖkoTech-Home Kft-nél",
+            "<strong>A szerződött támogatás összege:</strong> 3 523 776 Ft"
+          ]
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A projekt tartalmának részletes bemutatása:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A projektet a Támogatási kérelem benyújtását követően az ÖkoTech-Home Kft. saját kockázatára megkezdte, megkötötte a szállítókkal a Vállalkozási szerződéseket, és megkezdődött a kliensszoftverek és az ER-MIS V.I.R. és a StartSoft rendszerszoftverek telepítése."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A vállalkozók már 2017. végén telepítették az általuk fejlesztett szoftvereket, és elkezdődtek a működési tesztek. A folyamatokat lassította a Támogatási kérelem hosszas elbírálása miatti bizonytalanság."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Támogatott ÖkoTech-Home Kft. munkatársainak közreműködésével a fejlesztési fázisban a cég igényeire szabták a vásárolt szoftvereket, azokat a modulokat (funkcionális célterületeken működő alkalmazások a szoftvereken belül), amelyek a bőséges lehetőségekkel rendelkező rendszerszoftverek kereteiből leginkább szolgálják a cég működését."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A testrteszabás mellett a fejlesztő-forgalmazók elvégezték a Támogatott korábban hasonló célokra alkalmazott szoftvereinek adatmentését, az adatok struktúrájának konverzióit, a szükséges ellenőrzéseket (teljességi, azonossági ellenőrzések, ismétlődések kizárása stb.)."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A folyamatok végén elvégezték az ÖkoTech-Home Kft. munkatársainak betanítását is."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A projektmegvalósítást a rendszerszoftverek telepítésétől kezdődően végigkísérte a fejlesztői támogatás is, ami a megkötött vállalkozási szerződések szerinti hároméves időszakon túl – már a Támogatási kérelemmel benyújtott árajánlatok, és a vállalkozási szerződések vonatkozó vállalásai szerint is – kiterjednek a projektzárást követő fenntartási időszakra is."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A projekt tervezett befejezési dátuma:</strong> 2019.11.29."
+        }
+      ]
+    },
+    {
+      "szlug": "ket-fesztival-a-balaton-partjan",
+      "regi_szlug": "kiallitottunk-ket-fesztivalon-is-fenntarthatosag-a-balaton-partjan",
+      "datum": "2025-09-01",
+      "kategoria": "kiallitasok-es-esemenyek",
+      "cim": "Kiállítottunk két fesztiválon is – fenntarthatóság a Balaton partján",
+      "lead": "Augusztusban két különleges fesztiválon mutattuk be az ÖkoTech-Home Kft. A.B.Clear biológiai szennyvíztisztító berendezését: a Regio Earth Fesztiválon Balatonendréden és a Gyüttment Fesztiválon Lengyeltótiban.…",
+      "borito": {
+        "fajl": "ket-fesztival-a-balaton-partjan-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Érdeklődők a fesztiválon, a fehér sátor alatt kiállított szennyvíztisztító berendezés körül",
+        "teljes": {
+          "fajl": "ket-fesztival-a-balaton-partjan-borito-teljes",
+          "w": 1100,
+          "h": 825
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Augusztusban két különleges fesztiválon mutattuk be az ÖkoTech-Home Kft. A.B.Clear biológiai szennyvíztisztító berendezését</strong>: a <strong>Regio Earth Fesztiválon Balatonendréden</strong> és a <strong>Gyüttment Fesztiválon Lengyeltótiban</strong>. Mindkét esemény a Balaton déli partjához közel került megrendezésre és központi témájuk a fenntartható, környezetbarát életmód volt."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Regio Earth Fesztivál – természetes építészet és zöld megoldások</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Regio Earth a természetes építőanyagok, az ökologikus technológiák és a fenntarthatóság ünnepe. Itt szakmai előadást is tartottunk a <strong>víz újrahasznosításának fontosságáról</strong> és az <strong>iszapzsákos technológiára épülő szennyvíztisztítás előnyeiről</strong>."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Gyüttment Fesztivál – közösség és önellátás</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Gyüttment Fesztiválon olyan közösségek találkoznak, akik a <strong>természetközeli, önfenntartó életmódot</strong> választják. Számukra különösen fontos, hogy a szennyvízkezelés is környezetbarát legyen és ne járjon szippantási költségekkel vagy környezetterheléssel. Az <strong>A.B.Clear</strong> pontosan ezt kínálja: hosszú távon fenntartható, energiatakarékos és teljesen szagmentes megoldást."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Miért fontos a jelenlétünk?</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az ilyen fesztiválok nemcsak inspiráló találkozási pontok, hanem lehetőséget is adnak arra, hogy bemutassuk: a <strong>szennyvíztisztítás nem csupán technikai kérdés, hanem a fenntartható jövő része</strong>. Célunk, hogy minél több emberhez eljusson az üzenet: a <strong>biológiai szennyvíztisztító</strong> nemcsak kényelmes és költséghatékony, hanem a víz körforgásának megőrzéséhez is hozzájárul."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "👉 A Regio Earth fesztiválokon készült képeket Facebook oldalunkon találod: <a href=\"https://www.facebook.com/share/p/1AqNrfGGai/\">facebook.com</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "penzugyi-stabilitasi-tanusitvany-2025",
+      "regi_szlug": "a-penzugyileg-legstabilabbak-kozott-az-okotech-home-2025",
+      "datum": "2025-05-26",
+      "kategoria": "vallalati-hirek",
+      "cim": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2025",
+      "lead": "A Dun & Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…",
+      "borito": {
+        "fajl": "penzugyi-stabilitasi-tanusitvany-2025-borito",
+        "mod": "dok",
+        "w": 581,
+        "h": 800,
+        "alt": "Dun & Bradstreet AAA Highest Creditworthiness 2025 tanúsítvány az ÖkoTech-Home Kft. nevére",
+        "teljes": {
+          "fajl": "penzugyi-stabilitasi-tanusitvany-2025-borito-teljes",
+          "w": 1017,
+          "h": 1400
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A </strong><a href=\"https://www.dnb.com/hu-hu/rolunk-uj\"><strong>Dun &amp; Bradstreet nemzetközi</strong></a><strong> üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi szakértők által kialakított módszertan alapján. Így került kiválasztásra cégünk, az ÖkoTech-Home Kft. is, mint a pénzügyileg legstabilabb cégek egyike. </strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Nagy megtiszteltetés cégünk számára, hogy a Dun &amp; Bradstreet objektív cégminősítése alapján a legjobbak között szerepelhetünk. Nagy figyelmet fordítunk arra, hogy a piacon tisztességesen járjunk el, így fontos számunkra, hogy egy külső szakértő is megerősítette, hogy cégünk fizetésképtelenségi valószínűsége kiemelkedően alacsony. Hisszük, hogy a Dun &amp; Bradstreet <a href=\"https://certificate.hungary.dnb.com/financially-reliable-companies/b0b5265b-ecbb-4665-aa71-cbe091b5cc6c\">Tanúsítvány</a> segítségével ügyfeleink, szállítóink, munkavállalóink felé is tovább fokozzuk azt a bizalmat, mely egyre fontosabb a hosszú távú, szilárd üzleti kapcsolatokban. Azzal, hogy egy független, nemzetközi szakértő elismerte cégünk stabilitását, azt az üzenetet hordozza számunkra, hogy jó úton járunk cégünk építésében, fejlesztésében. Mivel vállalkozásunk minősítése szigorúan szakmai szempontok alapján történt, arra sem pályázni, sem jelentkezni nem lehet, így a Dun &amp; Bradstreet Tanúsítvány valóban pozitívan különbözteti meg cégünket a piacon."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Cégünk a Dun &amp; Bradstreet AAA (tripla A) Tanúsítványát kapta meg, mely azt jelzi, hogy velünk történő üzleti kapcsolat kialakításának pénzügyi kockázata rendkívül alacsony."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Dun &amp; Bradstreet Tanúsítvány alapja a <a href=\"https://www.dnb.com/hu-hu/rolunk/mivel-foglalkozunk/cegminosites-es-kockazatkezeles/bisnode-minosites/\">Dun &amp; Bradstreet minősítése</a>, mely nemzetközi szinten hosszú évtizedek óta minősíti a cégeket megbízhatóságuk alapján. A Dun &amp; Bradstreet Tanúsítvány, mely AAA, AA és A jelzéssel kerül kiállításra, jelzi a cégek stabilitását, és azt, hogy az ilyen jelzéssel rendelkező vállalkozás pénzügyileg stabil. Az AAA cégminősítést 1989-ben vezették be és 1996 óta kaptak lehetőséget a vállalatok, hogy üzleti megbízhatóságukat tanúsítvány formájában is megmutassák. A tanúsítvány lehetőséget nyújt az arra jogosult cégek számára, hogy mások számára megmutassák cégük elismert, megbízható, hitelképes vállalat. A Dun &amp; Bradstreet Tanúsítványt Európa számos országában használják az üzleti élet különféle területein."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Dun &amp; Bradstreet minősítés több hivatalos forrásból származó adaton alapul, úgy mint – Magyarország esetében – az Igazságügyi Minisztérium adatai, a Cégbíróság bejegyzései, a Nemzeti Adó- és Vámhivatal, illetve más hatóságok adatai. A hivatalos források adatai mellett a minősítés beépíti a vállalatra vonatkozó pénzügyi információkat, úgy mint mérlegadatok, eredménykimutatás, trendek. A minősítés figyelembe veszi a cég vagy szervezet demográfiai adatait, azaz a cég életkorát, tevékenységét, méretét, tulajdonosait, azok kapcsolódásait. A Fizetési tapasztalat program adataiból beépíti a minősítésbe, hogy az adott vállalkozás határidőben vagy késéssel, azaz milyen fizetési fegyelemmel egyenlíti ki számláit. A fentieken kívül számos egyéb gyűjtött információt is hozzátesz a rendszer a Dun &amp; Bradstreet minősítéshez, úgy mint végrehajtási adatok vagy sajtóhírek.Mivel a Dun &amp; Bradstreet minősítés nemcsak cégünk jelenlegi pénzügyi stabilitását mutatja, hanem a Dun &amp; Bradstreet minősítés kialakításának köszönhetően azt is, hogy ez elkövetkező egy évben milyen valószínűséggel válik fizetésképtelenné vállalkozásunk, büszkén állíthatjuk, hogy cégünk a jövőben is stabil szereplője lesz a piacnak."
+        }
+      ]
+    },
+    {
+      "szlug": "elkeszult-a-sajat-csarnokunk",
+      "regi_szlug": "elkeszult-sajat-csarnokunk",
+      "datum": "2025-04-23",
+      "kategoria": "vallalati-hirek",
+      "cim": "Elkészült a saját 700 m²-es csarnokunk!",
+      "lead": "Felépült!",
+      "borito": {
+        "fajl": "elkeszult-a-sajat-csarnokunk-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "A saját, 700 m²-es műanyaghegesztő csarnok látványterve: hosszú, zöld-fehér ipari épület fás környezetben",
+        "teljes": {
+          "fajl": "elkeszult-a-sajat-csarnokunk-borito-teljes",
+          "w": 1100,
+          "h": 652
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Felépült!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Elkészült a saját 700 m²-es csarnokunk! Nem pályázatból, nem külső forrásból – minden lépés önerőből valósult meg."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A lehetőséget az ügyfeleink bizalma és megrendelései teremtették meg. Ebből építkeztünk, évről évre, szakaszonként."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Voltak hibák, késések, hiányzó dokumentumok és utolsó pillanatos mentések, de végigmentünk rajta."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Köszönjük mindenkinek, aki hozzájárult, hogy most már itt dolgozhassunk. Hamarosan költözünk!"
+        }
+      ]
+    },
+    {
+      "szlug": "decentralizalt-szennyviztisztitas-konferencia-baja-2024",
+      "regi_szlug": "iii-decentralizalt-szennyviztisztitas-konferencia-baja-2024-junius-12",
+      "datum": "2024-06-26",
+      "kategoria": "vallalati-hirek",
+      "cim": "III. Decentralizált szennyvíztisztítás konferencia Baja, 2024. június 12",
+      "lead": "Örömmel jelentjük be, hogy vállalkozásunk, az ÖkoTech-Home, ismét részt vett a szakma leginkább specifikus konferenciáján, a III. decentralizált szennyvíztisztítás konferencián. Nagy megtiszteltetés volt számunkra,…",
+      "borito": {
+        "fajl": "decentralizalt-szennyviztisztitas-konferencia-baja-2024-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "A konferencia helyszíne: téglaburkolatú főiskolai épület lépcsős bejárata",
+        "teljes": {
+          "fajl": "decentralizalt-szennyviztisztitas-konferencia-baja-2024-borito-teljes",
+          "w": 1024,
+          "h": 549
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Örömmel jelentjük be, hogy vállalkozásunk, az ÖkoTech-Home, ismét részt vett a szakma leginkább specifikus konferenciáján, a III. decentralizált szennyvíztisztítás konferencián. Nagy megtiszteltetés volt számunkra, hogy bemutathattuk szakértelmünket és naprakész tudásunkat a legújabb technológiákról."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A rendezvényre a Bajai és a Műszaki Egyetem tudományos munkatársai, az államigazgatás vezetői, víziközmű szolgáltatók és független tanácsadók is meghívást kaptak. Előadásaikban részletesen bemutatták a decentralizált szennyvíztisztítás jelenlegi állapotát és jövőbeli irányait."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Különösen büszkék vagyunk arra, hogy két előadás is a Magyarországon üzemelő berendezések vizsgálati eredményeire fókuszált. Az A.B. Clear berendezéseinket vizsgálták, és az előadók mindkét előadásban hangsúlyozták, hogy megfelelő üzemeltetés mellett minden vizsgált paraméter tekintetében teljesítik mind a “gyártó által deklarált”, mind a jogszabályi határértékeket."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A konferencián számos információ hangzott el a várható jogszabályi módosításokról, és az egyre inkább terjedő egyedi szennyvíztisztítás területén megvalósuló tényleges irányokról és célokról. Ezek az információk elengedhetetlenek számunkra, hogy folyamatosan fejlesszük és optimalizáljuk termékeinket a legújabb előírásoknak megfelelően."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Maradj velünk, hogy mindig naprakész lehess a környezetvédelem és az egyedi szennyvíztisztítás területén!"
+        }
+      ]
+    },
+    {
+      "szlug": "viz-vilagnapja-rajzpalyazat-eredmeny-2024",
+      "regi_szlug": "viz-vilagnapja-rajzpalyazatunk-eredmenyhirdetese-2",
+      "datum": "2024-06-14",
+      "kategoria": "vallalati-hirek",
+      "cim": "Víz Világnapja rajzpályázatunk eredményhirdetése",
+      "lead": "Elérkezett a várva várt pillanat, a Víz Világnapja alkalmából korábban meghirdetett, alsó tagozatos diákoknak szóló rajzpályázatunk nevezése lezárult. A mai nap nagy izgalmakat rejt magában, hiszen megvannak a nyertesek!",
+      "borito": {
+        "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Első helyezett rajz: fa ágai között függő földgömb, alatta tiszta vizet adó szennyvíztisztító berendezés",
+        "teljes": {
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-borito-teljes",
+          "w": 712,
+          "h": 1024
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Elérkezett a várva várt pillanat, a Víz Világnapja alkalmából korábban meghirdetett, alsó tagozatos diákoknak szóló rajzpályázatunk nevezése lezárult. A mai nap nagy izgalmakat rejt magában, hiszen megvannak a nyertesek!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Hosszas órákat, napokat töltöttek el zsűritagjaink a rajzok felett. Nem kis fejtörést okozott ennyi csodaszép alkotás közül eldönteni, melyik érdemli meg a kihirdetett díjakat, és melyik az a 100 legjobbnak ítélt remekmű, amelyek bekerültek a közönségszavazás rajzai közé. Több rajz is érdemelt volna díjazást, és fájó szívvel tettünk félre olyan alkotásokat, amelyek szintén nyereményt kívántak volna. Döntésünk során nem csak a kézügyességet vettük figyelembe, hanem a téma feldolgozását és értelmezését is."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Gratulálni szeretnénk minden egyes rajz megalkotójának, minden pályázónak, hiszen példaértékű megfigyelőképességgel, odafigyeléssel és precizitással készültek a pályamunkák. Kiváltképp az öt különdíjas rajz beküldőjének, és a első három helyezettnek!"
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Első helyezett: Bőzsöny Mira – Somogyjádi Illyés Gyula Általános Iskola – 4. osztály"
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Második helyezett: Nagy Luca Lili – Debreceni Egyetem Kossuth Lajos Gyakorló Gimnáziuma és Általános Iskolája (Kossuth utcai feladatellátási hely) – 4.c osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-1",
+          "alt": "Második helyezett rajz: ház, veteményeskert és gyümölcsfák mosolygó zöldségfigurákkal",
+          "w": 1024,
+          "h": 724
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Harmadik helyezett: Balogh Zita – Csanádpalotai Dér István Általános Iskola – 2. osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-2",
+          "alt": "Harmadik helyezett rajz: földalatti szennyvíztisztító berendezés metszete, fölötte napsütötte kert",
+          "w": 723,
+          "h": 1024
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A legművészibb: Balogh Tündi – Budapest VI. Kerületi Derkovits Gyula Általános Iskola – 3.a. osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-3",
+          "alt": "A legművészibb rajz: virágos gyümölcsöskert közepén körkörös szennyvíztisztító medence",
+          "w": 1024,
+          "h": 768
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A legtudományosabb: Kocsis Dóra – Tapolcai Kazinczy Ferenc Általános Iskola – 3.a osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-4",
+          "alt": "A legtudományosabb rajz: a ház szennyvize két tartályon át jut a veteményes öntözőrendszerébe",
+          "w": 1024,
+          "h": 724
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A legvidámabb: Koroknai Csenge – Debreceni Benedek Elek Általános Iskola – 2.a osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-5",
+          "alt": "A legvidámabb rajz: kertészkedő család a veteményesben, napsütötte gyümölcsfák alatt",
+          "w": 725,
+          "h": 1024
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A legkreatívabb technika: Nagy Kiara Amira – Egri Waldorf AMi – 4. osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-6",
+          "alt": "Legkreatívabb rajz: fekete alapon aranyszínű, hal alakú keretben a szennyvíztisztítás körfolyamata",
+          "w": 766,
+          "h": 1024
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A legjobb szennyvíztisztító ábrázolás: Arcza Alíz – Mezőfalvi Petőfi Sándor Általános Iskola és AMI – 1.a osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-7",
+          "alt": "Rajz a ház szennyvizének útjáról: a tisztított víz a veteményest öntözi",
+          "w": 1024,
+          "h": 724
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A közönségszavazás nyertese: Pazonyi Ármin Martin – Hajdúböszörményi Bethlen Gábor Általános Iskola – 3. a osztály"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "viz-vilagnapja-rajzpalyazat-eredmeny-2024-8",
+          "alt": "Közönségdíjas rajz: kertész a veteményesben, mögötte polcokon zöldségek és esővízgyűjtő hordó",
+          "w": 1024,
+          "h": 727
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Még egyszer gratulálunk!</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Üdvözlettel: Ökotech-Home Kft."
+        }
+      ]
+    },
+    {
+      "szlug": "penzugyi-stabilitasi-tanusitvany-2024",
+      "regi_szlug": "a-penzugyileg-legstabilabbak-kozott-az-okotech-home-2024",
+      "datum": "2024-06-06",
+      "kategoria": "vallalati-hirek",
+      "cim": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2024",
+      "lead": "A Dun & Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…",
+      "borito": {
+        "fajl": "penzugyi-stabilitasi-tanusitvany-2024-borito",
+        "mod": "dok",
+        "w": 594,
+        "h": 800,
+        "alt": "Dun & Bradstreet AAA Highest Creditworthiness 2024 tanúsítvány az ÖkoTech-Home Kft. nevére",
+        "teljes": {
+          "fajl": "penzugyi-stabilitasi-tanusitvany-2024-borito-teljes",
+          "w": 756,
+          "h": 1019
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A </strong><a href=\"https://www.dnb.com/hu-hu/rolunk-uj\"><strong>Dun &amp; Bradstreet nemzetközi</strong></a><strong> üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi szakértők által kialakított módszertan alapján. Így került kiválasztásra cégünk, az ÖkoTech-Home Kft. is, mint a pénzügyileg legstabilabb cégek egyike. </strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Nagy megtiszteltetés cégünk számára, hogy a Dun &amp; Bradstreet objektív cégminősítése alapján a legjobbak között szerepelhetünk. Nagy figyelmet fordítunk arra, hogy a piacon tisztességesen járjunk el, így fontos számunkra, hogy egy külső szakértő is megerősítette, hogy cégünk fizetésképtelenségi valószínűsége kiemelkedően alacsony. Hisszük, hogy a Dun &amp; Bradstreet <a href=\"https://certificate.hungary.dnb.com/financially-reliable-companies/b0b5265b-ecbb-4665-aa71-cbe091b5cc6c\">Tanúsítvány</a> segítségével ügyfeleink, szállítóink, munkavállalóink felé is tovább fokozzuk azt a bizalmat, mely egyre fontosabb a hosszú távú, szilárd üzleti kapcsolatokban. Azzal, hogy egy független, nemzetközi szakértő elismerte cégünk stabilitását, azt az üzenetet hordozza számunkra, hogy jó úton járunk cégünk építésében, fejlesztésében. Mivel vállalkozásunk minősítése szigorúan szakmai szempontok alapján történt, arra sem pályázni, sem jelentkezni nem lehet, így a Dun &amp; Bradstreet Tanúsítvány valóban pozitívan különbözteti meg cégünket a piacon."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Cégünk a Dun &amp; Bradstreet AAA (tripla A) Tanúsítványát kapta meg, mely azt jelzi, hogy velünk történő üzleti kapcsolat kialakításának pénzügyi kockázata rendkívül alacsony."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Dun &amp; Bradstreet Tanúsítvány alapja a <a href=\"https://www.dnb.com/hu-hu/rolunk/mivel-foglalkozunk/cegminosites-es-kockazatkezeles/bisnode-minosites/\">Dun &amp; Bradstreet minősítése</a>, mely nemzetközi szinten hosszú évtizedek óta minősíti a cégeket megbízhatóságuk alapján. A Dun &amp; Bradstreet Tanúsítvány, mely AAA, AA és A jelzéssel kerül kiállításra, jelzi a cégek stabilitását, és azt, hogy az ilyen jelzéssel rendelkező vállalkozás pénzügyileg stabil. Az AAA cégminősítést 1989-ben vezették be és 1996 óta kaptak lehetőséget a vállalatok, hogy üzleti megbízhatóságukat tanúsítvány formájában is megmutassák. A tanúsítvány lehetőséget nyújt az arra jogosult cégek számára, hogy mások számára megmutassák cégük elismert, megbízható, hitelképes vállalat. A Dun &amp; Bradstreet Tanúsítványt Európa számos országában használják az üzleti élet különféle területein."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Dun &amp; Bradstreet minősítés több hivatalos forrásból származó adaton alapul, úgy mint – Magyarország esetében – az Igazságügyi Minisztérium adatai, a Cégbíróság bejegyzései, a Nemzeti Adó- és Vámhivatal, illetve más hatóságok adatai. A hivatalos források adatai mellett a minősítés beépíti a vállalatra vonatkozó pénzügyi információkat, úgy mint mérlegadatok, eredménykimutatás, trendek. A minősítés figyelembe veszi a cég vagy szervezet demográfiai adatait, azaz a cég életkorát, tevékenységét, méretét, tulajdonosait, azok kapcsolódásait. A Fizetési tapasztalat program adataiból beépíti a minősítésbe, hogy az adott vállalkozás határidőben vagy késéssel, azaz milyen fizetési fegyelemmel egyenlíti ki számláit. A fentieken kívül számos egyéb gyűjtött információt is hozzátesz a rendszer a Dun &amp; Bradstreet minősítéshez, úgy mint végrehajtási adatok vagy sajtóhírek.Mivel a Dun &amp; Bradstreet minősítés nemcsak cégünk jelenlegi pénzügyi stabilitását mutatja, hanem a Dun &amp; Bradstreet minősítés kialakításának köszönhetően azt is, hogy ez elkövetkező egy évben milyen valószínűséggel válik fizetésképtelenné vállalkozásunk, büszkén állíthatjuk, hogy cégünk a jövőben is stabil szereplője lesz a piacnak."
+        }
+      ]
+    },
+    {
+      "szlug": "oldomedence-kontra-biologiai-szennyviztisztito",
+      "regi_szlug": "oldomedence-kontra-biologiai-szennyviztisztito",
+      "datum": "2023-07-26",
+      "kategoria": "vallalati-hirek",
+      "cim": "A nagy szennyvíztisztítási dilemma: oldómedence kontra biológiai szennyvíztisztító rendszer",
+      "lead": "A megfelelő szennyvíztisztítás fontosságát nem lehet alábecsülni, hiszen döntő szerepet játszik a tiszta és egészséges környezet fenntartásában. Ebben a cikkben egy valódi biológiai szennyvíztisztító berendezés és a…",
+      "borito": {
+        "fajl": "oldomedence-kontra-biologiai-szennyviztisztito-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Gyerekrajz a szennyvíztisztító berendezésben dolgozó, mosolygó baktériumokról",
+        "teljes": {
+          "fajl": "oldomedence-kontra-biologiai-szennyviztisztito-borito-teljes",
+          "w": 1100,
+          "h": 776
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "cim",
+          "szoveg": "Melyik éri meg igazán az árát?"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A megfelelő szennyvíztisztítás fontosságát nem lehet alábecsülni, hiszen döntő szerepet játszik a tiszta és egészséges környezet fenntartásában. Ebben a cikkben egy valódi biológiai szennyvíztisztító berendezés és a gyakran szennyvíztisztítóként meghirdetett és árusított oldómedencék közötti különbségekről lesz szó. A köztük lévő eltérések megértésével megalapozott döntést hozhat arról, hogy melyik rendszer felel meg leginkább az Ön igényeinek.>>>"
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Lényeges különbségek az oldómedence és a biológiai szennyvíztisztítás között"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az oldómedencéket gyakran hirdetik és értékesítik biológiai szennyvíztisztító néven, pedig <strong>korlátozott képességeik</strong> és költségesebb telepítési, illetve karbantartási igényük miatt a legtöbb kertes házzal rendelkező család számára nem megfelelőek."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Amit az oldómedencéről tudni kell"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Egy <strong>oldómedence </strong>a biológiai szennyvíztisztítónál ugyan kedvezőbb áron vásárolható meg, de inkább csak 4–10 fős, alkalmanként használt nyaralókba ajánlott, ahol az év kis részében van csak használatban."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az oldómedence hátránya, hogy <strong>kizárólag nem levegőztetett kamrával</strong> rendelkezik, és ezért:"
+        },
+        {
+          "tipus": "lista",
+          "rendezett": false,
+          "pontok": [
+            "a telepítésekor kéménykiállásról is gondoskodni kell,",
+            "alacsony légnyomás esetén emésztőszagot bocsáthat ki,",
+            "a baktériumokat folyamatosan pótolni, adagolni szükséges,",
+            "valódi szennyvízkezelés nem történik, ezért a szennyvíz nem újrahasznosítható, és az iszap nem alkalmas komposztálásra,",
+            "1,5 évente alapos tisztításra és szippantásra szorul,",
+            "a biológiai szennyvíztisztítóhoz képest hosszabb elszivárogtatásra van szüksége, ami a telepítéskor több földmunkával és nagyobb költséggel jár."
+          ]
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az Öko-Tech Home kínálatában is talál oldómedencéket, de ezeket nem ajánljuk azokon az ingatlanokon, amelyeket életvitelszerűen használnak."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Amit a biológiai szennyvíztisztító rendszerről tudni érdemes"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ha Ön a családi házához keres ideális megoldást, akkor ajánljuk figyelmébe az <strong>A.B. Clear</strong> biológiai szennyvíztisztító berendezést, ami <strong>valódi biológiai szennyvízkezelést végez</strong>, minimális karbantartás mellett."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az A.B. Clear biológiai szennyvíztisztító rendszer levegőztetett és nem levegőztetett kamrákkal is rendelkezik, valójában úgy működik, mint egy városi szennyvíztisztító telep, kis méretben:"
+        },
+        {
+          "tipus": "lista",
+          "rendezett": false,
+          "pontok": [
+            "megfelelő kivitelezés és alkalmazás mellett teljesen szagmentes a működése,",
+            "a baktériumkultúra egyszeri beoltást követően önfenntartó,",
+            "valódi és a hatóságok által elvárt hatékonyságú szennyvízkezelést biztosít, ezért a szennyvíz újrahasznosítható és a víztelenített iszap komposztálható,",
+            "akár 50 embert is kiszolgálhat,",
+            "rövidebb elszivárogtatót igényel, így a telepítése kevesebb földmunkával és kedvezőbb költséggel jár,",
+            "heti egyszer érdemes ránézni és háromhavonta egy ülepedési vizsgálatot végezni (a kis méretű iszapzsák egyszerűen eltávolítható és üríthető),",
+            "a legfeljebb 6 fős berendezés annyi áramot fogyaszt, mint egy villanykörte, ami maximum havi 1000-2000 forintot jelent a villanyszámlán."
+          ]
+        },
+        {
+          "tipus": "kep",
+          "fajl": "oldomedence-kontra-biologiai-szennyviztisztito-1",
+          "alt": "Fekete műanyag szennyvíztisztító tartály a szabadban, mellette pihenő ló a méret érzékeltetésére",
+          "w": 806,
+          "h": 1000
+        },
+        {
+          "tipus": "kep",
+          "fajl": "oldomedence-kontra-biologiai-szennyviztisztito-2",
+          "alt": "Két fekete aknafedlap a kész kert kavicsos felületében, körülötte térkő és cserepes növények",
+          "w": 958,
+          "h": 1000
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Melyik megoldás felel meg a jogszabályoknak?"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Magyarországon bizonyos régiókban (pl. a Balaton környékén, egyes természetvédelmi területeken, meghatározott településeken) <strong>csak a valódi szennyvíztisztítás engedélyezett</strong>, az oldómedence, ami nem felel meg ennek a kritériumnak, nem használható."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ezt a megkülönböztetést tükrözi a vízhasznosítási, vízvédelmi és vízkárelhárítási tevékenységről, illetve a létesítményekre vonatkozó általános szabályokról szóló <strong>147/2010. évi kormányrendelet.</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A jogszabály szerint:"
+        },
+        {
+          "tipus": "lista",
+          "rendezett": false,
+          "pontok": [
+            "<strong>Egyedi szennyvízkezelő berendezés (mint az A.B. Clear biológiai szennyvíztisztító rendszer):</strong> olyan vízilétesítmény, amely a települési szennyvizek nem közműves, biológiai tisztítását energiabevitel segítségével végzi.",
+            "<strong>Tisztítómezővel ellátott oldómedencés létesítmény</strong>: olyan oldómedencéből és tisztítómezőből álló vízilétesítmény, amely a települési szennyvizek nem közműves elvezetésére és elhelyezésére szolgál, és amely a szennyezőanyagok anaerob lebontását energiabevitel nélkül végzi."
+          ]
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ezek a meghatározások segítenek tisztázni a két rendszer közötti különbségeket és felhasználási lehetőségeiket."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Továbbá a 28/2004. (XII. 25.) KvVM rendelet a vízszennyező anyagok kibocsátásának határértékeiről és azok alkalmazásának egyes szabályairól is jelentős szerepet játszik a szennyvíztisztító rendszerek jogszabályi megfelelőségének meghatározásában. A rendelet 2. számú mellékletét figyelembe véve elmondható, hogy a legtöbb területen a megfelelő hatékonyságú szennyvíztisztítást csak az egyedi szennyvíztisztító berendezések biztosítják."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A.B. Clear levegőztetett biológiai szennyvízkezelés"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az A.B. Clear biológiai szennyvízkezelő rendszer levegőztetett és nem levegőztetett kamrákat is biztosít. Ez teszi lehetővé a <strong>hatékony szennyvízkezelést</strong> és a víz újrahasznosítását, valamint a visszamaradt, víztelenített iszapot a komposztáláshoz. <strong>Ezzel a technológiával elkerülheti a szippantás okozta kellemetlenségeket és költségeket!</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A nem levegőztetett szennyvíztisztító rendszerek (oldómedencék) nem rendelkeznek ezekkel az előnyökkel, mivel az elszivárogtatott vizet nem lehet újrahasznosítani, és az iszapot el kell szállítani."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A biológiai szennyvíztisztító rendszer ára magasabb, mint egy oldómedence ára, de hosszú távon jelentős előnyökkel jár <strong>a</strong> <strong>telepítési és a karbantartási költségek</strong>, <strong>a</strong> <strong>tisztítási hatékonyság</strong> és a környezetterhelés szempontjából, továbbá kiváló szennyvízkezelést biztosít."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ha szeretné korszerűsíteni otthona szennyvíztisztító rendszerét, és szeretne hozzájárulni a fenntarthatóbb jövőhöz, válassza <strong>kényelmes és költséghatékony</strong> szennyvízkezelési megoldásainkat."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Amennyiben ajánlatunk elnyerte tetszését, adja le megrendelését az alábbi linken keresztül:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Köszönettel:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "ÖkoTech-Home Kft."
+        }
+      ]
+    },
+    {
+      "szlug": "tisztesseges-uzletpolitika",
+      "regi_szlug": "nemcsak-a-kornyezetunk-vedelme-hanem-a-tisztesseges-uzletpolitika-is-cegunk-ertekei-koze-tartoz",
+      "datum": "2023-07-10",
+      "kategoria": "vallalati-hirek",
+      "cim": "Nemcsak a környezetünk védelme, hanem a tisztességes üzletpolitika is cégünk értékei közé tartoz",
+      "lead": "Nemcsak a környezetünk védelme, hanem a tisztességes üzletpolitika is cégünk értékei közé tartozik. Épp ezért kérjük, szánjon rá egy percet, és olvassa végig az alábbi fontos közleményünket!",
+      "borito": null,
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Nemcsak a környezetünk védelme, hanem a tisztességes üzletpolitika is cégünk értékei közé tartozik. Épp ezért kérjük, szánjon rá egy percet, és olvassa végig az alábbi fontos közleményünket!</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Felhívjuk a figyelmet arra, hogy az utóbbi években egyes forgalmazók egyre gyakrabban hangoztatják, illetve jelenítik meg azt a valótlan állítást, hogy az általunk szabadalmaztatott fejlesztés nem előny, hanem inkább hátrány a felhasználóknak. Ez összezavarhatja a vásárlókat, hiszen az eredeti, szabadalmaztatott iszapzsákos technológia elvén működő A.B.Clear biológiai szennyvíztisztító berendezés kizárólag nálunk érhető el! A használata pedig nem nyűg, hanem éppen ellenkezőleg, a gondtalanság és a költséghatékonyság eredményes fúziója."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Számos gyártó cég Európában kísérletezett azzal, hogyan tudja megoldani ilyen kis, családi házas léptékben, hogy a folyamatosan keletkező iszap a berendezésből egyenletesen elvételre kerüljön, ahogyan a nagy városi szennyvíztisztító telepeken is. A legjobb megoldás is odáig jutott, hogy ezt egy további szivattyú beiktatásával tudták megoldani, így a megoldás nem volt sikeres."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Cégünk több évnyi üzemeltetési tapasztalat után kezdett a fejlesztésbe, hogyan tudja a felhasználók dolgát megkönnyíteni, és pár év alatt megszületett az A.B.Clear szennyvíztisztító berendezés ügyfeleink megelégedésére, mely szabadalomvédett technológia. Ebben a berendezésben további szivattyú nélkül kerül a stabilizált iszap folyamatosan elvételre, és ezáltal a működése még hatékonyabb és stabilabb, a hasonló elven működő berendezésekhez képest."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A megoldás a piacon nagyon sikeres, közel háromezer berendezés működik ilyen technológiával Magyarországon."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A fejlesztésnél cégünk szempontja a felhasználók életének könnyebbé tétele volt, az motivált minket, hogy segíthessünk."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az iszapzsákos technológia elvén működő A.B.Clear biológiai szennyvíztisztító berendezés a visszajelzések szerint kényelmesebb megoldást kínál a többi, piacon elérhető szennyvíztisztítókhoz képest, ugyanis mindössze pár perc időráfordítást igényel negyedévente, és a fennakadásmentes működtetéséhez, a minimális használati követelmények betartása mellett, nincs szükség szippantásra."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az általunk tervezett és szabadalmaztatott A.B.Clear biológiai szennyvíztisztító kizárólag nálunk érhető el! A konkurens cégek által kínált termékek nem garantálják az eredeti iszapzsákos biológiai szennyvíztisztító előnyeit és minőségét, azaz a piacon elérhető szennyvíztisztító berendezések vásárlását követően el kell viselni a szippantás és egyéb plusz teendők kellemetlenségeit és költségeit."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ha a leírtakkal kapcsolatban kérdése merülne fel, keressen minket a +36 33 200 211-es telefonszámon vagy írjon nekünk a kapcsolat@okotechhome.hu email címre!"
+        }
+      ]
+    },
+    {
+      "szlug": "penzugyi-stabilitasi-tanusitvany-2023",
+      "regi_szlug": "a-penzugyileg-legstabilabbak-kozott-az-okotech-home-2023",
+      "datum": "2023-05-24",
+      "kategoria": "vallalati-hirek",
+      "cim": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2023",
+      "lead": "A Dun & Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…",
+      "borito": {
+        "fajl": "penzugyi-stabilitasi-tanusitvany-2023-borito",
+        "mod": "dok",
+        "w": 542,
+        "h": 800,
+        "alt": "Dun & Bradstreet AAA Highest Creditworthiness 2023 tanúsítvány az ÖkoTech-Home Kft. nevére",
+        "teljes": {
+          "fajl": "penzugyi-stabilitasi-tanusitvany-2023-borito-teljes",
+          "w": 669,
+          "h": 988
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A </strong><a href=\"https://www.dnb.com/hu-hu/rolunk-uj\"><strong>Dun &amp; Bradstreet nemzetközi</strong></a><strong> üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi szakértők által kialakított módszertan alapján. Így került kiválasztásra cégünk, az ÖkoTech-Home Kft. is, mint a pénzügyileg legstabilabb cégek egyike. </strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Nagy megtiszteltetés cégünk számára, hogy a Dun &amp; Bradstreet objektív cégminősítése alapján a legjobbak között szerepelhetünk. Nagy figyelmet fordítunk arra, hogy a piacon tisztességesen járjunk el, így fontos számunkra, hogy egy külső szakértő is megerősítette, hogy cégünk fizetésképtelenségi valószínűsége kiemelkedően alacsony. Hisszük, hogy a Dun &amp; Bradstreet <a href=\"https://certificate.hungary.dnb.com/financially-reliable-companies/b0b5265b-ecbb-4665-aa71-cbe091b5cc6c\">Tanúsítvány</a> segítségével ügyfeleink, szállítóink, munkavállalóink felé is tovább fokozzuk azt a bizalmat, mely egyre fontosabb a hosszú távú, szilárd üzleti kapcsolatokban. Azzal, hogy egy független, nemzetközi szakértő elismerte cégünk stabilitását, azt az üzenetet hordozza számunkra, hogy jó úton járunk cégünk építésében, fejlesztésében. Mivel vállalkozásunk minősítése szigorúan szakmai szempontok alapján történt, arra sem pályázni, sem jelentkezni nem lehet, így a Dun &amp; Bradstreet Tanúsítvány valóban pozitívan különbözteti meg cégünket a piacon."
+        }
+      ]
+    },
+    {
+      "szlug": "tv2-ertekteremtok-hazi-szennyviztisztitas",
+      "regi_szlug": "miert-erdemes-nagyobb-hangsulyt-fekteteni-a-hazi-szennyviztisztitasra-tv2-ertekteremtok",
+      "datum": "2023-05-22",
+      "kategoria": "vallalati-hirek",
+      "cim": "Miért érdemes nagyobb hangsúlyt fekteteni a házi szennyvíztisztításra? – TV2 Értékteremtők",
+      "lead": "Az elmúlt hetekben az TV2 Értékteremtők című műsorába kaptunk meghívást!",
+      "borito": {
+        "fajl": "tv2-ertekteremtok-hazi-szennyviztisztitas-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Képkocka a TV2 Értékteremtők adásából: gyerekrajz és a stúdióban ülő riportalany",
+        "teljes": {
+          "fajl": "tv2-ertekteremtok-hazi-szennyviztisztitas-borito-teljes",
+          "w": 863,
+          "h": 371
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az elmúlt hetekben az TV2 Értékteremtők című műsorába kaptunk meghívást!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ebben néhány rajz is bemutatásra került a nagysikerű, kisiskolásoknak szóló rajzpályázatunk munkái közül!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Miért érdemes nagyobb hangsúlyt fekteteni a házi szennyvíztisztításra? Miért az ÖkoTech-Home által gyártott és forgalmazott iszapzsákos szennyvíztisztító a legmenőbb a piacon? Tekintse meg a beszélgetést a TV2 Értékteremtők című műsorában!"
+        },
+        {
+          "tipus": "video",
+          "azonosito": "xnqwJncHmZk",
+          "cim": "TV2 Értékteremtők adás 2023. április 16. ÖkoTech-Home"
+        }
+      ]
+    },
+    {
+      "szlug": "bakteriumok-elete-rajzpalyazat-nyertesek",
+      "regi_szlug": "megvannak-a-nyertes-alkotasok-a-hogyan-kepzeled-el-a-bakteriumok-eletet-a-szennyviztisztito-berendezesben-cimu-palyazatra-erkezett-munkak-kozul",
+      "datum": "2023-04-05",
+      "kategoria": "vallalati-hirek",
+      "cim": "Megvannak a nyertes alkotások a “Hogyan képzeled el a baktériumok életét a szennyvíztisztító berendezésben” című pályázatra érkezett munkák közül",
+      "lead": "Megszületett a döntés, megvannak a nyertes alkotások a “Hogyan képzeled el a baktériumok életét a szennyvíztisztító berendezésben” című pályázatra érkezett munkák közül. Aki követte a Facebook oldalunkat, láthatta…",
+      "borito": {
+        "fajl": "bakteriumok-elete-rajzpalyazat-nyertesek-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Nyertes rajz: a ház vízhasználata és a szennyvíztisztítás útja képregényszerű sávokban",
+        "teljes": {
+          "fajl": "bakteriumok-elete-rajzpalyazat-nyertesek-borito-teljes",
+          "w": 1100,
+          "h": 778
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Megszületett a döntés, megvannak a nyertes alkotások a “Hogyan képzeled el a baktériumok életét a szennyvíztisztító berendezésben” című pályázatra érkezett munkák közül. Aki követte a <a href=\"https://www.facebook.com/okotechhome\">Facebook oldalunkat</a>, láthatta milyen színvonalas alkotások születtek, nagy számban. A több, mint 1600 db beérkezett rajz közül több tucat rajz is érdemelne dobogós helyezést. Nem volt egyszerű dolga a zsűrinek."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A magas szintű kreativitáson túl a biológiai szennyvíztisztító működése és hasznossága is látható a rajzokon. Jó érzés látni, hogy a gyerekek megértették, hogy miért fontos a szennyvíz helyben történő megtisztítása és újrahasznosítása. Hiszen így a kerten belül marad a tisztított szennyvíz, amely élteti a növényzetet és csökkenti az aszály káros hatásait. Ebben pedig a baktériumok a barátaink, nem szabad őket kipusztítani hipóval és más vegyszerekkel."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A zsűri tagjaként köszönthettük Németh Ida művésznőt is, aki nagy segítségünkre volt a dobogós rajzok kiválasztásában. Együtt néztük végig, ahogy a baktériumok napoznak, grilleznek, kártyáznak, flamingós úszógumin lebegnek…. és persze szorgosan tisztítják a szennyvizet!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Így végül büszkén jelenthetjük be a három dobogós rajzot és rajzolóikat:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "1. Képes Zoé – Hajdúböszörményi Bethlen Gábor Általános Iskola 4.a osztályos tanulója"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "2. Török Petra – Debreceni Kazinczy Ferenc Általános Iskola és Alapfokú Művészeti Iskola 2. osztályos tanulója"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "bakteriumok-elete-rajzpalyazat-nyertesek-1",
+          "alt": "Nyertes rajz: nagyméretű, mosolygó baktériumfigurák színes mezőkben",
+          "w": 1100,
+          "h": 778
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "3. Pocskay Péter – Budapest XVII. Kerületi Czimra Gyula Általános Iskola 3. a osztályos tanulója"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "bakteriumok-elete-rajzpalyazat-nyertesek-2",
+          "alt": "Nyertes rajz: a ház alatti szennyvíztisztító metszete, benne dolgozó baktériumfigurákkal",
+          "w": 1100,
+          "h": 803
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Szívből gratulálunk a nyerteseknek!"
+        }
+      ]
+    },
+    {
+      "szlug": "marcius-22-a-viz-vilagnapja",
+      "regi_szlug": "marcius-22-a-viz-vilagnapja",
+      "datum": "2023-03-22",
+      "kategoria": "vallalati-hirek",
+      "cim": "Március 22 a Víz Világnapja",
+      "lead": "Mi az a víz újrahasznosítás, és miért válik egyre fontosabbá?",
+      "borito": {
+        "fajl": "marcius-22-a-viz-vilagnapja-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Kéz tart egy pohár tiszta vizet — a Víz világnapja",
+        "teljes": {
+          "fajl": "marcius-22-a-viz-vilagnapja-borito-teljes",
+          "w": 1040,
+          "h": 672
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Mi az a víz újrahasznosítás, és miért válik egyre fontosabbá?</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A víz újrahasznosítás a szennyvíz többszörös tisztítás utáni újrafelhasználását jelenti. A megtisztított és természetes módon fertőtlenített víz közvetlenül emberi fogyasztásra nem alkalmas, de kiválóan használható pl. öntözésre a kertben."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az <strong>EU 2020/741-es számú rendelete</strong> a víz újrafelhasználásáról szól. A célja, hogy hozzájáruljon az ENSZ fenntartható fejlesztési célkitűzéséhez, miszerint mindenki számára biztosítani kell a vízhez való hozzáférést. A rendelet a <strong>mezőgazdasági felhasználásra szánt víz</strong> használatával kapcsolatban fogalmaz meg irányelveket, többek között a visszanyert víz minősége és a víz újrahasznosításának engedélyezése témakörökben. A rendeletről bővebben <a href=\"https://eur-lex.europa.eu/legal-content/HU/TXT/HTML/?uri=LEGISSUM:4460847\"><strong>itt olvashat</strong></a>."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Miért vált az Európai Unióban kiemelten fontossá, hogy <strong>takarékoskodjunk</strong> a vízzel, és hogy egyre több tagországban a víz újrahasznosítás felé tereljék az embereket?"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Azért, mert az éghajlatváltozás felgyorsult az elmúlt 30 évben, amivel egyenesen arányosan <strong>nőtt az aszályok gyakorisága és intenzitása</strong> is, ez pedig egyre magasabb környezeti és gazdasági károkat okoz."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "1976 és 2006 között az aszállyal sújtott területek és emberek száma csaknem<strong> 20%-kal emelkedett</strong>, az aszály okozta károk összköltsége pedig 100 milliárd eurót emésztett fel."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ez a tendencia várhatóan folytatódni fog, és a vízhiány már nem csak Európa néhány szegletében (pl. Spanyolország, Portugália, Franciaország vagy Nagy-Britannia egyes területein), hanem az egész kontinensen <strong>vízhiányhoz és a vízminőség romlásához vezethet</strong>."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ön hallott róla, hogy 2022 tavaszán akkora vízhiány volt hazánkban az aszályos tél miatt, hogy április 1-től <strong>országos vízivási tilalom</strong> lépett életbe az állami erdőterületeken a forrásvizekre vonatkozóan?"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az ok egyszerű: annyira kevés csapadék hullott, hogy minden csepp forrásvízre <strong>ott helyben</strong>, az erdőkben volt szükség."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az országos és az európai vízhiány egyetlen megoldása: hatékonyabban kell kezelni az európai vízkészleteket. Ezen a ponton tehát már nem csak fontossá, hanem egyenesen <strong>elengedhetetlenné vált a víz újrahasznosítás</strong>."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>EU-s rendelettel szabályoznák a víz újrafelhasználását</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A kezelt szennyvíz újrahasznosítása, azaz újrafelhasználása nagy lehetőségeket rejt magában. Az Európai Unió is lényegesen hatékonyabban tudna reagálni az európai vízkészletekre nehezedő és folyamatosan erősödő nyomásra a kezelt szennyvíz szélesebb körű újrafelhasználásával, pl. a <strong>víztakarékos ipari technológiák és öntözési techniká</strong>k használatának előmozdításával."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az Európai Parlament és a Tanács <strong>(EU) 2020/741 rendeletének</strong> <strong>célja</strong> elősegíteni a víz újrafelhasználásának elterjedését minden olyan esetben, amikor az <strong>megfelelő és költséghatékony</strong>, a közegészség és a környezetvédelem magas szintjének fenntartása mellett."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A víz újrahasznosítás <strong>sokat ígérő lehetőség</strong> számos, már most is bajban lévő tagállam számára, azonban jelenleg csak néhány országban élnek vele."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Hogyan hasznosítható újra a víz?</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A víz újrahasznosításának innovatív és kiemelten környezetbarát megoldását kínálja az Öko-Tech Home egyedülálló szabadalma, az iszapzsákos technológiára épülő <a href=\"../../megoldasok/ab-clear\"><strong>A.B.Clear biológiai szennyvíztisztító berendezés</strong></a>, ami:"
+        },
+        {
+          "tipus": "lista",
+          "rendezett": false,
+          "pontok": [
+            "tökéletes választás a víz mezőgazdasági (öntözési) célú újrafelhasználásához,",
+            "hozzájárulhat a körforgásos gazdaság előmozdításához, a visszanyert vízből való komposzt anyag felhasználásával és az öntözéses tápanyagpótlási technológiák alkalmazásával,",
+            "így csökkentve a műtrágyafelhasználás mennyiségét."
+          ]
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A víz újrahasznosítás ugyanis hozzájárulhat a kezelt szennyvízben lévő<strong> tápanyagok visszanyeréséhez</strong>. A visszanyert víznek a mezőgazdaság vagy az erdészet területén való öntözési célú felhasználása pedig lehetőséget kínál a tápanyagok (pl. nitrogén, foszfor és kálium) természetes biogeokémiai ciklusokba való visszavezetésére."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Kattintson ide</strong>, ha többet szeretne tudni arról, hogyan hasznosíthatja újra a vizet teljesen szagmentes és minimális karbantartási igényű A.B.Clear iszapzsákos szennyvíztisztító berendezéssel."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"../../megoldasok/ab-clear\">okotechhome.hu</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "rajzverseny-hatarido-meghosszabbitas-2023",
+      "regi_szlug": "meghosszabbitva-rajzverseny-leadasi-hatarideje-2023-marcius-22",
+      "datum": "2023-03-09",
+      "kategoria": "vallalati-hirek",
+      "cim": "MEGHOSSZABBÍTVA! Rajzverseny leadási határideje 2023. március 22.!",
+      "lead": "A Víz Világnapja alkalmából hirdetjük meg rajzpályázatunkat, amellyel szeretnénk felhívni a figyelmet a szennyvíztisztítás fontosságára!",
+      "borito": {
+        "fajl": "rajzverseny-hatarido-meghosszabbitas-2023-borito",
+        "mod": "dok",
+        "w": 800,
+        "h": 800,
+        "alt": "A Víz világnapi rajzpályázat plakátja: az ÖkoTech-Home Kft. felhívása alsó tagozatos tanulóknak",
+        "teljes": {
+          "fajl": "rajzverseny-hatarido-meghosszabbitas-2023-borito-teljes",
+          "w": 1080,
+          "h": 1080
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Víz Világnapja alkalmából hirdetjük meg rajzpályázatunkat, amellyel szeretnénk felhívni a figyelmet a szennyvíztisztítás fontosságára!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A felszín alatti vizek láthatatlanok, jelenlétüket mégis mindenhol tapasztaljuk. A lábunk alatt meghúzódó víz egy rejtett kincs, ami a világ szárazabb területein élőknek az egyetlen vízforrása lehet. Ezért is nagyon fontos, hogy megóvjuk tisztaságát!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A rajzpályázatról és az értékes nyereményekről bővebb információt honlapunkon talál:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"bakteriumok-elete-rajzpalyazat-nyertesek\">okotechhome.hu</a>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A diákok nevezése az iskola regisztrációját követően lehetséges! Pontosabb információt a nevezésről és a versenyről az iskolák igazgatói tudnak adni, vagy írjon nekünk üzenetet a rajzpalyazat@okotechhome.hu email címre!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Kellemes rajzolást kíván az ÖkoTech-Home csapata!"
+        }
+      ]
+    },
+    {
+      "szlug": "karacsonyi-kedvezmeny-2022",
+      "regi_szlug": "meg-tart-az-otthonfelujitasi-program-2",
+      "datum": "2022-12-08",
+      "kategoria": "vallalati-hirek",
+      "cim": "Karácsonyi kedvezmény 2022. december 06-15-ig!",
+      "lead": "Vásárolja meg most az iszapzsákos szennyvíztisztító berendezésünket és a garantált 100.000 Ft kedvezmény mellé ajándékba adjuk a gépészeti tartályt is! Bővebb információért kérjen ajánlatot honlapunkon: okotechhome.hu",
+      "borito": {
+        "fajl": "karacsonyi-kedvezmeny-2022-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Karácsonyi kedvezmény plakát: 2022. december 6–15., 100 000 forint kedvezmény és ajándék gépészeti tartály",
+        "teljes": {
+          "fajl": "karacsonyi-kedvezmeny-2022-borito-teljes",
+          "w": 1015,
+          "h": 569
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Vásárolja meg most az iszapzsákos szennyvíztisztító berendezésünket és a garantált <strong>100.000 Ft kedvezmény mellé ajándékba adjuk a gépészeti tartályt is!</strong> Bővebb információért kérjen ajánlatot honlapunkon: <a href=\"../../ajanlat\">okotechhome.hu</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "otthonfelujitasi-program-2022",
+      "regi_szlug": "meg-tart-az-otthonfelujitasi-program",
+      "datum": "2022-11-02",
+      "kategoria": "vallalati-hirek",
+      "cim": "Még tart az Otthonfelújítási program! Használja ki szennyvíztisztító vásárlásához/telepítéséhez – akár a vételár 50%-át is visszakaphatja!",
+      "lead": "A gyermeket nevelő családok otthonfelújítási támogatásáról szóló 518/2020.(XI.25) Korm. Rendelet szerint megvalósítható a szennyvíz tisztítására és elhelyezésére szolgáló egyedi szennyvízkezelő berendezés telepítése.",
+      "borito": {
+        "fajl": "otthonfelujitasi-program-2022-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Otthonfelújítási támogatás grafika: tableten az A.B. Clear telepítési rajza, mögötte családi ház látványterve",
+        "teljes": {
+          "fajl": "otthonfelujitasi-program-2022-borito-teljes",
+          "w": 617,
+          "h": 424
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A gyermeket nevelő családok otthonfelújítási támogatásáról szóló 518/2020.(XI.25) Korm. Rendelet szerint megvalósítható a szennyvíz tisztítására és elhelyezésére szolgáló egyedi szennyvízkezelő berendezés telepítése</strong>."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Részletek:</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A gyermeket nevelő családok otthonfelújítási támogatásáról szóló 518/2020.(XI.25) Korm. Rendelet szerint megvalósítható a szennyvíz tisztítására és elhelyezésére szolgáló egyedi szennyvízkezelő berendezés, vagy tisztítómezővel ellátott oldómedencés műtárgy telepítése vagy cseréje.."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Ezért a támogatás az A.B.Clear szennyvíztisztító berendezés telepítésére is igénybe vehető , jegyzői engedélyeztetés után."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Bizonyára már <strong>Ön is ismeri a biológiai szennyvíztisztítás környezeti előnyeit és hosszú távú megtakarítási vonatkozásai</strong> csak eddig még nem döntött, esetleg még nem tudta megvalósítani. Most itt a nagy lehetőség, hogy a legkedvezőbb feltételek mellett valósíthassa meg!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Bővebb információ: </strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"https://net.jogtar.hu/jogszabaly?docid=a2000518.kor\">net.jogtar.hu</a>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"https://www.otthonfelujitasi-program.hu/mindent-az-otthonfelujitasi-programrol/\">otthonfelujitasi-program.hu</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "het-szempont-a-szennyviztisztito-kivalasztasahoz",
+      "regi_szlug": "fontos-szempontok-a-szennyviztisztito-kivalasztasahoz",
+      "datum": "2022-09-16",
+      "kategoria": "vallalati-hirek",
+      "cim": "7 elengedhetetlen szempont az ideális szennyvíztisztító kiválasztásához",
+      "lead": "Szennyvíztisztító vásárlása előtt áll? Íme 7 elengedhetetlen szempont, melyek segítségével egyszerűen és gyorsan kiválaszthatja az Ön otthonához és szokásaihoz leginkább illeszkedő szennyvíztisztító berendezést.",
+      "borito": null,
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Szennyvíztisztító vásárlása előtt áll?</strong> Íme 7 elengedhetetlen szempont, melyek segítségével egyszerűen és gyorsan kiválaszthatja az Ön otthonához és szokásaihoz leginkább illeszkedő szennyvíztisztító berendezést."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Hány fő fogja használni a szennyvíztisztító berendezést?"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A <strong>szennyvíztisztító méretét a felhasználók száma és a vízfogyasztás alapján</strong> érdemes meghatározni."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az optimális működéshez, azaz a tisztítóból kifolyó legjobb minőségű víz eléréséhez, megfelelő méretezés szükséges. Ha szeretné elkerülni a túl- vagy alulméretezett szennyvíztisztító okozta problémákat, <strong>válassza az A.B Clear szennyvíztisztító berendezést!</strong> Az A.B. Clear szennyvíztisztítók megfelelően működnek alulterhelt állapotban, illetve tartósan bírják a 30%-os túlterhelést is."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Használható és nem használható anyagok"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Tévhit, hogy nem kell figyelni arra, hogy milyen anyag kerül a szennyvíztisztítóba. Ez gyártótól és típustól függetlenül így van, minden más állítás félrevezetés."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A biológiai szennyvíztisztító berendezések ugyanis csak a lebontást végző, <strong>élő baktériumok segítségével működtethetőek</strong>. <strong>Figyelem! Baktériumölő és egyéb erős vegyszerek elpusztíthatják</strong> azokat a mikroorganizmusokat, amelyek a szennyvízben található anyagok lebontását végzik."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az általunk javasolt <strong>alternatív tisztítási módszerekkel elkerülheti:</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "• a kellemetlen szagokat, • az elhalt iszap szippantásával járó pluszköltségeket és kellemetlenségeket, • a berendezés átmosását és újraoltását."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Életvitelszerűen, vagy időszakosan fogják használni a szennyvíztisztítót?"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Kétféle tisztító létezik: az aktív és a passzív rendszerű szennyvíztisztító. Az <strong>aktív </strong>rendszerű szennyvíztisztító <strong>eleveniszappal üzemel</strong>, és az <strong>életvitelszerűen lakott ingatlanokhoz</strong> megfelelő, mert a tisztítást végző baktériumok igénylik a folyamatos szervesanyag-bejuttatást."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Figyelem!</strong> Az időszakosan használt ingatlanok (pl. nyaraló, hétvégi ház stb.) esetén a baktériumok nem kapnak folyamatos szervesanyag-bejuttatást! Ezért előfordulhat, hogy a berendezés szippantására, kitisztítására és újraindítására van szükség, ami többletköltséggel jár. Az <strong>időszakosan használt ingatlanokban a passzív</strong> rendszerű szennyvíztisztító jelent optimális megoldást. A passzív rendszerű berendezés előnye, hogy alig kell vele foglalkozni, de csak ezért ne válassza, ha életvitelszerűen él az ingatlanban!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Figyelem!</strong> Tapasztalataink szerint az életvitelszerűen lakott ingatlanok folyamatos szennyvízterhelése miatt nem jut elegendő idő a passzív rendszerekbe juttatott szennyvíz lebomlására. Ez erős szaghatással és számos kellemetlenséggel jár. <strong>Az életvitelszerűen lakott ingatlanok esetében nagyságrendekkel hatékonyabban és jobban tisztít az aktív rendszerű biológiai szennyvíztisztító.</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ideális esetben tehát a használati szokások határozzák meg, hogy aktív vagy passzív rendszert érdemes-e választani."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "A szivárogtatás módjának kiválasztása és meghatározása"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A szennyvíztisztító rendszer lelke – gyártótól és típustól függetlenül – a tisztított víz elhelyezésére szolgáló, <strong>ideális méretű szivárogtató</strong>. Ez az, amin nem ajánlott spórolni, és kisebbet venni belőle, mert bármilyen típusú is legyen a berendezés, <strong>ugyanannyi mennyiségű víz folyik ki </strong>belőle. Az érkező szennyvíz mennyisége ugyanis megegyezik a berendezésből távozó tisztított víz mennyiségével."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Tehát a <strong>szivárogtató megfelelő méretezésének megállapítása</strong> döntő fontosságú, amennyiben szeretné elkerülni a szippantással, tisztítással, újraoltással, illetve az udvar felásásával, valamint az új szikkasztóhely kialakításával járó többletköltségeket és kellemetlenségeket."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A szivárogtatórendszer meghatározásához minden esetben érdemes <strong>talajmechanikai jegyzőkönyvet</strong> készíteni, <strong>szivárogtatási próbát</strong> végezni és megfelelő méretű szikkasztó alagutakat telepíteni."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Tapasztalataink szerint a dréncsövekkel kivitelezett szennyvíztisztító berendezések már 1-2 év alatt telítődnek és tönkremennek. Az ÖkoTech Home éppen ezért <strong>szivárogtató alagutat</strong> ajánl a <strong>tisztított víz elszikkasztására</strong>."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Az alultervezett és dréncsövezett szivárogtató ugyanis:</strong> • hamar telítődik, • az el nem szivárgó víz könnyen visszaduzzadhat a berendezésbe, • és átfolyik a tisztító belsejében található többi rekeszbe, felborítva az ott kialakult egyensúlyt."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A folyamat jelentős szaghatással, a talaj eliszapodosodásával és szennyezésével jár. A <strong>gondos tervezés és a szakszerű kivitelezés </strong>ugyan megnöveli a kezdeti bekerülési költségeket, de számos bosszúságtól és későbbi anyagi tehertől mentesíti Önt."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Mit jelent ez a számok nyelvén?</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "1 db alagút pufferkapacitása 300 liter, ami 32 m dréncső kapacitásának felel meg. Egy jól szivárgó talaj esetén, 4 fő felhasználóval számolva, összesen 6 db alagút ajánlott a hosszú távon is megfelelő szivárogtatáshoz. Ez <strong>összesen 192 m dréncső </strong>telepítésével érhető el. Rosszul szivárgó, agyagos talajoknál ennél is nagyobb felület szükséges. A 6 db alagút telepítéséhez mindössze 7,5 m árok elegendő, ezzel szemben egy dréncsöves szivárogtató kialakításához minimum 192 m hosszú csőfektetés szükséges. Gazdasági megfontolásból sokan az olcsóbbnak tűnő megoldást (dréncső) választják, ami csak pillanatnyilag tűnik kedvezőbb lehetőségnek, hosszú távon ugyanis anyagi és fizikai problémát jelenthet."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Figyelem!</strong> Amennyiben megbízhatóan működő rendszert szeretne telepíteni, tartsa szem előtt, hogy a minimális anyag- és földmunkaköltséggel hirdetett szennyvíztisztító berendezések komoly kockázatot jelenthetnek."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Válassza az ÖkoTech Home Kft. által kínált komplex A.B Clear rendszert, ha a hosszú távon kedvező és ár-érték arányban legmegfelelőbb megoldást keresi a szennyvíztisztításra</strong>!"
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Elektromos árammal működő és áramfelhasználás nélküli rendszerek"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A szennyvíztisztítás áramfelhasználás nélkül is megvalósítható, de nem minden esetben. Elsősorban az <strong>időszakos használatra ajánlott oldómedencékkel</strong> kapcsolatban beszélhetünk elektromos áram felhasználása nélküli rendszerekről."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A <strong>kombinált </strong>(oldómedencével és tisztító reaktorral ellátott) <strong>szennyvíztisztító</strong> rendszerek csak úgy működtethetőek áramfelhasználás nélkül, ha <strong>a telek a szivárogtató felé erősen lejt</strong>."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az áram nélkül működő berendezések kivezető csöve ugyanis alul helyezkedik el, így megfelelő mértékben lejtős telkek esetében a <strong>gravitáció segítségével</strong> problémamentesen jut el a tisztított víz a szikkasztóba."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Sík terepen már áramra is szükség van</strong>, hiszen a szivárogtató magasabban helyezkedik el, mint a szennyvíztisztító kivezető csöve. A sík telkeken tehát a <strong>tisztított vizet szivattyú segítségével kell felemelni a szikkasztómező magasságába</strong>. Ez egyben azt is jelenti, hogy bár a szennyvíztisztító áram nélkül működik, a szivattyú működtetéséhez szükség van elektromosságra."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Iszapzsákos technológia"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az A.B.Clear szennyvíztisztító berendezések egyedülálló módon iszapzsákos technológiával rendelkeznek, így a reaktorokban keletkező <strong>fölösleges iszapmennyiség folyamatosan kivonódik a rendszerből</strong>, mely által annak működése lényegesen stabilabb, az állandó iszapszint mellett. A fölösiszap könnyen kezelhető formában tárolódik a berendezésben, így a karbantartások igen egyszerűek, a berendezés pedig <strong>még időszakosan sem igényel szippantást!</strong>"
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Háttér és ügyféltámogatás"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Egy szennyvíztisztító berendezés vásárlása hosszú távú befektetés, ami akkor térül meg igazán, ha később is fennakadásmentesen működik. Érdemes tehát még a vásárlás előtt utánajárni a következőknek:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "• Milyen <strong>háttérszolgáltatásokat</strong> kínál a forgalmazó a berendezés hosszú távú üzemeltetése során? • A kereskedő milyen háttérrel és <strong>referenciákkal</strong> rendelkezik? • Elérhető-e a forgalmazó? Van-e telefonos elérhetőség, cím, cégjegyzékszám stb.? • Biztosított-e a <strong>rendszeres karbantartás?</strong> • Kihez fordulhat garanciális igényével? – Érdemes <strong>Magyarországon gyártott </strong>szennyvíztisztító berendezést választani, mert a garanciális és a javítási igényekkel minden esetben a gyártóhoz kell fordulni."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Figyelem!</strong> A biológiai szennyvíztisztító rendszer ugyan önműködő, de csak akkor működtethető hosszú távon is problémamentesen, ha a <strong>megfelelő ellenőrzések</strong>, az <strong>időszakos karbantartási feladatok</strong> és az <strong>iszappróba</strong> is biztosított."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az <strong>Ökotech Home Kft. több mint 20 éve gyártja és forgalmazza az A.B Clear biológiai szennyvíztisztító berendezéseket</strong>. Magyar nyelvű használati útmutatóval, leírásokkal és videókkal segítjük felhasználóinkat. Közel 20 éves karbantartó, illetve szerviz tapasztalattal is rendelkezünk."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Ha vásárolni szeretne, esetleg időszakos karbantartásra, vagy tanácsadásra van szüksége, keressen minket telefonos vagy online elérhetőségeinken!</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"../../ajanlat\"><strong>AJÁNLATKÉRÉS</strong></a>"
+        }
+      ]
+    },
+    {
+      "szlug": "pesti-tv-interju",
+      "regi_szlug": "interjut-keszitett-velunk-a-pesti-tv",
+      "datum": "2022-05-30",
+      "kategoria": "vallalati-hirek",
+      "cim": "Interjút készített velünk a Pesti TV!",
+      "lead": "Megtudhatja belőle azt is, hogy indultunk el ezen a területen és hogyterjedtek el Magyarországon a biológiai szennyvíztisztítók…",
+      "borito": {
+        "fajl": "pesti-tv-interju-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Krasznói Anna a Pesti TV stúdiójában, a műsor asztalánál",
+        "teljes": {
+          "fajl": "pesti-tv-interju-borito-teljes",
+          "w": 626,
+          "h": 360
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Megtudhatja belőle azt is, hogy indultunk el ezen a területen és hogyterjedtek el Magyarországon a biológiai szennyvíztisztítók…"
+        },
+        {
+          "tipus": "lista",
+          "rendezett": false,
+          "pontok": [
+            "Kiderül az interjúból, hogy a magyar lakosság hány százalékánál nincs csatornázás?",
+            "Milyen új EU irányelv támogatja a szennyvíz újrahasznosítását?",
+            "Hova jut el a tisztított szennyvíz a csatornákon keresztül?",
+            "Van-e szaga a biológiai szennyvíztisztítóknak?",
+            "Ki kaphat engedélyt biológiai szennyvíztisztító telepítésére?"
+          ]
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Nézze meg az interjút itt:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"https://pestitv.pestisracok.hu/2022/05/26/magyar-fejlesztes-segithet-a-szennyviz-hasznositasaban/\">Pesti TV interjú – Magyar fejlesztés segíthet a szennyvíz hasznosításában 2022.05.26.</a>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Krasznói Anna"
+        }
+      ]
+    },
+    {
+      "szlug": "penzugyi-stabilitasi-tanusitvany-2022",
+      "regi_szlug": "a-penzugyileg-legstabilabb-063-kozott-az-okotech-home-2",
+      "datum": "2022-04-27",
+      "kategoria": "vallalati-hirek",
+      "cim": "Tanúsítvány a pénzügyileg legstabilabb cégeknek – 2022",
+      "lead": "A Dun & Bradstreet nemzetközi üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi…",
+      "borito": null,
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A </strong><a href=\"https://www.dnb.com/hu-hu/rolunk-uj\"><strong>Dun &amp; Bradstreet nemzetközi</strong></a><strong> üzleti információszolgáltató és -minősítő minden működő vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát osztályozza egy folyamatosan visszamért és bizonyított, nemzetközi szakértők által kialakított módszertan alapján. Így került kiválasztásra cégünk, az ÖkoTech-Home Kft. is, mint a pénzügyileg legstabilabb cégek egyike. </strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Nagy megtiszteltetés cégünk számára, hogy a Dun &amp; Bradstreet objektív cégminősítése alapján a legjobbak között szerepelhetünk. Nagy figyelmet fordítunk arra, hogy a piacon tisztességesen járjunk el, így fontos számunkra, hogy egy külső szakértő is megerősítette, hogy cégünk fizetésképtelenségi valószínűsége kiemelkedően alacsony. Hisszük, hogy a Dun &amp; Bradstreet <a href=\"https://www.dnb.com/hu-hu/szolgaltatasok/bisnode-tanusitvany\">Tanúsítvány</a> segítségével ügyfeleink, szállítóink, munkavállalóink felé is tovább fokozzuk azt a bizalmat, mely egyre fontosabb a hosszú távú, szilárd üzleti kapcsolatokban. Azzal, hogy egy független, nemzetközi szakértő elismerte cégünk stabilitását, azt az üzenetet hordozza számunkra, hogy jó úton járunk cégünk építésében, fejlesztésében. Mivel vállalkozásunk minősítése szigorúan szakmai szempontok alapján történt, arra sem pályázni, sem jelentkezni nem lehet, így a Dun &amp; Bradstreet Tanúsítvány valóban pozitívan különbözteti meg cégünket a piacon."
+        }
+      ]
+    },
+    {
+      "szlug": "penzugyi-stabilitasi-tanusitvany-2021",
+      "regi_szlug": "a-penzugyileg-legstabilabb-063-kozott-az-okotech-home",
+      "datum": "2021-04-14",
+      "kategoria": "vallalati-hirek",
+      "cim": "Magyarország pénzügyileg kiemelkedően legstabilabb cégei között az Ökotech-Home Kft",
+      "lead": "Az Ökotech-Home Kft. megkapta a Bisnode AAA (tripla A) tanúsítványát, amely bizonyítja, hogy a cégünk pénzügyileg is Magyarország kiemelkedően legstabilabb cégei közé tartozik! Ez is azt jelzi, hogy velünk az üzleti…",
+      "borito": {
+        "fajl": "penzugyi-stabilitasi-tanusitvany-2021-borito",
+        "mod": "dok",
+        "w": 565,
+        "h": 800,
+        "alt": "Bisnode AAA Highest Creditworthiness 2021 tanúsítvány az ÖkoTech-Home Kft. nevére",
+        "teljes": {
+          "fajl": "penzugyi-stabilitasi-tanusitvany-2021-borito-teljes",
+          "w": 989,
+          "h": 1400
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az Ökotech-Home Kft. megkapta a Bisnode AAA (tripla A) tanúsítványát, amely bizonyítja, hogy a cégünk pénzügyileg is Magyarország kiemelkedően legstabilabb cégei közé tartozik! Ez is azt jelzi, hogy velünk az üzleti kapcsolat kialakításának pénzügyi kockázata rendkívül alacsony. Örömünkre szolgál a külső szakértő által hivatalos tanúsítvánnyal is megerősítést nyert tény, hogy a legjobbak között szerepelhetünk, hiszen kiemelkedő figyelmet fordítunk többek között arra, hogy a piacon tisztességesen járjunk el, cégünk fizetésképtelenségi valószínűsége kiemelkedően alacsonyan maradjon, mindezzel is tovább fokozzuk azt a bizalmat, mely egyre fontosabb a hosszú távú, stabil üzleti kapcsolatokban. A Bisnode nemzetközi cégminősítő minden vállalkozás pénzügyi stabilitását, üzleti megbízhatóságát minősíti egy folyamatosan visszamért és bizonyított, nemzetközi szakértők által kialakított rendszer alapján. A Bisnode tanúsítványt Európa számos országában használják és pl. a Skandináv országokban etalonnak számít üzletkötés esetén. Így került kiválasztásra cégünk, az Ökotech-Home Kft. is, mint a pénzügyileg legstabilabb cégek egyike."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"../../assets/dok/okotechhome-bisnode-aaa-2021.pdf\">Bisnode Ökotech_2021</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "iso-9001-tanusitvany",
+      "regi_szlug": "magas-gyartasi-minoseg-garantalva",
+      "datum": "2021-04-13",
+      "kategoria": "vallalati-hirek",
+      "cim": "Magas gyártási minőség? Garantálva!",
+      "lead": "Újabb 3 évre megkaptuk a ÉMI-TÜV SÜD Kft. tanúsítványát, amely elismerése, egyben garanciája annak, hogy cégünk biológiai szennyvíztisztító termékeinek gyártása ugyan azon a nagyon magas minőségi színvonalon…",
+      "borito": {
+        "fajl": "iso-9001-tanusitvany-borito",
+        "mod": "dok",
+        "w": 563,
+        "h": 800,
+        "alt": "Az ÉMI-TÜV SÜD által kiadott MSZ EN ISO 9001:2015 tanúsítvány az ÖkoTech-Home Kft. részére",
+        "teljes": {
+          "fajl": "iso-9001-tanusitvany-borito-teljes",
+          "w": 986,
+          "h": 1400
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Újabb 3 évre megkaptuk a ÉMI-TÜV SÜD Kft. tanúsítványát, amely elismerése, egyben garanciája annak, hogy cégünk biológiai szennyvíztisztító termékeinek gyártása ugyan azon a nagyon magas minőségi színvonalon folytatódik, mint ahogy azt az elmúlt 10 évben is megszokhatták partnereink, vásárlóink. Az ÖkoTech-Home Kft.-nek a folyamatos fejlődés és fejlesztések mellett kiemelt fontosságú a minőségi termékek előállítása, ügyfeleink elégedettsége, és a környezet megóvásában való további hatékony közreműködés."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<a href=\"../../assets/dok/okotechhome-iso-9001-2015-tanusitvany-2021.pdf\">Ökotech ISO_tanúsítvany</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "celegyenesben-a-tanyafejlesztes",
+      "regi_szlug": "celegyenesben-a-tanyafejlesztes",
+      "datum": "2021-02-01",
+      "kategoria": "vallalati-hirek",
+      "cim": "Célegyenesben a Tanyafejlesztés!",
+      "lead": "MÓDOSULT A „TANYÁK HÁZTARTÁSI LÉPTÉKŰ VILLAMOS ENERGIA ÉS VÍZELLÁTÁS, VALAMINT SZENNYVÍZKEZELÉSI FEJLESZTÉSEI” CÍMŰ (VP6-7.2.1.4-17 KÓDSZÁMÚ) FELHÍVÁS!",
+      "borito": null,
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "MÓDOSULT A „TANYÁK HÁZTARTÁSI LÉPTÉKŰ VILLAMOS ENERGIA ÉS VÍZELLÁTÁS, VALAMINT SZENNYVÍZKEZELÉSI FEJLESZTÉSEI” CÍMŰ (VP6-7.2.1.4-17 KÓDSZÁMÚ) FELHÍVÁS!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Módosul a felhívás 4.3 A támogatási kérelem benyújtásának határideje és módja című pontja, miszerint a felhívás keretében támogatási kérelmek benyújtására 2017. április 5. naptól 2022. november 12. napjáig van lehetőség. Ennek értelmében, további benyújtási szakaszokkal egészült ki a felhívás. <strong>Tehát a módosult beadási határidő: 2022.11.12.</strong> <strong>Most még 5% önerővel mentesülhet a szippantás költségeitől és az emésztő kellemetlenségeitől!</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Miért az A.B.Clear szennyvíztisztitó?</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "– mert az egyedisége miatt elég a mi ajánlatunk (nem szükséges 3 versengő ajánlat) – a kiírás óta több, mint 100 tanyatulajdonosnak tudtunk segíteni – rugalmas ügyintézés – kedvező ár-érték arány – biztos háttér – közvetlen kapcsolat a pályázatírókkal – minőségi, Construma díjas magyar termék – megbízható karbantartói szolgálat"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>Minimum feltételek:</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "– Aki a támogatási kérelem benyújtását megelőző 12 hónapban (folyamatosan) életvitelszerűen a fejlesztéssel érintett tanyán, mint lakóhelyén, vagy a lakóhelyével azonos településhez tartozó tanyán, mint tartózkodási helyén él (a lakcímkártya és a személyazonosító igazolvány másolatával kell igazolni, mely a kérelemhez csatolandó), és a tanya a körzeti földhivatali nyilvántartás szerint legalább részben saját, vagy legalább részben közeli hozzátartozója tulajdonában van."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>További részletek:</strong> <a href=\"https://www.palyazat.gov.hu/vp6-7214-17-tanyk-hztartsi-lptk-villamos-energia-s-vzellts-valamint-szennyvzkezelsi-fejlesztsei\">palyazat.gov.hu</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "sajtokozlemeny-uj-termelesiranyitasi-rendszer",
+      "regi_szlug": "sajtokozlemeny-uj-termelesiranyitasi-es-ugyfelszolgalati-rendszert-vezetett-be-az-okotech-home-kft",
+      "datum": "2020-07-24",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "Sajtóközlemény – Új termelésirányítási és ügyfélszolgálati rendszert vezetett be az ÖkoTech-Home Kft",
+      "lead": "A 3,59 millió forint európai uniós támogatás segítségével a biológiai szennyvíztisztító kisberendezése­ket gyártó esztergomi cégnél egyszerűsödnek a gyártási terület szervezési folyamatai, és gyorsul a megrendelők…",
+      "borito": {
+        "fajl": "sajtokozlemeny-uj-termelesiranyitasi-rendszer-borito",
+        "mod": "dok",
+        "w": 284,
+        "h": 200,
+        "alt": "Széchenyi 2020 és Európai Unió — Európai Regionális Fejlesztési Alap arculati elem",
+        "teljes": {
+          "fajl": "sajtokozlemeny-uj-termelesiranyitasi-rendszer-borito-teljes",
+          "w": 284,
+          "h": 200
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A 3,59 millió forint európai uniós támogatás segítségével a biológiai szennyvíztisztító kisberendezése­ket gyártó esztergomi cégnél egyszerűsödnek a gyártási terület szervezési folyamatai, és gyorsul a megrendelők kiszolgálása. A fejlesztés eredményeként a beszerzés, készletnyilvántartás, gyártás, értékesítés és szolgáltatási terület olyan informatikai hátteret kap, ami lehetővé teszi a harmadik évez­red igényeinek megfelelő adatkezelést, az elmúlt években folyamatosan dinamikusan növekvő cég tevékenységének naprakész szervezését."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az Er-Mis vállalatirányítási és a StarSoft ügyfélszolgálati szoftverek telepítését, a futtatásukhoz szük­séges rendszerkörnyezet eszközeinek beszerzését, a korábban használt rendszerek adatainak át­töltését és az ÖkoTech-Home Kft. munkatársainak betanítását magában foglaló projekt a Széchenyi 2020 program keretében valósul meg."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A 40%-os vissza nem térítendő, valamint 50%-os visszatérítendő támogatás segítségével végrehajtott beruházásnak köszönhetően a vállalat nyolc munkahelyet tud megőrizni, és további négy munkahelyet teremtett Esztergomban."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A fejlesztéshez a cég a GINOP-3.2.2-8-2-4-16 „Vállalati komplex infokommunikációs és mobilfejlesz­tések, felhőalapú online üzleti szolgáltatások terjesztésének támogatása” című felhívásra benyújtott kérelme alapján 3,59 millió forintos vissza nem térítendő támogatást és 4,49 millió forintos vissza­térítendő hitelt nyert el."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A projektet 2019. december 7-én zárták az ÖkoTech-Home Kft-nél."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "További információ kérhető:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Krasznói Anna ügyvezető kapcsolat@okotechhome.hu"
+        }
+      ]
+    },
+    {
+      "szlug": "milyen-toban-usznak-az-aranyhalak",
+      "regi_szlug": "milyen-toban-usznak-az-aranyhalak",
+      "datum": "2020-04-30",
+      "kategoria": "vallalati-hirek",
+      "cim": "Milyen tóban úsznak az aranyhalak?",
+      "lead": "A tó a háttérben lévő lakótelep szennyvízének tisztított vize. A helyszínek Izraelben találhatóak, ahová üzleti partnerünk meghívására mentünk, még a tavalyi évben.",
+      "borito": {
+        "fajl": "milyen-toban-usznak-az-aranyhalak-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Négy felvétel a tisztított víz újrahasznosításáról: városi tó, tavirózsa, aranyhalak és stég",
+        "teljes": {
+          "fajl": "milyen-toban-usznak-az-aranyhalak-borito-teljes",
+          "w": 1024,
+          "h": 508
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A tó a háttérben lévő lakótelep szennyvízének tisztított vize. A helyszínek Izraelben találhatóak, ahová üzleti partnerünk meghívására mentünk, még a tavalyi évben."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A magyarországi, helyi lehetőségek elemzése és vízügyi mérnökökkel történt részletes egyeztetések eredménye, hogy partnerünkkel közösen ily módon vállalni tudjuk lakóparkok és egyéb nagyobb létesítmények szennyvíztisztítását, természetközeli megoldással. A szennyvíztisztítást nagyrészt növénytársulások végzik. A hatékonyság mellett látványnak sem elhanyagolható! Az élmény megdöbbentő. Nem csak a látvány kellemes, de semmilyen kellemetlen szag nem volt tapasztalható. A lakók mindennap itt sétálnak. A kivitelező szerint a kellemetlen szagoktól mentes környezetet ez a technológia az év minden napjában biztosítja."
+        }
+      ]
+    },
+    {
+      "szlug": "a-viz-minden-eloleny-leteleme",
+      "regi_szlug": "minden-eloleny-legyen-az-ember-allat-vagy-noveny-leteleme-a-viz",
+      "datum": "2020-04-09",
+      "kategoria": "vallalati-hirek",
+      "cim": "Minden élőlény – legyen az ember, állat vagy növény – lételeme a víz",
+      "lead": "A lakóházak építésénél, felújításoknál és korszerűsítéseknél mindenki az energiahatékony megoldásokat helyezi előtérbe. És bár a fűtésen, világításon és elektromos energián rengeteget megtakaríthatunk, a vízzel is…",
+      "borito": {
+        "fajl": "a-viz-minden-eloleny-leteleme-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Kerti tó tavirózsákkal, kövekkel és évelő növényekkel szegélyezve",
+        "teljes": {
+          "fajl": "a-viz-minden-eloleny-leteleme-borito-teljes",
+          "w": 1024,
+          "h": 681
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A lakóházak építésénél, felújításoknál és korszerűsítéseknél mindenki az energiahatékony megoldásokat helyezi előtérbe. És bár a fűtésen, világításon és elektromos energián rengeteget megtakaríthatunk, a vízzel is megéri okosan bánni."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A szennyvíz ugyanis helyben is tisztítható, és újrahasznosítható. A tápanyagokban gazdag tisztított víz új életet ad szeretett növényeinknek, visszatér az élet! A környezet meghálálja, ha a legfontosabb értékünkkel is „zöld” módon gazdálkodunk. Vigyázzunk magunkra és a környezetünkre!"
+        }
+      ]
+    },
+    {
+      "szlug": "onellato-gondolkodas",
+      "regi_szlug": "az-onellato-gondolkodas-egyik-fontos-eleme-hogy-mennyire-tudunk-fuggetlenedni-a-kozmuvektol-szippantasi-terhektol",
+      "datum": "2020-04-09",
+      "kategoria": "vallalati-hirek",
+      "cim": "Az önellátó gondolkodás egyik fontos eleme, hogy mennyire tudunk függetlenedni a közművektől, szippantási terhektől",
+      "lead": "A jelen, sajnálatos helyzet ismét ráébresztett minket arra, hogy túlságosan ki vagyunk szolgáltatva a körülményeknek. Az ÖkoTech-Home környezettudatos és önellátó megoldása segítséget nyújt, a mindennapokban…",
+      "borito": {
+        "fajl": "onellato-gondolkodas-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Füves tetejű, hagyományos házak zöld hegyoldalban",
+        "teljes": {
+          "fajl": "onellato-gondolkodas-borito-teljes",
+          "w": 1024,
+          "h": 678
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A jelen, sajnálatos helyzet ismét ráébresztett minket arra, hogy túlságosan ki vagyunk szolgáltatva a körülményeknek. Az ÖkoTech-Home környezettudatos és önellátó megoldása segítséget nyújt, a mindennapokban keletkező és kissé elhanyagolt szennyvízkérdés megoldásában. Amennyiben szeretne a problémáktól távol, vidéken és függetlenül élni, ennek egyik kiegészítője a saját, biológiai szennyvíztisztítás. Ez a technológia lakosságszámtól, földrajzi elhelyezkedéstől függetlenül bárhol alkalmazható, lényege, hogy a felhasználókhoz nem szükséges csatornahálózatot kiépíteni, mivel az ingatlan – függetlenül annak méretétől – saját szennyvíztisztítóval rendelkezik. A szennyvíz helyben tisztul meg, és helyben újrahasznosítható. A lebontott szervesanyagtartalom komposztálást követően a kert növényeinek biztosít tápanyagot. Létesítési-, és fenntartási költségeit tekintve az egyedi szennyvíztisztító választása mind a központi szennyvíztisztításnál, mind az emésztőgödröknél lényegesen kedvezőbb, megtérülése gyors, karbantartási igénye pedig minimális. <a href=\"../../\">okotechhome.hu</a>"
+        }
+      ]
+    },
+    {
+      "szlug": "ab-clear-construma-dij-2014",
+      "regi_szlug": "a-b-clear-szennyviztisztito-kisberendezes-construma-dij-2014",
+      "datum": "2020-04-08",
+      "kategoria": "kiallitasok-es-esemenyek",
+      "cim": "A.B.Clear szennyvíztisztító kisberendezés Construma díj – 2014",
+      "lead": "2014-ben, ezekben a napokban tartott a Construma kiállítás, ahol az ÖkoTech-Home Kft. az A.B.Clear szennyvíztisztító kisberendezésével elnyerte a Construma díj kitüntető címet.",
+      "borito": {
+        "fajl": "ab-clear-construma-dij-2014-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "A Construma nagydíj átvétele: bekeretezett oklevél átadása a kiállítás színpadán",
+        "teljes": {
+          "fajl": "ab-clear-construma-dij-2014-borito-teljes",
+          "w": 1100,
+          "h": 608
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "2014-ben, ezekben a napokban tartott a Construma kiállítás, ahol az ÖkoTech-Home Kft. az A.B.Clear szennyvíztisztító kisberendezésével elnyerte a Construma díj kitüntető címet."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A termék sikerességét bizonyítja, hogy már közel 1500 magyar háztartásban oldja meg a szennyvíz környezetbarát tisztítását, újrahasznosítását. Azóta még magasabb szintre emelkedett a gyártástechnológia és a mindenre kiterjedő ügyfélszolgálatunk."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ezúton köszönjük minden kedves ügyfelünknek, hogy bizalmat szavaztak nekünk!"
+        }
+      ]
+    },
+    {
+      "szlug": "szennyviztisztito-kezelese-koronavirus-idejen",
+      "regi_szlug": "biologiai-szennyviztisztito-kezelese-koronavirus-idejen",
+      "datum": "2020-03-18",
+      "kategoria": "vallalati-hirek",
+      "cim": "Biológiai szennyvíztisztító kezelése koronavírus idején",
+      "lead": "Kedves Felhasználóink! Kedves Ügyfeleink!",
+      "borito": null,
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Kedves Felhasználóink! Kedves Ügyfeleink!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A koronavírus terjedésének megakadályozására tett intézkedések időtartamára az Ön által üzemeltetett biológiai szennyvíztisztító kisberendezéssel kapcsolatban a következőket javasoljuk:"
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Gyakoribb és alapos kézmosás szappannal!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A jelenlegi helyzetben nagyon fontos, hogy gyakran és megfelelő hatékonysággal mossanak kezet. Az eddigi ismereteink szerint a vírus leghatékonyabb ellenfele a hagyományos szappan. Forrás: Guardian – Prof. Pall Thordarson"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az alap higiénés használat mellett elpusztítja a legtöbb vírust (közte a COVID-19 koronavírust is), míg a környezetünk és a biológiai szennyvíztisztító számára elengedhetetlen baktériumok életben maradnak. Legalább 20-30 másodperces kézmosás javasolt."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Kérjük, hogy a kézmosás során a kéz benedvesítése és a szappanos hab leöblítése között zárja el a vízcsapot. A folyamatosan ömlő víz nem teszi hatékonyabbá a kézmosást, viszont jelentős vízpazarlással jár, és fölöslegesen terheli a szennyvíztisztító kisberendezést is."
+        },
+        {
+          "tipus": "cim",
+          "szoveg": "Kézfertőtlenítők használatáról"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Amennyiben fertőtlenítő kézmosószert alkalmaznak, a kézmosó vizet külön gyűjtsék, és a gyűjtőedény tartalmát az udvarra öntsék ki. Fertőtlenítő hatású zselék, permetek használata esetén a kezüket ne öblítsék a mosdóba. A törlőkendőket pedig ne dobják a szennyvízrendszerbe. Az udvarra (kövezett járdára, gépkocsibeállóra) kiöntött kis töménységű folyadékok fertőtlenítőszer-tartalma a napfény és a szabad levegő hatására gyorsan lebomlik, a talajra gyakorolt hatásuk minimális."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Köszönjük, hogy a vészhelyzeti időszakban is a megfelelő módon tartja karban a biológiai szennyvíztisztító berendezését!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Cégünk folyamatosan működteti tanácsadási vonalát, kérdéseit küldje el a kapcsolat@okotechhome.hu e-mail címünkre."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Jó egészséget kívánva, üdvözlettel:"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "az ÖkoTech-Home csapata."
+        }
+      ]
+    },
+    {
+      "szlug": "sajtokozlemeny-eurazsiai-szabadalom",
+      "regi_szlug": "sajtokozlemeny-eurazsiai-szabadalom",
+      "datum": "2019-11-25",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "Sajtóközlemény – kétmilliós NKFIA-támogatással európai szabadalom: biológiai szennyvíztisztító berendezés és tisztítási eljárás válik védetté",
+      "lead": "A Nemzeti Kutatási, Fejlesztési és Innovációs Alap (NKFIA) támogatásával szerez szabadalmi oltalmat Európa és Ázsia több országában Krasznói Anna, az esztergomi ÖkoTech-Home Kft. tulajdonosa. A „Megnövelt hatásfokú…",
+      "borito": {
+        "fajl": "sajtokozlemeny-eurazsiai-szabadalom-borito",
+        "mod": "dok",
+        "w": 800,
+        "h": 562,
+        "alt": "Széchenyi 2020 és Nemzeti Kutatási, Fejlesztési és Innovációs Alap arculati elem",
+        "teljes": {
+          "fajl": "sajtokozlemeny-eurazsiai-szabadalom-borito-teljes",
+          "w": 1100,
+          "h": 773
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Nemzeti Kutatási, Fejlesztési és Innovációs Alap (NKFIA) támogatásával szerez szabadalmi oltalmat Európa és Ázsia több országában Krasznói Anna, az esztergomi ÖkoTech-Home Kft. tulajdonosa. A „Megnövelt hatásfokú biológiai szennyvíztisztító kisberendezés” című szabadalmi igény Eurázsiai Szabadalmi Szervezetnél (EAPO) és a vietnámi szabadalmi hivatal előtt folytatott eljárásának megindításához az NKFIA 2.000.000,- Ft-os támogatást nyújtott."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A magyar Szellemi Tulajdon Nemzeti Hivatalánál (SZTNH) már korábban bejelentett technológiával kapcsolatban az esztergomi ÖkoTech-Home Kft. tulajdonosai tervezték, hogy szabadalmi igényükkel eljárást indítanak az Eurázsiai Szabadalmi Szervezetnél (EAPO) és Vietnámban. A tervek megvalósítására 2013-ban pályázatot nyújtott be Krasznói Anna az Iparjog-12 című kiírásra. A sikeres pályázatot követően kétmillió forintos támogatásról írták alá az IPARJOG_12-1-2013-0213 támogatási szerződést."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az NKFIA által támogatott eljárással az esztergomi vállalkozó olyan szabadalmi oltalom birtokába kerül, amelynek alapján a gyártható berendezések elkészítésével az ÖkoTech-Home Kft. jelentős előrelépést tehet mind a gyártás, mind a foglalkoztatás, mind a forgalom terén."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ezért kezdték meg a tisztítóberendezés fejlesztését, és – látva a bel- és külföldi érdeklődést és a bővülő megrendelés-állományt – helyezték védelem alá a berendezések technológiai alapjait."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A cég által gyártásra, majd telepítésre kerülő berendezések csökkentik a környezetet érő szennyvíz-terhelést, javítják a megrendelők lakókörnyezetének minőségét."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az üzemeltetés munkaigénye csökken, a keletkező hulladék-anyagok újrahasznosítása, lerakása egyszerűbbé válik – emellett új munkahelyeket is teremt Esztergomban."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Krasznói Anna az eurázsiaihoz és vietnámihoz hasonlóan az NKFIA által támogatott szabadalmi eljárást folytatott az Európai Szabadalmi Hivatalnál is. Ezen oltalmak birtokában szeretnék felfuttatni a berendezések gyártását, exportját ezeken a piacokon is."
+        }
+      ]
+    },
+    {
+      "szlug": "mesterkulcs-trening",
+      "regi_szlug": "irany-a-vadnyugat-mesterkulcs-trening",
+      "datum": "2019-07-31",
+      "kategoria": "vallalati-hirek",
+      "cim": "Irány a vadnyugat! – Mesterkulcs tréning",
+      "lead": "Mi, az ÖkoTech-Home Kft-nél folyamatosan törekszünk a fejlődésre és tudjuk, hogy ehhez a munkatársak képzése elengedhetetlen. Ez volt az egyik oka, hogy részt vettünk a NetMaxx Magyarország szervezésében megvalósult…",
+      "borito": {
+        "fajl": "mesterkulcs-trening-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Az ÖkoTech-Home csapata csoportképen a tréning helyszínén, felülnézetből fotózva",
+        "teljes": {
+          "fajl": "mesterkulcs-trening-borito-teljes",
+          "w": 1000,
+          "h": 750
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Mi, az ÖkoTech-Home Kft-nél folyamatosan törekszünk a fejlődésre és tudjuk, hogy ehhez a munkatársak képzése elengedhetetlen. Ez volt az egyik oka, hogy részt vettünk a NetMaxx Magyarország szervezésében megvalósult Mesterkulcs tréningen."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A többlépcsős képzés során közelebb kerülhettünk önmagunk, környezetünk és a különböző helyzetek gyorsabb felismeréséhez és megértéséhez."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A jól felépített tréning során a munkatársak csapattá kovácsolása is fontos feladat volt. A csapatnak a tanultakat az „Irány a vadnyugat!” névre hallgató játék keretében kellett alkalmazniuk. Az ott készült rövid videó megtekinthető itt… Örömmel jelentjük be, hogy a tréningsorozaton munkatársaink sikerrel vettek részt!"
+        },
+        {
+          "tipus": "video",
+          "azonosito": "BcVwGpjss5k",
+          "cim": "YouTube video player"
+        }
+      ]
+    },
+    {
+      "szlug": "a-jovo-nemzedeket-kepeztuk",
+      "regi_szlug": "a-jovo-nemzedeket-kepeztuk",
+      "datum": "2019-07-03",
+      "kategoria": "vallalati-hirek",
+      "cim": "A jövő nemzedékét képeztük…",
+      "lead": "Cégünk számára fontos az oktatás és képzés – arra törekszünk, hogy az általunk birtokolt tudást és látásmódot továbbadjuk. Ezért is megtisztelő számunkra, hogy a Közszolgálati Egyetem Víztudományi Kar meghívására…",
+      "borito": {
+        "fajl": "a-jovo-nemzedeket-kepeztuk-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Téglaburkolatú főiskolai épület lépcsős bejárata, a képzés helyszíne",
+        "teljes": {
+          "fajl": "a-jovo-nemzedeket-kepeztuk-borito-teljes",
+          "w": 640,
+          "h": 375
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Cégünk számára fontos az oktatás és képzés – arra törekszünk, hogy az általunk birtokolt tudást és látásmódot továbbadjuk. Ezért is megtisztelő számunkra, hogy a Közszolgálati Egyetem Víztudományi Kar meghívására cégünk egy képviselője előadást tarthatott a Decentralizált Szennyvíztisztítás konferencián, melyre 2019. március 21-én került sor."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Munkatársunk, Schuster Péter „Az egyedi szennyvíztisztítás megvalósítása – gyakorlati tapasztalatok” című előadásában kiemelten érintette a következő témákat: a tisztított víz felhasználási lehetőségei és annak elszivárogtatásához kialakított, szikkasztó mezővel kapcsolatos tapasztalatok, a folyamatosan keletkező stabilizált szennyvíziszap kezelési lehetőségei, az egyedi szennyvíztisztítás előnyei a központi csatornához képest. A biológiai szennyvíztisztító kisberendezés működtetése, karbantartási feladatai témakörnél Péter külön kitért arra a kérdésre is, hogy mi a különbség az üzemeltetés tekintetében az egyéni felhasználók és a településszintű megvalósítások között."
+        }
+      ]
+    },
+    {
+      "szlug": "ujabb-telepulesszintu-projekt-atadasa",
+      "regi_szlug": "ujabb-telepulesszintu-projektet-adtunk-at",
+      "datum": "2019-06-26",
+      "kategoria": "vallalati-hirek",
+      "cim": "Újabb településszintű projektet adtunk át",
+      "lead": "2019. június 15-én megrendezésre került az átadó ünnepsége a Bakonypéterdi szennyvíztisztító telepnek. A telepet cégünk tervezte, illetve kivitelezte fővállalkozóként. 4 db 50 fős tisztító berendezést kapcsoltunk…",
+      "borito": {
+        "fajl": "ujabb-telepulesszintu-projekt-atadasa-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Szalagátvágás a településszintű szennyvíztisztító telep átadásán, ÖkoTech-Home zászlók előtt",
+        "teljes": {
+          "fajl": "ujabb-telepulesszintu-projekt-atadasa-borito-teljes",
+          "w": 1100,
+          "h": 734
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "2019. június 15-én megrendezésre került az átadó ünnepsége a Bakonypéterdi szennyvíztisztító telepnek. A telepet cégünk tervezte, illetve kivitelezte fővállalkozóként. 4 db 50 fős tisztító berendezést kapcsoltunk össze 200 fős teleppé, melyet a területi közműszolgáltató, a Pannon-Víz Zrt. távolról tud ellenőrizni, üzemeltetni. Mindez a komplex vezérléstechnikának és a pneumatikus rendszernek köszönhető, melyet a veszprémi Controlsoft Vezérléstechnika Kft. illetve a Festo Automatika Kft. készítettek el."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Bár általában célunk az adott ingatlanon belüli tisztított szennyvíz újrahasznosítása, úgy gondoljuk, hogy ennek a telepnek a kivitelezése számunkra rengeteg hasznos tapasztalatot jelentett. Büszkék vagyunk arra, hogy a próbaüzem végén kijelenthetjük, a létesítmény jól vizsgázott, és hosszú időre megoldja a település szennyvíz kezelését."
+        },
+        {
+          "tipus": "kep",
+          "fajl": "ujabb-telepulesszintu-projekt-atadasa-1",
+          "alt": "Az átadóünnepség résztvevői a frissen elkészült telep kavicsos útján",
+          "w": 1100,
+          "h": 734
+        }
+      ]
+    },
+    {
+      "szlug": "ifat-munchen-2019",
+      "regi_szlug": "egy-kiallitas-amirol-minden-evben-beszelnek",
+      "datum": "2019-05-31",
+      "kategoria": "kiallitasok-es-esemenyek",
+      "cim": "Egy kiállítás, amiről minden évben beszélnek!",
+      "lead": "Nosztalgikus hangulatban vagyunk… a napokban volt egy éve, hogy kiállítóként mi is részt vehettünk Európa legnagyobb hagyományokkal rendelkező és széleskörű vízipari kiállításán az IFAT-on. Látogatóként már sokszor…",
+      "borito": {
+        "fajl": "ifat-munchen-2019-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Kiállítási csarnok belső tere a standok sorával és a látogatók forgatagával",
+        "teljes": {
+          "fajl": "ifat-munchen-2019-borito-teljes",
+          "w": 640,
+          "h": 340
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Nosztalgikus hangulatban vagyunk… a napokban volt egy éve, hogy kiállítóként mi is részt vehettünk Európa legnagyobb hagyományokkal rendelkező és széleskörű vízipari kiállításán az IFAT-on. Látogatóként már sokszor jelen voltunk az eseményen, de kiállítóként először tavaly éltünk a lehetőséggel. Ez egy óriási elismerés a számunkra, hiszen ennek is köszönhetően a szakma legnagyobbjai között tartanak minket is számon."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A kiállítást kétévente rendezik meg Münchenben. Számtalan kiállító szennyvíztisztító gépek és berendezések, újfajta innovációs technológiák kerültek bemutatásra. Minden kiállító a környezetvédelem és a környezettudatos gazdálkodást tekinti az egyik legfontosabb szempontnak és ebből kiindulva kezdik meg a fejlesztéseiket."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A kiállítók közül külön hangsúlyt fordítottak a hulladékfeldolgozási és az újrahasznosítási lehetőségekre."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Fontosnak tartottuk a részvételt, mert a magyarországi piacot követően az európai piacok felé is szeretnénk terjeszkedni. Volt értékesítésünk eddig is külföldre, de szeretnénk ezeket rendszeressé tenni, megfelelő külföldi partnerek megtalálásával."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Kiállítóként egy innovációt mutattunk be, mégpedig a szennyvíztisztító kisberendezéseinket, melyek számtalan külföldi partnerünk érdeklődését felkeltették.Bemutattuk az iszapelvételi funkcióval rendelkező kistisztítókat, és a konténerbe épített nagyobb tisztítóberendezéseket is."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Cégünk számára fontos, hogy folyamatosan tanuljunk és nyomon kövessük az aktuális trendeket a piacon, szem előtt tartva az üzleti növekedést. A kiállításnak köszönhetően új stratégiai partnerekkel, beszállítókkal, és nem utolsósorban érdeklődőkkel kerültünk kapcsolatba."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Várjuk, hogy jövő évet, hogy kiállítóként ismét jelen legyünk a legújabb fejlesztéseinkkel!"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "ifat-munchen-2019-1",
+          "alt": "Szakmai beszélgetés az ÖkoTech-Home standjánál az IFAT kiállításon",
+          "w": 480,
+          "h": 443
+        },
+        {
+          "tipus": "kep",
+          "fajl": "ifat-munchen-2019-2",
+          "alt": "Az IFAT kiállítás müncheni bejárata, előtte nemzeti zászlók sora",
+          "w": 606,
+          "h": 316
+        }
+      ]
+    },
+    {
+      "szlug": "videkfejlesztesi-program-egyedi-szennyvizkezeles",
+      "regi_szlug": "beruhazas-a-videkfejlesztesi-program-egyedi-szennyvizkezeles-cimu-palyazat-tamogatasaval",
+      "datum": "2019-02-06",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "Beruházás a Vidékfejlesztési Program “Egyedi szennyvízkezelés” című pályázat támogatásával",
+      "lead": "2019. január 25-én tartották Csikvándon az egyedi szennyvízkezelési projekt ünnepélyes átadóját, melynek keretében 128 db egyedi A.B.Clear szennyvíztisztító berendezés lett letelepitve.",
+      "borito": {
+        "fajl": "videkfejlesztesi-program-egyedi-szennyvizkezeles-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Szalagátvágás a boltíves pincetérben megrendezett átadóünnepségen",
+        "teljes": {
+          "fajl": "videkfejlesztesi-program-egyedi-szennyvizkezeles-borito-teljes",
+          "w": 912,
+          "h": 684
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "2019. január 25-én tartották Csikvándon az egyedi szennyvízkezelési projekt ünnepélyes átadóját, melynek keretében 128 db egyedi A.B.Clear szennyvíztisztító berendezés lett letelepitve."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Kozma Tibor polgarmester elmondta, hogy a berendezések megbízhatóan, használóik megelégedésére működnek, naponta 30-40 köbméter szennyvizet tisztítanak meg."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A beruházás a Vidékfejlesztési Program “Egyedi szennyvízkezelés” című pályázat támogatásával valósult meg."
+        }
+      ]
+    },
+    {
+      "szlug": "versenykepesseg-noveles-adaptiv-innovacio",
+      "regi_szlug": "az-okotech-home-kft-versenykepessegenek-novelese-adaptiv-technologiai-innovacio-reven",
+      "datum": "2018-12-10",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "Pályázati támogatás: Az ÖkoTech-Home Kft. versenyképességének növelése adaptív technológiai innováció révén",
+      "lead": "A projekt neve: A ÖkoTech-Home Kft. versenyképességének növelése adaptív technológiai innováció révén",
+      "borito": {
+        "fajl": "versenykepesseg-noveles-adaptiv-innovacio-borito",
+        "mod": "dok",
+        "w": 284,
+        "h": 200,
+        "alt": "Széchenyi 2020 és Európai Unió — Európai Regionális Fejlesztési Alap arculati elem",
+        "teljes": {
+          "fajl": "versenykepesseg-noveles-adaptiv-innovacio-borito-teljes",
+          "w": 284,
+          "h": 200
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A projekt neve:</strong> A ÖkoTech-Home Kft. versenyképességének növelése adaptív technológiai innováció révén"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A szerződött támogatás összege: 15.000.000.-Ft</strong> <strong>A támogatás mértéke (%-ban) 49,024%</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "<strong>A projekt tartalmának bemutatása:</strong> Az ÖkoTech-Home Kft adaptív technológiai innovációt elősegítő pályázatának keretében beszerzésre és üzembe helyezésre került egy darab PreciTrack 3030 vízugaras vágógép KMT SLV 60 Plus rendszerrel és egy Rotációs műanyagöntő-forma készlet (Alsó ciszterna elem, Felső ciszterna elem, D860 mm 200 kg teherbírásúfedél, kétrétegű, lépésálló kivitel, d800 magasító elem, Gépészeti akna, Gépészeti akna fedél, Belső térelválasztó falelem). A társaság a beszerzésre került eszközökkel egy új típusú, úgynevezett rotációs gyártási eljárást valósított meg. A rotációs öntött szennyvíztisztítók gyártásba vételével bizonyos termékkörök esetén sorozatgyártás lehetséges, mivel a szerszámforma segítségével egyes elemeket rotációs eljárással, gyors sorozatgyártásban lehet legyártani."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A projekt tényleges befejezése: 2018.10.13. A projekt azonosító száma: GINOP-2.1.8-17-2017-00012"
+        },
+        {
+          "tipus": "kep",
+          "fajl": "versenykepesseg-noveles-adaptiv-innovacio-1",
+          "alt": "Pályázati tájékoztató grafika az ÖkoTech-Home Kft. adaptív technológiai innovációs fejlesztéséről",
+          "w": 1100,
+          "h": 786
+        }
+      ]
+    },
+    {
+      "szlug": "iparjog-oltalomvedelem-0075",
+      "regi_szlug": "palyazati-hirek-iparjog_15-oltalomvedelem-0075",
+      "datum": "2018-01-12",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "Pályázati hírek – IPARJOG_15-1-2016-0075 oltalomvédelem",
+      "lead": "NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ 13 európai országban",
+      "borito": {
+        "fajl": "iparjog-oltalomvedelem-0075-borito",
+        "mod": "dok",
+        "w": 300,
+        "h": 419,
+        "alt": "Az IPARJOG_15-1-2016-0075 azonosítójú pályázat sajtóközleményének oldala",
+        "teljes": {
+          "fajl": "iparjog-oltalomvedelem-0075-borito-teljes",
+          "w": 300,
+          "h": 419
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ 13 európai országban"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A magyar Szellemi Tulajdon Nemzeti Hivatalánál (SZTNH) már korábban bejelentett technológiával kapcsolatban az esztergomi ÖkoTech-Home Kft. tulajdonosai európai szabadalmukat több európai államban hatályosították, így nyerve találmányuknak szabadalmi oltalmat ezekben az országokban. Ezeknek az oltalmaknak a fenntartásához az NKFIA-tól kértek támogatást az IPARJOG_15 című pályázati kiírás segítségével. A sikeres pályázatot követően 2.245.767,- forintos támogatásról írták alá az IPARJOG_15-1-2016-0075 támogatási szerződést."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az NKFIA által támogatott eljárással az esztergomi vállalkozó megfizette a szabadalmi oltalom évdíjait a szabadalom 5. és 6. évében, ezzel a technológia és az annak alapján az esztergomi ÖkoTech- Home Kft-nél gyártott berendezések védelme továbbra is fennáll, ez jelentős előrelépés mind a gyártás, mind a foglalkoztatás, mind a forgalmazás terén."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ezért kezdték meg a tisztítóberendezés fejlesztését, és – látva a bel- és külföldi érdeklődést és a bővülő megrendelés-állományt – helyezték védelem alá a berendezések technológiai alapjait."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A cég által gyártásra, majd telepítésre kerülő berendezések csökkentik a környezetet érő szennyvízterhelést, javítják a megrendelők lakókörnyezetének minőségét."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az üzemeltetés munkaigénye csökken, a keletkező hulladék-anyagok újrahasznosítása, lerakása egyszerűbbé válik – emellett új munkahelyeket is teremt Esztergomban."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az IPARJOG_15-1-2016-0054 számú projekt a Nemzeti Kutatási Fejlesztési és Innovációs Alapból biztosított támogatással, az IPARJOG_15 pályázati program finanszírozásában valósult meg."
+        }
+      ]
+    },
+    {
+      "szlug": "iparjog-oltalomvedelem-0054",
+      "regi_szlug": "palyazati-hirek-iparjog_15-oltalomvedelem-0054",
+      "datum": "2018-01-12",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "Pályázati hírek – IPARJOG_15-1-2016-0054 oltalomvédelem",
+      "lead": "NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ 11 európai országban",
+      "borito": {
+        "fajl": "iparjog-oltalomvedelem-0054-borito",
+        "mod": "dok",
+        "w": 300,
+        "h": 419,
+        "alt": "Az IPARJOG_15-1-2016-0054 azonosítójú pályázat sajtóközleményének oldala",
+        "teljes": {
+          "fajl": "iparjog-oltalomvedelem-0054-borito-teljes",
+          "w": 300,
+          "h": 419
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ 11 európai országban"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A Nemzeti Kutatási, Fejlesztési és Innovációs Alap (NKFIA) támogatásával szerez szabadalmi oltalmat Európa több országában Krasznói Anna, az esztergomi ÖkoTech-Home Kft. tulajdonosa. A „Megnövelt hatásfokú biológiai szennyvíztisztító kisberendezés” 11 európai országban kerül oltalom alá az NKFIA 1.875.010,- Ft-os támogatásával."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A magyar Szellemi Tulajdon Nemzeti Hivatalánál (SZTNH) már korábban bejelentett technológiával kapcsolatban az esztergomi ÖkoTech-Home Kft. tulajdonosai tervezték, hogy európai szabadalmukat több európai államban hatályosítják, így nyerve találmányuknak szabadalmi oltalmat ezekben az országokban. A tervek megvalósítására 2016-ban pályázatot nyújtott be Krasznói Anna az Iparjog_15 című kiírásra. A sikeres pályázatot követően 1.875.010,- forintos támogatásról írták alá az IPARJOG_15- 1-2016-0054 támogatási szerződést."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az NKFIA által támogatott eljárással az esztergomi vállalkozó olyan szabadalmi oltalom birtokába kerül, amelynek alapján a gyártható berendezések elkészítésével az ÖkoTech-Home Kft. jelentős előrelépést tehet mind a gyártás, mind a foglalkoztatás, mind a forgalom terén."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ezért kezdték meg a tisztítóberendezés fejlesztését, és – látva a bel- és külföldi érdeklődést és a bővülő megrendelés-állományt – helyezték védelem alá a berendezések technológiai alapjait. A cég által gyártásra, majd telepítésre kerülő berendezések csökkentik a környezetet érő szennyvízterhelést, javítják a megrendelők lakókörnyezetének minőségét."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az üzemeltetés munkaigénye csökken, a keletkező hulladék-anyagok újrahasznosítása, lerakása egyszerűbbé válik – emellett új munkahelyeket is teremt Esztergomban."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az IPARJOG_15-1-2016-0054 számú projekt a Nemzeti Kutatási Fejlesztési és Innovációs Alapból biztosított támogatással, az IPARJOG_15 pályázati program finanszírozásában valósult meg."
+        }
+      ]
+    },
+    {
+      "szlug": "okoindustria-2017",
+      "regi_szlug": "okoindustria",
+      "datum": "2017-11-02",
+      "kategoria": "kiallitasok-es-esemenyek",
+      "cim": "Ökoindustria…",
+      "lead": "November 8 és 10 között az Ökoindustrián állítunk ki a 7/C standon, minden kedves érdeklődőt szeretettel várunk! Ingyenes regisztráció!",
+      "borito": null,
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "November 8 és 10 között az Ökoindustrián állítunk ki a 7/C standon, minden kedves érdeklődőt szeretettel várunk! Ingyenes regisztráció!"
+        }
+      ]
+    },
+    {
+      "szlug": "exportfejlesztesi-forum-2017",
+      "regi_szlug": "exportfejlesztesi-forum",
+      "datum": "2017-11-02",
+      "kategoria": "kiallitasok-es-esemenyek",
+      "cim": "Exportfejlesztési Fórum",
+      "lead": "Cégünk október 24-26 között a Budapesti Kongresszusi Központban kiállítóként szerepelt a fejlődő országok képviselőinek részvételével is zajlott Exportfejlesztési Fórum ideje alatt.",
+      "borito": {
+        "fajl": "exportfejlesztesi-forum-2017-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Az ÖkoTech-Home kiállítói standja: nyitott fedelű szennyvíztisztító tartály, kompresszor és roll-up molinók",
+        "teljes": {
+          "fajl": "exportfejlesztesi-forum-2017-borito-teljes",
+          "w": 1100,
+          "h": 734
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Cégünk október 24-26 között a Budapesti Kongresszusi Központban kiállítóként szerepelt a fejlődő országok képviselőinek részvételével is zajlott Exportfejlesztési Fórum ideje alatt."
+        },
+        {
+          "tipus": "kep",
+          "fajl": "exportfejlesztesi-forum-2017-1",
+          "alt": "Szakmai beszélgetés az ÖkoTech-Home kiállítói standjánál",
+          "w": 1100,
+          "h": 734
+        }
+      ]
+    },
+    {
+      "szlug": "sajtokozlemeny-europai-szabadalom",
+      "regi_szlug": "sajtokozlemeny-europai-szabadalom",
+      "datum": "2015-09-01",
+      "kategoria": "palyazatok-es-fejlesztesek",
+      "cim": "Sajtóközlemény – európai szabadalom",
+      "lead": "KÉTMILLIÓS NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ.",
+      "borito": {
+        "fajl": "sajtokozlemeny-europai-szabadalom-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Tabletgép hírújsággal, mellette számológép és kávéscsésze",
+        "teljes": {
+          "fajl": "sajtokozlemeny-europai-szabadalom-borito-teljes",
+          "w": 900,
+          "h": 600
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "KÉTMILLIÓS NKFIA-TÁMOGATÁSSAL EURÓPAI SZABADALOM – BIOLÓGIAI SZENNYVÍZTISZTÍTÓ BERENDEZÉS ÉS TISZTÍTÁSI ELJÁRÁS VÁLIK VÉDETTÉ."
+        },
+        {
+          "tipus": "kep",
+          "fajl": "sajtokozlemeny-europai-szabadalom-1",
+          "alt": "IPARJOG-12-1-2013-0188 szabadalmi oltalmi eljárás — pályázati tájékoztató grafika",
+          "w": 200,
+          "h": 252
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A támogatott által megbízott szabadalmi ügyvivő az EPO előtt megindította a bejelentési, a kutatási (más szabadalmakkal történő összevetés), a vizsgálati (a technológia újdonságának vizsgálata) és a célországokat megjelölő (azon országok, amelyekben az oltalom alá helyezést kérik) eljárásokat."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az NKFIA által támogatott eljárással az esztergomi vállalkozó olyan szabadalmi oltalom birtokába kerül, amelynek alapján a gyártható berendezések elkészítésével az ÖkoTech- Home Kft. jelentős előrelépést tehet mind a gyártás, mind a foglalkoztatás, mind a forgalom terén. Ezért kezdték meg a tisztítóberendezés fejlesztését, és helyezték védelem alá a berendezések technológiai alapjait."
+        },
+        {
+          "tipus": "kep",
+          "fajl": "sajtokozlemeny-europai-szabadalom-2",
+          "alt": "Az európai szabadalomról szóló sajtóközlemény oldala Széchenyi 2020 arculattal",
+          "w": 200,
+          "h": 252
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Krasznói Anna az európaihoz hasonlóan az NKFIA által támogatott szabadalmi eljárást folytat Oroszországban és Délkelet-Ázsiában is. Ezen oltalmak birtokában szeretnék felfuttatni a berendezések gyártását, exportját ezeken a piacokon is."
+        }
+      ]
+    },
+    {
+      "szlug": "construma-2014-sorsolas",
+      "regi_szlug": "sorsolas-2014-construma",
+      "datum": "2014-04-14",
+      "kategoria": "vallalati-hirek",
+      "cim": "Sorsolás",
+      "lead": "2014. április 14-én közjegyző jelenlétében lezajlott az idei Construma kiállítás alkalmából megrendezett nyereményjátékunk sorsolása….",
+      "borito": {
+        "fajl": "construma-2014-sorsolas-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Kéz nyúl a kosárba összehajtott papírszeletekért — sorsolás",
+        "teljes": {
+          "fajl": "construma-2014-sorsolas-borito-teljes",
+          "w": 900,
+          "h": 600
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "2014. április 14-én közjegyző jelenlétében lezajlott az idei Construma kiállítás alkalmából megrendezett nyereményjátékunk sorsolása…."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "A nyertes: Sénig Attila 8000 Székesfehérvár, Janicsár utca 3. szám alatti lakos."
+        },
+        {
+          "tipus": "idezet",
+          "szoveg": "Nyereménye 500.000 Forintos kedvezmény a szennyvíztisztító berendezés bruttó árából."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Gratulálunk a nyereményhez!"
+        }
+      ]
+    },
+    {
+      "szlug": "construma-nagydij-2014",
+      "regi_szlug": "construma-nagydijat-kaptunk",
+      "datum": "2014-04-13",
+      "kategoria": "kiallitasok-es-esemenyek",
+      "cim": "Construma nagydíjat kaptunk!",
+      "lead": "Örömmel tájékoztatjuk, hogy termékünk, az A.B.Clear biológiai szennyvíztisztító berendezés épületgépészeti kategóriában CONSTRUMA NAGYDÍJAT KAPOTT!",
+      "borito": {
+        "fajl": "construma-nagydij-2014-borito",
+        "mod": "foto",
+        "w": 1200,
+        "h": 800,
+        "alt": "Szónok a díjátadó ünnepség pulpitusánál, háttérben a rendezvény molinója",
+        "teljes": {
+          "fajl": "construma-nagydij-2014-borito-teljes",
+          "w": 900,
+          "h": 600
+        }
+      },
+      "torzs": [
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Örömmel tájékoztatjuk, hogy termékünk, az <strong>A.B.Clear biológiai szennyvíztisztító</strong> berendezés épületgépészeti kategóriában <strong>CONSTRUMA NAGYDÍJAT KAPOTT!</strong>"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az ÖkoTech-Home Kft. standjánál lehetősége nyílik egyeztetni egyéni igényeit és a lehetséges megoldásokat hozzáértő kollégáinkkal, valamint felteheti szennyvíztisztítással, és esővíz-hasznosítással kapcsolatos kérdéseit is."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Továbbá vásári kedvezményekkel és nyereményjátékkal várjuk Önt! Az A.B.Clear 6, 8, és 10 típusú biológiai szennyvíztisztító berendezéseink nettó árából év végéig kedvezményt adunk azoknak, akik a kiállítás ideje alatt 10.000 Ft+áfa összegű foglalót kifizetnek."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Kedvezményes áraink: A.B.Clear 6 biológiai szennyvíztisztító: 570.000 Ft+áfa helyett 540.000 Ft+áfa A.B.Clear 8 biológiai szennyvíztisztító: 660.000 Ft+áfa helyett 630.000 Ft+áfa A.B.Clear 10 biológiai szennyvíztisztító: 840.000 Ft+áfa helyett 790.000 Ft+áfa"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az árak tartalmazzák a telepítés és a beüzemelés költségeit is, a további feltételekről kérje ajánlatunkat!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Továbbá: megrendelőink részt vesznek az immár hagyományossá vált Construma nyereményjátékunkban."
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Ennek főnyereménye 500.000 Ft kedvezmény a fent felsorolt berendezések bruttó árából!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Az ÖkoTech-Home Kft. szeretettel várja Önt és ismerőseit a Construma kiállításon a D szabadterületen, a III./4. számú standnál!"
+        },
+        {
+          "tipus": "bekezdes",
+          "szoveg": "Tisztelettel: ÖkoTech-Home Kft. munkatársai"
+        }
+      ]
+    }
+  ]
+}
