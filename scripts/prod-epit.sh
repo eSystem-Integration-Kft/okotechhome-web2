@@ -170,6 +170,41 @@ else
   SITEMAP_VAN=0
 fi
 
+# ------------------------------------------- 4. réteg: a PHP-kezelő rögzítése
+# MIÉRT KELL. A cPanel a MultiPHP-beállítást a `/public_html/.htaccess`-be
+# írja (`AddHandler application/x-httpd-ea-phpXX`). A telepítés viszont ezt a
+# fájlt FELÜLÍRJA a miénkkel — a kezelő eltűnik, és a könyvtár a fiók
+# alapértelmezésére esik vissza. Élesben ez egyszer már megtörtént: az `api/`
+# PHP 7.4-re esett, a kód pedig 8.0+ elemet használ (záró vessző a
+# paraméterlistában), tehát MINDEN végpont 500-at adott.
+#
+# Ezért a kezelőt MI tesszük bele, és nem hagyjuk a szerencsére. A `_web/`-be
+# NEM kerül: a teszt másik tárhelyen van, más csomagkészlettel — ott ez a sor
+# éppen hogy elronthatná a PHP-feldolgozást.
+#
+# A CSOMAG NEVE a tárhelyé (EasyApache 4). Mérve 2026-09-11-én mind a négy
+# telepítve van: ea-php82 (8.2.33) · ea-php83 (8.3.33) · ea-php84 (8.4.24) ·
+# ea-php85 (8.5.9). Verzióváltáskor EZT a sort kell átírni — és utána
+# ellenőrizni, hogy az `api/` végpontjai 422-t adnak üres POST-ra, nem 500-at.
+PHP_CSOMAG="${OTH_PHP_CSOMAG:-ea-php82}"
+python3 - "$CEL/.htaccess" "$PHP_CSOMAG" <<'PYPHP'
+import sys, pathlib
+p, csomag = pathlib.Path(sys.argv[1]), sys.argv[2]
+t = p.read_text(encoding='utf-8')
+if 'x-httpd-' in t:
+    sys.exit(0)
+t = t.rstrip('\n') + (
+    '\n\n# --- PHP-KEZELŐ (élesben rögzítve) ------------------------------------------\n'
+    '# A cPanel MultiPHP ide írná a maga sorát, de a telepítés felülírja ezt a\n'
+    '# fájlt — ezért a `scripts/prod-epit.sh` teszi bele. A kód PHP 8.0+ elemeket\n'
+    '# használ; e nélkül a könyvtár a fiók alapértelmezésére esne vissza, és az\n'
+    '# `api/` egyszer már 7.4-re esett vissza emiatt (minden végpont 500).\n'
+    '<IfModule mime_module>\n'
+    f'  AddHandler application/x-httpd-{csomag} .php .php8 .phtml\n'
+    '</IfModule>\n')
+p.write_text(t, encoding='utf-8')
+PYPHP
+
 # ------------------------------------------------------------------- jelölés
 cat > "$CEL/.epult" <<EOF
 $(date '+%Y-%m-%d %H:%M:%S')
@@ -199,6 +234,8 @@ echo
 printf '  noindex meta cserélve ....... %s lapon\n' "$LAPOK"
 printf '  maradt noindex meta ......... %s  %s\n' "$MARADT_META" "$([ "$MARADT_META" = 0 ] && echo '✓' || echo '✕ HIBA')"
 printf '  aktív X-Robots-Tag sor ...... %s  %s\n' "${MARADT_FEJLEC:-0}" "$([ "${MARADT_FEJLEC:-0}" = 0 ] && echo '✓' || echo '✕ HIBA')"
+PHPKEZ=$( { grep -c 'x-httpd-' "$CEL/.htaccess" 2>/dev/null || true; } | head -1)
+printf '  PHP-kezelő rögzítve ......... %s  %s\n' "$PHP_CSOMAG" "$([ "${PHPKEZ:-0}" = 1 ] && echo '✓' || echo '✕ HIBA')"
 if [ "$SITEMAP_VAN" = 1 ]; then
   printf '  robots.txt Sitemap sor ...... %s  %s\n' "${SITEMAP:-0}" "$([ "${SITEMAP:-0}" = 1 ] && echo '✓' || echo '✕ HIBA')"
 else
@@ -206,7 +243,7 @@ else
 fi
 echo
 
-if [ "$MARADT_META" != 0 ] || [ "${MARADT_FEJLEC:-0}" != 0 ] \
+if [ "$MARADT_META" != 0 ] || [ "${MARADT_FEJLEC:-0}" != 0 ] || [ "${PHPKEZ:-0}" != 1 ] \
    || { [ "$SITEMAP_VAN" = 1 ] && [ "${SITEMAP:-0}" != 1 ]; }; then
   piros "A _web_prod/ NEM élesíthető — a fenti ellenőrzés bukott."
   exit 1

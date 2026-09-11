@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.30.01-80A640?style=flat-square" alt="verzió 0.30.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.30.02-80A640?style=flat-square" alt="verzió 0.30.02">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-34-56642B?style=flat-square" alt="34 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-35-56642B?style=flat-square" alt="35 kiadás">
 </p>
 
 ---
@@ -26,6 +26,40 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.30.02] — 2026-09-11
+
+### ⚠️ Javítva — a telepítés letörölte a PHP-kezelőt, és az API 7.4-re esett
+
+Élesítés után minden API-végpont **500**-at adott. A napló egy értelmezési hibát
+mutatott a `crm.php` 216. sorára — ott viszont csak egy **záró vessző** áll a
+paraméterlistában, ami PHP **8.0 óta** szabályos. A fájl épségét kizártam: a
+szerveren és helyben azonos a sha1.
+
+A valódi ok: **az `api/` könyvtár PHP 7.4.33-at futtatott**, miközben a gyökér
+8.5.9-et. Mérve, egy időben, ugyanazzal a próbafájllal.
+
+Ahonnan a különbség jött: a cPanel a MultiPHP-beállítást a
+`/public_html/.htaccess`-be írja (`AddHandler application/x-httpd-ea-phpXX`).
+A telepítés viszont **ezt a fájlt felülírja a miénkkel** — a kezelő eltűnik, és
+a könyvtár a fiók alapértelmezésére esik vissza. A régi WordPress `.htaccess`-e
+(`__old/_htaccess`) máig őrzi a sort, onnan derült ki a pontos alak.
+
+**A javítás:** a kezelőt mostantól a `prod-epit.sh` teszi bele az éles fába, így
+minden telepítés után ott van. A `_web/`-be szándékosan NEM kerül: a teszt másik
+tárhelyen van, más csomagkészlettel, ott ez a sor éppen hogy elronthatná a
+feldolgozást.
+
+Mérve, mind a négy csomag telepítve a tárhelyen: `ea-php82` (8.2.33) ·
+`ea-php83` (8.3.33) · `ea-php84` (8.4.24) · `ea-php85` (8.5.9). Jelenleg
+`ea-php82` van rögzítve; váltáskor a `prod-epit.sh` `PHP_CSOMAG` sorát kell
+átírni (vagy az `OTH_PHP_CSOMAG` környezeti változót megadni), és utána
+ellenőrizni, hogy az `api/` végpontjai **422**-t adnak üres POST-ra, nem 500-at.
+
+A `prod-epit.sh` ellenőrzése is bővült: ha a kezelő nem került be, **nem
+élesíthető** a fa.
 
 ---
 
