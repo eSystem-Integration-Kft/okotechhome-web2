@@ -1074,9 +1074,15 @@ def epit():
 <meta property="og:description" content="{esc(LEIRAS)}">
 <meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-{KEP}.webp{KEP_V}">
 <meta property="og:locale" content="hu_HU">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
+     stíluslap renderelést blokkolna két idegen kézfogás után, és a
+     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
+     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/zilla-slab-600-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/ibm-plex-sans-400-latin.woff2">
+<link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="assets/css/app.css?v={CSS_V}">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->

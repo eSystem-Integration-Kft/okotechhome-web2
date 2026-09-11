@@ -2825,3 +2825,78 @@ felső sarokba ragad (mérve: `margin: 0px`).
 `'unsafe-inline'` nem került a CSP-be. A Google beillesztő kódja beágyazott
 `<script>`; egyetlen mérőeszközért kinyitni az egész webhelyet XSS-re rossz
 üzlet. Ugyanaz a kód külső fájlból fut, a CSP pedig szigorú marad.
+
+## 42. Betűkészletek saját kiszolgálóról — `assets/fonts/`, `betuk.css`
+
+A betűk korábban a Google Fontsról jöttek. Két okból hoztuk be, és mindkettő
+önmagában is elég volna.
+
+**Sebesség.** A Google stíluslapja **renderelést blokkol**, és két IDEGEN
+kiszolgálóhoz kell hozzá kapcsolódni (`fonts.googleapis.com`, majd
+`fonts.gstatic.com`). Mindkettő külön DNS + TCP + TLS kézfogás; lassú
+mobilhálózaton egyenként 400–800 ms, és a lap addig nem rajzolódik ki. Saját
+kiszolgálóról a betűk a **már nyitott** kapcsolaton jönnek.
+
+**Adatvédelem.** A betöltés a látogató IP-címét minden lapmegtekintéskor
+elküldte a Google-nek, hozzájárulás nélkül — a müncheni LG 2022-es ítélete
+(3 O 17493/20) ezt GDPR-sértésnek mondta ki. A Cookie-tájékoztató kategóriánként
+ígér hozzájárulást; egy mindig lefutó harmadik feles kérés ezzel nem fér össze.
+Saját fájlból **nincs külső kérés**, tehát nincs mihez hozzájárulni.
+
+### Amit a `betuk.py` csinál
+
+Letölti a `woff2` fájlokat, és megírja a `betuk.css`-t. Csak a **`latin` és a
+`latin-ext`** részhalmazt: a magyar á é í ó ö ú ü a `latin`-ban van, az **ő
+(U+0151) és az ű (U+0171) viszont a `latin-ext`-ben** — ezért kell mindkettő.
+A cirill, a görög és a vietnami kimarad: 36 fájlból így 18 lesz.
+
+A `unicode-range` **megmarad minden szabályban**. Ez mondja meg a böngészőnek,
+melyik fájl kell — enélkül mind a tizennyolcat letöltené.
+
+### Két előtöltés, nem több
+
+```html
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/zilla-slab-600-latin.woff2">
+```
+
+A címsorok és a törzsszöveg betűje, mindkettő `latin`. Ez a kettő kell
+biztosan, az első képernyőn. A többi a `unicode-range` szerint jön, amikor
+kell — előtöltve csak fölösleges sávszélesség azon, aki le sem görget.
+
+**A `crossorigin` a saját fájlnál is kötelező.** A böngésző a betűt anonim
+CORS módban kéri akkor is, ha egy eredetről jön; nélküle az előtöltés MÁSIK
+kérésnek számít, és a fájl **kétszer** jön le. Ez a `preload` leggyakoribb,
+néma hibája.
+
+### A CSP szűkült
+
+`style-src 'self'` és `font-src 'self'` — a `fonts.googleapis.com` és a
+`fonts.gstatic.com` kikerült. Egy CSP, ami olyasmit enged, amit nem
+használunk, csak fölösleges támadási felület.
+
+## 43. Kicsinyítés — a `prod-epit.sh` 8. rétege
+
+**Miért kell.** A kiszolgáló NEM tömörít. Mérve (2026-09-11): a PHP szintjén az
+`Accept-Encoding` fejléc értéke **NULL** — a cPanel nginx-proxya letépi,
+mielőtt az Apache látná. Ezért nem fut le a `mod_deflate`, és ezért nem
+működik semmilyen `.htaccess`-ből vezérelt tömörítés sem (előre tömörített
+`.gz` párral sem: a feltételt nincs mihez illeszteni).
+
+**A különbség, ami ezen múlik:** mobil PageSpeed 60 pont, LCP 10,0 mp —
+asztalon UGYANEZ a lap 92 pont és 1,5 mp. A mobil mérés lassú 4G-t szimulál.
+
+| | forrás | éles |
+|---|---|---|
+| `app.css` | 476 KB | **267 KB** (−43%) |
+| `index.html` | 232 KB | **213 KB** (−8%) |
+
+**Csak az éles fában.** A `_web/` fájljai sűrűn kommentezettek — ez a repó
+dokumentációjának java része. Kicsinyíteni a forrást annyi lenne, mint eldobni.
+
+**Amit nem csinálunk:** szelektor-összevonást, rövidítést, `;}` levágást. Ez a
+stíluslap `@layer`-eket, `color-mix()`-et, `:has()`-t és `@starting-style`-t
+használ; egy agresszív kicsinyítő ezeken szokott elhasalni, és a hiba NÉMA — a
+lap betöltődik, csak másképp néz ki. Bizonyítva: a kicsinyített fájl a
+forrással **karakterre azonos**, ha mindkettőből egyformán kivesszük a
+megjegyzést és a térközt (273 742 = 273 742).

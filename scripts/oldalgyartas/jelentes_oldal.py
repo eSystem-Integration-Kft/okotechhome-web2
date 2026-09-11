@@ -35,9 +35,15 @@ OLDAL = f'''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ajánlat-összehasonlítási jelentés | ÖkoTech Home</title>
 <meta name="description" content="A feltöltött ajánlatokból készült összehasonlítás nyomtatható és letölthető jelentésként.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
+     stíluslap renderelést blokkolna két idegen kézfogás után, és a
+     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
+     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/zilla-slab-600-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/ibm-plex-sans-400-latin.woff2">
+<link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="assets/css/app.css?{CSS_V}">
 <link rel="stylesheet" href="assets/css/jelentes.css?v=1">
 </head>

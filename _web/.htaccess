@@ -217,8 +217,15 @@ Options -Indexes
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 
-  # CSP — a betűkészletek a Google Fonts-ról jönnek (designrendszer 1. fejezet).
-  # Ha új külső forrás kerül az oldalra, ITT kell engedélyezni.
+  # CSP — ha új külső forrás kerül az oldalra, ITT kell engedélyezni.
+  #
+  # A BETŰK MÁR NEM A GOOGLE FONTSRÓL JÖNNEK, ezért a `fonts.googleapis.com`
+  # és a `fonts.gstatic.com` KIKERÜLT a listából. Két okból cseréltük saját
+  # kiszolgálóra: a Google stíluslapja renderelést blokkolt két idegen
+  # kézfogás után (mobilhálózaton egyenként 400-800 ms), és a betöltése a
+  # látogató IP-címét minden lapmegtekintéskor elküldte a Google-nek. A
+  # szűkebb lista most már a tényleges állapotot írja le — egy CSP, ami
+  # olyasmit enged, amit nem használunk, csak fölösleges támadási felület.
   #
   # A GA4 HÁROM IRÁNYT KÉR, és mind a három nevesítve van:
   #   script-src   www.googletagmanager.com   — maga a `gtag.js`
@@ -229,7 +236,7 @@ Options -Indexes
   # `'unsafe-inline'` NINCS köztük: a Google beillesztő kódja beágyazott
   # szkript, ezért nem azt használjuk, hanem az `assets/js/meres.js`-t.
   # Egyetlen mérőeszközért kinyitni az egész webhelyet XSS-re rossz üzlet.
-  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; frame-src https://www.google.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com"
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; frame-src https://www.google.com; style-src 'self'; font-src 'self'; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com"
 
   # HSTS — a sort a `prod-epit.sh` 7. rétege veszi ki a megjegyzésből, tehát
   # CSAK az éles fában él. A teszten szándékosan marad kikapcsolva: egy két
@@ -269,7 +276,7 @@ Options -Indexes
   # Ha a `data-terkep-kulcs` üres, az egész blokk fölösleges — akkor a lap a
   # beágyazott keretet használja, amihez a `frame-src` már megvan fent.
   <FilesMatch "^(kapcsolat|contact)\.html$">
-    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.googleapis.com https://*.gstatic.com https://*.ggpht.com; frame-src https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://maps.googleapis.com https://*.googleapis.com; worker-src 'self' blob:"
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.googleapis.com https://*.gstatic.com https://*.ggpht.com; frame-src https://www.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://maps.googleapis.com https://*.googleapis.com; worker-src 'self' blob:"
   </FilesMatch>
 </IfModule>
 

@@ -335,6 +335,72 @@ else:
              'a szerkezet megváltozott, a prod-epit.sh-t hozzá kell igazítani.')
 PYHSTS
 
+# ----------------------------------- 8. réteg: a szöveges fájlok kicsinyítése
+#
+# MIÉRT KELL EZ ÉPP ITT. A kiszolgáló NEM TÖMÖRÍT. Mérve, 2026-09-11-én: a
+# PHP szintjén az `Accept-Encoding` fejléc értéke NULL — a cPanel nginx-proxya
+# letépi, mielőtt az Apache látná. Ezért nem fut le a `mod_deflate`, és ezért
+# nem működik semmilyen `.htaccess`-ből vezérelt tömörítés sem. A javítás a
+# tárhelyszolgáltatónál van; addig a bájtokat máshogy kell fogyasztani.
+#
+# A KÜLÖNBSÉG, AMI EZEN MÚLIK: a mobil PageSpeed 60 pont, LCP 10,0 mp —
+# asztalon UGYANEZ a lap 92 pont és 1,5 mp. A mobil mérés lassú 4G-t
+# szimulál; a kritikus úton 232 KB HTML + 476 KB stíluslap megy át, mindkettő
+# renderelést blokkol.
+#
+# CSAK AZ ÉLES FÁBAN. A `_web/` forrásfájljai sűrűn kommentezettek — ez a
+# repó dokumentációjának java része, nem díszítés. Kicsinyíteni a forrást
+# annyi lenne, mint eldobni; a kicsinyítés ezért kimenet, nem forrás.
+#
+# AMIT NEM CSINÁLUNK: szelektor-összevonást, rövidítést, `;}` levágást és
+# egyéb „okos" átírást. Ez a stíluslap `@layer`-eket, `color-mix()`-et,
+# `:has()`-t és `@starting-style`-t használ; egy agresszív kicsinyítő ezeken
+# szokott elhasalni, és a hiba NÉMA — a lap betöltődik, csak másképp néz ki.
+# Megjegyzés és fölös térköz megy ki, más semmi.
+python3 - "$CEL" <<'PYKICSI'
+import pathlib, re, sys
+
+cel = pathlib.Path(sys.argv[1])
+elotte = utana = 0
+
+# --- CSS: megjegyzés + térköz -------------------------------------------
+for f in cel.rglob('*.css'):
+    t = f.read_text(encoding='utf-8')
+    elotte += len(t.encode())
+    u = re.sub(r'/\*.*?\*/', '', t, flags=re.S)      # megjegyzések
+    u = re.sub(r'[ \t]+', ' ', u)                    # sorokon belül
+    u = re.sub(r' *\n[ \n]*', '\n', u)               # üres sorok
+    u = u.strip() + '\n'
+    f.write_text(u, encoding='utf-8')
+    utana += len(u.encode())
+
+# --- HTML: csak a megjegyzés és az üres sorok ---------------------------
+# A szövegközi térközt NEM bántjuk: a HTML-ben a szóköz jelentést hordoz
+# (két beágyazott elem között látszik), és a „kicsinyítés" ott néma
+# elrendezési hibát okoz.
+MEGJEGYZES = re.compile(r'<!--(?!\[if)(?!<!)[^\[>].*?-->', re.S)
+VEDETT = re.compile(r'<(pre|textarea|script|style)\b.*?</\1>', re.S | re.I)
+
+for f in cel.rglob('*.html'):
+    t = f.read_text(encoding='utf-8')
+    elotte += len(t.encode())
+    # A védett elemek tartalmát kivesszük, hogy a megjegyzés-minta ne
+    # nyúlhasson bele — egy `<pre>`-ben álló `-->` különben szétvágná a lapot.
+    orzo = []
+    def kivesz(m):
+        orzo.append(m.group(0))
+        return f'\x00{len(orzo) - 1}\x00'
+    u = VEDETT.sub(kivesz, t)
+    u = MEGJEGYZES.sub('', u)
+    u = re.sub(r'\n[ \t\n]*\n', '\n', u)
+    u = re.sub(r'\x00(\d+)\x00', lambda m: orzo[int(m.group(1))], u)
+    f.write_text(u, encoding='utf-8')
+    utana += len(u.encode())
+
+print(f'kicsinyítve: {elotte / 1024:.0f} KB → {utana / 1024:.0f} KB '
+      f'(−{(elotte - utana) / 1024:.0f} KB, {100 * (elotte - utana) / elotte:.0f}%)')
+PYKICSI
+
 # ------------------------------------------------------------------- jelölés
 cat > "$CEL/.epult" <<EOF
 $(date '+%Y-%m-%d %H:%M:%S')

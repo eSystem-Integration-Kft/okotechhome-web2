@@ -13,7 +13,7 @@ pedig beágyazott SVG — nincs egyetlen relatív útvonal sem.
 MIÉRT NEM BEÁGYAZOTT A STÍLUS
 -----------------------------
 A relatív útvonal problémáját elvileg beágyazott `<style>` is megoldaná — DE a
-`.htaccess` CSP-je `style-src 'self' https://fonts.googleapis.com`, `'unsafe-inline'`
+`.htaccess` CSP-je `style-src 'self'` (a betűk saját kiszolgálóról), `'unsafe-inline'`
 NÉLKÜL. A böngésző ezért minden `<style>` blokkot eldob, és a hibaoldal
 formázatlanul jelenik meg. Ugyanez vonatkozik a beágyazott logó SVG SAJÁT
 `<style>` blokkjára is — attól rajzolódott feketén.
@@ -202,9 +202,15 @@ SABLON = '''<!DOCTYPE html>
 <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <meta name="theme-color" content="#133216">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
+     stíluslap renderelést blokkolna két idegen kézfogás után, és a
+     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
+     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/zilla-slab-600-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/ibm-plex-sans-400-latin.woff2">
+<link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="/assets/css/hiba.css?v=2">
 </head>
 <body>

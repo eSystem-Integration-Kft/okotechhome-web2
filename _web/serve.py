@@ -191,8 +191,8 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
                 "img-src 'self' data: blob: https://*.googleapis.com "
                 "https://*.gstatic.com https://*.ggpht.com; "
                 "frame-src https://www.google.com; "
-                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-                "font-src 'self' https://fonts.gstatic.com; "
+                "style-src 'self' 'unsafe-inline'; "
+                "font-src 'self'; "
                 "script-src 'self' https://maps.googleapis.com https://maps.gstatic.com; "
                 "connect-src 'self' https://maps.googleapis.com https://*.googleapis.com; "
                 "worker-src 'self' blob:",
@@ -203,8 +203,8 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
                 "default-src 'self'; base-uri 'self'; form-action 'self'; "
                 "frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; "
                 "frame-src https://www.google.com; "
-                "style-src 'self' https://fonts.googleapis.com; "
-                "font-src 'self' https://fonts.gstatic.com; script-src 'self'",
+                "style-src 'self'; "
+                "font-src 'self'; script-src 'self'",
             )
         # A teszt üzemmód robotkizárása is, hogy a két környezet ne térjen el.
         self.send_header(

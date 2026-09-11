@@ -9223,20 +9223,46 @@
 }
 
 @layer components {
+  /* LEBEGŐ KÁRTYA, nem teljes szélességű sáv. A képernyő aljához ragasztott,
+     éltől élig érő csík bejelentésnek hat; egy behúzott, lekerekített kártya
+     ugyanazt mondja, de a lap része marad. Keskenyen (lásd responsive) ez
+     visszavált éltől élig érő sávra: ott a behúzás csak helyet venne el. */
   .suti-sav{
-    position:fixed;inset:auto 0 0 0;z-index:60;
+    position:fixed;inset:auto var(--space-16) var(--space-16) var(--space-16);
+    z-index:60;
     background:var(--suti-sav-bg);
-    border-top:2px solid var(--suti-sav-keret);
+    border:2px solid var(--suti-sav-keret);
+    border-radius:var(--r-xl);
     box-shadow:var(--shadow-3);
-    padding:var(--space-16);
+    padding:var(--space-24);
     /* Az `env()` a telefon alsó gesztussávja miatt kell: nélküle a gombok
        alsó széle a rendszer csíkja alá csúszik, és nem lehet rájuk találni. */
-    padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
+    padding-bottom:calc(var(--space-24) + env(safe-area-inset-bottom,0px));
   }
   .suti-sav-doboz{
+    position:relative;isolation:isolate;
     max-width:var(--container-max);margin-inline:auto;
     display:flex;flex-wrap:wrap;align-items:center;
     gap:var(--space-16) var(--space-24);
+  }
+  /* A VÉSET — ugyanaz a jelrajz és ugyanaz a technika, mint a megamenüben
+     (5.12b): maszkkal rajzolva, hogy a szín tokenből jöjjön és témát váltson,
+     a mélyedés és a kiemelés pedig egy képponttal eltolva adja a belevésett
+     hatást. A süti-kérdés így nem idegen doboz a lapon, hanem a márkáé. */
+  .suti-sav-doboz::before,.suti-sav-doboz::after,
+  .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{
+    content:'';position:absolute;z-index:-1;pointer-events:none;
+    right:0;bottom:0;
+    width:clamp(6rem,16%,9rem);aspect-ratio:387.49 / 289.93;
+    -webkit-mask:var(--veset-jel) no-repeat center/contain;
+            mask:var(--veset-jel) no-repeat center/contain;
+  }
+  .suti-sav-doboz::before,
+  .suti-parbeszed-urlap::before{background:var(--veset-melyedes);opacity:var(--veset-melyedes-alfa)}
+  .suti-sav-doboz::after,
+  .suti-parbeszed-urlap::after{
+    background:var(--veset-kiemeles);opacity:var(--veset-kiemeles-alfa);
+    translate:1px 1px;
   }
   .suti-sav-szoveg{flex:1 1 22rem;min-width:0;display:grid;gap:var(--space-4)}
   .suti-sav-szoveg p{margin:0;color:var(--text-secondary)}
@@ -9266,7 +9292,7 @@
     background:color-mix(in srgb,var(--canvas) 62%,transparent);
     backdrop-filter:blur(6px);
   }
-  .suti-parbeszed-urlap{display:grid;gap:var(--space-16)}
+  .suti-parbeszed-urlap{position:relative;isolation:isolate;display:grid;gap:var(--space-16)}
   .suti-parbeszed-cim{margin:0}
   .suti-parbeszed-urlap > p{margin:0;color:var(--text-secondary)}
 
@@ -9277,13 +9303,17 @@
   }
   /* A CÍMKE a kattintható felület, nem csak a négyzet: a teljes sor válaszol,
      és így az érintőcélpont bőven 44px fölött van. */
+  /* A JELÖLŐNÉGYZET FÜGGŐLEGESEN KÖZÉPEN áll a sorban, nem az első sor
+     tetején. Felül igazítva a kétsoros leírásoknál elcsúszott a cím mellől,
+     és a sor „megbillent" — a szem a négyzetet a sorhoz párosítja, nem a
+     címhez. */
   .suti-sor-cimke{
-    display:flex;align-items:flex-start;gap:var(--space-8);
-    padding:var(--space-8);cursor:pointer;
+    display:flex;align-items:center;gap:var(--space-16);
+    padding:var(--space-16);cursor:pointer;
   }
   .suti-sor-cimke:has(.suti-jelolo:disabled){cursor:default}
   .suti-jelolo{
-    flex:0 0 auto;inline-size:1.15rem;block-size:1.15rem;margin-block-start:.15rem;
+    flex:0 0 auto;inline-size:1.25rem;block-size:1.25rem;
     accent-color:var(--button-primary-bg);
   }
   .suti-jelolo:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
@@ -9331,6 +9361,17 @@
 
 @layer responsive {
   @media (max-width:37.5rem){
+    /* Keskenyen a behúzás és a lekerekítés csak helyet venne el: ott a sáv
+       éltől élig ér, és csak a felső pereme marad meg határnak. A véset is
+       elmarad — kis felületen a szöveg mögé kerülve olvasást nehezítene. */
+    .suti-sav{
+      inset:auto 0 0 0;
+      border:0;border-top:2px solid var(--suti-sav-keret);
+      border-radius:0;
+      padding:var(--space-16);
+      padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
+    }
+    .suti-sav-doboz::before,.suti-sav-doboz::after{display:none}
     /* Keskenyen a szöveg fölé kerülnek a gombok egy oszlopban — a sorban
        maradó három gomb ekkora szélességen egyenként 6rem alá esne. */
     .suti-sav-gombok{flex:1 1 100%}
