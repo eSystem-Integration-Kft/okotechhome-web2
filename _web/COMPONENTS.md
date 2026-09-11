@@ -2711,3 +2711,48 @@ Az automatikus nyitás korábban két helyen állt (`mod === 'urlap'` és a hero
 ág), ugyanazzal a `if (!lezarta) nyit(false)` sorral. A szűk nézet szabályát
 mindkettőn külön kellett volna átvezetni — ez a fajta duplikáció csúszik szét
 leghamarabb —, ezért `bejelentkezik()` néven egyetlen függvénybe került.
+
+---
+
+## 40. Öko panel — olvashatóság sötét témán
+
+A javaslat-chipek, a beviteli sor és a küldés gomb színe közvetlenül
+márkatokenből jött (`--secondary`), és az a **világos** felületre volt szabva.
+Sötét témán ugyanaz az olívazöld a sötét panelen maradt.
+
+**Mérve, a panel felületéhez (`#233F1B`):**
+
+| Elem | Volt | Lett | Kell |
+|---|---|---|---|
+| javaslat-chip szövege | **1,81:1** | 7,31:1 | 4,5:1 |
+| javaslat-chip határvonala | **1,67:1** | 4,29:1 | 3:1 |
+| beviteli mező határvonala | **1,67:1** | 4,29:1 | 3:1 |
+| küldés gomb nyila (az olívazöldön) | **1,81:1** | 6,18:1 | 4,5:1 |
+
+A panel innentől **saját tokenjeiből** dolgozik (`--oko-javaslat-*`,
+`--oko-mezo-keret`, `--oko-kuld-*`), és azok témánként külön vannak deklarálva.
+**Világos témán az értékek pontosan a korábbiak** — a tervhez képest ott semmi
+nem mozdul; mérve is: chip `#56642B`, keret `#E2E1D6`, háttér `#FAFAFA`.
+
+A SZEREPEK sem változnak: ugyanaz a chip, ugyanaz a gomb, ugyanaz a forma,
+ugyanaz a térköz. Csak a tinta és a vonal kap olyan értéket, ami a sötét
+felületen is olvasható — és mindkettő a meglévő palettából.
+
+> ⚠️ **A tokenek a GYÖKÉREN állnak, nem a `.oko` komponensblokkban.** Ott
+> kezdtem, és az csendben rossz lett volna: a `.oko`-ra írt egyedi tulajdonság
+> KÖZELEBBI ős a chipnek, mint a `[data-theme="dark"]` gyökérdeklaráció, tehát
+> a sötét érték soha nem jutott volna érvényre. Egyedi tulajdonságnál nem a
+> fajsúly dönt, hanem az, melyik ős deklarálja — ez más szabály, mint a többi
+> tulajdonságnál, és könnyű elvéteni.
+
+### Ami nyitva maradt — a világos téma hajszálvonala
+
+A `--border` (`#E2E1D6`) a `--surface`-en (`#FAFAFA`) **1,26:1**. Vezérlőelem
+határvonalára a WCAG 1.4.11 hármat kér, és a beviteli mezőt éppen a vonala
+rajzolja ki: a kitöltése (`--canvas`) és a körülötte lévő felület között
+mindössze 1,07:1 a különbség.
+
+Ez viszont **az egész webhely hajszálvonala** — minden kártya, minden mező,
+minden panel ezt hordja, a designfájlokból. Egyetlen komponensben átírni
+következetlenséget csinálna, mindenhol átírni pedig tervezői döntés, nem
+hibajavítás. **Eldöntendő**, nem elintézve.

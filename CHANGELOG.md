@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.02-80A640?style=flat-square" alt="verzió 0.29.02">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.29.03-80A640?style=flat-square" alt="verzió 0.29.03">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-31-56642B?style=flat-square" alt="31 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-32-56642B?style=flat-square" alt="32 kiadás">
 </p>
 
 ---
@@ -26,6 +26,60 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.29.03] — 2026-09-11
+
+### ⚠️ Javítva — az Öko panel olvashatatlan volt sötét témán
+
+Bela küldött egy képernyőképet: a javaslat-chipek szövege alig látszott. Mérve
+a panel felületéhez (`#233F1B`) **1,81:1** — a WCAG 2.2 AA 4,5:1-et kér. Nem
+ízléskérdés volt.
+
+Az ok: a chipek, a beviteli sor és a küldés gomb színe közvetlenül
+márkatokenből jött (`--secondary`, az olívazöld), és az a VILÁGOS felületre volt
+szabva. Sötét témán a `--secondary` nem változik — a sötét panelen maradt
+ugyanaz a sötét zöld.
+
+A teljes panel átmérve, nem csak ami a képen látszott:
+
+| Elem | Volt | Lett | Kell |
+|---|---|---|---|
+| javaslat-chip szövege | **1,81:1** | 7,31:1 | 4,5:1 |
+| javaslat-chip határvonala | **1,67:1** | 4,29:1 | 3:1 |
+| beviteli mező határvonala | **1,67:1** | 4,29:1 | 3:1 |
+| küldés gomb nyila | **1,81:1** | 6,18:1 | 4,5:1 |
+
+A küldés gomb nyila külön tanulság: `--surface` volt a tintája, ami sötét témán
+maga is sötét lett — a gomb gyakorlatilag üresen állt.
+
+A panel innentől saját tokenjeiből dolgozik, témánként külön deklarálva.
+**Világos témán az értékek pontosan a korábbiak**, mérve is: chip `#56642B`,
+keret `#E2E1D6`, háttér `#FAFAFA`. A szerepek, a formák és a térközök sem
+változnak — csak a tinta és a vonal kap olyan értéket, ami a sötét felületen is
+olvasható, és mindkettő a meglévő palettából.
+
+Hozzátartozik egy hiányzó szabály is: a `.oko-input`-nak nem volt
+`::placeholder`-e, tehát a böngésző alapértelmezése szólt bele — sötét témán az
+halványabb. Most a lap többi mezőjével azonos tintát kap.
+
+**Amibe majdnem belefutottam:** a tokeneket először a `.oko` komponensblokkba
+tettem. Az csendben rossz lett volna — a `.oko`-ra írt egyedi tulajdonság
+KÖZELEBBI ős a chipnek, mint a `[data-theme="dark"]` gyökérdeklaráció, tehát a
+sötét érték soha nem jutott volna érvényre. Egyedi tulajdonságnál nem a fajsúly
+dönt, hanem az, melyik ős deklarálja.
+
+### Eldöntendő — a világos téma hajszálvonala
+
+A `--border` a `--surface`-en **1,26:1**; vezérlőelem határvonalára a WCAG
+1.4.11 hármat kér, és a beviteli mezőt éppen a vonala rajzolja ki (a kitöltése
+és a környezete között 1,07:1 a különbség). Ez viszont az egész webhely
+hajszálvonala, a designfájlokból: egyetlen komponensben átírni
+következetlenséget csinálna, mindenhol átírni tervezői döntés. Felírva a
+`_web/COMPONENTS.md` 40-be.
+
+`app.css` **v216**.
 
 ---
 

@@ -390,6 +390,30 @@
     --chip-text:var(--text-primary);
     --chip-radius:var(--r-md);
 
+    /* ÖKO PANEL — olvashatóság. A javaslat-chip, a beviteli sor és a küldés
+       gomb színe eddig közvetlenül márkatokenből jött (`--secondary`), és az a
+       VILÁGOS felületre volt szabva. Sötét témán ugyanaz az olívazöld a sötét
+       panelen maradt: a chipek szövege 1,81:1-en állt, a küldés gomb nyila
+       szintén — a WCAG 2.2 AA 4,5:1-et kér szövegre, 3:1-et vezérlőelem
+       határvonalára.
+
+       A TOKENEK A GYÖKÉREN ÁLLNAK, nem a `.oko` komponensblokkban. Ott
+       kezdtem, és az csendben rossz lett volna: a `.oko`-ra írt egyedi
+       tulajdonság KÖZELEBB van a chiphez, mint a `[data-theme="dark"]`
+       gyökérdeklaráció, tehát a sötét érték soha nem jutott volna érvényre.
+       Egyedi tulajdonságnál nem a fajsúly dönt, hanem az, melyik ős deklarálja.
+
+       Világos témán az értékek pontosan a korábbiak: a tervhez képest ott
+       semmi nem mozdul. */
+    --oko-javaslat-bg:var(--surface);
+    --oko-javaslat-ink:var(--secondary);        /* 6,18:1 a világos felületen */
+    --oko-javaslat-keret:var(--border);
+    --oko-javaslat-ra-bg:var(--surface-muted);
+    --oko-javaslat-ra-keret:var(--secondary);
+    --oko-mezo-keret:var(--border);
+    --oko-kuld-bg:var(--secondary);
+    --oko-kuld-ink:var(--surface);              /* 6,18:1 az olívazöld gombon */
+
     /* bizalmi sáv */
     --trust-divider:var(--border);
 
@@ -494,6 +518,22 @@
     --chip-text:var(--text-primary);
 
     --trust-divider:var(--border);
+
+    /* ÖKO PANEL SÖTÉT TÉMÁN. Mért értékek a panel felületéhez (`#233F1B`):
+         · a szöveg `--text-secondary`  7,31:1  (volt: 1,81:1)
+         · a határvonal `--text-tertiary` 4,29:1  (volt: 1,67:1, kell 3:1)
+         · a küldés gomb nyila `--text-on-dark` 5,16:1 az olívazöldön (volt 1,81:1)
+       A SZEREPEK nem változnak — ugyanaz a chip, ugyanaz a gomb, ugyanaz a
+       forma és térköz —, csak a tinta és a vonal kap olyan értéket, ami ezen a
+       felületen is olvasható. */
+    --oko-javaslat-bg:var(--surface);
+    --oko-javaslat-ink:var(--text-secondary);
+    --oko-javaslat-keret:var(--text-tertiary);
+    --oko-javaslat-ra-bg:var(--surface-muted);
+    --oko-javaslat-ra-keret:var(--primary);
+    --oko-mezo-keret:var(--text-tertiary);
+    --oko-kuld-bg:var(--secondary);
+    --oko-kuld-ink:var(--text-on-dark);
   }
 }
 
@@ -4889,15 +4929,22 @@
   }
   .oko-input{
     flex:1;min-width:0;min-height:44px;padding:var(--space-8) var(--space-16);
-    border:1px solid var(--border);border-radius:var(--r-md);
+    border:1px solid var(--oko-mezo-keret);border-radius:var(--r-md);
     background:var(--canvas);color:var(--text-primary);
     font-family:var(--font-body);font-size:var(--type-ui-caption-size);
   }
+  /* A mező kitöltése és a körülötte lévő panel MAJDNEM azonos világosságú
+     (sötét témán 1,2:1, világoson 1,07:1) — a mezőt tehát a HATÁRVONALA
+     rajzolja ki, nem a felülete. Ezért kell rajta a 3:1, és ezért van saját
+     tokenje. A helykitöltő szöveg a lap többi mezőjével azonos tintát kap;
+     enélkül a böngésző alapértelmezése szólt bele, az pedig sötét témán
+     halványabb. */
+  .oko-input::placeholder{color:var(--text-tertiary)}
   .oko-input:focus-visible{outline:3px solid var(--border-focus);outline-offset:-1px}
   .oko-kuld{
     appearance:none;border:0;cursor:pointer;flex:none;
     display:grid;place-items:center;width:44px;height:44px;
-    border-radius:var(--r-md);background:var(--secondary);color:var(--surface);
+    border-radius:var(--r-md);background:var(--oko-kuld-bg);color:var(--oko-kuld-ink);
   }
   .oko-kuld svg{width:18px;height:18px;fill:none;stroke:currentColor;
     stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -5312,14 +5359,14 @@
   .oko-javaslat{
     appearance:none;cursor:pointer;text-align:left;
     padding:var(--space-4) var(--space-8);
-    border:1px solid var(--border);border-radius:var(--r-md);
-    background:var(--surface);color:var(--secondary);
+    border:1px solid var(--oko-javaslat-keret);border-radius:var(--r-md);
+    background:var(--oko-javaslat-bg);color:var(--oko-javaslat-ink);
     font-family:var(--font-body);font-size:var(--type-ui-caption-size);
     line-height:var(--type-ui-caption-line-height);
     transition:background var(--dur-fast) var(--ease-out),
                border-color var(--dur-fast) var(--ease-out);
   }
-  .oko-javaslat:hover{background:var(--surface-muted);border-color:var(--secondary)}
+  .oko-javaslat:hover{background:var(--oko-javaslat-ra-bg);border-color:var(--oko-javaslat-ra-keret)}
   .oko-javaslat:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
   /* Gondolkodás közben a beviteli sor jelezze, hogy dolgozik. */
   .oko.is-gondolkodik .oko-kuld{opacity:.6;pointer-events:none}
