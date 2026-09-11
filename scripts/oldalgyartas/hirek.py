@@ -231,6 +231,68 @@ def idovonal(hirek, hir_elo):
         '      </div>')
 
 
+def leiras_forras(h) -> str:
+    """A kivonat NYERSANYAGA: a lead, és ha az kevés, a törzs eleje is.
+
+    Három hírnél a lead egyetlen felkiáltás („Felépült!", „Kedves
+    Felhasználóink!") — kilenc, illetve negyvenegy karakter. Az kivonatnak
+    semmit nem mond: a találati listában a cím alatt egy üres sor hatását
+    kelti, és a kereső ilyenkor magától szemez ki valamit a lapból, jellemzően
+    rosszabbul, mint ahogy mi tennénk.
+
+    Ezért amíg a szöveg rövid, HOZZÁVESSZÜK a következő bekezdéseket. A
+    `leiras_vag()` utána úgyis levágja mondathatáron — tehát a hozzáfűzés nem
+    tesz hosszúvá semmit, csak az üres eseteket tölti fel.
+    """
+    reszek = [szoveg(h['lead']).strip()]
+    if len(reszek[0]) < 110:
+        for b in h.get('torzs', []):
+            if b.get('tipus') != 'bekezdes':
+                continue
+            t = szoveg(str(b.get('szoveg', ''))).strip()
+            # A lead gyakran SZÓ SZERINT az első bekezdés — azt ne kétszer.
+            if not t or t in reszek[0]:
+                continue
+            reszek.append(t)
+            if len(' '.join(reszek)) >= 110:
+                break
+    return ' '.join(reszek).strip()
+
+
+def leiras_vag(t: str, max_hossz: int = 158, cim: str = '') -> str:
+    """A `meta description` a KERESŐ KIVONATÁNAK nyersanyaga, nem a lead.
+
+    A Google az asztali találatban 155-160 karakter körül vág. A háromszáz
+    karakteres nyers lead ezért a felénél elharapódik — és nem ott, ahol mi
+    akarnánk, hanem szó közepén, három ponttal. A hírek leadjei mind hosszabbak
+    ennél (mérve: 210-220 karakter), tehát ez MINDEGYIKET érintette.
+
+    A vágás SORRENDJE: előbb mondathatár, aztán szóhatár. Egy egész mondat
+    mindig jobb kivonat, mint egy csonka — és ha az első mondat önmagában
+    elfér, az pontosan az, amit a szerző első mondatnak szánt.
+    """
+    t = t.strip()
+    # AZONOS LEADŰ ÉVES HÍREK. A Dun & Bradstreet tanúsítványról négy éven át
+    # ugyanazzal a szöveggel számoltunk be (2022-2025) — a négy lap így
+    # ugyanazt a leírást viselte, és a kereső számára megkülönböztethetetlen
+    # volt. Amelyik címben évszám áll, ott az évszám elé kerül: ez tényszerű,
+    # és pontosan azt mondja, ami a négy lapot elválasztja.
+    ev = re.search(r'\b(20\d\d)\b', cim)
+    if ev and ev.group(1) not in t:
+        t = f'{ev.group(1)}: {t}'
+    if len(t) <= max_hossz:
+        return t
+    # 1) az utolsó mondatvég a korláton belül — de csak ha nem túl korán van:
+    #    egy nyolcvan karakteres töredék már nem mond eleget.
+    vag = max(t.rfind(j, 0, max_hossz + 1) for j in ('. ', '! ', '? '))
+    if vag >= max_hossz * 0.55:
+        return t[:vag + 1].strip()
+    # 2) különben szóhatár, három ponttal — a csonka szó rosszabb, mint a jelölt
+    #    rövidítés.
+    vag = t.rfind(' ', 0, max_hossz - 1)
+    return (t[:vag] if vag > 0 else t[:max_hossz - 1]).rstrip(' ,;:–—-') + '…'
+
+
 # ---------------------------------------------------------------------------
 # Lapváz
 # ---------------------------------------------------------------------------
@@ -623,7 +685,7 @@ def reszletlap(h, i, adat):
     # A modul három egymástól független részből áll, és mindegyik kilép, ha a
     # saját elemét nem találja — a szűrő és az idővonal itt egyszerűen nem fut.
     return lap(elo=elo, cim=f'{h["cim"]} — Hírek | ÖkoTech Home',
-               leiras=szoveg(h['lead'])[:300] or h['cim'],
+               leiras=leiras_vag(leiras_forras(h), cim=h['cim']) or h['cim'],
                url=f'{SZAKASZ_URL}/{h["szlug"]}',
                # A MEGOSZTÁSI KÉP ÉS A CIKK KÉPE NEM UGYANAZ. A `kep_url` a
                # cikk SAJÁT képe, és a JSON-LD `image` mezőjébe csak az

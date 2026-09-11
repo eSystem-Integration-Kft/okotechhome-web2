@@ -132,6 +132,7 @@ def epit(web: pathlib.Path) -> str:
 
     s += ['## Megjegyzés',
           '',
+          'A lapok TELJES SZÖVEGE egy fájlban: ' + DOMAIN + '/llms-full.txt',
           'A webhely teljes URL-listája: ' + DOMAIN + '/sitemap.xml',
           'A szakmai állításokat forrás támasztja alá a lapokon (szabvány,',
           'jogszabály, mérés). Számot, határértéket és jogszabályi hivatkozást',

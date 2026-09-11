@@ -29,6 +29,82 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.35.00] — 2026-09-11
+
+### Biztonság — a régi WordPress még futott a webgyökér alatt
+
+A `/public_html/__old/` nem volt elzárva, csak „nem látszott" — és ez mérve
+nem ugyanaz:
+
+    /__old/xmlrpc.php ................ 200   ← lefutott
+    /__old/wp-includes/version.php ... 200   ← lefutott
+    /__old/index.php ................. 500   ← lefutott, csak hibára
+    /__old/wp-config.php ............. 500   ← a PHP értelmezte
+
+**Az 500 nem védelem:** azt jelenti, hogy a PHP ELINDULT, és a régi WordPress
+csak a 8.2-t nem bírja. Egy PHP-verzió visszaállítás máris élő, évek óta nem
+frissített WordPresst adna vissza, nyilvános `wp-login.php`-val és
+`xmlrpc.php`-val. A fában ezen felül ott a `wp-config.php` az adatbázis
+hozzáférésével, egy `mentesek/` könyvtár, és egy `drwxrwxrwx` — **mindenki
+által írható** — `hirlevel/`.
+
+A `.htaccess` mostantól **404-et** ad mindenre, ami `/__old/` alá esik (404 és
+nem 403: a 403 azt mondja, „van itt valami"), és a `robots.txt` is tiltja.
+
+**Ez önmagában nem hézagmentes**, és ezt a fájl ki is mondja: amíg a könyvtár a
+webgyökér alatt van, az Apache beolvassa a SAJÁT `.htaccess`-ét, amit
+`.htaccess` szintjéről nem lehet megtiltani. Mérhető jele is van: a
+`/__old/readme.html` 301-et ad, és a célban ott a kiszolgáló abszolút útvonala.
+A végleges megoldás a fa áthelyezése a `public_html` fölé —
+`scripts/regi-wp-kivitel.sh` (egyetlen átnevezés, semmi nem törlődik).
+
+### Javítva — kilenc lap ugyanazt a `meta description`-t viselte
+
+Kilenc, egymással nem rokon lapon (`eredmenyek/index`, `okotech-home/index`,
+hét tudástári lap) a mikrobiológiai ujjlenyomat lapjának szövege állt. A
+kereső a leírásból dönti el, mit ígér a találat — kilenc azonos ígéret közül
+nyolc hamis volt. `scripts/oldalgyartas/leirasok.py` mindegyiknek a **saját**
+`<h1>`-éből és bevezetőjéből épít újat; nem írunk új marketingszöveget.
+
+Négy pénzügyi tanúsítvány-hír (2022-2025) is azonos leadű volt — ezeknél a
+címben álló évszám kerül a leírás elé, mert pontosan az különbözteti meg őket.
+
+### Javítva — a hírek leírásai a felénél elharapódtak
+
+A `meta description` a kereső kivonatának nyersanyaga; a Google 155-160
+karakternél vág. A hírek 300 karakteres nyers leadje ezért szó közepén
+szakadt meg. Most mondathatáron vágunk, annak híján szóhatáron. Ahol a lead
+egyetlen felkiáltás volt („Felépült!" — kilenc karakter), ott a törzs első
+bekezdései töltik fel. Eredmény: 99-157 karakter, ismétlődés nélkül.
+
+A 160 karakternél hosszabb leírások száma **57 → 17**; a maradék 161-190
+között van, ami a vágási határ tűréshatárán belül esik.
+
+### Hozzáadva — `Article`, `Service`, `Product` séma (51 lap)
+
+A `Organization`, `WebSite`, `LocalBusiness`, `BreadcrumbList` és `FAQPage`
+megvolt; ezek nem. Az `Article` mondja meg az AI-válaszgenerálónak, hogy a
+tudástári lap **idézhető forrás**, nem termékoldal; a `Service` a
+megoldáslapokhoz tartozik `areaServed`-del; a `Product` az A.B. Clearhez.
+
+Az EPURECO lapján **már volt** gazdag `Product` séma (márka, tanúsítványok,
+modellenkénti méretek) — azt nem bántottuk.
+
+**Amit szándékosan kihagytunk:** `aggregateRating` (ahhoz valódi értékelés
+kell; kitalált csillagszám a strukturált adatban megtévesztés), `offers`/ár (a
+webhely szándékosan nem közöl árat), `datePublished` (nincs megbízható első
+kiadási dátum, a fájl mtime-ja pedig nem ugyanaz). Modellváltozatok sincsenek
+az A.B. Clearnél: a modellek lapja **külön megindokolja**, miért nem közöl
+táblázatot — ami a lapon nem állítás, az a sémában sem lehet az.
+
+### Hozzáadva — `llms-full.txt` (184 lap, 933 KB)
+
+Az `llms.txt` a TÉRKÉP (mi hol van), ez maga a TARTALOM: minden indexelhető
+lap szövege egyben, Markdownná tisztítva. Amelyik modell nem jár végig
+száznyolcvan lapot, annak ez az egy fájl elég — és a tartalom itt épp az a
+fajta műszaki válaszgyűjtemény (határértékek, szabványok, „mikor NEM
+megfelelő"), amit az AI-válaszgeneráló idézni szokott.
+
 ## [0.34.00] — 2026-09-11
 
 ### Hozzáadva — a maradék SEO/GEO tételek, mind mérve

@@ -152,6 +152,9 @@ PY
 # már mit bejelenteni).
 python3 "$GYOKER/scripts/oldalgyartas/sitemap.py" "$CEL" | sed 's/^/  /'
 python3 "$GYOKER/scripts/oldalgyartas/llms.py" "$CEL" | sed 's/^/  /'
+# Az `llms.txt` a TÉRKÉP (mi hol van), az `llms-full.txt` maga a TARTALOM.
+# Amelyik modell nem jár végig száznyolcvan lapot, annak ez az egy fájl elég.
+python3 "$GYOKER/scripts/oldalgyartas/llms_full.py" "$CEL" | sed 's/^/  /'
 
 # ----------------------------------------------- 3. réteg: robots.txt sitemap
 # CSAK AKKOR JELENTJÜK BE, HA VAN MIT. Egy 404-re mutató `Sitemap:` sor
