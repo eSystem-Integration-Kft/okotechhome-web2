@@ -9217,9 +9217,15 @@
        Világos témán a sáv világos és a szöveg sötét: a SÖTÉT videokocka a
        veszélyes (az sötétíti a felületet). Sötét témán fordítva — ott a sáv
        sötét és a szöveg világos, tehát a VILÁGOS kocka viszi el a kontrasztot.
-       És a sötét oldal a szűkebb: 72%-nál ott 3,69:1 jön ki (megbukik),
-       85%-nál 5,08:1. Mérve mindkét irányban. */
-    --suti-sav-uveg:72%;
+       AZ ÉRTÉK A HATÁR KÖZELÉBEN ÜL, hajszálnyi ráhagyással. Világoson a
+       sötét videokocka a mérce: 0,64-nél 4,60:1, 0,60-nál már 4,08:1 —
+       megbukik. 0,66 ad 4,80:1-et, tehát látszik mögötte a mozgás, de a
+       szöveg nem kezd úszni rajta.
+       Sötéten a világos kocka a mérce, és ott szűkebb a hely: 0,80-nál
+       pontosan 4,50:1 (a küszöb), 0,78-nál 4,25:1. Innen a 0,82 → 4,72:1.
+       HA A HÁTTÉRVIDEÓ CSERÉLŐDIK, ezek a számok újraszámolandók: a
+       legvilágosabb és a legsötétebb kocka a bemenet. */
+    --suti-sav-uveg:66%;
   }
   /* A KERETSZÍN TÉMAFÜGGŐ, a felület nem. A `--border-strong` primitívje
      (`oliveleaf`, #56642B) világos alapon jól látszik, a sötét téma sötét
@@ -9237,7 +9243,7 @@
        felületen a mélyedés kevésbé látszik, a kiemelés annál inkább. */
     --suti-veset-melyedes-alfa:.34;
     --suti-veset-kiemeles-alfa:.16;
-    --suti-sav-uveg:85%;
+    --suti-sav-uveg:82%;
   }
 }
 
