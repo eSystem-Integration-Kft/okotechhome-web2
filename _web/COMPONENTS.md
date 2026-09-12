@@ -2967,3 +2967,40 @@ futtatás visszaírná felirattá.
 
 Az Öko a `kalauz-index.py` újrafuttatása után látja. Mérve: a „Mit jelent a
 közműpótló?" kérdésre a Fogalomtárat idézi, `#koznyelv-cim` horgonnyal.
+
+## 45. Magyarázó ábra — `.abra`, `.abra-svg`
+
+**SVG, nem kép.** Három okból: témát vált a lappal (a színek `--abra-*`
+tokenekből jönnek), bármekkora nagyításban éles marad, és a szövege **valódi
+szöveg** — a képernyőolvasó felolvassa, a kereső elolvassa. Egy raszteres
+infografika mindkettőnek néma.
+
+**A rajz nem dísz.** Azt mondja el képben, amit a cikk mondatban: az egyik
+konstrukció **időben** választja szét a tisztítási fázisokat, a másik
+**térben**. Ezért áll a kettő egymás mellett — a különbség maga az állítás.
+
+**Két külön SVG, nem egy széles.** Keskeny kijelzőn egymás alá kell
+kerülniük; egyetlen, kétszer olyan széles rajz telefonon olvashatatlanul
+zsugorodna. 56rem fölött kerülnek egymás mellé.
+
+### Hozzáférhetőség
+
+Mindkét SVG `role="img"` + `aria-labelledby`, és `<title>` + `<desc>` párossal
+mondja el, mit ábrázol. A `desc` nem a rajz leírása, hanem az **állítása**:
+„ugyanabban a tartályban zajlik a feltöltés, a levegőztetés, az ülepítés és a
+tisztított víz elvezetése — egymás után, időben elválasztva".
+
+### Mérés (sötét téma)
+
+A keret és a feliratok kontrasztja a rajz felületéhez **7,31:1**. A kitöltések
+sötéten átlátszóbbak (`--abra-viz` 34%, `--abra-iszap` 26%), mint világoson
+(55% / 45%): sötét alapon a tömör folt túl erős volna.
+
+### A generátor tanulsága
+
+Az első nekifutás f-stringbe ágyazott hármas idézőjelekkel épült, és **nem
+fordult**: a Python 3.9 f-stringje sem fordított perjelet, sem beágyazott
+`'''`-t nem tűr a kifejezésében. A cikk szakaszai ezért **adatszerkezetben**
+állnak (`SZAKASZOK`), a formázás pedig egyetlen helyen, a `szekcio()`-ban dől
+el. A sortörés `NL = chr(10)` néven konstans — így az f-stringek tiszták
+maradnak.

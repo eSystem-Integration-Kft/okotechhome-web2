@@ -2,47 +2,19 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
-     indexelheti, nem archiválhatja és nem idézhet belőle — ugyanezt küldi a
-     .htaccess X-Robots-Tag fejléce is. ÉLESÍTÉSKOR a lenti sor tartalmát
-     "index, follow"-ra kell cserélni, minden oldalon. -->
+<!-- TESZT ÜZEMMÓD: élesítéskor a `prod-epit.sh` 1. rétege cseréli. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alkalmas lehet-e a telek? — előzetes alkalmassági szempontok | ÖkoTech Home</title>
-<meta name="description" content="Nem az a kérdés, elfér-e a tartály. A kezelt víz elhelyezése, a csőszint, a talaj és a talajvíz együtt dönti el, mi valósítható meg a telken.">
-<link rel="canonical" href="https://okotechhome.hu/helyzetem/alkalmas-lehet-e-a-telek">
+<title>SBR szennyvíztisztító: hogyan működik, és miért terjedt el? | ÖkoTech Home</title>
+<meta name="description" content="Az SBR a tisztítás fázisait időben választja szét, a folyamatos átfolyású rendszer térben. Mit jelent ez a gyakorlatban, és mi történik áramszünet után?">
+<link rel="canonical" href="https://okotechhome.hu/tudastar/sbr-szennyviztisztito">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Alkalmas lehet-e a telek?">
-<meta property="og:description" content="Nem az a kérdés, elfér-e a tartály. A kezelt víz elhelyezése, a csőszint, a talaj és a talajvíz együtt dönti el, mi valósítható meg a telken.">
-<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-telekvasarlas.webp?v=2">
-<meta property="og:url" content="https://okotechhome.hu/helyzetem/alkalmas-lehet-e-a-telek">
-<meta property="og:site_name" content="ÖkoTech Home">
-<meta property="og:image:width" content="1800">
-<meta property="og:image:height" content="764">
-<meta property="og:image:alt" content="Alkalmas lehet-e a telek?">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="SBR szennyvíztisztító: hogyan működik, és miért terjedt el? | ÖkoTech Home">
+<meta property="og:description" content="Az SBR a tisztítás fázisait időben választja szét, a folyamatos átfolyású rendszer térben. Mit jelent ez a gyakorlatban, és mi történik áramszünet után?">
 <meta property="og:locale" content="hu_HU">
-<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
-     stíluslap renderelést blokkolna két idegen kézfogás után, és a
-     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
-
-     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
-     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
-     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
-     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
-     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
-     adjuk oda az LCP-t.
-     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="../assets/css/app.css?v=236">
-<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
-     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="../assets/js/tema.js?v=1"></script>
-<link rel="preload" as="image" href="../assets/img/oldalak/hero-telekvasarlas.webp?v=2"
-      imagesrcset="../assets/img/oldalak/hero-telekvasarlas-1024.webp?v=2 1100w, ../assets/img/oldalak/hero-telekvasarlas.webp?v=2 1800w"
-      imagesizes="100vw">
-<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
-     Szkript nélkül nem marad a lapon árva, néma sáv. -->
 <script src="/assets/js/suti.js?v=2" defer></script>
 </head>
 <body>
@@ -502,133 +474,299 @@
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
-            <li><a href="./">Kiindulópont</a></li>
-            <li><a href="telekvasarlas-vagy-uj-epites-elott-allok">Telekvásárlás vagy új építés</a></li>
-            <li aria-current="page">Alkalmas lehet-e a telek?</li>
+            <li><a href="../tudastar/">Tudástár</a></li>
+            <li aria-current="page">SBR szennyvíztisztító</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Alkalmas lehet-e a telek?</h1>
-        <p class="type-ui-body-strong hero-lead">A tartály szinte mindig elfér valahol. A rendszer viszont csak akkor működik, ha a kezelt víznek is van hová mennie, és a bekötés megoldható. Ez előszűrés, nem műszaki engedély.</p>
-      </div>
-    </div>
-    <figure class="hero-media page-hero-media">
-      <picture>
-        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-telekvasarlas-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
-        <img src="../assets/img/oldalak/hero-telekvasarlas.webp?v=2"
-             srcset="../assets/img/oldalak/hero-telekvasarlas-1024.webp?v=2 1100w, ../assets/img/oldalak/hero-telekvasarlas.webp?v=2 1800w"
-             sizes="100vw" width="1800" height="771" alt="Frissen kitűzött üres építési telek kitűzőkarókkal és zsinórral, előtérben nyitott talajvizsgálati gödör, háttérben új családi házak" fetchpriority="high" decoding="async">
-      </picture>
-    </figure>
-  </section>
-
-  <section class="section" aria-labelledby="nem-az-hogy-elfer-e-a-tartaly-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A valódi kérdés</p>
-        <h2 class="type-display-section-title section-title" id="nem-az-hogy-elfer-e-a-tartaly-cim">Nem az, hogy elfér-e a tartály</h2>
-      </header>
-      <p class="type-ui-body section-lead">A telek alkalmassága nem geometriai kérdés. A tartály szinte mindig elfér valahol — a rendszer viszont csak akkor működik, ha a <strong>kezelt víznek is van hová mennie</strong>, és a bekötés gravitációsan vagy átemelővel megoldható.</p>
-      <p class="type-ui-body section-lead">Ezért a vizsgálat együtt nézi a közcsatornahelyzetet, a várható terhelést, a ház és a rendszer egymáshoz viszonyított helyét, a csőszintet, a szabad területet, a talajt, a talajvizet és a víz végső elhelyezését.</p>
-      <p class="type-ui-body section-lead"><strong>Cím és telekméret alapján senki nem adhat „alkalmas" minősítést</strong> — a miénk sem. Ez előszűrés, nem műszaki engedély.</p>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="haromfele-eredmeny-lehet-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Állapotok</p>
-        <h2 class="type-display-section-title section-title" id="haromfele-eredmeny-lehet-cim">Háromféle eredmény lehet</h2>
-        <p class="type-ui-body section-lead">Az előszűrés nem igen/nem választ ad, hanem azt, hogy mennyi bizonytalanság maradt — és mit kell tenni vele.</p>
-      </header>
-      <ul class="numbered-grid" role="list">
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text"><strong>Standard helyzet.</strong> Az adatok ismertek, és nem mutatnak kockázatot. A projekt a szokásos úton vihető tovább.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text"><strong>További adat szükséges.</strong> Egy vagy több kritikus adat hiányzik — jellemzően a talajvíz, a talaj vagy a csőkilépés mélysége. Ez a leggyakoribb kimenet, és nem rossz hír.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text"><strong>Szakértői felmérés szükséges.</strong> A telek műszakilag nem standard: mély csőkilépés, kevés szabad terület, bizonytalan vízelhelyezés vagy ellentmondó adatok. Itt a helyszín dönt, nem a dokumentum.</p>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="mi-az-ami-modosit-es-mi-az-ami-kizar-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Kockázat</p>
-        <h2 class="type-display-section-title section-title" id="mi-az-ami-modosit-es-mi-az-ami-kizar-cim">Mi az, ami módosít — és mi az, ami kizár</h2>
-      </header>
-      <div class="split">
-        <div class="split-card">
-          <h3 class="type-ui-card-title split-title">Módosítja a kialakítást, de nem zárja ki</h3>
-          <ul class="fit-list" role="list">
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>magas vagy ingadozó talajvíz</strong> — eltérő beépítési mód jöhet szóba;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>mély szennyvízcső-kilépés</strong> — átemelő beépítése oldhatja meg;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>kötött, rosszul szivárgó talaj</strong> — a vízelhelyezés módját írja felül;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>erős lejtés</strong> — a rendszer helyét és a szintviszonyokat érinti;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text"><strong>szűk megközelítés</strong> — a telepítés és a későbbi szerviz drágul.</span></li>
-          </ul>
-        </div>
-        <div class="split-card">
-          <h3 class="type-ui-card-title split-title">Kizárhatja a helyben történő megoldást</h3>
-          <ul class="fit-list" role="list">
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text"><strong>a kezelt víznek nincs hová mennie</strong> — sem szikkasztás, sem befogadó, sem hasznosítás;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text"><strong>a közcsatorna műszakilag elérhető</strong>, és a kapacitás is megvan;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text"><strong>vízbázisvédelmi vagy fokozottan érzékeny terület</strong>, ahol külön feltétel vonatkozik a telepítésre;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text"><strong>nincs elegendő szabad terület</strong> sem a rendszernek, sem a víz elhelyezésének.</span></li>
-          </ul>
-        </div>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">SBR szennyvíztisztító:
+        hogyan működik, és miért terjedt el?</h1>
+        <p class="type-ui-body-strong hero-lead">Az SBR a tisztítás fázisait időben
+        választja szét, a folyamatos átfolyású rendszer térben. Ebből az egy különbségből
+        következik szinte minden más — az alkatrészszám, az energiaigény és az is, mi
+        történik áramszünet után.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="jog-cim">
+  <section class="section" id="mi-az-sbr" aria-labelledby="mi-az-sbr-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Jogi keret</p>
-        <h2 class="type-display-section-title section-title" id="jog-cim">Amit a szabályozás is nevesít</h2>
+        <p class="type-data-eyebrow section-eyebrow">Röviden</p>
+        <h2 class="type-display-section-title section-title" id="mi-az-sbr-cim">Mi az SBR, és mióta létezik?</h2>
       </header>
-      <!-- JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT. Érintett: 147/2010. Korm. rendelet ·
-     27/2004. KvVM rendelet érzékenységi besorolása (a mellékletét 2026-ban is
-     módosították) · 219/2004. Korm. rendelet a felszín alatti vizek védelméről ·
-     281/2024. Korm. rendelet és módosításai. Mind gyorsan avuló tartalom. -->
-      <p class="type-ui-body section-lead">
-        Az egyedi szennyvíztisztító létesítmény méretezésénél és létesítésénél a szabályozás
-        kifejezetten nevesíti a <strong>talaj adottságait</strong>, a <strong>felszín alatti víz
-        mélységét</strong> és a <strong>szennyvíz mennyiségét</strong>. Ezek tehát nem műszaki
-        részletkérdések, hanem a jogszabály által is elismert döntési tényezők.
-      </p>
-      <p class="type-ui-body section-lead">
-        Érzékeny vagy magas talajvízállású területen további feltételek állhatnak fenn.
-        A területre vonatkozó besorolást és a helyi előírásokat minden esetben az illetékes
-        hatóságnál kell tisztázni.
-      </p>
-      <!-- ADATHIÁNY: a hivatkozott jogszabályhelyek pontos megjelölése és a hatályos szöveg; a település érzékenységi besorolása.
-     Forrás: jogi ellenőrzés + illetékes hatóság. Addig konkrét értékkel nem publikálható. -->
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Az SBR ma az egyik ismert technológiai megoldás a biológiai szennyvíztisztításban. A rövidítés a <strong>Sequencing Batch Reactor</strong>, vagyis szakaszos üzemű biológiai reaktor elnevezésből származik.</p>
+        <p class="type-ui-body">Bár korszerű technológiaként szokás beszélni róla, maga az alapelv egyáltalán nem új. A szakaszos feltöltésen és ürítésen alapuló eleveniszapos rendszerek elődei már a XX. század elején megjelentek. Az SBR későbbi elterjedéséhez azonban kellett valami, ami az első berendezések idején még nem állt rendelkezésre a mai formájában: <strong>megbízható automatizálás és vezérléstechnika</strong>.</p>
+        <p class="type-ui-body">Amikor a 2000-es években a müncheni IFAT szakkiállításon jártunk, az SBR Nyugat-Európában már korántsem számított újdonságnak: kiforrott, széles körben alkalmazott szennyvíztisztítási technológia volt.</p>
+      </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="ertse-meg-mi-mit-befolyasol-cim">
+  <section class="section section-alt" id="ido-vagy-ter" aria-labelledby="ido-vagy-ter-cim">
     <div class="section-inner">
-      <aside class="panel-dark" aria-labelledby="ertse-meg-mi-mit-befolyasol-cim">
-        <div class="panel-dark-head">
-          <p class="type-data-eyebrow panel-dark-eyebrow">Következő lépés</p>
-          <h2 class="type-display-highlight-title panel-dark-title" id="ertse-meg-mi-mit-befolyasol-cim">Értse meg, mi mit befolyásol</h2>
-        </div>
-        <div class="panel-dark-body">
-          <p class="type-ui-body panel-dark-text">A talaj, a talajvíz és a vízelhelyezés összefügg — és a legtöbb félreértés abból ered, hogy a tartály telepíthetőségét és a víz elhelyezhetőségét egy kérdésnek nézik. Pedig két külön döntés.</p>
-          <p class="type-ui-body panel-dark-text"><a href="telekadat-ellenorzolista">Vagy gyűjtse össze a telek adatait</a></p>
-          <p class="panel-dark-actions"><a class="btn btn-inverse" href="talaj-talajviz-es-vizelhelyezes">Talaj, talajvíz és vízelhelyezés</a></p>
-        </div>
-      </aside>
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Az alapvető különbség</p>
+        <h2 class="type-display-section-title section-title" id="ido-vagy-ter-cim">Idő vagy tér</h2>
+        <p class="type-ui-body section-lead">Amit az egyik konstrukció elsősorban időben és
+        vezérléssel választ szét, azt a másik jelentős részben térben, a tartály
+        kialakításával oldja meg.</p>
+      </header>
+      <div class="abra-parok">
+        <figure class="abra">
+          <svg class="abra-svg" viewBox="0 0 440 228" role="img"
+     aria-labelledby="abra-sbr-cim abra-sbr-leiras">
+    <title id="abra-sbr-cim">SBR: egy reaktortér, négy fázis egymás után</title>
+    <desc id="abra-sbr-leiras">Ugyanabban a tartályban zajlik a feltöltés, a
+    levegőztetés, az ülepítés és a tisztított víz elvezetése — egymás után,
+    időben elválasztva. A ciklus végén minden kezdődik elölről.</desc>
+    <g transform="translate(14,0)">
+      <text x="43" y="22" text-anchor="middle" class="abra-szam">1</text>
+      <rect x="11" y="94" width="64" height="30" fill="var(--abra-viz)" rx="2"/>
+      <rect x="8" y="32" width="70" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <path d="M18 26 L18 44 M12 38 L18 45 L24 38" stroke="var(--abra-jel)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="43" y="146" text-anchor="middle" class="abra-cimke">Feltöltés</text>
+    </g><g transform="translate(120,0)">
+      <text x="43" y="22" text-anchor="middle" class="abra-szam">2</text>
+      <rect x="11" y="50" width="64" height="74" fill="var(--abra-viz)" rx="2"/>
+      <rect x="8" y="32" width="70" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <circle cx="28" cy="92" r="3.2" fill="var(--abra-kiemeles)"/><circle cx="41" cy="75" r="2.6" fill="var(--abra-kiemeles)"/><circle cx="54" cy="58" r="2.0" fill="var(--abra-kiemeles)"/><circle cx="67" cy="79" r="3.2" fill="var(--abra-kiemeles)"/><circle cx="80" cy="62" r="2.6" fill="var(--abra-kiemeles)"/>
+      <text x="43" y="146" text-anchor="middle" class="abra-cimke">Levegőztetés</text>
+    </g><g transform="translate(226,0)">
+      <text x="43" y="22" text-anchor="middle" class="abra-szam">3</text>
+      <rect x="11" y="50" width="64" height="48" fill="var(--abra-viz)" rx="2"/>
+      <rect x="11" y="98" width="64" height="23" fill="var(--abra-iszap)" rx="2"/>
+      <rect x="8" y="32" width="70" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <text x="43" y="146" text-anchor="middle" class="abra-cimke">Ülepítés</text>
+    </g><g transform="translate(332,0)">
+      <text x="43" y="22" text-anchor="middle" class="abra-szam">4</text>
+      <rect x="11" y="50" width="64" height="48" fill="var(--abra-viz)" rx="2"/>
+      <rect x="11" y="98" width="64" height="23" fill="var(--abra-iszap)" rx="2"/>
+      <rect x="8" y="32" width="70" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <path d="M92 44 L112 44 M106 38 L113 44 L106 50" stroke="var(--abra-jel)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="43" y="146" text-anchor="middle" class="abra-cimke">Elvezetés</text>
+    </g><path d="M57 172 L57 186 Q57 196 67 196 L375 196 Q385 196 385 186 L385 172"
+      fill="none" stroke="var(--abra-jel)" stroke-width="2" stroke-dasharray="5 4"/>
+    <path d="M51 178 L57 170 L63 178" fill="none" stroke="var(--abra-jel)"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="221" y="214" text-anchor="middle" class="abra-jegyzet">a ciklus újraindul</text>
+  </svg>
+          <figcaption class="abra-felirat type-ui-caption"><strong>SBR — időben.</strong>
+          Ugyanaz a reaktortér, egymás után négy fázis. A sorrendet és az időzítést a
+          vezérlés adja.</figcaption>
+        </figure>
+        <figure class="abra">
+          <svg class="abra-svg" viewBox="0 0 440 228" role="img"
+     aria-labelledby="abra-atfolyo-cim abra-atfolyo-leiras">
+    <title id="abra-atfolyo-cim">Folyamatos átfolyás: több kamra, a fázisok térben</title>
+    <desc id="abra-atfolyo-leiras">A szennyvíz egymást követő, különböző funkciójú
+    tereken halad keresztül. A fázisok elkülönítését a tartály kialakítása
+    biztosítja, nem az időzítés.</desc>
+    <g>
+      <rect x="27" y="74" width="90" height="58" fill="var(--abra-viz)" rx="2"/>
+      <rect x="24" y="40" width="96" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <text x="72.0" y="154" text-anchor="middle" class="abra-cimke">Fogadás</text>
+    </g><path d="M120 54 L120 118" stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/><g>
+      <rect x="123" y="58" width="90" height="74" fill="var(--abra-viz)" rx="2"/>
+      <rect x="120" y="40" width="96" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <circle cx="142" cy="100" r="3" fill="var(--abra-kiemeles)"/><circle cx="158" cy="81" r="3" fill="var(--abra-kiemeles)"/><circle cx="174" cy="62" r="3" fill="var(--abra-kiemeles)"/><circle cx="190" cy="83" r="3" fill="var(--abra-kiemeles)"/>
+      <text x="168.0" y="154" text-anchor="middle" class="abra-cimke">Levegőztetés</text>
+    </g><path d="M216 54 L216 118" stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/><g>
+      <rect x="219" y="58" width="90" height="48" fill="var(--abra-viz)" rx="2"/>
+      <rect x="219" y="106" width="90" height="23" fill="var(--abra-iszap)" rx="2"/>
+      <rect x="216" y="40" width="96" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <text x="264.0" y="154" text-anchor="middle" class="abra-cimke">Ülepítés</text>
+    </g><path d="M312 54 L312 118" stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/><g>
+      <rect x="315" y="58" width="90" height="48" fill="var(--abra-viz)" rx="2"/>
+      <rect x="315" y="106" width="90" height="23" fill="var(--abra-iszap)" rx="2"/>
+      <rect x="312" y="40" width="96" height="92" rx="6" fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <text x="360.0" y="154" text-anchor="middle" class="abra-cimke">Elvezetés</text>
+    </g><path d="M6 80 L20 80 M14 74 L21 80 L14 86"
+      stroke="var(--abra-jel)" stroke-width="2.5" fill="none"
+      stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M408 80 L422 80 M416 74 L423 80 L416 86"
+      stroke="var(--abra-jel)" stroke-width="2.5" fill="none"
+      stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="220" y="214" text-anchor="middle" class="abra-jegyzet">a szennyvíz végighalad a kamrákon</text>
+  </svg>
+          <figcaption class="abra-felirat type-ui-caption"><strong>Folyamatos átfolyás — térben.</strong>
+          A szennyvíz egymást követő, különböző funkciójú tereken halad át. Az elkülönítést
+          a tartály kialakítása biztosítja.</figcaption>
+        </figure>
+      </div>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">A valóságban természetesen ennél összetettebb rendszerek is
+        léteznek, és az egyes technológiai elvek kombinálhatók. A különbség mégis jól
+        érzékelteti a két tervezési filozófiát.</p>
+      </div>
     </div>
   </section>
 
+  <section class="section" id="ciklus" aria-labelledby="ciklus-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A folyamat</p>
+        <h2 class="type-display-section-title section-title" id="ciklus-cim">Mi történik egy ciklus alatt?</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Egy biológiai szennyvíztisztítóban több, egymástól eltérő folyamatnak kell végbemennie. A szennyvizet fogadni kell, a szerves szennyező anyagokat mikroorganizmusok segítségével le kell bontani, ehhez megfelelő körülményeket — többek között oxigént — kell biztosítani, majd a kezelt víztől el kell választani a biológiai iszapot.</p>
+        <p class="type-ui-body">Az SBR egyik lényeges ötlete, hogy ezek közül több folyamat <strong>ugyanabban a reaktortérben, de különböző időpontokban</strong> történik.</p>
+        <ol class="folyamat-lepesek" role="list">
+          <li class="type-ui-body"><strong>Feltöltés</strong> — a szennyvíz beérkezik a reaktorba</li>
+          <li class="type-ui-body"><strong>Biológiai kezelés és levegőztetés</strong></li>
+          <li class="type-ui-body"><strong>Ülepítés</strong> — a levegőztetés leáll, az eleveniszap leülepszik</li>
+          <li class="type-ui-body"><strong>Elvezetés</strong> — a fölötte kialakuló tisztított vízréteg egy részét a rendszer elvezeti</li>
+        </ol>
+        <p class="type-ui-body">Ezután kezdődhet a következő ciklus.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="miert-terjedt-el" aria-labelledby="miert-terjedt-el-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A háttér</p>
+        <h2 class="type-display-section-title section-title" id="miert-terjedt-el-cim">Miért lett ennyire népszerű az SBR?</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Az SBR elterjedésének megértéséhez nem elég csak a szennyvízbiológiát vizsgálni. A <strong>gyártás gazdaságosságát</strong> is érdemes figyelembe venni.</p>
+        <p class="type-ui-body">Egy többkamrás tartály elkészítése több belső szerkezeti elemet, válaszfalat, illesztést és — az alkalmazott anyagtól és gyártástechnológiától függően — jelentős kézi szerelési vagy hegesztési munkát igényelhet. Ezeknek a műveleteknek egy része nehezebben automatizálható, mint egy egyszerűbb geometriájú tartály nagy sorozatú előállítása.</p>
+        <p class="type-ui-body">Ez különösen fontossá vált Nyugat-Európában, ahol a magas munkaerőköltség miatt a sok élőmunkát igénylő gyártás egyre drágábbá vált. Kézenfekvő mérnöki és gazdasági irány volt tehát az egyszerűbben sorozatgyártható tartályok alkalmazása, miközben a technológiai feladatok egy részét a mechanikai kialakítás helyett automatika, időprogramok és működtetett gépészeti elemek vették át.</p>
+        <p class="type-ui-body">Az SBR ebből a szempontból elegáns megoldás: nem szükséges minden egyes technológiai fázishoz önálló teret kialakítani, ha ugyanaz a reaktortér megfelelő vezérléssel egymás után több feladatot is el tud látni.</p>
+        <p class="type-ui-body"><strong>Csakhogy ezzel a technológiai feladat nem tűnik el.</strong> Részben átköltözik a tartályból a vezérlésbe.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="vezerles" aria-labelledby="vezerles-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Amit érdemes tudni</p>
+        <h2 class="type-display-section-title section-title" id="vezerles-cim">Az SBR lelke a vezérlés</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Ha egy rendszernek előre meghatározott időrendben kell levegőztetnie, ülepítenie, vizet továbbítania vagy elvezetnie, akkor az ehhez szükséges vezérlés a technológia szerves része.</p>
+        <p class="type-ui-body">A vezérlőelektronika, a kompresszor, illetve az adott konstrukciótól függően alkalmazott szivattyúk, elektromosan működtetett szelepek és egyéb gépészeti elemek mind azért dolgoznak, hogy a megfelelő folyamat a megfelelő pillanatban történjen. Ez jól működő automatika mellett nagy előny: a rendszer képes önállóan végrehajtani az előre meghatározott technológiai ciklusokat.</p>
+        <p class="type-ui-body">Ugyanakkor érdemes a másik oldalát is látni. <strong>Minden aktív gépészeti és elektromos alkatrész energiafogyasztó, karbantartást igényelhet, és egyben lehetséges meghibásodási pont is.</strong> Ezért egy szennyvíztisztító összehasonlításakor önmagában az, hogy „SBR-technológiás”, még nem mondja meg, mennyire egyszerű vagy összetett maga a berendezés.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="aramszunet" aria-labelledby="aramszunet-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Rendellenes üzem</p>
+        <h2 class="type-display-section-title section-title" id="aramszunet-cim">És mi történik áramszünet esetén?</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Ez különösen érdekes kérdés, mert jól megmutatja a különböző konstrukciók közötti eltérést. Elektromos energia nélkül egy levegőztetett biológiai szennyvíztisztítóban természetesen a levegőztetés is leáll — ebben az értelemben az áramszünet egyik rendszernek sem kedvez.</p>
+        <p class="type-ui-body">Az SBR esetében azonban az áramellátás nemcsak az oxigénbevitel miatt fontos. <strong>Az időben egymásra épülő technológiai ciklus végrehajtása is a vezérléstől függ.</strong></p>
+        <p class="type-ui-body">Hosszabb áramszünetnél ezért lényeges kérdés, hogy az adott berendezés mit tesz az áram visszatérésekor. Folytatja a megszakított ciklust? Újat kezd? Felismeri, hogy melyik technológiai fázisban történt a leállás? Milyen állapotban van ekkor a reaktor, és szükséges-e valamilyen beavatkozás?</p>
+        <p class="type-ui-body">Ezek nem az SBR-technológia „hibái”. Egyszerűen következnek abból, hogy a technológiai folyamatok egy részének elkülönítését az időzített működés biztosítja. Ezért vásárlás előtt nemcsak azt érdemes megkérdezni, hogy egy berendezés milyen tisztítási technológiát használ, hanem azt is, hogy <strong>mi történik vele rendellenes üzemi helyzetekben</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ab-clear" aria-labelledby="ab-clear-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A mi megoldásunk</p>
+        <h2 class="type-display-section-title section-title" id="ab-clear-cim">Az A.B. Clear más utat követ</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Az A.B. Clear szennyvíztisztító szintén eleveniszapos biológiai tisztítást alkalmaz, de <strong>nem SBR-rendszer</strong>. Folyamatos átfolyású, többkamrás eleveniszapos technológiáról van szó, amelyben a szennyvíz meghatározott útvonalon, egymást követő funkcionális tereken halad keresztül. A különböző biológiai és fizikai folyamatok jelentős részének elkülönítését így maga a többkamrás kialakítás biztosítja.</p>
+        <p class="type-ui-body">Ez természetesen nem jelenti azt, hogy az A.B. Clearnek nincs szüksége elektromos energiára. Az aerob biológiai folyamatokhoz levegőt kell biztosítani, ehhez kompresszor működik. A tervezési filozófia azonban az volt, hogy minél több feladatot maga a hidraulikai és tartálykialakítás oldjon meg, és minél kevesebb, a működéshez nélkülözhetetlen gépészeti alkatrészre legyen szükség.</p>
+        <p class="type-ui-body">Ehhez kapcsolódik az <a href="../megoldasok/ab-clear-iszapzsakos-technologia">A.B. Clear iszapkezelése</a> is. A rendszerben keletkező fölösiszap az iszapzsákba kerül, ahol a víztartalom jelentős része eltávozhat és visszakerülhet a rendszerbe, miközben a szilárdabb iszap a zsákban marad. Ez a megoldás a rendszer stabil iszapszintjének fenntartását és az üzemeltetés egyszerűsítését szolgálja.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="melyik-jobb" aria-labelledby="melyik-jobb-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A döntés</p>
+        <h2 class="type-display-section-title section-title" id="melyik-jobb-cim">Melyik technológia a jobb?</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Erre önmagában az „SBR” vagy az „eleveniszapos” kifejezés alapján nem lehet értelmes választ adni. Az SBR egy régóta ismert, kiforrott szennyvíztisztítási technológia. A folyamatos átfolyású eleveniszapos rendszerek szintén évtizedek óta bizonyított technológiai alapokon működnek.</p>
+        <p class="type-ui-body">Egy családi háznál ezért sokkal érdekesebb kérdések következnek:</p>
+        <ul class="jogi-lista" role="list">
+          <li class="type-ui-body">Mennyi aktív gépészeti alkatrész szükséges a működéshez?</li>
+          <li class="type-ui-body">Mekkora az energiaigény?</li>
+          <li class="type-ui-body">Hogyan történik az iszap kezelése?</li>
+          <li class="type-ui-body">Hogyan viseli a rendszer a változó terhelést?</li>
+          <li class="type-ui-body">Mi történik hosszabb távollét vagy áramszünet után?</li>
+          <li class="type-ui-body">Milyen rendszeres karbantartást igényel?</li>
+          <li class="type-ui-body">Egy meghibásodás esetén van-e hozzá alkatrész és szakember?</li>
+        </ul>
+        <p class="type-ui-body">És van még egy szempont, amelyet egy prospektusból nehéz megítélni: <strong>ki foglalkozik a berendezéssel öt vagy tíz év múlva?</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="szerviz" aria-labelledby="szerviz-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Hosszú távon</p>
+        <h2 class="type-display-section-title section-title" id="szerviz-cim">Egy szennyvíztisztító nem egyszeri vásárlás</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">A biológiai szennyvíztisztító hosszú éveken keresztül működő műszaki és biológiai rendszer. Ezért az üzemeltetés és a szerviz legalább annyira fontos, mint maga a tartály.</p>
+        <p class="type-ui-body">Az A.B. Clearhez ezért <strong>negyedéves karbantartási lehetőséget</strong> is biztosítunk. A rendszeres felülvizsgálat során ellenőrizhető a berendezés általános műszaki állapota és az iszapkezelés, tisztítható a kompresszor szűrője, szükség esetén korrigálható a levegőelosztás és a vezérlés beállítása, valamint még időben felismerhetők és javíthatók a kialakuló hibák.</p>
+        <p class="type-ui-body">Egy jól megtervezett rendszer célja ugyanis nem pusztán az, hogy megfelelő körülmények között képes legyen szennyvizet tisztítani. Az igazi kérdés az, hogy ezt <strong>mennyire egyszerűen, kiszámíthatóan és üzembiztosan</strong> képes megtenni hosszú éveken keresztül, egy valódi háztartás mindennapi körülményei között.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="gyik" aria-labelledby="gyik-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
+        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit az SBR-ről a leggyakrabban kérdeznek</h2>
+      </header>
+      <div class="fogalom-gyik">
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mit jelent az SBR a szennyvíztisztításban?</h3>
+            <p class="type-ui-body">Az SBR a Sequencing Batch Reactor, vagyis szakaszos üzemű biológiai reaktor rövidítése. A lényege, hogy a tisztítás több technológiai fázisa — feltöltés, levegőztetés, ülepítés, elvezetés — ugyanabban a reaktortérben, de különböző időpontokban történik.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi a különbség az SBR és a folyamatos átfolyású eleveniszapos rendszer között?</h3>
+            <p class="type-ui-body">Az SBR a tisztítás fázisait elsősorban IDŐBEN választja szét, vezérléssel. A folyamatos átfolyású, többkamrás rendszer ugyanezt jelentős részben TÉRBEN oldja meg: a szennyvíz egymást követő, különböző funkciójú tereken halad keresztül, és az elkülönítést maga a tartály kialakítása biztosítja.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Új technológia az SBR?</h3>
+            <p class="type-ui-body">Nem. A szakaszos feltöltésen és ürítésen alapuló eleveniszapos rendszerek elődei már a XX. század elején megjelentek. Az elterjedéséhez az kellett, ami akkor még nem állt rendelkezésre a mai formájában: megbízható automatizálás és vezérléstechnika.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi történik egy SBR-berendezéssel áramszünet esetén?</h3>
+            <p class="type-ui-body">Elektromos energia nélkül minden levegőztetett biológiai tisztítóban leáll a levegőztetés. Az SBR-nél azonban az időben egymásra épülő ciklus végrehajtása is a vezérléstől függ, ezért hosszabb áramszünetnél lényeges kérdés, mit tesz a berendezés az áram visszatérésekor: folytatja a megszakított ciklust, újat kezd, vagy felismeri, melyik fázisban állt le.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">SBR-rendszer az A.B. Clear?</h3>
+            <p class="type-ui-body">Nem. Az A.B. Clear szintén eleveniszapos biológiai tisztítást alkalmaz, de folyamatos átfolyású, többkamrás technológiával: a különböző folyamatok elkülönítését a többkamrás kialakítás biztosítja, nem az időzítés.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Melyik a jobb technológia, az SBR vagy a folyamatos átfolyású?</h3>
+            <p class="type-ui-body">Önmagában a technológia nevéből erre nem lehet értelmes választ adni. Mindkettő évtizedek óta bizonyított alapokon működik. Egy családi háznál az a kérdés, hány aktív gépészeti alkatrész kell a működéshez, mekkora az energiaigény, hogyan történik az iszapkezelés, hogyan viseli a rendszer a változó terhelést, és mi történik hosszabb távollét vagy áramszünet után.</p>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tovabb-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Tovább</p>
+        <h2 class="type-display-section-title section-title" id="tovabb-cim">Ha a saját helyzete érdekli</h2>
+        <p class="type-ui-body section-lead">A technológia nevénél többet mond, hogy mi van
+        a telken és hogyan használják. Írja meg — a többit mi mondjuk meg.</p>
+      </header>
+      <p class="type-ui-body">
+        <a class="btn btn-primary type-ui-button" href="../konzultacio">Konzultációt kérek</a>
+        <a class="btn btn-secondary type-ui-button" href="../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a>
+        <a class="btn btn-secondary type-ui-button" href="../tudastar/fogalomtar">Fogalomtár</a>
+      </p>
+    </div>
+  </section>
 </main>
 
 <!-- ==========================================================================
@@ -757,24 +895,61 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=12" defer></script>
-<script src="../assets/js/kalauz.js?v=45" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-      {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okotechhome.hu/"},
-      {"@type":"ListItem","position":2,"name":"Kiindulópont","item":"https://okotechhome.hu/helyzetem/"},
-      {"@type":"ListItem","position":3,"name":"Telekvásárlás vagy új építés","item":"https://okotechhome.hu/telekvasarlas-vagy-uj-epites-elott-allok"},
-      {"@type":"ListItem","position":4,"name":"Alkalmas lehet-e a telek?","item":"https://okotechhome.hu/helyzetem/alkalmas-lehet-e-a-telek"}
-      ]
+      "@type": "Article",
+      "headline": "SBR szennyvíztisztító: hogyan működik, és miért terjedt el?",
+      "description": "Az SBR a tisztítás fázisait időben választja szét, a folyamatos átfolyású rendszer térben. Mit jelent ez a gyakorlatban, és mi történik áramszünet után?",
+      "inLanguage": "hu-HU",
+      "author": { "@type": "Organization", "name": "ÖkoTech-Home Kft.", "url": "https://okotechhome.hu/" },
+      "publisher": { "@type": "Organization", "name": "ÖkoTech-Home Kft.", "url": "https://okotechhome.hu/" },
+      "mainEntityOfPage": "https://okotechhome.hu/tudastar/sbr-szennyviztisztito"
     },
     {
       "@type": "FAQPage",
-      "mainEntity": []
+      "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Mit jelent az SBR a szennyvíztisztításban?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Az SBR a Sequencing Batch Reactor, vagyis szakaszos üzemű biológiai reaktor rövidítése. A lényege, hogy a tisztítás több technológiai fázisa — feltöltés, levegőztetés, ülepítés, elvezetés — ugyanabban a reaktortérben, de különböző időpontokban történik." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi a különbség az SBR és a folyamatos átfolyású eleveniszapos rendszer között?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Az SBR a tisztítás fázisait elsősorban IDŐBEN választja szét, vezérléssel. A folyamatos átfolyású, többkamrás rendszer ugyanezt jelentős részben TÉRBEN oldja meg: a szennyvíz egymást követő, különböző funkciójú tereken halad keresztül, és az elkülönítést maga a tartály kialakítása biztosítja." }
+      },
+      {
+        "@type": "Question",
+        "name": "Új technológia az SBR?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nem. A szakaszos feltöltésen és ürítésen alapuló eleveniszapos rendszerek elődei már a XX. század elején megjelentek. Az elterjedéséhez az kellett, ami akkor még nem állt rendelkezésre a mai formájában: megbízható automatizálás és vezérléstechnika." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi történik egy SBR-berendezéssel áramszünet esetén?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Elektromos energia nélkül minden levegőztetett biológiai tisztítóban leáll a levegőztetés. Az SBR-nél azonban az időben egymásra épülő ciklus végrehajtása is a vezérléstől függ, ezért hosszabb áramszünetnél lényeges kérdés, mit tesz a berendezés az áram visszatérésekor: folytatja a megszakított ciklust, újat kezd, vagy felismeri, melyik fázisban állt le." }
+      },
+      {
+        "@type": "Question",
+        "name": "SBR-rendszer az A.B. Clear?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nem. Az A.B. Clear szintén eleveniszapos biológiai tisztítást alkalmaz, de folyamatos átfolyású, többkamrás technológiával: a különböző folyamatok elkülönítését a többkamrás kialakítás biztosítja, nem az időzítés." }
+      },
+      {
+        "@type": "Question",
+        "name": "Melyik a jobb technológia, az SBR vagy a folyamatos átfolyású?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Önmagában a technológia nevéből erre nem lehet értelmes választ adni. Mindkettő évtizedek óta bizonyított alapokon működik. Egy családi háznál az a kérdés, hány aktív gépészeti alkatrész kell a működéshez, mekkora az energiaigény, hogyan történik az iszapkezelés, hogyan viseli a rendszer a változó terhelést, és mi történik hosszabb távollét vagy áramszünet után." }
+      }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okotechhome.hu/"},
+        {"@type":"ListItem","position":2,"name":"Tudástár","item":"https://okotechhome.hu/tudastar/"},
+        {"@type":"ListItem","position":3,"name":"SBR szennyvíztisztító","item":"https://okotechhome.hu/tudastar/sbr-szennyviztisztito"}
+      ]
     }
   ]
 }

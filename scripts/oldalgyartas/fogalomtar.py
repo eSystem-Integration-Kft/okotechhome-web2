@@ -35,7 +35,7 @@ WEB = GYOKER / '_web'
 FORRAS = pathlib.Path(__file__).resolve().parent / 'fogalomtar-forras.json'
 DOMAIN = 'https://okotechhome.hu'
 UT = 'tudastar/fogalomtar'
-CSS_V = 235
+CSS_V = 236
 SUTI_V = 2
 
 # A FEJLÉC ÉS A LÁBLÉC EGY AZONOS MÉLYSÉGŰ LAPBÓL jön (`tudastar/…`), ezért a

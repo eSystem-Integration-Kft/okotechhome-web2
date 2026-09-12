@@ -9596,3 +9596,70 @@
     .fogalom-gyik{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-32)}
   }
 }
+
+/* ============================================================================
+   MAGYARÁZÓ ÁBRA — `.abra`, `.abra-svg`
+   ----------------------------------------------------------------------------
+   SVG, nem kép. Három okból: témát vált a lappal (a színek tokenből jönnek),
+   bármekkora nagyításban éles marad, és a szövege VALÓDI szöveg — a
+   képernyőolvasó felolvassa, a kereső elolvassa, egy raszteres infografika
+   pedig mindkettőnek néma.
+
+   A RAJZ NEM DÍSZ. Azt mondja el képben, amit a cikk mondatban: az egyik
+   konstrukció IDŐBEN választja szét a fázisokat, a másik TÉRBEN. Ezért áll a
+   kettő egymás mellett — a különbség maga az állítás.
+
+   KÉT KÜLÖN SVG, nem egy széles. Keskeny kijelzőn egymás alá kell kerülniük;
+   egyetlen, kétszer olyan széles rajz telefonon olvashatatlanul zsugorodna.
+   ========================================================================== */
+@layer tokens {
+  :root{
+    --abra-keret:var(--text-secondary);
+    --abra-viz:color-mix(in srgb,var(--color-skyblue) 55%,transparent);
+    --abra-iszap:color-mix(in srgb,var(--color-oliveleaf) 45%,transparent);
+    --abra-jel:var(--text-secondary);
+    --abra-kiemeles:var(--primary);
+  }
+  [data-theme="dark"]{
+    /* Sötéten a vékony vonal a `--text-secondary`-vel is elválik, a kitöltések
+       viszont átlátszóbbak kellenek: a sötét alapon a tömör folt túl erős. */
+    --abra-keret:var(--text-secondary);
+    --abra-viz:color-mix(in srgb,var(--color-skyblue) 34%,transparent);
+    --abra-iszap:color-mix(in srgb,var(--color-lime) 26%,transparent);
+    --abra-jel:var(--text-secondary);
+  }
+}
+
+@layer components {
+  .abra-parok{
+    display:grid;gap:var(--space-32);
+    margin-block:var(--space-32);
+  }
+  .abra{margin:0;display:grid;gap:var(--space-16)}
+  .abra-svg{
+    display:block;width:100%;height:auto;
+    /* A rajz saját felületen ül: a szekció háttere elé emelve a vékony
+       vonalak is elválnak tőle. */
+    background:var(--surface);
+    border:1px solid var(--card-border);border-radius:var(--r-lg);
+    padding:var(--space-16);
+  }
+  /* AZ SVG-BELI SZÖVEG a lap betűjével és tokenszínével — nem beégetve. */
+  .abra-svg text{font-family:var(--font-body);fill:var(--text-secondary)}
+  .abra-svg .abra-szam{
+    font-family:var(--font-heading);font-size:15px;font-weight:600;
+    fill:var(--abra-kiemeles);
+  }
+  .abra-svg .abra-cimke{font-size:12px}
+  .abra-svg .abra-jegyzet{font-size:11.5px;fill:var(--text-tertiary)}
+  .abra-felirat{color:var(--text-secondary);margin:0;max-width:52ch}
+  .abra-felirat strong{color:var(--text-primary)}
+}
+
+@layer responsive {
+  @media (min-width:56rem){
+    /* Szélesen EGYMÁS MELLETT — a két elv különbsége így olvasható le egy
+       pillantással. Ez a rajz egész értelme. */
+    .abra-parok{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+}
