@@ -1,0 +1,156 @@
+{
+  "_megjegyzes": [
+    "A FOGALOMTÁR TARTALMI FORRÁSA. Minden meghatározás vagy a webhely SAJÁT",
+    "szövegéből származik (a `lap` mező mutatja, honnan és hova vezet tovább),",
+    "vagy a projekt szakmai referenciáiból: a háromnyelvű glosszáriumból (EN/DE",
+    "megfelelők) és a jogszabályi összeállításból (OTÉK, 2003. évi LXXXIX. tv.).",
+    "",
+    "AMIT NEM TALÁLTUNK FORRÁSBAN, AZ NINCS BENNE. A `derítő`,",
+    "`mikroszennyvíztisztító`, `szennyvízakna` és `dobozos szennyvíztisztító`",
+    "kifejezésekre van keresés, de egyikhez sincs a projektben olyan forrás,",
+    "amiből pontos meghatározást lehetne írni — kitalálni pedig nem szabad.",
+    "Ezek Bela jóváhagyása után vehetők fel."
+  ],
+  "csoportok": [
+    {
+      "azon": "megoldasok",
+      "cim": "Megoldástípusok — mi micsoda",
+      "bevezeto": "Három technológia van, és kilenc-tíz név, amivel illetik. Ez a négy a lényeg; ha ezeket szétválasztja, a többi név magától a helyére kerül.",
+      "fogalmak": [
+        {
+          "nev": "Zárt szennyvíztároló",
+          "masnev": "zárt emésztő",
+          "mit": "Vízzáró tartály, amely csak GYŰJTI a szennyvizet — nem tisztítja. Ami belekerül, azt szippantani kell. A köznyelvben zárt emésztőnek nevezett megoldás valójában ez.",
+          "en": "sealed / holding tank",
+          "de": "abflusslose Sammelgrube",
+          "lap": "tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito"
+        },
+        {
+          "nev": "Oldómedence",
+          "masnev": "szeptikus tartály · septic tank",
+          "mit": "Több kamrás tartály, amelyben a szennyvíz ülepedik, és levegő nélkül (anaerob módon) részben lebomlik. Előkezelés, nem teljes tisztítás: az elfolyó vizet utána el kell helyezni.",
+          "en": "septic tank",
+          "de": "(Mehrkammer-)Absetzgrube",
+          "lap": "megoldasok/oldomedences-rendszer"
+        },
+        {
+          "nev": "Levegőztetett biológiai szennyvíztisztító",
+          "masnev": "eleveniszapos berendezés",
+          "mit": "Levegőt, ezzel oxigént juttat a szennyvízbe, és megfelelő életfeltételeket teremt azoknak a mikroorganizmusoknak, amelyek a szerves szennyeződéseket lebontják. Ez nem egyszerűen ülepítés és anaerob előkezelés.",
+          "en": "activated sludge plant",
+          "de": "Belebungsanlage",
+          "lap": "tudastar/hogyan-tisztul-meg-a-szennyviz"
+        },
+        {
+          "nev": "Régi, szivárgó emésztő",
+          "masnev": "emésztőgödör",
+          "mit": "Sok régi ingatlannál olyan akna vagy medence készült, amely NEM volt vízzáró: a szilárd anyag egy része leülepedett, a folyadék pedig részben vagy egészben elszivárgott a környező talajba. Ez nem tisztítás.",
+          "lap": "helyzetem/meglevo-emesztot-szeretnek-kivaltani"
+        },
+        {
+          "nev": "Elszivárogtatás",
+          "masnev": "szikkasztás · szikkasztómező · szikkasztóárok",
+          "mit": "A TISZTÍTOTT víz elhelyezése a talajban. Nem tisztítóegység, hanem a rendszer utolsó eleme — és a leggyakoribb hibaforrás is egyben.",
+          "en": "soakaway / infiltration",
+          "de": "Versickerung",
+          "lap": "tudastar/elszivarogtatas"
+        },
+        {
+          "nev": "Gyökérzónás tisztítás",
+          "masnev": "nádgyökérzónás",
+          "mit": "Növényekkel telepített, szűrőrétegen átvezetett tisztítás. Külön technológia, nagy helyigénnyel.",
+          "en": "reed bed / root-zone treatment",
+          "de": "Pflanzenkläranlage"
+        }
+      ]
+    },
+    {
+      "azon": "koznyelv",
+      "cim": "Ahogy a köznyelv hívja",
+      "bevezeto": "Ezek a szavak keresésként gyakoriak, műszaki megnevezésként viszont pontatlanok. Nem baj, ha így keres — csak tudni érdemes, mit takarnak.",
+      "fogalmak": [
+        {
+          "nev": "Házi szennyvíztisztító",
+          "mit": "Közérthető és széles körben használt elnevezés. Általában olyan, családi házhoz vagy kisebb ingatlanhoz telepített rendszert keresnek ezen a néven, amely helyben kezeli a keletkező szennyvizet.",
+          "lap": "tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito"
+        },
+        {
+          "nev": "Bioemésztő, ökoemésztő",
+          "mit": "Nem pontos műszaki megnevezések. Sokkal inkább azt fejezik ki, hogy aki ezekre keres, a hagyományos emésztőnél korszerűbb, környezetbarátabb megoldást szeretne. A „bio” és az „öko” előtag önmagában nem mond semmit arról, mi történik odalent a szennyvízzel.",
+          "lap": "tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito"
+        },
+        {
+          "nev": "Közműpótló",
+          "mit": "Hatósági és építési szóhasználat: az OTÉK (253/1997. Korm. r.) szerint a közműpótló a központi közmű hiányában alkalmazható megoldás. A zárt szennyvíztároló ebben a rendszerben végső megoldásnak számít.",
+          "en": "utility-replacement (off-grid) solution",
+          "de": "Ersatz für öffentliche Kanalisation"
+        },
+        {
+          "nev": "Csatornázatlan terület",
+          "mit": "Ahol nincs kiépített közcsatorna, amire rá lehetne kötni. A szennyvízkezelést ilyenkor az ingatlanon kell megoldani.",
+          "en": "unsewered area",
+          "de": "kanalisationsfreies Gebiet",
+          "lap": "helyzetem/nincs-elerheto-kozcsatorna"
+        }
+      ]
+    },
+    {
+      "azon": "technologia",
+      "cim": "Technológia és alkatrészek",
+      "bevezeto": "Amit egy műszaki adatlapon vagy egy ajánlatban talál.",
+      "fogalmak": [
+        { "nev": "Eleveniszap", "mit": "A tisztítást végző mikroorganizmusok közössége, pelyhes formában a szennyvízben. Ez dolgozza le a szerves szennyeződést.", "en": "activated sludge", "de": "Belebtschlamm", "lap": "tudastar/mikrobiologiai-ujjlenyomat" },
+        { "nev": "Levegőztetés", "masnev": "aeráció", "mit": "Oxigénbevitel a szennyvízbe, hogy a lebontó mikroorganizmusok dolgozni tudjanak.", "en": "aeration", "de": "Belüftung" },
+        { "nev": "Levegőztető membrán", "masnev": "diffúzor", "mit": "Az az elem, amelyen át a levegő apró buborékokban a szennyvízbe jut. Kopó alkatrész.", "en": "aeration membrane / diffuser", "de": "Belüftermembran", "lap": "tudastar/uzemeltetes-teendok-es-koltsegek" },
+        { "nev": "Kompresszor", "masnev": "légbefúvó", "mit": "A levegőt előállító gép. Ez fogyasztja az áramot, és ez a másik kopó alkatrész.", "en": "compressor / air blower", "de": "Kompressor", "lap": "tudastar/uzemeltetes-teendok-es-koltsegek" },
+        { "nev": "Mamutszivattyú", "mit": "Levegővel működtetett szivattyú: nincs benne mozgó alkatrész a folyadékban.", "en": "air-lift pump", "de": "Mammutpumpe" },
+        { "nev": "Iszapzsák", "mit": "Az iszap víztelenítésére szolgáló zsák. Az A.B. Clear ezen az elven kezeli a fölösiszapot.", "en": "sludge bag", "de": "Schlammsack", "lap": "megoldasok/ab-clear-iszapzsakos-technologia" },
+        { "nev": "Fölösiszap", "mit": "A tisztítás során keletkező többlet-biomassza, amit időnként el kell távolítani a rendszerből.", "en": "excess / surplus sludge", "de": "Überschussschlamm" },
+        { "nev": "Szippantás", "mit": "Az összegyűlt szennyvíz vagy iszap elszállíttatása. A zárt tárolónál a teljes mennyiséget, a tisztítónál csak a fölösiszapot érinti.", "en": "(sludge) emptying / desludging", "de": "Schlammabfuhr", "lap": "szippantasi-dij-kalkulator" },
+        { "nev": "Szakaszos betáplálású reaktor (SBR)", "mit": "Eljárás, amelyben a tisztítás lépései időben követik egymást ugyanabban a medencében.", "en": "sequencing batch reactor (SBR)", "de": "Sequencing Batch Reactor (SBR)" },
+        { "nev": "Mozgóágyas biofilm reaktor (MBBR)", "mit": "Eljárás, amelyben a mikroorganizmusok mozgó hordozókon megtelepedve dolgoznak.", "en": "moving bed biofilm reactor (MBBR)", "de": "Wirbelbett-Bioreaktor" },
+        { "nev": "Beüzemelés", "mit": "A berendezés üzembe helyezése és a biológia beindítása a telepítés után.", "en": "commissioning", "de": "Inbetriebnahme", "lap": "tudastar/telepites-lepesrol-lepesre" }
+      ]
+    },
+    {
+      "azon": "meres",
+      "cim": "Mérés és vízminőség",
+      "bevezeto": "Ezek a rövidítések a teljesítménynyilatkozaton és a hatósági határértékeknél szerepelnek.",
+      "fogalmak": [
+        { "nev": "Lakosegyenérték (LE)", "mit": "A terhelés mértékegysége: egy fő napi átlagos szennyvízterhelése. A berendezés méretét ebben adják meg.", "en": "population equivalent (PE)", "de": "Einwohnerwert (EW)" },
+        { "nev": "BOI₅", "masnev": "biológiai oxigénigény", "mit": "Mennyi oxigént fogyasztanak a mikroorganizmusok öt nap alatt a szerves anyag lebontásához. A szerves szennyezés egyik fő mérőszáma.", "en": "BOD5", "de": "BSB5" },
+        { "nev": "KOI", "masnev": "kémiai oxigénigény", "mit": "A kémiailag oxidálható anyag mennyisége. A BOI-nál tágabb kört mér.", "en": "COD", "de": "CSB" },
+        { "nev": "Lebegőanyag", "mit": "A vízben úszó, kiszűrhető szilárd rész mennyisége.", "en": "suspended solids (TSS)", "de": "abfiltrierbare Stoffe (AFS)" },
+        { "nev": "Nitrifikáció / denitrifikáció", "mit": "A nitrogénvegyületek átalakításának két lépése: előbb nitráttá, majd légköri nitrogénné.", "en": "nitrification / denitrification", "de": "Nitrifikation / Denitrifikation" },
+        { "nev": "Tisztítási hatásfok", "mit": "Mennyivel csökken a szennyezés a berendezésen áthaladva, százalékban.", "en": "treatment efficiency", "de": "Reinigungsleistung" },
+        { "nev": "Elfolyó víz", "masnev": "tisztított víz", "mit": "Ami a berendezésből kijön. Ezt kell elhelyezni — elszivárogtatással vagy befogadóba vezetve.", "en": "effluent", "de": "Ablauf", "lap": "tudastar/elszivarogtatas" },
+        { "nev": "Befogadó", "mit": "Az a felszíni víz, amelybe a tisztított vizet vezetik.", "en": "receiving water", "de": "Vorfluter" },
+        { "nev": "Feketevíz / szürkevíz", "mit": "A WC-ből érkező, illetve a mosásból-mosogatásból-fürdésből származó szennyvíz.", "en": "blackwater / greywater", "de": "Schwarzwasser / Grauwasser" }
+      ]
+    },
+    {
+      "azon": "jog",
+      "cim": "Engedély, tanúsítás, díj",
+      "bevezeto": "Amit a hatóság és a gyártó papírjai használnak.",
+      "fogalmak": [
+        { "nev": "Vízjogi engedély", "mit": "A vízhasználathoz és a szennyvíz elhelyezéséhez szükséges hatósági engedély.", "en": "water rights / discharge permit", "de": "wasserrechtliche Genehmigung" },
+        { "nev": "Jegyzői engedély", "mit": "Lakossági, kisebb léptékű esetben a települési jegyző adja ki.", "en": "local-authority permit", "de": "behördliche Genehmigung" },
+        { "nev": "Talajterhelési díj", "mit": "Környezetterhelési díj (2003. évi LXXXIX. tv.), amely azt terheli, aki a műszakilag rendelkezésre álló közcsatornára nem köt rá — ideértve a zárt tárolót is. Alapja a felhasznált vízmennyiség.", "en": "soil load charge", "de": "Bodenbelastungsabgabe" },
+        { "nev": "EN 12566-3", "mit": "A háztartási szennyvíztisztító kisberendezésekre vonatkozó európai szabvány. Az EN 12566-1 az oldómedencékről szól — a kettő nem cserélhető fel.", "en": "EN 12566-3 standard", "de": "Norm EN 12566-3", "lap": "tudastar/en-12566-1-vagy-en-12566-3" },
+        { "nev": "CE-jelölés", "mit": "A gyártó nyilatkozata arról, hogy a termék megfelel a rá vonatkozó európai követelményeknek.", "en": "CE marking", "de": "CE-Kennzeichnung", "lap": "tudastar/42-hetes-ce-vizsgalat" },
+        { "nev": "Teljesítménynyilatkozat (DoP)", "mit": "A CE-jelöléshez tartozó dokumentum, amely a mért teljesítményértékeket tartalmazza.", "en": "Declaration of Performance (DoP)", "de": "Leistungserklärung", "lap": "megoldasok/ab-clear-dokumentumok" }
+      ]
+    }
+  ],
+  "gyik": [
+    { "k": "Mi a biológiai szennyvíztisztító?", "v": "Olyan berendezés, amelyben mikroorganizmusok bontják le a szennyvíz szerves szennyeződését. A levegőztetett változat oxigént juttat a vízbe, és ezzel megteremti a lebontáshoz szükséges életfeltételeket — ez a különbség a pusztán ülepítő megoldásokhoz képest." },
+    { "k": "Mi a biológiai szennyvíztisztítás?", "v": "Maga a folyamat: a szennyvízben található szerves anyagot élő mikroorganizmusok bontják le. A berendezés dolga, hogy ehhez szakaszonként megteremtse a megfelelő körülményeket." },
+    { "k": "Mi az az emésztőgödör?", "v": "A köznyelv így hívja a régi, nem vízzáró aknákat és medencéket, amelyekbe a szennyvíz belefolyt: a szilárd anyag egy része leülepedett, a folyadék pedig részben vagy egészben elszivárgott a környező talajba. Ez nem tisztítás." },
+    { "k": "Mi a zárt rendszerű emésztő?", "v": "A köznyelvben zárt emésztőnek nevezett megoldás valójában zárt, vízzáró szennyvíztároló: csak gyűjt, nem tisztít. Ami belekerül, azt szippantani kell." },
+    { "k": "Mi az az oldómedencés szennyvíztisztító?", "v": "Az oldómedence — angolul septic tank, magyarul gyakran szeptikus tartály — több kamrás tartály, amelyben a szennyvíz ülepedik és levegő nélkül részben lebomlik. Előkezelés, nem teljes tisztítás: az elfolyó vizet utána el kell helyezni." },
+    { "k": "Mi a szennyvíz szikkasztó?", "v": "A szikkasztó — pontosabban szikkasztómező vagy szikkasztóárok — nem tisztítóegység, hanem az elhelyezés eleme: a már megtisztított vizet vezeti a talajba. A rendszer utolsó szakasza, és a leggyakoribb hibaforrás is egyben." },
+    { "k": "Mit jelent a bioemésztő vagy az ökoemésztő?", "v": "Nem pontos műszaki megnevezések. Azt fejezik ki, hogy aki ezekre keres, a hagyományos emésztőnél korszerűbb, környezetbarátabb megoldást szeretne — a „bio” és az „öko” előtag önmagában nem mond semmit arról, mi történik odalent a szennyvízzel." },
+    { "k": "Mennyi a lakosegyenérték, és miért fontos?", "v": "A lakosegyenérték (LE) egy fő napi átlagos szennyvízterhelése. A berendezés méretét ebben adják meg, tehát ez dönti el, melyik modell való egy adott háztartáshoz." },
+    { "k": "Mi a különbség az EN 12566-1 és az EN 12566-3 között?", "v": "Az EN 12566-1 az oldómedencékre vonatkozik, az EN 12566-3 a háztartási szennyvíztisztító kisberendezésekre. A kettő nem cserélhető fel: más terméket, más követelményekkel tanúsít." }
+  ]
+}

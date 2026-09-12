@@ -234,8 +234,13 @@ KESZUL = [
     ('Tudástár', ['Tudástár kezdőoldal', 'Megoldások és működés', 'Telek, talaj és víz',
                   'Terhelés és méretezés', 'Engedélyezés és megfelelőség',
                   'Költség és megvalósítás', 'Üzemeltetés és hibamegelőzés',
-                  'Vízminőség és iszap', 'Fogalomtár', 'Gyakorlati útmutatók',
+                  'Vízminőség és iszap', 'Gyakorlati útmutatók',
                   'Kereshető GYIK']),
+    # A FOGALOMTÁR KIKERÜLT INNEN: 2026-09-12-én megépült
+    # (`tudastar/fogalomtar`), és a menüben már élő hivatkozás. Ha itt
+    # maradna, a szkript egy futtatással visszaírná felirattá mind a 187
+    # lapon — a lábléc hivatkozása pedig újra 404-re mutatna.
+    # A lapot a `scripts/oldalgyartas/fogalomtar.py` állítja elő.
     ('Eredmények', ['Eredmények áttekintése', 'Esettanulmányok', 'Projektadatbázis',
                     'Műszaki bizonyítékok', 'Tanúsítványok és dokumentumok',
                     'Ügyféltapasztalatok']),

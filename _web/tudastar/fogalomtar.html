@@ -2,47 +2,25 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
-     indexelheti, nem archiválhatja és nem idézhet belőle — ugyanezt küldi a
-     .htaccess X-Robots-Tag fejléce is. ÉLESÍTÉSKOR a lenti sor tartalmát
-     "index, follow"-ra kell cserélni, minden oldalon. -->
+<!-- TESZT ÜZEMMÓD: élesítéskor a `prod-epit.sh` 1. rétege cseréli
+     „index, follow"-ra. A `_web/` minden lapja noindex. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bioemésztő, ökoemésztő, házi szennyvíztisztító – mit jelentenek valójában? | ÖkoTech Home</title>
-<meta name="description" content="A „bio&quot; és az „öko&quot; előtag nem mond semmit arról, mi történik odalent a szennyvízzel. Három technológia rejtőzik kilenc elnevezés mögött.">
-<link rel="canonical" href="https://okotechhome.hu/tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">
+<title>Fogalomtár — szennyvízkezelési fogalmak egyszerűen | ÖkoTech Home</title>
+<meta name="description" content="Emésztő, oldómedence, szikkasztó, bioemésztő, lakosegyenérték — melyik szó mit takar, és melyik nem pontos műszaki megnevezés.">
+<link rel="canonical" href="https://okotechhome.hu/tudastar/fogalomtar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Bioemésztő, ökoemésztő vagy házi szennyvíztisztító?">
-<meta property="og:description" content="Két azonos berendezésben sem feltétlenül ugyanaz a mikrobiológiai közösség dolgozik. Mit mutatnak a kutatások, és miért nincs minden háztartásra érvényes „ennyi fér bele" válasz.">
-<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-alternativak.webp?v=3">
-<meta property="og:url" content="https://okotechhome.hu/tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">
-<meta property="og:site_name" content="ÖkoTech Home">
-<meta property="og:image:width" content="1800">
-<meta property="og:image:height" content="764">
-<meta property="og:image:alt" content="Bioemésztő, ökoemésztő vagy házi szennyvíztisztító?">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="Fogalomtár — szennyvízkezelési fogalmak egyszerűen | ÖkoTech Home">
+<meta property="og:description" content="Emésztő, oldómedence, szikkasztó, bioemésztő, lakosegyenérték — melyik szó mit takar, és melyik nem pontos műszaki megnevezés.">
 <meta property="og:locale" content="hu_HU">
-<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
-     stíluslap renderelést blokkolna két idegen kézfogás után, és a
-     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
-
-     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
-     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
-     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
-     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
-     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
-     adjuk oda az LCP-t.
-     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek; előtöltés szándékosan nincs (magas
+     prioritással a hero-kép elé állna). Lásd assets/css/betuk.css. -->
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="../assets/css/app.css?v=235">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
-     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
+     feldolgozása előtt — így nincs villanás. -->
 <script src="../assets/js/tema.js?v=1"></script>
-<link rel="preload" as="image" href="../assets/img/oldalak/hero-alternativak.webp?v=3"
-      imagesrcset="../assets/img/oldalak/hero-alternativak-1024.webp?v=3 1100w, ../assets/img/oldalak/hero-alternativak.webp?v=3 1800w"
-      imagesizes="100vw">
-<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
-     Szkript nélkül nem marad a lapon árva, néma sáv. -->
+<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi. -->
 <script src="/assets/js/suti.js?v=2" defer></script>
 </head>
 <body>
@@ -494,229 +472,363 @@
 </header>
 
 <main id="fotartalom">
+
   <section class="hero page-hero" aria-labelledby="oldal-cim">
     <div class="hero-inner">
       <div class="hero-copy">
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
-            <li><a href="./">Tudástár</a></li>
-            <li aria-current="page">Bioemésztő, ökoemésztő vagy házi szennyvíztisztító?</li>
+            <li><a href="../tudastar/">Tudástár</a></li>
+            <li aria-current="page">Fogalomtár</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Bioemésztő, ökoemésztő, házi szennyvíztisztító – mit jelentenek valójában?</h1>
-        <p class="type-ui-body-strong hero-lead">A „bio" és az „öko" előtag nem mond semmit arról, mi történik odalent a szennyvízzel. Három technológia rejtőzik kilenc elnevezés mögött.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Fogalomtár</h1>
+        <p class="type-ui-body-strong hero-lead">Ugyanarra a három technológiára tíz név is
+        használatban van, és a hatósági papír megint mást ír, mint a hirdetés. Itt egy helyen
+        megtalálja, melyik szó mit takar — és hol olvashat róla bővebben.</p>
       </div>
     </div>
-    <figure class="hero-media page-hero-media">
-      <picture>
-        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-alternativak-szuk.webp?v=3 1100w" sizes="100vw" width="1100" height="471">
-        <img src="../assets/img/oldalak/hero-alternativak.webp?v=3"
-             srcset="../assets/img/oldalak/hero-alternativak-1024.webp?v=3 1100w, ../assets/img/oldalak/hero-alternativak.webp?v=3 1800w"
-             sizes="100vw" width="1800" height="771" alt="Ház melletti munkaárokban fektetett tartály és a kavicsággyal feltöltött csatlakozó árok" fetchpriority="high" decoding="async">
-      </picture>
-    </figure>
   </section>
 
-  <section class="section" aria-labelledby="nevek-cim">
+  <section class="section" aria-labelledby="ugras-cim">
+    <div class="section-inner">
+      <h2 class="visually-hidden" id="ugras-cim">Ugrás a fogalomcsoportokhoz</h2>
+      <nav class="fogalom-ugras" aria-label="Fogalomcsoportok">
+        <ul class="fogalom-ugras-lista" role="list">
+          <li><a class="fogalom-ugras-link type-ui-button" href="#megoldasok">Megoldástípusok</a></li>
+          <li><a class="fogalom-ugras-link type-ui-button" href="#koznyelv">Ahogy a köznyelv hívja</a></li>
+          <li><a class="fogalom-ugras-link type-ui-button" href="#technologia">Technológia és alkatrészek</a></li>
+          <li><a class="fogalom-ugras-link type-ui-button" href="#meres">Mérés és vízminőség</a></li>
+          <li><a class="fogalom-ugras-link type-ui-button" href="#jog">Engedély, tanúsítás, díj</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section" id="megoldasok" aria-labelledby="megoldasok-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Röviden</p>
-        <h2 class="type-display-section-title section-title" id="nevek-cim">Kilenc név, három technológia</h2>
+        <p class="type-data-eyebrow section-eyebrow">Fogalmak</p>
+        <h2 class="type-display-section-title section-title" id="megoldasok-cim">Megoldástípusok — mi micsoda</h2>
+        <p class="type-ui-body section-lead">Három technológia van, és kilenc-tíz név, amivel illetik. Ez a négy a lényeg; ha ezeket szétválasztja, a többi név magától a helyére kerül.</p>
       </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">Ha nincs csatorna az ingatlanánál, és elkezd megoldást keresni a szennyvíz kezelésére, meglepően sokféle elnevezéssel találkozhat:</p>
-        <p class="type-ui-body-strong">Bioemésztő. Ökoemésztő. Emésztő. Zárt emésztő. Oldómedence. Szeptikus tartály. Septic tank. Házi szennyvíztisztító. Biológiai szennyvíztisztító.</p>
-        <p class="type-ui-body">Nem csoda, ha nehéz eligazodni közöttük. Ráadásul a hétköznapi és a kereskedelmi szóhasználatban ezek az elnevezések sokszor <strong>összemosódnak</strong>, miközben műszakilag egészen különböző megoldásokat takarhatnak.</p>
-        <div class="jogi-kiemelt">
-          <p class="type-ui-body">Nem mindegy ugyanis, hogy a szennyvizet <strong>csak összegyűjtjük</strong>, <strong>ülepítjük és részben előkezeljük</strong>, vagy <strong>ténylegesen megtisztítjuk</strong>.</p>
+      <dl class="fogalomtar">
+        <div class="fogalom" id="f-zart-szennyviztarolo">
+          <dt class="type-ui-subtitle fogalom-nev">Zárt szennyvíztároló
+            <span class="fogalom-masnev type-ui-caption">zárt emésztő</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Vízzáró tartály, amely csak GYŰJTI a szennyvizet — nem tisztítja. Ami belekerül, azt szippantani kell. A köznyelvben zárt emésztőnek nevezett megoldás valójában ez.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> sealed / holding tank</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> abflusslose Sammelgrube</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">Részletesen →</a></span></dd>
         </div>
-        <p class="type-ui-body">Nézzük meg, mi történik valójában a föld alatt.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="hazi-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A gyűjtőnév</p>
-        <h2 class="type-display-section-title section-title" id="hazi-cim">Mit jelent a házi szennyvíztisztító?</h2>
-      </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">A „házi szennyvíztisztító" közérthető és széles körben használt elnevezés. Általában olyan, családi házhoz vagy kisebb ingatlanhoz telepített rendszert keresnek ezen a néven, amely <strong>helyben kezeli</strong> a keletkező szennyvizet.</p>
-        <p class="type-ui-body">A kifejezés azonban önmagában még <strong>nem mondja meg, hogyan</strong> történik a kezelés. Éppen ezért két, kívülről nagyon hasonló, földbe telepített tartály között hatalmas műszaki különbség lehet:</p>
-        <ol class="folyamat-lepesek" role="list">
-          <li class="type-ui-body">Az egyik <strong>csak gyűjti</strong> a szennyvizet.</li>
-          <li class="type-ui-body">A másik <strong>ülepíti és anaerob módon előkezeli</strong>.</li>
-          <li class="type-ui-body">A harmadik <strong>levegőztetéssel, mikroorganizmusok segítségével biológiailag tisztítja</strong>.</li>
-        </ol>
-        <p class="type-ui-body">Ezért érdemes először ezeket a rendszereket szétválasztani.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="zart-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">1. Csak gyűjt</p>
-        <h2 class="type-display-section-title section-title" id="zart-cim">Zárt emésztő — pontosabban zárt szennyvíztároló</h2>
-      </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">A köznyelvben zárt emésztőnek nevezett megoldás valójában <strong>zárt, vízzáró szennyvíztároló</strong>.</p>
-        <p class="type-ui-body">A háztartás szennyvize bekerül a tartályba, ott összegyűlik, majd amikor a tartály megtelik, <a href="../megoldasok/oldomedence-szippantas-es-karbantartas">szippantókocsival</a> el kell szállítani. A rendszer rendeltetésszerű működése során a szennyvíz <strong>nem folyik tovább</strong> belőle és nem kerül a talajba.</p>
-        <div class="jogi-kiemelt">
-          <p class="type-ui-body">Valójában tehát <strong>nem tisztít. Tárol.</strong></p>
+        <div class="fogalom" id="f-oldomedence">
+          <dt class="type-ui-subtitle fogalom-nev">Oldómedence
+            <span class="fogalom-masnev type-ui-caption">szeptikus tartály · septic tank</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Több kamrás tartály, amelyben a szennyvíz ülepedik, és levegő nélkül (anaerob módon) részben lebomlik. Előkezelés, nem teljes tisztítás: az elfolyó vizet utána el kell helyezni.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> septic tank</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> (Mehrkammer-)Absetzgrube</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../megoldasok/oldomedences-rendszer">Részletesen →</a></span></dd>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="regi-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A félreértés forrása</p>
-        <h2 class="type-display-section-title section-title" id="regi-cim">Mi a helyzet a régi, szivárgó emésztőkkel?</h2>
-      </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">Az „emésztő" szó alatt Magyarországon sokan egészen más megoldást értenek. Sok régi ingatlannál olyan akna vagy medence készült, amely <strong>nem volt vízzáró</strong>. A szennyvíz belekerült, a szilárd anyag egy része leülepedett, a folyadék pedig részben vagy egészben <strong>elszivárgott a környező talajba</strong>.</p>
-        <p class="type-ui-body">Ez azért tudott hosszú ideig működni, mert a folyadék folyamatosan távozott, így nem kellett annyi szennyvizet elszállítani, mint egy valóban zárt tárolóból.</p>
-        <div class="jogi-kiemelt">
-          <p class="type-ui-body">Attól azonban, hogy a szennyvíz <strong>eltűnik</strong> az emésztőből, még nem jelenti azt, hogy előtte <strong>megfelelően megtisztítottuk</strong>. Ez nem azonos a korszerű biológiai szennyvíztisztítással.</p>
+        <div class="fogalom" id="f-levegoztetett-biologiai-szennyviztisztito">
+          <dt class="type-ui-subtitle fogalom-nev">Levegőztetett biológiai szennyvíztisztító
+            <span class="fogalom-masnev type-ui-caption">eleveniszapos berendezés</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Levegőt, ezzel oxigént juttat a szennyvízbe, és megfelelő életfeltételeket teremt azoknak a mikroorganizmusoknak, amelyek a szerves szennyeződéseket lebontják. Ez nem egyszerűen ülepítés és anaerob előkezelés.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> activated sludge plant</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Belebungsanlage</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/hogyan-tisztul-meg-a-szennyviz">Részletesen →</a></span></dd>
         </div>
-        <p class="type-ui-body">A régi rendszer kiváltásáról külön lap szól: <a href="../helyzetem/meglevo-emesztot-szeretnek-kivaltani">meglévő emésztő kiváltása</a>.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="oldomedence-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">2. Ülepít és előkezel</p>
-        <h2 class="type-display-section-title section-title" id="oldomedence-cim">Oldómedence, szeptikus tartály, septic tank — ugyanaz az elv</h2>
-      </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">Az <a href="../megoldasok/oldomedences-rendszer">oldómedence</a> — angolul <em>septic tank</em>, magyarul gyakran szeptikus tartály — már más rendszer. <strong>Nem zárt szennyvíztároló.</strong></p>
-        <p class="type-ui-body">A beérkező szennyvíz időt tölt a medencében. A nehezebb szilárd részek leülepednek, a könnyebb anyagok egy része felúszik, a visszatartott szerves anyagban pedig <strong>levegőtől elzárt, anaerob</strong> biológiai folyamatok zajlanak. A folyékony rész <strong>továbbfolyik</strong> a medencéből, és a rendszerhez további elhelyezés vagy kezelés kapcsolódik.</p>
-        <p class="type-ui-body">Vagyis az oldómedence, a szeptikus tartály és a septic tank lényegében <strong>ugyanazt a technológiai elvet</strong> jelöli: ülepítés és anaerob előkezelés történik, miközben a folyadék továbbhalad.</p>
-        <p class="type-ui-body">És itt jutunk el egy érdekes kérdéshez.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="bio-e-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A jogos kérdés</p>
-        <h2 class="type-display-section-title section-title" id="bio-e-cim">Akkor az oldómedence is biológiai szennyvíztisztító?</h2>
-      </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">Az oldómedencéket, szeptikus tartályokat is nevezik biológiai szennyvíztisztítónak vagy bioemésztőnek arra hivatkozva, hogy bennük is baktériumok dolgoznak. <strong>És ez igaz.</strong></p>
-        <p class="type-ui-body">Csakhogy nem mindegy, <strong>milyen baktériumok, milyen körülmények között</strong> és milyen tisztítási eredménnyel dolgoznak. Az oldómedencében alapvetően levegőtől elzárt, anaerob környezet alakul ki. A leülepedett iszap idővel jellegzetesen sötétté, akár feketévé válik, a medence alján felhalmozódó iszapot pedig időnként szippantókocsival el kell távolítani.</p>
-        <p class="type-ui-body">Tehát valóban zajlik benne biológiai lebontás. Ez azonban <strong>nem ugyanaz a tisztítási folyamat</strong>, mint egy levegőztetett, eleveniszapos biológiai szennyvíztisztítóban.</p>
-        <div class="jogi-kiemelt">
-          <p class="type-ui-body">Ez fontos különbség, mert gyakorlatilag <strong>minden szennyvízben dolgoznak mikroorganizmusok</strong>. Önmagában attól tehát, hogy egy tartályban baktériumok élnek, még nem tudjuk, milyen szennyvízkezelési technológiáról van szó.</p>
+        <div class="fogalom" id="f-regi-szivargo-emeszto">
+          <dt class="type-ui-subtitle fogalom-nev">Régi, szivárgó emésztő
+            <span class="fogalom-masnev type-ui-caption">emésztőgödör</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Sok régi ingatlannál olyan akna vagy medence készült, amely NEM volt vízzáró: a szilárd anyag egy része leülepedett, a folyadék pedig részben vagy egészben elszivárgott a környező talajba. Ez nem tisztítás.
+            <span class="fogalom-tovabb type-ui-caption"><a href="../helyzetem/meglevo-emesztot-szeretnek-kivaltani">Részletesen →</a></span></dd>
         </div>
-        <p class="type-ui-body">A kérdés az, hogy milyen körülmények között dolgoznak, mi történik a szennyvízzel, és <strong>milyen minőségű víz távozik</strong> a rendszerből. A két technológia tételes összevetése: <a href="oldomedence-vagy-biologiai-szennyviztisztito">oldómedence vagy biológiai szennyvíztisztító?</a></p>
-      </div>
+        <div class="fogalom" id="f-elszivarogtatas">
+          <dt class="type-ui-subtitle fogalom-nev">Elszivárogtatás
+            <span class="fogalom-masnev type-ui-caption">szikkasztás · szikkasztómező · szikkasztóárok</span></dt>
+          <dd class="type-ui-body fogalom-leiras">A TISZTÍTOTT víz elhelyezése a talajban. Nem tisztítóegység, hanem a rendszer utolsó eleme — és a leggyakoribb hibaforrás is egyben.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> soakaway / infiltration</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Versickerung</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/elszivarogtatas">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-gyokerzonas-tisztitas">
+          <dt class="type-ui-subtitle fogalom-nev">Gyökérzónás tisztítás
+            <span class="fogalom-masnev type-ui-caption">nádgyökérzónás</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Növényekkel telepített, szűrőrétegen átvezetett tisztítás. Külön technológia, nagy helyigénnyel.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> reed bed / root-zone treatment</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Pflanzenkläranlage</span></span></dd>
+        </div>
+      </dl>
     </div>
   </section>
-  <section class="section" aria-labelledby="bioemeszto-cim">
+  <section class="section" id="koznyelv" aria-labelledby="koznyelv-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A két keresett szó</p>
-        <h2 class="type-display-section-title section-title" id="bioemeszto-cim">Mit jelent a „bioemésztő" vagy az „ökoemésztő"?</h2>
+        <p class="type-data-eyebrow section-eyebrow">Fogalmak</p>
+        <h2 class="type-display-section-title section-title" id="koznyelv-cim">Ahogy a köznyelv hívja</h2>
+        <p class="type-ui-body section-lead">Ezek a szavak keresésként gyakoriak, műszaki megnevezésként viszont pontatlanok. Nem baj, ha így keres — csak tudni érdemes, mit takarnak.</p>
       </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">A bioemésztő és az ökoemésztő <strong>nem pontos műszaki megnevezések</strong>. Sokkal inkább azt fejezik ki, hogy aki ezekre a kifejezésekre keres, a hagyományos emésztőnél korszerűbb, környezetbarátabb, ökologikusabb megoldást szeretne a háztartási szennyvíz kezelésére.</p>
-        <p class="type-ui-body">És éppen itt érdemes óvatosnak lenni. Attól ugyanis, hogy egy rendszert bioemésztőnek vagy ökoemésztőnek neveznek, <strong>még nem derül ki, mi történik benne valójában</strong> a szennyvízzel.</p>
-        <p class="type-ui-body">Lehet mögötte oldómedencés, anaerob rendszer, és lehet levegőztetett biológiai szennyvíztisztító is. A két technológia működése és az elérhető tisztítási eredmény azonban <strong>nagyon különböző</strong>.</p>
-        <div class="jogi-kiemelt">
-          <p class="type-ui-body">Ha valóban a környezetbarát, ökologikus megoldást keresi, akkor <strong>nem a „bio" vagy az „öko" elnevezésből</strong> érdemes kiindulni. Azt kell megnézni, mi történik a szennyvízzel, milyen minőségű víz távozik a rendszerből, mit kell rendszeresen elszállítani, mi történik a keletkező iszappal, és van-e lehetőség arra, hogy a megtisztított víz megfelelő műszaki és jogi feltételek mellett <a href="../projekt-elokeszites/tisztitott-viz-elhelyezese">helyben maradjon</a>.</p>
+      <dl class="fogalomtar">
+        <div class="fogalom" id="f-hazi-szennyviztisztito">
+          <dt class="type-ui-subtitle fogalom-nev">Házi szennyvíztisztító</dt>
+          <dd class="type-ui-body fogalom-leiras">Közérthető és széles körben használt elnevezés. Általában olyan, családi házhoz vagy kisebb ingatlanhoz telepített rendszert keresnek ezen a néven, amely helyben kezeli a keletkező szennyvizet.
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">Részletesen →</a></span></dd>
         </div>
-        <p class="type-ui-body">Vagyis ha „bioemésztőre" vagy „ökoemésztőre" keres, könnyen lehet, hogy <strong>valójában nem emésztőt keres</strong> — hanem egy olyan megoldást, amely a szennyvizet helyben, a lehető legkisebb környezeti terheléssel kezeli.</p>
-      </div>
+        <div class="fogalom" id="f-bioemeszto-okoemeszto">
+          <dt class="type-ui-subtitle fogalom-nev">Bioemésztő, ökoemésztő</dt>
+          <dd class="type-ui-body fogalom-leiras">Nem pontos műszaki megnevezések. Sokkal inkább azt fejezik ki, hogy aki ezekre keres, a hagyományos emésztőnél korszerűbb, környezetbarátabb megoldást szeretne. A „bio” és az „öko” előtag önmagában nem mond semmit arról, mi történik odalent a szennyvízzel.
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-kozmupotlo">
+          <dt class="type-ui-subtitle fogalom-nev">Közműpótló</dt>
+          <dd class="type-ui-body fogalom-leiras">Hatósági és építési szóhasználat: az OTÉK (253/1997. Korm. r.) szerint a közműpótló a központi közmű hiányában alkalmazható megoldás. A zárt szennyvíztároló ebben a rendszerben végső megoldásnak számít.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> utility-replacement (off-grid) solution</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Ersatz für öffentliche Kanalisation</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-csatornazatlan-terulet">
+          <dt class="type-ui-subtitle fogalom-nev">Csatornázatlan terület</dt>
+          <dd class="type-ui-body fogalom-leiras">Ahol nincs kiépített közcsatorna, amire rá lehetne kötni. A szennyvízkezelést ilyenkor az ingatlanon kell megoldani.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> unsewered area</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> kanalisationsfreies Gebiet</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../helyzetem/nincs-elerheto-kozcsatorna">Részletesen →</a></span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+  <section class="section" id="technologia" aria-labelledby="technologia-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Fogalmak</p>
+        <h2 class="type-display-section-title section-title" id="technologia-cim">Technológia és alkatrészek</h2>
+        <p class="type-ui-body section-lead">Amit egy műszaki adatlapon vagy egy ajánlatban talál.</p>
+      </header>
+      <dl class="fogalomtar">
+        <div class="fogalom" id="f-eleveniszap">
+          <dt class="type-ui-subtitle fogalom-nev">Eleveniszap</dt>
+          <dd class="type-ui-body fogalom-leiras">A tisztítást végző mikroorganizmusok közössége, pelyhes formában a szennyvízben. Ez dolgozza le a szerves szennyeződést.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> activated sludge</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Belebtschlamm</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/mikrobiologiai-ujjlenyomat">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-levegoztetes">
+          <dt class="type-ui-subtitle fogalom-nev">Levegőztetés
+            <span class="fogalom-masnev type-ui-caption">aeráció</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Oxigénbevitel a szennyvízbe, hogy a lebontó mikroorganizmusok dolgozni tudjanak.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> aeration</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Belüftung</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-levegozteto-membran">
+          <dt class="type-ui-subtitle fogalom-nev">Levegőztető membrán
+            <span class="fogalom-masnev type-ui-caption">diffúzor</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Az az elem, amelyen át a levegő apró buborékokban a szennyvízbe jut. Kopó alkatrész.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> aeration membrane / diffuser</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Belüftermembran</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/uzemeltetes-teendok-es-koltsegek">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-kompresszor">
+          <dt class="type-ui-subtitle fogalom-nev">Kompresszor
+            <span class="fogalom-masnev type-ui-caption">légbefúvó</span></dt>
+          <dd class="type-ui-body fogalom-leiras">A levegőt előállító gép. Ez fogyasztja az áramot, és ez a másik kopó alkatrész.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> compressor / air blower</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Kompressor</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/uzemeltetes-teendok-es-koltsegek">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-mamutszivattyu">
+          <dt class="type-ui-subtitle fogalom-nev">Mamutszivattyú</dt>
+          <dd class="type-ui-body fogalom-leiras">Levegővel működtetett szivattyú: nincs benne mozgó alkatrész a folyadékban.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> air-lift pump</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Mammutpumpe</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-iszapzsak">
+          <dt class="type-ui-subtitle fogalom-nev">Iszapzsák</dt>
+          <dd class="type-ui-body fogalom-leiras">Az iszap víztelenítésére szolgáló zsák. Az A.B. Clear ezen az elven kezeli a fölösiszapot.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> sludge bag</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Schlammsack</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../megoldasok/ab-clear-iszapzsakos-technologia">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-folosiszap">
+          <dt class="type-ui-subtitle fogalom-nev">Fölösiszap</dt>
+          <dd class="type-ui-body fogalom-leiras">A tisztítás során keletkező többlet-biomassza, amit időnként el kell távolítani a rendszerből.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> excess / surplus sludge</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Überschussschlamm</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-szippantas">
+          <dt class="type-ui-subtitle fogalom-nev">Szippantás</dt>
+          <dd class="type-ui-body fogalom-leiras">Az összegyűlt szennyvíz vagy iszap elszállíttatása. A zárt tárolónál a teljes mennyiséget, a tisztítónál csak a fölösiszapot érinti.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> (sludge) emptying / desludging</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Schlammabfuhr</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../szippantasi-dij-kalkulator">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-szakaszos-betaplalasu-reaktor-sbr">
+          <dt class="type-ui-subtitle fogalom-nev">Szakaszos betáplálású reaktor (SBR)</dt>
+          <dd class="type-ui-body fogalom-leiras">Eljárás, amelyben a tisztítás lépései időben követik egymást ugyanabban a medencében.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> sequencing batch reactor (SBR)</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Sequencing Batch Reactor (SBR)</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-mozgoagyas-biofilm-reaktor-mbbr">
+          <dt class="type-ui-subtitle fogalom-nev">Mozgóágyas biofilm reaktor (MBBR)</dt>
+          <dd class="type-ui-body fogalom-leiras">Eljárás, amelyben a mikroorganizmusok mozgó hordozókon megtelepedve dolgoznak.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> moving bed biofilm reactor (MBBR)</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Wirbelbett-Bioreaktor</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-beuzemeles">
+          <dt class="type-ui-subtitle fogalom-nev">Beüzemelés</dt>
+          <dd class="type-ui-body fogalom-leiras">A berendezés üzembe helyezése és a biológia beindítása a telepítés után.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> commissioning</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Inbetriebnahme</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/telepites-lepesrol-lepesre">Részletesen →</a></span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+  <section class="section" id="meres" aria-labelledby="meres-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Fogalmak</p>
+        <h2 class="type-display-section-title section-title" id="meres-cim">Mérés és vízminőség</h2>
+        <p class="type-ui-body section-lead">Ezek a rövidítések a teljesítménynyilatkozaton és a hatósági határértékeknél szerepelnek.</p>
+      </header>
+      <dl class="fogalomtar">
+        <div class="fogalom" id="f-lakosegyenertek-le">
+          <dt class="type-ui-subtitle fogalom-nev">Lakosegyenérték (LE)</dt>
+          <dd class="type-ui-body fogalom-leiras">A terhelés mértékegysége: egy fő napi átlagos szennyvízterhelése. A berendezés méretét ebben adják meg.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> population equivalent (PE)</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Einwohnerwert (EW)</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-boi">
+          <dt class="type-ui-subtitle fogalom-nev">BOI₅
+            <span class="fogalom-masnev type-ui-caption">biológiai oxigénigény</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Mennyi oxigént fogyasztanak a mikroorganizmusok öt nap alatt a szerves anyag lebontásához. A szerves szennyezés egyik fő mérőszáma.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> BOD5</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> BSB5</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-koi">
+          <dt class="type-ui-subtitle fogalom-nev">KOI
+            <span class="fogalom-masnev type-ui-caption">kémiai oxigénigény</span></dt>
+          <dd class="type-ui-body fogalom-leiras">A kémiailag oxidálható anyag mennyisége. A BOI-nál tágabb kört mér.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> COD</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> CSB</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-lebegoanyag">
+          <dt class="type-ui-subtitle fogalom-nev">Lebegőanyag</dt>
+          <dd class="type-ui-body fogalom-leiras">A vízben úszó, kiszűrhető szilárd rész mennyisége.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> suspended solids (TSS)</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> abfiltrierbare Stoffe (AFS)</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-nitrifikacio-denitrifikacio">
+          <dt class="type-ui-subtitle fogalom-nev">Nitrifikáció / denitrifikáció</dt>
+          <dd class="type-ui-body fogalom-leiras">A nitrogénvegyületek átalakításának két lépése: előbb nitráttá, majd légköri nitrogénné.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> nitrification / denitrification</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Nitrifikation / Denitrifikation</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-tisztitasi-hatasfok">
+          <dt class="type-ui-subtitle fogalom-nev">Tisztítási hatásfok</dt>
+          <dd class="type-ui-body fogalom-leiras">Mennyivel csökken a szennyezés a berendezésen áthaladva, százalékban.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> treatment efficiency</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Reinigungsleistung</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-elfolyo-viz">
+          <dt class="type-ui-subtitle fogalom-nev">Elfolyó víz
+            <span class="fogalom-masnev type-ui-caption">tisztított víz</span></dt>
+          <dd class="type-ui-body fogalom-leiras">Ami a berendezésből kijön. Ezt kell elhelyezni — elszivárogtatással vagy befogadóba vezetve.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> effluent</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Ablauf</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/elszivarogtatas">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-befogado">
+          <dt class="type-ui-subtitle fogalom-nev">Befogadó</dt>
+          <dd class="type-ui-body fogalom-leiras">Az a felszíni víz, amelybe a tisztított vizet vezetik.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> receiving water</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Vorfluter</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-feketeviz-szurkeviz">
+          <dt class="type-ui-subtitle fogalom-nev">Feketevíz / szürkevíz</dt>
+          <dd class="type-ui-body fogalom-leiras">A WC-ből érkező, illetve a mosásból-mosogatásból-fürdésből származó szennyvíz.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> blackwater / greywater</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Schwarzwasser / Grauwasser</span></span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+  <section class="section" id="jog" aria-labelledby="jog-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Fogalmak</p>
+        <h2 class="type-display-section-title section-title" id="jog-cim">Engedély, tanúsítás, díj</h2>
+        <p class="type-ui-body section-lead">Amit a hatóság és a gyártó papírjai használnak.</p>
+      </header>
+      <dl class="fogalomtar">
+        <div class="fogalom" id="f-vizjogi-engedely">
+          <dt class="type-ui-subtitle fogalom-nev">Vízjogi engedély</dt>
+          <dd class="type-ui-body fogalom-leiras">A vízhasználathoz és a szennyvíz elhelyezéséhez szükséges hatósági engedély.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> water rights / discharge permit</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> wasserrechtliche Genehmigung</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-jegyzoi-engedely">
+          <dt class="type-ui-subtitle fogalom-nev">Jegyzői engedély</dt>
+          <dd class="type-ui-body fogalom-leiras">Lakossági, kisebb léptékű esetben a települési jegyző adja ki.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> local-authority permit</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> behördliche Genehmigung</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-talajterhelesi-dij">
+          <dt class="type-ui-subtitle fogalom-nev">Talajterhelési díj</dt>
+          <dd class="type-ui-body fogalom-leiras">Környezetterhelési díj (2003. évi LXXXIX. tv.), amely azt terheli, aki a műszakilag rendelkezésre álló közcsatornára nem köt rá — ideértve a zárt tárolót is. Alapja a felhasznált vízmennyiség.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> soil load charge</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Bodenbelastungsabgabe</span></span></dd>
+        </div>
+        <div class="fogalom" id="f-en-12566-3">
+          <dt class="type-ui-subtitle fogalom-nev">EN 12566-3</dt>
+          <dd class="type-ui-body fogalom-leiras">A háztartási szennyvíztisztító kisberendezésekre vonatkozó európai szabvány. Az EN 12566-1 az oldómedencékről szól — a kettő nem cserélhető fel.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> EN 12566-3 standard</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Norm EN 12566-3</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/en-12566-1-vagy-en-12566-3">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-ce-jeloles">
+          <dt class="type-ui-subtitle fogalom-nev">CE-jelölés</dt>
+          <dd class="type-ui-body fogalom-leiras">A gyártó nyilatkozata arról, hogy a termék megfelel a rá vonatkozó európai követelményeknek.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> CE marking</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> CE-Kennzeichnung</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../tudastar/42-hetes-ce-vizsgalat">Részletesen →</a></span></dd>
+        </div>
+        <div class="fogalom" id="f-teljesitmenynyilatkozat-dop">
+          <dt class="type-ui-subtitle fogalom-nev">Teljesítménynyilatkozat (DoP)</dt>
+          <dd class="type-ui-body fogalom-leiras">A CE-jelöléshez tartozó dokumentum, amely a mért teljesítményértékeket tartalmazza.
+            <span class="fogalom-nyelvek type-ui-caption"><span class="fogalom-nyelv"><abbr title="angolul">EN</abbr> Declaration of Performance (DoP)</span> <span class="fogalom-nyelv"><abbr title="németül">DE</abbr> Leistungserklärung</span></span>
+            <span class="fogalom-tovabb type-ui-caption"><a href="../megoldasok/ab-clear-dokumentumok">Részletesen →</a></span></dd>
+        </div>
+      </dl>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="levegoztetett-cim">
+  <section class="section section-alt" id="gyik" aria-labelledby="gyik-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">3. Ténylegesen tisztít</p>
-        <h2 class="type-display-section-title section-title" id="levegoztetett-cim">Mitől más a levegőztetett biológiai szennyvíztisztító?</h2>
+        <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
+        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit a fogalmakról a leggyakrabban kérdeznek</h2>
       </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">A <a href="../megoldasok/biologiai-szennyviztisztitas">levegőztetett biológiai szennyvíztisztítóban</a> nem egyszerűen ülepítés és anaerob előkezelés történik. A rendszer <strong>levegőt, ezzel oxigént</strong> juttat a szennyvízbe, és megfelelő életfeltételeket teremt azoknak a mikroorganizmusoknak, amelyek a szennyvízben található szerves szennyeződéseket lebontják.</p>
-        <p class="type-ui-body">Az <strong>eleveniszapos</strong> biológiai szennyvíztisztítás elvét a nagy központi szennyvíztisztító telepeken is széles körben alkalmazzák. Egy házi szennyvíztisztító esetében ugyanez az alapelv <strong>kis léptékben</strong>, közvetlenül annál az ingatlannál valósulhat meg, ahol a szennyvíz keletkezik.</p>
-        <div class="jogi-kiemelt">
-          <p class="type-ui-body">Nem arról van tehát szó, hogy a <strong>kezeletlen</strong> szennyvíz egyszerűen eltűnik a talajban. A cél az, hogy a berendezésből már <strong>tisztított</strong> szennyvíz távozzon.</p>
-        </div>
-        <p class="type-ui-body">A folyamat lépésről lépésre: <a href="hogyan-tisztul-meg-a-szennyviz">hogyan lesz a szennyvízből tisztított víz?</a></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="abclear-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Hova tartozik az A.B. Clear</p>
-        <h2 class="type-display-section-title section-title" id="abclear-cim">Levegőztetett, eleveniszapos berendezés</h2>
-      </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">Az <a href="../megoldasok/ab-clear">A.B. Clear</a> <strong>nem zárt emésztő, nem oldómedence és nem szeptikus tartály</strong>. Levegőztetett, eleveniszapos biológiai szennyvíztisztító berendezés.</p>
-        <p class="type-ui-body">A hagyományos vízöblítéses WC-t használó háztartásban a WC-ből származó <strong>feketevíz</strong> és a fürdésből, mosásból, mosogatásból keletkező <strong>szürkevíz</strong> közös vezetéken érkezhet a berendezésbe, ahol biológiai tisztításon megy keresztül. A folyamat végén két dolog marad: <strong>tisztított szennyvíz</strong> és <strong>stabilizált, komposztálható iszap</strong>.</p>
-        <p class="type-ui-body">Az A.B. Clear egyik sajátossága, hogy a tisztítás során keletkező fölösiszap kezelésére <a href="../megoldasok/ab-clear-iszapzsakos-technologia">saját megoldást fejlesztettünk ki</a>: a fölösiszap hidraulikusan kiválasztódik, besűrűsödik, majd vízáteresztő iszapzsákba kerül, ahol tovább víztelenedik. Így <strong>nem több köbméter híg eleveniszapot</strong> kell rendszeresen szippantókocsival elszállítani.</p>
-        <div class="jogi-kiemelt">
-          <p class="type-ui-body">A megtisztított szennyvíz megfelelő műszaki és jogi feltételek mellett helyben visszajuttatható a talajba, a stabilizált iszap pedig megfelelő kezelés és komposztálás után ugyancsak helyben tartható.</p>
-          <p class="type-ui-body">Vagyis nemcsak az a kérdés, <strong>hogyan tisztítjuk meg</strong> a szennyvizet. Az is fontos, hogy utána <strong>mi történik a vízzel és az iszappal</strong>.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="mit-keressen-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Összefoglalva</p>
-        <h2 class="type-display-section-title section-title" id="mit-keressen-cim">Akkor mit keressen?</h2>
-        <p class="type-ui-body section-lead">Ha családi házhoz keres szennyvízkezelési megoldást, ne aggódjon amiatt, hogy elsőre nem ismeri a pontos műszaki elnevezést. Sokkal fontosabb megérteni, <strong>mi történik odalent</strong> a szennyvízzel.</p>
-      </header>
-      <ul class="numbered-grid" role="list">
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text"><strong>Ha a rendszer csak összegyűjti</strong> — zárt szennyvíztárolóról beszélünk.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text"><strong>Ha a kezeletlen szennyvíz egy nem vízzáró emésztőből egyszerűen elszivárog</strong> — attól még nem történt megfelelő szennyvíztisztítás.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text"><strong>Ha ülepítés és anaerob előkezelés történik</strong>, majd a folyékony rész továbbhalad — oldómedencéről, más néven szeptikus tartályról vagy septic tankról beszélünk.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">04</span>
-          <p class="type-ui-body card-text"><strong>Ha levegőztetéssel, mikroorganizmusok segítségével eleveniszapos biológiai tisztítás történik</strong> — levegőztetett biológiai szennyvíztisztítóról beszélünk.</p>
-        </li>
-      </ul>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">Ezért amikor bioemésztőt, ökoemésztőt vagy házi szennyvíztisztítót hasonlít össze, <strong>ne csak a termék nevét nézze</strong>. Nézze meg, hogyan működik. Milyen minőségű víz távozik belőle. Mi történik az iszappal. Milyen rendszeres elszállítást igényel. És mi történik végül azzal a vízzel, amelyet a háztartásban egyszer már felhasznált.</p>
-        <p class="type-ui-body">Mert ha környezettudatos megoldást keresünk, nemcsak az számít, hogyan tisztítjuk meg a szennyvizet, hanem az is, hogy a tisztítás után <strong>mit tartunk helyben</strong>.</p>
+      <div class="fogalom-gyik">
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi a biológiai szennyvíztisztító?</h3>
+            <p class="type-ui-body">Olyan berendezés, amelyben mikroorganizmusok bontják le a szennyvíz szerves szennyeződését. A levegőztetett változat oxigént juttat a vízbe, és ezzel megteremti a lebontáshoz szükséges életfeltételeket — ez a különbség a pusztán ülepítő megoldásokhoz képest.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi a biológiai szennyvíztisztítás?</h3>
+            <p class="type-ui-body">Maga a folyamat: a szennyvízben található szerves anyagot élő mikroorganizmusok bontják le. A berendezés dolga, hogy ehhez szakaszonként megteremtse a megfelelő körülményeket.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi az az emésztőgödör?</h3>
+            <p class="type-ui-body">A köznyelv így hívja a régi, nem vízzáró aknákat és medencéket, amelyekbe a szennyvíz belefolyt: a szilárd anyag egy része leülepedett, a folyadék pedig részben vagy egészben elszivárgott a környező talajba. Ez nem tisztítás.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi a zárt rendszerű emésztő?</h3>
+            <p class="type-ui-body">A köznyelvben zárt emésztőnek nevezett megoldás valójában zárt, vízzáró szennyvíztároló: csak gyűjt, nem tisztít. Ami belekerül, azt szippantani kell.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi az az oldómedencés szennyvíztisztító?</h3>
+            <p class="type-ui-body">Az oldómedence — angolul septic tank, magyarul gyakran szeptikus tartály — több kamrás tartály, amelyben a szennyvíz ülepedik és levegő nélkül részben lebomlik. Előkezelés, nem teljes tisztítás: az elfolyó vizet utána el kell helyezni.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi a szennyvíz szikkasztó?</h3>
+            <p class="type-ui-body">A szikkasztó — pontosabban szikkasztómező vagy szikkasztóárok — nem tisztítóegység, hanem az elhelyezés eleme: a már megtisztított vizet vezeti a talajba. A rendszer utolsó szakasza, és a leggyakoribb hibaforrás is egyben.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mit jelent a bioemésztő vagy az ökoemésztő?</h3>
+            <p class="type-ui-body">Nem pontos műszaki megnevezések. Azt fejezik ki, hogy aki ezekre keres, a hagyományos emésztőnél korszerűbb, környezetbarátabb megoldást szeretne — a „bio” és az „öko” előtag önmagában nem mond semmit arról, mi történik odalent a szennyvízzel.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mennyi a lakosegyenérték, és miért fontos?</h3>
+            <p class="type-ui-body">A lakosegyenérték (LE) egy fő napi átlagos szennyvízterhelése. A berendezés méretét ebben adják meg, tehát ez dönti el, melyik modell való egy adott háztartáshoz.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mi a különbség az EN 12566-1 és az EN 12566-3 között?</h3>
+            <p class="type-ui-body">Az EN 12566-1 az oldómedencékre vonatkozik, az EN 12566-3 a háztartási szennyvíztisztító kisberendezésekre. A kettő nem cserélhető fel: más terméket, más követelményekkel tanúsít.</p>
+          </div>
       </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="tovabb-cim">
     <div class="section-inner">
-      <aside class="panel-dark" aria-labelledby="tovabb-cim">
-        <div class="panel-dark-head">
-          <p class="type-data-eyebrow panel-dark-eyebrow">Ha nem biztos benne</p>
-          <h2 class="type-display-highlight-title panel-dark-title" id="tovabb-cim">Mondja el, mi van a telken</h2>
-        </div>
-        <div class="panel-dark-body">
-          <p class="type-ui-body panel-dark-text">A nevekkel nem kell bajlódnia. Írja meg, mi van most az ingatlanon és hogyan használják — a technológia nevét <strong>mi mondjuk meg</strong>, és azt is, hogy melyik illik oda.</p>
-          <p class="panel-dark-actions"><a class="btn btn-inverse" href="../konzultacio">Kérek visszahívást</a></p>
-        </div>
-      </aside>
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Tovább</p>
+        <h2 class="type-display-section-title section-title" id="tovabb-cim">Ha a nevek helyett a helyzete érdekli</h2>
+        <p class="type-ui-body section-lead">A nevekkel nem kell bajlódnia. Írja meg, mi van most az
+        ingatlanon és hogyan használják — a technológia nevét mi mondjuk meg, és azt is, hogy melyik
+        illik oda.</p>
+      </header>
+      <p class="type-ui-body">
+        <a class="btn btn-primary type-ui-button" href="../konzultacio">Konzultációt kérek</a>
+        <a class="btn btn-secondary type-ui-button" href="../tudastar/">Vissza a Tudástárba</a>
+      </p>
     </div>
   </section>
 </main>
@@ -847,95 +959,291 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=12" defer></script>
-<script src="../assets/js/kalauz.js?v=45" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Article",
-      "headline": "Bioemésztő, ökoemésztő, házi szennyvíztisztító – mit jelentenek valójában?",
-      "description": "A „bio\" és az „öko\" előtag nem mond semmit arról, mi történik odalent a szennyvízzel. Három technológia rejtőzik kilenc elnevezés mögött.",
+      "@type": "DefinedTermSet",
+      "name": "ÖkoTech Home fogalomtár — szennyvízkezelés",
+      "description": "A decentralizált szennyvízkezelés fogalmai magyarul, angol és német megfelelőkkel.",
+      "url": "https://okotechhome.hu/tudastar/fogalomtar",
       "inLanguage": "hu-HU",
-      "author": {
-        "@type": "Organization",
-        "name": "ÖkoTech-Home Kft.",
-        "url": "https://okotechhome.hu/"
+      "hasDefinedTerm": [
+      {
+        "@type": "DefinedTerm",
+        "name": "Zárt szennyvíztároló",
+        "description": "Vízzáró tartály, amely csak GYŰJTI a szennyvizet — nem tisztítja. Ami belekerül, azt szippantani kell. A köznyelvben zárt emésztőnek nevezett megoldás valójában ez.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
       },
-      "publisher": {
-        "@type": "Organization",
-        "name": "ÖkoTech-Home Kft.",
-        "url": "https://okotechhome.hu/"
+      {
+        "@type": "DefinedTerm",
+        "name": "Oldómedence",
+        "description": "Több kamrás tartály, amelyben a szennyvíz ülepedik, és levegő nélkül (anaerob módon) részben lebomlik. Előkezelés, nem teljes tisztítás: az elfolyó vizet utána el kell helyezni.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
       },
-      "mainEntityOfPage": "https://okotechhome.hu/tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito",
-      "image": "https://okotechhome.hu/assets/img/oldalak/hero-alternativak.webp?v=3"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Főoldal",
-          "item": "https://okotechhome.hu/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Tudástár",
-          "item": "https://okotechhome.hu/tudastar/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Bioemésztő, ökoemésztő vagy házi szennyvíztisztító?"
-        }
+      {
+        "@type": "DefinedTerm",
+        "name": "Levegőztetett biológiai szennyvíztisztító",
+        "description": "Levegőt, ezzel oxigént juttat a szennyvízbe, és megfelelő életfeltételeket teremt azoknak a mikroorganizmusoknak, amelyek a szerves szennyeződéseket lebontják. Ez nem egyszerűen ülepítés és anaerob előkezelés.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Régi, szivárgó emésztő",
+        "description": "Sok régi ingatlannál olyan akna vagy medence készült, amely NEM volt vízzáró: a szilárd anyag egy része leülepedett, a folyadék pedig részben vagy egészben elszivárgott a környező talajba. Ez nem tisztítás.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Elszivárogtatás",
+        "description": "A TISZTÍTOTT víz elhelyezése a talajban. Nem tisztítóegység, hanem a rendszer utolsó eleme — és a leggyakoribb hibaforrás is egyben.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Gyökérzónás tisztítás",
+        "description": "Növényekkel telepített, szűrőrétegen átvezetett tisztítás. Külön technológia, nagy helyigénnyel.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Házi szennyvíztisztító",
+        "description": "Közérthető és széles körben használt elnevezés. Általában olyan, családi házhoz vagy kisebb ingatlanhoz telepített rendszert keresnek ezen a néven, amely helyben kezeli a keletkező szennyvizet.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Bioemésztő, ökoemésztő",
+        "description": "Nem pontos műszaki megnevezések. Sokkal inkább azt fejezik ki, hogy aki ezekre keres, a hagyományos emésztőnél korszerűbb, környezetbarátabb megoldást szeretne. A „bio” és az „öko” előtag önmagában nem mond semmit arról, mi történik odalent a szennyvízzel.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Közműpótló",
+        "description": "Hatósági és építési szóhasználat: az OTÉK (253/1997. Korm. r.) szerint a közműpótló a központi közmű hiányában alkalmazható megoldás. A zárt szennyvíztároló ebben a rendszerben végső megoldásnak számít.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Csatornázatlan terület",
+        "description": "Ahol nincs kiépített közcsatorna, amire rá lehetne kötni. A szennyvízkezelést ilyenkor az ingatlanon kell megoldani.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Eleveniszap",
+        "description": "A tisztítást végző mikroorganizmusok közössége, pelyhes formában a szennyvízben. Ez dolgozza le a szerves szennyeződést.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Levegőztetés",
+        "description": "Oxigénbevitel a szennyvízbe, hogy a lebontó mikroorganizmusok dolgozni tudjanak.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Levegőztető membrán",
+        "description": "Az az elem, amelyen át a levegő apró buborékokban a szennyvízbe jut. Kopó alkatrész.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Kompresszor",
+        "description": "A levegőt előállító gép. Ez fogyasztja az áramot, és ez a másik kopó alkatrész.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Mamutszivattyú",
+        "description": "Levegővel működtetett szivattyú: nincs benne mozgó alkatrész a folyadékban.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Iszapzsák",
+        "description": "Az iszap víztelenítésére szolgáló zsák. Az A.B. Clear ezen az elven kezeli a fölösiszapot.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Fölösiszap",
+        "description": "A tisztítás során keletkező többlet-biomassza, amit időnként el kell távolítani a rendszerből.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Szippantás",
+        "description": "Az összegyűlt szennyvíz vagy iszap elszállíttatása. A zárt tárolónál a teljes mennyiséget, a tisztítónál csak a fölösiszapot érinti.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Szakaszos betáplálású reaktor (SBR)",
+        "description": "Eljárás, amelyben a tisztítás lépései időben követik egymást ugyanabban a medencében.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Mozgóágyas biofilm reaktor (MBBR)",
+        "description": "Eljárás, amelyben a mikroorganizmusok mozgó hordozókon megtelepedve dolgoznak.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Beüzemelés",
+        "description": "A berendezés üzembe helyezése és a biológia beindítása a telepítés után.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Lakosegyenérték (LE)",
+        "description": "A terhelés mértékegysége: egy fő napi átlagos szennyvízterhelése. A berendezés méretét ebben adják meg.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "BOI₅",
+        "description": "Mennyi oxigént fogyasztanak a mikroorganizmusok öt nap alatt a szerves anyag lebontásához. A szerves szennyezés egyik fő mérőszáma.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "KOI",
+        "description": "A kémiailag oxidálható anyag mennyisége. A BOI-nál tágabb kört mér.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Lebegőanyag",
+        "description": "A vízben úszó, kiszűrhető szilárd rész mennyisége.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Nitrifikáció / denitrifikáció",
+        "description": "A nitrogénvegyületek átalakításának két lépése: előbb nitráttá, majd légköri nitrogénné.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Tisztítási hatásfok",
+        "description": "Mennyivel csökken a szennyezés a berendezésen áthaladva, százalékban.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Elfolyó víz",
+        "description": "Ami a berendezésből kijön. Ezt kell elhelyezni — elszivárogtatással vagy befogadóba vezetve.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Befogadó",
+        "description": "Az a felszíni víz, amelybe a tisztított vizet vezetik.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Feketevíz / szürkevíz",
+        "description": "A WC-ből érkező, illetve a mosásból-mosogatásból-fürdésből származó szennyvíz.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Vízjogi engedély",
+        "description": "A vízhasználathoz és a szennyvíz elhelyezéséhez szükséges hatósági engedély.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Jegyzői engedély",
+        "description": "Lakossági, kisebb léptékű esetben a települési jegyző adja ki.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Talajterhelési díj",
+        "description": "Környezetterhelési díj (2003. évi LXXXIX. tv.), amely azt terheli, aki a műszakilag rendelkezésre álló közcsatornára nem köt rá — ideértve a zárt tárolót is. Alapja a felhasznált vízmennyiség.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "EN 12566-3",
+        "description": "A háztartási szennyvíztisztító kisberendezésekre vonatkozó európai szabvány. Az EN 12566-1 az oldómedencékről szól — a kettő nem cserélhető fel.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "CE-jelölés",
+        "description": "A gyártó nyilatkozata arról, hogy a termék megfelel a rá vonatkozó európai követelményeknek.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Teljesítménynyilatkozat (DoP)",
+        "description": "A CE-jelöléshez tartozó dokumentum, amely a mért teljesítményértékeket tartalmazza.",
+        "inDefinedTermSet": "https://okotechhome.hu/tudastar/fogalomtar"
+      }
       ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Mit jelent a bioemésztő és az ökoemésztő?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Egyik sem pontos műszaki megnevezés. Azt fejezik ki, hogy a kereső a hagyományos emésztőnél korszerűbb, környezetbarátabb megoldást szeretne. Attól, hogy egy rendszert bioemésztőnek vagy ökoemésztőnek neveznek, még nem derül ki, mi történik benne a szennyvízzel: lehet mögötte oldómedencés anaerob rendszer és levegőztetett biológiai szennyvíztisztító is."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Mi a különbség a zárt emésztő és az oldómedence között?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A köznyelvben zárt emésztőnek nevezett megoldás valójában zárt, vízzáró szennyvíztároló: nem tisztít, hanem tárol, és a tartály megtelte után szippantással kell elszállítani. Az oldómedence nem zárt tároló: ülepít és anaerob módon előkezel, a folyékony rész pedig továbbhalad belőle további elhelyezésre vagy kezelésre."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Az oldómedence is biológiai szennyvíztisztító?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Az oldómedencében valóban zajlik biológiai lebontás, mert levegőtől elzárt, anaerob környezet alakul ki. Ez azonban nem ugyanaz a tisztítási folyamat, mint egy levegőztetett, eleveniszapos biológiai szennyvíztisztítóban. Gyakorlatilag minden szennyvízben dolgoznak mikroorganizmusok, tehát önmagában a baktériumok jelenléte nem mondja meg, milyen technológiáról van szó."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Ugyanaz az oldómedence, a szeptikus tartály és a septic tank?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Igen, lényegében ugyanazt a technológiai elvet jelölik: ülepítés és anaerob előkezelés történik, miközben a folyadék továbbhalad."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Mitől más a levegőztetett biológiai szennyvíztisztító?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Levegőt, ezzel oxigént juttat a szennyvízbe, és megfelelő életfeltételeket teremt azoknak a mikroorganizmusoknak, amelyek a szerves szennyeződéseket lebontják. Ezt az eleveniszapos elvet a nagy központi szennyvíztisztító telepeken is alkalmazzák; házi méretben ugyanez valósul meg annál az ingatlannál, ahol a szennyvíz keletkezik. A cél az, hogy a berendezésből már tisztított szennyvíz távozzon."
-          }
-        }
+      {
+        "@type": "Question",
+        "name": "Mi a biológiai szennyvíztisztító?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Olyan berendezés, amelyben mikroorganizmusok bontják le a szennyvíz szerves szennyeződését. A levegőztetett változat oxigént juttat a vízbe, és ezzel megteremti a lebontáshoz szükséges életfeltételeket — ez a különbség a pusztán ülepítő megoldásokhoz képest." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi a biológiai szennyvíztisztítás?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Maga a folyamat: a szennyvízben található szerves anyagot élő mikroorganizmusok bontják le. A berendezés dolga, hogy ehhez szakaszonként megteremtse a megfelelő körülményeket." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi az az emésztőgödör?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A köznyelv így hívja a régi, nem vízzáró aknákat és medencéket, amelyekbe a szennyvíz belefolyt: a szilárd anyag egy része leülepedett, a folyadék pedig részben vagy egészben elszivárgott a környező talajba. Ez nem tisztítás." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi a zárt rendszerű emésztő?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A köznyelvben zárt emésztőnek nevezett megoldás valójában zárt, vízzáró szennyvíztároló: csak gyűjt, nem tisztít. Ami belekerül, azt szippantani kell." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi az az oldómedencés szennyvíztisztító?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Az oldómedence — angolul septic tank, magyarul gyakran szeptikus tartály — több kamrás tartály, amelyben a szennyvíz ülepedik és levegő nélkül részben lebomlik. Előkezelés, nem teljes tisztítás: az elfolyó vizet utána el kell helyezni." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi a szennyvíz szikkasztó?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A szikkasztó — pontosabban szikkasztómező vagy szikkasztóárok — nem tisztítóegység, hanem az elhelyezés eleme: a már megtisztított vizet vezeti a talajba. A rendszer utolsó szakasza, és a leggyakoribb hibaforrás is egyben." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mit jelent a bioemésztő vagy az ökoemésztő?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nem pontos műszaki megnevezések. Azt fejezik ki, hogy aki ezekre keres, a hagyományos emésztőnél korszerűbb, környezetbarátabb megoldást szeretne — a „bio” és az „öko” előtag önmagában nem mond semmit arról, mi történik odalent a szennyvízzel." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mennyi a lakosegyenérték, és miért fontos?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A lakosegyenérték (LE) egy fő napi átlagos szennyvízterhelése. A berendezés méretét ebben adják meg, tehát ez dönti el, melyik modell való egy adott háztartáshoz." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi a különbség az EN 12566-1 és az EN 12566-3 között?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Az EN 12566-1 az oldómedencékre vonatkozik, az EN 12566-3 a háztartási szennyvíztisztító kisberendezésekre. A kettő nem cserélhető fel: más terméket, más követelményekkel tanúsít." }
+      }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okotechhome.hu/"},
+        {"@type":"ListItem","position":2,"name":"Tudástár","item":"https://okotechhome.hu/tudastar/"},
+        {"@type":"ListItem","position":3,"name":"Fogalomtár","item":"https://okotechhome.hu/tudastar/fogalomtar"}
       ]
     }
   ]

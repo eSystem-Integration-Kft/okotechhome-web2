@@ -2900,3 +2900,70 @@ használ; egy agresszív kicsinyítő ezeken szokott elhasalni, és a hiba NÉMA
 lap betöltődik, csak másképp néz ki. Bizonyítva: a kicsinyített fájl a
 forrással **karakterre azonos**, ha mindkettőből egyformán kivesszük a
 megjegyzést és a térközt (273 742 = 273 742).
+
+## 44. Fogalomtár-lap — `tudastar/fogalomtar`
+
+**Két mérhető okból épült meg.** A lábléc hivatkozása mind a 186 lapon
+**404-re mutatott** (a sitemap régóta tervezte, a lap nem készült el), és Bela
+kulcsszókutatása (DataForSEO, 2026-09-04) az 5. teendőként nevezi meg: *„a 9
+PAA fogalmi kérdésre — ez az AI Overview-ba bekerülés legolcsóbb útja."* A
+kilenc kérdés szó szerint bekerült a GYIK-be.
+
+### A meglévő komponenst használja, nem újat épít
+
+A `.fogalomtar` / `.fogalom` / `.fogalom-nev` / `.fogalom-leiras` **régóta
+létezik** (`<dl>` alapú definíciós lista), és három lap használja:
+`megoldasok/ab-clear`, `megoldasok/biologiai-hogyan-mukodik`,
+`helyzetem/nincs-elerheto-kozcsatorna`.
+
+**Ez elsőre nem így volt, és tanulságos.** A komponenst kerestem, de rossz
+horgonnyal (`^\.fogalom`) — a szabály behúzva áll egy `@layer`-ben, ezért a
+keresés üresen tért vissza, és építettem egy másodikat. A saját `.fogalom`
+szabályom később állt a fájlban, tehát **nyert**, és elrontotta azt a hármat:
+a kétoszlopos definíciós sorból egyoszlopos lett. Csak a böngészőben derült
+ki. Tanulság: komponenst keresni `grep -n "^\s*\.nev"` mintával kell, nem
+`^\.nev`-vel — ebben a fájlban minden szabály behúzva áll.
+
+Amit a lap **hozzátesz** a komponenshez: ugrósáv a csoportok között
+(`.fogalom-ugras*`), szinonima a név alatt (`.fogalom-masnev`), idegen nyelvű
+megfelelők (`.fogalom-nyelvek`), továbbvezető hivatkozás (`.fogalom-tovabb`),
+és a megcímzett fogalom kiemelése (`.fogalom:target`).
+
+### Horgony minden fogalmon
+
+```html
+<div class="fogalom" id="f-kozmupotlo">
+```
+
+Szótárra jellemzően **kívülről** hivatkoznak — e-mailből, ajánlatból,
+AI-válaszból —, és akkor nem a lap tetejére kell érkezni, hanem a szóhoz. A
+`scroll-margin-top` a ragadós fejléc magasságával tolja el a görgetést,
+különben a megcímzett fogalom a menü alá kerülne.
+
+### A tartalom forrásolt, és ami nem az, az nincs benne
+
+A `fogalomtar-forras.json` minden meghatározása mögött forrás áll: vagy a
+webhely SAJÁT szövege (a `lap` mező mutatja, hova vezet tovább), vagy a
+projekt szakmai referenciái — a háromnyelvű glosszárium (EN/DE) és a
+jogszabályi összeállítás (OTÉK, 2003. évi LXXXIX. tv.).
+
+**Négy keresett szó szándékosan kimaradt:** `derítő`,
+`mikroszennyvíztisztító`, `szennyvízakna`, `dobozos szennyvíztisztító`.
+Van rájuk keresés, de egyikhez sincs a projektben olyan forrás, amiből pontos
+meghatározást lehetne írni — kitalálni pedig nem szabad. A forrásfájl fel is
+sorolja őket.
+
+### Strukturált adat
+
+`DefinedTermSet` (36 `DefinedTerm`) + `FAQPage` (9 kérdés) + `BreadcrumbList`.
+A `DefinedTermSet` mondja ki géppel olvashatóan, hogy ez **szótár, nem cikk**.
+
+### A menübe és az AI-ba is be van kötve
+
+A megamenüben volt egy **passzív helykitöltő** („Fogalomtár" felirat,
+hivatkozás nélkül) — az lett élő hivatkozássá mind a 187 lapon, mélységhelyes
+előtaggal. A `fejlec.py` `KESZUL` listájából ki kellett venni, különben egy
+futtatás visszaírná felirattá.
+
+Az Öko a `kalauz-index.py` újrafuttatása után látja. Mérve: a „Mit jelent a
+közműpótló?" kérdésre a Fogalomtárat idézi, `#koznyelv-cim` horgonnyal.

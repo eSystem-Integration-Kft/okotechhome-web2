@@ -9529,3 +9529,70 @@
     .suti-parbeszed::backdrop{backdrop-filter:none}
   }
 }
+
+/* ============================================================================
+   FOGALOMTÁR-LAP — kiegészítések a meglévő `.fogalomtar` komponenshez
+   ----------------------------------------------------------------------------
+   A `.fogalomtar` / `.fogalom` / `.fogalom-nev` / `.fogalom-leiras` MÁR LÉTEZIK
+   (5.11 környéke): `<dl>` alapú definíciós lista, bal oldalon a név, jobb
+   oldalon a jelentés. Három lap használja. Ez a blokk NEM deklarálja újra —
+   egyszer már megtette, és azzal elrontotta azt a hármat.
+
+   Amit a fogalomtár-lap hozzátesz: ugrósáv a csoportok között, szinonimák a
+   név alatt, idegen nyelvű megfelelők, továbbvezető hivatkozás, és a
+   megcímzett fogalom kiemelése.
+
+   HORGONY MINDEN FOGALMON (`id="f-…"`). Egy szótárra jellemzően kívülről
+   hivatkoznak — e-mailből, ajánlatból, AI-válaszból —, és akkor nem a lap
+   tetejére kell érkezni, hanem a szóhoz.
+
+   AZ IDEGEN MEGFELELŐK NEM DÍSZEK. Aki külföldi adatlapot vagy szabványt
+   olvas, azokkal a szavakkal találkozik; a magyar megfelelő nélkül a két
+   dokumentum nem köthető össze.
+   ========================================================================== */
+@layer components {
+  /* UGRÓSÁV. Harminchat tétel fölött a görgetésnél gyorsabb út. */
+  .fogalom-ugras-lista{
+    list-style:none;margin:0;padding:0;
+    display:flex;flex-wrap:wrap;gap:var(--space-8);
+  }
+  .fogalom-ugras-link{
+    display:inline-block;
+    padding:var(--space-8) var(--space-16);
+    border:1px solid var(--border-strong);border-radius:var(--r-md);
+    background:var(--surface);color:var(--text-primary);
+    text-decoration:none;
+  }
+  .fogalom-ugras-link:hover{border-color:var(--primary);color:var(--primary)}
+  .fogalom-ugras-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:3px}
+
+  /* A HORGONYRA ÉRKEZŐT NE A FEJLÉC TAKARJA: a ragadós fejléc magasságával
+     eltolt görgetés nélkül a megcímzett fogalom a menü alá kerülne. */
+  .fogalom{scroll-margin-top:calc(var(--header-h,5rem) + var(--space-24))}
+  /* Aki hivatkozásból érkezik, lássa, MELYIK tételért jött. */
+  .fogalom:target .fogalom-nev{color:var(--primary)}
+
+  /* A szinonimák a név ALATT, halkabban: ugyanaz a fogalom, más néven. */
+  .fogalom-masnev{display:block;color:var(--text-tertiary);font-weight:400}
+  .fogalom-nyelvek{display:block;margin-top:var(--space-4);color:var(--text-tertiary)}
+  .fogalom-nyelv{margin-inline-end:var(--space-16)}
+  .fogalom-nyelv abbr{
+    /* A böngésző pontozott aláhúzást tesz az `abbr`-re; itt az szemetelne.
+       A `title` magyarázat marad, csak a vonal megy. */
+    text-decoration:none;border:0;font-weight:600;margin-inline-end:.25em;
+  }
+  .fogalom-tovabb{display:block;margin-top:var(--space-8)}
+  .fogalom-tovabb a{color:var(--link)}
+
+  .fogalom-gyik{display:grid;gap:var(--space-24);max-width:var(--container-max)}
+  .fogalom-gyik-tetel{display:grid;gap:var(--space-8)}
+  .fogalom-gyik-tetel h3{margin:0;color:var(--text-primary)}
+  .fogalom-gyik-tetel p{margin:0;color:var(--text-secondary);max-width:62ch}
+}
+
+@layer responsive {
+  @media (min-width:60rem){
+    /* Szélesen a GYIK két hasábban fut: a kilenc kérdés egy képernyőre fér. */
+    .fogalom-gyik{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-32)}
+  }
+}
