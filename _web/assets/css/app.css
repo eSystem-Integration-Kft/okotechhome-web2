@@ -1817,7 +1817,16 @@
   /* Médiablokk: a hero teljes felülete. Az arány a minimális magasságot adja;
      ha a rácscella magasabb (alacsony ablak, hosszabb szöveg), a `cover`
      igazítja a felvételt. */
-  .hero-media{position:relative;aspect-ratio:var(--hero-media-ratio)}
+  /* AZ `overflow:hidden` NEM DÍSZ, HANEM A SAFARI MIATT KELL. Az
+     `aspect-ratio` és a `max-height` együtt a WebKitben nem egyértelmű: a
+     doboz LAYOUT magassága a korlátozott érték lesz, a benne `height:100%`-kal
+     álló kép viszont az ARÁNYBÓL számolt, nagyobb magassággal FEST. A
+     különbség kicsordul a keretből, rátakar az alatta lévő szövegre, és —
+     mivel a kép a rákövetkező tartalom fölé kerül — elnyeli a kattintásokat
+     is. Chromeban ugyanez nem látszik, ezért maradhatott ilyen sokáig.
+     A vágás a látható tünetet és a kattintáselnyelést is megszünteti, a
+     helyes böngészőkben pedig nem változtat semmin: ott nincs mit vágni. */
+  .hero-media{position:relative;aspect-ratio:var(--hero-media-ratio);overflow:hidden}
   /* A `picture` alapból INLINE elem: szélességét a benne álló kép natív mérete
      adná, és az `img{width:100%}` ehhez a körkörös értékhez igazodna — a lap
      szűk nézetben vízszintesen túlcsordulna. A blokk-megjelenítés töri a kört. */
@@ -1884,6 +1893,10 @@
     /* A `width:100%` nélkül a magasságkorlát az ARÁNYON keresztül a szélességet
        is visszavenné, és a sáv nem érne ki a viewport széléig. */
     width:100%;max-height:var(--page-hero-max);margin-top:0;
+    /* Lásd a `.hero-media` megjegyzését: itt az `aspect-ratio` ÉS a
+       `max-height` együtt áll, tehát ez a doboz az, amelyiken a WebKit
+       eltérése a leglátványosabb. */
+    overflow:hidden;
   }
   /* A sávban a felvétel felső-középső harmada marad: fönt az égbolt (oda kerül
      a szöveg), lentebb még látszik a berendezés. */
@@ -8738,18 +8751,33 @@
     --hir-ido-mag:14rem;          /* a sáv magassága; a tengely a felezőjén */
     --hir-ido-szar:var(--space-24); /* a tengely és a szöveg közötti szár */
     --hir-ido-pont:12px;
-    --hir-ido-vonal:var(--border);
-    --hir-ido-szar-szin:var(--border);
-    --hir-ido-oszlop:color-mix(in srgb,var(--border) 55%,transparent);
+    /* A TENGELY NEM DÍSZ, HANEM A KOMPONENS GERINCE — ezért nem a `--border`
+       a színe. Azzal mérve 1,17:1 volt a háttérhez képest: asztali monitoron
+       közelről még kivehető, telefonon nem. Bela jelentette iPhone-ról, hogy
+       a vízszintes dátumvonal egyszerűen nem látszik.
+       A WCAG a jelentéssel bíró grafikára 3:1-et kér, és ez az: e nélkül a
+       pontok a levegőben lógnak, és az idővonal nem olvasható idővonalként.
+       Mérve: 75%-nál 3,35:1 — látható, de még hajszálvonal marad. */
+    --hir-ido-vonal:color-mix(in srgb,var(--text-tertiary) 75%,var(--border));
+    /* A szár a pontot köti a szöveghez — ugyanannyira szerkezet, mint a
+       tengely, tehát ugyanaz az erőssége. */
+    --hir-ido-szar-szin:var(--hir-ido-vonal);
+    /* AZ ÉVOSZLOP HALVÁNYABB MARAD, és ez szándékos: másodlagos csoportosító
+       jel, az évszám ki is van írva mellé. Ha ugyanolyan erős volna, mint a
+       tengely, negyvenkét függőleges vonal versengene a vízszintessel. */
+    --hir-ido-oszlop:color-mix(in srgb,var(--hir-ido-vonal) 45%,transparent);
     --hir-ido-pont-szin:var(--primary);
     --hir-ido-pont-ev:var(--surface-inverse);
     --hir-ido-ev-bg:var(--surface);
     --hir-ido-ev-keret:var(--border);
   }
   [data-theme="dark"]{
-    --hir-ido-vonal:var(--border);
-    --hir-ido-szar-szin:var(--border);
-    --hir-ido-oszlop:color-mix(in srgb,var(--border) 55%,transparent);
+    /* Sötét témán a `--border` már 2,01:1-et ad — jobb, de még mindig a
+       küszöb alatt. Itt 55% viszi 3,46:1-re; ugyanaz a token kevesebb
+       keveréssel, mert a sötét alapon a világosabb szín gyorsabban elválik. */
+    --hir-ido-vonal:color-mix(in srgb,var(--text-tertiary) 55%,var(--border));
+    --hir-ido-szar-szin:var(--hir-ido-vonal);
+    --hir-ido-oszlop:color-mix(in srgb,var(--hir-ido-vonal) 45%,transparent);
     --hir-ido-pont-szin:var(--primary);
     /* Sötét témán a Forest a sáv saját színe — az évjelölő pont nem válna el
        tőle. A felület-lépcső következő foka adja a jelet. */
@@ -9252,50 +9280,45 @@
      éltől élig érő csík bejelentésnek hat; egy behúzott, lekerekített kártya
      ugyanazt mondja, de a lap része marad. Keskenyen (lásd responsive) ez
      visszavált éltől élig érő sávra: ott a behúzás csak helyet venne el. */
+  /* A SÁV MAGA SÍMA, KATTINTHATÓ ELEM. Az üveg egy MÖGÖTTE fekvő rétegre
+     került (`::before`), és ennek oka van: iOS Safariban a `backdrop-filter`
+     azon az elemen, amelyik a kattintható tartalmat TARTALMAZZA, elrontja a
+     találati tesztelést — a gombok láthatók, de nem reagálnak. Bela jelentette
+     iPhone-ról: „a cookie beállítások és elfogadás sem működik".
+     A szűrő így csak egy díszítő, `pointer-events:none` rétegen ül; a gombok
+     egy egyszerű, szűrő nélküli dobozban vannak. Ugyanaz a látvány, csak a
+     kattintás nem megy át rajta. */
   .suti-sav{
     position:fixed;inset:auto var(--space-16) var(--space-16) var(--space-16);
     z-index:60;
-    /* ÜVEG. A lap alján háttérvideó fut; egy tömör tábla ráülve kitakarja
-       és idegen testként ül rajta. Áttetsző, homályosított felületen a mozgás
-       átdereng, de a szöveg alatt nyugodt marad — a `blur` épp attól segít,
-       hogy a mögötte lévő RÉSZLETET eltünteti, a világosságot viszont
-       megtartja.
-       AZ ARÁNY TOKENBŐL JÖN (`--suti-sav-uveg`), és témánként más — a
-       számok és az indoklás a tokennél állnak. Mérésből, nem ízlésből: ez az
-       a pont, ameddig a mosott üveg hatása mehet anélkül, hogy az
-       olvashatóság elfogyna.
-       A NAGY `blur` NEM DÍSZ, hanem ez teszi olvashatóvá: a homályosítás a
-       mögöttes RÉSZLETET tünteti el (az éleket, a kontrasztos foltokat),
-       miközben az átlagos világosságot megtartja. Éles háttéren ugyanez az
-       áttetszőség olvashatatlan volna — a szem a betű és a mögötte mozgó
-       él között nem tudna választani. */
-    background:color-mix(in srgb,var(--suti-sav-bg) var(--suti-sav-uveg),transparent);
-    -webkit-backdrop-filter:blur(28px) saturate(1.5);
-            backdrop-filter:blur(28px) saturate(1.5);
+    background:transparent;
     border:1px solid color-mix(in srgb,var(--suti-sav-keret) 55%,transparent);
     border-radius:var(--r-xl);
-    /* A VÉSET BEFOGLALÓJA ÉS VÁGÓJA. Az `isolation` kell ahhoz, hogy a
-       `z-index:-1` a kártya SAJÁT háttere fölé kerüljön (különben eltűnne
-       alatta), az `overflow` pedig a sarkon túlnyúló részt vágja le. */
-    isolation:isolate;overflow:hidden;
-    /* A FELSŐ BELSŐ CSILLANÁS adja az üvegtábla vastagságát: valódi üvegen a
-       felső él fogja meg a fényt. E nélkül az áttetsző felület lapos fóliának
-       látszik, nem táblának. */
-    /* A KÖZEPES ÁRNYÉK, nem a legnagyobb: a `--shadow-3` mély vetülete egy
-       vastag táblát rajzol a kártya alá, és épp a vastagság érzetét erősíti,
-       amit az üveg oldani hivatott. */
+    /* Az `isolation` kell ahhoz, hogy a `z-index:-1`-es üvegréteg a sávon
+       BELÜL maradjon, és ne süllyedjen a lap háttere alá. `overflow:hidden`
+       viszont NINCS: a WebKitben az `overflow` és a `backdrop-filter`
+       együttese rajzolási hibákat ad, és a vésetnek sincs már rá szüksége —
+       az a kártyán belül ül. */
+    isolation:isolate;
     box-shadow:var(--shadow-2),
                inset 0 1px 0 color-mix(in srgb,#FFFFFF 45%,transparent);
-    /* SZŰK BELSŐ TÉRKÖZ. A sáv a lap alján ül, és minden képpontja takar
-       valamit abból, amiért a látogató jött. Huszonnégyről tizenhatra véve a
-       kártya tizenhat képponttal alacsonyabb — a szöveg körül ennyi levegő
-       még bőven elég ahhoz, hogy ne legyen szoros. */
     padding:var(--space-16);
     /* Az `env()` a telefon alsó gesztussávja miatt kell: nélküle a gombok
        alsó széle a rendszer csíkja alá csúszik, és nem lehet rájuk találni. */
     padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
   }
+  /* AZ ÜVEGRÉTEG. Semmit nem tartalmaz és nem fogad kattintást — egyetlen
+     dolga a homályosított felület. Az arány tokenből jön, témánként más;
+     a számok és az indoklás a tokennél állnak. */
+  .suti-sav::before{
+    content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+    border-radius:inherit;
+    background:color-mix(in srgb,var(--suti-sav-bg) var(--suti-sav-uveg),transparent);
+    -webkit-backdrop-filter:blur(28px) saturate(1.5);
+            backdrop-filter:blur(28px) saturate(1.5);
+  }
   .suti-sav-doboz{
+    position:relative;isolation:isolate;
     max-width:var(--container-max);margin-inline:auto;
     display:flex;flex-wrap:wrap;align-items:center;
     gap:var(--space-16) var(--space-24);
@@ -9310,7 +9333,9 @@
      A BAL ALSÓ SAROKBAN ÜL, kilógva, és a kártya lekerekítése elvágja —
      ettől lesz a lapba MART jel, nem ráhelyezett matrica. Kilógva nem nő a
      kigörgethető terület sem: a kártya `overflow:hidden`. */
-  .suti-sav::before,.suti-sav::after,
+  /* A VÉSET A BELSŐ DOBOZON ÜL, nem a sávon: a sáv `::before`-ját az üveg
+     foglalja. A befoglalója ezért a `.suti-sav-doboz`. */
+  .suti-sav-doboz::before,.suti-sav-doboz::after,
   .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{
     content:'';position:absolute;z-index:-1;pointer-events:none;
     width:clamp(3.5rem,8%,5.5rem);aspect-ratio:387.49 / 289.93;
@@ -9321,17 +9346,17 @@
      lekerekítésnél elvágva egy ívnek látszott, nem a márka jelének — a
      félbevágott logó véletlennek hat, nem szándéknak. Behúzva teljes,
      felismerhető, és a szöveg alá sem ér. */
-  .suti-sav::before,.suti-sav::after{left:var(--space-16);bottom:var(--space-8)}
+  .suti-sav-doboz::before,.suti-sav-doboz::after{left:0;bottom:0}
   /* A PÁRBESZÉDBEN BENT MARAD. Annak a doboznak `overflow:auto`-ja van (a
      magasságkorlát miatt), és ott egy negatív pozíciójú elem GÖRGETHETŐ
      TERÜLETET csinálna — a megamenünél ezt egyszer már megjártuk: minden
      panel görgethető lett tőle, Windowson két állandó szürke sávval. */
   .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{left:0;bottom:0}
-  .suti-sav::before,
+  .suti-sav-doboz::before,
   .suti-parbeszed-urlap::before{
     background:var(--veset-melyedes);opacity:var(--suti-veset-melyedes-alfa);
   }
-  .suti-sav::after,
+  .suti-sav-doboz::after,
   .suti-parbeszed-urlap::after{
     background:var(--veset-kiemeles);opacity:var(--suti-veset-kiemeles-alfa);
     /* KÉT KÉPPONT, nem egy. A jelrajz TÖMÖR sziluett: egy képpontnyi eltolás
@@ -9461,12 +9486,15 @@
      homályosítás nélkül azt jelentené, hogy a videó élesen átüt a szövegen —
      az olvashatatlan. A tartalék nem szebb, de működik. */
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
-    .suti-sav{background:var(--suti-sav-bg)}
+    .suti-sav::before{background:var(--suti-sav-bg)}
   }
   /* Aki KEVESEBB ÁTTETSZŐSÉGET kért a rendszerében, annak tömör felület jár:
      a homályosított üveg épp az a hatás, amit ez a beállítás kikapcsolna. */
   @media (prefers-reduced-transparency:reduce){
-    .suti-sav{background:var(--suti-sav-bg);backdrop-filter:none;-webkit-backdrop-filter:none}
+    .suti-sav::before{
+      background:var(--suti-sav-bg);
+      backdrop-filter:none;-webkit-backdrop-filter:none;
+    }
   }
 }
 
@@ -9482,7 +9510,7 @@
       padding:var(--space-16);
       padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
     }
-    .suti-sav::before,.suti-sav::after{display:none}
+    .suti-sav-doboz::before,.suti-sav-doboz::after{display:none}
     /* Keskenyen a szöveg fölé kerülnek a gombok egy oszlopban — a sorban
        maradó három gomb ekkora szélességen egyenként 6rem alá esne. */
     .suti-sav-gombok{flex:1 1 100%}
