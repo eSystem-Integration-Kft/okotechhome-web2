@@ -26,7 +26,13 @@ CEL = WEB / 'szippantasi-dij-kalkulator.html'
 
 URL = 'szippantasi-dij-kalkulator'
 H1 = 'Szippantási díj kalkulátor'
-CIM = 'Szippantási díj kalkulátor — mennyibe kerül egy évben? | ÖkoTech Home'
+# A CÍM A KERESÉS SZAVAIT IS VISELI. A lap pontosan a szennyvíz szippantásának
+# áráról szól, a címe viszont a szakmai nevén nevezte (szippantási díj),
+# miközben havonta 1400-an keresnek rá „szennyvíz szippantás”, „szennyvíz
+# szippantás ár” és „…árak” alakban (DataForSEO, 2026-09-04) — és a webhely
+# EGYIKRE SEM jelent meg a találatok között. Ez nem kulcsszóhalmozás: ugyanaz
+# a lap, ugyanaz a tartalom, csak azon a néven, ahogy a látogató keresi.
+CIM = 'Szennyvíz szippantás ára — díjkalkulátor: mennyibe kerül egy évben? | ÖkoTech Home'
 LEIRAS = ('Számolja ki, mennyibe kerül évente a szippantás: kiszállási díj, '
           'köbméter-alapú ürítési díj és minimumdíj együtt. A minimumdíjban '
           'foglalt mennyiség is beleszámít.')

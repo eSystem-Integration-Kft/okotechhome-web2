@@ -78,7 +78,11 @@ DIMENZIOK = [
 OSSZEHAS = dict(
     file='megoldasok/megoldastipusok-osszehasonlitasa.html',
     url='megoldasok/megoldastipusok-osszehasonlitasa', img='attekintes',
-    title='Megoldástípusok összehasonlítása — zárt tároló, oldómedence, biológiai | ÖkoTech Home',
+    # SZENNYVÍZ TARTÁLY, nem csak „zárt tároló”. Ez a legnagyobb kiaknázatlan
+    # keresési tömeg (1900/hó magára a kifejezésre, plusz a méretes változatok),
+    # és a lap érdemben épp ezt hasonlítja össze a másik két megoldással — csak
+    # eddig nem azon a néven nevezte magát, ahogy keresik.
+    title='Szennyvíz tartály, oldómedence vagy biológiai tisztító? | ÖkoTech Home',
     desc='A három megoldástípus ugyanazon szempontok szerint: mit csinál a szennyvízzel, '
          'mit igényel a telektől és a használattól, és milyen feladatot hagy a tulajdonosnál.',
     h1='Megoldástípusok összehasonlítása',
