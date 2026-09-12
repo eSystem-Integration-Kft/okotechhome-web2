@@ -383,10 +383,25 @@ PYVEG
   fi
 fi
 
-# ── 10. Teszt üzemmód ─────────────────────────────────────────────────────────
+cim "10. ARIA-attribútumok a helyes szerepen"
+# MIÉRT GÉPI ELLENŐRZÉS. Egy `aria-selected` szerep nélküli gombon nem
+# hibaüzenetet ad, hanem SEMMIT: a képernyőolvasó figyelmen kívül hagyja, és
+# az állapot némán elveszik. A lap ettől működik és jól néz ki — a hiba csak
+# külső auditból derül ki. Egyszer már így jártunk (Lighthouse jelentette).
+# A `GYOKER` ebben a szkriptben a VERZIÓT tartja, nem útvonalat — a szkript a
+# repó gyökeréből fut, tehát relatív út kell. (A névütközés régi, nem itt
+# oldjuk meg.)
+if python3 scripts/aria-ellenor.py _web > /tmp/oth-aria.txt 2>&1; then
+  grn "$(sed -n '1s/^  ✓ //p' /tmp/oth-aria.txt)"
+else
+  red "szerephez nem illő ARIA-attribútum — lásd lent"
+  sed 's/^/    /' /tmp/oth-aria.txt >&2
+fi
+
+# ── 11. Teszt üzemmód ─────────────────────────────────────────────────────────
 # NEM hiba, csak emlékeztető: a `Disallow: /` szándékos, amíg a webhely a
 # tesztaldomainen fut. Élesítéskor viszont HÁROM helyen kell feloldani.
-cim "10. Teszt üzemmód"
+cim "11. Teszt üzemmód"
 if grep -qE '^\s*Disallow:\s*/\s*$' _web/robots.txt 2>/dev/null; then
   ylw "TESZT ÜZEMMÓD aktív: robots.txt tiltja az indexelést (élesítéskor 3 réteget kell oldani — lásd _web/README.md)"
 else
