@@ -1713,8 +1713,31 @@
   .mega-alink:hover{background:var(--canvas);color:var(--text-primary)}
   .mega-alink:focus-visible{outline:3px solid var(--border-focus);outline-offset:-3px}
   /* Még nem létező oldal: látszik a szerkezetben, de nem kattintható — így a
-     látogató látja, mi készül, és nem fut 404-re. */
+     látogató látja, mi készül, és nem fut 404-re.
+     A KÜLÖNBSÉG EDDIG CSAK SZÍN VOLT (`--text-tertiary` a `--text-secondary`
+     helyett), és azt könnyű elnézni: a látogató rákattintott, és nem történt
+     semmi. Most mindkét oldalról jelölt — a kész tételen pont áll, a
+     készülőn felirat. */
   .mega-alink-passziv{color:var(--text-tertiary);cursor:default}
+  .mega-alink-passziv::after{
+    content:"hamarosan";
+    margin-inline-start:var(--space-8);
+    padding:.05em .45em;
+    border:1px solid var(--border);border-radius:var(--r-md);
+    font-size:.78em;color:var(--text-tertiary);
+    white-space:nowrap;
+  }
+  /* AMI MÖGÖTT MÁR VAN TARTALOM: apró pont a szöveg előtt. Csak az `<a>`-n —
+     a passzív tétel `<span>`, tehát magától kimarad. A pont nem dísz: ez
+     mondja meg, hogy a tétel elvisz valahova. */
+  a.mega-alink{position:relative;padding-left:var(--space-16)}
+  a.mega-alink::before{
+    content:"";position:absolute;left:var(--space-8);top:50%;
+    width:5px;height:5px;margin-top:-2.5px;border-radius:50%;
+    background:var(--primary);opacity:.55;
+  }
+  a.mega-alink:hover::before,
+  a.mega-alink:focus-visible::before{opacity:1}
   .mega-keszul{color:var(--text-tertiary)}
   /* Kontaktsáv: még el nem készült szakasz felirata — látszik a szerkezetben,
      de nem kattintható, tehát nem visz 404-re. */

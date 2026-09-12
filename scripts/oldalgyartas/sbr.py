@@ -33,8 +33,10 @@ GYOKER = pathlib.Path(__file__).resolve().parents[2]
 WEB = GYOKER / '_web'
 DOMAIN = 'https://okotechhome.hu'
 UT = 'tudastar/sbr-szennyviztisztito'
-CSS_V = 236
+CSS_V = 237
 SUTI_V = 2
+SITE_V = 12      # a megamenü szkriptje
+KALAUZ_V = 45    # az Öko kalauz
 
 MINTA = (WEB / 'tudastar' / 'elszivarogtatas.html').read_text(encoding='utf-8')
 FEJLEC = re.search(r'(<a class="skip-link".*?</header>)', MINTA, re.S).group(1)
@@ -394,6 +396,13 @@ LAP = """<!DOCTYPE html>
 <link rel="stylesheet" href="../assets/css/app.css?v={css}">
 <script src="../assets/js/tema.js?v=1"></script>
 <script src="/assets/js/suti.js?v={suti}" defer></script>
+<!-- A MEGAMENÜT A `site.js` MŰKÖDTETI, az Ökót a `kalauz.js`. Mindkettő
+     hiányzott az első kiadásból, és a lapokon emiatt nem nyílt a menü — a
+     fejlécet átemeltem egy meglévő lapból, a hozzá tartozó szkripteket
+     viszont nem. A fejléc MARKUPJA önmagában néma: a panelek nyitása,
+     a billentyűzetes kezelés és a mobil fiók mind innen jön. -->
+<script src="../assets/js/site.js?v=12" defer></script>
+<script src="../assets/js/kalauz.js?v=45" defer></script>
 </head>
 <body>
 
@@ -460,7 +469,7 @@ def epit():
              + GYIK_SZEKCIO.replace('{GYIK}', gyik_html) + NL + CTA_SZEKCIO)
     ld = (LD_VAZ.replace('{LEIRAS}', jso(leiras)).replace('{GYIK_LD}', gyik_ld))
     return LAP.format(cim=esc(cim), cim_attr=attr(cim), leiras=attr(leiras),
-                      css=CSS_V, suti=SUTI_V, fejlec=FEJLEC, lablec=LABLEC,
+                      css=CSS_V, suti=SUTI_V, site=SITE_V, kalauz=KALAUZ_V, fejlec=FEJLEC, lablec=LABLEC,
                       torzs=torzs, ld=ld, domain=DOMAIN, ut=UT)
 
 

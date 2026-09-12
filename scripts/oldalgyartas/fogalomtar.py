@@ -35,8 +35,10 @@ WEB = GYOKER / '_web'
 FORRAS = pathlib.Path(__file__).resolve().parent / 'fogalomtar-forras.json'
 DOMAIN = 'https://okotechhome.hu'
 UT = 'tudastar/fogalomtar'
-CSS_V = 236
+CSS_V = 237
 SUTI_V = 2
+SITE_V = 12      # a megamenü szkriptje
+KALAUZ_V = 45    # az Öko kalauz
 
 # A FEJLÉC ÉS A LÁBLÉC EGY AZONOS MÉLYSÉGŰ LAPBÓL jön (`tudastar/…`), ezért a
 # benne álló `../` előtagok változtatás nélkül helyesek. A `hirek.py`-nak azért
@@ -260,6 +262,13 @@ def epit():
 <script src="../assets/js/tema.js?v=1"></script>
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi. -->
 <script src="/assets/js/suti.js?v={SUTI_V}" defer></script>
+<!-- A MEGAMENÜT A `site.js` MŰKÖDTETI, az Ökót a `kalauz.js`. Mindkettő
+     hiányzott az első kiadásból, és a lapokon emiatt nem nyílt a menü — a
+     fejlécet átemeltem egy meglévő lapból, a hozzá tartozó szkripteket
+     viszont nem. A fejléc MARKUPJA önmagában néma: a panelek nyitása,
+     a billentyűzetes kezelés és a mobil fiók mind innen jön. -->
+<script src="../assets/js/site.js?v={SITE_V}" defer></script>
+<script src="../assets/js/kalauz.js?v={KALAUZ_V}" defer></script>
 </head>
 <body>
 

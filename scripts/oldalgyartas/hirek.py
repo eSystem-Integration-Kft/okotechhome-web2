@@ -28,7 +28,7 @@ GYOKER = pathlib.Path(__file__).resolve().parents[2]
 WEB = GYOKER / '_web'
 FORRAS = pathlib.Path(__file__).resolve().parent / 'hirek-forras.json'
 
-CSS_V = 236          # süti-hozzájárulás: sáv és beállításkezelő
+CSS_V = 237          # süti-hozzájárulás: sáv és beállításkezelő
 JS_SITE_V = 12
 JS_KALAUZ_V = 45
 JS_HIREK_V = 3      # a szűrő csak a kártyákat veszi

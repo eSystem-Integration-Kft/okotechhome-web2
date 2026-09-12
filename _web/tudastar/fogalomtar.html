@@ -16,12 +16,19 @@
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek; előtöltés szándékosan nincs (magas
      prioritással a hero-kép elé állna). Lásd assets/css/betuk.css. -->
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
-<link rel="stylesheet" href="../assets/css/app.css?v=236">
+<link rel="stylesheet" href="../assets/css/app.css?v=237">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. -->
 <script src="../assets/js/tema.js?v=1"></script>
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi. -->
 <script src="/assets/js/suti.js?v=2" defer></script>
+<!-- A MEGAMENÜT A `site.js` MŰKÖDTETI, az Ökót a `kalauz.js`. Mindkettő
+     hiányzott az első kiadásból, és a lapokon emiatt nem nyílt a menü — a
+     fejlécet átemeltem egy meglévő lapból, a hozzá tartozó szkripteket
+     viszont nem. A fejléc MARKUPJA önmagában néma: a panelek nyitása,
+     a billentyűzetes kezelés és a mobil fiók mind innen jön. -->
+<script src="../assets/js/site.js?v=12" defer></script>
+<script src="../assets/js/kalauz.js?v=45" defer></script>
 </head>
 <body>
 
