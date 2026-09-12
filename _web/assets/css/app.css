@@ -9592,6 +9592,13 @@
   /* A HORGONYRA ÉRKEZŐT NE A FEJLÉC TAKARJA: a ragadós fejléc magasságával
      eltolt görgetés nélkül a megcímzett fogalom a menü alá kerülne. */
   .fogalom{scroll-margin-top:calc(var(--header-h,5rem) + var(--space-24))}
+
+  /* HORGONNYAL CÍMZETT SZEKCIÓ. A fejléc tapad, tehát a horgonyra érkező a
+     szekció tetejét a menü ALATT találná — a cím és az első sor eltűnne
+     mögötte. Ez a szabály minden `id`-vel ellátott szekcióra érvényes, nem
+     csak arra az egyre, ami miatt megírtuk: ahol horgony van, ott ez a
+     probléma mindig fennáll. */
+  .section[id]{scroll-margin-top:calc(var(--header-h,5rem) + var(--space-16))}
   /* Aki hivatkozásból érkezik, lássa, MELYIK tételért jött. */
   .fogalom:target .fogalom-nev{color:var(--primary)}
 

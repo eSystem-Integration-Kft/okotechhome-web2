@@ -466,7 +466,11 @@ def epit(elo=''):
     <div class="cta-kapszula" role="group" aria-label="Kapcsolatfelvétel">
       <span class="cta-jelolo" aria-hidden="true"></span>
       <a class="cta-szegmens" href="{h('konzultacio')}">Konzultáció</a>
-      <a class="cta-szegmens" href="{h('ajanlat')}">Ajánlat</a>
+      <!-- HORGONNYAL: a gomb az ŰRLAPHOZ visz, nem a lap tetejére. Aki a
+           fejlécben az „Ajánlat”-ra kattint, már döntött — nem a bevezetőt
+           akarja elolvasni, hanem kitölteni. A `#urlap` az ajánlatkérő
+           szekció azonosítója. -->
+      <a class="cta-szegmens" href="{h('ajanlat')}#urlap">Ajánlat</a>
       <a class="cta-szegmens" href="{h('megrendeles')}">Megrendelés</a>
     </div>
   </div>
