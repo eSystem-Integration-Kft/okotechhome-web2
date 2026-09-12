@@ -29,6 +29,116 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.36.00] — 2026-09-12
+
+### Javítva — Safariban elcsúszott a lap, és a süti-gombok nem éltek
+
+Bela iPhone-ról jelentette: a hero képek alatt elcsúszó szöveg, hektikusan
+működő hivatkozások, és egyik hozzájárulási gomb sem reagál. Három külön hiba,
+kettő WebKit-specifikus.
+
+**A hero képe túlcsordult.** A `.hero-media` és a `.page-hero-media` az
+`aspect-ratio`-t és a `max-height`-ot együtt használja, és a WebKit ezt nem úgy
+oldja fel, mint a Blink: a doboz a korlátozott LAYOUT-magasságot kapja, a benne
+`height:100%`-kal álló kép viszont az ARÁNYBÓL számolt magassággal FEST. A
+többlet kilóg a keretből, rátakar az alatta lévő szövegre, és — a rákövetkező
+tartalom fölé kerülve — elnyeli a neki szánt kattintásokat. Egy ok, mindkét
+tünet. `overflow:hidden` levágja; a helyesen viselkedő böngészőkben nincs mit
+vágni, ott semmi nem változik.
+
+**A halott süti-gombok.** Az üveg a `backdrop-filter`-t azon az elemen viselte,
+amelyik a gombokat TARTALMAZZA, és iOS Safariban ez elrontja a találati
+tesztelést: a gomb látszik, de nem reagál. A szűrő átkerült egy díszítő
+`::before` rétegre `pointer-events:none`-nal; a gombok szűrő nélküli dobozban
+ülnek. Ugyanaz a látvány, a kattintás átmegy. Az `overflow:hidden` is lekerült
+róla: a WebKit rosszul rajzolja `backdrop-filter` mellett.
+
+**Az idővonal tengelye láthatatlan volt telefonon** — mérve **1,17:1** a
+háttérhez képest, mert a `--border` tokenből vette a színét. Az a vonal a
+komponens gerince, nem dísz: nélküle a pontok a levegőben lógnak. Most 3,40:1
+világoson és 3,46:1 sötéten, a WCAG 3:1-es küszöbe fölött, és hajszálvonal maradt.
+
+### Javítva — szerep nélküli ARIA-attribútum, és egy kapu, hogy ne ismétlődjön
+
+Az `aria-selected` a GYIK kérdésgombjain érvénytelen volt: az attribútum csak
+néhány szerepen (option, tab, row, gridcell, treeitem) értelmes, ezeknek a
+gomboknak pedig nincs szerepük — a képernyőolvasó figyelmen kívül hagyta, az
+állapot NÉMÁN elveszett. `aria-expanded` lett belőle; a kategóriafülek maradtak
+`aria-selected`-en, mert azok valódi `role="tab"`-ok.
+
+Új `scripts/aria-ellenor.py` és az `ellenorzes.sh` 10. pontja fogja meg ezt a
+hibaosztályt. Mindkét irányban ellenőrizve: tiszta fán átenged, szándékos
+rontásnál elbukik és megnevezi az elemet.
+
+### Módosítva — teljesítmény: saját betűk és kicsinyített éles fa
+
+A mobil PageSpeed 60 pont, LCP 10,0 mp; ugyanez a lap asztalon 92 és 1,5 mp. A
+különbség szinte teljesen sávszélesség, és megvan az oka is, mérve: **a PHP
+szintjén az `Accept-Encoding` fejléc NULL** — a cPanel nginx-proxya letépi,
+mielőtt az Apache látná. Ezért nem fut a `mod_deflate`, és ezért nem működik
+semmilyen `.htaccess`-ből vezérelt tömörítés (előre tömörített `.gz` párral
+sem). A javítás a tárhelyszolgáltatónál van.
+
+Amit a repó megtehet: kevesebb bájtot küld. Kicsinyítés csak az éles fában —
+`app.css` 476 → 267 KB, a kritikus út 708 → 480 KB. A forrás sűrűn kommentezett
+marad: az a dokumentáció java része. Bizonyítva, hogy semmi nem veszett el: a
+kicsinyített fájl a forrással **karakterre azonos**, ha mindkettőből egyformán
+kivesszük a megjegyzést és a térközt.
+
+A betűk saját kiszolgálóról jönnek. A Google stíluslapja renderelést blokkolt
+két idegen kézfogás mögött (mobilon egyenként 400-800 ms), és a betöltése a
+látogató IP-címét minden lapmegtekintéskor elküldte a Google-nek — ami a
+hozzájárulási munka mellett rosszul állt. Csak a `latin` és a `latin-ext`
+részhalmaz (a magyar ő és ű az utóbbiban él): 36 fájlból 18. A CSP szűkült
+`style-src 'self'` / `font-src 'self'`-re.
+
+**Betű-előtöltés nincs**, és ez is mérés: a `preload as="font"` MAGAS
+prioritású, ugyanaz, mint a hero-képé, tehát 57 KB betű állt a 86 KB-os
+LCP-kép elé. Amit cserébe adott volna, az egy rövid betűcsere-villanás.
+
+### Módosítva — a süti-sáv mosott üveg lett, mérésre hangolva
+
+Áttetsző és erősen homályosított felület, mert a lap alján háttérvideó fut. Az
+átlátszatlanság **témánként más token**, és mindkét érték mérésből jön, mert nem
+ugyanaz a rossz eset: világos témán a SÖTÉT videokocka erodálja a kontrasztot,
+sötét témán a világos. 66% világoson (4,87:1), 82% sötéten (4,72:1).
+
+A törzsszöveg a másodlagosról az elsődleges színre váltott (a halvány olívazöld
+3,99:1-et adott sötét kockán), a hivatkozás pedig a szöveg színét viseli
+aláhúzással (a kék link-token 3,25:1-et). A sáv 150 → 110 px: minden sora
+takar valamit abból, amiért a látogató jött.
+
+A lap alján a megamenü **vésett jelrajza** ül, saját erősséggel: a tömör
+sziluetten egy képpontnyi eltolásnál a felső réteg letakarja az alsót, és csak
+fehér folt látszik — két képpont kell hozzá.
+
+### Módosítva — a környezetfüggő szabályok a rétegbe kerültek
+
+A `__old/` blokk a közös `_web/.htaccess`-be került, pedig az a régi WordPress
+az ÉLES kiszolgálón van; a teszten nincs ilyen könyvtár (mérve: 404). Most a
+`prod-epit.sh` 9. rétege, saját kapuval. A közös fa többi részét is átvizsgáltuk
+ugyanerre a hibára — nem találtunk többet.
+
+### Hozzáadva — kulcsszókutatás alkalmazása és a levelek másolata
+
+Bela kulcsszókutatása (DataForSEO, 2026-09-04) alapján két lap kapta meg azt a
+nevet, ahogy keresik: a szippantási kalkulátor a „szennyvíz szippantás ára”
+alakot (1400 keresés/hó, ahol addig meg sem jelentünk), a megoldás-összehasonlító
+pedig a „szennyvíz tartály”-t (1900/hó, a legnagyobb kiaknázatlan klaszter).
+Egyik lap tartalma sem változott — mindkettő pontosan erről szólt, csak a
+szakmai nevén nevezte magát. Az A.B. Clear írásmód-változatai (`ab clear`,
+`ABClear`) `alternateName`-ként kerültek a termék sémájába.
+
+**Minden belső űrlapértesítés másolatot kap** (Cc, nem Bcc — a címzett lássa,
+ki más kapta meg). Két dolog kell hozzá, és mindkettő: `RCPT TO` a másolati
+címre, különben nem kézbesít, és `Cc:` fejléc, különben némán érkezik. A
+látogatónak küldött visszaigazolás SOSEM kap másolatot: az az ő levele.
+
+Két végpont hiányos volt. Az **ajánlat-összehasonlító** volt az egyetlen,
+amelyik nekünk semmit nem küldött — most külön belső példányt küld, nem Cc-t,
+hogy a látogató levele érintetlen maradjon. A **díjadat-beküldő** nem
+visszaigazolt semmit: aki adatot ad és szó nélkül marad, legközelebb nem küld.
+
 ## [0.35.00] — 2026-09-11
 
 ### Biztonság — a régi WordPress még futott a webgyökér alatt
