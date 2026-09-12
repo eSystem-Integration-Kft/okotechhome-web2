@@ -29,6 +29,94 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.37.00] — 2026-09-12
+
+### Hozzáadva — Fogalomtár, amire a lábléc hónapok óta hivatkozott
+
+A lábléc mind a 186 lapon vitt volna a `tudastar/fogalomtar`-ra, és **404-et
+adott**: a sitemap régóta tervezte, a lap nem készült el. Bela
+kulcsszókutatása (DataForSEO, 2026-09-04) az 5. teendőként nevezi meg —
+„a 9 PAA fogalmi kérdésre; ez az AI Overview-ba bekerülés legolcsóbb útja".
+A kilenc kérdés szó szerint bekerült a GYIK-be.
+
+**36 fogalom öt csoportban**, mindegyik forrásolt: vagy a webhely saját
+szövegéből (a `lap` mező mutatja, hova vezet tovább), vagy a projekt szakmai
+referenciáiból — a háromnyelvű glosszáriumból (EN/DE megfelelők) és a
+jogszabályi összeállításból (OTÉK, 2003. évi LXXXIX. tv.).
+
+**Négy keresett szó szándékosan kimaradt** (`derítő`,
+`mikroszennyvíztisztító`, `szennyvízakna`, `dobozos szennyvíztisztító`): van
+rájuk kereslet, de nincs hozzájuk forrás, amiből pontos meghatározást lehetne
+írni. A forrásfájl fel is sorolja őket.
+
+`DefinedTermSet` + `FAQPage` + `BreadcrumbList`. A megamenüben a **passzív
+helykitöltő** lett élő hivatkozás 187 lapon.
+
+**Egy hiba, amit magam okoztam.** A `.fogalomtar` komponens RÉGÓTA LÉTEZIK, és
+három lap használja — én viszont rossz horgonnyal kerestem (`^\.fogalom`),
+holott ebben a stíluslapban minden szabály behúzva áll egy `@layer`-ben. A
+keresés üresen tért vissza, építettem egy másodikat, és mivel az később állt a
+fájlban, **felülírta az eredetit**: a kétoszlopos definíciós sor egyoszloposra
+esett össze azon a hármon. Csak a böngészőben derült ki.
+
+### Hozzáadva — SBR-cikk, magyarázó ábrával
+
+A kulcsszókutatás HU-klasztere tartalmazza az „eleveniszapos / SBR / MBBR”
+kifejezést, és a top vásárlói kérdések nyolcadika szó szerint: „SBR vagy MBBR
+vagy eleveniszapos — mi a különbség?”. Eddig egyetlen GYIK-válasz érintette.
+
+**A szöveg Beláé**, nem az enyém: szakmai állítást — évszámot, technológiai
+elvet, terméktulajdonságot — nem írok emlékezetből.
+
+**Az ábra a cikk központi gondolatát rajzolja meg:** amit az egyik konstrukció
+időben és vezérléssel választ szét, azt a másik térben, a tartály
+kialakításával. Két SVG egymás mellett — az SBR egy reaktortér négy fázissal
+és a visszazáró ciklusívvel, a folyamatos átfolyás négy kamrával, amiken a víz
+végighalad.
+
+SVG, nem kép: témát vált a lappal, bármekkora nagyításban éles, és a **szövege
+valódi szöveg**, amit a képernyőolvasó és a kereső is olvas. A `desc` nem a
+rajzot írja le, hanem az **állítását** mondja ki. Sötét témán mérve 7,31:1 a
+vonalakra és a feliratokra.
+
+**MBBR-ről nincs cikk:** az anyag csak az SBR-t fedte le, a többit nem találom ki.
+
+### Javítva — a két új lapon nem működött a menü, és nem volt Öko
+
+Élesről jelentve. A fejléc MARKUPJÁT átemeltem egy meglévő lapból, **a hozzá
+tartozó szkripteket viszont nem**: a `site.js` működteti a megamenü paneleket,
+a billentyűzetes kezelést és a mobil fiókot, a `kalauz.js` pedig az Öko. A
+markup önmagában néma. Mindkét új lap enélkül ment ki.
+
+### Módosítva — a megamenü megmondja, mi mögött van tartalom
+
+Eddig az egyetlen különbség a szövegszín volt (`--text-tertiary` a
+`--text-secondary` helyett), és azt könnyű elnézni: a látogató rákattint, és
+nem történik semmi. Mostantól **mindkét oldalról jelölt** — a kész tétel előtt
+apró pont, a készülő mellett „hamarosan” címke. Külön-külön mindegyik
+kétértelmű marad.
+
+### Módosítva — a fejléc Ajánlat gombja az űrlaphoz visz
+
+Aki a fejlécben az „Ajánlat”-ra kattint, már döntött: nem a bevezetőt akarja
+újraolvasni, hanem kitölteni. A gomb mostantól `ajanlat#urlap`, mind a 187
+lapon, mélységhelyes előtaggal.
+
+Kellett hozzá egy scroll-eltolás is: a fejléc tapad, tehát a horgonyra érkező a
+szekció címét a menü ALATT találta volna. A szabály `.section[id]`-re szól, nem
+erre az egy szekcióra — ahol horgony van, ott ez a probléma mindig fennáll.
+
+### Módosítva — a Történetünk lap hero-képe
+
+Esztergom madártávlatból, naplementében, balra a Bazilikával — ez az, amit a
+lap bevezetője amúgy is mond: „Egy esztergomi hegyoldalon kezdődött". Három
+WebP változat a ház konvenciója szerint, mindegyik **kisebb a lecseréltnél**
+(103 KB a 139 helyett 1800 képpontnál, és az ott az LCP-kép).
+
+A repó saját ellenőrzője kapta el, amit én nem: az előtöltés még a régi képre
+mutatott. Az a kapu pont ezért van — egy nem megjelenített képre mutató
+`preload` tiszta pazarlás a kritikus úton.
+
 ## [0.36.00] — 2026-09-12
 
 ### Javítva — Safariban elcsúszott a lap, és a süti-gombok nem éltek
