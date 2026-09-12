@@ -113,7 +113,8 @@ $szoveg = OthLevel::szoveg($CFG['webhely'], $cimSor,
     'Beérkezett: ' . date('Y. m. d. H:i'));
 
 $cimzett = $CFG['cimzettek']['ajanlat'] ?? $CFG['cimzettek']['kapcsolat'];
-oth_kuld($CFG, $cimzett, '[Weboldal] ' . $cimSor, $szoveg, $html, $csatolmanyok, $email, $nev);
+oth_kuld($CFG, $cimzett, '[Weboldal] ' . $cimSor, $szoveg, $html, $csatolmanyok, $email, $nev,
+         oth_masolat($CFG));
 
 /* --- visszaigazolás a látogatónak ---------------------------------------- */
 if (!empty($CFG['visszaigazolas'])) {

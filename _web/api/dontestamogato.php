@@ -92,7 +92,7 @@ $bszoveg = OthLevel::szoveg($CFG['webhely'], 'Döntéstámogató kitöltve', '',
 try {
     oth_kuld($CFG, $CFG['cimzettek']['dontestamogato'],
         ($visszahivas ? '[Weboldal] VISSZAHÍVÁS — ' : '[Weboldal] Döntéstámogató — ') . $email,
-        $bszoveg, $bhtml, [], $email);
+        $bszoveg, $bhtml, [], $email, '', oth_masolat($CFG));
 } catch (Throwable $e) {
     /* A látogató már megkapta az összefoglalót — a belső értesítés hiánya
        nem az ő hibája, és nem is az ő problémája. */

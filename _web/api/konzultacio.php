@@ -205,7 +205,7 @@ $szoveg = OthLevel::szoveg($CFG['webhely'], 'Új konzultációkérés', $bevezet
 $cimzettek = $CFG['cimzettek']['konzultacio'] ?? ($CFG['cimzettek']['kapcsolat'] ?? []);
 /* A 6. paraméter a CSATOLMÁNYOK tömbje — a válaszcím csak utána jön. */
 oth_kuld($CFG, $cimzettek, 'Konzultációkérés — ' . $nev . ($telepules !== '' ? ' · ' . $telepules : ''),
-    $szoveg, $html, [], $email, $nev);
+    $szoveg, $html, [], $email, $nev, oth_masolat($CFG));
 
 /* --- visszaigazolás a látogatónak ------------------------------------------ */
 if (!empty($CFG['visszaigazolas'])) {

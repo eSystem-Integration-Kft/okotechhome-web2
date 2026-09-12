@@ -167,7 +167,49 @@ $szoveg = OthLevel::szoveg($CFG['webhely'], $cim,
 $cimzettek = $CFG['cimzettek']['szippantasi-dij'] ?? $CFG['cimzettek']['kapcsolat'];
 
 oth_kuld($CFG, $cimzettek, '[Weboldal] Díjadat — ' . $cim, $szoveg, $html, [],
-    $email, $telepules);
+    $email, $telepules, oth_masolat($CFG));
+
+/* ------------------------------------------- visszaigazolás a beküldőnek
+ *
+ * CSAK AKKOR, HA MEGADTA A CÍMÉT — és azt csak hozzájárulással teheti (fent
+ * ellenőrizve). Aki cím nélkül küld be, annak nincs hova írni, és nem is kért
+ * visszajelzést.
+ *
+ * MIÉRT JÁR NEKI LEVÉL. Adatot adott nekünk, nem kért semmit. A visszaigazolás
+ * az egyetlen jel arról, hogy megérkezett és mi lesz vele — enélkül a beküldés
+ * a semmibe megy, és legközelebb nem küld.
+ *
+ * A KÜLDÉS NEM BUKTATHATJA MEG A BEKÜLDÉST. Az adat már nálunk van; ha a
+ * visszaigazolás elakad, azt naplózzuk, de a válasz `ok:true` marad.
+ */
+if ($email !== '' && !empty($CFG['visszaigazolas'])) {
+    try {
+        $vhtml = OthLevel::html(
+            $CFG['webhely'],
+            'Visszaigazolás',
+            'Megkaptuk a díjadatot',
+            "Köszönjük, hogy elküldte a településén érvényes szippantási díjakat.\n"
+            . 'Az adatot a forrás ellenőrzése után vesszük fel az adatbázisba, ezért '
+            . 'nem jelenik meg azonnal a kalkulátorban.',
+            ['Település' => OthVedelem::html($telepules . ' (' . SZIP_MEGYEK[$megye] . ')'),
+             'Amit beküldött' => OthVedelem::html(
+                 $dij($kiszallas, 'Ft/alkalom') . ' kiszállás · '
+               . $dij($uritesM3, 'Ft/m³') . ' ürítés · '
+               . $dij($minimumDij, 'Ft/alkalom') . ' minimumdíj')],
+            ['felirat' => 'Vissza a kalkulátorhoz',
+             'url' => rtrim($CFG['webhely']['url'], '/') . '/szippantasi-dij-kalkulator'],
+            'Erre a levélre nem szükséges válaszolnia — csak visszaigazolás.'
+        );
+        $vszoveg = OthLevel::szoveg($CFG['webhely'], 'Megkaptuk a díjadatot',
+            'Köszönjük, hogy elküldte a településén érvényes szippantási díjakat. '
+          . 'Az adatot ellenőrzés után vesszük fel az adatbázisba.',
+            ['Település' => $telepules]);
+        oth_kuld($CFG, [$email], 'Megkaptuk a díjadatot — ' . $CFG['webhely']['nev'],
+            $vszoveg, $vhtml);
+    } catch (Throwable $e) {
+        error_log('OTH díjadat: a visszaigazolás nem ment ki — ' . $e->getMessage());
+    }
+}
 
 OthVedelem::valasz(200, [
     'ok' => true,

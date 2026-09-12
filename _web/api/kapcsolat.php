@@ -61,7 +61,7 @@ $szoveg = OthLevel::szoveg($CFG['webhely'], $temaNev . ' — ' . $nev,
 
 oth_kuld($CFG, $CFG['cimzettek']['kapcsolat'],
     '[Weboldal] ' . $temaNev . ' — ' . $nev,
-    $szoveg, $html, [], $email, $nev);
+    $szoveg, $html, [], $email, $nev, oth_masolat($CFG));
 
 /* ------------------------------------------- visszaigazolás a látogatónak */
 if (!empty($CFG['visszaigazolas'])) {

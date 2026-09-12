@@ -82,10 +82,23 @@ if (stripos($nyersTipus, 'application/json') !== false) {
 
 OthVedelem::botEllenorzes($BE, (int) $CFG['vedelem']['min_kitoltes']);
 
+/**
+ * A BELSŐ ÉRTESÍTÉSEK MÁSOLATI CÍMEI. Külön függvény, hogy a hívás helyén
+ * egyetlen szó legyen belőle, és hogy egy helyen lehessen kikapcsolni.
+ *
+ * CSAK A NEKÜNK SZÓLÓ LEVELEKRE való. A látogatónak küldött visszaigazolás
+ * nem kaphat másolatot: az az ő levele, a mi belső címeinknek nincs helye
+ * benne — se a fejlécben, se a postaládában.
+ */
+function oth_masolat(array $CFG): array
+{
+    return array_values(array_filter((array) ($CFG['cimzettek']['masolat'] ?? [])));
+}
+
 /** Levélküldés a konfigurált SMTP-n. */
 function oth_kuld(array $CFG, array $cimzettek, string $targy, string $szoveg,
                   string $html, array $csatolmanyok = [], string $valaszCim = '',
-                  string $valaszNev = ''): void
+                  string $valaszNev = '', array $masolat = []): void
 {
     /* A LOGÓ MINDEN LEVÉLBE BEÁGYAZVA MEGY. Itt tesszük hozzá, nem a hívó
        végpontokban: a fejléc a márkasablon része, nem az egyes üzeneteké — így
@@ -112,6 +125,7 @@ function oth_kuld(array $CFG, array $cimzettek, string $targy, string $szoveg,
         $cimzettek,
         $targy,
         $torzs,
-        $fejlecek
+        $fejlecek,
+        $masolat
     );
 }

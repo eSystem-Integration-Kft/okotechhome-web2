@@ -304,6 +304,44 @@ try {
 }
 
 /*
+ * BELSŐ PÉLDÁNY — KÜLÖN LEVÉL, NEM MÁSOLAT.
+ *
+ * Ez a végpont volt az egyetlen, amelyik NEKÜNK semmit nem küldött: a látogató
+ * a saját összehasonlítását kérte el, és a levél csak hozzá ment. Az
+ * érdeklődés viszont pont olyan értékes, mint a többi űrlapé — valaki ajánlatokat
+ * töltött fel és össze akarja hasonlítani őket.
+ *
+ * MIÉRT KÜLÖN LEVÉL. Cc-ként a látogató levelén a mi belső címeink megjelennének
+ * az ő fejlécében, és a válasz gombja is minket vonna be az ő magánlevelezésébe.
+ * Külön küldve a látogató levele érintetlen marad.
+ *
+ * A KÜLDÉS NEM AKADÁLYOZHATJA MEG A VÁLASZT. A látogató levele már kiment; ha
+ * a belső példány elakad, az a mi bajunk, nem az övé — ezért csak naplózzuk.
+ */
+$belso = $CFG['cimzettek']['ajanlat-osszehasonlito']
+      ?? $CFG['cimzettek']['ajanlat']
+      ?? $CFG['cimzettek']['kapcsolat'];
+try {
+    oth_kuld(
+        $CFG,
+        (array) $belso,
+        '[Weboldal] Ajánlat-összehasonlítás — ' . ($cimzettek[0] ?? 'ismeretlen cím'),
+        $szoveg,
+        $html,
+        [[
+            'nev'  => 'okotech-ajanlat-osszehasonlitas.html',
+            'mime' => 'text/html',
+            'adat' => $melleklet,
+        ]],
+        (string) ($cimzettek[0] ?? ''),
+        '',
+        oth_masolat($CFG)
+    );
+} catch (Throwable $e) {
+    error_log('OTH jelentés: a belső példány nem ment ki — ' . $e->getMessage());
+}
+
+/*
  * ÁTADÁS A CRM-NEK — a levél UTÁN.
  *
  * Itt a látogató SAJÁT MAGÁNAK kéri el az összehasonlítást. Ez gyengébb jelzés

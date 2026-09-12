@@ -96,7 +96,7 @@ $szoveg = OthLevel::szoveg($CFG['webhely'], 'Ajánlat-átnézés — ' . $nev,
     'A látogató ajánlatokat küldött be átnézésre.', $adatok);
 
 oth_kuld($CFG, $CFG['cimzettek']['ajanlat-atnezes'],
-    '[Weboldal] Ajánlat-átnézés — ' . $nev, $szoveg, $html, $csatolmanyok, $email, $nev);
+    '[Weboldal] Ajánlat-átnézés — ' . $nev, $szoveg, $html, $csatolmanyok, $email, $nev, oth_masolat($CFG));
 
 /* --- visszaigazolás a látogatónak (csatolmány NÉLKÜL) -------------------- */
 if (!empty($CFG['visszaigazolas'])) {

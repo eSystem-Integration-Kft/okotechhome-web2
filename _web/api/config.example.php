@@ -180,6 +180,22 @@ return [
         // el, ha a kulcs lemarad.
         'ajanlat'         => ['kapcsolat@example.hu'],
         'megrendeles'     => ['kapcsolat@example.hu'],
+        // AJÁNLAT-ÖSSZEHASONLÍTÁS. A látogató a SAJÁT jelentését kéri el; ez a
+        // cím a mi belső példányunké, külön levélben. Hiányában az `ajanlat`,
+        // majd a `kapcsolat` postafiókba esik vissza.
+        'ajanlat-osszehasonlito' => ['kapcsolat@example.hu'],
+
+        // ===================== MÁSOLAT (Cc) =================================
+        // CSAK A NEKÜNK SZÓLÓ ÉRTESÍTÉSEKRE. A látogatónak küldött
+        // visszaigazolás sosem kap másolatot: az az ő levele, a mi belső
+        // címeinknek nincs helye benne — se a fejlécében, se a postaládájában.
+        //
+        // Cc, nem Bcc: a címzett lássa, ki más kapta meg. Így a „Válasz
+        // mindenkinek" is a helyes kört szólítja meg.
+        //
+        // Üres tömb = nincs másolat. A `To`-ban már szereplő címek maguktól
+        // kiesnek belőle (kettőzött kézbesítés helyett).
+        'masolat' => ['nev@example.hu'],
     ],
 
     /* --- Visszaigazolás a látogatónak ------------------------------------ */

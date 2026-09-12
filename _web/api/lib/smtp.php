@@ -36,6 +36,13 @@ final class OthSmtp
      * @param string   $targy
      * @param string   $torzs     kész MIME-törzs (fejlécek nélkül)
      * @param string[] $fejlecek  további fejlécek `Név: érték` alakban
+     * @param string[] $masolat   Cc — látható másolat
+     *
+     * A MÁSOLAT KÉT HELYEN JELENIK MEG, és mindkettő kell. A `RCPT TO` mondja
+     * meg a kiszolgálónak, KINEK kézbesítsen — e nélkül a Cc-fejléc csak egy
+     * felirat volna, a levél nem érkezne meg. A `Cc:` fejléc pedig azt mondja
+     * meg a CÍMZETTNEK, hogy ki más kapta meg; e nélkül a másolat némán
+     * érkezne, és a válaszgombok sem tudnák, kit kell bevonni.
      */
     public function kuld(
         string $fromCim,
@@ -43,12 +50,17 @@ final class OthSmtp
         array $cimzettek,
         string $targy,
         string $torzs,
-        array $fejlecek = []
+        array $fejlecek = [],
+        array $masolat = []
     ): void {
+        /* A saját címzettek KIESNEK a másolatból: aki már To-ban szerepel,
+           annak a Cc kettőzött kézbesítést jelentene. */
+        $masolat = array_values(array_diff(array_unique(array_filter($masolat)), $cimzettek));
+
         $this->nyit();
         try {
             $this->parancs("MAIL FROM:<{$fromCim}>", [250]);
-            foreach ($cimzettek as $c) {
+            foreach (array_merge($cimzettek, $masolat) as $c) {
                 $this->parancs("RCPT TO:<{$c}>", [250, 251]);
             }
             $this->parancs('DATA', [354]);
@@ -57,6 +69,7 @@ final class OthSmtp
                 'Date: ' . date('r'),
                 'From: ' . self::fejlecNev($fromNev) . " <{$fromCim}>",
                 'To: ' . implode(', ', $cimzettek),
+            ], $masolat ? ['Cc: ' . implode(', ', $masolat)] : [], [
                 'Subject: ' . self::fejlecErtek($targy),
                 'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . $this->cfg['host'] . '>',
                 'MIME-Version: 1.0',
