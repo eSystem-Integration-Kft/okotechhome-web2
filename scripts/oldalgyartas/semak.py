@@ -66,6 +66,14 @@ TERMEKEK = {
         'nev': 'A.B. Clear biológiai szennyvíztisztító',
         'kategoria': 'Biológiai szennyvíztisztító berendezés',
         'tanusitvany': ['CE — EN 12566-3'],
+        # AZ ÍRÁSMÓD-VÁLTOZATOK A KERESÉS MIATT vannak itt. A webhely
+        # következetesen „A.B. Clear"-t ír, a keresőbe viszont a látogató
+        # pontot és szóközt ritkán tesz — „ab clear"-re a lapon egyetlen
+        # egyezés sincs (mérve). Az `alternateName` a séma erre való mezője:
+        # géppel olvashatóan kimondja, hogy ugyanarról a termékről van szó,
+        # anélkül hogy a szövegbe kellene kulcsszavakat tördelni.
+        'mas_nev': ['A.B.Clear', 'AB Clear', 'ABClear', 'A.B. Clear kompakt '
+                    'biológiai szennyvíztisztító kisberendezés'],
     },
 }
 
@@ -105,6 +113,8 @@ def csomopont(nev, t):
             'manufacturer': CEG,
             'url': url,
         }
+        if p.get('mas_nev'):
+            d['alternateName'] = p['mas_nev']
         if p.get('tanusitvany'):
             d['hasCertification'] = [{'@type': 'Certification', 'name': n}
                                      for n in p['tanusitvany']]
