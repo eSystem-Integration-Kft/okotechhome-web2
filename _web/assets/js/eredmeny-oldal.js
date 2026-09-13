@@ -97,9 +97,13 @@
     if (e.kompromisszum) szakasz.appendChild(el('p', 'type-ui-body eredmeny-kompromisszum', e.kompromisszum));
 
     if (Array.isArray(e.okok) && e.okok.length) {
+      /* A FEJLÉC A KIMENETTÍPUSTÓL FÜGG (hibalista H5) — a nyomtatott példány
+         sem állíthat mást, mint a képernyő. A mentett rekord `okokCim` mezője
+         hozza magával; régi rekordoknál marad a korábbi szöveg. */
       szakasz.appendChild(el('p', 'type-ui-body-strong eredmeny-okok-cim',
-        kulcs === 'arsav' ? 'Tisztázandó pontok a válaszokból:'
-                          : 'Amit a válaszokból nem lehetett automatikusan eldönteni:'));
+        e.okokCim || (kulcs === 'arsav'
+          ? 'Tisztázandó pontok a válaszokból:'
+          : 'Amit a válaszokból nem lehetett automatikusan eldönteni:')));
       const ul = el('ul', 'eredmeny-okok');
       e.okok.forEach((o) => ul.appendChild(el('li', 'type-ui-body', o.cimke || '')));
       szakasz.appendChild(ul);
@@ -174,6 +178,26 @@
       'Az eredmény tájékoztató jellegű, és nem helyettesíti a helyszíni felmérést. '
       + 'A mentett példány azt mutatja, amit a modulok a mentés pillanatában mondtak; '
       + 'a végleges megoldást és az árat szakértői egyeztetés után határozzuk meg.'));
+
+    /* ELÉRHETŐSÉG (hibalista H10). A lap eddig azonosítót, dátumot, URL-t,
+       javaslatot, tisztázandókat és a megadott válaszokat tartalmazta — de
+       nem volt rajta telefonszám, e-mail és cégnév. Aki kinyomtatja vagy
+       elküldi a párjának, annál pont ez hiányzik.
+
+       Ez NEM sérti az adatgyűjtés-mentességet (spec 7.): itt MI adunk adatot,
+       nem kérünk. A `tel:` és `mailto:` hivatkozás képernyőn működik, a
+       nyomtatott lapon pedig a látható szöveg marad olvasható. */
+    const lab = el('footer', 'eredmeny-elerhetoseg');
+    lab.appendChild(el('span', 'type-ui-caption eredmeny-elerhetoseg-nev',
+      'ÖkoTech-Home Kft. · 2509 Esztergom, Strázsa u. 12.'));
+    const tel = el('a', 'type-ui-caption', '+36 33 200 211');
+    tel.href = 'tel:+3633200211';
+    lab.appendChild(tel);
+    const lev = el('a', 'type-ui-caption', 'kapcsolat@okotechhome.hu');
+    lev.href = 'mailto:kapcsolat@okotechhome.hu';
+    lab.appendChild(lev);
+    lab.appendChild(el('span', 'type-ui-caption', 'okotechhome.hu'));
+    torzs.appendChild(lab);
 
     torzs.hidden = false;
     uzenet.hidden = true;

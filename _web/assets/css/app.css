@@ -6901,14 +6901,30 @@
   .ajanlo-panel-felirat{color:var(--text-tertiary);margin-top:var(--space-8)}
 
   .ajanlo-lepeslista{list-style:none;margin:0;padding:0;display:grid;gap:0}
-  .ajanlo-lepessor{
+  .ajanlo-lepessor{display:grid}
+  /* A RÁCS A BELSŐ ELEMEN van, nem a listaelemen: így ugyanaz a megjelenés
+     kapható egy `<div>`-től és egy `<button>`-tól is. A szakaszok
+     KATTINTHATÓK (hibalista H14) — eddig a „Kész ✓" jelölés kattinthatónak
+     látszott, de nem volt az. Ahol a látogató már járt, oda vissza is
+     ugorhat; ahol még nem, ott `<div>` marad, tehát nincs hamis ígéret. */
+  .ajanlo-lepestest{
     display:grid;grid-template-columns:auto minmax(0,1fr) auto;
     align-items:center;gap:var(--space-16);
     padding:var(--space-8);border-radius:var(--r-md);
+    /* A gomb alapértelmezéseit visszabontjuk — a sor nem gombnak látszik,
+       hanem sornak, ami reagál. */
+    width:100%;text-align:left;font:inherit;color:inherit;
+    background:none;border:0;
+  }
+  button.ajanlo-lepestest{cursor:pointer}
+  button.ajanlo-lepestest:hover{background:var(--surface-muted)}
+  /* A fókusz a sor egészén látszik, nem csak a szövegen. */
+  button.ajanlo-lepestest:focus-visible{
+    outline:3px solid var(--border-focus);outline-offset:-3px;
   }
   /* Az AKTUÁLIS szakasz kiemelése — a panel így egy pillantással megmondja,
      hol tart a folyamat. */
-  .ajanlo-lepessor[data-allapot="aktiv"]{background:var(--surface-muted)}
+  .ajanlo-lepessor[data-allapot="aktiv"] .ajanlo-lepestest{background:var(--surface-muted)}
   .ajanlo-lepesszam{
     display:flex;align-items:center;justify-content:center;flex:none;
     width:var(--space-32);height:var(--space-32);border-radius:50%;
@@ -6932,6 +6948,134 @@
   }
   .ajanlo-irany-nev{color:var(--text-primary)}
   .ajanlo-irany-szoveg{color:var(--text-secondary)}
+
+  /* ── AZ IRÁNY-KÁRTYA ÁLLAPOTAI (hibalista H6 · 4.1.) ─────────────────────
+     A kártya korábban egyetlen, végig változatlan mondatot mutatott. Most
+     kétrészes: NÉV vagy STÁTUSZ, alatta az indoklás — és a kártya MEGFORDUL
+     ott, ahol a modul bizonytalanabb lett, nem magabiztosabb. A fordulatot
+     nem csak a szöveg mondja: a szereptokenek is váltanak, hogy egy
+     pillantásra látszódjon. (Szín önmagában sosem hordoz jelentést — a
+     státuszsor mindig ki is írja.) */
+  .ajanlo-irany-statusz{color:var(--ajanlo-kiemel);margin-top:var(--space-4)}
+  /* Az Epureco-kompromisszum MÁR ITT, nem csak a végén (hibalista 10.): ha
+     valaki három kérdésen át egy terméknevet lát, majd a végén kap egy
+     fenntartást, az csalódás — ha az első pillanattól ott van, az őszinteség. */
+  /* `--text-secondary`, nem `--text-tertiary`: a tercier token sötét témában
+     `--surface` felett MÉRVE 4,29:1 — épp a 4,5 alatt. Ez a fenntartás nem
+     dísz, hanem a kompromisszum kimondása, tehát olvashatónak kell lennie. */
+  .ajanlo-irany-fenntartas{color:var(--text-secondary);margin-top:var(--space-4)}
+
+  .ajanlo-irany[data-kimenet="egyeztetes"]{
+    background:var(--info-bg);border:1px solid var(--info-border);
+  }
+  /* A SZÍNEZETT KÁRTYÁN MINDEN SZÖVEG a doboz saját szerepszínét kapja. A
+     `--text-secondary` sötét témában világos, és egy krémszínű dobozban
+     olvashatatlan volna — a szerepszínek viszont témafüggetlenek. */
+  .ajanlo-irany[data-kimenet="egyeztetes"] .ajanlo-irany-nev,
+  .ajanlo-irany[data-kimenet="egyeztetes"] .ajanlo-irany-szoveg,
+  .ajanlo-irany[data-kimenet="egyeztetes"] .ajanlo-irany-fenntartas,
+  .ajanlo-irany[data-kimenet="egyeztetes"] .ajanlo-irany-statusz{color:var(--info-text)}
+  .ajanlo-irany[data-kimenet="egyeztetes"] .ajanlo-irany-jel{color:var(--info-text)}
+
+  .ajanlo-irany[data-kimenet="vizelhelyezes"]{
+    background:var(--warning-bg);border:1px solid var(--warning-border);
+  }
+  .ajanlo-irany[data-kimenet="vizelhelyezes"] .ajanlo-irany-nev,
+  .ajanlo-irany[data-kimenet="vizelhelyezes"] .ajanlo-irany-statusz,
+  .ajanlo-irany[data-kimenet="vizelhelyezes"] .ajanlo-irany-szoveg,
+  .ajanlo-irany[data-kimenet="vizelhelyezes"] .ajanlo-irany-fenntartas{color:var(--warning-text)}
+  /* A KORONG HÁTTERE a színezett kártyákon nem `--surface`: az a sötét téma
+     felülete, és egy krémszínű dobozban sötét foltként ülne. Átlátszó korong,
+     a saját színével rajzolt szegéllyel — mindkét témában működik, és nem
+     kell hozzá nyers színérték. */
+  .ajanlo-irany[data-kimenet="egyeztetes"] .ajanlo-irany-jel,
+  .ajanlo-irany[data-kimenet="vizelhelyezes"] .ajanlo-irany-jel{
+    background:transparent;box-shadow:inset 0 0 0 1px currentColor;
+  }
+  .ajanlo-irany[data-kimenet="vizelhelyezes"] .ajanlo-irany-jel{color:var(--warning-text)}
+
+  /* ── AMI EDDIG ELDŐLT (hibalista 4.2.) ───────────────────────────────────
+     A magyarázatok a bal oldalon buborékban jelennek meg, és elgörögnek. A
+     jobb oldali panel pont arra való, hogy MEGMARADJANAK: a tartalom kész
+     volt, csak nem ott volt, ahol marad.
+
+     Három hasábos sor: megadott érték → következmény. A nyíl `aria-hidden`,
+     a jelentést a két szöveg hordozza. Szűk panelen a sor tördelődik, a nyíl
+     pedig a második sor elé kerül — ezért `align-self:start`. */
+  .ajanlo-eldolt{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
+  .ajanlo-eldolt-sor{
+    display:grid;grid-template-columns:minmax(0,auto) auto minmax(0,1fr);
+    align-items:baseline;gap:var(--space-8);
+    padding-bottom:var(--space-8);border-bottom:1px solid var(--border);
+  }
+  .ajanlo-eldolt-sor:last-child{border-bottom:0;padding-bottom:0}
+  .ajanlo-eldolt-bal{color:var(--text-primary)}
+  .ajanlo-eldolt-nyil{color:var(--ajanlo-kiemel);align-self:start}
+  .ajanlo-eldolt-jobb{color:var(--text-secondary)}
+
+  /* ── A HATÁRESET-ÁG (hibalista 4.3.) ─────────────────────────────────────
+     A megnyugtató mondat a legfontosabb a blokkban: megelőzi azt, hogy a
+     látogató azt higgye, Ő válaszolt rosszul, és visszamenjen „javítani".
+     Ezért kiemelt, de nem figyelmeztető: ez nem baj, hanem tájékoztatás. */
+  .ajanlo-megnyugtatas{
+    color:var(--info-text);background:var(--info-bg);
+    border-left:2px solid var(--info-border);
+    padding:var(--space-16);border-radius:var(--r-md);
+  }
+  /* „Két irány maradt nyitva" — a telek-válaszok itt SEM vesznek kárba. */
+  .ajanlo-nyitva{
+    display:flex;flex-direction:column;gap:var(--space-4);
+    padding-top:var(--space-8);border-top:1px solid var(--border);
+    color:var(--text-secondary);
+  }
+  .ajanlo-nyitva .type-ui-body-strong{color:var(--text-primary)}
+
+  /* ── A VÍZELHELYEZÉS ÁG ZÁRÓ MONDATA (hibalista 3.3.) ────────────────────
+     A gomb UTÁN áll: előbb a következő lépés, utána az őszinte kitekintés
+     arra, mi lesz, ha a felmérés mégis a zárt tároló felé mutat. A
+     végkicsengés nem az, hogy „ezt nem mi csináljuk", hanem hogy „idáig
+     elkísérünk, és megmondjuk, hova tovább". */
+  .ajanlo-zaro{color:var(--text-secondary);max-width:64ch;text-wrap:pretty}
+
+  /* Az ársávbecslő MÁSODLAGOSAN a határeset-ágon: „mindkét irány
+     nagyságrendje" — nem elsődleges lépés, mert ott a nagyságrend még nem a
+     döntés (hibalista 3.1.). */
+  .ajanlo-arsav-masodlagos{align-self:flex-start}
+
+  /* ── TISZTÁZANDÓK = NAPIREND (hibalista 6.3.) ────────────────────────────
+     Elemenként három dolog: mit jelent, KI tudja megmondani, mennyi idő. A
+     második kettő halkabb sor, saját rajzolattal — így a lista nem
+     hiánylistának olvasódik, hanem kész napirendnek a beszélgetéshez. */
+  .ajanlo-tisztazando-bevezeto{color:var(--text-secondary);max-width:64ch;text-wrap:pretty}
+  .ajanlo-tisztazando-ki{
+    display:flex;align-items:flex-start;gap:var(--space-8);
+    /* Lásd az `.ajanlo-irany-fenntartas` megjegyzését: a tercier token sötét
+       témában `--surface` felett 4,29:1, ez a sor pedig tartalmat hordoz
+       („ki tudja megmondani"), nem díszítés. */
+    color:var(--text-secondary);margin-top:var(--space-4);
+  }
+  .ajanlo-tisztazando-jel{
+    width:var(--space-16);height:var(--space-16);flex:none;
+    margin-top:.15em;fill:none;stroke:currentColor;
+    stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  }
+
+  /* ── MEGOSZTÁS (hibalista H11 · 6.2.) ────────────────────────────────────
+     Az azonosító magától keletkezik; a gomb már csak a linket teszi
+     vágólapra. Egy családi ház szennyvízkezeléséről ritkán dönt egy ember — a
+     megosztható link a MÁSODIK döntéshozót éri el. */
+  .ajanlo-masol{display:inline-flex;align-items:center;gap:var(--space-8)}
+  .ajanlo-masol-jel{width:var(--space-16);height:var(--space-16);flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ajanlo-masolva:not(:empty){color:var(--success-text);margin-top:var(--space-4)}
+  /* Amíg a mentés fut, a doboz ÜRESEN áll — nem ígérünk semmit, amíg nincs
+     válasz. A `role="status"` majd felolvassa, ha megjött. */
+  .ajanlo-mentve[data-allapot="fut"]{display:none}
+
+  /* RÉSZLEGES EREDMÉNY (hibalista 6.5.). A modul a harmadik kérdés után már
+     megmutatja az irányt; aki a negyediknél abbahagyja, eddig SEMMIT nem
+     kapott. Ez a gomb lezárja azzal, ami megvan. Másodlagos súlyú: a teljes
+     folyamat marad az ajánlott út. */
+  .ajanlo-reszleges{margin-inline-start:auto}
 
   .ajanlo-chipek{display:flex;flex-wrap:wrap;gap:var(--space-8)}
   .ajanlo-chip{
@@ -7086,7 +7230,14 @@
     border-top:1px solid var(--border);
   }
 
+  /* A `display:flex` FELÜLÍRJA a `[hidden]` böngésző-alapértelmezését: a
+     szerzői stílus mindig erősebb a böngésző sajátjánál, réteg ide vagy oda.
+     Ezért maradt a lapon a „Mentett eredmény betöltése…" blokk a kereső
+     mezővel és a két gombbal, AKKOR IS, amikor az eredmény már betöltött —
+     és ezért került rá a nyomtatott példány 2. oldalára (hibalista H9).
+     Ugyanaz a hiba, amit a `.gyik-tabla` és az `.ofc-drop` már kiírva kezel. */
   .eredmeny-uzenet{max-width:44rem;display:flex;flex-direction:column;gap:var(--space-16)}
+  .eredmeny-uzenet[hidden],.eredmeny-kereso[hidden]{display:none}
   .eredmeny-uzenet-szoveg{color:var(--text-secondary)}
   .eredmeny-kereso{display:flex;flex-direction:column;gap:var(--space-4);margin-top:var(--space-16)}
   .eredmeny-kereso-sugo{color:var(--text-tertiary)}
@@ -7104,9 +7255,23 @@
 
   /* NYOMTATÁS = PDF-MENTÉS. Ami a képernyő kerete (fejléc, lábléc, eszköztár,
      kalauz), az papíron zaj — és a PDF-et a látogató továbbadja. */
+  /* ── ELÉRHETŐSÉG A NYOMTATOTT LAPON (hibalista H10) ──────────────────────
+     A mentett lap kiváló felkészülési anyag — de eddig nem volt rajta, kit
+     kell hívni. Aki kinyomtatja vagy elküldi a párjának, annál ez hiányzik.
+     Ez NEM sérti az adatgyűjtés-mentességet: itt MI adunk adatot, nem kérünk. */
+  .eredmeny-elerhetoseg{
+    display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-24);
+    padding-top:var(--space-16);margin-top:var(--space-8);
+    border-top:1px solid var(--border);color:var(--text-secondary);
+  }
+  .eredmeny-elerhetoseg-nev{color:var(--text-primary)}
+
   @media print{
     .site-header,.lablec,.skip-link,.eredmeny-eszkoztar,
+    .eredmeny-uzenet,.eredmeny-uzenet-gomb,
     .oko-gomb,.oko-panel{display:none}
+    /* A lábléc együtt maradjon: fél elérhetőség rosszabb, mint semennyi. */
+    .eredmeny-elerhetoseg{break-inside:avoid}
     .eredmeny-lap,.eredmeny-lap .section-inner{padding:0;margin:0;max-width:none}
     .eredmeny-torzs{max-width:none;gap:var(--space-32)}
     .eredmeny-blokk{break-inside:avoid-page}
@@ -9649,6 +9814,16 @@
     --abra-iszap:color-mix(in srgb,var(--color-oliveleaf) 45%,transparent);
     --abra-jel:var(--text-secondary);
     --abra-kiemeles:var(--primary);
+    /* A fázisszám korongja: halvány kitöltés a kiemelőszínből. A puszta szám
+       a tartály kerete mellett elveszett. */
+    --abra-badge:color-mix(in srgb,var(--primary) 10%,transparent);
+    /* A BIOFILMES ÁBRÁKHOZ. A hordozó nem víz és nem iszap: saját, semleges
+       felület, amin a biofilm megtelepszik. A biofilm két rétege ugyanabból a
+       színből épül, eltérő telítettséggel — mert ugyanaz az élő réteg, csak
+       más benne az oxigén. */
+    --abra-hordozo:color-mix(in srgb,var(--color-stardust) 70%,var(--surface));
+    --abra-biofilm-belso:color-mix(in srgb,var(--color-oliveleaf) 22%,transparent);
+    --abra-biofilm-kulso:color-mix(in srgb,var(--primary) 34%,transparent);
   }
   [data-theme="dark"]{
     /* Sötéten a vékony vonal a `--text-secondary`-vel is elválik, a kitöltések
@@ -9657,6 +9832,10 @@
     --abra-viz:color-mix(in srgb,var(--color-skyblue) 34%,transparent);
     --abra-iszap:color-mix(in srgb,var(--color-lime) 26%,transparent);
     --abra-jel:var(--text-secondary);
+    --abra-badge:color-mix(in srgb,var(--primary) 22%,transparent);
+    --abra-hordozo:color-mix(in srgb,var(--color-stardust) 16%,transparent);
+    --abra-biofilm-belso:color-mix(in srgb,var(--color-lime) 14%,transparent);
+    --abra-biofilm-kulso:color-mix(in srgb,var(--primary) 40%,transparent);
   }
 }
 
@@ -9666,6 +9845,10 @@
     margin-block:var(--space-32);
   }
   .abra{margin:0;display:grid;gap:var(--space-16)}
+  /* Egyetlen, TELJES SZÉLESSÉGŰ ábra — ahol a rajz maga széles (három tartály
+     egymás mellett, vagy egy rétegmetszet), ott a kéthasábos `.abra-parok`
+     félbevágná. */
+  .abra-egy{margin-block:var(--space-32)}
   .abra-svg{
     display:block;width:100%;height:auto;
     /* A rajz saját felületen ül: a szekció háttere elé emelve a vékony
@@ -9681,9 +9864,21 @@
     fill:var(--abra-kiemeles);
   }
   .abra-svg .abra-cimke{font-size:12px}
+  /* A rajz FŐ címkéi (technológianév, rétegnév) a címbetűvel és erősebb
+     színnel — az alattuk álló jegyzet halkabb. Így a rajz is olvasható
+     hierarchiát kap, nem egyenszürkeséget. */
+  .abra-svg .abra-cimke-eros{
+    font-family:var(--font-heading);font-size:13.5px;font-weight:600;
+    fill:var(--text-primary);
+  }
   .abra-svg .abra-jegyzet{font-size:11.5px;fill:var(--text-tertiary)}
   .abra-felirat{color:var(--text-secondary);margin:0;max-width:52ch}
   .abra-felirat strong{color:var(--text-primary)}
+
+  /* A buborék és a haladó csepp ALAPHELYZETBEN IS a helyén van: ha az
+     animáció nem fut (csökkentett mozgás, régi böngésző), a rajz akkor is
+     teljes, csak áll. Mozgó elem sosem hordoz egyedül jelentést. */
+  .abra-bub{opacity:.85}
 }
 
 @layer responsive {
@@ -9691,5 +9886,71 @@
     /* Szélesen EGYMÁS MELLETT — a két elv különbsége így olvasható le egy
        pillantással. Ez a rajz egész értelme. */
     .abra-parok{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+}
+
+@layer motion {
+  /* ── AZ ÁBRA MOZGÁSA ────────────────────────────────────────────────────
+     Nem dísz: pontosan azt mutatja, amit a rajz állít. A levegőztetés
+     buborékai felszállnak, a ciklus szaggatása körbefut, a csepp végighalad a
+     kamrákon. Ennél több mozgás elvonná a figyelmet arról, amit el kell
+     olvasni a rajzon.
+
+     A `transform`-ra megy minden, nem geometriai attribútumra: a `transform`
+     a kompozitoron fut, és nem kényszerít újrarajzolást. A `transform-box`
+     azért kell, mert SVG-ben az origó alapból a felhasználói koordinátarendszer
+     nulla pontja, nem az elemé. */
+  @media (prefers-reduced-motion:no-preference){
+    .abra-bub{
+      transform-box:fill-box;transform-origin:center;
+      animation:abra-bub 3.4s ease-in infinite;
+      animation-delay:calc(var(--i,0) * 620ms);
+    }
+    @keyframes abra-bub{
+      0%   {transform:translateY(0) scale(.7);opacity:0}
+      18%  {opacity:.9}
+      82%  {opacity:.55}
+      100% {transform:translateY(-56px) scale(1.05);opacity:0}
+    }
+    /* A ciklus szaggatása KÖRBEFUT — ettől olvasódik ismétlődő folyamatnak,
+       nem egyszeri nyílnak. Lassan: ez háttérinformáció, nem esemény. */
+    .abra-ciklus{animation:abra-ciklus 2.6s linear infinite}
+    @keyframes abra-ciklus{to{stroke-dashoffset:-22}}
+
+    /* A LEBEGŐ HORDOZÓK ÉS ISZAPPELYHEK. Ez az MBBR-ábra állítása: a hordozók
+       nem állnak egy helyben. Apró, lassú, egymáshoz képest ELTOLT mozgás —
+       a késleltetés a sorszámból jön, nem véletlenből, mert generált fájlban
+       a véletlen minden futáskor más rajzot adna.
+
+       A Fixed Bed rajzán SZÁNDÉKOSAN nincs ilyen osztály: ott az a lényeg,
+       hogy a hordozó a helyén marad. A mozgás hiánya itt maga az állítás. */
+    .abra-lebeg{
+      transform-box:fill-box;transform-origin:center;
+      animation:abra-lebeg 7s ease-in-out infinite;
+      animation-delay:calc(var(--i,0) * -480ms);
+    }
+    @keyframes abra-lebeg{
+      0%,100%{translate:0 0}
+      25%    {translate:3px -5px}
+      50%    {translate:-2px 4px}
+      75%    {translate:-4px -3px}
+    }
+    /* Az oxigéngörbe egyszer rajzolódik ki, amikor a rajz képbe ér — utána
+       áll. Ismétlődő mozgás egy magyarázó görbén csak zavarna. */
+    @supports (animation-timeline: view()){
+      .abra-o2{
+        stroke-dasharray:400;
+        animation:abra-o2 linear both;
+        animation-timeline:view();
+        animation-range:entry 20% entry 80%;
+      }
+      @keyframes abra-o2{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+    }
+  }
+  /* CSÖKKENTETT MOZGÁS: a SMIL-lel mozgatott cseppet CSS-ből nem lehet
+     megállítani, ezért elrejtjük. A víz útját a szaggatott vonal így is
+     végigmutatja, a `<desc>` pedig szóban is elmondja. */
+  @media (prefers-reduced-motion:reduce){
+    .abra-csepp{display:none}
   }
 }

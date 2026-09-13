@@ -28,7 +28,6 @@ GYOKER = pathlib.Path(__file__).resolve().parents[2]
 WEB = GYOKER / '_web'
 FORRAS = pathlib.Path(__file__).resolve().parent / 'hirek-forras.json'
 
-CSS_V = 238          # süti-hozzájárulás: sáv és beállításkezelő
 JS_SITE_V = 12
 JS_KALAUZ_V = 45
 JS_HIREK_V = 3      # a szűrő csak a kártyákat veszi
@@ -56,6 +55,14 @@ ROVAT_IKON = {
 # Fejléc és lábléc egy meglévő lapból
 # ---------------------------------------------------------------------------
 MINTA = (WEB / 'okotech-home' / 'cegunkrol.html').read_text(encoding='utf-8')
+
+# A STÍLUSLAP VERZIÓJA A MINTALAPBÓL JÖN, nem beégetve. Beégetve ez visszatérő
+# csapda: az `app.css?v=NN` emelésekor a 188 kiadott lap frissül, a generátorok
+# viszont a régi számot írták vissza a következő futáskor — az `ellenorzes.sh`
+# 3. pontja ilyenkor „többféle app.css verzió" hibát jelez. A mintalap mindig a
+# jelenlegi állapotot hordozza, tehát ez magától követi.
+CSS_V = int(re.search(r'app\.css\?v=(\d+)', MINTA).group(1))
+
 FEJLEC = re.search(r'(<a class="skip-link".*?</header>)', MINTA, re.S).group(1)
 LABLEC = re.search(r'(<!-- =+\n     LÁBLÉC.*?</footer>)', MINTA, re.S).group(1)
 

@@ -35,7 +35,6 @@ WEB = GYOKER / '_web'
 FORRAS = pathlib.Path(__file__).resolve().parent / 'fogalomtar-forras.json'
 DOMAIN = 'https://okotechhome.hu'
 UT = 'tudastar/fogalomtar'
-CSS_V = 238
 SUTI_V = 2
 SITE_V = 12      # a megamenü szkriptje
 KALAUZ_V = 45    # az Öko kalauz
@@ -44,6 +43,14 @@ KALAUZ_V = 45    # az Öko kalauz
 # benne álló `../` előtagok változtatás nélkül helyesek. A `hirek.py`-nak azért
 # kell `melyebb()`, mert az ő lapjai egy szinttel lejjebb ülnek.
 MINTA = (WEB / 'tudastar' / 'elszivarogtatas.html').read_text(encoding='utf-8')
+
+# A STÍLUSLAP VERZIÓJA A MINTALAPBÓL JÖN, nem beégetve. Beégetve ez visszatérő
+# csapda: az `app.css?v=NN` emelésekor a 188 kiadott lap frissül, a generátorok
+# viszont a régi számot írták vissza a következő futáskor — az `ellenorzes.sh`
+# 3. pontja ilyenkor „többféle app.css verzió" hibát jelez. A mintalap mindig a
+# jelenlegi állapotot hordozza, tehát ez magától követi.
+CSS_V = int(re.search(r'app\.css\?v=(\d+)', MINTA).group(1))
+
 FEJLEC = re.search(r'(<a class="skip-link".*?</header>)', MINTA, re.S).group(1)
 LABLEC = re.search(r'(<!-- =+\n     LÁBLÉC.*?</footer>)', MINTA, re.S).group(1)
 
@@ -252,6 +259,13 @@ def epit():
 <meta property="og:type" content="article">
 <meta property="og:title" content="{attr(cim)}">
 <meta property="og:description" content="{attr(leiras)}">
+<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-muszaki-adatlap.webp?v=2">
+<meta property="og:image:width" content="1800">
+<meta property="og:image:height" content="764">
+<meta property="og:image:alt" content="Műszaki adatlap az ÖkoTech-Home berendezéséhez">
+<meta property="og:url" content="{DOMAIN}/{UT}">
+<meta property="og:site_name" content="ÖkoTech Home">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="hu_HU">
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek; előtöltés szándékosan nincs (magas
      prioritással a hero-kép elé állna). Lásd assets/css/betuk.css. -->

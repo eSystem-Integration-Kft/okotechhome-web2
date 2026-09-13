@@ -5,17 +5,17 @@
 <!-- TESZT ÜZEMMÓD: élesítéskor a `prod-epit.sh` 1. rétege cseréli. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SBR szennyvíztisztító: hogyan működik, és miért terjedt el? | ÖkoTech Home</title>
-<meta name="description" content="Az SBR a tisztítás fázisait időben választja szét, a folyamatos átfolyású rendszer térben. Mit jelent ez a gyakorlatban, és mi történik áramszünet után?">
-<link rel="canonical" href="https://okotechhome.hu/tudastar/sbr-szennyviztisztito">
+<title>MBBR és Fixed Bed: hogyan dolgozik a biofilm a szennyvíztisztításban? | ÖkoTech Home</title>
+<meta name="description" content="A biofilm nem mesterséges találmány: a mikroorganizmusok felületeken telepednek meg. Mi a különbség a Fixed Bed és az MBBR között, és mit jelent mindez egy családi szennyvíztisztítónál?">
+<link rel="canonical" href="https://okotechhome.hu/tudastar/mbbr-es-fixed-bed-biofilm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SBR szennyvíztisztító: hogyan működik, és miért terjedt el? | ÖkoTech Home">
-<meta property="og:description" content="Az SBR a tisztítás fázisait időben választja szét, a folyamatos átfolyású rendszer térben. Mit jelent ez a gyakorlatban, és mi történik áramszünet után?">
+<meta property="og:title" content="MBBR és Fixed Bed: hogyan dolgozik a biofilm a szennyvíztisztításban? | ÖkoTech Home">
+<meta property="og:description" content="A biofilm nem mesterséges találmány: a mikroorganizmusok felületeken telepednek meg. Mi a különbség a Fixed Bed és az MBBR között, és mit jelent mindez egy családi szennyvíztisztítónál?">
 <meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-labor.webp?v=2">
 <meta property="og:image:width" content="1800">
 <meta property="og:image:height" content="764">
 <meta property="og:image:alt" content="Laborvizsgálat az ÖkoTech-Home berendezéseihez">
-<meta property="og:url" content="https://okotechhome.hu/tudastar/sbr-szennyviztisztito">
+<meta property="og:url" content="https://okotechhome.hu/tudastar/mbbr-es-fixed-bed-biofilm">
 <meta property="og:site_name" content="ÖkoTech Home">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="hu_HU">
@@ -23,11 +23,10 @@
 <link rel="stylesheet" href="../assets/css/app.css?v=240">
 <script src="../assets/js/tema.js?v=1"></script>
 <script src="/assets/js/suti.js?v=2" defer></script>
-<!-- A MEGAMENÜT A `site.js` MŰKÖDTETI, az Ökót a `kalauz.js`. Mindkettő
-     hiányzott az első kiadásból, és a lapokon emiatt nem nyílt a menü — a
-     fejlécet átemeltem egy meglévő lapból, a hozzá tartozó szkripteket
-     viszont nem. A fejléc MARKUPJA önmagában néma: a panelek nyitása,
-     a billentyűzetes kezelés és a mobil fiók mind innen jön. -->
+<!-- A MEGAMENÜT A `site.js` MŰKÖDTETI, az Ökót a `kalauz.js`. A fejléc
+     MARKUPJA önmagában néma: a panelek nyitása, a billentyűzetes kezelés és a
+     mobil fiók mind innen jön. Az SBR-lap első kiadásából ez kimaradt, és a
+     megamenü emiatt nem nyílt — lásd `sbr.py` ugyanezt a megjegyzést. -->
 <script src="../assets/js/site.js?v=12" defer></script>
 <script src="../assets/js/kalauz.js?v=45" defer></script>
 </head>
@@ -490,206 +489,289 @@
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
             <li><a href="../tudastar/">Tudástár</a></li>
-            <li aria-current="page">SBR szennyvíztisztító</li>
+            <li aria-current="page">MBBR és Fixed Bed</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">SBR szennyvíztisztító:
-        hogyan működik, és miért terjedt el?</h1>
-        <p class="type-ui-body-strong hero-lead">Az SBR a tisztítás fázisait időben
-        választja szét, a folyamatos átfolyású rendszer térben. Ebből az egy különbségből
-        következik szinte minden más — az alkatrészszám, az energiaigény és az is, mi
-        történik áramszünet után.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">MBBR és Fixed Bed:
+        hogyan dolgozik a biofilm a szennyvíztisztításban?</h1>
+        <p class="type-ui-body-strong hero-lead">A mikroorganizmusok szívesen telepednek meg
+        felületeken — a biofilmes technológiák ezt a természetes jelenséget használják
+        ellenőrzött körülmények között. A hordozó nem tisztít: életteret ad.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="mi-az-sbr" aria-labelledby="mi-az-sbr-cim">
+  <section class="section" id="mi-a-biofilm" aria-labelledby="mi-a-biofilm-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Röviden</p>
-        <h2 class="type-display-section-title section-title" id="mi-az-sbr-cim">Mi az SBR, és mióta létezik?</h2>
+        <p class="type-data-eyebrow section-eyebrow">Az alapjelenség</p>
+        <h2 class="type-display-section-title section-title" id="mi-a-biofilm-cim">Mi az a biofilm?</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">Az SBR ma az egyik ismert technológiai megoldás a biológiai szennyvíztisztításban. A rövidítés a <strong>Sequencing Batch Reactor</strong>, vagyis szakaszos üzemű biológiai reaktor elnevezésből származik.</p>
-        <p class="type-ui-body">Bár korszerű technológiaként szokás beszélni róla, maga az alapelv egyáltalán nem új. A szakaszos feltöltésen és ürítésen alapuló eleveniszapos rendszerek elődei már a XX. század elején megjelentek. Az SBR későbbi elterjedéséhez azonban kellett valami, ami az első berendezések idején még nem állt rendelkezésre a mai formájában: <strong>megbízható automatizálás és vezérléstechnika</strong>.</p>
-        <p class="type-ui-body">Amikor a 2000-es években a müncheni IFAT szakkiállításon jártunk, az SBR Nyugat-Európában már korántsem számított újdonságnak: kiforrott, széles körben alkalmazott szennyvíztisztítási technológia volt.</p>
+        <p class="type-ui-body">Az MBBR, a Fixed Bed, a biofilm és a baktériumhordozó kifejezésekkel gyakran találkozhatunk a biológiai szennyvíztisztítók műszaki leírásában. Elsőre meglehetősen bonyolultnak tűnhetnek, pedig <strong>egy könnyen érthető biológiai jelenség áll mögöttük</strong>.</p>
+        <p class="type-ui-body">A mikroorganizmusok megfelelő körülmények között szívesen telepednek meg különböző felületeken. Ha pedig megfelelő felületet biztosítunk számukra egy szennyvíztisztítóban, az ott kialakuló élő közösség részt vesz a szennyező anyagok lebontásában. Erre épülnek a biofilmes szennyvíztisztítási technológiák.</p>
+        <p class="type-ui-body">A biofilm egyáltalán nem mesterséges találmány. Természetes vizekben is megfigyelhető, hogy a tartósan víz alatt lévő kövek, növényi részek és más felületek idővel benépesülnek mikroorganizmusokkal, amelyek összetett közösséget alkotnak a felületen. A szennyvíztisztítás ezt a természetes jelenséget használja fel ellenőrzött körülmények között.</p>
+        <div class="jogi-kiemelt">
+          <p class="type-ui-body">Fontos különbséget tenni: <strong>nem maga a hordozóanyag tisztítja meg a szennyvizet.</strong> A hordozó megfelelő életteret biztosít a tisztításban részt vevő mikroorganizmusoknak.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section section-alt" id="ido-vagy-ter" aria-labelledby="ido-vagy-ter-cim">
+  <section class="section section-alt" id="harom-elv" aria-labelledby="harom-elv-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Az alapvető különbség</p>
-        <h2 class="type-display-section-title section-title" id="ido-vagy-ter-cim">Idő vagy tér</h2>
-        <p class="type-ui-body section-lead">Amit az egyik konstrukció elsősorban időben és
-        vezérléssel választ szét, azt a másik jelentős részben térben, a tartály
-        kialakításával oldja meg.</p>
+        <p class="type-data-eyebrow section-eyebrow">Egy pillantásra</p>
+        <h2 class="type-display-section-title section-title" id="harom-elv-cim">Hol él a biomassza?</h2>
+        <p class="type-ui-body section-lead">Mindhárom megoldás ugyanazt a biológiai lehetőséget
+        használja. A különbség az, hogyan biztosít helyet a mikroorganizmusoknak.</p>
       </header>
-      <div class="abra-parok">
+      <div class="abra-egy">
         <figure class="abra">
-          <svg class="abra-svg" viewBox="0 0 480 262" role="img"
-     aria-labelledby="abra-sbr-cim abra-sbr-leiras">
-    <title id="abra-sbr-cim">SBR: egy reaktortér, négy fázis egymás után</title>
-    <desc id="abra-sbr-leiras">Ugyanabban a tartályban zajlik a feltöltés, a
-    levegőztetés, az ülepítés és a tisztított víz elvezetése — egymás után,
-    időben elválasztva. Az ülepítés után a leülepedett iszap a tartály alján
-    marad, a fölötte kitisztult vizet vezetik el. A ciklus végén minden
-    kezdődik elölről.</desc>
+          <svg class="abra-svg" viewBox="0 0 680 210" role="img"
+     aria-labelledby="abra-elvek-cim abra-elvek-leiras">
+    <title id="abra-elvek-cim">Hol él a biomassza: Fixed Bed, MBBR és eleveniszap</title>
+    <desc id="abra-elvek-leiras">Mindhárom megoldás ugyanazt a biológiai
+    lehetőséget használja, csak másképp biztosít helyet a mikroorganizmusoknak.
+    A Fixed Bed rögzített hordozón tartja a biofilmet; az MBBR-ben a
+    hordozóelemek szabadon mozognak a reaktortérben; az eleveniszapos
+    technológiában nincs mesterséges hordozófelület, a biomassza jelentős része
+    a vízben lebegő iszappelyhekben van jelen. Mindhárom esetben levegőztetés
+    biztosítja az oxigént.</desc>
     <g>
-      <circle cx="78.0" cy="28" r="13" fill="var(--abra-badge)" stroke="var(--abra-kiemeles)" stroke-width="1.5"/><text x="78.0" y="33" text-anchor="middle" class="abra-szam">1</text>
-      <rect x="43" y="110" width="70" height="30" fill="var(--abra-viz)"/>
-      <rect x="40" y="52" width="76" height="88" rx="6"
-            fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
-      
-      <text x="78.0" y="164" text-anchor="middle" class="abra-cimke">Feltöltés</text>
+      <rect x="20.0" y="56" width="190" height="108" rx="7" fill="var(--abra-viz)"/>
+      <rect x="54.0" y="72" width="122" height="62" rx="4" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.6" opacity=".9"/><g transform="translate(66.0,84.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(94.0,84.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(122.0,84.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(150.0,84.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(178.0,84.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(66.0,106.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(94.0,106.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(122.0,106.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(150.0,106.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(178.0,106.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(66.0,128.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(94.0,128.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(122.0,128.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(150.0,128.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g transform="translate(178.0,128.0)"><circle r="6.5" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.03 0 H4.03 M0 -4.03 V4.03" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><path d="M54.0 66 H176.0" stroke="var(--abra-keret)" stroke-width="2" stroke-linecap="round"/><circle class="abra-bub" cx="51.7" cy="156" r="2.4" fill="var(--abra-kiemeles)" style="--i:0"/><circle class="abra-bub" cx="83.3" cy="156" r="3.0" fill="var(--abra-kiemeles)" style="--i:1"/><circle class="abra-bub" cx="115.0" cy="156" r="3.6" fill="var(--abra-kiemeles)" style="--i:2"/><circle class="abra-bub" cx="146.7" cy="156" r="2.4" fill="var(--abra-kiemeles)" style="--i:3"/><circle class="abra-bub" cx="178.3" cy="156" r="3.0" fill="var(--abra-kiemeles)" style="--i:4"/>
+      <rect x="20.0" y="56" width="190" height="108" rx="7" fill="none"
+            stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <text x="115.0" y="34" text-anchor="middle" class="abra-cimke abra-cimke-eros">Fixed Bed</text>
+      <text x="115.0" y="188" text-anchor="middle" class="abra-jegyzet">a hordozó a helyén marad</text>
     </g>
     <g>
-      <circle cx="186.0" cy="28" r="13" fill="var(--abra-badge)" stroke="var(--abra-kiemeles)" stroke-width="1.5"/><text x="186.0" y="33" text-anchor="middle" class="abra-szam">2</text>
-      <rect x="151" y="66" width="70" height="74" fill="var(--abra-viz)"/>
-      <rect x="148" y="52" width="76" height="88" rx="6"
-            fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
-      <circle class="abra-bub" cx="162.7" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:0"/><circle class="abra-bub" cx="174.3" cy="128" r="3.3" fill="var(--abra-kiemeles)" style="--i:1"/><circle class="abra-bub" cx="186.0" cy="128" r="4.0" fill="var(--abra-kiemeles)" style="--i:2"/><circle class="abra-bub" cx="197.7" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:3"/><circle class="abra-bub" cx="209.3" cy="128" r="3.3" fill="var(--abra-kiemeles)" style="--i:4"/>
-      <text x="186.0" y="164" text-anchor="middle" class="abra-cimke">Levegőztetés</text>
+      <rect x="245.0" y="56" width="190" height="108" rx="7" fill="var(--abra-viz)"/>
+      <g class="abra-lebeg" style="--i:0" transform="translate(273.0,80.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:1" transform="translate(307.0,98.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:2" transform="translate(341.0,76.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:3" transform="translate(375.0,102.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:4" transform="translate(405.0,84.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:5" transform="translate(285.0,122.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:6" transform="translate(321.0,134.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:7" transform="translate(357.0,118.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:8" transform="translate(391.0,136.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:9" transform="translate(275.0,150.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:10" transform="translate(311.0,156.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:11" transform="translate(349.0,148.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:12" transform="translate(385.0,158.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><g class="abra-lebeg" style="--i:13" transform="translate(413.0,126.0)"><circle r="7" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/><path d="M-4.34 0 H4.34 M0 -4.34 V4.34" stroke="var(--abra-kiemeles)" stroke-width="1.2" opacity=".75"/></g><circle class="abra-bub" cx="272.1" cy="156" r="2.4" fill="var(--abra-kiemeles)" style="--i:0"/><circle class="abra-bub" cx="299.3" cy="156" r="3.0" fill="var(--abra-kiemeles)" style="--i:1"/><circle class="abra-bub" cx="326.4" cy="156" r="3.6" fill="var(--abra-kiemeles)" style="--i:2"/><circle class="abra-bub" cx="353.6" cy="156" r="2.4" fill="var(--abra-kiemeles)" style="--i:3"/><circle class="abra-bub" cx="380.7" cy="156" r="3.0" fill="var(--abra-kiemeles)" style="--i:4"/><circle class="abra-bub" cx="407.9" cy="156" r="3.6" fill="var(--abra-kiemeles)" style="--i:5"/>
+      <rect x="245.0" y="56" width="190" height="108" rx="7" fill="none"
+            stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <text x="340.0" y="34" text-anchor="middle" class="abra-cimke abra-cimke-eros">MBBR</text>
+      <text x="340.0" y="188" text-anchor="middle" class="abra-jegyzet">a hordozó a vízzel együtt mozog</text>
     </g>
     <g>
-      <circle cx="294.0" cy="28" r="13" fill="var(--abra-badge)" stroke="var(--abra-kiemeles)" stroke-width="1.5"/><text x="294.0" y="33" text-anchor="middle" class="abra-szam">3</text>
-      <rect x="259" y="66" width="70" height="48" fill="var(--abra-viz)"/><rect x="259" y="114" width="70" height="26" fill="var(--abra-iszap)"/>
-      <rect x="256" y="52" width="76" height="88" rx="6"
-            fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
-      <path d="M270 106 L318 106" stroke="var(--abra-jel)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".7"/>
-      <text x="294.0" y="164" text-anchor="middle" class="abra-cimke">Ülepítés</text>
+      <rect x="470.0" y="56" width="190" height="108" rx="7" fill="var(--abra-viz)"/>
+      <path class="abra-lebeg" style="--i:0" transform="translate(502.0,86.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:1" transform="translate(534.0,108.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:2" transform="translate(568.0,82.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:3" transform="translate(598.0,114.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:4" transform="translate(628.0,92.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:5" transform="translate(514.0,130.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:6" transform="translate(550.0,144.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:7" transform="translate(586.0,132.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:8" transform="translate(620.0,148.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:9" transform="translate(496.0,154.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:10" transform="translate(538.0,162.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:11" transform="translate(574.0,156.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:12" transform="translate(610.0,164.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><path class="abra-lebeg" style="--i:13" transform="translate(640.0,126.0)" d="M-5.4 0 Q-4.32 -5.4 0 -4.86 Q5.4 -4.86 4.86 0 Q5.4 4.59 0 5.4 Q-4.86 4.86 -5.4 0 Z" fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/><circle class="abra-bub" cx="497.1" cy="156" r="2.4" fill="var(--abra-kiemeles)" style="--i:0"/><circle class="abra-bub" cx="524.3" cy="156" r="3.0" fill="var(--abra-kiemeles)" style="--i:1"/><circle class="abra-bub" cx="551.4" cy="156" r="3.6" fill="var(--abra-kiemeles)" style="--i:2"/><circle class="abra-bub" cx="578.6" cy="156" r="2.4" fill="var(--abra-kiemeles)" style="--i:3"/><circle class="abra-bub" cx="605.7" cy="156" r="3.0" fill="var(--abra-kiemeles)" style="--i:4"/><circle class="abra-bub" cx="632.9" cy="156" r="3.6" fill="var(--abra-kiemeles)" style="--i:5"/>
+      <rect x="470.0" y="56" width="190" height="108" rx="7" fill="none"
+            stroke="var(--abra-keret)" stroke-width="2.5"/>
+      <text x="565.0" y="34" text-anchor="middle" class="abra-cimke abra-cimke-eros">Eleveniszap</text>
+      <text x="565.0" y="188" text-anchor="middle" class="abra-jegyzet">a biomassza a vízben lebeg</text>
     </g>
-    <g>
-      <circle cx="402.0" cy="28" r="13" fill="var(--abra-badge)" stroke="var(--abra-kiemeles)" stroke-width="1.5"/><text x="402.0" y="33" text-anchor="middle" class="abra-szam">4</text>
-      <rect x="367" y="86" width="70" height="28" fill="var(--abra-viz)"/><rect x="367" y="114" width="70" height="26" fill="var(--abra-iszap)"/>
-      <rect x="364" y="52" width="76" height="88" rx="6"
-            fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
-      
-      <text x="402.0" y="164" text-anchor="middle" class="abra-cimke">Elvezetés</text>
-    </g>
-    <path d="M12 96.0 L32 96.0 M26 90.0 L32 96.0 L26 102.0" fill="none" stroke="var(--abra-jel)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M448 96.0 L468 96.0 M462 90.0 L468 96.0 L462 102.0" fill="none" stroke="var(--abra-jel)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path class="abra-ciklus" d="M402.0 174 L402.0 190
-             Q402.0 200 392.0 200
-             L88.0 200 Q78.0 200 78.0 190 L78.0 176"
-          fill="none" stroke="var(--abra-jel)" stroke-width="2" stroke-dasharray="6 5"/>
-    <path d="M72.0 182 L78.0 174 L84.0 182" fill="none"
-          stroke="var(--abra-jel)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="240.0" y="254" text-anchor="middle" class="abra-jegyzet">a ciklus újraindul</text>
   </svg>
-          <figcaption class="abra-felirat type-ui-caption"><strong>SBR — időben.</strong>
-          Ugyanaz a reaktortér, egymás után négy fázis. A sorrendet és az időzítést a
-          vezérlés adja.</figcaption>
-        </figure>
-        <figure class="abra">
-          <svg class="abra-svg" viewBox="0 0 480 262" role="img"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-     aria-labelledby="abra-atfolyo-cim abra-atfolyo-leiras">
-    <title id="abra-atfolyo-cim">Folyamatos átfolyás: egy tartály, a fázisok térben</title>
-    <desc id="abra-atfolyo-leiras">A szennyvíz egyetlen tartályon halad
-    keresztül, amit válaszfalak osztanak egymást követő, különböző funkciójú
-    kamrákra. A válaszfalakon átfolyó nyílás van, a vízszint ezért minden
-    kamrában azonos. A fázisok elkülönítését a tartály kialakítása biztosítja,
-    nem az időzítés.</desc>
-    <rect x="42" y="68" width="396" height="72" fill="var(--abra-viz)"/><rect x="43.0" y="116" width="94.0" height="24" fill="var(--abra-iszap)"/><rect x="243.0" y="116" width="94.0" height="24" fill="var(--abra-iszap)"/>
-    <rect x="40" y="52" width="400" height="88" rx="6"
-          fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
-    <path d="M140.0 56 L140.0 85 M140.0 107 L140.0 136"
-          stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M240.0 56 L240.0 85 M240.0 107 L240.0 136"
-          stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M340.0 56 L340.0 85 M340.0 107 L340.0 136"
-          stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/><circle class="abra-bub" cx="161.8" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:0"/><circle class="abra-bub" cx="180.6" cy="128" r="3.3" fill="var(--abra-kiemeles)" style="--i:1"/><circle class="abra-bub" cx="199.4" cy="128" r="4.0" fill="var(--abra-kiemeles)" style="--i:2"/><circle class="abra-bub" cx="218.2" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:3"/>
-    <path id="abra-utvonal" class="abra-ut" d="M32 96.0 L118.0 96.0 L140.0 96 L162.0 96.0 L218.0 96.0 L240.0 96 L262.0 96.0 L318.0 96.0 L340.0 96 L362.0 96.0 L448 96.0" fill="none"
-          stroke="var(--abra-jel)" stroke-width="1.5" stroke-dasharray="5 5" opacity=".55"/>
-    <circle class="abra-csepp" cx="32" cy="96.0" r="4" fill="var(--abra-kiemeles)">
-      <animateMotion dur="9s" repeatCount="indefinite" calcMode="linear">
-        <mpath href="#abra-utvonal" xlink:href="#abra-utvonal"/>
-      </animateMotion>
-    </circle>
-    <text x="90.0" y="164" text-anchor="middle" class="abra-cimke">Fogadás</text>
-    <text x="190.0" y="164" text-anchor="middle" class="abra-cimke">Levegőztetés</text>
-    <text x="290.0" y="164" text-anchor="middle" class="abra-cimke">Ülepítés</text>
-    <text x="390.0" y="164" text-anchor="middle" class="abra-cimke">Elvezetés</text>
-    <path d="M12 96.0 L32 96.0 M26 90.0 L32 96.0 L26 102.0" fill="none" stroke="var(--abra-jel)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M448 96.0 L468 96.0 M462 90.0 L468 96.0 L462 102.0" fill="none" stroke="var(--abra-jel)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="240.0" y="254" text-anchor="middle" class="abra-jegyzet">a szennyvíz végighalad a kamrákon</text>
-  </svg>
-          <figcaption class="abra-felirat type-ui-caption"><strong>Folyamatos átfolyás — térben.</strong>
-          A szennyvíz egymást követő, különböző funkciójú tereken halad át. Az elkülönítést
-          a tartály kialakítása biztosítja.</figcaption>
+          <figcaption class="abra-felirat type-ui-caption"><strong>Ugyanaz a biológia, három
+          elrendezés.</strong> A Fixed Bed rögzített hordozón tartja a biofilmet; az MBBR-ben a
+          hordozók a vízzel együtt mozognak; az eleveniszapos technológiában nincs mesterséges
+          hordozófelület. Mindháromnál a levegőztetés adja az oxigént.</figcaption>
         </figure>
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="hordozo" aria-labelledby="hordozo-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A hordozóanyag</p>
+        <h2 class="type-display-section-title section-title" id="hordozo-cim">A baktériumhordozó nem feltétlenül műanyag</h2>
+      </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">A valóságban természetesen ennél összetettebb rendszerek is
-        léteznek, és az egyes technológiai elvek kombinálhatók. A különbség mégis jól
-        érzékelteti a két tervezési filozófiát.</p>
+        <p class="type-ui-body">Az MBBR-ről készült fényképeken gyakran apró műanyag hordozóelemeket látunk, ezért könnyű azt gondolni, hogy a biofilmhordozó szükségszerűen műanyagból készül. Pedig számos anyag alkalmas lehet erre a célra: léteznek különféle műanyag, szivacsos, kerámia-, ásványi, aktívszén-alapú és kompozit hordozók is. Az alkalmazható anyagok köre folyamatos fejlesztések tárgya.</p>
+        <p class="type-ui-body">A megfelelő hordozó kiválasztásánál több tulajdonságot kell egyszerre figyelembe venni:</p>
+        <ul class="jogi-lista" role="list">
+          <li class="type-ui-body">a rendelkezésre álló felületet</li>
+          <li class="type-ui-body">a biofilm megtapadását</li>
+          <li class="type-ui-body">a víz átjárhatóságát</li>
+          <li class="type-ui-body">az anyag tartósságát</li>
+          <li class="type-ui-body">és azt is, hogyan viselkedik a hordozó a reaktor tényleges üzemi körülményei között</li>
+        </ul>
+        <p class="type-ui-body">Ezért <strong>önmagában az alapanyag még keveset árul el egy biofilmes rendszer teljesítményéről</strong>.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="ciklus" aria-labelledby="ciklus-cim">
+  <section class="section section-alt" id="felulet" aria-labelledby="felulet-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A folyamat</p>
-        <h2 class="type-display-section-title section-title" id="ciklus-cim">Mi történik egy ciklus alatt?</h2>
+        <p class="type-data-eyebrow section-eyebrow">A fajlagos felület</p>
+        <h2 class="type-display-section-title section-title" id="felulet-cim">Miért fontos a hordozó felülete?</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">Egy biológiai szennyvíztisztítóban több, egymástól eltérő folyamatnak kell végbemennie. A szennyvizet fogadni kell, a szerves szennyező anyagokat mikroorganizmusok segítségével le kell bontani, ehhez megfelelő körülményeket — többek között oxigént — kell biztosítani, majd a kezelt víztől el kell választani a biológiai iszapot.</p>
-        <p class="type-ui-body">Az SBR egyik lényeges ötlete, hogy ezek közül több folyamat <strong>ugyanabban a reaktortérben, de különböző időpontokban</strong> történik.</p>
-        <ol class="folyamat-lepesek" role="list">
-          <li class="type-ui-body"><strong>Feltöltés</strong> — a szennyvíz beérkezik a reaktorba</li>
-          <li class="type-ui-body"><strong>Biológiai kezelés és levegőztetés</strong></li>
-          <li class="type-ui-body"><strong>Ülepítés</strong> — a levegőztetés leáll, az eleveniszap leülepszik</li>
-          <li class="type-ui-body"><strong>Elvezetés</strong> — a fölötte kialakuló tisztított vízréteg egy részét a rendszer elvezeti</li>
-        </ol>
-        <p class="type-ui-body">Ezután kezdődhet a következő ciklus.</p>
+        <p class="type-ui-body">Minél több megfelelő felület áll rendelkezésre, annál több helyet biztosíthatunk a biofilm kialakulásához. Ezért a biofilmhordozók egyik jellemző műszaki adata a <strong>fajlagos felület</strong>, amelyet rendszerint négyzetméter/köbméterben adnak meg.</p>
+        <p class="type-ui-body">Ez azonban nem egyszerű verseny, amelyben automatikusan a legnagyobb szám győz. A biofilmnek kapcsolatban kell maradnia a kezelendő szennyvízzel: a mikroorganizmusok számára szükséges anyagoknak el kell jutniuk hozzájuk, aerob folyamatoknál pedig megfelelő oxigénellátásra is szükség van.</p>
+        <p class="type-ui-body">Ezért a hordozó geometriája, átjárhatósága és a víz áramlása legalább olyan fontos lehet, mint a névleges fajlagos felület. A biofilm ráadásul maga is változik: növekszik, egyes részei leválnak, majd új biomassza alakul ki.</p>
+        <div class="jogi-kiemelt">
+          <p class="type-ui-body">A jó hordozó tehát nem egyszerűen sok felületet biztosít, hanem olyan felületet, amely <strong>a technológiai folyamat számára valóban hasznosítható</strong>.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="miert-terjedt-el" aria-labelledby="miert-terjedt-el-cim">
+  <section class="section" id="fixed-bed" aria-labelledby="fixed-bed-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A háttér</p>
-        <h2 class="type-display-section-title section-title" id="miert-terjedt-el-cim">Miért lett ennyire népszerű az SBR?</h2>
+        <p class="type-data-eyebrow section-eyebrow">Az egyik elv</p>
+        <h2 class="type-display-section-title section-title" id="fixed-bed-cim">Fixed Bed: amikor a biofilmhordozó rögzített</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">Az SBR elterjedésének megértéséhez nem elég csak a szennyvízbiológiát vizsgálni. A <strong>gyártás gazdaságosságát</strong> is érdemes figyelembe venni.</p>
-        <p class="type-ui-body">Egy többkamrás tartály elkészítése több belső szerkezeti elemet, válaszfalat, illesztést és — az alkalmazott anyagtól és gyártástechnológiától függően — jelentős kézi szerelési vagy hegesztési munkát igényelhet. Ezeknek a műveleteknek egy része nehezebben automatizálható, mint egy egyszerűbb geometriájú tartály nagy sorozatú előállítása.</p>
-        <p class="type-ui-body">Ez különösen fontossá vált Nyugat-Európában, ahol a magas munkaerőköltség miatt a sok élőmunkát igénylő gyártás egyre drágábbá vált. Kézenfekvő mérnöki és gazdasági irány volt tehát az egyszerűbben sorozatgyártható tartályok alkalmazása, miközben a technológiai feladatok egy részét a mechanikai kialakítás helyett automatika, időprogramok és működtetett gépészeti elemek vették át.</p>
-        <p class="type-ui-body">Az SBR ebből a szempontból elegáns megoldás: nem szükséges minden egyes technológiai fázishoz önálló teret kialakítani, ha ugyanaz a reaktortér megfelelő vezérléssel egymás után több feladatot is el tud látni.</p>
-        <p class="type-ui-body"><strong>Csakhogy ezzel a technológiai feladat nem tűnik el.</strong> Részben átköltözik a tartályból a vezérlésbe.</p>
+        <p class="type-ui-body">A Fixed Bed — vagyis rögzített ágyas biofilmes — technológiában a hordozó meghatározott helyen marad a reaktorban. A szennyvíz a hordozó mellett vagy annak szerkezetén keresztül áramlik, így kapcsolatba kerül a felületén kialakult biofilmmel.</p>
+        <p class="type-ui-body">Ennek a megoldásnak az egyik előnye, hogy viszonylag nagy biofilmes felület alakítható ki egy meghatározott reaktortérben úgy, hogy maga a hordozó nem mozog.</p>
+        <p class="type-ui-body">A Fixed Bed kialakításánál ezért különösen fontos a <strong>megfelelő hidraulika</strong>. A szennyvizet úgy kell vezetni, hogy a hordozófelület megfelelően részt vegyen a folyamatban, és a rendszer hosszú távon is jól átjárható maradjon. A biofilm természetes módon növekszik és megújul, ezért a megfelelően megtervezett rendszernek a biomassza változásával és leválásával is számolnia kell.</p>
+        <p class="type-ui-body">Ez nem a Fixed Bed sajátos „hibája", hanem a biofilmes technológia tervezésének egyik alapvető feladata.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="vezerles" aria-labelledby="vezerles-cim">
+  <section class="section" id="mbbr" aria-labelledby="mbbr-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Amit érdemes tudni</p>
-        <h2 class="type-display-section-title section-title" id="vezerles-cim">Az SBR lelke a vezérlés</h2>
+        <p class="type-data-eyebrow section-eyebrow">A másik elv</p>
+        <h2 class="type-display-section-title section-title" id="mbbr-cim">MBBR: amikor a hordozó együtt mozog a vízzel</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">Ha egy rendszernek előre meghatározott időrendben kell levegőztetnie, ülepítenie, vizet továbbítania vagy elvezetnie, akkor az ehhez szükséges vezérlés a technológia szerves része.</p>
-        <p class="type-ui-body">A vezérlőelektronika, a kompresszor, illetve az adott konstrukciótól függően alkalmazott szivattyúk, elektromosan működtetett szelepek és egyéb gépészeti elemek mind azért dolgoznak, hogy a megfelelő folyamat a megfelelő pillanatban történjen. Ez jól működő automatika mellett nagy előny: a rendszer képes önállóan végrehajtani az előre meghatározott technológiai ciklusokat.</p>
-        <p class="type-ui-body">Ugyanakkor érdemes a másik oldalát is látni. <strong>Minden aktív gépészeti és elektromos alkatrész energiafogyasztó, karbantartást igényelhet, és egyben lehetséges meghibásodási pont is.</strong> Ezért egy szennyvíztisztító összehasonlításakor önmagában az, hogy „SBR-technológiás”, még nem mondja meg, mennyire egyszerű vagy összetett maga a berendezés.</p>
+        <p class="type-ui-body">Az MBBR az angol <strong>Moving Bed Biofilm Reactor</strong>, vagyis mozgóágyas biofilmreaktor rövidítése. Az alapelv ugyanaz: felületet biztosítunk a mikroorganizmusok számára. A különbség az, hogy az MBBR-ben a hordozóelemek szabadon mozognak a számukra kialakított reaktortérben.</p>
+        <p class="type-ui-body">Aerob MBBR-rendszerekben a levegőztetés egyszerre biztosít oxigént a biológiai folyamatokhoz, valamint hozzájárul a hordozók és a szennyvíz keveredéséhez. Ennek komoly technológiai előnye van: a mozgó hordozók folyamatosan érintkeznek a kezelendő szennyvízzel, a mozgás és a kialakuló nyíróerők pedig a biofilm megújulását is segítik. A leváló, elöregedett biomassza helyén új biofilm fejlődhet.</p>
+        <p class="type-ui-body">Az MBBR-hordozók feladata, hogy mozogjanak — <strong>de csak ott, ahol szükség van rájuk</strong>. Ezért a reaktor kialakításának biztosítania kell, hogy a víz továbbhaladhasson, miközben a hordozóelemek a számukra kijelölt térben maradnak. Erre különböző műszaki megoldások alkalmazhatók.</p>
+        <div class="jogi-kiemelt">
+          <p class="type-ui-body">A megfelelően megtervezett MBBR-rendszerben egymással összhangban működik a hordozóanyag, a levegőztetés, a keveredés, a víz áramlása és a hordozók visszatartása. Éppen ezért <strong>az MBBR jóval több annál, mint hogy műanyag elemeket helyeznek egy levegőztetett tartályba</strong>.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="aramszunet" aria-labelledby="aramszunet-cim">
+  <section class="section section-alt" id="melyik-jobb" aria-labelledby="melyik-jobb-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Rendellenes üzem</p>
-        <h2 class="type-display-section-title section-title" id="aramszunet-cim">És mi történik áramszünet esetén?</h2>
+        <p class="type-data-eyebrow section-eyebrow">Az összevetés</p>
+        <h2 class="type-display-section-title section-title" id="melyik-jobb-cim">Fixed Bed vagy MBBR — melyik a jobb?</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">Ez különösen érdekes kérdés, mert jól megmutatja a különböző konstrukciók közötti eltérést. Elektromos energia nélkül egy levegőztetett biológiai szennyvíztisztítóban természetesen a levegőztetés is leáll — ebben az értelemben az áramszünet egyik rendszernek sem kedvez.</p>
-        <p class="type-ui-body">Az SBR esetében azonban az áramellátás nemcsak az oxigénbevitel miatt fontos. <strong>Az időben egymásra épülő technológiai ciklus végrehajtása is a vezérléstől függ.</strong></p>
-        <p class="type-ui-body">Hosszabb áramszünetnél ezért lényeges kérdés, hogy az adott berendezés mit tesz az áram visszatérésekor. Folytatja a megszakított ciklust? Újat kezd? Felismeri, hogy melyik technológiai fázisban történt a leállás? Milyen állapotban van ekkor a reaktor, és szükséges-e valamilyen beavatkozás?</p>
-        <p class="type-ui-body">Ezek nem az SBR-technológia „hibái”. Egyszerűen következnek abból, hogy a technológiai folyamatok egy részének elkülönítését az időzített működés biztosítja. Ezért vásárlás előtt nemcsak azt érdemes megkérdezni, hogy egy berendezés milyen tisztítási technológiát használ, hanem azt is, hogy <strong>mi történik vele rendellenes üzemi helyzetekben</strong>.</p>
+        <p class="type-ui-body"><strong>Erre nincs általános válasz.</strong> Mindkét technológia ugyanazt a biológiai lehetőséget használja ki: felületet biztosít a biofilm számára. Abban különböznek, hogyan teszik ezt.</p>
+        <ul class="jogi-lista" role="list">
+          <li class="type-ui-body">A <strong>Fixed Bed</strong>ben a hordozó rögzített. A megfelelő átáramlás és a hordozó hosszú távú átjárhatósága fontos tervezési kérdés.</li>
+          <li class="type-ui-body">Az <strong>MBBR</strong>-ben a hordozó mozog. A hordozók megfelelő mozgását, a szükséges levegőztetést és a hordozók reaktorban tartását kell biztosítani.</li>
+        </ul>
+        <p class="type-ui-body">Ezek nem feltétlenül hátrányok, hanem az adott technológiából következő mérnöki feladatok. Jól méretezve és megfelelően üzemeltetve mindkét elv hatékonyan alkalmazható biológiai szennyvíztisztításra.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="biofilm-belseje" aria-labelledby="biofilm-belseje-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A rétegen belül</p>
+        <h2 class="type-display-section-title section-title" id="biofilm-belseje-cim">Mi történik a biofilm belsejében?</h2>
+        <p class="type-ui-body section-lead">A biofilm egyik legérdekesebb tulajdonsága, hogy
+        nem feltétlenül homogén.</p>
+      </header>
+      <div class="abra-egy">
+        <figure class="abra">
+          <svg class="abra-svg" viewBox="0 0 680 210" role="img"
+     aria-labelledby="abra-biofilm-cim abra-biofilm-leiras">
+    <title id="abra-biofilm-cim">A biofilm metszete: néhány milliméter, többféle környezet</title>
+    <desc id="abra-biofilm-leiras">A hordozó felületén kialakuló biofilm nem
+    homogén. A szennyvízzel érintkező külső réteg oxigénben gazdag, a hordozóhoz
+    közelebbi belső területeken viszont az oxigén fogy — ezért ugyanazon a
+    néhány milliméteres biológiai rétegen belül különböző mikrobiológiai
+    folyamatok számára kedvező környezet jöhet létre. Az ábrán a biofilm
+    színének erősödése a víz felé az oxigén növekvő mennyiségét jelöli.</desc>
+    <defs>
+      <linearGradient id="abra-biofilm" gradientUnits="userSpaceOnUse"
+                      x1="154" y1="0" x2="354" y2="0">
+        <stop offset="0" stop-color="var(--abra-biofilm-belso)"/>
+        <stop offset="1" stop-color="var(--abra-biofilm-kulso)"/>
+      </linearGradient>
+    </defs>
+    <text x="115" y="32" text-anchor="middle" class="abra-cimke abra-cimke-eros">Hordozó</text><text x="115" y="47" text-anchor="middle" class="abra-jegyzet">felületet ad</text>
+    <text x="204" y="32" text-anchor="middle" class="abra-cimke abra-cimke-eros">Belső réteg</text><text x="204" y="47" text-anchor="middle" class="abra-jegyzet">kevés oxigén</text>
+    <text x="304" y="32" text-anchor="middle" class="abra-cimke abra-cimke-eros">Külső réteg</text><text x="304" y="47" text-anchor="middle" class="abra-jegyzet">oxigéndús</text>
+    <text x="479" y="32" text-anchor="middle" class="abra-cimke abra-cimke-eros">Szennyvíz</text><text x="479" y="47" text-anchor="middle" class="abra-jegyzet">áramlik mellette</text>
+    <rect x="76" y="62" width="78" height="92" rx="4"
+          fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.6"/>
+    <rect x="154" y="62" width="200" height="92" fill="url(#abra-biofilm)"/>
+    <rect x="354" y="62" width="250" height="92" rx="4" fill="var(--abra-viz)"/>
+    <path d="M254 68 V148" stroke="var(--abra-keret)" stroke-width="1.2"
+          stroke-dasharray="4 4" opacity=".6"/>
+    <path d="M354 62 Q361 69.7 354 77.3 Q348 85.0 354 92.7 Q361 100.3 354 108.0 Q348 115.7 354 123.3 Q361 131.0 354 138.7 Q348 146.3 354 154.0" fill="none" stroke="var(--abra-kiemeles)" stroke-width="2" opacity=".8"/>
+    <rect x="76" y="62" width="528" height="92" rx="4" fill="none"
+          stroke="var(--abra-keret)" stroke-width="2"/>
+
+    <path class="abra-o2" d="M348 180 H162" fill="none"
+          stroke="var(--abra-kiemeles)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M168 175 L162 180 L168 185"
+          fill="none" stroke="var(--abra-kiemeles)" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="254" y="202" text-anchor="middle"
+          class="abra-jegyzet">az oxigén befelé haladva fogy</text>
+  </svg>
+          <figcaption class="abra-felirat type-ui-caption"><strong>Néhány milliméter, többféle
+          környezet.</strong> Az oxigén a biofilm belseje felé haladva fogy, ezért ugyanazon a
+          vékony biológiai rétegen belül különböző mikrobiológiai folyamatok számára kedvező
+          környezet jöhet létre.</figcaption>
+        </figure>
+      </div>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">A vízzel érintkező külső réteg és a hordozóhoz közelebbi belső
+        területek között eltérő körülmények alakulhatnak ki. Ez az egyik oka annak, hogy a
+        biofilmes technológiák a szennyvíztisztításban ennyire érdekesek:
+        <strong>egy apró hordozóelem felületén valójában összetett mikrobiológiai ökoszisztéma
+        működhet</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="eleveniszap" aria-labelledby="eleveniszap-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A harmadik elv</p>
+        <h2 class="type-display-section-title section-title" id="eleveniszap-cim">És miben különbözik mindez az eleveniszapos technológiától?</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">A hagyományos eleveniszapos tisztításnál a mikroorganizmusok jelentős része nem mesterséges hordozófelületen, hanem <strong>a vízben lebegő iszappelyhekben</strong> van jelen. A biofilmes rendszerek ezzel szemben lehetőséget adnak arra, hogy a biomassza jelentős részét egy hordozófelülethez kötve tartsuk a biológiai rendszerben.</p>
+        <p class="type-ui-body">Ez bizonyos alkalmazásokban jelentős előny. Egy adott reaktortérben nagy mennyiségű aktív biomassza tartható fenn, ezért biofilmes technológiával meglévő szennyvíztisztító rendszerek biológiai kapacitása is növelhető anélkül, hogy feltétlenül ugyanilyen arányban kellene növelni a medencetérfogatot.</p>
+        <p class="type-ui-body">A két technológiai világ ráadásul <strong>nem válik el élesen</strong> egymástól. Biofilm és lebegő eleveniszap ugyanabban a rendszerben is jelen lehet: léteznek olyan hibrid technológiák, amelyek tudatosan használják ki mindkét biomasszaforma tulajdonságait.</p>
+        <p class="type-ui-body">Ezért egy berendezés működéséről sokkal többet kell tudnunk annál, mint hogy a műszaki leírásban szerepel-e az MBBR rövidítés.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nagy-telepek" aria-labelledby="nagy-telepek-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A nagyüzem</p>
+        <h2 class="type-display-section-title section-title" id="nagy-telepek-cim">Miért alkalmaznak biofilmes technológiákat nagy szennyvíztisztítókban is?</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">A rendelkezésre álló tér a nagy szennyvíztisztító telepeken is érték. Ha egy meglévő biológiai medencében több aktív biomassza tartható fenn, az lehetőséget teremthet a tisztítási kapacitás növelésére vagy bizonyos tisztítási folyamatok intenzívebbé tételére anélkül, hogy minden esetben újabb nagy medencéket kellene építeni.</p>
+        <p class="type-ui-body">Ez az MBBR és más biofilmes technológiák egyik fontos alkalmazási területe. A technológia tehát nem valamiféle marketingújdonság, hanem <strong>komoly mérnöki és mikrobiológiai alapokon nyugvó szennyvíztisztítási eljárás</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="csaladi-haz" aria-labelledby="csaladi-haz-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A családi ház</p>
+        <h2 class="type-display-section-title section-title" id="csaladi-haz-cim">Családi szennyvíztisztítónál a teljes rendszert érdemes nézni</h2>
+      </header>
+      <div class="folyoszoveg">
+        <p class="type-ui-body">Egy családi háznál természetesen ugyanazok a biológiai törvényszerűségek érvényesek, mint egy nagy szennyvíztisztító telepen. A gyakorlati követelmények azonban eltérhetnek.</p>
+        <p class="type-ui-body">Egy háztartás szennyvízterhelése napszakonként és időszakonként jelentősen változhat. Előfordulhat többnapos távollét, hirtelen nagyobb vízhasználat, áramszünet vagy olyan háztartási vegyszer használata, amely átmenetileg befolyásolja a biológiai folyamatokat.</p>
+        <p class="type-ui-body">Ezért családi szennyvíztisztító választásakor a technológia neve mellett érdemes megvizsgálni a teljes konstrukciót is:</p>
+        <ul class="jogi-lista" role="list">
+          <li class="type-ui-body">Hogyan történik a levegőztetés?</li>
+          <li class="type-ui-body">Hogyan kezeli a rendszer a keletkező biomasszát?</li>
+          <li class="type-ui-body">Milyen gépészeti elemek szükségesek a működéshez?</li>
+          <li class="type-ui-body">Mekkora az energiaigény?</li>
+          <li class="type-ui-body">Hogyan férhet hozzá a szerviz a berendezéshez?</li>
+          <li class="type-ui-body">Milyen rendszeres karbantartást igényel?</li>
+        </ul>
+        <div class="jogi-kiemelt">
+          <p class="type-ui-body">Ezekre nincs olyan válasz, hogy „MBBR", „Fixed Bed" vagy „eleveniszapos". <strong>Ezekre mindig az adott berendezés konstrukciója ad választ.</strong></p>
+        </div>
       </div>
     </div>
   </section>
@@ -697,50 +779,29 @@
   <section class="section" id="ab-clear" aria-labelledby="ab-clear-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A mi megoldásunk</p>
-        <h2 class="type-display-section-title section-title" id="ab-clear-cim">Az A.B. Clear más utat követ</h2>
+        <p class="type-data-eyebrow section-eyebrow">A mi választásunk</p>
+        <h2 class="type-display-section-title section-title" id="ab-clear-cim">Az A.B. Clear egy másik bevált biológiai elvet alkalmaz</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">Az A.B. Clear szennyvíztisztító szintén eleveniszapos biológiai tisztítást alkalmaz, de <strong>nem SBR-rendszer</strong>. Folyamatos átfolyású, többkamrás eleveniszapos technológiáról van szó, amelyben a szennyvíz meghatározott útvonalon, egymást követő funkcionális tereken halad keresztül. A különböző biológiai és fizikai folyamatok jelentős részének elkülönítését így maga a többkamrás kialakítás biztosítja.</p>
-        <p class="type-ui-body">Ez természetesen nem jelenti azt, hogy az A.B. Clearnek nincs szüksége elektromos energiára. Az aerob biológiai folyamatokhoz levegőt kell biztosítani, ehhez kompresszor működik. A tervezési filozófia azonban az volt, hogy minél több feladatot maga a hidraulikai és tartálykialakítás oldjon meg, és minél kevesebb, a működéshez nélkülözhetetlen gépészeti alkatrészre legyen szükség.</p>
-        <p class="type-ui-body">Ehhez kapcsolódik az <a href="../megoldasok/ab-clear-iszapzsakos-technologia">A.B. Clear iszapkezelése</a> is. A rendszerben keletkező fölösiszap az iszapzsákba kerül, ahol a víztartalom jelentős része eltávozhat és visszakerülhet a rendszerbe, miközben a szilárdabb iszap a zsákban marad. Ez a megoldás a rendszer stabil iszapszintjének fenntartását és az üzemeltetés egyszerűsítését szolgálja.</p>
+        <p class="type-ui-body">Az A.B. Clear <strong>nem MBBR- és nem Fixed Bed-rendszer</strong>. Folyamatos átfolyású, többkamrás eleveniszapos technológiát alkalmaz. Ebben a rendszerben a biológiai tisztításban részt vevő mikroorganizmusok jelentős része eleveniszap formájában van jelen, a technológiai funkciók elkülönítésében pedig fontos szerepet kap a többkamrás kialakítás és a szennyvíz meghatározott áramlási útja.</p>
+        <p class="type-ui-body">Ez <strong>nem jobb vagy rosszabb biológiai alapelv, hanem más mérnöki megközelítés</strong>. A mi választásunknál fontos szempont volt, hogy családi házas alkalmazásban a teljes rendszer hosszú távon egyszerűen üzemeltethető, ellenőrizhető és javítható legyen.</p>
+        <p class="type-ui-body">És itt ér össze minden szennyvíztisztítási technológia egyik legfontosabb kérdése: <strong>a megfelelő működés nemcsak a tervezésen, hanem az üzemeltetésen is múlik</strong>. A rendszeres felülvizsgálat lehetőséget ad arra, hogy ellenőrizzük a biológiai és műszaki működés szempontjából fontos állapotokat, elvégezzük a szükséges beállításokat, és egy kialakuló hibát lehetőség szerint még azelőtt felismerjünk és javítsunk, hogy komolyabb üzemzavart okozna.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="melyik-jobb" aria-labelledby="melyik-jobb-cim">
+  <section class="section" id="zaras" aria-labelledby="zaras-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A döntés</p>
-        <h2 class="type-display-section-title section-title" id="melyik-jobb-cim">Melyik technológia a jobb?</h2>
+        <p class="type-data-eyebrow section-eyebrow">Összegzés</p>
+        <h2 class="type-display-section-title section-title" id="zaras-cim">Nem technológiai rövidítést, hanem működő rendszert választunk</h2>
       </header>
       <div class="folyoszoveg">
-        <p class="type-ui-body">Erre önmagában az „SBR” vagy az „eleveniszapos” kifejezés alapján nem lehet értelmes választ adni. Az SBR egy régóta ismert, kiforrott szennyvíztisztítási technológia. A folyamatos átfolyású eleveniszapos rendszerek szintén évtizedek óta bizonyított technológiai alapokon működnek.</p>
-        <p class="type-ui-body">Egy családi háznál ezért sokkal érdekesebb kérdések következnek:</p>
-        <ul class="jogi-lista" role="list">
-          <li class="type-ui-body">Mennyi aktív gépészeti alkatrész szükséges a működéshez?</li>
-          <li class="type-ui-body">Mekkora az energiaigény?</li>
-          <li class="type-ui-body">Hogyan történik az iszap kezelése?</li>
-          <li class="type-ui-body">Hogyan viseli a rendszer a változó terhelést?</li>
-          <li class="type-ui-body">Mi történik hosszabb távollét vagy áramszünet után?</li>
-          <li class="type-ui-body">Milyen rendszeres karbantartást igényel?</li>
-          <li class="type-ui-body">Egy meghibásodás esetén van-e hozzá alkatrész és szakember?</li>
-        </ul>
-        <p class="type-ui-body">És van még egy szempont, amelyet egy prospektusból nehéz megítélni: <strong>ki foglalkozik a berendezéssel öt vagy tíz év múlva?</strong></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="szerviz" aria-labelledby="szerviz-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Hosszú távon</p>
-        <h2 class="type-display-section-title section-title" id="szerviz-cim">Egy szennyvíztisztító nem egyszeri vásárlás</h2>
-      </header>
-      <div class="folyoszoveg">
-        <p class="type-ui-body">A biológiai szennyvíztisztító hosszú éveken keresztül működő műszaki és biológiai rendszer. Ezért az üzemeltetés és a szerviz legalább annyira fontos, mint maga a tartály.</p>
-        <p class="type-ui-body">Az A.B. Clearhez ezért <strong>negyedéves karbantartási lehetőséget</strong> is biztosítunk. A rendszeres felülvizsgálat során ellenőrizhető a berendezés általános műszaki állapota és az iszapkezelés, tisztítható a kompresszor szűrője, szükség esetén korrigálható a levegőelosztás és a vezérlés beállítása, valamint még időben felismerhetők és javíthatók a kialakuló hibák.</p>
-        <p class="type-ui-body">Egy jól megtervezett rendszer célja ugyanis nem pusztán az, hogy megfelelő körülmények között képes legyen szennyvizet tisztítani. Az igazi kérdés az, hogy ezt <strong>mennyire egyszerűen, kiszámíthatóan és üzembiztosan</strong> képes megtenni hosszú éveken keresztül, egy valódi háztartás mindennapi körülményei között.</p>
+        <p class="type-ui-body">Az MBBR, a Fixed Bed és az eleveniszapos technológia egyaránt régóta ismert eszköz a biológiai szennyvíztisztításban. Mindegyiknek megvan a maga működési logikája, alkalmazási területe és tervezési követelménye. Ezért egyiket sem érdemes pusztán a neve alapján jobbnak vagy rosszabbnak tekinteni.</p>
+        <p class="type-ui-body">Egy családi szennyvíztisztítónál végül az számít, hogyan áll össze a teljes rendszer: megfelelően méretezték-e az adott terheléshez, hogyan kezeli a biomasszát, mennyi gépészetet igényel, hogyan karbantartható, és milyen műszaki háttér áll mögötte hosszú távon.</p>
+        <div class="jogi-kiemelt">
+          <p class="type-ui-body">Ha ezeket megértjük, az MBBR, a Fixed Bed vagy az eleveniszapos technológia már nem hangzatos rövidítés egy prospektusban. Hanem az, ami valójában: <strong>különböző mérnöki megoldás ugyanarra a feladatra</strong> — a szennyvíz biológiai megtisztítására.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -749,32 +810,40 @@
     <div class="section-inner">
       <header class="section-head section-head-start">
         <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
-        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit az SBR-ről a leggyakrabban kérdeznek</h2>
+        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit a biofilmes technológiákról a leggyakrabban kérdeznek</h2>
       </header>
       <div class="fogalom-gyik">
           <div class="fogalom-gyik-tetel">
-            <h3 class="type-ui-card-title">Mit jelent az SBR a szennyvíztisztításban?</h3>
-            <p class="type-ui-body">Az SBR a Sequencing Batch Reactor, vagyis szakaszos üzemű biológiai reaktor rövidítése. A lényege, hogy a tisztítás több technológiai fázisa — feltöltés, levegőztetés, ülepítés, elvezetés — ugyanabban a reaktortérben, de különböző időpontokban történik.</p>
+            <h3 class="type-ui-card-title">Mit jelent az MBBR a szennyvíztisztításban?</h3>
+            <p class="type-ui-body">Az MBBR a Moving Bed Biofilm Reactor, vagyis mozgóágyas biofilmreaktor rövidítése. A reaktortérben szabadon mozgó hordozóelemek felületén biofilm alakul ki, és az ebben élő mikroorganizmusok vesznek részt a szennyező anyagok lebontásában.</p>
           </div>
           <div class="fogalom-gyik-tetel">
-            <h3 class="type-ui-card-title">Mi a különbség az SBR és a folyamatos átfolyású eleveniszapos rendszer között?</h3>
-            <p class="type-ui-body">Az SBR a tisztítás fázisait elsősorban IDŐBEN választja szét, vezérléssel. A folyamatos átfolyású, többkamrás rendszer ugyanezt jelentős részben TÉRBEN oldja meg: a szennyvíz egymást követő, különböző funkciójú tereken halad keresztül, és az elkülönítést maga a tartály kialakítása biztosítja.</p>
+            <h3 class="type-ui-card-title">Mi a különbség az MBBR és a Fixed Bed között?</h3>
+            <p class="type-ui-body">Az alapelv mindkettőben ugyanaz: felületet biztosítunk a mikroorganizmusoknak. A különbség az, hogy a Fixed Bed rendszerben a hordozó meghatározott helyen marad a reaktorban, az MBBR-ben viszont a hordozóelemek szabadon mozognak a számukra kialakított térben.</p>
           </div>
           <div class="fogalom-gyik-tetel">
-            <h3 class="type-ui-card-title">Új technológia az SBR?</h3>
-            <p class="type-ui-body">Nem. A szakaszos feltöltésen és ürítésen alapuló eleveniszapos rendszerek elődei már a XX. század elején megjelentek. Az elterjedéséhez az kellett, ami akkor még nem állt rendelkezésre a mai formájában: megbízható automatizálás és vezérléstechnika.</p>
+            <h3 class="type-ui-card-title">Mi az a biofilm?</h3>
+            <p class="type-ui-body">A biofilm a felületeken megtelepedő mikroorganizmusok összetett közössége. Természetes vizekben is megfigyelhető: a tartósan víz alatt lévő kövek és növényi részek idővel benépesülnek. A szennyvíztisztítás ezt a természetes jelenséget használja fel ellenőrzött körülmények között.</p>
           </div>
           <div class="fogalom-gyik-tetel">
-            <h3 class="type-ui-card-title">Mi történik egy SBR-berendezéssel áramszünet esetén?</h3>
-            <p class="type-ui-body">Elektromos energia nélkül minden levegőztetett biológiai tisztítóban leáll a levegőztetés. Az SBR-nél azonban az időben egymásra épülő ciklus végrehajtása is a vezérléstől függ, ezért hosszabb áramszünetnél lényeges kérdés, mit tesz a berendezés az áram visszatérésekor: folytatja a megszakított ciklust, újat kezd, vagy felismeri, melyik fázisban állt le.</p>
+            <h3 class="type-ui-card-title">A biofilmhordozó mindig műanyag?</h3>
+            <p class="type-ui-body">Nem. Az MBBR-ről készült fényképeken gyakran apró műanyag elemeket látunk, de számos anyag alkalmas lehet erre a célra: léteznek szivacsos, kerámia-, ásványi, aktívszén-alapú és kompozit hordozók is. Önmagában az alapanyag keveset árul el egy biofilmes rendszer teljesítményéről.</p>
           </div>
           <div class="fogalom-gyik-tetel">
-            <h3 class="type-ui-card-title">SBR-rendszer az A.B. Clear?</h3>
-            <p class="type-ui-body">Nem. Az A.B. Clear szintén eleveniszapos biológiai tisztítást alkalmaz, de folyamatos átfolyású, többkamrás technológiával: a különböző folyamatok elkülönítését a többkamrás kialakítás biztosítja, nem az időzítés.</p>
+            <h3 class="type-ui-card-title">Mindig a nagyobb fajlagos felületű hordozó a jobb?</h3>
+            <p class="type-ui-body">Nem. A biofilmnek kapcsolatban kell maradnia a kezelendő szennyvízzel: a szükséges anyagoknak el kell jutniuk hozzá, aerob folyamatoknál pedig megfelelő oxigénellátásra is szükség van. Ezért a hordozó geometriája, átjárhatósága és a víz áramlása legalább olyan fontos lehet, mint a névleges fajlagos felület.</p>
           </div>
           <div class="fogalom-gyik-tetel">
-            <h3 class="type-ui-card-title">Melyik a jobb technológia, az SBR vagy a folyamatos átfolyású?</h3>
-            <p class="type-ui-body">Önmagában a technológia nevéből erre nem lehet értelmes választ adni. Mindkettő évtizedek óta bizonyított alapokon működik. Egy családi háznál az a kérdés, hány aktív gépészeti alkatrész kell a működéshez, mekkora az energiaigény, hogyan történik az iszapkezelés, hogyan viseli a rendszer a változó terhelést, és mi történik hosszabb távollét vagy áramszünet után.</p>
+            <h3 class="type-ui-card-title">MBBR-rendszer az A.B. Clear?</h3>
+            <p class="type-ui-body">Nem. Az A.B. Clear nem MBBR- és nem Fixed Bed-rendszer: folyamatos átfolyású, többkamrás eleveniszapos technológiát alkalmaz. A biológiai tisztításban részt vevő mikroorganizmusok jelentős része eleveniszap formájában van jelen, a technológiai funkciók elkülönítésében pedig a többkamrás kialakítás és a szennyvíz meghatározott áramlási útja kap fontos szerepet.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Melyik a jobb, a Fixed Bed vagy az MBBR?</h3>
+            <p class="type-ui-body">Erre nincs általános válasz. Mindkét technológia ugyanazt a biológiai lehetőséget használja ki, csak másképp. Jól méretezve és megfelelően üzemeltetve mindkét elv hatékonyan alkalmazható biológiai szennyvíztisztításra — a különbségeik nem feltétlenül hátrányok, hanem az adott technológiából következő mérnöki feladatok.</p>
+          </div>
+          <div class="fogalom-gyik-tetel">
+            <h3 class="type-ui-card-title">Mire figyeljek egy családi szennyvíztisztító választásakor?</h3>
+            <p class="type-ui-body">A technológia neve mellett érdemes a teljes konstrukciót megvizsgálni: hogyan történik a levegőztetés, hogyan kezeli a rendszer a keletkező biomasszát, milyen gépészeti elemek szükségesek a működéshez, mekkora az energiaigény, hogyan férhet hozzá a szerviz, és milyen rendszeres karbantartást igényel. Ezekre nincs olyan válasz, hogy „MBBR", „Fixed Bed" vagy „eleveniszapos" — ezekre mindig az adott berendezés konstrukciója ad választ.</p>
           </div>
       </div>
     </div>
@@ -785,14 +854,14 @@
       <header class="section-head section-head-start">
         <p class="type-data-eyebrow section-eyebrow">Tovább</p>
         <h2 class="type-display-section-title section-title" id="tovabb-cim">Ha a saját helyzete érdekli</h2>
-        <p class="type-ui-body section-lead">A technológia nevénél többet mond, hogy mi van
-        a telken és hogyan használják. Írja meg — a többit mi mondjuk meg.</p>
+        <p class="type-ui-body section-lead">A technológia nevénél többet mond, hogy mi van a
+        telken és hogyan használják. Írja meg — a többit mi mondjuk meg.</p>
       </header>
       <p class="type-ui-body">
         <a class="btn btn-primary type-ui-button" href="../konzultacio">Konzultációt kérek</a>
-        <a class="btn btn-secondary type-ui-button" href="../tudastar/mbbr-es-fixed-bed-biofilm">MBBR és Fixed Bed</a>
+        <a class="btn btn-secondary type-ui-button" href="sbr-szennyviztisztito">SBR szennyvíztisztító</a>
         <a class="btn btn-secondary type-ui-button" href="../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a>
-        <a class="btn btn-secondary type-ui-button" href="../tudastar/fogalomtar">Fogalomtár</a>
+        <a class="btn btn-secondary type-ui-button" href="fogalomtar">Fogalomtár</a>
       </p>
     </div>
   </section>
@@ -930,50 +999,61 @@
   "@graph": [
     {
       "@type": "Article",
-      "headline": "SBR szennyvíztisztító: hogyan működik, és miért terjedt el?",
-      "description": "Az SBR a tisztítás fázisait időben választja szét, a folyamatos átfolyású rendszer térben. Mit jelent ez a gyakorlatban, és mi történik áramszünet után?",
+      "headline": "MBBR és Fixed Bed: hogyan dolgozik a biofilm a szennyvíztisztításban?",
+      "description": "A biofilm nem mesterséges találmány: a mikroorganizmusok felületeken telepednek meg. Mi a különbség a Fixed Bed és az MBBR között, és mit jelent mindez egy családi szennyvíztisztítónál?",
       "inLanguage": "hu-HU",
       "about": [
-        {"@type":"Thing","name":"SBR szennyvíztisztító","alternateName":["Sequencing Batch Reactor","szakaszos üzemű biológiai reaktor","szakaszos betáplálású reaktor"]},
-        {"@type":"Thing","name":"eleveniszapos szennyvíztisztító","alternateName":["eleveniszapos technológia","eleveniszapos berendezés"]},
-        {"@type":"Thing","name":"folyamatos átfolyású, többkamrás rendszer"}
+        {"@type":"Thing","name":"MBBR","alternateName":["Moving Bed Biofilm Reactor","mozgóágyas biofilmreaktor"]},
+        {"@type":"Thing","name":"Fixed Bed","alternateName":["rögzített ágyas biofilmes technológia"]},
+        {"@type":"Thing","name":"biofilm"},
+        {"@type":"Thing","name":"eleveniszapos szennyvíztisztítás"}
       ],
       "author": { "@type": "Organization", "name": "ÖkoTech-Home Kft.", "url": "https://okotechhome.hu/" },
       "publisher": { "@type": "Organization", "name": "ÖkoTech-Home Kft.", "url": "https://okotechhome.hu/" },
-      "mainEntityOfPage": "https://okotechhome.hu/tudastar/sbr-szennyviztisztito"
+      "mainEntityOfPage": "https://okotechhome.hu/tudastar/mbbr-es-fixed-bed-biofilm"
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
       {
         "@type": "Question",
-        "name": "Mit jelent az SBR a szennyvíztisztításban?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Az SBR a Sequencing Batch Reactor, vagyis szakaszos üzemű biológiai reaktor rövidítése. A lényege, hogy a tisztítás több technológiai fázisa — feltöltés, levegőztetés, ülepítés, elvezetés — ugyanabban a reaktortérben, de különböző időpontokban történik." }
+        "name": "Mit jelent az MBBR a szennyvíztisztításban?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Az MBBR a Moving Bed Biofilm Reactor, vagyis mozgóágyas biofilmreaktor rövidítése. A reaktortérben szabadon mozgó hordozóelemek felületén biofilm alakul ki, és az ebben élő mikroorganizmusok vesznek részt a szennyező anyagok lebontásában." }
       },
       {
         "@type": "Question",
-        "name": "Mi a különbség az SBR és a folyamatos átfolyású eleveniszapos rendszer között?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Az SBR a tisztítás fázisait elsősorban IDŐBEN választja szét, vezérléssel. A folyamatos átfolyású, többkamrás rendszer ugyanezt jelentős részben TÉRBEN oldja meg: a szennyvíz egymást követő, különböző funkciójú tereken halad keresztül, és az elkülönítést maga a tartály kialakítása biztosítja." }
+        "name": "Mi a különbség az MBBR és a Fixed Bed között?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Az alapelv mindkettőben ugyanaz: felületet biztosítunk a mikroorganizmusoknak. A különbség az, hogy a Fixed Bed rendszerben a hordozó meghatározott helyen marad a reaktorban, az MBBR-ben viszont a hordozóelemek szabadon mozognak a számukra kialakított térben." }
       },
       {
         "@type": "Question",
-        "name": "Új technológia az SBR?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Nem. A szakaszos feltöltésen és ürítésen alapuló eleveniszapos rendszerek elődei már a XX. század elején megjelentek. Az elterjedéséhez az kellett, ami akkor még nem állt rendelkezésre a mai formájában: megbízható automatizálás és vezérléstechnika." }
+        "name": "Mi az a biofilm?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A biofilm a felületeken megtelepedő mikroorganizmusok összetett közössége. Természetes vizekben is megfigyelhető: a tartósan víz alatt lévő kövek és növényi részek idővel benépesülnek. A szennyvíztisztítás ezt a természetes jelenséget használja fel ellenőrzött körülmények között." }
       },
       {
         "@type": "Question",
-        "name": "Mi történik egy SBR-berendezéssel áramszünet esetén?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Elektromos energia nélkül minden levegőztetett biológiai tisztítóban leáll a levegőztetés. Az SBR-nél azonban az időben egymásra épülő ciklus végrehajtása is a vezérléstől függ, ezért hosszabb áramszünetnél lényeges kérdés, mit tesz a berendezés az áram visszatérésekor: folytatja a megszakított ciklust, újat kezd, vagy felismeri, melyik fázisban állt le." }
+        "name": "A biofilmhordozó mindig műanyag?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nem. Az MBBR-ről készült fényképeken gyakran apró műanyag elemeket látunk, de számos anyag alkalmas lehet erre a célra: léteznek szivacsos, kerámia-, ásványi, aktívszén-alapú és kompozit hordozók is. Önmagában az alapanyag keveset árul el egy biofilmes rendszer teljesítményéről." }
       },
       {
         "@type": "Question",
-        "name": "SBR-rendszer az A.B. Clear?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Nem. Az A.B. Clear szintén eleveniszapos biológiai tisztítást alkalmaz, de folyamatos átfolyású, többkamrás technológiával: a különböző folyamatok elkülönítését a többkamrás kialakítás biztosítja, nem az időzítés." }
+        "name": "Mindig a nagyobb fajlagos felületű hordozó a jobb?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nem. A biofilmnek kapcsolatban kell maradnia a kezelendő szennyvízzel: a szükséges anyagoknak el kell jutniuk hozzá, aerob folyamatoknál pedig megfelelő oxigénellátásra is szükség van. Ezért a hordozó geometriája, átjárhatósága és a víz áramlása legalább olyan fontos lehet, mint a névleges fajlagos felület." }
       },
       {
         "@type": "Question",
-        "name": "Melyik a jobb technológia, az SBR vagy a folyamatos átfolyású?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Önmagában a technológia nevéből erre nem lehet értelmes választ adni. Mindkettő évtizedek óta bizonyított alapokon működik. Egy családi háznál az a kérdés, hány aktív gépészeti alkatrész kell a működéshez, mekkora az energiaigény, hogyan történik az iszapkezelés, hogyan viseli a rendszer a változó terhelést, és mi történik hosszabb távollét vagy áramszünet után." }
+        "name": "MBBR-rendszer az A.B. Clear?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nem. Az A.B. Clear nem MBBR- és nem Fixed Bed-rendszer: folyamatos átfolyású, többkamrás eleveniszapos technológiát alkalmaz. A biológiai tisztításban részt vevő mikroorganizmusok jelentős része eleveniszap formájában van jelen, a technológiai funkciók elkülönítésében pedig a többkamrás kialakítás és a szennyvíz meghatározott áramlási útja kap fontos szerepet." }
+      },
+      {
+        "@type": "Question",
+        "name": "Melyik a jobb, a Fixed Bed vagy az MBBR?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Erre nincs általános válasz. Mindkét technológia ugyanazt a biológiai lehetőséget használja ki, csak másképp. Jól méretezve és megfelelően üzemeltetve mindkét elv hatékonyan alkalmazható biológiai szennyvíztisztításra — a különbségeik nem feltétlenül hátrányok, hanem az adott technológiából következő mérnöki feladatok." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mire figyeljek egy családi szennyvíztisztító választásakor?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A technológia neve mellett érdemes a teljes konstrukciót megvizsgálni: hogyan történik a levegőztetés, hogyan kezeli a rendszer a keletkező biomasszát, milyen gépészeti elemek szükségesek a működéshez, mekkora az energiaigény, hogyan férhet hozzá a szerviz, és milyen rendszeres karbantartást igényel. Ezekre nincs olyan válasz, hogy „MBBR\", „Fixed Bed\" vagy „eleveniszapos\" — ezekre mindig az adott berendezés konstrukciója ad választ." }
       }
       ]
     },
@@ -982,7 +1062,7 @@
       "itemListElement": [
         {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okotechhome.hu/"},
         {"@type":"ListItem","position":2,"name":"Tudástár","item":"https://okotechhome.hu/tudastar/"},
-        {"@type":"ListItem","position":3,"name":"SBR szennyvíztisztító","item":"https://okotechhome.hu/tudastar/sbr-szennyviztisztito"}
+        {"@type":"ListItem","position":3,"name":"MBBR és Fixed Bed","item":"https://okotechhome.hu/tudastar/mbbr-es-fixed-bed-biofilm"}
       ]
     }
   ]

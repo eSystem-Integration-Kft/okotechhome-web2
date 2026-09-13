@@ -166,7 +166,37 @@
           "nev": "Mozgóágyas biofilm reaktor (MBBR)",
           "mit": "Eljárás, amelyben a mikroorganizmusok mozgó hordozókon megtelepedve dolgoznak.",
           "en": "moving bed biofilm reactor (MBBR)",
-          "de": "Wirbelbett-Bioreaktor"
+          "de": "Wirbelbett-Bioreaktor",
+          "lap": "tudastar/mbbr-es-fixed-bed-biofilm"
+        },
+        {
+          "nev": "Biofilm",
+          "mit": "Felületen megtelepedő mikroorganizmusok összetett közössége. Nem a hordozó tisztít: a biofilmben élő mikroorganizmusok bontják le a szennyező anyagokat.",
+          "en": "biofilm",
+          "de": "Biofilm",
+          "lap": "tudastar/mbbr-es-fixed-bed-biofilm"
+        },
+        {
+          "nev": "Biofilmhordozó",
+          "mit": "A reaktorba helyezett anyag, ami felületet ad a biofilm megtelepedéséhez. Lehet műanyag, szivacsos, kerámia-, ásványi vagy kompozit — az alapanyag önmagában keveset árul el.",
+          "masnev": "baktériumhordozó",
+          "en": "biofilm carrier",
+          "de": "Aufwuchskörper",
+          "lap": "tudastar/mbbr-es-fixed-bed-biofilm"
+        },
+        {
+          "nev": "Rögzített ágyas biofilmes eljárás (Fixed Bed)",
+          "mit": "Biofilmes eljárás, amelyben a hordozó meghatározott helyen marad a reaktorban, és a szennyvíz áramlik el mellette vagy rajta keresztül.",
+          "en": "fixed bed biofilm reactor",
+          "de": "Festbettreaktor",
+          "lap": "tudastar/mbbr-es-fixed-bed-biofilm"
+        },
+        {
+          "nev": "Fajlagos felület",
+          "mit": "A biofilmhordozó jellemző műszaki adata, m²/m³-ben. Nem verseny: a nagyobb szám csak akkor ér valamit, ha a víz és az oxigén el is jut a felülethez.",
+          "en": "specific surface area",
+          "de": "spezifische Oberfläche",
+          "lap": "tudastar/mbbr-es-fixed-bed-biofilm"
         },
         {
           "nev": "Beüzemelés",
@@ -325,6 +355,10 @@
     {
       "k": "Mi a különbség az EN 12566-1 és az EN 12566-3 között?",
       "v": "Az EN 12566-1 az oldómedencékre vonatkozik, az EN 12566-3 a háztartási szennyvíztisztító kisberendezésekre. A kettő nem cserélhető fel: más terméket, más követelményekkel tanúsít."
+    },
+    {
+      "k": "Mi a különbség az MBBR és az eleveniszapos technológia között?",
+      "v": "Az eleveniszapos tisztításnál a mikroorganizmusok jelentős része a vízben lebegő iszappelyhekben van jelen. A biofilmes rendszerek — mint az MBBR — ezzel szemben hordozófelülethez kötve tartják a biomassza jelentős részét. A két világ nem válik el élesen: léteznek hibrid technológiák, amelyek mindkét biomasszaformát használják."
     }
   ]
 }

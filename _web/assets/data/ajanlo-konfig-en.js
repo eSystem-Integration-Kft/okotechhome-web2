@@ -66,6 +66,11 @@ window.OTH_AJANLO = {
         eletvitelszeru: "This is the single most important input to the choice of technology. Under a year-round, even load the bacterial culture is fed continuously, so active biological treatment can be sustained. A two- or three-week holiday does not on its own count as intermittent use.",
         hetvegi:        "Weekend or occasional use means an intermittent load. Continuous, active biological operation is harder to sustain then — the next two questions decide whether this really is an intermittent pattern.",
         szezonalis:     "A property lived in only during certain months has long idle spells. The next two questions look at how much load falls on the period of use — that is what separates intermittent use from strong seasonality."
+      },
+      levezetes: {
+        eletvitelszeru: { bal: "Year-round, even load", jobb: "active biological treatment is sustainable" },
+        hetvegi:     { bal: "Weekend, occasional use", jobb: "intermittent load" },
+        szezonalis:  { bal: "Seasonal use", jobb: "long idle spells" }
       }
     },
     {
@@ -84,6 +89,13 @@ window.OTH_AJANLO = {
         "5-6":  "With more occupants the peak load is higher too. Combined with intermittent use, the system carries a fluctuating load — and then the pattern cannot be classified automatically.",
         "7-10": "At this occupancy the sizing is a technical question in its own right, and handling the peak load also bears on the choice of technology.",
         "10+":  "Above ten people we are no longer talking about domestic scale: the system is built from several units, and the sizing calls for individual design."
+      },
+      levezetes: {
+        "1-2":       { bal: "1–2 people", jobb: "low load, the bottom of the sizing range" },
+        "3-4":       { bal: "3–4 people", jobb: "standard sizing, no constraint" },
+        "5-6":       { bal: "5–6 people", jobb: "higher peak load, manageable by sizing" },
+        "7-10":      { bal: "7–10 people", jobb: "sizing is a professional question in itself" },
+        "10+":       { bal: "Over 10 people", jobb: "several units, bespoke design" }
       }
     },
     {
@@ -98,6 +110,11 @@ window.OTH_AJANLO = {
         nincs:   "Under a continuous load the bacterial culture can be sustained steadily — that is the basic condition for active biological treatment.",
         hetek:   "After a gap of a few weeks the culture restarts, but the pattern is no longer entirely even. Whether this rules out an active system emerges together with the pattern of use and the occupancy.",
         honapok: "Over an idle spell of several months the active biological culture breaks down. Restarting is manageable, but where it recurs regularly it becomes an operating question worth talking through in person."
+      },
+      levezetes: {
+        nincs:       { bal: "No long gaps", jobb: "the technology is settled" },
+        hetek:       { bal: "Gaps of a few weeks", jobb: "the pattern is not entirely even" },
+        honapok:     { bal: "Gaps of several months", jobb: "the active culture breaks down" }
       }
     },
     {
@@ -113,6 +130,11 @@ window.OTH_AJANLO = {
         igen:     "This does not on its own rule out the proposed solution. For the build, though, it is worth allowing for a raised soakaway and anti-flotation anchoring, so that the groundwater cannot lift the tank.",
         nem:      "This allows the standard arrangement: the tank can be installed by gravity, without raising, and the treated water can be disposed of in the usual way.",
         nemtudom: "Not an obstacle: the groundwater level can be established unambiguously by an on-site survey. It goes on the list of points to clarify, and the process can continue."
+      },
+      levezetes: {
+        igen:        { bal: "High groundwater", jobb: "raised soakaway and anti-flotation anchoring" },
+        nem:         { bal: "No high groundwater", jobb: "gravity installation" },
+        nemtudom:    { bal: "Groundwater not known", jobb: "we settle it at the survey" }
       }
     },
     {
@@ -127,6 +149,11 @@ window.OTH_AJANLO = {
         homokos:  "Free-draining soil makes disposing of the treated water simpler, and the soakaway can be smaller.",
         kotott:   "Poorly draining, clay soil is not an exclusion, but the treated water then has to be disposed of through a raised soakaway. That affects both the build and the cost.",
         nemtudom: "The soil's infiltration capacity can be established on site. It goes on the list of points to clarify, and the process can continue."
+      },
+      levezetes: {
+        homokos:     { bal: "Sandy soil", jobb: "a smaller soakaway is enough" },
+        kotott:      { bal: "Heavy, clay soil", jobb: "a raised soakaway is required" },
+        nemtudom:    { bal: "Soil not known", jobb: "can be inspected on site" }
       }
     },
     {
@@ -144,21 +171,27 @@ window.OTH_AJANLO = {
         kozepes:  "This size is generally enough for a biological system's soakaway. A septic tank's drainage field, however, is typically two to three times as large, so that direction cannot be built on an area this size.",
         nagy:     "This size permits water disposal for either direction. The exact size of soakaway required depends on the load, the soil structure and the groundwater level — the survey establishes that.",
         nemtudom: "This does not block the process: the available area goes on the list of points to clarify, and can be established unambiguously during the on-site survey."
+      },
+      levezetes: {
+        kicsi:       { bal: "Less than about 30 m²", jobb: "placing the water is the open question" },
+        kozepes:     { bal: "About 30–60 m²", jobb: "enough for the biological system's soakaway" },
+        nagy:        { bal: "Over about 60 m²", jobb: "the area is no constraint" },
+        nemtudom:    { bal: "Area not known", jobb: "can be established from the site plan" }
       }
     }
   ],
 
   iranySzabalyok: [
     { ha: { hasznalat: ["eletvitelszeru"], kihagyas: ["honapok"] }, irany: "egyeztetes",
-      ok: "permanent occupation, but with regular gaps of several months" },
+      ok: "Two considerations pull in opposite directions: regular, year-round use points towards active biological treatment, while the idle spells of several months point against it." },
     { ha: { hasznalat: ["eletvitelszeru"], letszam: ["1-2"], kihagyas: ["hetek"] }, irany: "egyeztetes",
-      ok: "a permanently occupied property used by one or two people, with frequent longer absences" },
+      ok: "Two considerations pull in opposite directions: the property is permanently occupied, but the load — one or two people with frequent longer absences — points towards an intermittent pattern." },
     { ha: { hasznalat: ["eletvitelszeru"] }, irany: "abclear" },
     { ha: { hasznalat: ["hetvegi"], letszam: ["5-6", "7-10", "10+"] }, irany: "egyeztetes",
-      ok: "a property used almost every weekend, but by a large number of people" },
+      ok: "Two considerations pull in opposite directions: weekend and occasional use points towards the simpler solution that tolerates fluctuating load, while the peak load of a large household points towards active biological treatment." },
     { ha: { hasznalat: ["hetvegi"] }, irany: "epureco" },
     { ha: { hasznalat: ["szezonalis"], letszam: ["5-6", "7-10", "10+"] }, irany: "egyeztetes",
-      ok: "strong seasonality: intensive use during the season, an empty property outside it" },
+      ok: "Two considerations pull in opposite directions: intensive, high-occupancy use during the season points towards active biological treatment, while the long idle spell outside the season points against it." },
     { ha: { hasznalat: ["szezonalis"] }, irany: "epureco" }
   ],
 
@@ -171,6 +204,15 @@ window.OTH_AJANLO = {
     { ha: { terulet: "nemtudom" }, tisztazandok: ["terulet"] }
   ],
 
+  /* The wording of the area rule. `ellentmondasEsSzuk` is the fix for H1: a
+     contradiction cannot be resolved by adding a further narrowing condition —
+     the module does not become more confident, it acquires a second open
+     question. */
+  teruletSzabalyok: {
+    ellentmondasEsSzuk: "A SECOND bottleneck comes on top of this: the area given also puts the placement of the treated water in question. That does not resolve the contradiction — they are two separate open questions, and the site survey closes both.",
+    oldomedenceNemFer: "Two considerations pull in opposite directions: the pattern of use points towards the settlement-tank route, but the available area will not take its soakaway field — typically two to three times that of the biological system."
+  },
+
   teruletSavok: {
     kicsi:   { biologiai: false, oldomedence: false },
     kozepes: { biologiai: true,  oldomedence: false },
@@ -181,6 +223,13 @@ window.OTH_AJANLO = {
   feltetelek: {
     "kiemelt-szivarogtato": {
       cimke: "Raised soakaway", jel: "csepp",
+      /* Two gates, two separate statements — see the Hungarian file.
+         `csak`    — which OUTPUT TYPE it may appear under (issue list H4).
+         `igenyel` — what FACT it presupposes. A raised soakaway presupposes
+                     there will be a soakaway at all; where placing the water
+                     is itself the open question, we cannot assert it. */
+      csak: ["termek", "egyeztetes"],
+      igenyel: "szivarogtato",
       leiras: "The treated water is disposed of in a soakaway raised above ground level, so that poor drainage or a high water table does not impede infiltration."
     },
     "specialis-rogzites": {
@@ -196,27 +245,55 @@ window.OTH_AJANLO = {
   tisztazandok: {
     kut: {
       mindig: true, cimke: "Proximity of a well or the plot boundary",
-      hogyan: "The exact protective distance cannot be given as a single figure in metres: local conditions and the permitting requirements determine it together. It can be settled by an on-site survey."
+      hogyan: "The exact protective distance cannot be given as a single figure in metres: local conditions and the permitting requirements determine it together. It can be settled by an on-site survey.",
+      ki: "At the site survey, from the actual position of the plot and the well.",
+      /* Duration awaits the company's approval — see the Hungarian file. */
+      ido: ""
     },
     szivarogtato: {
       mindig: true, cimke: "The size of soakaway required",
-      hogyan: "It depends on the expected load, the soil structure and the groundwater level. The survey establishes it, not a figure given in advance."
+      hogyan: "It depends on the expected load, the soil structure and the groundwater level. The survey establishes it, not a figure given in advance.",
+      ki: "We size it from the survey data — it is part of the design, not something that falls to you.",
+      /* Duration awaits the company's approval — see the Hungarian file. */
+      ido: ""
     },
     terep: {
       mindig: true, cimke: "The depth of the outgoing pipe and the fall of the ground",
-      hogyan: "This decides whether a gravity arrangement will work. The existing pipe outlet can be inspected on site."
+      hogyan: "This decides whether a gravity arrangement will work. The existing pipe outlet can be inspected on site.",
+      ki: "On site, at the existing pipe outlet — we look at it together.",
+      /* Duration awaits the company's approval — see the Hungarian file. */
+      ido: ""
     },
     talajviz: {
       cimke: "Exact ground conditions",
-      hogyan: "The groundwater level can be established unambiguously by an on-site survey."
+      hogyan: "The groundwater level can be established unambiguously by an on-site survey.",
+      ki: "At the site survey.",
+      /* Duration awaits the company's approval — see the Hungarian file. */
+      ido: ""
     },
     talaj: {
       cimke: "The soil's infiltration capacity",
-      hogyan: "The soil structure can be inspected on site; where it is in doubt, a percolation test settles it."
+      hogyan: "The soil structure can be inspected on site; where it is in doubt, a percolation test settles it.",
+      ki: "On site; where it is in doubt, with a percolation test.",
+      /* Duration awaits the company's approval — see the Hungarian file. */
+      ido: ""
+    },
+    /* ⚠️ AWAITS A PROFESSIONAL DECISION (issue list 3.4. and 9.). Until it is
+       settled what counts as a receiving watercourse or drain, the module does
+       NOT ask about it — it only names it as a point to clarify where placing
+       the water is the open question anyway. */
+    befogado: {
+      cimke: "Whether there is a receiving watercourse or drain nearby",
+      hogyan: "Where the treated water cannot be infiltrated on site, the next question is whether there is somewhere nearby it can be discharged to. Local conditions and the permitting requirements determine the terms together.",
+      ki: "At the site survey, by looking at the neighbouring drainage.",
+      ido: ""
     },
     terulet: {
       cimke: "Free area for water disposal",
-      hogyan: "The continuous, undeveloped area available on the plot can be established from the site plan or on site."
+      hogyan: "The continuous, undeveloped area available on the plot can be established from the site plan or on site.",
+      ki: "From the site plan or on site, surveyed together.",
+      /* Duration awaits the company's approval — see the Hungarian file. */
+      ido: ""
     }
   },
 
@@ -232,21 +309,103 @@ window.OTH_AJANLO = {
       rovid: "On the intermittent pattern of use this looks like the strongest direction, though the plot's conditions may still refine the recommendation.",
       indoklas: "A septic tank copes well with an intermittent, irregular load: it holds no active biological culture that has to be sustained, and it needs no electricity.",
       kompromisszum: "In treatment terms this is a compromise: in exchange for simpler operation that tolerates fluctuating load well, most of the treatment happens in the soil, at lower treatment performance than A.B. Clear's active biological treatment.",
+      /* Stated on the card too, the moment the direction appears (issue list
+         10.): a reservation sprung at the end reads as disappointment; the
+         same reservation from the first moment reads as honesty. */
+      kompromisszumRovid: "With a compromise: most of the treatment happens in the soil.",
       url: "../megoldasok/epureco"
     },
+    /* ⚠️ KEPT IN THE DICTIONARY, NEVER CHOSEN BY THE MODULE (issue list H2,
+       3.2.). We do not supply sealed holding tanks, so this cannot be an
+       automatic conclusion — least of all from a layman's estimate of area. */
     zarttarolo: {
       nev: "Sealed holding tank",
-      rovid: "With no means of disposing of the water, this remains the workable direction.",
-      indoklas: "Where there is not enough area to dispose of the treated water, this is no longer a question of choosing a technology: without infiltration the wastewater produced has to be collected and taken away.",
+      rovid: "A possible direction after a survey, not an automatic verdict.",
+      indoklas: "Where there is no way to place the treated water — on site or into a receiving drain — the wastewater produced has to be collected and taken away. We do not supply this; but if the survey leads here, we will say so, and tell you what the next step is.",
       url: "../megoldasok/megoldastipusok-osszehasonlitasa"
     },
     egyeztetes: {
       nev: "Expert consultation",
-      rovid: "The factors you have given contradict one another, so the module does not name a product.",
-      indoklas: "The picture is mixed: the answers do not allow an automatic decision. The points below are why it is worth going through the situation in person.",
+      rovid: "Your answers pull in two directions, so the module does not name a product.",
+      indoklas: "That is why we do not name a product.",
+      /* THE MOST IMPORTANT SENTENCE ON THIS BRANCH (issue list 4.3.). It heads
+         off the visitor thinking they answered wrongly and going back to
+         "correct" it. */
+      megnyugtatas: "Your situation is more complex than average — which is the commonest reason someone ends up with the wrong system. That is exactly why we do not guess.",
+      nyitvaCim: "Two directions remain open",
+      nyitvaFeltetellel: "What we know about the plot applies to both:",
+      nyitvaZaro: "The open question is operation — that is what has to be talked through in person.",
       url: "../konzultacio"
     }
   },
+
+  /* ── OUTPUT TYPES (issue list 3.1.) ─────────────────────────────────────
+     The closing screen used to run as a TEMPLATE: it named a product, listed
+     build conditions and handed over to the price estimator at every outcome —
+     even where the module had not reached a recommendation at all. It is a
+     BRANCH now: the type below sets the heading, the blocks and the next step.
+     See the Hungarian configuration's header for the full reasoning. */
+  kimenetek: {
+    termek: {
+      fejlec: "The recommended solution",
+      jel: "csepp",
+      elsodleges: { cimke: "See roughly what it would cost", url: "#ai-dontestamogato" },
+      arsav: "elsodleges",
+      blokkok: ["termek", "feltetelek", "tisztazandok"]
+    },
+    egyeztetes: {
+      fejlec: "This cannot be settled automatically",
+      jel: "info",
+      elsodleges: { cimke: "I would like to talk to an expert", url: "konzultacio#urlap" },
+      arsav: "masodlagos",
+      arsavCimke: "The order of magnitude for both directions",
+      blokkok: ["utkozes", "feltetelek", "tisztazandok"]
+    },
+    vizelhelyezes: {
+      fejlec: "Placing the treated water is the bottleneck",
+      jel: "figyelem",
+      elsodleges: { cimke: "I would like a site survey", url: "konzultacio?mod=helyszini#urlap" },
+      arsav: "nincs",
+      blokkok: ["vizelhelyezes", "tisztazandok"],
+      bevezeto: "Going by the area given, placing the soakaway is in question. This does not mean there is no solution — it means the deciding question here is not the technology, but where the treated water goes.",
+      tisztazniCim: "What has to be settled at this point:",
+      tisztazni: [
+        "the area that can actually be used — the estimate and the measured figure often differ",
+        "whether there is a receiving watercourse or drain nearby",
+        "the soil structure, which determines the size required"
+      ],
+      zaro: "The survey establishes whether placing the water on site is workable. If it is not, we will say so honestly — we do not supply sealed holding tanks, but we will tell you what the next step is."
+    }
+  },
+
+  /* ── THE DIRECTION CARD (issue list H6 · 4.1.) ───────────────────────────
+     The card used to freeze: the same sentence stood under the product name
+     from answer 2 to answer 6. What is written out now is the DEGREE OF
+     CERTAINTY, and it moves with every answer. */
+  iranyAllapotok: {
+    elozetes:     { cimke: "Preliminary direction",
+                    szoveg: "The pattern of use points this way. {hatra} still to refine it." },
+    eldolt:       { cimke: "The technology is settled",
+                    szoveg: "From here the plot's conditions set the terms of the build, not the solution." },
+    megerositve:  { cimke: "Confirmed",
+                    szoveg: "The plot set no additional build condition." },
+    feltetellel:  { cimke: "Confirmed, with a condition",
+                    szoveg: "The plot's conditions set a build requirement — you can see which one below." },
+    ellentmondas: { cimke: "This cannot be settled automatically", szoveg: "" },
+    vizelhelyezes:{ cimke: "Placing the water is in question",
+                    szoveg: "The deciding question here is not the technology, but where the treated water goes." }
+  },
+
+  /* PARTIAL RESULT (issue list 6.5.). The module shows a direction after the
+     third question — from then on there is a meaningful result at every
+     point. Someone who stops at the fourth used to get NOTHING. */
+  reszleges: {
+    gomb: "That is enough — show me the result",
+    magyarazat: "The plot's conditions will not change the solution from here, only add build requirements to it. Anything you have not given becomes a point to clarify."
+  },
+
+  /* Framing the list as an AGENDA, not a list of gaps (issue list 6.3.). */
+  tisztazandokBevezeto: "This is not a list of gaps but an agenda: we settle these together at the site survey — none of them is yours to decide now.",
 
   tovabb: {
     elsodleges: { cimke: "See roughly what it would cost", url: "#ai-dontestamogato" },

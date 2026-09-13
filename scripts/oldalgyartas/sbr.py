@@ -33,12 +33,19 @@ GYOKER = pathlib.Path(__file__).resolve().parents[2]
 WEB = GYOKER / '_web'
 DOMAIN = 'https://okotechhome.hu'
 UT = 'tudastar/sbr-szennyviztisztito'
-CSS_V = 238
 SUTI_V = 2
 SITE_V = 12      # a megamenü szkriptje
 KALAUZ_V = 45    # az Öko kalauz
 
 MINTA = (WEB / 'tudastar' / 'elszivarogtatas.html').read_text(encoding='utf-8')
+
+# A STÍLUSLAP VERZIÓJA A MINTALAPBÓL JÖN, nem beégetve. Beégetve ez visszatérő
+# csapda: az `app.css?v=NN` emelésekor a 188 kiadott lap frissül, a generátorok
+# viszont a régi számot írták vissza a következő futáskor — az `ellenorzes.sh`
+# 3. pontja ilyenkor „többféle app.css verzió" hibát jelez. A mintalap mindig a
+# jelenlegi állapotot hordozza, tehát ez magától követi.
+CSS_V = int(re.search(r'app\.css\?v=(\d+)', MINTA).group(1))
+
 FEJLEC = re.search(r'(<a class="skip-link".*?</header>)', MINTA, re.S).group(1)
 LABLEC = re.search(r'(<!-- =+\n     LÁBLÉC.*?</footer>)', MINTA, re.S).group(1)
 
@@ -343,6 +350,7 @@ CTA_SZEKCIO = """
       </header>
       <p class="type-ui-body">
         <a class="btn btn-primary type-ui-button" href="../konzultacio">Konzultációt kérek</a>
+        <a class="btn btn-secondary type-ui-button" href="../tudastar/mbbr-es-fixed-bed-biofilm">MBBR és Fixed Bed</a>
         <a class="btn btn-secondary type-ui-button" href="../megoldasok/megoldastipusok-osszehasonlitasa">Megoldástípusok összehasonlítása</a>
         <a class="btn btn-secondary type-ui-button" href="../tudastar/fogalomtar">Fogalomtár</a>
       </p>
@@ -357,6 +365,11 @@ LD_VAZ = """{
       "headline": "SBR szennyvíztisztító: hogyan működik, és miért terjedt el?",
       "description": {LEIRAS},
       "inLanguage": "hu-HU",
+      "about": [
+        {"@type":"Thing","name":"SBR szennyvíztisztító","alternateName":["Sequencing Batch Reactor","szakaszos üzemű biológiai reaktor","szakaszos betáplálású reaktor"]},
+        {"@type":"Thing","name":"eleveniszapos szennyvíztisztító","alternateName":["eleveniszapos technológia","eleveniszapos berendezés"]},
+        {"@type":"Thing","name":"folyamatos átfolyású, többkamrás rendszer"}
+      ],
       "author": { "@type": "Organization", "name": "ÖkoTech-Home Kft.", "url": "https://okotechhome.hu/" },
       "publisher": { "@type": "Organization", "name": "ÖkoTech-Home Kft.", "url": "https://okotechhome.hu/" },
       "mainEntityOfPage": "https://okotechhome.hu/tudastar/sbr-szennyviztisztito"
@@ -391,6 +404,13 @@ LAP = """<!DOCTYPE html>
 <meta property="og:type" content="article">
 <meta property="og:title" content="{cim_attr}">
 <meta property="og:description" content="{leiras}">
+<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-labor.webp?v=2">
+<meta property="og:image:width" content="1800">
+<meta property="og:image:height" content="764">
+<meta property="og:image:alt" content="Laborvizsgálat az ÖkoTech-Home berendezéseihez">
+<meta property="og:url" content="{domain}/{ut}">
+<meta property="og:site_name" content="ÖkoTech Home">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="hu_HU">
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="../assets/css/app.css?v={css}">

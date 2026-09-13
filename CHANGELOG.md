@@ -29,6 +29,172 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.38.00] — 2026-09-13
+
+### Módosítva — a megoldás-ajánló záró képernyője sablonból elágazás lett
+
+Az eSystem Integration végigtesztelte a modult (normál ág, határeset-ág, szűk
+terület ág), és a talált tizennégy hiba többsége **egyetlen közös gyökérre**
+vezethető vissza: a záró képernyő **sablonként futott, nem elágazásként**.
+Ugyanazt a három dolgot tette minden kimenetnél — terméknevet mutatott,
+kivitelezési feltételeket sorolt, és átküldött az ársávbecslőre —, függetlenül
+attól, hogy a modul eljutott-e egyáltalán javaslatig.
+
+**Négy kimenettípus, négy külön záró képernyő** (`kimenetek` a konfigurációban).
+A fejlécet, a megjelenő blokkokat és a következő lépést innentől a típus szabja
+meg, és minden blokk külön feltétellel jelenik meg, nem alapértelmezésben:
+
+| Kimenet | Fejléc | Következő lépés | Ársávbecslő |
+|---|---|---|---|
+| Konkrét termék | A javasolt megoldás | ársávbecslő | elsődleges |
+| Epureco | A javasolt megoldás | ársávbecslő | elsődleges, a fenntartással |
+| Határeset | Nem dönthető el automatikusan | szakértői egyeztetés | másodlagos |
+| Vízelhelyezés kérdéses | A vízelhelyezés a szűk keresztmetszet | helyszíni felmérés | **nem jelenik meg** |
+
+**H1 — az egyeztetés-státuszt felülírta a terület-szabály.** A határeset-ágon a
+„Szakértői egyeztetés" átváltott „Zárt tároló"-ra, ha a szabad terület szűk: a
+modul egy ellentmondástól **magabiztosabb lett, nem bizonytalanabb**. Egy
+ellentmondást nem old fel egy további szűkítő feltétel. Most az egyeztetés
+prioritása magasabb, és a szűk terület **második** nyitott kérdésként jelenik
+meg mellette.
+
+**H2 — nem forgalmazott megoldás ítéletként.** A modul automatikus
+végkövetkeztetésként nevezte meg a zárt tárolót, amit nem forgalmazunk — egy
+laikus szemmértékén alapuló területbecslésből („kevesebb mint kb. 30 m²"). A
+konfiguráció fejlécében most általános szabályként áll: *a modul nem vezethet
+olyan kimenetre ítéletként, amire az ÖkoTech-Home nem tud ajánlatot adni.* A
+zárt tároló a szótárban marad, felmérés utáni lehetséges irányként.
+
+**H3 — ársáv-átvezetés nem létező megoldásra.** A záró képernyő a zárt tároló
+és a határeset ágon is az ársávbecslőre küldött. Vagy nem működött, vagy
+működött — és akkor olyasmi árát mutatta, ami nincs a kínálatban.
+
+**H4 — kivitelezési feltétel rossz megoldástípushoz.** A szabályok csak a
+bemenő válaszokhoz voltak kötve, a végeredmény típusához nem. Két kapu került
+rá: `csak` (melyik kimenettípusnál jelenhet meg) és `igenyel` (milyen tényt
+feltételez). A „kiemelt szivárogtató" azt feltételezi, hogy lesz szivárogtató —
+ahol épp ez a nyitott kérdés, ott nem állítjuk. A „speciális rögzítés" ezzel
+szemben mindenhol érvényes marad: üres tartályt a talajvíz kiemelhet.
+
+**H6 — a „Jelenlegi irány" kártya megfagyott.** A terméknév alatti mondat a
+2/6-tól a 6/6-ig szó szerint azonos volt: „…de a telek adottságai még
+pontosíthatják az ajánlást." A végén ez pontatlan — a telek adottságai már
+pontosították. A kártya most kétrészes (státusz + indoklás), és minden válasz
+után lép: *Előzetes irány → A technológia eldőlt → Megerősítve / Megerősítve,
+feltétellel*, ellentmondásnál és szűk területnél pedig **megfordul**.
+
+**H8 — az ellentmondás nincs megnevezve.** „A megadott szempontok ellentmondanak
+egymásnak" igaz volt, de nem mondta meg, mi mond ellent minek — a látogató
+ebből azt hihette, hogy ő rontott el valamit, és visszament „javítani". Most
+mind a négy határeset-szabály megnevezi a két ütköző szempontot, és a blokk
+kimondja: *a helyzete összetettebb az átlagosnál — ez a leggyakoribb oka annak,
+hogy valaki rossz rendszert kap. Épp ezért nem tippelünk.*
+
+**H11 — a mentés el volt rejtve.** Zöld elsődleges gomb, öt sor magyarázat,
+azután „Eredmény mentése" másodlagos gombként: aki nem olvasta végig, nem
+mentett, és elvesztette a megoszthatóságot. Az azonosító mostantól **magától
+keletkezik** az eredmény megjelenésekor, a gomb pedig már csak a linket teszi
+vágólapra. Adatot ehhez sem kérünk. Ha a végpont nem elérhető, a modul nem
+hallgat: visszaáll a kézi mentésre, és kimondja, hogy azonosító nem keletkezett.
+
+**H14 — a helyzetkép-panel nem volt interaktív.** A „Kész ✓" jelölés
+kattinthatónak látszott, de nem volt az. Most az, ahova a látogató már eljutott
+— előre nem, mert az átugrott kérdéseket hagyna. Visszalépés után a módosítás
+mindent újraszámol, és ha minden kérdésre van válasz, egyből az **újraszámolt**
+eredményhez visz vissza.
+
+**4.2 — „Ami eddig eldőlt".** A magyarázatok a bal oldalon buborékban jelennek
+meg, és elgörögnek; a jobb oldali panel pont arra való, hogy megmaradjanak. A
+tartalom kész volt, csak nem ott volt, ahol marad.
+
+**6.5 — részleges eredmény.** A modul a harmadik kérdés után már megmutatja az
+irányt, de aki a negyediknél abbahagyta, **semmit nem kapott**. Innentől
+lezárhatja azzal, ami megvan; amit nem adott meg, az a tisztázandók közé kerül.
+
+**6.3 — a tisztázandók napirenddé.** Elemenként három mező: mit jelent, **ki
+tudja megmondani**, és mennyi idő. Az `ido` szándékosan üres: időtartamot a
+saját folyamatunkról csak a cég állíthat, és amíg nincs jóváhagyott érték, a
+modul inkább nem mond semmit, mint hogy tippeljen.
+
+**5. fejezet — a buborékok háromrészesek** (mit jelent → mi változott ettől →
+mi maradt nyitva). Az utolsó rész köti össze a következő kérdéssel, és ez
+önmagában megszünteti a H13-ban jelzett ismétlést. A kihagyás-kérdés — a
+folyamat legfontosabb pillanata — a használat jellegétől függő szöveget kap, és
+kimondja a specifikáció két szintje közti határvonalat, amit eddig sehol nem
+mondtunk el a látogatónak.
+
+**6.1 és 6.6 — mérés.** A modul consent-kapuzott GA4-eseményeket küld: hányan
+görgetnek el a modulig, melyik kérdésnél hagyják abba, mennyi a „nem tudom"
+aránya kérdésenként, hogyan oszlanak el a kimenettípusok, és hányan lépnek
+tovább. Ez az egyetlen pont, ahol a mérés előzze meg a fejlesztést.
+
+**Ellenőrizve:** mind az **1620 válaszkombináción** végigfut a döntési logika, és
+mind a tizenkét állítás (H1–H8 és a kimenettípus-invariánsok) teljesül; a
+részleges eredmény 45 útvonalán is. A teszt a valódi forrásszövegből emeli ki a
+függvényeket, nem másolatból.
+
+### Javítva — az eredménylap betöltő űrlapja a nyomtatott lapra került (H9)
+
+A `.eredmeny-uzenet{display:flex}` **felülírta a `[hidden]` böngésző-
+alapértelmezését** — a szerzői stílus mindig erősebb a böngésző sajátjánál,
+réteg ide vagy oda. Ezért maradt a lapon a „Mentett eredmény betöltése…" blokk a
+kereső mezővel és a két gombbal akkor is, amikor az eredmény már betöltött.
+Ugyanaz a hiba, amit a `.gyik-tabla` és az `.ofc-drop` már kiírva kezel.
+
+**H10 — elérhetőség a nyomtatott lapon.** A mentett lap kiváló felkészülési
+anyag volt, de nem volt rajta, kit kell hívni. Ez nem sérti az
+adatgyűjtés-mentességet: itt **mi adunk adatot, nem kérünk**.
+
+### Hozzáadva — MBBR és Fixed Bed: hogyan dolgozik a biofilm
+
+A kulcsszókutatás HU-klasztere az „eleveniszapos / SBR / MBBR szennyvíztisztító"
+hármast együtt tartalmazza; az SBR-lap ebből kettőt fedett le, ez a harmadikat.
+A szöveg Bela átadott anyagából készült, a webhely szerkezetébe illesztve.
+
+**Két ábra**, a cikk két legnehezebben elmondható állításához: *hol él a
+biomassza* (Fixed Bed · MBBR · eleveniszap egymás mellett) és *a biofilm
+metszete* — miért nem homogén néhány milliméteren belül sem.
+
+A Fogalomtár **négy fogalommal bővült** (biofilm, biofilmhordozó, Fixed Bed,
+fajlagos felület), az MBBR és az eleveniszap szócikke pedig megkapta a
+hivatkozást a cikkre.
+
+### Javítva — az SBR-ábrák nyilai takarásban voltak
+
+Négy hiba, mind a rajz olvashatóságát rontotta:
+
+1. A be- és kilépő nyilak **a tartály keretére estek**, tehát félig eltűntek
+   alatta. Most a tartályon kívül futnak, saját margóban.
+2. A negyedik fázis elvezető nyila **a panel széléhez ért**.
+3. A ciklusív **a semmiből indult**: nem kapcsolódott egyik tartályhoz sem.
+   Most a 4. fázis alól indul, és nyílheggyel ér vissza az 1.-hez.
+4. A folyamatos átfolyású rajz **négy külön tartályt mutatott**. Az félrevezető:
+   egyetlen tartály az, válaszfalakkal, és a víz átfolyó nyíláson megy tovább.
+   A vízszint ezért most végig azonos — közlekedőedények —, iszap pedig csak
+   ott ül, ahol tényleg ülepszik.
+
+**Mozgás**, `prefers-reduced-motion` mögött: a levegőztetés buborékai
+felszállnak, a ciklus szaggatása körbefut, a csepp végighalad a kamrákon, az
+MBBR hordozói lebegnek. Egyik sem dísz — mind azt mutatja, amit a rajz állít. A
+Fixed Bed rajzán szándékosan **nincs** mozgás: ott az a lényeg, hogy a hordozó
+a helyén marad.
+
+### Javítva — három generált lapról hiányzott a megosztási kártya
+
+Az SBR-, az MBBR- és a Fogalomtár-lapon nem volt `og:image` és `og:url`. A
+`kozossegi.py` `og:image` hiányában kihagyja a lapot, tehát ezek a javításból is
+csendben kimaradtak: megosztáskor kép nélküli kártyát kaptak volna, `og:url`
+híján pedig a megosztások a `?fbclid=…` farokkal ellátott címekre szóródtak
+volna szét. A Tudástár indexének törzséből is hiányzott mindhárom lap — csak a
+megamenüben szerepeltek.
+
+### Módosítva — a generátorok a mintalapból veszik a stíluslap verzióját
+
+Négy generátorban (`sbr`, `mbbr`, `fogalomtar`, `hirek`) be volt égetve a
+`CSS_V`. Visszatérő csapda: az `app.css?v=NN` emelésekor a kiadott lapok
+frissülnek, a generátorok viszont a régi számot írják vissza a következő
+futáskor. A mintalap mindig a jelenlegi állapotot hordozza.
+
 ## [0.37.00] — 2026-09-12
 
 ### Hozzáadva — Fogalomtár, amire a lábléc hónapok óta hivatkozott

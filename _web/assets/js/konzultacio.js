@@ -443,6 +443,24 @@
     return db;
   }
 
+  /* ── ELŐVÁLASZTÁS A CÍMSORBÓL ────────────────────────────────────────────
+     A megoldás-ajánló „vízelhelyezés kérdéses" kimenete ide küld tovább, és
+     ott a következő lépés NEM egy általános konzultáció, hanem HELYSZÍNI
+     FELMÉRÉS (hibalista 3.1.). Ha a látogató onnan érkezik, ne kelljen még
+     egyszer megmondania, amit az előző képernyőn már kimondtunk.
+
+     SZIGORÚ FEHÉRLISTA, és ez nem formaság. A címsorból érkező érték idegen
+     adat: ha bármelyik mezőt engednénk így kitölteni, egy megosztott link
+     személyes adatot vihetne az űrlapba — ezért CSAK a `mod` mező állítható,
+     és csak olyan értékre, ami tényleg szerepel a rádiógombok között.
+
+     A `mezokBeirasa` amúgy is csak ÜRES mezőbe ír: a látogató saját válasza
+     mindig erősebb, és a félbehagyott kitöltés visszatöltése is megelőzi. */
+  try {
+    const mod = new URLSearchParams(location.search).get('mod');
+    if (mod && /^[a-z-]{1,32}$/.test(mod)) mezokBeirasa({ mod: mod });
+  } catch { /* rossz címsor nem akaszthatja meg az űrlapot */ }
+
   /* Induláskor az első lap látszik. */
   mutat(0, false);
 })();
