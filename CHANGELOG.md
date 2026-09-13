@@ -29,6 +29,126 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.39.00] — 2026-09-13
+
+### Javítva — a félkövér szó kiugrott a mondatából a dokumentumkártyákon
+
+Élesről jelentve. A listatétel **flex konténer** volt, flexben pedig minden
+gyerek önálló flex-elemmé válik — így a szövegközi `<strong>` kikerült a
+mondatból, és külön hasábként rendeződött el. A négyoszlopos
+dokumentumkártyákon a „a szennyvízcső tervezett kilépési pontja és
+**mélysége**" három hasábra esett szét, a kiemelt szó a mellé került, ami után
+állnia kellett volna.
+
+A pont abszolút pozícióba ment, a tétel visszatért normál szövegfolyamba.
+Ugyanaz a látvány — pont + 8px köz —, de a szövegközi jelölés innentől
+jelölésként viselkedik. Ez a **gyökérok javítása**: minden jövőbeli
+`.dok-lista` tétel is jó lesz, és nem kell `<span>`-nel körbecsomagolni a
+szöveget. (`b0c6c28`)
+
+Átnéztem a fa összes flex-listáját (`folyamat-lista`, `aidt-prep`,
+`aidt-clarify`, `dok-lista`) — ez a két tétel volt az egyetlen érintett.
+
+### Módosítva — a lábléc Tudástár hasábja válogatást visz, nem az egész archívumot
+
+A Tudástár hasáb 17 tételre nőtt, miközben a többi 6–7-et vitt: a lábléc
+938px magas lett, mellette ~410px üres sávval. Egyetlen elszabadult lista
+tartotta nyitva négy hasábot.
+
+A hasáb **két szintet kevert** — öt témacsoportot és tizenkét cikket —, és
+mindkét irányban téves volt: az öt témacsoport (`telek-talaj-es-viz`,
+`terheles-es-meretezes`, `engedelyezes-es-megfeleloseg`,
+`uzemeltetes-es-hibamegelozes`, `koltseg-es-megvalositas`) **még nem épült
+meg**, tehát 189 lapon halott linkként állt, két élő cikk (SBR, MBBR) viszont
+hiányzott belőle. A fejléc megamenüje ugyanakkor **mind a tizennégy élő cikket
+viszi minden lapon**, és pontosan — a hasáb tehát a fölötte állónak volt egy
+rosszabb másolata.
+
+Hat kurált cikk maradt, plusz egy `Összes téma →` hivatkozás a kezdőlapra,
+ugyanabban a nyelvben, mint a megamenü `Áttekintés →` sora. Ez a növekedést is
+megállítja: a sitemap nyolc témacsoportot tervez 6–8 cikkel, ami ötven tétel
+fölé vitte volna a láblécet. (`f98a8a8`)
+
+| | előtte | utána |
+|---|---|---|
+| lábléc magassága | 938px | 544px |
+| Tudástár hasáb | 753px (17 tétel) | 359px (7 tétel) |
+| halott link | 5 × 189 lap | 0 |
+
+Új komponens: `.lablec-mind` / `.lablec-mind-tetel`, a meglévő
+`.action-arrow-end` nyíllal. Mérve 1666 / 900 / 500px-en; a lábléc mind a 46
+linkje élesben HEAD-del ellenőrizve.
+
+### Javítva — a régi és Ads-URL-ek 404-eztek kevert írásmóddal
+
+Bela jelezte: `/Oldomedence-kontra-biologiai-szennyviztisztito` → 404,
+miközben a csupa kisbetűs alak rendben átirányított. Ezek az URL-ek **nem a mi
+kezünkben vannak**: hirdetésszövegben, sajtóanyagban, e-mailben és nyomdai
+anyagban élnek, a Word, az e-mail-kliensek és a mobil billentyűzetek pedig
+nagybetűsítik a sor elejét. Egy 404-elő Ads-céloldalt a Google „Destination
+not working" címen elutasít, és a kampány leállhat.
+
+Mind az **55 régi/Ads szabály `NC`-t kapott**; a tiszta URL-ek gépezetének
+négy szabálya érintetlen. A hatókör pontosan fedi a kockázatot: minden régi és
+Ads-URL gyökérszintű, egyszegmensű útvonal — épp ez az 55 szabály. A cél
+mindig a **kanonikus kisbetűs** útvonal marad, tehát duplikált tartalom nem
+keletkezik. (`5b6c7c0`)
+
+Mérve 54 szabály × 3 írásmód = 162 kérés, teszten és élesben is 162/162.
+
+### Javítva — az éles feltöltés másodperceire leállt az egész webhely
+
+Ugyanaz a bejelentés mögött: egy átirányítás **502-t** adott, két perccel
+később ugyanaz az URL 301/200-at. Az `lftp mirror` minden fájlt előbb letöröl,
+majd feltölt — a gyökér `.htaccess` esetében ez a másodperc teljes leállás:
+nincs egyetlen `RewriteRule` sem, tehát minden kiterjesztés nélküli URL és
+mind az 55 átirányítás halott, a PHP-kezelő sora sincs meg. A cPanel
+nginx-proxya ezt 502-ként adja vissza. **Minden élesítésnél megtörtént**, mert
+a `prod-epit.sh` újragenerálja a fájlt, tehát a tükrözés mindig frissnek látja.
+
+A fájl kimarad a tükrözésből, és a menet végén **atomi cserével** kerül a
+helyére: `.htaccess.uj` néven felmegy, majd egy `mv` lép a régi helyébe. Az
+FTP `RNFR`/`RNTO` a kiszolgálón `rename()`-re fordul — a régi fájl addig
+marad, amíg az új a helyére nem lép. Ha a `mv` hibázik, a webhelyen a régi,
+működő `.htaccess` marad: ez a biztonságos bukási irány. Csak a gyökérre
+vonatkozik. (`cc149d5`)
+
+### Javítva — a zöld csepp a tartály alatt haladt az SBR-ábrán
+
+Bela jelezte. Az `animateMotion` **nem odateszi** az elemet az útvonalra,
+hanem **eltolja** a saját helyéről: a végleges pozíció (cx + útvonalX,
+cy + útvonalY). A körön `cx="32" cy="96"` állt — épp az útvonal kezdőpontja —,
+ettől minden koordináta a duplájára ment:
+
+```
+útvonal:  y = 96,  x = 32 → 448
+csepp:    y = 192, x = 64 → 480
+```
+
+A tartály y=140-nél végződik, tehát a csepp 52px-szel alatta haladt, a
+kamrafeliratokon keresztül, és a végén ki is lógott a 480 széles keretből.
+`cx="0" cy="0"`-val az útvonal adja a pozíciót; csökkentett mozgásnál a csepp
+`display:none`, tehát a nullás koordináta sehol nem látszik. A csapda
+kommentben ott maradt a markupban. (`f701b0f`)
+
+Mérve élesben: a 9 másodperces SMIL-idővonalat 0,25 s-onként léptetve mind a
+37 mintapont y=96-on van és a kereten belül. Ez volt a fa egyetlen
+`animateMotion`-je.
+
+### Nyitva maradt
+
+- A láblécben és a főoldalon **13 halott link** mutat még meg nem épült,
+  sitemapban tervezett útvonalakra (`ugyfeltamogatas`, `partnereknek`, három
+  `projekt-elokeszites/` lap, és nyolc főoldali hivatkozás a Tudástár
+  témacsoportjaira).
+- A HTML-fájlok is törlés-majd-feltöltés párban mennek, tehát egy-egy **lap**
+  rövid ideig 404-et adhat feltöltés közben. Nem az egész webhely, de ugyanaz
+  a mintázat.
+- A kiszolgáló HTTP/1.1-en válaszol, HTTP/2 nincs — a tömörítéssel együtt
+  Sybell-oldali tétel.
+
+---
+
 ## [0.38.00] — 2026-09-13
 
 ### Módosítva — a megoldás-ajánló záró képernyője sablonból elágazás lett
