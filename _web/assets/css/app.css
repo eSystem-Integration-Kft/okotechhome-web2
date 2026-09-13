@@ -2285,6 +2285,22 @@
     transition:color var(--dur-ui) var(--ease-out);
   }
   .lablec-link:hover{color:var(--primary)}
+  /* A Tudástár hasáb listája KURÁLT, nem teljes. A teljes cikklistát a fejléc
+     megamenüje és a Tudástár kezdőlapja viszi; a láblécben az egész Tudástár
+     kilistázása 17 tételre hízott (a többi hasáb 6–7), és a sitemap szerint
+     nyolc témacsoportnyi cikk jön még — a lábléc navigációs térkép, nem
+     sitemap. Ez a záró hivatkozás mondja ki, hogy van tovább; enélkül a
+     rövidítés hiánynak látszana. Ugyanaz a nyelv, mint a megamenü
+     „Áttekintés →" sora. */
+  .lablec-mind{
+    color:var(--text-on-dark);text-decoration:none;
+    font-weight:var(--type-ui-card-title-weight);line-height:1.55;
+    transition:color var(--dur-ui) var(--ease-out);
+  }
+  .lablec-mind:hover{color:var(--primary)}
+  .lablec-mind:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:2px}
+  /* Egy lépéssel a lista `gap`-je fölött: a záró hivatkozás nem tétel a sorban. */
+  .lablec-mind-tetel{margin-top:var(--space-8)}
   .lablec-link:focus-visible,.lablec-cim-link:focus-visible,.lablec-jogi-link:focus-visible{
     outline:2px solid var(--primary);outline-offset:3px;border-radius:2px;
   }
