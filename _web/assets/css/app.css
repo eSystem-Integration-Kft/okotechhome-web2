@@ -2311,8 +2311,12 @@
   /* Négy szerepkör egymás mellett — a dokumentumoldal felosztása. */
   .split-4{grid-template-columns:repeat(4,minmax(0,1fr))}
   .dok-lista{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8);color:var(--text-secondary)}
-  .dok-lista li{display:flex;gap:var(--space-8)}
-  .dok-lista li::before{content:"";flex:none;width:.4em;height:.4em;margin-top:.55em;border-radius:50%;border:1px solid var(--text-tertiary)}
+  /* A tétel NEM flex konténer. Flexben a szövegközi `<strong>` önálló
+     flex-elemmé válik, és a mondat két-három hasábra esik szét (a
+     dokumentumoldal 4 oszlopos kártyáin ez látványos volt). Abszolút
+     pozicionált ponttal a szöveg végig egyetlen folyó sor marad. */
+  .dok-lista li{position:relative;padding-left:calc(.4em + var(--space-8))}
+  .dok-lista li::before{content:"";position:absolute;left:0;top:.55em;width:.4em;height:.4em;border-radius:50%;border:1px solid var(--text-tertiary)}
   /* A szekció fejléce SZŰKEBB, mint a konténer: a terv szerint a cím négy
      sorba tördelve áll, nem egyetlen hosszú sorban. A `balance` tördelés
      enélkül a teljes 1280px-et használná, és a mondat egy sorrá lapulna. */
