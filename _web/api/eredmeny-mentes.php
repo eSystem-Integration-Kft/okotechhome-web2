@@ -107,9 +107,24 @@ $blokk = [
     'verzio'        => OthVedelem::szoveg($BE, 'verzio', 40),
     'valaszKulcsok' => $kulcsSzuro($BE['valaszKulcsok'] ?? null),
     'valaszok'      => $lista($valaszok, 20, 300),
+    /* A MEZŐK FEHÉRLISTÁZVA. Ami nincs itt, az NEM kerül a tárolóba — a
+       rekordot a kliens küldi, tehát nem vehetjük át vakon. Két mező most
+       került be: a megoldás-ajánló záró képernyője kimenettípusonként
+       elágazik (hibalista 3.1.), és a MENTETT/NYOMTATOTT példánynak ugyanazt
+       kell mondania, mint a képernyőnek:
+
+         `tipus`    — melyik kimenet született (termek | egyeztetes |
+                      vizelhelyezes). Enélkül a mentett lap nem tudja
+                      megkülönböztetni őket.
+         `okokCim`  — a felsorolás fejléce. A „vízelhelyezés kérdéses" ágon
+                      ez „Amit ezen a ponton tisztázni kell", nem „Amit a
+                      válaszokból nem lehetett automatikusan eldönteni" —
+                      ugyanaz a H5-hiba volna papíron, mint a képernyőn. */
     'eredmeny'      => [
+        'tipus'         => $sz($eredmeny['tipus'] ?? '', 40),
         'irany'         => $sz($eredmeny['irany'] ?? '', 40),
         'cim'           => $sz($eredmeny['cim'] ?? '', 120),
+        'okokCim'       => $sz($eredmeny['okokCim'] ?? '', 120),
         'termekNev'     => $sz($eredmeny['termekNev'] ?? '', 120),
         'indoklas'      => $sz($eredmeny['indoklas'] ?? '', 900),
         'kompromisszum' => $sz($eredmeny['kompromisszum'] ?? '', 900),
