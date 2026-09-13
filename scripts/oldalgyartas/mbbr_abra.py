@@ -52,6 +52,40 @@ def buborek_sor(x, w, y_alj, db, kulcs):
     return ''.join(ki)
 
 
+def szoras(x, y, w, h, db, r, lenges=3):
+    """Szórt elhelyezés a tartályON BELÜL, garantált fali hézaggal.
+
+    KÉZZEL MEGADOTT KOORDINÁTÁKKAL INDULT, és a hordozók kilógtak a keretből:
+    a sugár és a lebegés kilengése nem volt beszámítva, a legalsó sor pedig
+    pontosan a tartály aljára esett. Rácsból számolva ez nem fordulhat elő —
+    és egy jövőbeli darabszám-változás sem hozza vissza.
+
+    A JITTER DETERMINISZTIKUS (a sorszámból, nem véletlenből): generált
+    fájlban a véletlen minden futáskor más rajzot adna, és a git minden
+    építéskor változást látna."""
+    m = r + lenges + 6                      # fali biztonsági sáv
+    bx, by = x + m, y + m
+    bw, bh = w - 2 * m, h - 2 * m
+    sorok = 3
+    oszlopok = -(-db // sorok)               # felfelé kerekítve
+    ki = []
+    for i in range(db):
+        s, o = divmod(i, oszlopok)
+        # Fél cellányi eltolás minden második sorban — így nem áll rácsba.
+        eltol = 0.5 if s % 2 else 0.0
+        cx = bx + bw * ((o + 0.5 + eltol) / oszlopok)
+        cy = by + bh * ((s + 0.5) / sorok)
+        # ELHANGOLÁS a cellán belül. Nem kozmetika: ha a szórás rácsosnak
+        # látszik, az MBBR rajza épp azt gyengíti, amit állít — hogy a
+        # hordozók SZABADON mozognak. A Fixed Bed rendezett rácsa ezzel
+        # szemben szándékos: ott a rendezettség maga az üzenet.
+        # A kilengés a cella ~40%-a, a `min/max` pedig a sávban tartja.
+        cx += (i * 7 % 5 - 2) * (bw / oszlopok) * 0.22
+        cy += (i * 3 % 5 - 2) * (bh / sorok) * 0.22
+        ki.append((min(max(cx, bx), bx + bw), min(max(cy, by), by + bh)))
+    return ki
+
+
 def harom_elv_svg():
     """Fixed Bed · MBBR · eleveniszap — hol él a biomassza?"""
     tw, res = 190, 35
@@ -59,11 +93,18 @@ def harom_elv_svg():
     ty, th = 56, 108
     alj = ty + th                               # 164
 
-    def keret(x, cim, belul, jegyzet):
+    def keret(x, cim, belul, jegyzet, azon):
+        # A TARTALOM VÁGÓMASZKBAN. A helyes koordináták az elsődleges megoldás
+        # (lásd `szoras()`), ez a garancia: a lebegő hordozók és a felszálló
+        # buborékok így akkor sem tudnak kilépni a keretből, ha valaki később
+        # több elemet kér vagy nagyobb kilengést állít be.
         return f'''
     <g>
+      <defs><clipPath id="{azon}">
+        <rect x="{x}" y="{ty}" width="{tw}" height="{th}" rx="7"/>
+      </clipPath></defs>
       <rect x="{x}" y="{ty}" width="{tw}" height="{th}" rx="7" fill="var(--abra-viz)"/>
-      {belul}
+      <g clip-path="url(#{azon})">{belul}</g>
       <rect x="{x}" y="{ty}" width="{tw}" height="{th}" rx="7" fill="none"
             stroke="var(--abra-keret)" stroke-width="2.5"/>
       <text x="{x + tw / 2}" y="{ty - 22}" text-anchor="middle" class="abra-cimke abra-cimke-eros">{cim}</text>
@@ -73,37 +114,45 @@ def harom_elv_svg():
     # 1 · FIXED BED — a hordozó RÖGZÍTETT: egy helyben álló blokk, körülötte
     #     áramlik a víz. A rögzítést a tartófal jelzi.
     x = x0
-    rogz = [f'<rect x="{x + 34}" y="{ty + 16}" width="{tw - 68}" height="{th - 46}" rx="4" '
+    # A HORDOZÓBLOKK és a benne álló rács MÉRETBŐL SZÁMOLVA. Beégetett
+    # lépésközzel indult, és a jobb szélső oszlop meg az alsó sor a BLOKK
+    # keretére ült — ugyanaz a hiba, mint a tartályoknál, egy szinttel
+    # beljebb. A rács itt SZABÁLYOS marad (szemben az MBBR szórásával): a
+    # rögzített ágy rendezettsége maga az állítás.
+    bx, by = x + 34, ty + 16
+    bw, bh = tw - 68, th - 46
+    hr, oszlopok, sorok = 6.5, 5, 3
+    m = hr + 5                                 # a blokk fala és a hordozó közt
+    rogz = [f'<rect x="{bx}" y="{by}" width="{bw}" height="{bh}" rx="4" '
             f'fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.6" opacity=".9"/>']
-    for sor in range(3):
-        for osz in range(5):
-            rogz.append(hordozo(x + 46 + osz * 28, ty + 28 + sor * 22, 6.5))
-    rogz.append(f'<path d="M{x + 34} {ty + 10} H{x + tw - 34}" stroke="var(--abra-keret)" '
+    for sor in range(sorok):
+        for osz in range(oszlopok):
+            cx = bx + m + (bw - 2 * m) * (osz / (oszlopok - 1))
+            cy = by + m + (bh - 2 * m) * (sor / (sorok - 1))
+            rogz.append(hordozo(cx, cy, hr))
+    # A TARTÓFAL: ettől látszik, hogy a blokk nem lebeg, hanem rögzítve van.
+    rogz.append(f'<path d="M{bx} {ty + 9} H{bx + bw}" stroke="var(--abra-keret)" '
+                f'stroke-width="2" stroke-linecap="round"/>'
+                f'<path d="M{bx + bw / 2} {ty + 9} V{by}" stroke="var(--abra-keret)" '
                 f'stroke-width="2" stroke-linecap="round"/>')
     rogz.append(buborek_sor(x, tw, alj, 5, 'fb'))
-    ki = [keret(x, 'Fixed Bed', ''.join(rogz), 'a hordozó a helyén marad')]
+    ki = [keret(x, 'Fixed Bed', ''.join(rogz), 'a hordozó a helyén marad', 'abra-tart-fb')]
 
     # 2 · MBBR — a hordozók SZABADON MOZOGNAK a reaktortérben. A szórt
     #     elrendezés és a lebegés együtt mondja el, hogy nincsenek rögzítve.
     x = x0 + tw + res
-    helyek = [(28, 24), (62, 42), (96, 20), (130, 46), (160, 28),
-              (40, 66), (76, 78), (112, 62), (146, 80),
-              (30, 94), (66, 100), (104, 92), (140, 102), (168, 70)]
-    mozgo = [hordozo(x + hx, ty + hy, 7, 'abra-lebeg', f'--i:{i}')
-             for i, (hx, hy) in enumerate(helyek)]
+    mozgo = [hordozo(cx, cy, 7, 'abra-lebeg', f'--i:{i}')
+             for i, (cx, cy) in enumerate(szoras(x, ty, tw, th, 14, 7))]
     mozgo.append(buborek_sor(x, tw, alj, 6, 'mbbr'))
-    ki.append(keret(x, 'MBBR', ''.join(mozgo), 'a hordozó a vízzel együtt mozog'))
+    ki.append(keret(x, 'MBBR', ''.join(mozgo), 'a hordozó a vízzel együtt mozog', 'abra-tart-mbbr'))
 
     # 3 · ELEVENISZAP — nincs mesterséges hordozófelület: a mikroorganizmusok
     #     jelentős része a vízben LEBEGŐ iszappelyhekben van jelen.
     x = x0 + 2 * (tw + res)
-    pelyhek = [(32, 30), (64, 52), (98, 26), (128, 58), (158, 36),
-               (44, 74), (80, 88), (116, 76), (150, 92),
-               (26, 98), (68, 106), (104, 100), (140, 108), (170, 70)]
-    lebego = [pehely(x + px, ty + py, 5.4, 'abra-lebeg', f'--i:{i}')
-              for i, (px, py) in enumerate(pelyhek)]
+    lebego = [pehely(cx, cy, 5.4, 'abra-lebeg', f'--i:{i}')
+              for i, (cx, cy) in enumerate(szoras(x, ty, tw, th, 14, 5.4))]
     lebego.append(buborek_sor(x, tw, alj, 6, 'ei'))
-    ki.append(keret(x, 'Eleveniszap', ''.join(lebego), 'a biomassza a vízben lebeg'))
+    ki.append(keret(x, 'Eleveniszap', ''.join(lebego), 'a biomassza a vízben lebeg', 'abra-tart-ei'))
 
     return f'''<svg class="abra-svg" viewBox="0 0 {SZEL} 210" role="img"
      aria-labelledby="abra-elvek-cim abra-elvek-leiras">
