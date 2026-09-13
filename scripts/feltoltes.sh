@@ -157,6 +157,18 @@ fi
 JELSZO="$(security find-internet-password -s "$KULCS" -a "$FELHASZNALO" -w 2>/dev/null || true)"
 [ -n "$JELSZO" ] || { piros "A jelszó nem olvasható ki a kulcskarikából ($KULCS / $FELHASZNALO)."; exit 1; }
 
+# ------------------------------------------------- a gyökér .htaccess cseréje
+# Próbamenetben NEM írunk: csak kiírjuk, mi történne. Élesben a két sor a
+# tükrözés UTÁN fut le, ugyanabban a bejelentkezett munkamenetben.
+htaccess_parancs() {
+  if [ "$ELES" = 1 ]; then
+    printf 'put -O "%s" "%s/.htaccess" -o ".htaccess.uj"\nmv "%s/.htaccess.uj" "%s/.htaccess"\n' \
+           "$TAVOLI" "$HELYI" "$TAVOLI" "$TAVOLI"
+  else
+    printf 'echo "[próbamenet] a gyökér .htaccess atomi cserére menne: %s/.htaccess → .htaccess.uj → .htaccess"\n' "$TAVOLI"
+  fi
+}
+
 # --------------------------------------------------------------------- kizárás
 #
 # AMIT SOHA NEM TÖLTÜNK FEL. Fejlesztői segédfájlok; a `.htaccess` a `.md`-t és
@@ -202,6 +214,28 @@ KIZAR=(
 # A GENERÁLÁS NYOMAI nem mennek ki a kiszolgálóra: a `.epult` jelzőfájl és az
 # olvass-el csak nekünk szól.
 KIZAR+=( --exclude-glob '.epult' --exclude-glob 'OLVASSEL.txt' )
+
+# A GYÖKÉR `.htaccess` NEM A TÜKRÖZÉSSEL MEGY FEL.
+#
+# Az `lftp mirror` minden fájlt ELŐBB LETÖRÖL, majd feltölt („Removing old file"
+# / „Transferring file" — a naplóban soronként látszik). A gyökér `.htaccess`
+# esetében ez a másodperc a webhely teljes leállása: nincs egyetlen RewriteRule
+# sem, tehát minden kiterjesztés nélküli URL és mind az 55 átirányítás halott,
+# és a PHP-kezelő sora sincs meg. A cPanel nginx-proxya ezt 502-ként adja
+# vissza. MÉRVE: 2026-09-13-án egy éles feltöltés közben kért átirányítás
+# 502-t adott, két perccel később ugyanaz az URL 301/200.
+#
+# Ezért a fájl kimarad a tükrözésből, és a menet végén ATOMI CSERÉVEL kerül a
+# helyére: előbb `.htaccess.uj` néven felmegy, aztán egy `mv` lép a régi
+# helyébe. Az FTP `RNFR`/`RNTO` a kiszolgálón `rename()`-re fordul — a régi
+# fájl addig marad, amíg az új a helyére nem lép, rés nincs. Ha a `mv` mégis
+# hibázna, a webhelyen a RÉGI, MŰKÖDŐ `.htaccess` marad: ez a biztonságos
+# bukási irány.
+#
+# CSAK A GYÖKÉRRE vonatkozik (`^\.htaccess$`). Az `api/` és az `oth-titkok/`
+# saját fájlja mehet a tükrözéssel: azok egy-egy könyvtárat érintenek, nem az
+# egész webhelyet.
+KIZAR+=( --exclude '^\.htaccess$' )
 
 TUKROZ_KAPCSOLOK=( --continue --parallel=4 --verbose=1 )
 [ "$TOROL" = 1 ] && TUKROZ_KAPCSOLOK+=( --delete )
@@ -300,6 +334,8 @@ fi
 # benne van a `felhasznalo:jelszo@` rész is — próbamenetben minden sorban. Ami a
 # képernyőre kerül, az naplóba, képernyőképre és beillesztett hibajelentésbe is
 # kerül; a jelszó egyikbe se való.
+HTACCESS_PARANCS="$(htaccess_parancs)"
+
 lftp <<LFTP 2>&1 | sed -E 's#(ftps?://[^:/@]+):[^@]*@#\1:***@#g'
 set ftp:ssl-allow true
 set ftp:ssl-force true
@@ -319,6 +355,7 @@ set xfer:clobber on
 # felhasználó:jelszó alakban mutatja) — ezért nincs itt egyik sem.
 open -u "$FELHASZNALO","$JELSZO" "ftp://$KAPCS"
 mirror --reverse ${TUKROZ_KAPCSOLOK[@]} ${KIZAR[@]} "$HELYI" "$TAVOLI"
+${HTACCESS_PARANCS}
 bye
 LFTP
 
