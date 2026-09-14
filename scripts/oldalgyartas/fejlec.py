@@ -241,9 +241,12 @@ KESZUL = [
     # maradna, a szkript egy futtatással visszaírná felirattá mind a 187
     # lapon — a lábléc hivatkozása pedig újra 404-re mutatna.
     # A lapot a `scripts/oldalgyartas/fogalomtar.py` állítja elő.
-    ('Eredmények', ['Eredmények áttekintése', 'Esettanulmányok', 'Projektadatbázis',
-                    'Műszaki bizonyítékok', 'Tanúsítványok és dokumentumok',
-                    'Ügyféltapasztalatok']),
+    # AZ EREDMÉNYEK KIKERÜLT INNEN: 2026-09-14-én lecserélte a HÍREK a felső
+    # szinten. Az Eredmények azóta a `Rólunk` panel egyik tétele, a megvalósult
+    # projektjeivel együtt. Ha itt maradna, egyetlen futtatás visszaírná
+    # felső szintű, passzív panellé mind a 189 lapon — a Hírek panel pedig
+    # elveszne. A Rólunk és a Hírek panelt ez a szkript NEM állítja elő; mind
+    # a kettő kézzel, tömeges cserével került a lapokra.
 ]
 
 # A három másodlagos kategória a sitemapban szerepel, de MÉG NEM ÉPÜLT MEG.
