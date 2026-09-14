@@ -1034,8 +1034,8 @@ def json_ld():
     {{
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {{"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okoth.hu/"}},
-        {{"@type":"ListItem","position":2,"name":"{H1}","item":"https://okoth.hu/{URL}"}}
+        {{"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okotechhome.hu/"}},
+        {{"@type":"ListItem","position":2,"name":"{H1}","item":"https://okotechhome.hu/{URL}"}}
       ]
     }},
     {{
@@ -1074,11 +1074,11 @@ def epit():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{CIM}</title>
 <meta name="description" content="{esc(LEIRAS)}">
-<link rel="canonical" href="https://okoth.hu/{URL}">
+<link rel="canonical" href="https://okotechhome.hu/{URL}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{esc(H1)}">
 <meta property="og:description" content="{esc(LEIRAS)}">
-<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-{KEP}.webp{KEP_V}">
+<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-{KEP}.webp{KEP_V}">
 <meta property="og:locale" content="hu_HU">
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
      stíluslap renderelést blokkolna két idegen kézfogás után, és a

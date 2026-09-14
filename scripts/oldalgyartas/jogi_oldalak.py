@@ -154,7 +154,7 @@ def epit_adatkezeles():
     return [
         sec_jogi('Bevezetés', 'Ki kezeli az adatait, és mire',
                  [('p', f'Ez a tájékoztató azt írja le, hogy az <strong>{CEG["nev"]}</strong> '
-                        'milyen személyes adatokat kezel az okoth.hu webhelyen keresztül '
+                        'milyen személyes adatokat kezel az okotechhome.hu webhelyen keresztül '
                         'és az ahhoz kapcsolódó szolgáltatások során, milyen célból és '
                         'milyen jogalapon, meddig őrzi meg őket, kinek adja át, és Önnek '
                         'milyen jogai vannak mindezzel kapcsolatban.'),
@@ -268,7 +268,7 @@ def epit_adatkezeles():
                   [
                       ('Webtárhely', 'A tárhelyszolgáltató megnevezése — pótolandó',
                        'Pótolandó'),
-                      ('Levélküldés (SMTP)', 'Saját levelezőszerver (mail.okoth.hu)',
+                      ('Levélküldés (SMTP)', 'Saját levelezőszerver (mail.okotechhome.hu)',
                        'Magyarország'),
                       ('Könyvelés, adózás', 'Bázis Könyvelő Iroda Kft.',
                        '2900 Komárom, Laktanya köz 30/A.'),
@@ -873,7 +873,7 @@ def epit_akadalymentesseg():
     return [
         sec_jogi('Elköteleződés', 'Mit vállalunk',
                  [('p', f'Az <strong>{CEG["nev"]}</strong> arra törekszik, hogy az '
-                        'okoth.hu webhely mindenki számára használható legyen, '
+                        'okotechhome.hu webhely mindenki számára használható legyen, '
                         'függetlenül attól, milyen eszközzel vagy segítő technológiával '
                         'böngészi.'),
                   ('p', 'A webhelyet a <strong>WCAG 2.2 AA</strong> szintű '

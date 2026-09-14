@@ -7,6 +7,14 @@ build-lépés, ez a szkript az egyetlen forrás: a fejlécet egy meglévő alold
 emeli ki, így nem tud szétcsúszni.
 """
 import re, pathlib, html as _html
+from urllib.parse import urljoin
+
+# AZ ÉLES GAZDANÉV. Korábban `okoth.hu` volt beégetve a kanonikusba, az
+# og:image-be és a morzsákba — az a TESZT gazdaneve. A v0.25.00 a kiadott
+# lapokon átírta, itt viszont bennmaradt, tehát minden új lap a régi
+# domainnel született volna. A `fogalomtar.py` és a `semak.py` emiatt
+# kerülte el ezt a sablont — az indoklás a fejlécükben áll.
+DOMAIN = 'https://okotechhome.hu'
 
 WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
 SRC = (WEB / 'megoldasok' / 'alternativak.html').read_text(encoding='utf-8')
@@ -193,12 +201,28 @@ def build(p):
     faq_ld = ',\n'.join(
         '      {"@type":"Question","name":%s,"acceptedAnswer":{"@type":"Answer","text":%s}}'
         % (_json(strip_tags(q)), _json(strip_tags(a))) for q, a in pairs)
+    # A MORZSA-HIVATKOZÁSOK RELATÍVAK, ÉS A LAP SAJÁT KÖNYVTÁRÁHOZ képest azok.
+    # A korábbi `h.replace('../','').lstrip('./')` a webhely GYÖKERÉHEZ oldotta
+    # fel őket, és ettől kiesett a könyvtárnév: a `./` `https://…/` lett (a
+    # „Megoldások" 37 lapon a főoldalra mutatott), a testvérlapra mutató
+    # `biologiai-szennyviztisztitas` pedig `https://…/biologiai-…` a helyes
+    # `https://…/megoldasok/biologiai-…` helyett. A Search Console ezt
+    # strukturált adat hibaként jelezte. A `urljoin` a lap kanonikus URL-jéhez
+    # old fel, ahogy a böngésző is tenné.
+    #
+    # A DOMAIN is javítva: `okoth.hu` volt, az a TESZT gazdanév. Az éles
+    # okotechhome.hu; a v0.25.00 a kiadott lapokon átírta, a generátorban
+    # viszont bennmaradt, tehát a következő futás visszahozta volna.
+    _lapurl = '%s/%s' % (DOMAIN.rstrip('/'), p['url'])
     crumb_ld = ',\n'.join(
-        '      {"@type":"ListItem","position":%d,"name":%s,"item":"https://okoth.hu/%s"}'
-        % (i, _json(t), h.replace('../', '').lstrip('./'))
+        '      {"@type":"ListItem","position":%d,"name":%s,"item":"%s"}'
+        % (i, _json(t), urljoin(_lapurl, h))
         for i, (t, h) in enumerate(p['crumbs'], 1))
-    crumb_ld += ',\n      {"@type":"ListItem","position":%d,"name":%s,"item":"https://okoth.hu/%s"}' % (
-        len(p['crumbs']) + 1, _json(p['h1']), p['url'])
+    # AZ UTOLSÓ ELEM IS KAP `item`-et. A Google strukturált adat jelentése
+    # „Hiányzó mező: item" hibát adott rá; a schema.org szerint minden
+    # ListItemen érvényes, és a többi lapunk is így csinálja.
+    crumb_ld += ',\n      {"@type":"ListItem","position":%d,"name":%s,"item":"%s"}' % (
+        len(p['crumbs']) + 1, _json(p['h1']), _lapurl)
 
     return f'''<!DOCTYPE html>
 <html lang="hu">
@@ -212,11 +236,11 @@ def build(p):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{p['title']}</title>
 <meta name="description" content="{esc(p['desc'])}">
-<link rel="canonical" href="https://okoth.hu/{p['url']}">
+<link rel="canonical" href="{DOMAIN}/{p['url']}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{esc(p['h1'])}">
 <meta property="og:description" content="{esc(p['desc'])}">
-<meta property="og:image" content="https://okoth.hu/assets/img/oldalak/hero-{img}.webp">
+<meta property="og:image" content="{DOMAIN}/assets/img/oldalak/hero-{img}.webp">
 <meta property="og:locale" content="hu_HU">
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
      stíluslap renderelést blokkolna két idegen kézfogás után, és a

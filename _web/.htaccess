@@ -298,8 +298,8 @@ FileETag MTime Size
 # =============================================================================
 # KERESŐK ÉS AI-BOTOK — "letöltés igen, hasznosítás nem"
 # -----------------------------------------------------------------------------
-# Érvényes MINDKÉT domainre (tst.okoth.hu és okoth.hu), mert ugyanez a fájl
-# települ mindkettőre. Két, egymást kiegészítő réteg:
+# Érvényes MINDKÉT környezetre (okotechhome.hu és tst.okoth.hu), mert ugyanez a
+# fájl települ mindkettőre. Két, egymást kiegészítő réteg:
 #
 #   A) X-ROBOTS-TAG — minden válaszon, minden kliensnek. A LETÖLTÉST NEM
 #      akadályozza (azt a robots.txt szándékosan engedi), csak az indexelést,
@@ -313,15 +313,15 @@ FileETag MTime Size
 #      szerveren zár. A névsor a robots.txt 2. és 3. blokkjával AZONOS:
 #      ha ott bővítesz, IDE IS vedd fel.
 #
-# ÉLESÍTÉSKOR (amikor az okoth.hu indexelhetővé válik): CSAK az A) blokk
-# X-Robots-Tag sorát töröld, és a lapok <meta name="robots"> sorát cseréld.
-# A B) blokk élesben is MARAD.
+# A TESZT ÜZEMMÓDOT A `scripts/prod-epit.sh` OLDJA FEL, nem kézzel: az éles
+# kimenetben az A) blokk X-Robots-Tag sora kikommentezve áll, és a lapok
+# <meta name="robots"> sora "index, follow". A B) blokk élesben is MARAD.
 #
 # Ellenőrzés:
-#   curl -I https://okoth.hu/                       → X-Robots-Tag: noindex, …
-#   curl -I -A "GPTBot/1.2" https://okoth.hu/       → 403
-#   curl -I -A "AhrefsBot/7.0" https://okoth.hu/    → 403
-#   curl -I -A "Googlebot/2.1" https://okoth.hu/    → 200 (letöltheti, de noindex)
+#   curl -I https://tst.okoth.hu/                     → X-Robots-Tag: noindex, …
+#   curl -I -A "GPTBot/1.2" https://okotechhome.hu/   → 403
+#   curl -I -A "AhrefsBot/7.0" https://okotechhome.hu/ → 403
+#   curl -I -A "Googlebot/2.1" https://okotechhome.hu/ → 200 (élesben indexelhető)
 # =============================================================================
 
 # --- A) Indexelés, archiválás és kivonatolás tiltása --------------------------

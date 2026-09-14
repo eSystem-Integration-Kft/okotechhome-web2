@@ -16,7 +16,8 @@ a `LocalBusiness`, a `BreadcrumbList` és a `FAQPage`. Ami nem:
                   márka géppel olvashatóan eddig nem volt sehol.
 
 MIÉRT BESZÚRÓ SZKRIPT ÉS NEM A SABLON. A `sablon.py` sablonja még
-`https://okoth.hu/`-t ír a kanonikusba és a morzsákba; a kiadott lapokon ez
+`https://okoth.hu/`-t ÍRT a kanonikusba és a morzsákba (2026-09-14-én javítva,
+lásd a sablon.py `DOMAIN` konstansát); a kiadott lapokon ez
 már `okotechhome.hu` (a v0.25.00 átírta). Egy újragyártás tehát VISSZAHOZNÁ a
 régi domaint 786 helyen. Amíg a sablon nincs átállítva, a HTML-t utólag
 egészítjük ki — ugyanúgy, mint a süti-szkriptnél és a közösségi metáknál.

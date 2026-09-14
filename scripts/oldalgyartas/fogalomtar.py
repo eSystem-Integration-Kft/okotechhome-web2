@@ -18,7 +18,9 @@ mutatja, hova vezet tovább), vagy a projekt szakmai referenciái — a
 háromnyelvű glosszárium (EN/DE megfelelők) és a jogszabályi összeállítás.
 Amire nem volt forrás, az NINCS benne; a forrásfájl fel is sorolja, mi az.
 
-MIÉRT NEM A `sablon.py`-BÓL ÉPÜL. Az a sablon még `https://okoth.hu/`-t ír a
+MIÉRT NEM A `sablon.py`-BÓL ÉPÜL. (A sablon domain-hibája 2026-09-14-én
+megszűnt — `DOMAIN` konstansból dolgozik. Az eredeti indok:) Az a sablon
+`https://okoth.hu/`-t írt a
 kanonikusba és a morzsákba; egy futtatás visszahozná a régi domaint. Ez a
 szkript a `hirek.py` bevált módszerét követi: a fejlécet és a láblécet egy
 MEGLÉVŐ, azonos mélységű lapból emeli át, tehát a menü mindig az aktuális.

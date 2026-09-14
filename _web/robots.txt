@@ -1,6 +1,6 @@
 # =============================================================================
 # ÖkoTech Home — robots.txt
-# Érvényes MINDKÉT domainre: tst.okoth.hu (fejlesztés) és okoth.hu (éles).
+# Érvényes MINDKÉT környezetre: okotechhome.hu (éles) és tst.okoth.hu (fejlesztés).
 #
 # ELV — "letöltés igen, hasznosítás nem":
 #
@@ -17,10 +17,11 @@
 #      A robots.txt csak kérés, ezért a .htaccess ugyanezt a névsort
 #      403-mal is elzárja. A kettőt EGYÜTT kell karbantartani.
 #
-# ÉLESÍTÉSKOR (okoth.hu, amikor indexelhető lesz):
-#   - a .htaccess X-Robots-Tag blokkját vedd ki,
-#   - a lapok <meta name="robots"> sorát cseréld "index, follow"-ra,
-#   - ide vedd fel:  Sitemap: https://okotechhome.hu/sitemap.xml
+# A TESZT ÜZEMMÓD HÁROM RÉTEGÉT A `scripts/prod-epit.sh` OLDJA FEL, nem kézzel:
+#   - a .htaccess X-Robots-Tag sorát kikommentezi,
+#   - a lapok <meta name="robots"> sorát "index, follow"-ra cseréli,
+#   - ide beírja a Sitemap sort.
+#   Ezért ebben a fájlban a Sitemap sor HIÁNYOZHAT — az éles kimenetben ott van.
 #   Az alábbi AI/SEO-tiltó blokkok élesben is MARADNAK.
 # =============================================================================
 

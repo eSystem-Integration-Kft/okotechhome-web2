@@ -364,13 +364,23 @@ def lap(*, elo, cim, leiras, url, og_kep, torzs, ld, fejlec, lablec,
 '''
 
 
-def morzsa_ld(elemek):
+def morzsa_ld(elemek, lapurl):
+    """Morzsa JSON-LD. Az `elemek` (név, útvonal) párok; az útvonal `None` az
+    AKTUÁLIS lapnál, és `''` a főoldalnál.
+
+    MINDEN ELEM KAP `item`-et. Korábban a feltétel `if ut` volt, ami két
+    esetben is hamis: a főoldalnál (üres sztring) és az utolsó elemnél (`None`).
+    Így a 42 hírlapon a „Főoldal" URL nélkül maradt, az utolsó elem szintén — a
+    Google Search Console strukturált adat hibaként jelezte („Hiányzó mező:
+    item"). Üres sztringnél a webhely gyökere a helyes érték, `None`-nál pedig
+    a lap saját URL-je; a schema.org mindkettőt megengedi az utolsó elemen is.
+    """
     sorok = ',\n'.join(
         '        {\n'
         f'          "@type": "ListItem",\n'
         f'          "position": {i},\n'
-        f'          "name": {jso(nev)}'
-        + (f',\n          "item": "{DOMAIN}/{ut}"' if ut else '')
+        f'          "name": {jso(nev)},\n'
+        f'          "item": "{lapurl if ut is None else DOMAIN + "/" + ut}"'
         + '\n        }'
         for i, (nev, ut) in enumerate(elemek, 1))
     return ('    {\n      "@type": "BreadcrumbList",\n'
@@ -529,7 +539,7 @@ def gyujtolap(adat):
     ld = f'''{{
   "@context": "https://schema.org",
   "@graph": [
-{morzsa_ld([('Főoldal', ''), ('ÖkoTech-Home', 'okotech-home/'), ('Hírek', None)])},
+{morzsa_ld([('Főoldal', ''), ('ÖkoTech-Home', 'okotech-home/'), ('Hírek', None)], f'{DOMAIN}/{SZAKASZ_URL}/')},
     {{
       "@type": "ItemList",
       "name": "ÖkoTech-Home hírek",
@@ -692,7 +702,8 @@ def reszletlap(h, i, adat):
   "@context": "https://schema.org",
   "@graph": [
 {morzsa_ld([('Főoldal', ''), ('ÖkoTech-Home', 'okotech-home/'),
-            ('Hírek', SZAKASZ_URL + '/'), (h['cim'], None)])},
+            ('Hírek', SZAKASZ_URL + '/'), (h['cim'], None)],
+           f'{DOMAIN}/{SZAKASZ_URL}/{h["szlug"]}')},
 {cikk_ld}
   ]
 }}'''
