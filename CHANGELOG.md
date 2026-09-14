@@ -29,6 +29,158 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 ---
 
+## [0.40.00] — 2026-09-14
+
+### Javítva — a morzsaadat nem a lap valódi útvonalát mutatta
+
+A Google Search Console kritikus strukturált adat hibát jelzett: *„Hiányzó
+mező: »item« (itt: »itemListElement«)"*. A webhely mind a 185 morzsájának
+átnézése a jelentettnél többet talált:
+
+| | |
+|---|---|
+| hiányzó `item` | **63 lapon** — és nem csak az utolsó elemből: 43-on az **első**, „Főoldal" elemnek sem volt URL-je |
+| rossz URL | **104 lapon** — a szülőelemek a webhely gyökerére mutattak: a „Megoldások" 37 lapon a főoldalra, az „Előkészítés" 26-on, 13 további lapon pedig a testvérlap-hivatkozásból esett ki a könyvtár |
+| átmásolt morzsa | **4 lapon** a Csikvánd-esettanulmány morzsája állt szó szerint — a `/okotech-home/tortenetunk` azt mondta a Google-nek, hogy „Főoldal › Eredmények › Csikvánd — 128 berendezés" |
+| kihagyott szint | 2 lapon a strukturált morzsa rövidebb volt a láthatónál |
+
+Mind a **látható morzsasorból** épült újra, a lap kanonikus URL-jéhez feloldva —
+az a valódi útvonal, és a Google is a kettő egyezését kéri. Hat lapon a nevek is
+eltértek, azok is igazodtak. Ellenőrizve mind a 185-ön: nincs hiányzó `item`,
+nincs rossz gazdanév, a pozíciók 1..n hézag nélkül. (`eb9bfad`)
+
+**A gyökérok a generátorokban volt**, különben a következő futás visszahozta
+volna. A `sablon.py` a relatív morzsa-hivatkozásokat a webhely **gyökeréhez**
+oldotta fel (`h.replace('../','').lstrip('./')`), a `hirek.py` pedig csak
+`if ut` esetén írt `item`-et — ez pedig kétszer hamis: a főoldalnál (üres
+sztring) és az aktuális lapnál (`None`). (`68f4a89`)
+
+### Javítva — a generátorok a TESZT gazdanevet írták a kiadott lapokba
+
+A `sablon.py` `https://okoth.hu/`-t írt a kanonikusba, az `og:image`-be és
+minden morzsába; a `szippantasi_kalkulator.py` ugyanezt négy helyen. Az éles
+gazdanév **okotechhome.hu**. A kódbázis tudta is: a `fogalomtar.py` és a
+`semak.py` fejlécében ott állt, hogy emiatt **kerülik** ezt a sablont — most
+mindkettő `DOMAIN` konstansból dolgozik, a két elavult megjegyzés frissítve.
+(`68f4a89`)
+
+### Javítva — az éles feltöltés másodperceire leállt az egész webhely
+
+Az `lftp mirror` minden fájlt előbb letöröl, majd feltölt. A gyökér
+`.htaccess`-nél ez a másodperc teljes leállás: nincs egyetlen `RewriteRule` sem,
+tehát minden kiterjesztés nélküli URL és mind az 55 átirányítás halott. A cPanel
+nginx-proxya 502-t ad. **Mérve:** egy feltöltés közben kért átirányítás 502-t
+adott, két perccel később ugyanaz az URL 301/200-at.
+
+A fájl kimarad a tükrözésből, és **atomi cserével** kerül a helyére: `.htaccess.uj`
+néven felmegy, majd egy `mv` lép a régi helyébe. Az FTP `RNFR`/`RNTO` a
+kiszolgálón `rename()`-re fordul — rés nincs. Ha a `mv` hibázik, a webhelyen a
+régi, működő fájl marad. (`7ad4baf`)
+
+### Biztonság — diagnosztikai végpontok kerültek ki az élesre
+
+Az `api/crm-allapot.php` és az `api/crm-naplo.php` **saját fejlécében** áll,
+hogy használat után törlendők. Nem törlődtek, és mivel a repóban vannak, minden
+feltöltéssel újra kimentek. **Mérve:** a `crm-allapot.php?kod=…` 200-at adott, és
+1429 bájtban kiírta a **titkok könyvtárának pontos helyét**
+(`/home/okotechhome/oth-titkok`), nyolc sornyi abszolút szerverútvonalat és mind
+az öt CRM forrás-slugot. Az `api/config.example.php` ugyanide tartozik: fejlesztői
+sablon, ami a konfiguráció szerkezetét és a titokfájlok keresési útvonalait
+mutatja.
+
+Mindhárom törölve az élesről, és kizárva a **jövőbeli** éles feltöltésekből is.
+A repóban és a tesztoldalon megmaradnak, ahol hasznosak. (`7ad4baf`)
+
+### Javítva — a márkajel a süti-sávban a szöveg alatt ült
+
+A véset a kártya hátterében állt `left:0; bottom:0`-n — csakhogy a szövegoszlop
+ugyanonnan indul, tehát a 88px-es jelrajz **teljes szélességében** a bekezdés alá
+került, és szürke foltnak látszott. A párbeszédben még rosszabb: ott a bal alsó
+sarkot az átlátszatlan „Csak a szükségeseket" gomb foglalja, a `z-index:-1`-es jel
+egyszerűen eltűnt mögötte. **A véset egyik felületen sem működött.**
+
+A hatás változatlan — mélyedés + két képponttal eltolt csillanás, maszkkal rajzolva,
+tokenből jövő, témát váltó színnel. Ami változott: **saját flex-elem lett**, saját
+hellyel. Nagyobb is (64px), mert a vésethez tömör felület kell, hogy a mélyedés és a
+csillanás elkülönüljön. A meglévő 600px-es töréspont alatt a sávban rejtve; a
+párbeszédben marad, ott van hely. (`a5d2fd8`)
+
+### Hozzáadva — a jogi lapok hiányjelölései lezárva
+
+**Nyolc „ADATHIÁNY — élesítés előtt pótolandó" doboz** állt a látható szövegben
+három jogi lapon, közölve minden látogatóval, hogy a dokumentum befejezetlen.
+Kettő olyat kért, amit a jog nem ír elő:
+
+- **A független akadálymentességi vizsgálat nem követelmény.** A 2022. évi XVII.
+  törvény **6. §-a** azt kéri, hogy a szolgáltató *„értékelje és dokumentálja"* a
+  megfelelést — ez önértékelés. Helyette leírtuk, **hogyan** mértünk (gépi
+  ellenőrzés, billentyűzetes kézi próba, kontrasztszámítás), **mihez** képest
+  (WCAG 2.2 AA / EN 301 549), és **mikor**.
+- **A képviselő neve nem kötelező az impresszumban.** Az Elkertv. **4. §-a**
+  nyolc pontot sorol, a képviselő nincs köztük; a **tárhelyszolgáltató viszont
+  igen — h) pont**. Mindkettő bekerült, a képviselők önként.
+
+**Az AI-szolgáltató először van megnevezve:** Anthropic Ireland, Limited, a
+kereskedelmi feltételeibe automatikusan beépülő GDPR 28. cikk szerinti
+adatfeldolgozói szerződéssel és SCC-kkel, valamint azzal a kikötéssel, amely
+tiltja az ügyféltartalmon való tanítást. A harmadik országos szakasz
+szolgáltatónkénti táblává vált: a Google és a Meta az EU–USA adatvédelmi keret
+megfelelőségi határozatán (45. cikk), az Anthropic és a Mailchimp az SCC-ken,
+illetve a keretbeli tanúsítványon.
+
+A cég saját dokumentumából: a könyvelés az **EU-TAX Consulting**hoz, az
+IT-üzemeltetés a **Global Systems Informatiká**hoz került, a könyvvizsgálat
+megszűnt, és felkerült a **Hajdu Zoltán e.v.**, a **CoffeeBreak Consulting**, a
+**Meta Platforms Ireland** és a **Mailchimp**. Minden érintetti jog mellé odakerült
+a **GDPR-cikkhivatkozás**. Az „Utolsó frissítés" doboz a lap tetejéről a **lap
+aljára** ment. (`6791476`)
+
+> Amit abból a dokumentumból **nem** vettünk át: a **régi oldalt** írja le —
+> webandgo tárhely, Google LLC Mountain View, AdWords —, és **egy szót sem szól
+> az AI-modulról**, ami a webhely egyetlen olyan funkciója, amely az ügyfél
+> dokumentumát harmadik félhez küldi.
+
+### Javítva — két jogi állítás, amit a hivatkozások ellenőrzése hozott elő
+
+Negyvenhét megjegyzés hirdette a lapokon, hogy *„JOGI ELLENŐRZÉS PUBLIKÁLÁS
+ELŐTT"*. A látható szövegben hivatkozott **mind a tizenhárom** jogszabály
+összevetése a hatályos hivatalos szöveggel (njt.hu, jogtar) **tizenegyet
+hibátlannak** talált. Kettőt nem:
+
+**A kötelező jótállás száma elavult.** A 151/2003. (IX. 22.) Korm. rendelet
+**2026. március 1-jén** módosult, és kétlépcsős lett: 10 000–250 000 Ft → két év,
+**250 000 Ft fölött → három év**. Egy szennyvíztisztító biztosan a határ fölött
+van, a `/megrendeles` mégis „a vállalt 2 éves jótállást" kínálta. A megfogalmazás
+óvatos volt, de a fogyasztó két évet olvasott.
+
+**Egy állítás, ami nem a rendeletből következett.** Egy régi hírbejegyzés szerint
+*„a 2. számú mellékletet figyelembe véve a legtöbb területen csak az egyedi
+szennyvíztisztító berendezések biztosítják a megfelelő tisztítást"*. A 28/2004
+KvVM rendelet **határértéket ír elő, technológiát nem**, a 147/2010 pedig **három**
+egyedi kategóriát ismer — köztük a tisztítómezős oldómedencét, amit a saját
+tudástári lapunk helyesen ismertet. Ha az egyik lapunk azt mondja, három megoldás
+van, a másik meg azt, hogy csak egy működik, az belső ellentmondás — és
+összehasonlító állításként támadható.
+
+Két pontosítás mellé: a jegyzői hatáskör **valós, de feltételes** (≤500 m³/év,
+kizárólag háztartási szennyvíz, CE-jelölt berendezés — enélkül a vízügyi hatóság),
+kiírva a cikken és a fogalomtárban, a strukturált adatban is; a 28/2004 címe pedig
+a hivatalos alakra javítva. (`d9f272c`)
+
+Jelentés: `_files/jogi-hivatkozas-ellenorzes-2026-09-14.md`
+
+### Nyitva maradt
+
+- **91 „ADATHIÁNY" megjegyzés** 89 lapon — szakmai tartalmi hiányok, amiket a
+  megbízótól várunk. Lista: `_files/potolando-lista.md`. (A kiadott lapok
+  forrásában nem látszanak: a `prod-epit.sh` 8. rétege kiszedi a megjegyzéseket.)
+- A **2003. évi LXXXIX. törvény** megjelenített szövegének hatálya
+  **2026. IX. 30-án lejár**; októbertől a levegőterhelési díj egységdíjai
+  duplázódnak. A talajterhelési díjról szóló állításainkat nem érinti, de
+  visszanézendő.
+
+---
+
 ## [0.39.00] — 2026-09-13
 
 ### Javítva — a félkövér szó kiugrott a mondatából a dokumentumkártyákon
