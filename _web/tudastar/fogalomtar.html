@@ -20,8 +20,15 @@
 <meta property="og:site_name" content="ÖkoTech Home">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="hu_HU">
-<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek; előtöltés szándékosan nincs (magas
-     prioritással a hero-kép elé állna). Lásd assets/css/betuk.css. -->
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek: a Google Fontsról a stíluslap
+     renderelést blokkolna két idegen kézfogás után, és a látogató
+     IP-címe minden lapmegtekintéskor a Google-höz kerülne.
+
+     A CÍMSOR BETŰJE ELŐTÖLTVE — mérve ez adja az LCP-t, nem a hero-kép.
+     Csak ez az egy fájl, és csak `latin`; az indoklás a
+     scripts/oldalgyartas/betuk_beszuras.py fejlécében áll. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin
+      href="/assets/fonts/zilla-slab-600-latin.woff2">
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="../assets/css/app.css?v=248">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs

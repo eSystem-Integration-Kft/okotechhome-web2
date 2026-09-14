@@ -10,13 +10,20 @@ lapokon cseréli le a hivatkozást. Három sor megy ki és három jön be:
     KI   stylesheet fonts.googleapis.com/css2   ← renderelést blokkolt
 
     BE   preload  zilla-slab-600-latin.woff2    ← a címsorok betűje
-    BE   preload  ibm-plex-sans-400-latin.woff2 ← a törzsszöveg betűje
     BE   stylesheet /assets/css/betuk.css
 
-A KÉT ELŐTÖLTÉS SZÁNDÉKOSAN CSAK KETTŐ, és mindkettő `latin`. Ezek kellenek
-biztosan minden lapon, az első képernyőn. A `latin-ext` (magyar ő és ű) és a
-többi vastagság a `betuk.css` `unicode-range`-ei szerint jön, amikor kell —
-előtöltve csak fölösleges sávszélesség volna azon, aki le sem görget.
+AZ ELŐTÖLTÉS SZÁNDÉKOSAN CSAK EGY FÁJL, és az `latin`. Ez a címsorok betűje,
+a `--font-heading` 600-as vastagsága; a hero `<h1>` ezzel rajzolódik.
+
+MIÉRT ÉPP EZ. Mérve (Lighthouse, mobil): a főoldal LCP-eleme a hero CÍMSORA,
+nem a hero-kép. Előtöltés nélkül a betű csak a `betuk.css` feldolgozása után
+indul, a címsor addig Georgiával rajzolódik, majd a betű megérkeztekor ÚJRA —
+és ez a második rajzolás elrendezést mozdít. Az előtöltéssel a CLS 0,078-ról
+0,000-ra esett.
+
+A `latin-ext` (magyar ő és ű) és a többi vastagság a `betuk.css`
+`unicode-range`-ei szerint jön, amikor kell — előtöltve csak fölösleges
+sávszélesség volna azon, aki le sem görget.
 
 A `crossorigin` A SAJÁT FÁJLNÁL IS KELL. A betűket a böngésző anonim CORS
 móddal kéri le akkor is, ha egy eredetről jönnek; `crossorigin` nélkül az
@@ -37,10 +44,15 @@ REGI = re.compile(
     r'[ \t]*<link rel="preconnect" href="https://fonts\.gstatic\.com" crossorigin>\n'
     r'[ \t]*<link rel="stylesheet" href="https://fonts\.googleapis\.com/css2[^"]*">\n')
 
-UJ = ('<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a\n'
-      '     stíluslap renderelést blokkolna két idegen kézfogás után, és a\n'
-      '     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.\n'
-      '     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->\n'
+UJ = ('<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek: a Google Fontsról a stíluslap\n'
+      '     renderelést blokkolna két idegen kézfogás után, és a látogató\n'
+      '     IP-címe minden lapmegtekintéskor a Google-höz kerülne.\n'
+      '\n'
+      '     A CÍMSOR BETŰJE ELŐTÖLTVE — mérve ez adja az LCP-t, nem a hero-kép.\n'
+      '     Csak ez az egy fájl, és csak `latin`; az indoklás a\n'
+      '     scripts/oldalgyartas/betuk_beszuras.py fejlécében áll. -->\n'
+      '<link rel="preload" as="font" type="font/woff2" crossorigin\n'
+      '      href="/assets/fonts/zilla-slab-600-latin.woff2">\n'
       '<link rel="stylesheet" href="/assets/css/betuk.css?v={v}">\n')
 
 

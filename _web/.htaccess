@@ -277,8 +277,15 @@ Options -Indexes
 
 # --- Tömörítés ----------------------------------------------------------------
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript
-  AddOutputFilterByType DEFLATE application/json image/svg+xml text/xml
+  # A JS ITT IS KÉT NÉVEN KELL. Ugyanaz az ok, mint a `mod_expires`-nél lent:
+  # az Apache a .js-t `text/javascript` néven adja ki, a szűrő pedig a válasz
+  # Content-Type-jára illeszt. Élesben a tömörítést a kiszolgáló brotli
+  # rétege végzi, ezért a hiba eddig nem látszott — a saját szabályunk
+  # viszont hibás volt, és brotli nélküli kiszolgálón a JS tömörítetlenül
+  # ment volna ki.
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml text/xml
 </IfModule>
 
 # --- Cache --------------------------------------------------------------------
@@ -297,6 +304,13 @@ FileETag MTime Size
   ExpiresActive On
   ExpiresByType text/html "access plus 0 seconds"
   ExpiresByType text/css "access plus 1 year"
+  # A JS KÉT NÉVEN SZEREPEL, és mindkettő kell. A `mod_expires` a VÁLASZ
+  # Content-Type-jára illeszt, az Apache pedig a .js-t ma már a szabványos
+  # `text/javascript` néven adja ki — a régi `application/javascript` sor
+  # tehát SOHA nem illeszkedett, és a szkriptek gyorsítótár-fejléc nélkül
+  # mentek ki (mérve: a PageSpeed „Cache TTL: None"-t írt mind a 14-re).
+  # A régi név itt marad a más MIME-térképet használó kiszolgálók miatt.
+  ExpiresByType text/javascript "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/avif "access plus 1 year"
