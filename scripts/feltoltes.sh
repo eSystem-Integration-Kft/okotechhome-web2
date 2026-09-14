@@ -211,6 +211,28 @@ KIZAR=(
 [ "$KORNYEZET" = okoth ] && KIZAR+=( --exclude '^_tst/' )
 [ "$KORNYEZET" = eles ]  && KIZAR+=( --exclude '^_tst/' )
 
+# DIAGNOSZTIKAI VÉGPONTOK — CSAK A TESZTRE.
+#
+# A `crm-allapot.php` és a `crm-naplo.php` a CRM-beállítás hibakereséséhez
+# készült, és a saját fejlécük írja elő, hogy használat után törölni kell. Nem
+# törlődtek, és mivel a repóban vannak, MINDEN feltöltéssel újra kimentek az
+# élesre. Mérve 2026-09-14-én: az `okotechhome.hu/api/crm-allapot.php?kod=…`
+# 200-at adott, és 1429 bájtban kiírta a titkok könyvtárának pontos helyét
+# (`/home/okotechhome/oth-titkok`), nyolc sornyi abszolút szerverútvonalat és
+# mind az öt CRM forrás-slugot. Titkot nem szivárogtat, de félkész térkép —
+# és a hozzáférés egyetlen, a kódban nyíltan benne álló kód, tehát elrejtés,
+# nem védelem.
+#
+# A fájlok MARADNAK a repóban és a tesztoldalon, ahol tényleg hasznosak; az
+# éles fára nem kerülnek ki. Ha egyszer élesben is kell egy mérés, ezt a két
+# sort kell ideiglenesen kivenni — tudatosan, nem véletlenül.
+# A MINTAKONFIG sem való az élesre: fejlesztői sablon, ami a konfiguráció
+# szerkezetét, a titokfájlok keresési útvonalait és a CRM-kaput mutatja meg.
+# Az `api/.htaccess` 403-mal zárja, de ami nincs ott, azt nem kell védeni.
+[ "$KORNYEZET" = eles ] && KIZAR+=( --exclude-glob 'api/crm-allapot.php'
+                                    --exclude-glob 'api/crm-naplo.php'
+                                    --exclude-glob 'api/config.example.php' )
+
 # A GENERÁLÁS NYOMAI nem mennek ki a kiszolgálóra: a `.epult` jelzőfájl és az
 # olvass-el csak nekünk szól.
 KIZAR+=( --exclude-glob '.epult' --exclude-glob 'OLVASSEL.txt' )
