@@ -944,6 +944,14 @@
      a felirat különben az előző bekezdés sorai közé ragadt. */
   p + .compare-scroll{margin-top:var(--space-32)}
   .compare-scroll + .type-ui-body{margin-top:var(--space-32)}
+  /* UGYANEZ SZÖVEGOSZLOP-BURKOLÓVAL. A jogi lapokon a bekezdések `.jogi-szoveg`
+     divben állnak (72ch), a tábla viszont a teljes szélességet kapja, tehát a
+     tábla testvére nem `<p>`, hanem `div` — a fenti két szabály így nem fogott,
+     és a tábla térköz nélkül ragadt a szöveghez (mérve: 0px fölötte és alatta). */
+  .jogi-szoveg + .compare-scroll,
+  .folyoszoveg + .compare-scroll{margin-top:var(--space-32)}
+  .compare-scroll + .jogi-szoveg,
+  .compare-scroll + .folyoszoveg{margin-top:var(--space-32)}
 
   .compare-table{width:100%;border-collapse:collapse;text-align:center}
   .compare-table caption{
@@ -1003,6 +1011,11 @@
     margin-bottom:var(--space-16)}
   .folyoszoveg > p,.jogi-szoveg > p{color:var(--text-secondary);margin-bottom:var(--space-16)}
   .folyoszoveg > p:last-child,.jogi-szoveg > p:last-child{margin-bottom:0}
+  /* A JOGSZABÁLYHELY a jog megnevezése után, halványabban. Azért külön elem és
+     nem a mondat része, mert a hivatkozás ELLENŐRIZHETŐSÉG, nem olvasnivaló: aki
+     a szöveget olvassa, átsiklik rajta, aki viszont keresi, egy pillantással
+     megtalálja. `white-space:nowrap`, hogy a „GDPR 15. cikk" ne törjön ketté. */
+  .jogi-cikk{color:var(--text-tertiary);white-space:nowrap;font-weight:400}
   .jogi-lista{margin:0 0 var(--space-16) var(--space-24);color:var(--text-secondary)}
   .jogi-lista li{margin-bottom:var(--space-8)}
   .jogi-lista li:last-child{margin-bottom:0}
@@ -9541,39 +9554,56 @@
      A BAL ALSÓ SAROKBAN ÜL, kilógva, és a kártya lekerekítése elvágja —
      ettől lesz a lapba MART jel, nem ráhelyezett matrica. Kilógva nem nő a
      kigörgethető terület sem: a kártya `overflow:hidden`. */
-  /* A VÉSET A BELSŐ DOBOZON ÜL, nem a sávon: a sáv `::before`-ját az üveg
-     foglalja. A befoglalója ezért a `.suti-sav-doboz`. */
-  .suti-sav-doboz::before,.suti-sav-doboz::after,
-  .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{
-    content:'';position:absolute;z-index:-1;pointer-events:none;
-    width:clamp(3.5rem,8%,5.5rem);aspect-ratio:387.49 / 289.93;
+  /* A MÁRKAJEL SAJÁT SÁVOT KAP, nem véset a háttérben.
+     Vésetként `left:0;bottom:0`-n ült a belső dobozon — csakhogy a
+     szövegoszlop UGYANONNAN indul, tehát a jel pontosan a szöveg alá került
+     (mérve: a 88px-es jelrajz teljes szélességében átfedte a bekezdést), és
+     szürke foltnak látszott, nem márkajelnek. A párbeszédben még rosszabb
+     volt: ott a bal alsó sarkot az „Csak a szükségeseket" gomb foglalja, ami
+     átlátszatlan — a `z-index:-1` miatt a jel egyszerűen eltűnt mögötte.
+     Vagyis a véset egyik felületen sem működött.
+
+     Külön flex-elemként a jelnek saját helye van: a szöveg nem ér rá, a gomb
+     nem takarja, és minden szélességen látszik. A maszkos rajzolás marad, mert
+     így a szín tokenből jön és témát vált. */
+  /* A MÁRKAJEL VÉSETKÉNT — ugyanaz a technika, mint a megamenüben (5.12b):
+     mélyedés + egy képponttal eltolt kiemelés, maszkkal rajzolva, hogy a szín
+     tokenből jöjjön és témát váltson.
+
+     AMI VÁLTOZOTT: nem a HÁTTÉRBEN ül, hanem SAJÁT FLEX-ELEMKÉNT. Háttérként
+     `left:0;bottom:0`-n állt a belső dobozon — csakhogy a szövegoszlop
+     ugyanonnan indul, tehát a jel pontosan a bekezdés alá került (mérve: teljes
+     szélességében átfedte), és szürke foltnak látszott. A párbeszédben még
+     rosszabb volt: ott a bal alsó sarkot az átlátszatlan „Csak a szükségeseket"
+     gomb foglalja, a `z-index:-1`-es jel egyszerűen eltűnt mögötte.
+     Saját sávban a véset megmarad annak, aminek szánták — a lapba MART jelnek —,
+     csak most tényleg látszik is.
+
+     NAGYOBB, mint a régi 88px-es folt: a vésethez tömör felület kell, hogy a
+     mélyedés és a csillanás elkülönüljön. Kis méretben a kettő egymásra csúszna
+     és szürke pacni lenne belőle. */
+  .suti-jel{
+    flex:none;position:relative;isolation:isolate;
+    width:var(--space-64);aspect-ratio:387.49 / 289.93;
+  }
+  .suti-jel::before,.suti-jel::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
     -webkit-mask:var(--veset-jel) no-repeat center/contain;
             mask:var(--veset-jel) no-repeat center/contain;
   }
-  /* A JEL TELJES EGÉSZÉBEN LÁTSZIK, a saroktól behúzva. Kilógva és a
-     lekerekítésnél elvágva egy ívnek látszott, nem a márka jelének — a
-     félbevágott logó véletlennek hat, nem szándéknak. Behúzva teljes,
-     felismerhető, és a szöveg alá sem ér. */
-  .suti-sav-doboz::before,.suti-sav-doboz::after{left:0;bottom:0}
-  /* A PÁRBESZÉDBEN BENT MARAD. Annak a doboznak `overflow:auto`-ja van (a
-     magasságkorlát miatt), és ott egy negatív pozíciójú elem GÖRGETHETŐ
-     TERÜLETET csinálna — a megamenünél ezt egyszer már megjártuk: minden
-     panel görgethető lett tőle, Windowson két állandó szürke sávval. */
-  .suti-parbeszed-urlap::before,.suti-parbeszed-urlap::after{left:0;bottom:0}
-  .suti-sav-doboz::before,
-  .suti-parbeszed-urlap::before{
-    background:var(--veset-melyedes);opacity:var(--suti-veset-melyedes-alfa);
-  }
-  .suti-sav-doboz::after,
-  .suti-parbeszed-urlap::after{
+  .suti-jel::before{background:var(--veset-melyedes);opacity:var(--suti-veset-melyedes-alfa)}
+  .suti-jel::after{
     background:var(--veset-kiemeles);opacity:var(--suti-veset-kiemeles-alfa);
     /* KÉT KÉPPONT, nem egy. A jelrajz TÖMÖR sziluett: egy képpontnyi eltolás
-       mellett a felső réteg egyszerűen letakarja az alsót, és az egészből
-       csak egy fehér folt látszik — a véset hatása elvész. Két képponttal a
-       jobb alsó peremen kilóg a csillanás, a bal felsőn megmarad az árnyék,
-       és a szem ebből olvassa ki a mélyedést. */
+       mellett a felső réteg letakarja az alsót, és az egészből csak egy világos
+       folt látszik — a véset hatása elvész. Kettővel a jobb alsó peremen kilóg
+       a csillanás, a bal felsőn megmarad az árnyék, és a szem ebből olvassa ki
+       a mélyedést. */
     translate:2px 2px;
   }
+  /* A PÁRBESZÉDBEN a címsor mellé áll, egy sorban. */
+  .suti-parbeszed-fej{display:flex;align-items:center;gap:var(--space-16)}
+  .suti-parbeszed-fej .suti-parbeszed-cim{margin:0}
   /* A SZÖVEGOSZLOP SZÉLESEBB alapszélességet kap: keskenyebben három sorra
      törne, és minden sor a lapot takarja. */
   .suti-sav-szoveg{flex:1 1 34rem;min-width:0;display:grid;gap:var(--space-4)}
@@ -9710,7 +9740,7 @@
   @media (max-width:37.5rem){
     /* Keskenyen a behúzás és a lekerekítés csak helyet venne el: ott a sáv
        éltől élig ér, és csak a felső pereme marad meg határnak. A véset is
-       elmarad — kis felületen a szöveg mögé kerülve olvasást nehezítene. */
+       elmarad — kis felületen minden képpont a szövegé és a gomboké. */
     .suti-sav{
       inset:auto 0 0 0;
       border:0;border-top:2px solid var(--suti-sav-keret);
@@ -9718,7 +9748,7 @@
       padding:var(--space-16);
       padding-bottom:calc(var(--space-16) + env(safe-area-inset-bottom,0px));
     }
-    .suti-sav-doboz::before,.suti-sav-doboz::after{display:none}
+    .suti-sav-doboz > .suti-jel{display:none}
     /* Keskenyen a szöveg fölé kerülnek a gombok egy oszlopban — a sorban
        maradó három gomb ekkora szélességen egyenként 6rem alá esne. */
     .suti-sav-gombok{flex:1 1 100%}

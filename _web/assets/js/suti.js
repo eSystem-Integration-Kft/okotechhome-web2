@@ -123,6 +123,12 @@
     sav.setAttribute('aria-label', 'Süti-hozzájárulás');
 
     const doboz = elem('div', 'suti-sav-doboz');
+    /* A MÁRKAJEL. Dekoratív: a jelentést a mellette álló szöveg hordozza,
+       ezért `aria-hidden` (designrendszer 8.). Saját flex-elem, nem háttér —
+       vésetként a szöveg alá került és foltnak látszott. */
+    const jel = elem('span', 'suti-jel');
+    jel.setAttribute('aria-hidden', 'true');
+    doboz.append(jel);
     const szov  = elem('div', 'suti-sav-szoveg');
     szov.append(elem('p', 'type-ui-body-strong', 'Sütiket használunk'));
 
@@ -178,7 +184,13 @@
 
     const cim = elem('h2', 'suti-parbeszed-cim type-h4', 'Süti-beállítások');
     cim.id = 'suti-parbeszed-cim';
-    urlap.append(cim);
+    /* Ugyanaz a jel, a címsor mellett. A bal alsó sarokban nem lehet: ott a
+       gombsor áll, és az átlátszatlan. */
+    const fej = elem('div', 'suti-parbeszed-fej');
+    const jelP = elem('span', 'suti-jel');
+    jelP.setAttribute('aria-hidden', 'true');
+    fej.append(jelP, cim);
+    urlap.append(fej);
 
     const bev = elem('p', 'type-ui-body',
       'Kategóriánként dönthet. A működéshez szükséges sütik nélkül a webhely nem ' +
