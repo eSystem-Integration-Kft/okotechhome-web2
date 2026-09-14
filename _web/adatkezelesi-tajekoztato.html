@@ -34,7 +34,7 @@
      adjuk oda az LCP-t.
      Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
 <link rel="stylesheet" href="/assets/css/betuk.css?v=1">
-<link rel="stylesheet" href="assets/css/app.css?v=242">
+<link rel="stylesheet" href="assets/css/app.css?v=247">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
 <script src="assets/js/tema.js?v=1"></script>
@@ -43,7 +43,7 @@
       imagesizes="100vw">
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
      Szkript nélkül nem marad a lapon árva, néma sáv. -->
-<script src="/assets/js/suti.js?v=2" defer></script>
+<script src="/assets/js/suti.js?v=3" defer></script>
 </head>
 <body>
 
@@ -526,9 +526,8 @@
         <p class="type-data-eyebrow section-eyebrow">Bevezetés</p>
         <h2 class="type-display-section-title section-title" id="ki-kezeli-az-adatait-es-mire-cim">Ki kezeli az adatait, és mire</h2>
       </header>
-      <div class="jogi-kiemelt type-ui-body"><p>Utolsó frissítés: <strong>2026. augusztus 7</strong>. A tájékoztatót a jogszabályi környezet vagy a szolgáltatásaink változása esetén módosítjuk; a mindenkori hatályos szöveg ezen az oldalon érhető el.</p></div>
       <div class="jogi-szoveg">
-        <p class="type-ui-body">Ez a tájékoztató azt írja le, hogy az <strong>ÖkoTech-Home Kft.</strong> milyen személyes adatokat kezel az okoth.hu webhelyen keresztül és az ahhoz kapcsolódó szolgáltatások során, milyen célból és milyen jogalapon, meddig őrzi meg őket, kinek adja át, és Önnek milyen jogai vannak mindezzel kapcsolatban.</p>
+        <p class="type-ui-body">Ez a tájékoztató azt írja le, hogy az <strong>ÖkoTech-Home Kft.</strong> milyen személyes adatokat kezel az okotechhome.hu webhelyen keresztül és az ahhoz kapcsolódó szolgáltatások során, milyen célból és milyen jogalapon, meddig őrzi meg őket, kinek adja át, és Önnek milyen jogai vannak mindezzel kapcsolatban.</p>
         <h3 class="type-ui-card-title jogi-alcim">Az adatkezelő</h3>
         <ul class="jogi-lista">
           <li class="type-ui-body"><strong>Cégnév:</strong> ÖkoTech-Home Kft.</li>
@@ -626,7 +625,18 @@
         <p class="type-data-eyebrow section-eyebrow">Új szolgáltatás</p>
         <h2 class="type-display-section-title section-title" id="ai-alapu-ajanlat-osszehasonlitas-cim">AI-alapú ajánlat-összehasonlítás</h2>
       </header>
-      <div class="jogi-kiemelt type-ui-body"><p><strong>ADATHIÁNY — élesítés előtt pótolandó:</strong> az AI-szolgáltató pontos megnevezése, székhelye, a szerződéses garanciák (adatfeldolgozói szerződés, EU-n kívüli továbbítás esetén az általános szerződési feltételek), valamint az, hogy a szolgáltató a beküldött adatot tanításra használja-e. Enélkül ez a szakasz nem teljes.</p></div>
+      <div class="jogi-szoveg">
+        <h3 class="type-ui-card-title jogi-alcim">Ki az AI-szolgáltató</h3>
+        <p class="type-ui-body">Az ajánlat-összehasonlítást és a webhely többi AI-funkcióját az <strong>Anthropic Ireland, Limited</strong> (székhely: 6th Floor, South Bank House, Barrow Street, Dublin 4, D04 TR29, Írország) végzi a Claude nyelvi modell szolgáltatásán keresztül. Az Anthropic ebben a viszonyban <strong>adatfeldolgozó</strong> (GDPR 4. cikk 8. pont): kizárólag a mi utasításunk szerint, a mi nevünkben dolgozza fel a beküldött tartalmat.</p>
+        <p class="type-ui-body">Az Európai Gazdasági Térségben letelepedett ügyfelek szerződéses partnere az ír társaság; a feldolgozás technikai kiszolgálását az Anthropic PBC (548 Market St, PMB 90375, San Francisco, CA 94104, Amerikai Egyesült Államok) mint további adatfeldolgozó végzi.</p>
+
+        <h3 class="type-ui-card-title jogi-alcim">Milyen szerződéses garancia áll mögötte</h3>
+        <p class="type-ui-body">A <strong>GDPR 28. cikk (3) bekezdése</strong> szerinti adatfeldolgozói szerződést (Data Processing Addendum) az Anthropic üzleti szerződési feltételei automatikusan tartalmazzák — a feltételek elfogadásával az adatfeldolgozói szerződés is létrejön, külön aláírás nélkül. Ez a szerződés magában foglalja az Európai Bizottság által elfogadott <strong>általános szerződési feltételeket (SCC)</strong> is, amelyek a harmadik országba irányuló továbbítás garanciáját adják a <strong>GDPR 46. cikk (2) bekezdés c) pontja</strong> alapján.</p>
+
+        <h3 class="type-ui-card-title jogi-alcim">Tanításra használják-e az Ön adatát</h3>
+        <p class="type-ui-body"><strong>Nem.</strong> Az Anthropic üzleti szerződési feltételei kifejezetten kizárják, hogy a szolgáltatáson keresztül beküldött ügyféltartalmon modellt tanítsanak („Anthropic may not train models on Customer Content from Services"). A modul tehát nem táplálja az Ön dokumentumát semmilyen tanítóhalmazba.</p>
+        <p class="type-ui-caption">Forrás: az Anthropic üzleti szerződési feltételei és adatvédelmi tájékoztatója, ellenőrizve 2026. szeptember 14-én. A szolgáltató feltételei változhatnak; e szakasz tartalmát évente felülvizsgáljuk.</p>
+      </div>
       <div class="jogi-szoveg">
         <p class="type-ui-body">A webhelyen elérhető ajánlat-összehasonlító modul a feltöltött dokumentumokat <strong>mesterséges intelligencia szolgáltatóhoz továbbítja</strong> feldolgozásra. Ezt külön kiemeljük, mert ez a webhely egyetlen olyan funkciója, amely az Ön dokumentumát harmadik félhez küldi.</p>
         <h3 class="type-ui-card-title jogi-alcim">Hogyan működik</h3>
@@ -663,29 +673,29 @@
           </thead>
           <tbody>
         <tr>
-          <th scope="row">Webtárhely</th>
-          <td class="type-ui-body">A tárhelyszolgáltató megnevezése — pótolandó</td>
-          <td class="type-ui-body">Pótolandó</td>
+          <th scope="row">Webtárhely, szerverüzemeltetés</th>
+          <td class="type-ui-body">Sybell Informatika Kft.</td>
+          <td class="type-ui-body">1138 Budapest, Tomori utca 34. 2. emelet</td>
+        </tr>
+        <tr>
+          <th scope="row">Webtárhely, online reklám és marketing</th>
+          <td class="type-ui-body">Hajdu Zoltán e.v.</td>
+          <td class="type-ui-body">1067 Budapest, Hunyadi tér 12.</td>
         </tr>
         <tr>
           <th scope="row">Levélküldés (SMTP)</th>
-          <td class="type-ui-body">Saját levelezőszerver (mail.okoth.hu)</td>
+          <td class="type-ui-body">Saját levelezőszerver (mail.okotechhome.hu)</td>
           <td class="type-ui-body">Magyarország</td>
         </tr>
         <tr>
-          <th scope="row">Könyvelés, adózás</th>
-          <td class="type-ui-body">Bázis Könyvelő Iroda Kft.</td>
-          <td class="type-ui-body">2900 Komárom, Laktanya köz 30/A.</td>
+          <th scope="row">Könyvelés, adózás, bérszámfejtés</th>
+          <td class="type-ui-body">EU-TAX Consulting Kft.</td>
+          <td class="type-ui-body">6724 Szeged, Árvíz u. 4/A</td>
         </tr>
         <tr>
-          <th scope="row">Könyvvizsgálat</th>
-          <td class="type-ui-body">Audit Assistance Kft.</td>
-          <td class="type-ui-body">1042 Budapest, Árpád út 51–53.</td>
-        </tr>
-        <tr>
-          <th scope="row">IT-üzemeltetés</th>
-          <td class="type-ui-body">PC-Ház-Terv Bt.</td>
-          <td class="type-ui-body">2500 Esztergom, Mikszáth K. u. 8.</td>
+          <th scope="row">IT-üzemeltetés, rendszergazda</th>
+          <td class="type-ui-body">Global Systems Informatika Kft.</td>
+          <td class="type-ui-body">1119 Budapest, Etele út 57/B.</td>
         </tr>
         <tr>
           <th scope="row">Ügyfélnyilvántartás</th>
@@ -693,8 +703,23 @@
           <td class="type-ui-body">2517 Kesztölc, Esztergomi u. 89.</td>
         </tr>
         <tr>
+          <th scope="row">Közösségi média kezelése</th>
+          <td class="type-ui-body">CoffeeBreak Consulting Kft.</td>
+          <td class="type-ui-body">2030 Érd, Technikus utca 78.</td>
+        </tr>
+        <tr>
+          <th scope="row">Közösségi média platform, hirdetés</th>
+          <td class="type-ui-body">Meta Platforms Ireland Limited</td>
+          <td class="type-ui-body">Merrion Road, Dublin 4, D04 X2K5, Írország</td>
+        </tr>
+        <tr>
+          <th scope="row">Hírlevélküldés</th>
+          <td class="type-ui-body">The Rocket Science Group LLC (Mailchimp)</td>
+          <td class="type-ui-body">675 Ponce de Leon Ave NE, Suite 5000, Atlanta, GA 30308, Amerikai Egyesült Államok</td>
+        </tr>
+        <tr>
           <th scope="row">Szállítás</th>
-          <td class="type-ui-body">GLS General Logistics Systems Hungary Kft.</td>
+          <td class="type-ui-body">GLS General Logistics Systems Hungary Csomag Logisztikai Kft.</td>
           <td class="type-ui-body">2351 Alsónémedi, GLS Európa u. 2.</td>
         </tr>
         <tr>
@@ -704,8 +729,8 @@
         </tr>
         <tr>
           <th scope="row">AI-elemzés</th>
-          <td class="type-ui-body">Az AI-szolgáltató megnevezése — pótolandó</td>
-          <td class="type-ui-body">Pótolandó</td>
+          <td class="type-ui-body">Anthropic Ireland, Limited</td>
+          <td class="type-ui-body">6th Floor, South Bank House, Barrow Street, Dublin 4, D04 TR29, Írország</td>
         </tr>
           </tbody>
         </table>
@@ -720,8 +745,48 @@
         <h2 class="type-display-section-title section-title" id="adattovabbitas-az-europai-gazdasagi-tersegen-kivulre-cim">Adattovábbítás az Európai Gazdasági Térségen kívülre</h2>
       </header>
       <div class="jogi-szoveg">
-        <p class="type-ui-body">A Google Térkép beágyazása és — a szolgáltató megnevezésétől függően — az AI-elemzés adattovábbítást jelenthet az EGT-n kívülre. Ilyenkor a továbbítás jogszerűségét az Európai Bizottság megfelelőségi határozata vagy az általános szerződési feltételek (SCC) biztosítják.</p>
-        <div class="jogi-kiemelt type-ui-body"><p><strong>ADATHIÁNY:</strong> a konkrét garanciák (megfelelőségi határozat vagy SCC) megnevezése szolgáltatónként pótolandó élesítés előtt.</p></div>
+        <p class="type-ui-body">Négy szolgáltatásunk jár azzal, hogy személyes adat az Európai Gazdasági Térségen kívülre — az Amerikai Egyesült Államokba — kerülhet. Háromnál a szerződéses partner európai társaság, és csak a technikai feldolgozás történhet amerikai anyavállalatnál; a hírlevélküldőnél a szerződéses partner maga amerikai. A továbbítás garanciáit szolgáltatónként az alábbi táblázat mutatja.</p>
+      </div>
+
+      <div class="compare-scroll" role="region" tabindex="0" aria-label="A harmadik országba irányuló továbbítás garanciái">
+      <table class="compare-table compare-table-start">
+        <caption class="visually-hidden">A harmadik országba irányuló továbbítás garanciái szolgáltatónként</caption>
+        <thead>
+          <tr>
+            <th scope="col">Szolgáltatás</th>
+            <th scope="col">Szerződéses partner</th>
+            <th scope="col">A továbbítás garanciája</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Google Térkép</th>
+            <td class="type-ui-body">Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Írország)</td>
+            <td class="type-ui-body">Az Európai Bizottság <strong>megfelelőségi határozata</strong> az EU–USA adatvédelmi keret (Data Privacy Framework) alapján — GDPR 45. cikk —, illetve ahol ez nem alkalmazható, az Európai Bizottság <strong>általános szerződési feltételei (SCC)</strong> — GDPR 46. cikk (2) bek. c) pont.</td>
+          </tr>
+          <tr>
+            <th scope="row">AI-elemzés</th>
+            <td class="type-ui-body">Anthropic Ireland, Limited (6th Floor, South Bank House, Barrow Street, Dublin 4, D04 TR29, Írország)</td>
+            <td class="type-ui-body">Az Európai Bizottság <strong>általános szerződési feltételei (SCC)</strong>, amelyeket a szolgáltató adatfeldolgozói szerződése (DPA) tartalmaz — GDPR 46. cikk (2) bek. c) pont.</td>
+          </tr>
+          <tr>
+            <th scope="row">Közösségi média, hirdetés</th>
+            <td class="type-ui-body">Meta Platforms Ireland Limited (Merrion Road, Dublin 4, D04 X2K5, Írország)</td>
+            <td class="type-ui-body">Az Európai Bizottság <strong>megfelelőségi határozata</strong> az EU–USA adatvédelmi keret (Data Privacy Framework) alapján — GDPR 45. cikk —, kiegészítve az <strong>általános szerződési feltételekkel (SCC)</strong>.</td>
+          </tr>
+          <tr>
+            <th scope="row">Hírlevélküldés</th>
+            <td class="type-ui-body">The Rocket Science Group LLC (Mailchimp) — Atlanta, GA, Amerikai Egyesült Államok</td>
+            <td class="type-ui-body">Az Európai Bizottság <strong>megfelelőségi határozata</strong> az EU–USA adatvédelmi keret alapján: a szolgáltató az Intuit keretbeli tanúsítványa alá tartozik — GDPR 45. cikk. A tanúsítvány a dataprivacyframework.gov nyilvántartásában ellenőrizhető.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="jogi-szoveg">
+
+        <p class="type-ui-body">Mindegyik felsorolt garancia a <strong>GDPR V. fejezete</strong> (44–50. cikk) szerinti eszköz. Ön bármikor kérheti tőlünk a továbbításra vonatkozó garanciák másolatát a <a class="text-link" href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a> címen — ezt a <strong>GDPR 15. cikk (2) bekezdése</strong> biztosítja.</p>
+        <p class="type-ui-caption">A szolgáltatók megnevezése és a garanciák a 2026. szeptember 14-i állapotot tükrözik. Ha egy szolgáltató jogi kerete megváltozik, ezt a szakaszt frissítjük.</p>
       </div>
     </div>
   </section>
@@ -735,17 +800,17 @@
       <div class="jogi-szoveg">
         <p class="type-ui-body">Az alábbi jogokat bármikor gyakorolhatja. Kérését a <a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a> címen vagy postai úton a székhelyünkre küldve terjesztheti elő.</p>
         <ul class="jogi-lista">
-          <li class="type-ui-body"><strong>Hozzáférés.</strong> Tájékoztatást kérhet arról, kezelünk-e Önről adatot, és ha igen, milyet, milyen célból, meddig, és kinek adjuk át. Másolatot is kérhet.</li>
-          <li class="type-ui-body"><strong>Helyesbítés.</strong> Kérheti a pontatlan adat javítását és a hiányos adat kiegészítését.</li>
-          <li class="type-ui-body"><strong>Törlés.</strong> Kérheti az adatai törlését, ha az adatkezelés célja megszűnt, ha visszavonja a hozzájárulását, vagy ha az adatkezelés jogellenes. A törlés nem érvényesíthető, ha jogszabály kötelez a megőrzésre — például számviteli bizonylatnál.</li>
-          <li class="type-ui-body"><strong>Az adatkezelés korlátozása.</strong> Kérheti, hogy az adatait csak tároljuk, de ne kezeljük tovább — például amíg a pontosságukat vitatja.</li>
-          <li class="type-ui-body"><strong>Adathordozhatóság.</strong> A hozzájáruláson vagy szerződésen alapuló, automatizáltan kezelt adatait tagolt, géppel olvasható formában kérheti, és kérheti másik adatkezelőhöz továbbításukat.</li>
-          <li class="type-ui-body"><strong>Tiltakozás.</strong> Tiltakozhat a jogos érdeken alapuló adatkezelés ellen. Ilyenkor csak akkor folytatjuk, ha kényszerítő erejű jogos okot tudunk igazolni.</li>
-          <li class="type-ui-body"><strong>A hozzájárulás visszavonása.</strong> A hozzájáruláson alapuló adatkezelésnél a hozzájárulást bármikor visszavonhatja, ugyanolyan egyszerűen, ahogy megadta. A visszavonás a korábbi adatkezelés jogszerűségét nem érinti.</li>
+          <li class="type-ui-body"><strong>Hozzáférés.</strong> <span class="type-ui-caption jogi-cikk">GDPR 15. cikk</span> Tájékoztatást kérhet arról, kezelünk-e Önről adatot, és ha igen, milyet, milyen célból, meddig, és kinek adjuk át. Másolatot is kérhet.</li>
+          <li class="type-ui-body"><strong>Helyesbítés.</strong> <span class="type-ui-caption jogi-cikk">GDPR 16. cikk</span> Kérheti a pontatlan adat javítását és a hiányos adat kiegészítését.</li>
+          <li class="type-ui-body"><strong>Törlés.</strong> <span class="type-ui-caption jogi-cikk">GDPR 17. cikk</span> Kérheti az adatai törlését, ha az adatkezelés célja megszűnt, ha visszavonja a hozzájárulását, vagy ha az adatkezelés jogellenes. A törlés nem érvényesíthető, ha jogszabály kötelez a megőrzésre — például számviteli bizonylatnál.</li>
+          <li class="type-ui-body"><strong>Az adatkezelés korlátozása.</strong> <span class="type-ui-caption jogi-cikk">GDPR 18. cikk</span> Kérheti, hogy az adatait csak tároljuk, de ne kezeljük tovább — például amíg a pontosságukat vitatja.</li>
+          <li class="type-ui-body"><strong>Adathordozhatóság.</strong> <span class="type-ui-caption jogi-cikk">GDPR 20. cikk</span> A hozzájáruláson vagy szerződésen alapuló, automatizáltan kezelt adatait tagolt, géppel olvasható formában kérheti, és kérheti másik adatkezelőhöz továbbításukat.</li>
+          <li class="type-ui-body"><strong>Tiltakozás.</strong> <span class="type-ui-caption jogi-cikk">GDPR 21. cikk</span> Tiltakozhat a jogos érdeken alapuló adatkezelés ellen. Ilyenkor csak akkor folytatjuk, ha kényszerítő erejű jogos okot tudunk igazolni.</li>
+          <li class="type-ui-body"><strong>A hozzájárulás visszavonása.</strong> <span class="type-ui-caption jogi-cikk">GDPR 7. cikk (3)</span> A hozzájáruláson alapuló adatkezelésnél a hozzájárulást bármikor visszavonhatja, ugyanolyan egyszerűen, ahogy megadta. A visszavonás a korábbi adatkezelés jogszerűségét nem érinti.</li>
         </ul>
-        <h3 class="type-ui-card-title jogi-alcim">Válaszadási határidő</h3>
+        <h3 class="type-ui-card-title jogi-alcim">Válaszadási határidő <span class="type-ui-caption jogi-cikk">GDPR 12. cikk (3)</span></h3>
         <p class="type-ui-body">A kérésre indokolatlan késedelem nélkül, de legkésőbb <strong>egy hónapon belül</strong> válaszolunk. Ez a határidő a kérelem összetettségére tekintettel két hónappal meghosszabbítható; a hosszabbításról a kérelem kézhezvételétől számított egy hónapon belül tájékoztatjuk.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Automatizált döntéshozatal</h3>
+        <h3 class="type-ui-card-title jogi-alcim">Automatizált döntéshozatal <span class="type-ui-caption jogi-cikk">GDPR 22. cikk</span></h3>
         <p class="type-ui-body">Nem hozunk Önre nézve joghatással járó, kizárólag automatizált adatkezelésen alapuló döntést, és nem végzünk profilalkotást. Az ajánlat-összehasonlító és az előszűrő modulok kimenete tájékoztatás, nem döntés — a tényleges műszaki és üzleti döntéseket ember hozza meg.</p>
       </div>
     </div>
@@ -793,6 +858,12 @@
           <div class="faq-a"><p class="type-ui-body">Adatkezelésenként eltér — a fenti táblázat minden sornál megadja. A leghosszabb a számviteli bizonylatok 8 éves megőrzése, amit jogszabály ír elő; ezt kérésre sem tudjuk lerövidíteni.</p></div>
         </details>
       </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="A tájékoztató keltezése">
+    <div class="section-inner">
+      <p class="type-ui-caption">Utolsó frissítés: <strong>2026. szeptember 14.</strong> A tájékoztatót a jogszabályi környezet vagy a szolgáltatásaink változása esetén módosítjuk; a mindenkori hatályos szöveg ezen az oldalon érhető el.</p>
     </div>
   </section>
 <!-- JOGI FELÜLVIZSGÁLAT KÖTELEZŐ ÉLESÍTÉS ELŐTT. Ez a tartalom a cég
