@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.33.00-80A640?style=flat-square" alt="verzió 0.33.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.41.00-80A640?style=flat-square" alt="verzió 0.41.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-38-56642B?style=flat-square" alt="38 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-48-56642B?style=flat-square" alt="48 kiadás">
 </p>
 
 ---
@@ -28,6 +28,137 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.41.00] — 2026-09-14
+
+### Hozzáadva — a mérés a GTM-konténeren keresztül fut, hozzájáruláshoz kötve
+
+A PPC-ügynökség előírása szerint a meglévő `GTM-K4J4BWK` konténernek kell
+kiszolgálnia az új webhelyet, rajta kívül semmi nem mérhet, és a címkéknek a
+látogató döntését kell követniük. Megépítve — **csak az éles fába**, ahogy a
+GA4-címke is működött, hogy a fejlesztői forgalom ne kerüljön az adatba.
+
+| | |
+|---|---|
+| **marketing** hozzájárulási kategória | új a süti-kezelőben; a verzió 2-re emelve, ezért mindenkit újra megkérdez — a korábbi hozzájárulás a hirdetési célra nem terjedt ki |
+| **Consent Mode v2 mind a négy jele** | `analytics_storage`, `ad_storage`, `ad_user_data`, `ad_personalization` — eddig csak az első frissült |
+| **GTM-réteg** | CSP-biztos külső fájlból (`gtm.js`), a Consent Mode alapállapota UTÁN betöltve; a sorrendet a `defer` garantálja |
+| **közvetlen GA4 kivezetve** | a konténer ugyanazt a property-t tölti — két helyről mérve minden kétszer számolódott volna |
+
+A két űrlap a **sikeres beküldés** pillanatában bocsát ki eseményt
+(`oth_ajanlatkeres`, `oth_megrendeles`), mert köszönőoldal nincs. A bővített
+egyeztetéshez szükséges e-mail és telefon a `reset()` **előtt** olvasódik ki —
+utána már üres volna. A dataLayer-szerződés a
+`_files/gtm-datalayer-szerzodes.md`-ben áll; a triggereket a konténerben kell
+rákötni, ahhoz szerkesztői jog kell. (`12c4efb`)
+
+### Javítva — a Meta Pixel bármelyik döntésre elsült, nem csak a marketingre
+
+A konténer késleltetése lyukas volt: **bármilyen** döntésre betöltött, tehát
+aki a „Csak a szükségeseket" gombot nyomta, annál is elindult a Pixel. A
+marketing külön kategória és külön jel, és ezt semmi nem nézte.
+
+A Pixel nem vesz részt a Consent Mode-ban — a Google `denied` alapállapota a
+saját címkéit visszafogja, ezt nem. A `meres.js` ezért felépíti a Meta saját
+sorban álló `fbq` csonkját, és a konténer előtt `fbq('consent', 'revoke')`-ot
+küld; `grant` csak akkor megy, ha a marketing kategória igaz.
+
+**Két réteg, mert mást oldanak meg:** a késleltetés megakadályozza, hogy döntés
+előtt bármilyen kérés elinduljon a Google-höz vagy a Metához (a puszta
+szkriptbetöltés is elárulná az IP-címet), a hozzájárulási API pedig utána
+tartja némán a Pixelt, ha a marketinget nem fogadták el.
+
+Élesben mérve, sütik törlésével minden futás előtt:
+
+| | |
+|---|---|
+| döntés előtt | egyetlen süti sem |
+| csak a szükségesek | kizárólag `oth-suti` — nincs `_ga`, `_fbp`, `_gcl_au` |
+| mindet elfogadva | `_fbp`, `_gcl_au`, `_ga`, `_ga_EN120W3K2Q` |
+
+A konténer Simo Ahava közösségi sablonját használja, nem egyedi HTML-címkét —
+ezért nem ütközik a szigorú CSP-vel. (`a9b7f9d`)
+
+### Javítva — a régi köszönőoldalak 404-re futottak, és kiírták a kiszolgáló útvonalát
+
+A WordPress-oldal beküldés után egy `/koszonooldal-*` lapra tette a látogatót,
+és a Google Ads konverzió azon a lapmegtekintésen sült el. Itt nincs
+köszönőoldal — az űrlap `fetch`-csel küld, a látogató a helyén marad.
+
+Az URL-ek viszont élnek a régi hirdetésekben, levelekben és könyvjelzőkben, és
+**mind 404-et adott**. Ráadásul a záró perjel szabályán keresztül jutottak
+oda, ami közben a kiszolgáló abszolút útvonalát írta a `Location` fejlécbe:
+
+```
+/koszonooldal-ajanlatkeres/  →  301  →  …/home/okotechhome/public_html/koszonooldal-ajanlatkeres
+```
+
+Hét URL kapott átirányítást, mindegyik **a hozzá tartozó űrlapra**, nem a
+főoldalra: aki ezt a linket követi, egy beküldés után járt itt, és
+legvalószínűbben újra meg akarja tenni. Egy gyűjtőszabály fedi a régi oldal
+általunk nem ismert köszönőoldalait. Mérve teszten, majd élesen: mind a hét
+egy ugrással ér célba, kevert írásmóddal is. (`34450eb`)
+
+### Javítva — a mobil PageSpeed a rossz LCP-feltevés miatt állt 80-on
+
+A Lighthouse megnevezi az LCP-elemet, és az **nem a hero-kép, hanem a hero
+címsora**. Ez azért számít, mert szöveges LCP-nek nincs saját erőforrása: az
+idejét a `TTFB + render delay` adja, tehát a kritikus lánc dönti el, nem a
+képméret. A lánc pedig három soros kört tett meg, mielőtt a címsor a végleges
+alakjába állt:
+
+```
+HTML  →  betuk.css  →  zilla-slab-600-latin.woff2  →  a címsor végleges rajzolása
+```
+
+A betűt csak a stíluslap feldolgozása után találja meg a böngésző. Egyetlen
+`preload` kivesz egy lépést — a betű mostantól a stíluslappal **párhuzamosan**
+indul. Egy fájl, és csak `latin`; a `latin-ext` (a magyar ő és ű) meg a többi
+vastagság továbbra is a `unicode-range` szerint jön, amikor kell.
+
+A betű-előtöltést kizáró komment azzal érvelt, hogy 57 KB betű állna a 86 KB-os
+LCP-kép elé. **A feltevés volt hibás:** a kép nem az LCP, mobilon a szöveg alá
+kerül, jórészt a hajtás alá. A `betuk_beszuras.py` egyébként eleve ezt az
+előtöltést írta be — a leírásában ma is benne állt, a sablonjából viszont
+kikerült; a kettő újra egyezik.
+
+Élesben mérve, 6 futás (100 · 98 · 98 · 98 · 98 · 90):
+
+| | előtte | utána |
+|---|---|---|
+| pontszám | 80–84 | **98** |
+| FCP | 2,6 s | 1,24 s |
+| LCP | 3,8 s | 2,36 s |
+| CLS | 0,078 | **0,000** |
+
+A vízesés előtte-utána **bájtra azonos** — 59 kérés, 638 KB —, tehát a nyereség
+a sorrendből jön, nem a letöltött anyagból. A CLS azért esett nullára, mert a
+címsor nem rajzolódik újra Georgiáról Zilla Slabra az elrendezés után.
+
+**Két kísérlet, amit a mérés elutasított**, és ezért a kód mellé írva maradt:
+a mobil hero-előtöltés elvétele az LCP-t **rontotta** (4,13 → 4,36 s — a kép a
+hero elrendezésének része, későn megtalálva a szekció is csúszik); az `app.css`
+minifikálása csak az éles fában azt jelentené, hogy a minifikált CSS soha nem
+fut a teszten élesítés előtt, a Lighthouse 66 KB-os ajánlata pedig tömörítetlen
+méret — a brotli a fájlt amúgy is 44 KB-ra viszi. (`7997a73`)
+
+### Javítva — a szkriptek gyorsítótár-fejléc nélkül mentek ki
+
+A `mod_expires` és a `mod_deflate` is a **válasz** Content-Type-jára illeszt,
+az Apache pedig a `.js`-t a mai szabványos `text/javascript` néven adja ki — a
+mi `application/javascript`-et megnevező szabályaink tehát **soha nem
+fogtak**. Minden szkript `Cache-Control` nélkül ment ki; ezt jelentette a
+PageSpeed „Cache TTL: None"-ként mind a 14-re. Mindkét név bekerült; élesben
+ellenőrizve, a JS egy évet kap.
+
+A tömörítésnél ugyanez a hiba a kiszolgáló brotli rétege mögött rejtőzött —
+attól, hogy a saját szabályunk nem fogott, a fájlok tömörítve mentek. Brotli
+nélküli kiszolgálón viszont a JS tömörítetlenül ment volna ki. (`7997a73`)
+
+> **Ezzel lezárult egy régi tétel:** az éles kiszolgáló ma **brotlival tömörít**
+> és HTTP/2-t ad (`app.css` 142 KB → 44 KB). A korábbi diagnózis — a cPanel
+> nginx-proxya letépi az `Accept-Encoding`-ot, ezért a `mod_deflate` sosem fut —
+> már nem érvényes, a Sybelltől nem kell kérni semmit.
 
 ## [0.40.00] — 2026-09-14
 
