@@ -83,6 +83,52 @@
       if (elso) elso.focus();
     };
 
+    /* ================= MÉRÉS =================================================
+       A KONVERZIÓ A dataLayerBE MEGY, nem közvetlen mérőkódba. A GTM-en kívül
+       szándékosan nincs Google- vagy Meta-hívás: két helyről mérve ugyanaz az
+       esemény kétszer számolódna.
+
+       MIÉRT ITT ÉS NEM A KÖSZÖNŐOLDALON. A régi webhelyen a konverzió a
+       `/koszonooldal-*` lap megtekintésére sült el. Itt nincs köszönőoldal: az
+       űrlap AJAX-szal küld, a látogató a helyén marad. A sikeres beküldés
+       pillanata az egyetlen megbízható jel, és az itt van.
+
+       A BŐVÍTETT EGYEZTETÉS MEZŐI A RESET ELŐTT KELLENEK. Lentebb `urlap.reset()`
+       fut; ha utána olvasnánk ki az e-mailt és a telefont, üres sztringet
+       kapnánk, és az enhanced conversion némán érték nélkül maradna. */
+    const MERT = new WeakSet();   // űrlaponként egyszer, lásd lentebb
+
+    const mezo = (nev) => {
+      const m = urlap.querySelector('[name="' + nev + '"]');
+      return m && m.value ? String(m.value).trim() : '';
+    };
+
+    const konverzio = () => {
+      /* EGYSZER SÜLHET EL. A gomb sikeres küldés után tiltva marad, de a
+         garanciát nem arra bízzuk: egy visszalépés, egy kettős kattintás vagy
+         egy böngészőkiegészítő újraküldhetné az űrlapot. */
+      if (MERT.has(urlap)) return;
+      MERT.add(urlap);
+
+      const esemeny = urlap.dataset.meres;      // pl. oth_ajanlatkeres
+      if (!esemeny) return;                     // amelyik űrlapnál nincs, az nem mér
+
+      /* Egységes alak, hogy az egyeztetés illeszkedni tudjon: kisbetűs e-mail,
+         a telefonból csak a számjegyek és a vezető +. */
+      const email = mezo('email').toLowerCase();
+      const tel = (mezo('telefon') || mezo('megrendelo_telefon') || mezo('kapcsolattarto_telefonszama'))
+        .replace(/[^\d+]/g, '');
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: esemeny,
+        oth_urlap: urlap.getAttribute('action') || '',
+        oth_email: email || undefined,
+        oth_telefon: tel || undefined,
+      });
+    };
+    /* ======================================================================= */
+
     urlap.addEventListener('submit', async (e) => {
       /* Ha a böngésző natív ellenőrzése megbukik, hagyjuk őt dolgozni. */
       if (!urlap.checkValidity()) return;
@@ -101,6 +147,7 @@
         if (res.ok && adat.ok) {
           mezoHibak(null);
           jelez(adat.uzenet || 'Köszönjük, megkaptuk.', 'ok');
+          konverzio();          /* A RESET ELŐTT — lásd a fenti indoklást. */
           urlap.reset();
           if (ido) ido.value = String(Math.floor(Date.now() / 1000));
           /* Sikeres küldés után a gomb tiltva marad: a kétszeri beküldés

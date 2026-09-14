@@ -188,8 +188,17 @@
      kapuzza. Itt ezért mindent némán elnyelünk: a mérés SOHA nem törheti el a
      modult. */
   function mer(esemeny, adat) {
-    if (typeof window.gtag !== "function") return;
-    try { window.gtag("event", esemeny, adat || {}); } catch (e) { /* néma */ }
+    /* A dataLayerBE ÍRUNK, nem közvetlen gtag-hívással — 2026-09-14 óta a mérés
+       a GTM-konténeren át fut, és a `gtag("event", …)` alakot a konténer nem
+       eseményként, hanem nyers parancsként látná. A `dataLayer.push` viszont
+       pontosan az, amire a GTM-trigger épülhet.
+
+       A dataLayer MINDIG létezik (a `suti.js` már írt bele), tehát itt nincs
+       mit ellenőrizni — a mérés így sem tudja eltörni a modult. */
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(Object.assign({ event: esemeny }, adat || {}));
+    } catch (e) { /* néma */ }
   }
 
   /* A rajzolatok dekoratívak: a jelentést mindig a mellettük álló szöveg

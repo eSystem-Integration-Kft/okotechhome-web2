@@ -298,7 +298,7 @@ import pathlib, re, sys
 cel, ga4 = pathlib.Path(sys.argv[1]), sys.argv[2]
 sor = ('<!-- Mérés (GA4). Hozzájárulásig minden tárolás tiltva — lásd\n'
        '     assets/js/meres.js és assets/js/suti.js. -->\n'
-       f'<script src="/assets/js/meres.js?v=1" data-ga4="{ga4}" defer></script>\n')
+       f'<script src="/assets/js/meres.js?v=2" data-ga4="{ga4}" defer></script>\n')
 n = 0
 for f in sorted(cel.rglob('*.html')):
     t = f.read_text(encoding='utf-8')
@@ -308,6 +308,44 @@ for f in sorted(cel.rglob('*.html')):
     n += 1
 print(f'mérés beszúrva: {n} lapon ({ga4})')
 PYGA
+
+# --------------------------------- 6/b. réteg: a GTM-konténer bekapcsolása
+#
+# UGYANAZ AZ ELV, mint a 6. rétegnél: a konténer CSAK az éles fába kerül be,
+# hogy a fejlesztői forgalom ne szennyezze a mérést.
+#
+# A SORREND KÖTÖTT. Ez a réteg a mérés UTÁN fut, tehát a `gtm.js` tag a
+# `meres.js` MÖGÉ kerül a `<head>`-ben. Mindkettő `defer`, a `defer`-es
+# szkriptek pedig dokumentumsorrendben futnak — így a Consent Mode v2
+# alapállapota (minden `denied`) már a dataLayerben van, mire a konténer
+# betölt. Fordított sorrendben a címkék a hozzájárulás előtt indulnának.
+#
+# A `<noscript>` RÉSZ a `<body>` elejére megy, ahogy a Google előírja. Szkript
+# nélküli böngészőben a `defer`-es fájl nem fut le; ez az egyetlen ág, ami
+# akkor is jelez. Az iframe miatt kell a CSP-be a `frame-src`.
+GTM="GTM-K4J4BWK"
+python3 - "$CEL" "$GTM" <<'PYGTM'
+import pathlib, re, sys
+cel, gtm = pathlib.Path(sys.argv[1]), sys.argv[2]
+fej = ('<!-- Google Tag Manager. A GA4, a Google Ads és a Meta Pixel a\n'
+       '     konténerben él — a lapon GTM-en kívül nincs mérőkód. -->\n'
+       f'<script src="/assets/js/gtm.js?v=2" data-gtm="{gtm}" defer></script>\n')
+test = (f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={gtm}"\n'
+        '        height="0" width="0" style="display:none;visibility:hidden"\n'
+        '        title="Google Tag Manager"></iframe></noscript>\n')
+n = 0
+for f in sorted(cel.rglob('*.html')):
+    t = f.read_text(encoding='utf-8')
+    if 'assets/js/gtm.js' in t or '</head>' not in t:
+        continue
+    t = t.replace('</head>', fej + '</head>', 1)
+    m = re.search(r'<body[^>]*>', t)
+    if m:
+        t = t[:m.end()] + '\n' + test + t[m.end():]
+    f.write_text(t, encoding='utf-8')
+    n += 1
+print(f'GTM beszúrva: {n} lapon ({gtm})')
+PYGTM
 
 # ------------------------------------------------- 7. réteg: HSTS bekapcsolása
 #

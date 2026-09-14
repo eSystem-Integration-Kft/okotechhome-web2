@@ -190,21 +190,27 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
                 "frame-ancestors 'none'; object-src 'none'; "
                 "img-src 'self' data: blob: https://*.googleapis.com "
                 "https://*.gstatic.com https://*.ggpht.com; "
-                "frame-src https://www.google.com; "
+                "frame-src https://www.google.com https://www.googletagmanager.com "
+                "https://td.doubleclick.net; "
                 "style-src 'self' 'unsafe-inline'; "
                 "font-src 'self'; "
-                "script-src 'self' https://maps.googleapis.com https://maps.gstatic.com; "
-                "connect-src 'self' https://maps.googleapis.com https://*.googleapis.com; "
+                "script-src 'self' https://maps.googleapis.com https://maps.gstatic.com "
+                "https://www.googletagmanager.com https://connect.facebook.net https://www.googleadservices.com https://googleads.g.doubleclick.net; "
+                "connect-src 'self' https://maps.googleapis.com https://*.googleapis.com "
+                "https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://googleads.g.doubleclick.net https://www.google.com; "
                 "worker-src 'self' blob:",
             )
         else:
             self.send_header(
                 "Content-Security-Policy",
                 "default-src 'self'; base-uri 'self'; form-action 'self'; "
-                "frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; "
-                "frame-src https://www.google.com; "
+                "frame-ancestors 'none'; object-src 'none'; "
+                "img-src 'self' data: https://www.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com; "
+                "frame-src https://www.google.com https://www.googletagmanager.com "
+                "https://td.doubleclick.net; "
                 "style-src 'self'; "
-                "font-src 'self'; script-src 'self'",
+                "font-src 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net https://www.googleadservices.com https://googleads.g.doubleclick.net; "
+                "connect-src 'self' https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://googleads.g.doubleclick.net https://www.google.com",
             )
         # A teszt üzemmód robotkizárása is, hogy a két környezet ne térjen el.
         self.send_header(

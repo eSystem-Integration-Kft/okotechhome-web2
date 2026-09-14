@@ -46,19 +46,42 @@
   });
 
   gtag('js', new Date());
-  /* Az IP-anonimizálás a GA4-ben alapértelmezett és nem kapcsolható ki, ezért
-     nem állítjuk külön. A `denied` állapotban küldött jelzés sütit nem használ. */
-  gtag('config', AZON);
 
-  const t = document.createElement('script');
-  t.async = true;
-  t.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(AZON);
-  document.head.append(t);
+  /* A GA4-ET NEM EZ A FÁJL TÖLTI BE — 2026-09-14 óta.
+     ---------------------------------------------------------------------
+     Korábban itt állt a `gtag('config', AZON)` és a `gtag/js` betöltése. A
+     mérés azóta a GTM-konténeren (`gtm.js`) keresztül fut, és a konténer
+     UGYANEZT a GA4 property-t tölti. Ha mindkettő futna, minden lapmegtekintés
+     KÉTSZER számolódna — a PPC-brief ezért is köti ki, hogy GTM-en kívül ne
+     kerüljön be Google-kód.
+
+     AMI ITT MARAD, AZ A LÉNYEG: a Consent Mode v2 alapállapota. A `gtag()`
+     ilyenkor is a `dataLayer`-be ír, a konténer pedig onnan olvassa — a
+     `default` parancs tehát eléri a címkéket, csak épp a GTM-en át. A sorrendet
+     a `prod-epit.sh` 6/b. rétege garantálja: a `meres.js` tag a `gtm.js` ELŐTT
+     áll, és mindkettő `defer`.
+
+     AZ AZONOSÍTÓ MARAD a `data-ga4` attribútumban: ez a kapcsoló, ami
+     megmondja, hogy éles fában vagyunk-e, és dokumentálja, melyik property-be
+     mérünk. Enélkül ez a modul nem csinál semmit. */
 
   /* A DÖNTÉS KÖVETÉSE. A `suti.js` induláskor is hirdet (a mentett döntéssel),
      és minden mentésnél újra — így a visszavonás is ideér, nem csak a megadás. */
   document.addEventListener('oth:suti', (e) => {
-    const eng = e.detail && e.detail.statisztika ? 'granted' : 'denied';
-    gtag('consent', 'update', { analytics_storage: eng });
+    const d = e.detail || {};
+    const stat = d.statisztika ? 'granted' : 'denied';
+    const mark = d.marketing   ? 'granted' : 'denied';
+    /* MIND A NÉGY JEL, nem csak az analitika. A Consent Mode v2-ben a
+       hirdetési célnak HÁROM külön jele van, és a Google Ads konverziómérés
+       mindhármat nézi — ha csak az `analytics_storage`-ot frissítjük, a
+       hirdetési jelek örökre `denied`-en maradnak, és a konverzió EU-ban
+       mérhetetlen. A `terkep` nem tartozik ide: az a beágyazott Google Térkép
+       megjelenítéséről szól, nem tárolásról. */
+    gtag('consent', 'update', {
+      analytics_storage:  stat,
+      ad_storage:         mark,
+      ad_user_data:       mark,
+      ad_personalization: mark,
+    });
   });
 })();

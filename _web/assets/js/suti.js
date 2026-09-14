@@ -29,9 +29,16 @@
   'use strict';
 
   const NEV     = 'oth-suti';
-  const VERZIO  = 1;
+  /* A VERZIÓ EMELÉSE ÚJRA MEGKÉRDEZ MINDENKIT, és ez így helyes: a korábbi
+     hozzájárulás a marketing célra nem terjed ki, tehát nem vihető át. */
+  const VERZIO  = 2;
   const HONAP   = 12;
-  const KATEGORIAK = ['beallitas', 'statisztika', 'terkep'];
+  /* MARKETING KATEGÓRIA — 2026-09-14. A Google Ads konverziómérés és a Meta
+     Pixel EU-ban hozzájáruláshoz kötött, és ez NEM a statisztikai kategória:
+     a látogató dönthet úgy, hogy a látogatottságmérést engedi, a hirdetési
+     célú követést nem. A Consent Mode v2 is külön jelet vár rájuk
+     (`ad_storage`, `ad_user_data`, `ad_personalization`). */
+  const KATEGORIAK = ['beallitas', 'statisztika', 'marketing', 'terkep'];
 
   /* A kategóriák szövege EGY HELYEN. A tájékoztató táblázatával szó szerint
      egyeznie kell — ha ott változik a leírás, itt is változtatni kell. */
@@ -44,6 +51,11 @@
       cim: 'Statisztikai',
       mit: 'A látogatottság mérése összesített formában: mely oldalak népszerűek, ' +
            'hol akadnak el a látogatók. Eszköz: Google Analytics 4.',
+    },
+    marketing: {
+      cim: 'Hirdetési és remarketing',
+      mit: 'A hirdetéseink eredményességének mérése, és hogy ne ugyanazt a ' +
+           'hirdetést lássa újra és újra. Eszköz: Google Ads és Meta Pixel.',
     },
     terkep: {
       cim: 'Beágyazott térkép',
@@ -90,7 +102,19 @@
   /* A KIHIRDETÉS. Minden érdeklődő modul ezt hallgatja — a `document`-en, mert
      az minden szkript számára elérhető, betöltési sorrendtől függetlenül. */
   function kihirdet() {
-    document.dispatchEvent(new CustomEvent('oth:suti', { detail: allapot() }));
+    const a = allapot();
+    document.dispatchEvent(new CustomEvent('oth:suti', { detail: a }));
+    /* A GTM NEM HALLGAT CustomEvent-re. A Meta Pixel a Consent Mode-ot nem
+       kezeli, tehát a betöltését magának a triggernek kell a marketing
+       hozzájáruláshoz kötnie — ahhoz viszont a dataLayerben kell látnia a
+       döntést. Ezért ugyanaz az állapot ide is kimegy, esemény formájában. */
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'oth_suti_dontes',
+      oth_suti_statisztika: a.statisztika ? 'granted' : 'denied',
+      oth_suti_marketing:   a.marketing   ? 'granted' : 'denied',
+      oth_suti_terkep:      a.terkep      ? 'granted' : 'denied',
+    });
   }
 
   function ment(kapcsolok) {
