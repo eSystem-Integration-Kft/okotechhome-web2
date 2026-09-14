@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.42.00-80A640?style=flat-square" alt="verzió 0.42.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.43.00-80A640?style=flat-square" alt="verzió 0.43.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-49-56642B?style=flat-square" alt="49 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-50-56642B?style=flat-square" alt="50 kiadás">
 </p>
 
 ---
@@ -28,6 +28,69 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.43.00] — 2026-09-14
+
+### Módosítva — a konténer a döntés előtt is elindul, ahogy a Consent Mode kéri
+
+A GTM-konténer eddig megvárta, hogy a látogató válaszoljon a süti-sávra. Ez a
+**mi extra rétegünk volt, nem a mérési előírás kérése** — és pont azt ütötte
+ki, amiért a Consent Mode v2 létezik:
+
+- a **süti nélküli jelzések** el sem indultak,
+- aki a sávot figyelmen kívül hagyta, **semmilyen mérésbe nem került bele**,
+  még modellezettbe sem.
+
+Bela döntése: menjen, ne korlátozzuk. A Pixelt mostantól a Meta saját
+hozzájárulási API-ja fogja vissza (`meres.js`): `revoke` a konténer előtt,
+`grant` csak akkor, ha a **marketing** kategóriát elfogadták. Ez **egy réteg a
+korábbi kettő helyett**, ezért a `meres.js` sorrendje (Consent Mode alapállapot
+→ fbq csonk → revoke) és a `prod-epit.sh` beszúrási sorrendje mostantól
+teherhordó — a fájl ki is mondja.
+
+**Élesben mérve**, sütik és localStorage törlésével minden futás előtt:
+
+| | sütik | esemény a Metának |
+|---|---|---|
+| döntés előtt | egy sem | 0 |
+| csak a szükségesek | `oth-suti` | 0 |
+| mindet elfogadva | `oth-suti`, `_gcl_au`, `_ga`, `_ga_EN120W3K2Q`, `_fbp` | 1 |
+
+És amiért az egész: a **süti nélküli jelzések elindultak** — döntés előtt megy
+a `region1.google-analytics.com/g/collect` és a
+`pagead2.googlesyndication.com/ccm/collect`, miközben egyetlen süti sem íródik.
+
+> **Aki a konténert nézi, ezt tudja meg:** az `fbq.queue`-ban látszik egy
+> `consent:grant`, amit a konténer Meta-sablonja tol be indításkor. **Nem
+> érvényesül** — a Metához egyetlen esemény sem jut el, és `_fbp` sem születik,
+> amíg a látogató a marketinget el nem fogadja. A hálózatot és a sütiket kell
+> nézni, nem azt a sort.
+
+**Amit cserébe vállaltunk:** a konténer szkriptje a döntés előtt is elindul,
+tehát a látogató IP-címe eljut a Google-höz és a Metához. A Consent Mode v2 így
+működik, és az előírás ezt kéri. A visszaút egy sor, a fájlban megnevezve.
+(`9e0f111`)
+
+### Eltávolítva — az ADATHIÁNY megjegyzések kikerültek a lapokból
+
+**91 `<!-- ADATHIÁNY … -->` komment ült 89 kiadott lapon**, 351 sor. A látogató
+nem látta, de aki forrást nézett, igen — és minden lapmegtekintéskor letöltődött
+a megbízónak címzett belső teendőlista.
+
+A nyilvántartás mostantól egyedül a `_files/potolando-lista.md` — és **előbb meg
+kellett írni**: a fájl létezett, de **8 tételt** tartalmazott, a jogi lapok
+látható hiányait, amiket aznap már pótoltunk. A markupban lévő 91 nem volt
+benne; ha a kommentek mennek előbb, a lista velük ment volna.
+
+Aszerint csoportosítva, **kitől várjuk** az adatot — így adható ki a munka:
+`ÖkoTech projektarchívum` 7, `műszaki vezetés` 4, `műszaki csapat` 3, a többi
+1–2 tételes, 68 forrásból. Lapútvonallal, a teljes eredeti szöveggel és a
+tételek közben felvett állásjelzéseivel.
+
+A 47 `JOGI ELLENŐRZÉS PUBLIKÁLÁS ELŐTT` komment **érintetlen** — nem ezt kérte,
+bár ugyanolyan avult: az ellenőrzés aznap megtörtént, 13 hivatkozásból 11
+hibátlan, az eredmény a `_files/jogi-hivatkozas-ellenorzes-2026-09-14.md`-ben.
+(`cc2f4e8`)
 
 ## [0.42.00] — 2026-09-14
 
