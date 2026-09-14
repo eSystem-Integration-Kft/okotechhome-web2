@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.43.00-80A640?style=flat-square" alt="verzió 0.43.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.44.00-80A640?style=flat-square" alt="verzió 0.44.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-50-56642B?style=flat-square" alt="50 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-51-56642B?style=flat-square" alt="51 kiadás">
 </p>
 
 ---
@@ -28,6 +28,46 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.44.00] — 2026-09-14
+
+### Eltávolítva — a JOGI ELLENŐRZÉS megjegyzések, de az előírás megmaradt
+
+**47 megjegyzés 47 lapon, 241 sor**, ami minden lapmegtekintéskor kiment. Az
+ADATHIÁNY-jelölésekkel azonos kezelés, egy különbséggel — és az megváltoztatta,
+mi lehet a pótlásuk.
+
+**Ezek nem elvégzendő feladatok voltak.** A szövegük: *„PUBLIKÁLÁS ELŐTT **ÉS
+RENDSZERESEN**"* — állandó előírás, hogy minden kiadás előtt újra kell nézni a
+jogi állításokat, mert a jogszabály és a hatósági gyakorlat változik. Egyszerű
+törlésük magát az előírást törölte volna.
+
+Helyettük **`_files/jogi-hivatkozasok-nyilvantartas.md`**: melyik jogszabály
+hány és melyik lapon szerepel, és mikor ellenőriztük utoljára. Így a rendszeres
+átnézés **egy fájl elolvasása**, nem 47 lap végiggrepelése — és kiderül belőle
+valami, amit a szétszórt megjegyzések eltakartak.
+
+**A mai ellenőrzés nem fedett le mindent.** 13 hivatkozást nézett át, abból 11
+hibátlan. A megjegyzésekben szereplő kilenc jogszabályból **öt nem volt benne**:
+
+| jogszabály | lap |
+|---|---:|
+| 27/2004. (XII. 25.) KvVM r. — a felszín alatti víz érzékenysége | 20 |
+| 219/2004. (VII. 21.) Korm. r. — felszín alatti vizek védelme | 20 |
+| 26/2002. (II. 27.) Korm. r. — szennyvízelvezetési agglomerációk | 9 |
+| 27/2005. (XII. 6.) KvVM r. — mintavétel és ellenőrzés | 8 |
+| 281/2024. Korm. r. | 3 |
+
+A nyilvántartás ezeket „— még nem"-mel jelöli, nem hagyja a hézagot
+kimondatlanul.
+
+A megjegyzések egy figyelmeztetést is hordoztak, ami átkerült a fájl elejére:
+**az illetékes hatóság megnevezése avul a leggyorsabban** — a saját szövegünk
+korábban már egy nem létező szervezetet nevezett meg.
+
+Egy megjegyzés `<p>` elemen BELÜL, nem saját sorban ült, ezért a tömeges menet
+kihagyta; kézzel került ki, a bekezdés sértetlenül. A kiadott fában **nem maradt
+sem ADATHIÁNY, sem JOGI ELLENŐRZÉS, sem TODO, sem FIXME.** (`1624ed4`)
 
 ## [0.43.00] — 2026-09-14
 
