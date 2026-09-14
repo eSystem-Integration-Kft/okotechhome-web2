@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.41.00-80A640?style=flat-square" alt="verzió 0.41.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.42.00-80A640?style=flat-square" alt="verzió 0.42.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-48-56642B?style=flat-square" alt="48 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-49-56642B?style=flat-square" alt="49 kiadás">
 </p>
 
 ---
@@ -28,6 +28,52 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.42.00] — 2026-09-14
+
+### Módosítva — a Hírek és az Eredmények helyet cserélt a menüben
+
+A Hírek a `Rólunk` panel hét tétele közül volt az egyik — rossz hely az
+egyetlen szakasznak, amelyikbe új tartalom kerül. Az Eredmények felső szintű
+helyet foglalt, a panelje viszont félig üres tervekből állt. A kettő cserélt.
+
+**Az új Hírek panel rovatonként rendezett**, hasábonként a három legfrissebb
+cikkel — a szakasz szerkezete és egy-egy belépési pont, egy pillantásra:
+
+| Vállalati hírek | Pályázatok és fejlesztések | Kiállítások és események |
+|---|---|---|
+| Pénzügyi stabilitási tanúsítvány — 2025 | ER-MIS és StarSoft rendszerek | Két fesztivál a Balaton partján |
+| Elkészült a saját csarnokunk | Új termelésirányítási rendszer | Construma-díj — 2014 |
+| Decentralizált szennyvíztisztítás konferencia | Európai szabadalom NKFIA-támogatással | IFAT München — 2019 |
+
+A **rovatnevek passzívak**: rovatlap még nincs, hivatkozásként 404-re futnának.
+Ugyanaz a minta, amit a „Készül" oszlopok használnak. A panel fejlécében
+`Áttekintés →` visz a hírlistára.
+
+**Az Eredmények a Rólunk panelbe költözött**, a négy megvalósult projektjével
+együtt. A felirata az `eredmenyek/` áttekintőre mutat — ami létezik; a régi
+panel ezt még „Készül"-ként sorolta, tévesen. A projektadatbázis és a műszaki
+bizonyítékok viszont valóban nincsenek meg, azok passzívak maradtak.
+
+**A panel VÉGÉN ül, és ez elrendezési döntés.** A `.mega-oszlopok` három
+hasábos rács, a rács sorai pedig egy magasak: harmadik helyen az allistája
+felnyújtotta az első sort, és ~190 px üres terület maradt a Cégünkről és a
+Történetünk alatt. Utolsóként a magas cella saját sort kap, és nem húz fel
+senkit. (`b9ea1b9`)
+
+### Javítva — a fejléc generátora egy futtatással visszacsinálta volna
+
+A `fejlec.py` `KESZUL` listája még nevesítette az Eredményeket, tehát egyetlen
+futtatás felső szintű, passzív panellé írta volna vissza mind a 189 lapon — és
+vitte volna magával a Hírek panelt. Ugyanaz a csapda, amire a Fogalomtár
+kommentje már figyelmeztet ugyanabban a fájlban. Kivezetve, az indoklással
+együtt.
+
+A megamenüt nem generátor állítja elő: mind a 189 lapon ott áll, és tömeges
+cserével mozog, mélységfüggő útvonal-előtaggal (`''`, `'../'`, `'../../'`).
+Minden lapon ellenőrizve: a `<nav>` tagmérlege stimmel, a Rólunkban hét tétel
+van, az utolsó az Eredmények, és van Hírek panel. Élesben ellenőrizve, hogy a
+célok mindhárom mélységből feloldódnak. (`b9ea1b9`)
 
 ## [0.41.00] — 2026-09-14
 
