@@ -77,6 +77,29 @@ DirectoryIndex index.html
   RewriteRule ^elszivarogtatas/?$                                 /tudastar/elszivarogtatas [R=301,L,NE,NC]
   RewriteRule ^kiknek/?$                                          /megoldasok/biologiai-szennyviztisztitas [R=301,L,NE,NC]
 
+  # --- A RÉGI KÖSZÖNŐOLDALAK ------------------------------------------------
+  # A WordPress az űrlap beküldése UTÁN dobta ide a látogatót, és a Google Ads
+  # konverziója ezeknek az URL-eknek a megtekintésére sült el. Az új webhelyen
+  # nincs köszönőoldal: az űrlap AJAX-szal küld, a látogató a helyén marad, a
+  # konverzió pedig dataLayer-eseményre megy (lásd `assets/js/urlap.js`).
+  #
+  # AZ URL-EK VISZONT ÉLNEK a régi hirdetésekben, e-mailekben és könyvjelzőkben.
+  # Idáig mind 404-re futott — ráadásul a záró perjel szabályán keresztül, ami
+  # közben a kiszolgáló abszolút útvonalát is kiírta a Location fejlécbe.
+  #
+  # A CÉL A HOZZÁ TARTOZÓ ŰRLAP, nem a főoldal: aki ezt a linket követi, az egy
+  # beküldés után járt itt — a legvalószínűbb szándéka, hogy újra megtegye.
+  RewriteRule ^koszonooldal-ajanlatkeres/?$   /ajanlat [R=301,L,NE,NC]
+  RewriteRule ^koszonooldal-agrarexpo/?$      /ajanlat [R=301,L,NE,NC]
+  RewriteRule ^koszonooldal-megrendeles/?$    /megrendeles [R=301,L,NE,NC]
+  RewriteRule ^koszonooldal-kapcsolat/?$      /kapcsolat [R=301,L,NE,NC]
+  RewriteRule ^koszonooldal-ertekesites/?$    /kapcsolat [R=301,L,NE,NC]
+  RewriteRule ^koszonooldal-kozvetitoi/?$     /kapcsolat [R=301,L,NE,NC]
+  # GYŰJTŐ a többire. A régi webhelyről nem biztos, hogy mind a hatot ismerjük;
+  # ami `koszonooldal-`-lal kezdődik, az biztosan onnan jön. A Kapcsolat lap a
+  # legbiztonságosabb cél: onnan minden út elérhető.
+  RewriteRule ^koszonooldal-[a-z0-9-]*/?$     /kapcsolat [R=301,L,NE,NC]
+
   # ===========================================================================
   # A RÉGI BLOG BEJEGYZÉSEI → /okotech-home/hirek/<szlug>
   # ---------------------------------------------------------------------------
