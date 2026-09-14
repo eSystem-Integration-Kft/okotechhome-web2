@@ -329,7 +329,7 @@ import pathlib, re, sys
 cel, gtm = pathlib.Path(sys.argv[1]), sys.argv[2]
 fej = ('<!-- Google Tag Manager. A GA4, a Google Ads és a Meta Pixel a\n'
        '     konténerben él — a lapon GTM-en kívül nincs mérőkód. -->\n'
-       f'<script src="/assets/js/gtm.js?v=2" data-gtm="{gtm}" defer></script>\n')
+       f'<script src="/assets/js/gtm.js?v=3" data-gtm="{gtm}" defer></script>\n')
 test = (f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={gtm}"\n'
         '        height="0" width="0" style="display:none;visibility:hidden"\n'
         '        title="Google Tag Manager"></iframe></noscript>\n')

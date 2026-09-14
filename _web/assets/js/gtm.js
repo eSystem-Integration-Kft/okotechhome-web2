@@ -43,40 +43,35 @@
     document.head.append(t);
   }
 
-  /* A KONTÉNER MEGVÁRJA A DÖNTÉST — és ez átmeneti megoldás.
+  /* A KONTÉNER AZONNAL INDUL. Ez a Consent Mode v2 feltétele.
      ---------------------------------------------------------------------
-     MÉRVE 2026-09-14-én, élesben: amint a konténer betöltött, vele betöltött a
-     Meta Pixel is (`connect.facebook.net/signals/config/…` és `fbevents.js`) —
-     MIELŐTT a látogató bármihez hozzájárult volna. A Meta Pixel ugyanis nem
-     vesz részt a Consent Mode-ban: a Google címkéit a `denied` alapállapot
-     visszafogja, a Pixelt nem. A konténerben a trigger „minden oldal”, tehát
-     a hozzájárulás megkérdezése előtt sütizett.
+     VOLT ITT EGY KÉSLELTETÉS: a konténer megvárta a látogató döntését. Bela
+     döntése alapján (2026-09-14) kikerült — „menjen, ne korlátozzuk”. A
+     mérési előírás Consent Mode v2-t kér, és a késleltetés pont azt ütötte ki.
 
-     KÉT RÉTEG VÉDI, mert a kettő mást old meg:
+     MIÉRT VOLT OTT. A Meta Pixel nem vesz részt a Consent Mode-ban: a Google
+     címkéit a `denied` alapállapot visszafogja, a Pixelt nem. A konténerben a
+     Pixel triggere „minden oldal”, tehát mérve, élesben, a konténerrel együtt
+     betöltött — döntés előtt.
 
-     1. EZ A KÉSLELTETÉS — a konténer csak azután indul, hogy a látogató
-        döntött. Amíg nem döntött, EGYETLEN kérés sem megy a Google-höz vagy a
-        Metához; a puszta szkriptbetöltés is elárulná az IP-címét.
+     MI FOGJA VISSZA MOSTANTÓL. A Meta saját hozzájárulási API-ja, a
+     `meres.js`-ben: `fbq('consent', 'revoke')` fut a konténer betöltése ELŐTT,
+     és `grant` csak akkor megy, ha a látogató a MARKETING kategóriát fogadta
+     el. A `revoke` állapotú Pixel nem sütizik és nem küld eseményt. Ez most
+     EGYETLEN réteg, nem kettő — ezért a `meres.js` sorrendje (Consent Mode
+     alapállapot → fbq stub → revoke) nem átrendezhető, és a `prod-epit.sh`
+     beszúrási sorrendje sem.
 
-     2. A META SAJÁT HOZZÁJÁRULÁSI API-ja (`meres.js`): `fbq('consent',
-        'revoke')` a konténer előtt, és csak `marketing === true` esetén
-        `grant`. EZ JAVÍT EGY VALÓDI HIBÁT: önmagában ez a késleltetés
-        BÁRMILYEN döntésre elindítja a konténert, tehát aki csak a szükséges
-        sütiket engedte, annál is elsült volna a Pixel. A marketing kategória
-        külön jel, és mostantól az dönt.
+     AMIT A KÉSLELTETÉS ELRONTOTT, és ezért került ki:
+       · a Consent Mode v2 SÜTI NÉLKÜLI JELZÉSEI el sem indultak;
+       · aki a sávra EGYÁLTALÁN NEM VÁLASZOLT, semmilyen mérésbe nem került
+         bele, még modellezettbe sem.
 
-     AMI AZ 1. RÉTEGGEL ELVÉSZ: a Consent Mode süti nélküli jelzései annál, aki
-     még nem döntött. Valós veszteség, de kisebb baj, mint döntés előtt
-     megkeresni a Google-t és a Metát.
+     AMIT CSERÉBE VÁLLALTUNK: a konténer szkriptje döntés előtt is elindul,
+     tehát a látogató IP-címe eljut a Google-höz és a Metához. A Consent Mode
+     v2 így működik, és a mérési előírás ezt kéri.
 
-     A KONTÉNER-OLDALI VÉGLEGES MEGOLDÁS: a Meta Pixel címkéjének triggere
-     várjon az `oth_suti_dontes` eseményre, `oth_suti_marketing === "granted"`
-     feltétellel. Amint ez megvan, az 1. réteg (ez a késleltetés) elhagyható, és
-     a Google mérése teljes értékűvé válik — a 2. réteg akkor is maradjon. */
-  const S = window.OthSuti;
-  if (S && S.allapot && S.allapot().dontott) {
-    betolt();
-  } else {
-    document.addEventListener('oth:suti', betolt, { once: true });
-  }
+     A VISSZAÚT EGY SOR, ha mégis kell: a `betolt()` helyett újra
+     `document.addEventListener('oth:suti', betolt, { once: true })`. */
+  betolt();
 })();
