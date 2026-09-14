@@ -52,19 +52,27 @@
      visszafogja, a Pixelt nem. A konténerben a trigger „minden oldal”, tehát
      a hozzájárulás megkérdezése előtt sütizett.
 
-     AMÍG A KONTÉNERT NEM TUDJUK SZERKESZTENI, a betöltést itt késleltetjük:
-     a konténer csak azután indul, hogy a látogató döntött — akárhogyan is.
-     Így semmi nem fut hozzájárulás nélkül.
+     KÉT RÉTEG VÉDI, mert a kettő mást old meg:
 
-     AMI EZZEL ELVÉSZ: a Consent Mode süti nélküli jelzései (`denied` állapotban
-     a Google modellezett adatot kap). Ez valós veszteség, de kisebb baj, mint
-     hozzájárulás nélkül sütizni.
+     1. EZ A KÉSLELTETÉS — a konténer csak azután indul, hogy a látogató
+        döntött. Amíg nem döntött, EGYETLEN kérés sem megy a Google-höz vagy a
+        Metához; a puszta szkriptbetöltés is elárulná az IP-címét.
 
-     A VÉGLEGES MEGOLDÁS a konténerben van: a Meta Pixel címkéjének triggere
-     várjon az `oth_suti_dontes` eseményre, és csak `oth_suti_marketing ===
-     "granted"` esetén süljön el. Amint ez megvan, ez a késleltetés
-     ELTÁVOLÍTHATÓ, és a konténer visszatérhet az azonnali betöltésre — akkor a
-     Google mérése is teljes értékű lesz. */
+     2. A META SAJÁT HOZZÁJÁRULÁSI API-ja (`meres.js`): `fbq('consent',
+        'revoke')` a konténer előtt, és csak `marketing === true` esetén
+        `grant`. EZ JAVÍT EGY VALÓDI HIBÁT: önmagában ez a késleltetés
+        BÁRMILYEN döntésre elindítja a konténert, tehát aki csak a szükséges
+        sütiket engedte, annál is elsült volna a Pixel. A marketing kategória
+        külön jel, és mostantól az dönt.
+
+     AMI AZ 1. RÉTEGGEL ELVÉSZ: a Consent Mode süti nélküli jelzései annál, aki
+     még nem döntött. Valós veszteség, de kisebb baj, mint döntés előtt
+     megkeresni a Google-t és a Metát.
+
+     A KONTÉNER-OLDALI VÉGLEGES MEGOLDÁS: a Meta Pixel címkéjének triggere
+     várjon az `oth_suti_dontes` eseményre, `oth_suti_marketing === "granted"`
+     feltétellel. Amint ez megvan, az 1. réteg (ez a késleltetés) elhagyható, és
+     a Google mérése teljes értékűvé válik — a 2. réteg akkor is maradjon. */
   const S = window.OthSuti;
   if (S && S.allapot && S.allapot().dontott) {
     betolt();

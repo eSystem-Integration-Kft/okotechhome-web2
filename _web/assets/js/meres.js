@@ -67,8 +67,38 @@
 
   /* A DÖNTÉS KÖVETÉSE. A `suti.js` induláskor is hirdet (a mentett döntéssel),
      és minden mentésnél újra — így a visszavonás is ideér, nem csak a megadás. */
+  /* ===================== META PIXEL ======================================
+     A PIXEL NEM ÉRTI A CONSENT MODE-OT, ezért saját hozzájárulási API-ja van:
+     `fbq('consent','revoke' | 'grant')`. A dokumentáció két dolgot köt ki —
+     a `revoke` az `init` ELŐTT álljon, és MINDEN lapon lefusson.
+
+     MIÉRT ITT ÉS NEM A KONTÉNERBEN. A Pixelt a GTM-konténer tölti be, a
+     triggere ott „minden oldal”. A konténert nem tudjuk szerkeszteni, viszont
+     ez a fájl a konténer ELŐTT fut (a `prod-epit.sh` 6/b. rétege garantálja a
+     sorrendet) — így a `revoke` biztosan megelőzi a Pixel indulását.
+
+     A CSONK A META SAJÁT SNIPPETJÉNEK A SORBAN ÁLLÓ RÉSZE. A Pixel betöltésekor
+     a Meta kódja látja, hogy az `fbq` már létezik, és a sorban álló parancsokat
+     — köztük a `revoke`-ot — feldolgozza. A szkriptet NEM töltjük be: azt a
+     konténer teszi.
+
+     EZ JAVÍT EGY VALÓDI HIBÁT: a korábbi megoldás a konténert BÁRMILYEN
+     döntésre elindította, tehát aki csak a szükséges sütiket engedte, annál is
+     elsült a Pixel. A marketing kategória külön jel, és mostantól az dönt. */
+  if (!window.fbq) {
+    const n = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    window.fbq = n;
+    if (!window._fbq) window._fbq = n;
+    n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+  }
+  window.fbq('consent', 'revoke');
+
   document.addEventListener('oth:suti', (e) => {
     const d = e.detail || {};
+    /* A Metának KÜLÖN kell szólni — a Consent Mode frissítése rá nem hat. */
+    try { window.fbq('consent', d.marketing ? 'grant' : 'revoke'); } catch (_) {}
     const stat = d.statisztika ? 'granted' : 'denied';
     const mark = d.marketing   ? 'granted' : 'denied';
     /* MIND A NÉGY JEL, nem csak az analitika. A Consent Mode v2-ben a

@@ -298,7 +298,7 @@ import pathlib, re, sys
 cel, ga4 = pathlib.Path(sys.argv[1]), sys.argv[2]
 sor = ('<!-- Mérés (GA4). Hozzájárulásig minden tárolás tiltva — lásd\n'
        '     assets/js/meres.js és assets/js/suti.js. -->\n'
-       f'<script src="/assets/js/meres.js?v=2" data-ga4="{ga4}" defer></script>\n')
+       f'<script src="/assets/js/meres.js?v=3" data-ga4="{ga4}" defer></script>\n')
 n = 0
 for f in sorted(cel.rglob('*.html')):
     t = f.read_text(encoding='utf-8')
