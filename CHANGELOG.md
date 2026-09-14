@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.44.00-80A640?style=flat-square" alt="verzió 0.44.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.45.00-80A640?style=flat-square" alt="verzió 0.45.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-51-56642B?style=flat-square" alt="51 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-52-56642B?style=flat-square" alt="52 kiadás">
 </p>
 
 ---
@@ -28,6 +28,48 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.45.00] — 2026-09-14
+
+### Javítva — a konténer a lap betöltése után indul, nem közben
+
+A konténer engedélyezése **~600 KB idegen JavaScriptet** tett minden
+lapmegtekintésre: `gtm.js`, `gtag/js` (többször) és `fbevents.js`. Egyik sem a
+miénk, mégis a lap saját kritikus útjával versengett sávszélességért és fő
+szálért. Egy mobil PageSpeed-futás **64 pontot, 9,2 s LCP-t és hat üres
+képkockát** adott a filmszalagon.
+
+**Ez nem korlátoz semmit:** a konténer továbbra is minden lapmegtekintéskor
+betölt, a Consent Mode ugyanúgy vezérli, a süti nélküli jelzések ugyanúgy
+elmennek. Csak megvárja a `load` eseményt, majd az első nyugodt pillanatot —
+a `requestIdleCallback` `timeout`-ja legfeljebb 3 másodpercre engedi, tehát
+nyüzsgő lapon sem marad el.
+
+**Élesben ellenőrizve:** minden idegen kérés a `load` esemény (250 ms) UTÁN
+indul, a legkorábbi 290 ms-nál. Korábban a lap saját kritikus útja közben.
+
+Amit elveszít: aki a `load` előtt továbblép, annál nem sül el a lapmegtekintés.
+Ez a gyorsan visszalépők töredéke, és nagyságrenddel kisebb, mint amit a lassú
+lap okoz.
+
+> **A 64-et nem sikerült reprodukálni.** A saját Lighthouse-mérés **97**-et adott
+> a változtatás előtt és után is, ugyanazzal az idegen anyaggal a lapon. Tehát
+> vagy rosszabb hálózati húzást fogott ki az a futás, vagy **feltöltés közben
+> érte a webhelyet**: a tükrözés törlés után ír, és egy abban az ablakban
+> lekért lap üresen renderel — pontosan ezt mutatta a filmszalag. Nyugalmi
+> állapotban újramérendő, mielőtt bárki okot állapít meg.
+
+### Két konténer-oldali tétel — innen nem javítható
+
+- **A `gtag/js` HÁROMSZOR töltődik** lapmegtekintésenként. Mért indulások:
+  319 ms, 327 ms, 2693 ms. Több száz KB ugyanabból a könyvtárból.
+- **A konténer behúzza a `cdn-cookieyes.com/client_data/…/script.js`-t** — egy
+  idegen süti-hozzájárulás kezelő terméket. Ennek a webhelynek **saját
+  hozzájárulási rétege van** (`suti.js`), és két ilyen eszköz egy lapon valódi
+  ütközés. A CSP-nk ma blokkolja (0 bájt, egyetlen globál sem), tehát némán
+  elbukik ahelyett, hogy elrontana valamit — de ki kellene venni a konténerből.
+
+(`fb0abd4`)
 
 ## [0.44.00] — 2026-09-14
 
