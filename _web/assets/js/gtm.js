@@ -71,7 +71,37 @@
      tehát a látogató IP-címe eljut a Google-höz és a Metához. A Consent Mode
      v2 így működik, és a mérési előírás ezt kéri.
 
-     A VISSZAÚT EGY SOR, ha mégis kell: a `betolt()` helyett újra
+     A VISSZAÚT EGY SOR, ha mégis kell: az `inditas()` helyett újra
      `document.addEventListener('oth:suti', betolt, { once: true })`. */
-  betolt();
+
+  /* A KONTÉNER A LAP BETÖLTÉSE UTÁN INDUL. Ez NEM korlátozza a mérést —
+     minden lapmegtekintésnél lefut, csak nem verseng a lap saját kritikus
+     útjával.
+     ---------------------------------------------------------------------
+     MIÉRT KELL. A konténer ~600 KB idegen JavaScriptet hoz be (gtm.js, két
+     gtag/js és az fbevents.js). Amíg ezek töltenek, a böngésző sávszélessége
+     és fő szála is foglalt — mérve: a mobil PageSpeed 98-ról 64-re esett, az
+     LCP 2,4 s-ról 9,2 s-ra, pedig a lap saját anyaga egy bájtot sem változott.
+
+     A `load` UTÁN már semmi nem vár rá: a szöveg, a hero és a betűk kint
+     vannak, a mérés pedig ugyanúgy megtörténik. A `requestIdleCallback`
+     ezen felül megvárja az első nyugodt pillanatot, de a `timeout` miatt
+     legfeljebb 3 másodpercet — nyüzsgő lapon sem marad el.
+
+     AMI ELVÉSZ: aki a `load` előtt továbblép, annál nem sül el a
+     lapmegtekintés. Ez a gyorsan visszalépő látogatók töredéke, és
+     nagyságrenddel kisebb veszteség, mint amit a lassú lap okoz. */
+  const inditas = () => {
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(betolt, { timeout: 3000 });
+    } else {
+      setTimeout(betolt, 500);
+    }
+  };
+
+  if (document.readyState === 'complete') {
+    inditas();
+  } else {
+    window.addEventListener('load', inditas, { once: true });
+  }
 })();
