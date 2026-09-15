@@ -184,4 +184,94 @@ echo "\n" . ($hiba === 0
     ? "Minden csatorna rendben. A titok helyességét csak egy valódi kitöltés igazolja.\n"
     : "{$hiba} csatorna nincs rendben — a fentiek szerint.\n");
 
+/* ===========================================================================
+   A MYSQL-ÚT ÁLLAPOTA
+   ---------------------------------------------------------------------------
+   A fenti szakasz a HTTP-kaput vizsgálja. A `crm.mod` viszont 'mysql' vagy
+   'mindketto' is lehet, és olyankor a beküldés EGY MÁSIK úton megy — amit a
+   HTTP-próba egyáltalán nem érint.
+
+   AMIT ITT KIDERÍTÜNK, sorrendben, mert egymásra épülnek: van-e beállítás, van-e
+   jelszó, létrejön-e a kapcsolat, megvan-e a tábla, és van-e ÍRÁSJOG. Az utolsó
+   a legfontosabb: kapcsolódni bárki tud, írni nem — és a különbség csak az első
+   valódi beküldésnél derülne ki, amikor már kár lett belőle.
+
+   NEM HAGY NYOMOT. A próbaírás tranzakcióban fut, és MINDIG visszagördül.
+   =========================================================================== */
+echo "\n\nA MYSQL-ÚT ÁLLAPOTA\n";
+
+$mod = (string) ($beall['mod'] ?? 'http');
+echo "  szállítás ........ {$mod}\n";
+
+$my = $beall['mysql'] ?? [];
+$hasznalja = $mod === 'mysql' || $mod === 'mindketto';
+
+if (!$hasznalja) {
+    echo "  A beküldések NEM ezen az úton mennek. A lenti ellenőrzés így is\n";
+    echo "  lefut, hogy átkapcsolás ELŐTT lásd, működne-e.\n";
+}
+
+$hol = ($my['socket'] ?? '') !== ''
+    ? 'socket: ' . $my['socket']
+    : ($my['hoszt'] ?? '(nincs)') . ':' . ($my['port'] ?? 3306);
+echo "  hol .............. {$hol}\n";
+echo "  adatbázis ........ " . (($my['adatbazis'] ?? '') ?: '(NINCS MEGADVA)') . "\n";
+echo "  felhasználó ...... " . (($my['felhasznalo'] ?? '') ?: '(NINCS MEGADVA)') . "\n";
+echo "  tábla ............ " . (($my['tabla'] ?? 'web_bekuldes')) . "\n";
+/* A JELSZÓT SOSEM ÍRJUK KI, csak azt, hogy van-e. */
+echo "  jelszó ........... " . (($my['jelszo'] ?? '') !== '' ? '✓ beállítva' : '✗ ÜRES') . "\n\n";
+
+if (($my['adatbazis'] ?? '') === '' || ($my['felhasznalo'] ?? '') === '') {
+    echo "  ✗ Hiányos beállítás — a kapcsolatot meg sem próbálom.\n";
+} elseif (($my['jelszo'] ?? '') === '') {
+    echo "  ✗ Nincs jelszó. A config a titkot fájlból olvassa:\n";
+    echo "      oth-titkok/crm-db.txt  (a public_html FÖLÖTT, chmod 600)\n";
+} else {
+    try {
+        $dsn = ($my['socket'] ?? '') !== ''
+            ? 'mysql:unix_socket=' . $my['socket'] . ';dbname=' . $my['adatbazis'] . ';charset=utf8mb4'
+            : 'mysql:host=' . $my['hoszt'] . ';port=' . (int) ($my['port'] ?? 3306)
+              . ';dbname=' . $my['adatbazis'] . ';charset=utf8mb4';
+
+        $pdo = new PDO($dsn, (string) $my['felhasznalo'], (string) $my['jelszo'], [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_TIMEOUT            => 3,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ]);
+        echo "  ✓ kapcsolat létrejött\n";
+
+        $tabla = preg_replace('/[^A-Za-z0-9_]/', '', (string) ($my['tabla'] ?? 'web_bekuldes'));
+        $van = $pdo->query("SHOW TABLES LIKE " . $pdo->quote($tabla))->fetch();
+        if (!$van) {
+            echo "  ✗ NINCS MEG a(z) `{$tabla}` tábla ebben az adatbázisban.\n";
+            echo "    Futtasd le: scripts/crm-mysql-sema.sql\n";
+        } else {
+            echo "  ✓ a(z) `{$tabla}` tábla megvan\n";
+
+            /* ÍRÁSPRÓBA, VISSZAGÖRDÍTVE. A jogosultság a MySQL-ben oszloponként
+               is adható, tehát a „tudok kapcsolódni" még semmit nem jelent. */
+            try {
+                $pdo->beginTransaction();
+                $st = $pdo->prepare("INSERT INTO {$tabla} (external_id, csatorna, forras) VALUES (?, ?, ?)");
+                $st->execute(['oth-proba-' . bin2hex(random_bytes(6)), 'proba', 'crm-allapot']);
+                $pdo->rollBack();
+                echo "  ✓ írásjog megvan (a próbasor visszagördült, nem maradt nyoma)\n";
+            } catch (Throwable $e) {
+                if ($pdo->inTransaction()) { $pdo->rollBack(); }
+                echo "  ✗ NINCS ÍRÁSJOG vagy a tábla szerkezete más:\n";
+                echo "    " . get_class($e) . ' — ' . mb_substr($e->getMessage(), 0, 160) . "\n";
+            }
+        }
+    } catch (Throwable $e) {
+        echo "  ✗ a kapcsolat NEM jött létre: " . get_class($e) . "\n";
+        echo "    " . mb_substr($e->getMessage(), 0, 200) . "\n\n";
+        if (stripos((string) ($my['hoszt'] ?? ''), 'localhost') !== false) {
+            echo "    ⚠ A `hoszt` értéke `localhost`. A PHP ilyenkor FIGYELMEN KÍVÜL\n";
+            echo "      HAGYJA a portot, és a pdo_mysql.default_socket socketjét\n";
+            echo "      használja — ha az másik MySQL, félrevezető „Access denied\"\n";
+            echo "      jön. Írj `127.0.0.1`-et: az tényleg TCP-t jelent.\n";
+        }
+    }
+}
+
 echo "\nHa végeztél, TÖRÖLD ezt a fájlt.\n";
