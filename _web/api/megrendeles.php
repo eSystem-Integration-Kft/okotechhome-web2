@@ -140,6 +140,23 @@ $szoveg = OthLevel::szoveg($CFG['webhely'], $cimSor,
     'Beérkezett: ' . date('Y. m. d. H:i'));
 
 $cimzett = $CFG['cimzettek']['megrendeles'] ?? $CFG['cimzettek']['kapcsolat'];
+
+/* A MEGRENDELÉSI POSTALÁDA MINDIG KAPJON MÁSOLATOT — a config listája MELLÉ,
+   nem helyette.
+   ---------------------------------------------------------------------------
+   MIÉRT A KÓDBAN, ÉS NEM CSAK A CONFIGBAN. A `config.php` a kiszolgálón él, a
+   verziókövetésből kizárva (titkokat tartalmaz). Ami csak ott van beállítva, az
+   egy újratelepítésnél vagy egy configcserénél némán eltűnik, és senki nem
+   tudja, hogy ott kellett volna lennie. A megrendelés a webhely legdrágább
+   beküldése — ennek a címzettje nem múlhat egy fájlon, amit nem látunk.
+
+   A `array_unique` miatt nem baj, ha a config listája már tartalmazza: akkor ez
+   a sor nem csinál semmit. */
+$cimzett = array_values(array_unique(array_merge(
+    (array) $cimzett,
+    ['megrendeles@okotechhome.hu'],
+)));
+
 oth_kuld($CFG, $cimzett, '[MEGRENDELÉS] ' . $cimSor, $szoveg, $html, $csatolmanyok, $email, $nev,
          oth_masolat($CFG));
 
@@ -169,7 +186,22 @@ if (!empty($CFG['visszaigazolas'])) {
          'Hivatkozott árajánlat'   => OthVedelem::html($ajanlat)]);
 
     try {
-        oth_kuld($CFG, [$email], 'Megkaptuk a megrendelését — ' . $CFG['webhely']['nev'], $vszoveg, $vhtml);
+        /* MELLÉKLETEK A LÁTOGATÓNAK — a jogi dokumentumok elöl, mert azok
+           bizonyítanak: a weboldal szövege változhat, a levél nem. A saját feltöltései hátul: neki amúgy is megvannak, tehát ez esik ki
+           előbb, ha nem fér bele.
+           A keret azért kell, mert a fogadó kiszolgálók a túl nagy levelet
+           VISSZAUTASÍTJÁK — és akkor visszaigazolás sem menne ki. */
+        $vcsatolmanyok = oth_csatolmany_keret(array_merge(
+            oth_dokumentumok([
+                'okotechhome-adatkezelesi-tajekoztato.pdf',
+                'okotechhome-aszf.pdf',
+                'okotechhome-termekismerteto.pdf',
+            ]),
+            $csatolmanyok,
+        ));
+
+        oth_kuld($CFG, [$email], 'Megkaptuk a megrendelését — ' . $CFG['webhely']['nev'],
+                 $vszoveg, $vhtml, $vcsatolmanyok);
     } catch (Throwable $e) {
         error_log('OTH: a megrendelés visszaigazolása nem ment ki: ' . $e->getMessage());
     }

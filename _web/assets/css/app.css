@@ -8739,6 +8739,18 @@
   .dok-szakasz{break-inside:avoid}
   .dok-alairas{break-inside:avoid;margin-top:20mm}
   .dok-feltetelek{font-size:9.5pt;line-height:1.35}
+  /* NYOMTATÁSBAN RENDSZERBETŰ a jogi dokumentumokon. Két oka van, és a
+     második a fontosabb:
+
+     1. Papíron a márkabetűnek nincs dolga. Egy adatkezelési tájékoztatót nem
+        a tipográfiája miatt olvas el valaki.
+
+     2. EZEKET A LAPOKAT PDF-KÉNT CSATOLJUK a visszaigazoló levelekhez, és a
+        PDF BEÁGYAZZA a betűket: mérve 857 KB, aminek a nagyobbik fele a
+        Zilla Slab és az IBM Plex. Rendszerbetűvel a fájl töredéke — és egy
+        ajánlatkérés visszaigazolása nem hordozhat több megabájtot. */
+  .dok,.dok *{font-family:Georgia,'Times New Roman',serif}
+  .dok .type-data-value,.dok code,.dok kbd{font-family:'Courier New',monospace}
   .urlap-input,.dok-opcio{border-color:#888}
   .urlap-akcio,.urlap-valasz,.urlap-csapda{display:none !important}
   a[href]::after{content:''}

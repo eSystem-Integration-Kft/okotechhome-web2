@@ -179,7 +179,11 @@ return [
         // 'kapcsolat' postaládába esnek vissza — a beküldés tehát akkor sem vész
         // el, ha a kulcs lemarad.
         'ajanlat'         => ['kapcsolat@example.hu'],
-        'megrendeles'     => ['kapcsolat@example.hu'],
+        // A MEGRENDELÉS postaládája a kódban is szerepel (megrendeles.php):
+        // a `config.php` a kiszolgálón él és nincs verziókövetve, tehát ami
+        // csak ott van beállítva, az egy configcserénél némán eltűnhet. Itt
+        // felsorolva is jó — a végpont duplikátum nélkül fűzi össze a kettőt.
+        'megrendeles'     => ['kapcsolat@example.hu', 'megrendeles@example.hu'],
         // AJÁNLAT-ÖSSZEHASONLÍTÁS. A látogató a SAJÁT jelentését kéri el; ez a
         // cím a mi belső példányunké, külön levélben. Hiányában az `ajanlat`,
         // majd a `kapcsolat` postafiókba esik vissza.

@@ -95,6 +95,83 @@ function oth_masolat(array $CFG): array
     return array_values(array_filter((array) ($CFG['cimzettek']['masolat'] ?? [])));
 }
 
+/**
+ * AZ ÜGYFÉLNEK CSATOLT DOKUMENTUMOK.
+ * ---------------------------------------------------------------------------
+ * MIÉRT CSATOLMÁNY, ÉS NEM HIVATKOZÁS. A weboldal szövege változhat; a levél
+ * nem. Ha egy fogyasztó három év múlva vitatja, mit fogadott el, a csatolt PDF
+ * megmutatja, mi állt ott a beküldés PILLANATÁBAN. Egy link erre nem alkalmas.
+ *
+ * AMI NINCS MEG, AZ KIMARAD — némán. A `_web/assets/dok/` tartalma a
+ * `jogi_pdf.py` futtatásától függ, a termékismertetőt pedig kézzel teszi be
+ * valaki. Egy hiányzó fájl miatt NEM maradhat el a visszaigazolás: a levél
+ * elmegy, csak kevesebb melléklettel.
+ *
+ * @param  array $nevek  fájlnevek a `_web/assets/dok/`-ból
+ * @return array         oth_kuld() csatolmány-formátumában
+ */
+function oth_dokumentumok(array $nevek): array
+{
+    $mappa = __DIR__ . '/../../assets/dok/';
+    $ki = [];
+
+    foreach ($nevek as $nev) {
+        /* Csak fájlnév jöhet: a `basename` kivédi, hogy egy elgépelt
+           konfigurációból `../`-ral bárhová ki lehessen lépni. */
+        $ut = $mappa . basename($nev);
+        if (!is_file($ut) || !is_readable($ut)) {
+            continue;
+        }
+        $adat = @file_get_contents($ut);
+        if ($adat === false || $adat === '') {
+            continue;
+        }
+        $ki[] = [
+            'nev'  => basename($nev),
+            'mime' => 'application/pdf',
+            'adat' => $adat,
+        ];
+    }
+
+    return $ki;
+}
+
+/**
+ * CSATOLMÁNYOK MÉRETRE SZABVA.
+ * ---------------------------------------------------------------------------
+ * A visszaigazolás három forrásból kap mellékletet: a mi dokumentumaink, a
+ * látogató SAJÁT feltöltései, és a beágyazott logó. A feltöltés önmagában
+ * lehet 3 × 10 MB — azzal együtt a levél olyan méretű lenne, amit a fogadó
+ * kiszolgálók visszautasítanak, és akkor a visszaigazolás EGYÁLTALÁN nem megy
+ * ki. Egy csonka levél jobb, mint egy elutasított.
+ *
+ * A SORREND DÖNT: ami előrébb van a listában, az fér be előbb. A hívó a
+ * fontosabbat teszi előre — a jogi dokumentumokat, mert a látogatónak a saját
+ * fájljai amúgy is megvannak.
+ *
+ * @param  array $csatolmanyok  sorrendben, a legfontosabb elöl
+ * @param  int   $keret         bájtban
+ * @return array                ami belefért
+ */
+function oth_csatolmany_keret(array $csatolmanyok, int $keret = 12582912): array
+{
+    $ki = [];
+    $osszes = 0;
+
+    foreach ($csatolmanyok as $cs) {
+        /* A MIME base64-gyel kódol, ami ~33%-kal növel. A keretet a KÓDOLT
+           mérethez mérjük, mert a fogadó kiszolgáló is azt látja. */
+        $meret = (int) (strlen((string) ($cs['adat'] ?? '')) * 1.37);
+        if ($osszes + $meret > $keret) {
+            continue;
+        }
+        $osszes += $meret;
+        $ki[] = $cs;
+    }
+
+    return $ki;
+}
+
 /** Levélküldés a konfigurált SMTP-n. */
 function oth_kuld(array $CFG, array $cimzettek, string $targy, string $szoveg,
                   string $html, array $csatolmanyok = [], string $valaszCim = '',

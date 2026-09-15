@@ -230,9 +230,19 @@ if (!empty($CFG['visszaigazolas'])) {
     );
     $vszoveg = OthLevel::szoveg($CFG['webhely'], 'Megkaptuk a konzultációkérését', $vbevezeto, $sajat);
 
+    /* MELLÉKLETEK A LÁTOGATÓNAK. Itt nincs feltöltés, tehát csak a mi
+       dokumentumaink mennek — csatolva, nem hivatkozva: a weboldal szövege
+       változhat, a levél nem, és ez mutatja meg, mi állt ott a beküldés
+       pillanatában. Ami a mappából hiányzik, az némán kimarad. */
+    $vcsatolmanyok = oth_csatolmany_keret(oth_dokumentumok([
+        'okotechhome-adatkezelesi-tajekoztato.pdf',
+        'okotechhome-aszf.pdf',
+        'okotechhome-termekismerteto.pdf',
+    ]));
+
     try {
         oth_kuld($CFG, [$email], 'Megkaptuk a konzultációkérését — ' . $CFG['webhely']['nev'],
-            $vszoveg, $vhtml);
+            $vszoveg, $vhtml, $vcsatolmanyok);
     } catch (Throwable $e) {
         error_log('OTH: a konzultációs visszaigazolás nem ment ki: ' . $e->getMessage());
     }

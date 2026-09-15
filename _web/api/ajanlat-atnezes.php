@@ -113,7 +113,21 @@ if (!empty($CFG['visszaigazolas'])) {
     $vszoveg = OthLevel::szoveg($CFG['webhely'], 'Megkaptuk az ajánlatait',
         'Szakértőnk átnézi a beküldött ajánlatokat, és jelentkezik.', ['Beküldött fájlok' => $lista]);
     try {
-        oth_kuld($CFG, [$email], 'Megkaptuk az ajánlatait — ' . $CFG['webhely']['nev'], $vszoveg, $vhtml);
+        /* MELLÉKLETEK A LÁTOGATÓNAK — a jogi dokumentumok elöl, mert azok
+           bizonyítanak: a weboldal szövege változhat, a levél nem. A beküldött ajánlatait visszakapja, hátul: azok nála is megvannak.
+           A keret azért kell, mert a fogadó kiszolgálók a túl nagy levelet
+           VISSZAUTASÍTJÁK — és akkor visszaigazolás sem menne ki. */
+        $vcsatolmanyok = oth_csatolmany_keret(array_merge(
+            oth_dokumentumok([
+                'okotechhome-adatkezelesi-tajekoztato.pdf',
+                'okotechhome-aszf.pdf',
+                'okotechhome-termekismerteto.pdf',
+            ]),
+            $csatolmanyok,
+        ));
+
+        oth_kuld($CFG, [$email], 'Megkaptuk az ajánlatait — ' . $CFG['webhely']['nev'],
+                 $vszoveg, $vhtml, $vcsatolmanyok);
     } catch (Throwable $e) {
         error_log('OTH: a visszaigazolás nem ment ki: ' . $e->getMessage());
     }

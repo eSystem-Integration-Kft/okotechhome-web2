@@ -200,6 +200,22 @@ oth_kuld($CFG, $cimzett, '[Weboldal] ' . $cimSor, $szoveg, $html, $csatolmanyok,
          oth_masolat($CFG));
 
 /* --- visszaigazolás a látogatónak ---------------------------------------- */
+
+/* A VISSZAIGAZOLÁS A TELJES BEKÜLDÉST MUTATJA, nem három kiragadott mezőt. Két
+   okból: a látogató ebből látja, MIT ÉRTETTÜNK MEG — egy elgépelt létszám vagy
+   rossz település itt derül ki, nem az ajánlat megérkezésekor —, és mert ez az
+   ő példánya arról, amit elküldött.
+
+   KÉT MEZŐ VISZONT NEM MEGY VISSZA. A „Kampány" és az „Ajánló" belső adat: a
+   `kampany.js` írta rejtett mezőből, a látogató nem gépelte és nem is látta.
+   Visszatükrözni egyrészt értelmetlen, másrészt kellemetlen — szembesítené
+   vele, hogy tudjuk, melyik hirdetésről jött. A CRM-be és a nekünk szóló
+   levélbe természetesen bekerül.
+
+   A `Mellékletek` sor is kimarad: a saját fájljait csatolva kapja vissza,
+   felsorolni fölösleges. */
+$vadatok = array_diff_key($adatok, array_flip(['Kampány', 'Ajánló', 'Mellékletek']));
+
 if (!empty($CFG['visszaigazolas'])) {
     $vhtml = OthLevel::html(
         $CFG['webhely'],
@@ -207,11 +223,7 @@ if (!empty($CFG['visszaigazolas'])) {
         'Megkaptuk az ajánlatkérését',
         "Köszönjük. Az adatokat átnézzük, és két munkanapon belül küldjük a tételes ajánlatot.\n"
         . 'Ha valami hiányzik a méretezéshez, előbb rákérdezünk. Sürgős esetben: ' . $CFG['webhely']['tel'] . '.',
-        [
-            'Település'       => OthVedelem::html($telepules),
-            'Ingatlan típusa' => OthVedelem::html($valasztott['ingatlan']),
-            'Megjegyzése'     => $uzenet !== '' ? OthVedelem::html($uzenet) : '',
-        ],
+        $vadatok,
         ['felirat' => 'Vissza a weboldalra', 'url' => $CFG['webhely']['url']],
         'Erre a levélre nem szükséges válaszolnia — csak visszaigazolás.'
     );
@@ -219,10 +231,31 @@ if (!empty($CFG['visszaigazolas'])) {
         'Az adatokat átnézzük, és két munkanapon belül küldjük a tételes ajánlatot.',
         ['Település' => OthVedelem::html($telepules)]);
 
+    /* MELLÉKLETEK A LÁTOGATÓNAK — sorrendben, mert a keret véges.
+       ------------------------------------------------------------------
+       1. A JOGI DOKUMENTUMOK ELÖL. Csatolva, nem hivatkozva: a weboldal
+          szövege változhat, a levél nem. Ha valaki évekkel később vitatja,
+          mit fogadott el, ez mutatja meg, mi állt ott a beküldés
+          pillanatában.
+       2. A SAJÁT FELTÖLTÉSEI hátul. Neki amúgy is megvannak — ez
+          kényelem, nem bizonyíték —, ezért ez esik ki előbb, ha nem fér
+          bele. Három 10 MB-os helyszínrajzzal a levelet a fogadó
+          kiszolgálók visszautasítanák, és akkor VISSZAIGAZOLÁS SEM menne
+          ki. Csonka levél jobb, mint elutasított. */
+    $vcsatolmanyok = oth_csatolmany_keret(array_merge(
+        oth_dokumentumok([
+            'okotechhome-adatkezelesi-tajekoztato.pdf',
+            'okotechhome-aszf.pdf',
+            'okotechhome-termekismerteto.pdf',   // ha egyszer bekerül, magától megy
+        ]),
+        $csatolmanyok,
+    ));
+
     /* A visszaigazolás elmaradása NEM hiba a látogató szempontjából: az
        ajánlatkérés már megérkezett hozzánk. */
     try {
-        oth_kuld($CFG, [$email], 'Megkaptuk az ajánlatkérését — ' . $CFG['webhely']['nev'], $vszoveg, $vhtml);
+        oth_kuld($CFG, [$email], 'Megkaptuk az ajánlatkérését — ' . $CFG['webhely']['nev'],
+                 $vszoveg, $vhtml, $vcsatolmanyok);
     } catch (Throwable $e) {
         error_log('OTH: az ajánlatkérés visszaigazolása nem ment ki: ' . $e->getMessage());
     }
