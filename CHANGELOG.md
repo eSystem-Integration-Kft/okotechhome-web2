@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.47.00-80A640?style=flat-square" alt="verzió 0.47.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.48.00-80A640?style=flat-square" alt="verzió 0.48.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-54-56642B?style=flat-square" alt="54 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-55-56642B?style=flat-square" alt="55 kiadás">
 </p>
 
 ---
@@ -28,6 +28,76 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.48.00] — 2026-09-15
+
+### Hozzáadva — a visszaigazoló levelek viszik a beküldést, a fájlokat és a dokumentumokat
+
+Mind a négy végpont **eddig is küldte mindkét levelet** (befelé és az
+ügyfélnek), és eddig is a közös, fejléces HTML-vázra épült. A hiány máshol
+volt: az ajánlatkérés visszaigazolása **tizenötből három mezőt** mutatott, és
+**semmit nem csatolt**.
+
+**A visszaigazolás mostantól a teljes beküldést tükrözi.** Két okból: a látogató
+ebből látja, MIT ÉRTETTÜNK MEG — egy elgépelt létszám vagy rossz település itt
+derül ki, nem az ajánlat megérkezésekor —, és mert ez az ő példánya arról, amit
+elküldött.
+
+**Két mező nem megy vissza.** A „Kampány" és az „Ajánló" rejtett mezőből jön,
+amit a `kampany.js` írt: a látogató nem gépelte és nem is látta. Visszatükrözni
+értelmetlen, és kellemetlen is — szembesítené vele, hogy tudjuk, melyik
+hirdetésről jött. A CRM-be és a nekünk szóló levélbe bekerül.
+
+**A csatolmányok sorrendben, mert a keret véges:**
+
+| | |
+|---|---|
+| adatkezelési tájékoztató | 240 KB — **ezek bizonyítanak** |
+| ÁSZF | 177 KB |
+| termékismertető | *még nincs — némán kimarad* |
+| a látogató saját feltöltései | **ez esik ki előbb, ha nem fér bele** |
+
+Csatolva, nem hivatkozva: a weboldal szövege változhat, a levél nem. Ha valaki
+évekkel később vitatja, mit fogadott el, ez mutatja meg, mi állt ott a beküldés
+pillanatában.
+
+A saját fájljai azért hátul: **neki amúgy is megvannak** — az kényelem, nem
+bizonyíték. Három 10 MB-os helyszínrajzzal a levelet a fogadó kiszolgálók
+visszautasítanák, és akkor **visszaigazolás sem menne ki**. Csonka levél jobb,
+mint elutasított.
+
+Az `oth_dokumentumok()` a hiányzó fájlt **némán átlépi**: a mappa tartalma a
+`jogi_pdf.py` futtatásától és attól függ, betesz-e valaki egy kész fájlt — egy
+hiányzó melléklet miatt nem maradhat el a visszaigazolás. Minden néven
+`basename()`, hogy egy elgépelt bejegyzés `../`-ral ne léphessen ki a mappából.
+
+### Hozzáadva — a jogi PDF-ek ÉPÜLNEK, nem a lap képei
+
+A `/adatkezelesi-tajekoztato` teljes lapja Chrome-mal **857 KB, 352 beágyazott
+képpel** — egy weboldal fényképe, nem dokumentum. A
+`scripts/oldalgyartas/jogi_pdf.py` a törzsszöveget veszi, kiszedi a
+navigációt, ikonokat és képeket, és dokumentumtipográfiával nyomtatja:
+**240 KB** és **177 KB**.
+
+A képek kiszedése kétszeresen is kellett: a relatív kép-URL-ek az ideiglenes
+fájlból nem oldódnak fel, ezért a Chrome az **`alt`-szöveget rakta a lapra** —
+a hero-kép teljes leírása ott állt az ÁSZF első oldalának közepén.
+
+> **Nem része a `prod-epit.sh`-nak.** Chrome kell hozzá, és egy build, ami a
+> fejlesztő gépétől függ, előbb-utóbb elromlik valaki másnál. **Futtasd újra,
+> ha a jogi szöveg változik** — különben a levél régi szöveget csatol,
+> miközben a weboldalon már új áll.
+
+### Hozzáadva — a megrendelés második címzettje
+
+`megrendeles@okotechhome.hu` mostantól **mindig kap másolatot**, a config
+listája MELLÉ (nem helyette), duplikátum nélkül.
+
+A kódban, nem csak a configban: a `config.php` a kiszolgálón él, a
+verziókövetésből kizárva. Ami csak ott van beállítva, az egy újratelepítésnél
+vagy configcserénél **némán eltűnik**, és senki nem tudja, hogy ott kellett
+volna lennie. Ez a webhely legdrágább beküldése — a címzettje ne múljon egy
+fájlon, amit nem látunk.
 
 ## [0.47.00] — 2026-09-15
 
