@@ -65,6 +65,37 @@
      megmondja, hogy éles fában vagyunk-e, és dokumentálja, melyik property-be
      mérünk. Enélkül ez a modul nem csinál semmit. */
 
+  /* ===================== A SAJÁT GA4 — KONTÉNERTŐL FÜGGETLENÜL ============
+     MIÉRT VAN MÉGIS KÖZVETLEN GA4, a fenti indoklás ellenére. A konténert
+     2026-09-15 óta MÁS CÉG üzemelteti. Ami a konténerben van, azt ők
+     bármikor átírhatják — és ha a GA4-címke kikerül belőle, a mérésünk velük
+     együtt tűnik el, jelzés nélkül. Az ügyfél saját mérése nem függhet attól,
+     hogy egy külső fél mit tesz egy olyan felületen, amihez nekünk nincs
+     hozzáférésünk.
+
+     EZÉRT KÜLÖN PROPERTY, NEM UGYANAZ. A `data-ga4-sajat` attribútum a MI
+     property-nk azonosítóját hordozza, ami NEM egyezhet a konténerben állóval.
+     Ha a kettő ugyanaz volna, minden lapmegtekintés kétszer számolódna, és a
+     riportok használhatatlanná válnának. A `prod-epit.sh` ezért ellenőrzi is,
+     hogy a két azonosító különbözik-e.
+
+     A HOZZÁJÁRULÁST UGYANÚGY MEGVÁRJA. A Consent Mode v2 alapállapota fentebb
+     mindent `denied`-re állít, és ez a címke is annak a hatálya alatt fut: süti
+     csak akkor születik, ha a látogató a statisztikai kategóriát engedte.
+     Enélkül a GA4 süti nélküli jelzést küld, ahogy a konténerbeli is. */
+  const SAJAT = sajat && sajat.dataset ? (sajat.dataset.ga4Sajat || '').trim() : '';
+  if (SAJAT && SAJAT !== AZON) {
+    const g = document.createElement('script');
+    g.async = true;
+    g.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(SAJAT);
+    document.head.append(g);
+
+    /* `send_page_view` marad az alapértelmezésen (igen): ez a címke ÖNÁLLÓ
+       mérés, nem a konténer kiegészítése — a lapmegtekintést neki magának kell
+       rögzítenie. */
+    gtag('config', SAJAT);
+  }
+
   /* A DÖNTÉS KÖVETÉSE. A `suti.js` induláskor is hirdet (a mentett döntéssel),
      és minden mentésnél újra — így a visszavonás is ideér, nem csak a megadás. */
   /* ===================== META PIXEL ======================================

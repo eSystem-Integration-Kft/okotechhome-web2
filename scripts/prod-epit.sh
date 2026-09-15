@@ -293,12 +293,37 @@ PYAI
 # kategóriát engedélyezte. A mérés bekapcsolása tehát nem kerüli meg a
 # hozzájárulást, csak elérhetővé teszi.
 GA4="G-EN120W3K2Q"
-python3 - "$CEL" "$GA4" <<'PYGA'
+
+# A SAJÁT GA4 PROPERTY — a konténerbelitől FÜGGETLEN mérés.
+#
+# MIÉRT KELL. A `GTM-K4J4BWK` konténert 2026-09-15 óta más cég üzemelteti.
+# Ami a konténerben van, azt ők bármikor átírhatják; ha a GA4-címke kikerül
+# belőle, a mérésünk velük együtt tűnik el, jelzés nélkül. Az ügyfél saját
+# mérése nem függhet olyan felülettől, amihez nincs hozzáférésünk.
+#
+# ⚠️ NEM LEHET UGYANAZ, MINT A $GA4. Ha a két azonosító egyezik, minden
+# lapmegtekintés KÉTSZER számolódik — egyszer a konténerből, egyszer innen —,
+# és a riportok használhatatlanná válnak. A lenti őr ezért megállítja az
+# építést, nem csak figyelmeztet.
+#
+# ÜRESEN HAGYVA a modul nem tölt be semmit: a közvetlen ág egyszerűen nem fut.
+GA4_SAJAT=""
+
+if [ -n "$GA4_SAJAT" ] && [ "$GA4_SAJAT" = "$GA4" ]; then
+  piros "A GA4_SAJAT azonos a GA4-gyel ($GA4) — minden lapmegtekintés kétszer"
+  piros "számolódna. Adj meg MÁSIK property-t, vagy hagyd üresen a GA4_SAJAT-ot."
+  exit 1
+fi
+
+python3 - "$CEL" "$GA4" "$GA4_SAJAT" <<'PYGA'
 import pathlib, re, sys
 cel, ga4 = pathlib.Path(sys.argv[1]), sys.argv[2]
+sajat = sys.argv[3] if len(sys.argv) > 3 else ''
 sor = ('<!-- Mérés (GA4). Hozzájárulásig minden tárolás tiltva — lásd\n'
        '     assets/js/meres.js és assets/js/suti.js. -->\n'
-       f'<script src="/assets/js/meres.js?v=3" data-ga4="{ga4}" defer></script>\n')
+       f'<script src="/assets/js/meres.js?v=4" data-ga4="{ga4}"'
+       + (f' data-ga4-sajat="{sajat}"' if sajat else '')
+       + ' defer></script>\n')
 n = 0
 for f in sorted(cel.rglob('*.html')):
     t = f.read_text(encoding='utf-8')
