@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.48.00-80A640?style=flat-square" alt="verzió 0.48.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.49.00-80A640?style=flat-square" alt="verzió 0.49.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-55-56642B?style=flat-square" alt="55 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-56-56642B?style=flat-square" alt="56 kiadás">
 </p>
 
 ---
@@ -28,6 +28,104 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.49.00] — 2026-09-15
+
+### Javítva — a kész beküldés ne látsszon úgy, mintha még dolgozna
+
+A visszaigazolás megérkezett, a levél elment, a gomb pedig **tovább pörgött**.
+Három dolog romlott el egyszerre a siker ágán, és együtt az ellenkezőjét
+mondták a látogatónak, mint ami történt.
+
+**A pörgő nem állt le.** A gomb szándékosan tiltva marad — a második beküldés
+ugyanazt a levelet küldené el újra —, de az `aria-busy` vele maradt. Az azt
+jelenti, hogy DOLGOZIK, a munka viszont kész volt. Egy örökké pörgő gomb
+lefagyásnak látszik, zöld visszaigazolás ide vagy oda.
+
+**Az ellenőrző modul ellentmondott a visszaigazolásnak.** A `reset()` kiüríti a
+kötelező jelölőnégyzetet, a modul újraszámol, és a „megkaptuk" alá odaírja,
+hogy *„a beküldéshez még hiányzik valami a jelölt mezőkből"*. Az `urlap.js`
+mostantól megjelöli a beküldött űrlapot, és az ellenőrző tiszteletben tartja.
+
+**És a lap változatlannak látszott.** Tizenöt mező kitöltése után ugyanaz a lap,
+üres mezőkkel és egyetlen zöld sorral — semmi nem mondta ki, hogy ez a szakasz
+véget ért, és semmi nem mondta meg, mi következik.
+
+### Hozzáadva — köszönőablak elmosott háttérrel
+
+Középre állított doboz, elmosott háttérrel, a **logóval** (a fejléc mögötte
+szintén elmosódott, enélkül az ablak jelöletlen rendszerüzenetnek látszana), a
+köszönettel és **három hellyel, ahová érdemes továbbmenni**.
+
+A javaslatok **űrlaponként mások**, mert a „nézzen körül" nem tanács. Aki
+ajánlatot kért, két munkanapig vár — annak az összehasonlítás és a referenciák
+valók; aki megrendelt, annak a telepítés és az üzemeltetés. **Minden hivatkozás
+élőben ellenőrizve**, mielőtt bekerült.
+
+> **A zöld sor marad.** Ez a réteg rá ÉPÜL, nem helyette van: `<dialog>` nélküli
+> böngészőben, vagy ha bármi elszáll az ablak felépítése közben, a
+> visszaigazolás akkor is ott áll az űrlap alatt. A megerősítés nem múlhat egy
+> díszen — ezért a hívás saját `try`-ban fut. (`2c50d52`)
+
+### Hozzáadva — Öko rámutat arra a mezőre, amiről a kérdés szólt
+
+A reflektor **eddig is megvolt**: elsötétíti a lapot, kiemeli a találatot, és
+odatesz egy mutató kezet. Csak tartalmi szakaszokra volt kötve. Az
+ajánlatkérőn és a megrendelőlapon ez rossz helyre céloz — a látogató nem cikket
+keres, hanem azt, hogy **mit írjon egy mezőbe**, és a mező két centiméterre van
+a szeme alatt, miközben a kéz a tudástárra mutat.
+
+**Kulcsszó dönt, nem a modell.** A választ a kiszolgáló írja; ez csak azt dönti
+el, HOVA mutassunk. Egy rosszul eltalált mező zavaróbb, mint a mutatás hiánya,
+ezért a minták szűkek — és ha egyik sem illeszkedik, nem mozdul semmi.
+
+A `kiemel()` **nem tágul szakaszra**, ha mezőt kapott: az egész „Az ingatlan"
+csoportot világítaná meg, és a látogató ugyanúgy keresné, melyik sorról van szó.
+A `.urlap-mezo` a címkét és a beviteli mezőt együtt fogja.
+
+**Mérve teszten:** a talajvízre kérdezve a `talajviz` mező `.urlap-mezo`-ja
+emelkedik ki, a lapon maradva.
+
+**A felkínált kérdések az új mezőkkel kezdenek** — közcsatorna, talajvíz,
+vízfogyasztás. Ezek aznap kerültek be, tehát a látogatónak is újak, és a
+közcsatorna eldönti, telepíthető-e egyáltalán berendezés.
+
+**És nyitva érkezik az ajánlatkérőn, 1100 px fölött.** A szám nem tetszőleges:
+az űrlap 704 px, a panel 368 px a jobb szélen — ott szűnik meg az átfedés.
+Éppen ez volt az indok, amiért Öko űrlaplapokon csukva maradt. Keskenyebben és
+mobilon minden változatlan; fókuszt nem vesz el. (`4d172d3`)
+
+### Javítva — a fejléc nem mér három sűrűséget ott, ahol egyik sem fér el
+
+A fejléc **méréssel** választ sűrűséget, nem töréspontból: sorra felveszi a
+három fokozatot, és megkérdezi a böngészőt, elfér-e a sor. Minden kör **ír**
+(`dataset.nav`), majd **olvas** (geometria) — ez teljes, szinkron
+újratördelést kényszerít. Három kör, három újratördelés; a PageSpeed 330 ms
+kényszerített újraszámítást mért a `site.js`-re.
+
+Keskeny képernyőn a válasz **eleve** `fiok`: a sor a legsűrűbb fokozatban sem
+fér el. Azt a három újratördelést azért fizettük, hogy megtudjuk, amit előre
+lehet tudni.
+
+A legszűkebb fokozat igénye most **egyszer** mérődik meg, és utána küszöb. Alatta
+a függvény semmit nem ír, és egyszer olvas; fölötte a ciklus változatlanul fut
+— az asztali viselkedés érintetlen.
+
+**Ez továbbra sem töréspont:** a küszöböt a `suru` fokozatból vesszük, nem
+beírjuk, tehát a menü bővülésével magától változik. A modul alapelve sértetlen.
+
+A gyorsítótárazott érték a `document.fonts.ready`-nél törlődik. A meglévő
+újramérés csak a fokozatot számolta újra; a küszöb a tartalék betűvel mért
+értékét tartotta volna meg — és mivel a küszöb dönti el, hogy egyáltalán
+próbálkozunk-e, egy 5-8%-kal melléfogó érték tartósan fiók módba ragasztotta
+volna a menüt olyan képernyőn, ahol elfér. (`b8d5f45`)
+
+### Eltávolítva — belső megjegyzés a kiszolgált konfigból
+
+`aidt-konfig.js`: *„⚠️ Az alábbi értékek MÉG NINCSENEK JÓVÁHAGYVA"*. Ez a fájl
+**minden látogatóhoz eljut** — az AI-döntéstámogató tölti be —, tehát aki
+megnyitotta, azt olvasta, hogy a saját ársávjaink nincsenek jóváhagyva.
+Bela: *„ügyfelet elriasztjuk"*. Kivezetve.
 
 ## [0.48.00] — 2026-09-15
 
