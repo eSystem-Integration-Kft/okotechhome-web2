@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.46.00-80A640?style=flat-square" alt="verzió 0.46.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.47.00-80A640?style=flat-square" alt="verzió 0.47.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-53-56642B?style=flat-square" alt="53 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-54-56642B?style=flat-square" alt="54 kiadás">
 </p>
 
 ---
@@ -28,6 +28,94 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.47.00] — 2026-09-15
+
+### Javítva — a renderelést blokkoló kérések: 750 ms eltűnt
+
+A PageSpeed végre tételesen megnevezte, mi tartja vissza a megjelenítést:
+
+| | méret | idő |
+|---|---|---|
+| `tema.js` | 2,9 KiB | **560 ms** |
+| `betuk.css` | 1,8 KiB | **190 ms** |
+| `app.css` | 43,9 KiB | 1680 ms |
+
+**A `tema.js` volt a legrosszabb üzlet.** Egy teljes hálózati körfordulás, ami
+alatt a lap semmit nem rajzol ki — egy fájlért, aminek a kritikus része
+egyetlen sor. Az a sor most **beágyazva, 195 bájtban**, kérés nélkül. Az első
+festés előtt kell lefutnia, különben a látogató előbb a világos lapot látja,
+és csak utána vált sötétre.
+
+**A CSP HASH-sel engedi, nem `unsafe-inline`-nal:** a `script-src` egyetlen
+sha256-ot nevez meg, más beágyazott szkript nem futhat. És ezt nem
+feltételeztük — az ÉLES lapot lekérve, a kiszolgált `<script>` tartalmára
+hasht számolva, a fejléccel összevetve: karakterre egyezik.
+
+A `tema.js` fájlként megmaradt `defer`-rel (a váltógomb huzalozásához), és
+szándékosan újra beállítja a témát: ha a hash valaha elcsúszna a kódtól, a
+böngésző megtagadná a beágyazott sort, de a fájl akkor is helyrehozná — csak
+villanással.
+
+> ⚠️ **A hash két helyen él:** `_web/.htaccess` és `_web/serve.py`. Ha az a sor
+> egy karaktert változik, mindkettőt frissíteni kell, különben a böngésző
+> **némán** blokkol.
+
+**A `betuk.css` az `app.css`-be olvadt.** Beágyazni rossz csere lett volna: 190
+ms-ot nyerne az ELSŐ látogatáson, de 1,8 KiB-ot fizetne MINDEN
+lapmegtekintésen, mert a HTML-t nem gyorsítótárazzuk. Az `app.css` részeként a
+kérés eltűnik, a bájtok pedig egyszer jönnek le, és egy évig maradnak.
+
+A `url(../fonts/…)` útvonalak azért maradtak érvényesek, mert az `app.css`
+ugyanabban a könyvtárban van. A blokk a `@layer` sor FÖLÉ került: a
+`@font-face` nem vesz részt a rétegkaszkádban, de a deklarációnak meg kell
+előznie a használatát.
+
+> **KILENC GENERÁTOR VISSZACSINÁLTA VOLNA.** Nyolc lapépítő még mindig kiírt
+> egy `<link>`-et a már nem létező stíluslapra, a `betuk_beszuras.py` pedig
+> annak alapján döntötte el, kész-e egy lap. Egyetlen futás, és minden
+> generált lap fejlécében 404 állt volna. Mind a kilenc javítva; a beszúró
+> mostantól az **előtöltésről** ismeri fel a kész lapot — arról, aminek
+> tényleg ott kell lennie.
+
+**Mérve teszten:** hét betűkészlet betöltve, a `h1` Zilla Slabra számítódik,
+**nulla kérés** a `betuk.css`-re, egy az `app.css`-re.
+
+Az árva `betuk.css` a kiszolgálókon marad. A törléséhez `--torol`-os tükrözés
+kellene, az viszont a **régi rendszer PHP-fájljait is letörölné** az éles
+gyökérből — azokhoz nem nyúlunk. Egy stíluslap, amire semmi nem hivatkozik,
+kisebb baj.
+
+### Módosítva — az ajánlatkérő űrlap levegősebb lett
+
+Kilenc mezőről tizenötre nőtt, és a régi sűrűségen maradt: a képernyőn egyetlen
+szürke tömbbé állt össze, amin a szem nem talál fogást. A ritmus most
+**háromszintű** — címke→mező a legszorosabb, mezők között tágabb, csoportok
+között a legtágabb —, és ettől a szerkezet cím elolvasása nélkül is olvasható.
+
+| | előtte | utána |
+|---|---|---|
+| címke → mező | 4 px | 8 px |
+| mezők egymás alatt | 16 px | 24 px |
+| csoportok között | 24 px | 40 px |
+| mezőmagasság | 44 px | 48 px |
+
+Az **oszlopok közt szándékosan szűkebb** maradt, mint a sorok közt: két mező
+egymás MELLETT egy gondolat két fele, egymás ALATT nem. A csoportcím közelebb
+került a saját blokkjához, mint a fölötte lévő vonalhoz — eddig rossz irányba
+csoportosult, és az előző szakasz végének látszott.
+
+A mezők szegélye mutató alatt sötétedik: tizenöt mezőnél ez adja vissza, hol
+jár a kéz — kattintás előtt, nem utána. Az átmenet **csak szegélyre és
+háttérre** megy, elrendezésre soha; egy `min-height` animálása minden
+billentyűleütésnél újraszámolná a lapot.
+
+### Javítva — a CRM mezőlistája teljes
+
+A `megjegyzes` volt az egyetlen név a partner specifikációjából, amihez nem
+tartozott kulcs a csomagban. Az értéke már utazott — `uzenet` néven a tábla
+saját oszlopában és `letesitmeny_egyeb`-ként is —, de a szétbontó az ő nevükön
+keresi. **Mind a tizenöt kért mező feloldható.**
 
 ## [0.46.00] — 2026-09-15
 
