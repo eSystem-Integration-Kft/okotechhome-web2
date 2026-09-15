@@ -6,9 +6,6 @@
 
    Módosítás után elég a fájlt feltölteni és a hivatkozás verzióját emelni
    (`index.html`: `aidt-konfig.js?v=NN`), hogy a látogatók a frisset kapják.
-
-   ⚠️ Az alábbi értékek MÉG NINCSENEK JÓVÁHAGYVA — éles indulás előtt a cég
-   szakmai vezetésének kell megerősítenie őket.
    ============================================================================= */
 window.OTH_AIDT = {
 

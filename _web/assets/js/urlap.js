@@ -58,6 +58,152 @@
          előzmény nélkül is teljes értékű. */
     }
 
+    /* ================= KÖSZÖNŐABLAK =========================================
+       MIÉRT ABLAK, ÉS NEM CSAK A ZÖLD SOR. A beküldés a látogató részéről
+       befejezett munka — tizenöt mezőt töltött ki. Egy sor szöveg az űrlap
+       alatt ezt nem zárja le: a lap ugyanúgy néz ki, mint előtte, a kiürült
+       mezőkkel, és nem derül ki, mi következik. Az elmosott háttér kimondja,
+       hogy ez a szakasz véget ért.
+
+       A ZÖLD SOR MARAD. Ez a réteg rá ÉPÜL, nem helyette van: `<dialog>`
+       nélküli böngészőben, vagy ha bármi elszáll a felépítés közben, a
+       visszaigazolás akkor is ott áll az űrlap alatt. A megerősítés nem
+       múlhat egy díszen.
+
+       ŰRLAPONKÉNT MÁS A FOLYTATÁS. Aki ajánlatot kért, két munkanapig vár —
+       neki az összehasonlítás és a referenciák valók. Aki megrendelt, annak a
+       telepítés és az üzemeltetés. Általános „nézzen körül" helyett azt
+       ajánljuk, ami az ő helyzetében következik.
+
+       MINDEN HIVATKOZÁS ELLENŐRZÖTT: halott link nem kerülhet ide. */
+    const KOSZONO = {
+      oth_ajanlatkeres: {
+        cim: 'Köszönjük az ajánlatkérését!',
+        alcim: 'Átnézzük az adatokat, és két munkanapon belül küldjük a tételes '
+             + 'ajánlatot. Ha valami hiányzik a méretezéshez, előbb rákérdezünk.',
+        linkek: [
+          ['megoldasok/megoldastipusok-osszehasonlitasa', 'Megoldások összehasonlítása',
+           'Mi a különbség a három technológia között, és melyiknek mik a feltételei.'],
+          ['eredmenyek/esettanulmanyok', 'Esettanulmányok',
+           'Megvalósult rendszerek — telekadatokkal, terheléssel, tapasztalatokkal.'],
+          ['tudastar/uzemeltetes-teendok-es-koltsegek', 'Üzemeltetés és költségek',
+           'Mivel jár egy berendezés éves szinten. Érdemes az ajánlat mellé olvasni.'],
+        ],
+      },
+      oth_megrendeles: {
+        cim: 'Köszönjük a megrendelését!',
+        alcim: 'Munkatársunk ellenőrzi, és külön levélben visszaigazolja — '
+             + 'a szerződés ezzel jön létre.',
+        linkek: [
+          ['tudastar/telepites-lepesrol-lepesre', 'Telepítés lépésről lépésre',
+           'Mi történik a helyszínen, és mire érdemes előre felkészülni.'],
+          ['tudastar/uzemeltetes-teendok-es-koltsegek', 'Üzemeltetés és költségek',
+           'A rendszeres teendők és a valós éves költség.'],
+        ],
+      },
+      oth_konzultacio: {
+        cim: 'Köszönjük a konzultációkérését!',
+        alcim: 'Az időpontot külön visszaigazoljuk.',
+        linkek: [
+          ['helyzetem/', 'Kiindulópont', 'Válassza ki a helyzetét, és nézze meg, mi jöhet szóba.'],
+          ['tudastar/', 'Tudástár', 'Technológia, engedélyezés, méretezés — érthetően.'],
+        ],
+      },
+    };
+    const KOSZONO_ALAP = {
+      cim: 'Köszönjük a megkeresését!',
+      alcim: 'Megkaptuk, és hamarosan jelentkezünk.',
+      linkek: [
+        ['tudastar/', 'Tudástár', 'Technológia, engedélyezés, méretezés — érthetően.'],
+        ['eredmenyek/', 'Eredmények', 'Megvalósult rendszerek és tanúsítványok.'],
+      ],
+    };
+
+    /** A gyökérhez képesti útvonal a lap MÉLYSÉGE szerint. Az űrlapok
+        `action`-je is relatív (`api/ajanlat`), ebből olvassuk ki az előtagot —
+        így a hírcikkek két szint mély lapjain is jó helyre mutat. */
+    const eloTag = () => {
+      const a = urlap.getAttribute('action') || '';
+      const m = a.match(/^((?:\.\.\/)*)/);
+      return m ? m[1] : '';
+    };
+
+    const koszonoAblak = (uzenet) => {
+      if (typeof HTMLDialogElement === 'undefined') return;   // régi böngésző: marad a zöld sor
+      const k = KOSZONO[urlap.dataset.meres] || KOSZONO_ALAP;
+      const p = eloTag();
+
+      const d = document.createElement('dialog');
+      d.className = 'koszono';
+      d.setAttribute('aria-labelledby', 'koszono-cim');
+
+      const belso = document.createElement('div');
+      belso.className = 'koszono-belso';
+
+      const logo = document.createElement('img');
+      logo.className = 'koszono-logo';
+      logo.src = p + 'assets/img/logo-okotechhome.svg';
+      logo.alt = 'ÖkoTech Home';
+      /* A méret a jelölésben is ott van: kép nélküli pillanatban sem ugrik
+         meg az elrendezés. */
+      logo.width = 128; logo.height = 32;
+      belso.append(logo);
+
+      const cim = document.createElement('h2');
+      cim.className = 'type-display-section-title koszono-cim';
+      cim.id = 'koszono-cim';
+      cim.textContent = k.cim;
+      belso.append(cim);
+
+      const alcim = document.createElement('p');
+      alcim.className = 'type-ui-body koszono-szoveg';
+      /* A SZERVER ÜZENETE NYER, ha van: az tartalmazhat olyat, amit csak a
+         végpont tud — például a megrendelés azonosítóját. */
+      alcim.textContent = uzenet || k.alcim;
+      belso.append(alcim);
+
+      if (k.linkek.length) {
+        const cimke = document.createElement('p');
+        cimke.className = 'type-data-eyebrow koszono-tovabb-cim';
+        cimke.textContent = 'Amíg válaszolunk';
+        belso.append(cimke);
+
+        const lista = document.createElement('ul');
+        lista.className = 'koszono-tovabb';
+        lista.setAttribute('role', 'list');
+        k.linkek.forEach(([ut, nev, leiras]) => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.className = 'koszono-link';
+          a.href = p + ut;
+          const b = document.createElement('b');
+          b.className = 'type-ui-body-strong';
+          b.textContent = nev;
+          const sp = document.createElement('span');
+          sp.className = 'type-ui-caption';
+          sp.textContent = leiras;
+          a.append(b, sp);
+          li.append(a);
+          lista.append(li);
+        });
+        belso.append(lista);
+      }
+
+      const zar = document.createElement('button');
+      zar.type = 'button';
+      zar.className = 'btn btn-secondary koszono-zar';
+      zar.textContent = 'Bezárom';
+      zar.addEventListener('click', () => d.close());
+      belso.append(zar);
+
+      d.append(belso);
+      document.body.append(d);
+      d.showModal();
+      /* A bezárt ablak nem marad a DOM-ban: egy második beküldés sajátot épít. */
+      d.addEventListener('close', () => d.remove());
+    };
+    /* ======================================================================= */
+
     const valasz = urlap.querySelector('[data-urlap-valasz]');
     const gomb = urlap.querySelector('button[type="submit"]');
 
@@ -176,10 +322,31 @@
           mezoHibak(null);
           jelez(adat.uzenet || 'Köszönjük, megkaptuk.', 'ok');
           konverzio();          /* A RESET ELŐTT — lásd a fenti indoklást. */
+
+          /* AZ ŰRLAP KÉSZ — ezt a jelölőt az `urlap-ellenorzes.js` is nézi.
+             Nélküle a lenti `reset()` kiüríti a kötelező jelölőnégyzetet, az
+             ellenőrző modul újraszámol, és a SIKERES beküldés zöld
+             visszaigazolása alá odaírja, hogy „a beküldéshez még hiányzik
+             valami" — pontosan akkor, amikor semmi sem hiányzik. */
+          urlap.dataset.bekuldve = '1';
+
           urlap.reset();
           if (ido) ido.value = String(Math.floor(Date.now() / 1000));
-          /* Sikeres küldés után a gomb tiltva marad: a kétszeri beküldés
-             ugyanazt a levelet küldené el újra. */
+
+          /* A GOMB TILTVA MARAD, DE NEM PÖRÖG TOVÁBB.
+             A tiltás szándékos: a kétszeri beküldés ugyanazt a levelet küldené
+             el újra. Az `aria-busy` viszont azt jelenti, hogy DOLGOZIK — a
+             munka pedig kész. Rajta hagyva a gomb örökké pörgő várakozásnak
+             látszik, és a látogató azt hiszi, lefagyott — a zöld visszaigazolás
+             ellenére is. (Mérve: pontosan ez történt.) */
+          if (gomb) { gomb.removeAttribute('aria-busy'); }
+
+          /* A KÖSZÖNŐABLAK A LEGUTOLSÓ LÉPÉS, és külön védve.
+             A beküldés ekkor már megtörtént, a levél elment, a zöld sor ott
+             áll — ha az ablak felépítése bármiért elszáll (régi böngésző, egy
+             hiányzó ikon, egy kiegészítő), az NEM ronthatja el a
+             visszaigazolást. A látogató megerősítése nem múlhat egy díszen. */
+          try { koszonoAblak(adat.uzenet); } catch (_) { /* marad a zöld sor */ }
           return;
         }
         mezoHibak(adat.mezok);

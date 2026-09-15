@@ -9752,6 +9752,61 @@
   .suti-parbeszed-cim{margin:0}
   .suti-parbeszed-urlap > p{margin:0;color:var(--text-secondary)}
 
+  /* ===== KÖSZÖNŐABLAK — sikeres űrlapbeküldés után ========================
+     MIÉRT ABLAK, ÉS NEM CSAK EGY ZÖLD SOR. A beküldés a látogató részéről
+     befejezett munka: tizenöt mezőt töltött ki. Egy sor szöveg az űrlap alatt
+     ezt nem zárja le — a lap ugyanúgy néz ki, mint előtte, a kiürült mezőkkel,
+     és a látogató nem tudja, mi következik. Az elmosott háttér és a középre
+     állított doboz kimondja, hogy ez a szakasz véget ért.
+
+     ÉS AD EGY KÖVETKEZŐ LÉPÉST. Aki ajánlatot kért, két munkanapig vár — az a
+     legjobb pillanat arra, hogy körülnézzen. Halott hivatkozás nem kerülhet
+     ide: mind ellenőrizve.
+
+     A `<dialog>` NATÍV. A fókuszcsapdát, az Escape-et és az `aria-modal`-t a
+     böngésző adja; ugyanaz a minta, mint a süti-párbeszédnél. */
+  .koszono{
+    /* A `margin:auto` KELL — a reset réteg minden elemről leszedi a margót,
+       és enélkül a doboz a bal felső sarokba ragad. Lásd `.suti-parbeszed`. */
+    margin:auto;
+    max-width:34rem;width:calc(100% - var(--space-32));
+    max-height:calc(100dvh - var(--space-48));overflow:auto;
+    border:1px solid var(--panel-border);border-radius:var(--r-xl);
+    background:var(--panel-bg);color:var(--text-primary);
+    padding:var(--space-32);
+    box-shadow:var(--shadow-3);
+    text-align:center;
+  }
+  .koszono::backdrop{
+    background:color-mix(in srgb,var(--canvas) 62%,transparent);
+    backdrop-filter:blur(6px);
+  }
+  .koszono-belso{display:grid;gap:var(--space-16);justify-items:center}
+  /* A LOGÓ A DOBOZBAN. A háttér elmosódott, tehát a fejléc logója sem
+     olvasható — enélkül az ablak jelöletlen rendszerüzenetnek látszana. */
+  .koszono-logo{width:var(--space-128);height:auto;display:block}
+  .koszono-cim{margin:0}
+  .koszono-szoveg{margin:0;color:var(--text-secondary);max-width:26rem}
+  .koszono-tovabb{
+    list-style:none;margin:0;padding:0;width:100%;
+    display:grid;gap:var(--space-8);text-align:start;
+  }
+  .koszono-tovabb-cim{
+    margin:var(--space-8) 0 0;color:var(--text-tertiary);
+    text-transform:uppercase;letter-spacing:.08em;
+  }
+  .koszono-link{
+    display:grid;gap:var(--space-4);
+    padding:var(--space-16);
+    border:1px solid var(--card-border);border-radius:var(--r-md);
+    background:var(--card-bg);color:inherit;text-decoration:none;
+    transition:border-color .15s ease,background-color .15s ease;
+  }
+  .koszono-link:hover{border-color:var(--primary);background:var(--surface)}
+  .koszono-link b{color:var(--text-primary)}
+  .koszono-link span{color:var(--text-secondary)}
+  .koszono-zar{margin-top:var(--space-8)}
+
   .suti-lista{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
   .suti-sor{
     border:1px solid var(--card-border);border-radius:var(--r-md);

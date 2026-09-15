@@ -176,6 +176,18 @@
     };
 
     const allapot = () => {
+      /* A BEKÜLDÖTT ŰRLAPNAK NINCS TÖBBÉ HIÁNYA.
+         Sikeres küldés után az `urlap.js` `reset()`-et hív, ami a kötelező
+         jelölőnégyzetet is kiüríti — ez a modul pedig újraszámol, és a zöld
+         visszaigazolás alá odaírja, hogy „a beküldéshez még hiányzik valami".
+         A látogató ilyenkor azt látja, hogy sikerült is meg nem is.
+         A jelölőt az `urlap.js` teszi ki a siker pillanatában. */
+      if (urlap.dataset.bekuldve === '1') {
+        gomb.setAttribute('aria-disabled', 'false');
+        if (jelzo) { jelzo.textContent = ''; jelzo.removeAttribute('data-kesz'); }
+        return true;
+      }
+
       const kesz = mezok().every((m) => ellenoriz(m, m.dataset.erintett === '1'));
       gomb.setAttribute('aria-disabled', kesz ? 'false' : 'true');
       if (jelzo) {
