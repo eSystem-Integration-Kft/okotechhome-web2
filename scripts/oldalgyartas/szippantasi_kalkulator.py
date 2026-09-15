@@ -1090,8 +1090,7 @@ def epit():
      betűcsere-villanás megspórolása; a `font-display: swap` viszont a
      szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
      adjuk oda az LCP-t.
-     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
-<link rel="stylesheet" href="/assets/css/betuk.css?v=1">
+     A betűk az app.css BETŰK-régiójában, külön kérés nélkül. -->
 <link rel="stylesheet" href="assets/css/app.css?v={CSS_V}">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->

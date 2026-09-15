@@ -35,7 +35,12 @@ import sys
 
 GYOKER = pathlib.Path(__file__).resolve().parents[2]
 FONTOK = GYOKER / '_web' / 'assets' / 'fonts'
-KI = GYOKER / '_web' / 'assets' / 'css' / 'betuk.css'
+# A @font-face szabályok AZ app.css JELÖLT RÉGIÓJÁBA kerülnek, nem külön
+# fájlba: külön stíluslapként egy renderelést blokkoló kérés volt (mérve
+# 190 ms 1,8 KiB-ért). A jelölők közti tartalmat ez a szkript írja újra.
+KI = GYOKER / '_web' / 'assets' / 'css' / 'app.css'
+KEZDET = '/* ===== BETŰK-KEZDET'
+VEGE   = '/* ===== BETŰK-VÉGE'
 
 CSS_URL = ('https://fonts.googleapis.com/css2'
            '?family=Zilla+Slab:wght@400;500;600;700'
@@ -108,11 +113,19 @@ def main() -> int:
         sorok.append(re.sub(r'\s*\n\s*', ' ', uj).strip())
         sorok.append('')
 
-    KI.write_text('\n'.join(sorok), encoding='utf-8')
+    # BESZÚRÁS A JELÖLŐK KÖZÉ. A fájl többi része érintetlen marad — az
+    # app.css kézzel karbantartott, csak ez az egy régió generált.
+    teljes = KI.read_text(encoding='utf-8')
+    i = teljes.index(KEZDET)
+    j = teljes.index(VEGE, i)
+    fejvege = teljes.index('*/\n', i) + 3          # a régió fejléckommentje marad
+    KI.write_text(teljes[:fejvege] + '\n'.join(sorok) + '\n' + teljes[j:],
+                  encoding='utf-8')
     meret = sum(f.stat().st_size for f in FONTOK.glob('*.woff2'))
     print(f'betűfájl: {len(list(FONTOK.glob("*.woff2")))} db '
           f'({meret / 1024:.0f} KB), ebből most letöltve: {letoltve}')
-    print(f'{KI.relative_to(GYOKER)}: {len(KI.read_text(encoding="utf-8"))} bájt')
+    print(f'{KI.relative_to(GYOKER)}: a BETŰK régió frissítve '
+          f'({len(sorok)} sor, {len(KI.read_text(encoding="utf-8"))} bájt a teljes fájl)')
     return 0
 
 

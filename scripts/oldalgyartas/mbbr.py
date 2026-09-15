@@ -475,7 +475,6 @@ LAP = """<!DOCTYPE html>
 <meta property="og:site_name" content="ÖkoTech Home">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="hu_HU">
-<link rel="stylesheet" href="/assets/css/betuk.css?v=1">
 <link rel="stylesheet" href="../assets/css/app.css?v={css}">
 <script src="../assets/js/tema.js?v=1"></script>
 <script src="/assets/js/suti.js?v={suti}" defer></script>

@@ -252,8 +252,7 @@ def build(p):
      betűcsere-villanás megspórolása; a `font-display: swap` viszont a
      szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
      adjuk oda az LCP-t.
-     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
-<link rel="stylesheet" href="/assets/css/betuk.css?v=1">
+     A betűk az app.css BETŰK-régiójában, külön kérés nélkül. -->
 <link rel="stylesheet" href="../assets/css/app.css?v=78">
 <link rel="preload" as="image" href="../assets/img/oldalak/hero-{img}.webp"
       imagesrcset="../assets/img/oldalak/hero-{img}-1024.webp 1100w, ../assets/img/oldalak/hero-{img}.webp 1800w"

@@ -212,8 +212,7 @@ SABLON = '''<!DOCTYPE html>
      betűcsere-villanás megspórolása; a `font-display: swap` viszont a
      szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
      adjuk oda az LCP-t.
-     Lásd assets/css/betuk.css és scripts/oldalgyartas/betuk.py. -->
-<link rel="stylesheet" href="/assets/css/betuk.css?v=1">
+     A betűk az app.css BETŰK-régiójában, külön kérés nélkül. -->
 <link rel="stylesheet" href="/assets/css/hiba.css?v=2">
 </head>
 <body>

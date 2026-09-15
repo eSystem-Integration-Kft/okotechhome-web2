@@ -10,7 +10,8 @@ lapokon cseréli le a hivatkozást. Három sor megy ki és három jön be:
     KI   stylesheet fonts.googleapis.com/css2   ← renderelést blokkolt
 
     BE   preload  zilla-slab-600-latin.woff2    ← a címsorok betűje
-    BE   stylesheet /assets/css/betuk.css
+    (stíluslap nem kell: a @font-face szabályok 2026-09-15 óta az
+     app.css BETŰK-régiójában élnek, külön kérés nélkül)
 
 AZ ELŐTÖLTÉS SZÁNDÉKOSAN CSAK EGY FÁJL, és az `latin`. Ez a címsorok betűje,
 a `--font-heading` 600-as vastagsága; a hero `<h1>` ezzel rajzolódik.
@@ -52,8 +53,7 @@ UJ = ('<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek: a Google Fontsról a stíl
       '     Csak ez az egy fájl, és csak `latin`; az indoklás a\n'
       '     scripts/oldalgyartas/betuk_beszuras.py fejlécében áll. -->\n'
       '<link rel="preload" as="font" type="font/woff2" crossorigin\n'
-      '      href="/assets/fonts/zilla-slab-600-latin.woff2">\n'
-      '<link rel="stylesheet" href="/assets/css/betuk.css?v={v}">\n')
+      '      href="/assets/fonts/zilla-slab-600-latin.woff2">\n')
 
 
 def main() -> int:
@@ -62,11 +62,11 @@ def main() -> int:
     csere = mar = kihagy = 0
     for p in sorted(WEB.rglob('*.html')):
         s = p.read_text(encoding='utf-8')
-        if 'assets/css/betuk.css' in s:
-            s2 = re.sub(r'assets/css/betuk\.css\?v=\d+',
-                        f'assets/css/betuk.css?v={v}', s)
-            if s2 != s:
-                p.write_text(s2, encoding='utf-8')
+        # A BETŰK-BLOKK MÁR OTT VAN? Az előtöltés jelenléte árulja el, nem a
+        # stíluslapé: a betuk.css 2026-09-15 óta nem létezik, a @font-face
+        # szabályok az app.css BETŰK-régiójában élnek. A `v` argumentum így
+        # csak az első beszúráskor számít; verziót itt nem kell emelni.
+        if 'zilla-slab-600-latin.woff2' in s:
             mar += 1
             continue
         s2, n = REGI.subn(uj, s, count=1)
