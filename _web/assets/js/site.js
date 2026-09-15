@@ -58,6 +58,30 @@
     return kell <= szabad + 0.5;
   };
 
+  /* A LEGSZŰKEBB FOKOZAT IGÉNYE — egyszer megmérve, utána küszöbként.
+     ---------------------------------------------------------------------
+     MIÉRT KELL. A ciklus lentebb a legtágabb fokozattól indul, és minden
+     körben ÍR (`dataset.nav`), majd OLVAS (`getBoundingClientRect`) — a
+     böngésző ilyenkor kénytelen a teljes elrendezést újraszámolni. Három
+     fokozat, három újratördelés. Mérve (PageSpeed, mobil): 330 ms.
+
+     Keskeny képernyőn viszont a válasz eleve `fiok` — a menüsor a
+     LEGSŰRŰBB fokozatban sem fér el. Azt a három újratördelést tehát azért
+     fizetjük, hogy megtudjuk, amit előre lehet tudni.
+
+     EZ NEM TÖRÉSPONT, HANEM MÉRÉS: a küszöböt nem beírjuk, hanem a `suru`
+     fokozatban egyszer megmérjük. A menü bővülésével magától változik —
+     a modul alapelve („mérés, nem töréspont") így sértetlen marad. */
+  let legszukebbKell = 0;
+
+  const kuszobMer = () => {
+    const elozo = gyoker.dataset.nav;
+    gyoker.dataset.nav = 'suru';
+    legszukebbKell = Math.max(navLista.scrollWidth,
+                              navLista.getBoundingClientRect().width);
+    gyoker.dataset.nav = elozo;
+  };
+
   const fokozatValaszt = () => {
     if (!drawer || !navLista || !fejlecSor) return;
     const elozoFiok = fiokMod();
@@ -65,6 +89,20 @@
 
     /* Csukott `details` tartalma nem mérhető — a mérés idejére kinyitjuk. */
     drawer.open = true;
+
+    if (!legszukebbKell) kuszobMer();
+
+    /* A KÜSZÖB ALATT NINCS MIT PRÓBÁLGATNI. Egyetlen olvasás, írás nélkül:
+       ha a fejléc teljes belső szélessége sem éri el azt, amit a menüsor a
+       legsűrűbb fokozatban kér, akkor egyik fokozat sem fér el. A `+ 0.5` a
+       lentebbi összehasonlítással egyező tűrés. */
+    if (fejlecSor.clientWidth < legszukebbKell + 0.5) {
+      gyoker.dataset.nav = 'fiok';
+      drawer.open = elozoFiok ? nyitvaVolt : false;
+      if (!elozoFiok) zarMind();
+      return;
+    }
+
     let talalt = null;
     for (const fokozat of FOKOZATOK) {
       gyoker.dataset.nav = fokozat;
@@ -93,7 +131,15 @@
        a tartalék betűvel mért sor akár 5-8%-kal is más. Ezért a font
        betöltése után újramérünk. */
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(ujramer).catch(() => {});
+      document.fonts.ready.then(() => {
+        /* A KÜSZÖBÖT IS ÚJRA KELL MÉRNI, nem csak a fokozatot: a tartalék
+           betűvel felvett érték 5-8%-kal mellé mehet, és mivel a küszöb
+           dönti el, hogy egyáltalán próbálkozunk-e, egy rossz érték itt
+           tartósan fiók módba ragasztaná a menüt egy olyan képernyőn, ahol
+           elférne. */
+        legszukebbKell = 0;
+        ujramer();
+      }).catch(() => {});
     }
 
     document.addEventListener('click', (event) => {
