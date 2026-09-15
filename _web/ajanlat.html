@@ -42,6 +42,11 @@
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
      Szkript nélkül nem marad a lapon árva, néma sáv. -->
 <script src="/assets/js/suti.js?v=4" defer></script>
+<!-- Honnan érkezett a látogató: az `utm_*` és az ajánlói paraméter az ELSŐ
+     belépéskor van meg, az űrlapot viszont jellemzően pár lappal később
+     tölti ki. Ezért fut MINDEN lapon, nem csak az űrlapokén. Rejtett
+     mezőkbe másol, a látogató nem lát belőle semmit. -->
+<script src="/assets/js/kampany.js?v=1" defer></script>
 </head>
 <body data-kalauz-mod="ajanlat">
 
@@ -597,6 +602,10 @@
               <input class="urlap-input" type="text" id="a-cegnev" name="cegnev" autocomplete="organization" maxlength="160">
             </p>
           </div>
+          <p class="urlap-mezo">
+            <label class="type-ui-caption urlap-cimke" for="a-kapcsolattarto">Kapcsolattartó, ha nem Ön<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-kapcsolattarto">?<span class="visually-hidden"> Súgó: kapcsolattartó</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-kapcsolattarto">Ha a helyszínen vagy a lebonyolításban <strong>más</strong> az elérhető személy — építész, kivitelező, családtag —, itt adja meg a nevét. Üresen hagyva Önt keressük.</span></span></label>
+            <input class="urlap-input" type="text" id="a-kapcsolattarto" name="kapcsolattarto" maxlength="120">
+          </p>
         </fieldset>
 
         <fieldset class="urlap-csoport">
@@ -607,12 +616,39 @@
               <input class="urlap-input" type="text" id="a-telepules" name="telepules" required maxlength="120">
             </p>
             <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="a-megye">Megye</label>
+              <select class="urlap-input" id="a-megye" name="megye">
+                <option value="">Válasszon…</option>
+                <option>Budapest</option>
+                <option>Bács-Kiskun</option>
+                <option>Baranya</option>
+                <option>Békés</option>
+                <option>Borsod-Abaúj-Zemplén</option>
+                <option>Csongrád-Csanád</option>
+                <option>Fejér</option>
+                <option>Győr-Moson-Sopron</option>
+                <option>Hajdú-Bihar</option>
+                <option>Heves</option>
+                <option>Jász-Nagykun-Szolnok</option>
+                <option>Komárom-Esztergom</option>
+                <option>Nógrád</option>
+                <option>Pest</option>
+                <option>Somogy</option>
+                <option>Szabolcs-Szatmár-Bereg</option>
+                <option>Tolna</option>
+                <option>Vas</option>
+                <option>Veszprém</option>
+                <option>Zala</option>
+                <option value="kulfold">Külföld</option>
+              </select>
+            </p>
+          </div>
+          <div class="urlap-sor">
+            <p class="urlap-mezo">
               <label class="type-ui-caption urlap-cimke" for="a-hrsz">Helyrajzi szám<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-hrsz">?<span class="visually-hidden"> Súgó: helyrajzi szám</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-hrsz">A tulajdoni lapon és az építési engedélyen szerepel — például <strong>1234/5</strong>. Ebből ellenőrizhető a helyi szabályozás és a védőtávolság, tehát pontosabb lesz az ajánlat.</span></span></label>
               <input class="urlap-input" type="text" id="a-hrsz" name="hrsz" maxlength="60"
                      placeholder="pl. 1234/5">
             </p>
-          </div>
-          <div class="urlap-sor">
             <p class="urlap-mezo">
               <label class="type-ui-caption urlap-cimke" for="a-ingatlan">Az ingatlan típusa</label>
               <select class="urlap-input" id="a-ingatlan" name="ingatlan">
@@ -623,13 +659,30 @@
                 <option value="kozossegi">Több ingatlan, közösségi rendszer</option>
               </select>
             </p>
+          </div>
+          <div class="urlap-sor">
             <p class="urlap-mezo">
               <label class="type-ui-caption urlap-cimke" for="a-letszam">Hány fő használja?<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-letszam">?<span class="visually-hidden"> Súgó: létszám</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-letszam">Az <strong>állandóan</strong> ott élők száma — a berendezés méretét ez dönti el. Ha időszakos a használat (nyaraló, panzió), írja a csúcsidőszak létszámát, és a megjegyzésbe, hogy hány napra.</span></span></label>
               <input class="urlap-input" type="number" id="a-letszam" name="letszam" min="1" max="2000" inputmode="numeric"
                      placeholder="pl. 4">
             </p>
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="a-vizfogyasztas">Átlagos vízfogyasztás<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-vizfogyasztas">?<span class="visually-hidden"> Súgó: vízfogyasztás</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-vizfogyasztas">A <strong>vízszámlán</strong> szerepel, jellemzően m³/hó alakban. A méretezés a napi terhelésből indul, és a valós fogyasztás pontosabb, mint a létszámból számolt becslés. Ha nem tudja, hagyja üresen — a létszámból számolunk.</span></span></label>
+              <input class="urlap-input" type="text" id="a-vizfogyasztas" name="vizfogyasztas" maxlength="60"
+                     placeholder="pl. 12 m³/hó vagy 400 l/nap">
+            </p>
           </div>
           <div class="urlap-sor">
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="a-talajviz">Van talajvíz a telken?<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-talajviz">?<span class="visually-hidden"> Súgó: talajvíz</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-talajviz">A <strong>magas talajvíz</strong> a telepítés módját és a berendezés rögzítését is befolyásolja. A legárulkodóbb jel a tavaszi vízállás: ha a kertben vagy a pincében megáll a víz, az „igen". Bizonytalanság esetén a „nem tudom" is jó válasz.</span></span></label>
+              <select class="urlap-input" id="a-talajviz" name="talajviz">
+                <option value="">Válasszon…</option>
+                <option value="nem">Nem, vagy nem tudunk róla</option>
+                <option value="igen">Igen, magas a talajvíz</option>
+                <option value="idoszakos">Időszakosan, tavasszal megáll a víz</option>
+                <option value="nem-tudom">Nem tudom</option>
+              </select>
+            </p>
             <p class="urlap-mezo">
               <label class="type-ui-caption urlap-cimke" for="a-jelenlegi">Mi van most a telken?<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-jelenlegi">?<span class="visually-hidden"> Súgó: jelenlegi megoldás</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-jelenlegi">Meglévő emésztő vagy oldómedence esetén gyakran <strong>kiváltható</strong> a régi akna, és a földmunka egy része megmarad — ez az árban is látszik.</span></span></label>
               <select class="urlap-input" id="a-jelenlegi" name="jelenlegi">
@@ -640,6 +693,31 @@
                 <option value="egyeb">Egyéb vagy nem tudom</option>
               </select>
             </p>
+          </div>
+          <div class="urlap-sor">
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="a-csatorna">Van elérhető közcsatorna?<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-csatorna">?<span class="visually-hidden"> Súgó: közcsatorna</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-csatorna">Ha az utcában <strong>van</strong> kiépített közcsatorna, arra jellemzően rá kell kötni, és egyedi berendezés csak kivételes esetben engedélyezhető. Ezért kérdezzük meg az elején — nem szeretnénk olyan ajánlatot küldeni, amit végül nem lehet megvalósítani.</span></span></label>
+              <select class="urlap-input" id="a-csatorna" name="csatorna">
+                <option value="">Válasszon…</option>
+                <option value="nincs">Nincs az utcában közcsatorna</option>
+                <option value="van-nem-kotott">Van, de nincs rákötve</option>
+                <option value="rakotott">Van, és rá van kötve</option>
+                <option value="tervezett">Tervezik, de még nincs kiépítve</option>
+                <option value="nem-tudom">Nem tudom</option>
+              </select>
+            </p>
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="a-hol-tart">Hol tart az ingatlannal?<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-hol-tart">?<span class="visually-hidden"> Súgó: hol tart az ingatlannal</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-hol-tart">Ez az <strong>ütemezést</strong> segíti: vásárlás előtt még a telek alkalmasságát érdemes tisztázni, épülő háznál a gépészettel együtt tervezünk, meglévő ingatlannál a meglévő akna kiváltása a kérdés.</span></span></label>
+              <select class="urlap-input" id="a-hol-tart" name="hol_tart">
+                <option value="">Válasszon…</option>
+                <option value="valasztas-elott">Még keresem az ingatlant vagy a telket</option>
+                <option value="megvasarolt">Megvásároltam, még nem építkezem</option>
+                <option value="epul">Épül vagy felújítás alatt áll</option>
+                <option value="lakott">Kész, lakott ingatlan</option>
+              </select>
+            </p>
+          </div>
+          <div class="urlap-sor">
             <p class="urlap-mezo">
               <label class="type-ui-caption urlap-cimke" for="a-irany">Melyik megoldás érdekli?<span class="sugo"><button class="sugo-jel" type="button" aria-describedby="sugo-irany">?<span class="visually-hidden"> Súgó: megoldás iránya</span></button><span class="sugo-buborek type-ui-caption" role="tooltip" id="sugo-irany">Nyugodtan válassza a „<strong>Még nem tudom</strong>" opciót: a technológiát a terhelés és a telek adottságai döntik el, nem az előzetes elképzelés. Ha van kedvence, azt is figyelembe vesszük.</span></span></label>
               <select class="urlap-input" id="a-irany" name="irany">
@@ -649,16 +727,16 @@
                 <option value="nagyobb">Nagyobb vagy közösségi rendszer</option>
               </select>
             </p>
+            <p class="urlap-mezo">
+              <label class="type-ui-caption urlap-cimke" for="a-kezdes">Mikorra tervezi?</label>
+              <select class="urlap-input" id="a-kezdes" name="kezdes">
+                <option value="1-honap">Egy hónapon belül</option>
+                <option value="3-honap">Három hónapon belül</option>
+                <option value="fel-ev">Fél éven belül</option>
+                <option value="tajekozodas">Még csak tájékozódom</option>
+              </select>
+            </p>
           </div>
-          <p class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="a-kezdes">Mikorra tervezi?</label>
-            <select class="urlap-input" id="a-kezdes" name="kezdes">
-              <option value="1-honap">Egy hónapon belül</option>
-              <option value="3-honap">Három hónapon belül</option>
-              <option value="fel-ev">Fél éven belül</option>
-              <option value="tajekozodas">Még csak tájékozódom</option>
-            </select>
-          </p>
         </fieldset>
 
         <fieldset class="urlap-csoport">
@@ -682,6 +760,15 @@
             az ajánlat elkészítése és a kapcsolattartás céljából kezeljék.
             <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> <span aria-hidden="true">*</span></label>
         </p>
+        <!-- A HÍRLEVÉL KÜLÖN JELÖLŐ, és szándékosan NEM kötelező. A hozzájárulás
+             az ajánlatra vonatkozik; a hírlevél önálló cél, önálló döntéssel —
+             a kettő összevonása a GDPR szerint érvénytelen hozzájárulást adna.
+             Ugyanaz a megfogalmazás, mint a megrendelőlapon. -->
+        <p class="urlap-jelolo">
+          <input type="checkbox" id="a-hirlevel" name="hirlevel" value="1">
+          <label class="type-ui-subtitle" for="a-hirlevel">Szeretnék hírlevelet kapni a tisztítóval kapcsolatos
+            információkról, kapcsolódó termékekről és újdonságokról. (Bármikor leiratkozhatok.)</label>
+        </p>
 
         <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
              megnyitás időpontja — a túl gyors beküldés is robotra utal. -->
@@ -690,6 +777,18 @@
           <input type="text" id="a-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
         </p>
         <input type="hidden" name="nyitva" value="" data-urlap-ido>
+        <!-- HONNAN ÉRKEZETT. A három mezőt a `kampany.js` tölti ki, a látogató
+             nem lát és nem ír belőlük semmit. Az értékek az ELSŐ érkezés
+             URL-jéből származnak, és a munkamenet végéig megmaradnak: aki egy
+             hirdetésre kattint, majd három lapot olvas, mielőtt ajánlatot kér,
+             ugyanúgy a hirdetéshez tartozik.
+
+             MIÉRT NEM A REFERRERBŐL. A `document.referrer` a saját lapunkat
+             mutatná a második kattintás után, a hirdetést pedig elveszítenénk.
+             Az utm-paraméterek viszont a belépéskor egyszer megvannak. -->
+        <input type="hidden" name="kampany_tipus" value="" data-kampany="tipus">
+        <input type="hidden" name="kampany_azonosito" value="" data-kampany="azonosito">
+        <input type="hidden" name="partner_azon" value="" data-kampany="partner">
         <!-- ZÁRÓ BLOKK. A beküldés nem folytatása a kitöltésnek, hanem külön
              mozdulat: elválasztó vonal és bőséges térköz választja el fölötte
              állótól (a megrendelőlapon az aláírásblokktól). -->

@@ -57,6 +57,14 @@ $hozzajarul  = !empty($BE['hozzajarul']);
 $karbantartas = !empty($BE['karbantartas']);
 $hirlevel    = !empty($BE['hirlevel']);
 
+/* HONNAN ÉRKEZETT — a `kampany.js` tölti ki, rejtett mezőkből. A megrendelés
+   jellemzően napokkal az ajánlatkérés után, gyakran másik munkamenetben
+   érkezik: ilyenkor ez a három mező ÜRESEN marad, és az ajánlatkéréshez
+   rögzített jelölés az irányadó. Nem hiba, hanem a dolog természete. */
+$kampanyTipus = OthVedelem::szoveg($BE, 'kampany_tipus', 120);
+$kampanyAzon  = OthVedelem::szoveg($BE, 'kampany_azonosito', 120);
+$partnerAzon  = OthVedelem::szoveg($BE, 'partner_azon', 120);
+
 /* --- ellenőrzés ---------------------------------------------------------- */
 $hibak = [];
 if ($ajanlat === '')            { $hibak['ajanlat_sorszam'] = 'A megrendelőlap csak érvényes árajánlat sorszámával együtt érvényes.'; }
@@ -185,7 +193,11 @@ OthCrm::kuld($CFG, 'megrendeles', OthCrm::csomag(
             'számlázási név'      => $szlaNev,
             'számlázási cím'      => $szlaCim,
             'adószám'             => $adoszam,
-            'hírlevél'            => $hirlevel ? 'igen' : 'nem',
+            'hirlevel'            => $hirlevel ? 'igen' : 'nem',
+            'adatkezeles'         => $hozzajarul ? 'igen' : 'nem',
+            'partner_azon'        => $partnerAzon,
+            'kampany_tipus'       => $kampanyTipus,
+            'kampany_azonosito'   => $kampanyAzon,
         ]),
     ],
     $hozzajarul,

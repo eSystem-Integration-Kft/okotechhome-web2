@@ -42,6 +42,11 @@
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
      Szkript nélkül nem marad a lapon árva, néma sáv. -->
 <script src="/assets/js/suti.js?v=4" defer></script>
+<!-- Honnan érkezett a látogató: az `utm_*` és az ajánlói paraméter az ELSŐ
+     belépéskor van meg, az űrlapot viszont jellemzően pár lappal később
+     tölti ki. Ezért fut MINDEN lapon, nem csak az űrlapokén. Rejtett
+     mezőkbe másol, a látogató nem lát belőle semmit. -->
+<script src="/assets/js/kampany.js?v=1" defer></script>
 </head>
 <body data-kalauz-mod="megrendeles">
 
@@ -805,6 +810,13 @@
           <input type="text" id="m-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
         </p>
         <input type="hidden" name="nyitva" value="" data-urlap-ido>
+        <!-- HONNAN ÉRKEZETT — ugyanaz a három mező, mint az ajánlatkérőn, és
+             ugyanaz tölti ki (`kampany.js`). A megrendelés jellemzően napokkal
+             az ajánlatkérés után érkezik, gyakran másik munkamenetben: ilyenkor
+             ezek üresen maradnak, és az ajánlatkérés jelölése az irányadó. -->
+        <input type="hidden" name="kampany_tipus" value="" data-kampany="tipus">
+        <input type="hidden" name="kampany_azonosito" value="" data-kampany="azonosito">
+        <input type="hidden" name="partner_azon" value="" data-kampany="partner">
         <!-- ZÁRÓ BLOKK. A beküldés nem folytatása a kitöltésnek, hanem külön
              mozdulat: elválasztó vonal és bőséges térköz választja el fölötte
              állótól (a megrendelőlapon az aláírásblokktól). -->

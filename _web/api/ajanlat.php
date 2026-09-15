@@ -28,6 +28,26 @@ $letszam   = OthVedelem::szoveg($BE, 'letszam', 10);
 $uzenet    = OthVedelem::szoveg($BE, 'uzenet', (int) $CFG['vedelem']['max_uzenet']);
 $hozzajarul = !empty($BE['hozzajarul']);
 
+/* A kapcsolattartó és a vízfogyasztás SZABAD SZÖVEG, ezért hosszkorlátos.
+   A vízfogyasztás azért nem szám: a látogató a vízszámláról olvassa le, és az
+   hol m³/hó, hol l/nap — egy `number` mező itt csak elutasítaná a helyes
+   választ. A méretezést amúgy sem ez dönti el, hanem a mérnöki átnézés. */
+$kapcsolattarto = OthVedelem::szoveg($BE, 'kapcsolattarto', 120);
+$vizfogyasztas  = OthVedelem::szoveg($BE, 'vizfogyasztas', 60);
+
+/* A HÍRLEVÉL KÜLÖN HOZZÁJÁRULÁS, nem az adatkezelési jelölő része. Az egyik
+   az ajánlat elkészítéséhez kell, a másik marketingcélú megkeresés — a kettő
+   összevonása a GDPR szerint érvénytelen hozzájárulás. A CRM külön mezőben
+   várja, mert a leiratkozást is külön kell tudni kezelni. */
+$hirlevel = !empty($BE['hirlevel']);
+
+/* HONNAN ÉRKEZETT — a `kampany.js` tölti ki, rejtett mezőkből. A látogató
+   sosem gépeli, tehát bármi jöhet: hosszkorlát és ugyanaz a szövegtisztítás,
+   mint minden más mezőn. */
+$kampanyTipus = OthVedelem::szoveg($BE, 'kampany_tipus', 120);
+$kampanyAzon  = OthVedelem::szoveg($BE, 'kampany_azonosito', 120);
+$partnerAzon  = OthVedelem::szoveg($BE, 'partner_azon', 120);
+
 /* Zárt értékkészletű mezők: a kliens bármit küldhet, ezért a listán kívüli
    érték nem „egyéb" lesz, hanem eldobjuk — a levélben csak olyan felirat
    jelenhet meg, amit MI írtunk. */
@@ -58,6 +78,56 @@ $LISTAK = [
         'fel-ev'       => 'Fél éven belül',
         'tajekozodas'  => 'Még csak tájékozódik',
     ],
+    'talajviz' => [
+        'nem'        => 'Nem, vagy nem tud róla',
+        'igen'       => 'Igen, magas a talajvíz',
+        'idoszakos'  => 'Időszakosan, tavasszal megáll a víz',
+        'nem-tudom'  => 'Nem tudja',
+    ],
+    /* A KÖZCSATORNA A LEGFONTOSABB KIZÁRÓ FELTÉTEL. Ahol van kiépített
+       közcsatorna, ott jellemzően rá kell kötni, és egyedi berendezés csak
+       kivételesen engedélyezhető — a „van, és rá van kötve" válasz tehát nem
+       adat, hanem figyelmeztetés az ajánlatot készítőnek. */
+    'csatorna' => [
+        'nincs'          => 'Nincs az utcában közcsatorna',
+        'van-nem-kotott' => 'Van, de nincs rákötve',
+        'rakotott'       => 'Van, és rá van kötve',
+        'tervezett'      => 'Tervezik, de még nincs kiépítve',
+        'nem-tudom'      => 'Nem tudja',
+    ],
+    'hol_tart' => [
+        'valasztas-elott' => 'Még keresi az ingatlant vagy a telket',
+        'megvasarolt'     => 'Megvásárolta, még nem építkezik',
+        'epul'            => 'Épül vagy felújítás alatt áll',
+        'lakott'          => 'Kész, lakott ingatlan',
+    ],
+    /* A MEGYE IS ZÁRT LISTA, pedig „csak" egy helynév. Az űrlapon legördülő,
+       tehát a kliens úgysem gépeli — de a végpont HTTP-n bárkitől fogad
+       adatot, és a CRM ebből szűr. Egy elgépelt vagy szándékosan hamis
+       megyenév ott csendben rossz csoportba sorolná a megkeresést. */
+    'megye' => [
+        'Budapest'               => 'Budapest',
+        'Bács-Kiskun'            => 'Bács-Kiskun',
+        'Baranya'                => 'Baranya',
+        'Békés'                  => 'Békés',
+        'Borsod-Abaúj-Zemplén'   => 'Borsod-Abaúj-Zemplén',
+        'Csongrád-Csanád'        => 'Csongrád-Csanád',
+        'Fejér'                  => 'Fejér',
+        'Győr-Moson-Sopron'      => 'Győr-Moson-Sopron',
+        'Hajdú-Bihar'            => 'Hajdú-Bihar',
+        'Heves'                  => 'Heves',
+        'Jász-Nagykun-Szolnok'   => 'Jász-Nagykun-Szolnok',
+        'Komárom-Esztergom'      => 'Komárom-Esztergom',
+        'Nógrád'                 => 'Nógrád',
+        'Pest'                   => 'Pest',
+        'Somogy'                 => 'Somogy',
+        'Szabolcs-Szatmár-Bereg' => 'Szabolcs-Szatmár-Bereg',
+        'Tolna'                  => 'Tolna',
+        'Vas'                    => 'Vas',
+        'Veszprém'               => 'Veszprém',
+        'Zala'                   => 'Zala',
+        'kulfold'                => 'Külföld',
+    ],
 ];
 $valasztott = [];
 foreach ($LISTAK as $mezo => $lista) {
@@ -87,14 +157,27 @@ $adatok = [
     'E-mail'             => '<a href="mailto:' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '" style="color:#2F6F82;">' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '</a>',
     'Telefon'            => $telefon !== '' ? OthVedelem::html($telefon) : '',
     'Cég vagy intézmény' => $cegnev !== '' ? OthVedelem::html($cegnev) : '',
+    'Kapcsolattartó'     => $kapcsolattarto !== '' ? OthVedelem::html($kapcsolattarto) : '',
     'Település'          => OthVedelem::html($telepules),
+    'Megye'              => OthVedelem::html($valasztott['megye']),
     'Helyrajzi szám'     => $hrsz !== '' ? OthVedelem::html($hrsz) : '',
     'Ingatlan típusa'    => OthVedelem::html($valasztott['ingatlan']),
     'Hány fő használja'  => $letszam !== '' ? OthVedelem::html($letszam) : '',
+    'Vízfogyasztás'      => $vizfogyasztas !== '' ? OthVedelem::html($vizfogyasztas) : '',
+    'Talajvíz'           => OthVedelem::html($valasztott['talajviz']),
     'Jelenlegi megoldás' => OthVedelem::html($valasztott['jelenlegi']),
+    'Közcsatorna'        => OthVedelem::html($valasztott['csatorna']),
+    'Hol tart'           => OthVedelem::html($valasztott['hol_tart']),
     'Érdeklődés iránya'  => OthVedelem::html($valasztott['irany']),
     'Tervezett kezdés'   => OthVedelem::html($valasztott['kezdes']),
     'Megjegyzés'         => $uzenet !== '' ? OthVedelem::html($uzenet) : '',
+    'Hírlevél'           => $hirlevel ? 'kért' : '',
+    /* A KAMPÁNYJELÖLÉS IS BENNE VAN a belső levélben. Nem az értékesítőnek
+       szól, hanem annak, aki egy konkrét megkeresésnél utólag kérdezi, honnan
+       jött — a CRM-be is megy, de a levél az, ami archívumban marad. */
+    'Kampány'            => $kampanyTipus !== '' || $kampanyAzon !== ''
+        ? OthVedelem::html(trim($kampanyTipus . ' · ' . $kampanyAzon, ' ·')) : '',
+    'Ajánló'             => $partnerAzon !== '' ? OthVedelem::html($partnerAzon) : '',
     'Mellékletek'        => $csatolmanyok
         ? OthVedelem::html(implode(', ', array_column($csatolmanyok, 'nev'))) : '',
 ];
@@ -154,14 +237,42 @@ OthCrm::kuld($CFG, 'ajanlat', OthCrm::csomag(
         'targy'    => 'Ajánlatkérés a weboldalról',
         'uzenet'   => $uzenet,
         'url'      => $CFG['webhely']['url'] ?? null,
+        /*
+         * A KULCSOK A CRM MEZŐNEVEI, nem a kérdések szövege — ebben az egy
+         * csatornában. A `web_bekuldes` tábla `valaszok` JSON-ját a fogadó
+         * oldal bontja szét az `ajanlatkeres` és az `ugyfelek` táblába, és
+         * ehhez gépi néven kell hivatkoznia rájuk. Egy átfogalmazott kérdés
+         * így nem töri el a szétbontást.
+         *
+         * A LÁTHATÓ FELIRAT ETTŐL FÜGGETLEN: a belső levél `$adatok` tömbje
+         * viszi a magyar címkéket, és az változhat szabadon.
+         */
         'valaszok' => array_filter([
-            'település'          => $telepules,
-            'helyrajzi szám'     => $hrsz,
-            'ingatlan típusa'    => $valasztott['ingatlan'],
-            'létszám'            => $letszam,
-            'jelenlegi megoldás' => $valasztott['jelenlegi'],
-            'érdeklődés iránya'  => $valasztott['irany'],
-            'tervezett kezdés'   => $valasztott['kezdes'],
+            'letesitmeny_tipusa'  => $valasztott['ingatlan'],
+            'letesitmeny_egyeb'   => $uzenet,
+            'szemelyek_szama'     => $letszam,
+            'vizfogyasztas'       => $vizfogyasztas,
+            'talajviz'            => $valasztott['talajviz'],
+            'telepites_helyszine' => $telepules,
+            'megye'               => $valasztott['megye'],
+            'varos'               => $telepules,
+            'helyrajzi_szam'      => $hrsz,
+            'kapcsolattarto'      => $kapcsolattarto,
+            'szennyvizkezeles'    => $valasztott['jelenlegi'],
+            'csatorna_lehetoseg'  => $valasztott['csatorna'],
+            'hol_tart_a_lakas'    => $valasztott['hol_tart'],
+            'erdeklodes_iranya'   => $valasztott['irany'],
+            'tervezett_kezdes'    => $valasztott['kezdes'],
+            /* A `hirlevel` és az `adatkezeles` SOSEM eshet ki az `array_filter`
+               rostáján, mert a „nem" éppolyan érdemi válasz, mint az „igen" —
+               ezért sztring, nem logikai érték. Az `adatkezeles` a
+               `gdpr_hozzajarulas` oszlopban is ott van; itt azért ismételjük,
+               hogy a szétbontó egyetlen JSON-ból dolgozhasson. */
+            'hirlevel'            => $hirlevel ? 'igen' : 'nem',
+            'adatkezeles'         => $hozzajarul ? 'igen' : 'nem',
+            'partner_azon'        => $partnerAzon,
+            'kampany_tipus'       => $kampanyTipus,
+            'kampany_azonosito'   => $kampanyAzon,
         ]),
     ],
     $hozzajarul,

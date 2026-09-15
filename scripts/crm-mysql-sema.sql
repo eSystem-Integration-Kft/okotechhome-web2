@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `web_bekuldes` (
   -- kapott. Mindkettő eltárolva: az első a kódunkhoz köt, a második a CRM
   -- riportjaihoz, és a kettő szétválhat anélkül, hogy adat veszne.
   `csatorna`          VARCHAR(32)     NOT NULL
-                      COMMENT 'kapcsolat | konzultacio | osszehasonlito | arsav | ajanlo',
+                      COMMENT 'ajanlat | megrendeles | kapcsolat | konzultacio | osszehasonlito | arsav | ajanlo',
   `forras`            VARCHAR(64)     NOT NULL
                       COMMENT 'a CRM-oldali forrás azonosítója',
 

@@ -32,6 +32,11 @@
 <link rel="stylesheet" href="../assets/css/app.css?v=248">
 <script src="../assets/js/tema.js?v=1"></script>
 <script src="/assets/js/suti.js?v=4" defer></script>
+<!-- Honnan érkezett a látogató: az `utm_*` és az ajánlói paraméter az ELSŐ
+     belépéskor van meg, az űrlapot viszont jellemzően pár lappal később
+     tölti ki. Ezért fut MINDEN lapon, nem csak az űrlapokén. Rejtett
+     mezőkbe másol, a látogató nem lát belőle semmit. -->
+<script src="/assets/js/kampany.js?v=1" defer></script>
 <!-- A MEGAMENÜT A `site.js` MŰKÖDTETI, az Ökót a `kalauz.js`. A fejléc
      MARKUPJA önmagában néma: a panelek nyitása, a billentyűzetes kezelés és a
      mobil fiók mind innen jön. Az SBR-lap első kiadásából ez kimaradt, és a
