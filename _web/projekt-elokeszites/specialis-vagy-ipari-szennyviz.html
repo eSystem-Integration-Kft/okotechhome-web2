@@ -35,7 +35,21 @@
 <link rel="stylesheet" href="../assets/css/app.css?v=249">
 <!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
      feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
-<script src="../assets/js/tema.js?v=1"></script>
+<!-- A TÉMÁT BEÁGYAZOTT SOR ÍRJA KI, nem külön fájl. A `data-theme`-nek
+     az ELSŐ festés előtt kell a helyén lennie, különben a látogató előbb
+     a világos lapot látja, és csak utána vált sötétre. Külön fájlként ez
+     egy teljes hálózati körfordulás volt: mérve 560 ms 2,9 KiB-ért, és
+     addig a lap semmit nem rajzolt ki. Beágyazva 195 bájt, kérés nélkül.
+
+     A CSP-BEN HASH ENGEDI, nem `unsafe-inline`: a `script-src` egyetlen
+     sha256-ot nevez meg, pontosan ezt a szöveget. Ha a sor egy karaktert
+     változik, a böngésző MEGTAGADJA a futtatását — ilyenkor a `tema.js`
+     veszi át (lentebb, `defer`), csak villanással. A hash a
+     `_web/.htaccess`-ben és a `serve.py`-ban él, mindkettőt frissíteni kell. -->
+<script>(()=>{try{var t=localStorage.getItem('oth-tema')}catch(e){}document.documentElement.dataset.theme=t==='dark'||t==='light'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})();</script>
+<!-- A VÁLTÓGOMB HUZALOZÁSA viszont ráér: senki nem kattint rá az első
+     festés előtt. Ezért `defer` — nem blokkol, és a téma már áll. -->
+<script src="../assets/js/tema.js?v=2" defer></script>
 <link rel="preload" as="image" href="../assets/img/oldalak/hero-uzem.webp?v=3"
       imagesrcset="../assets/img/oldalak/hero-uzem-1024.webp?v=3 1100w, ../assets/img/oldalak/hero-uzem.webp?v=3 1800w"
       imagesizes="100vw">

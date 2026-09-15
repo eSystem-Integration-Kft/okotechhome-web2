@@ -249,7 +249,15 @@ OthCrm::kuld($CFG, 'ajanlat', OthCrm::csomag(
          */
         'valaszok' => array_filter([
             'letesitmeny_tipusa'  => $valasztott['ingatlan'],
+            /* A `letesitmeny_egyeb` ÉS a `megjegyzes` UGYANAZT AZ ÉRTÉKET kapja,
+               és ez szándékos. A CRM mezőlistája mindkettőt „szabad szavas
+               megjegyzés"-ként írja le, a régi rendszerben viszont két külön
+               beviteli mező volt. Itt egy van — a lap alján a „Megjegyzés" —,
+               és nem találunk ki mesterséges különbséget oda, ahol a látogató
+               egy dobozba írt. A szétbontó így mindkét néven megtalálja.
+               A `web_bekuldes.uzenet` oszlopban is ott van, harmadszor. */
             'letesitmeny_egyeb'   => $uzenet,
+            'megjegyzes'          => $uzenet,
             'szemelyek_szama'     => $letszam,
             'vizfogyasztas'       => $vizfogyasztas,
             'talajviz'            => $valasztott['talajviz'],

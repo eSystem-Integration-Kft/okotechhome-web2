@@ -194,7 +194,7 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
                 "https://td.doubleclick.net; "
                 "style-src 'self' 'unsafe-inline'; "
                 "font-src 'self'; "
-                "script-src 'self' https://maps.googleapis.com https://maps.gstatic.com "
+                "script-src 'self' 'sha256-HABz/p+Tlr0o9OI0F/qUQP9zPRX/KaSez78PI+BY0sQ=' https://maps.googleapis.com https://maps.gstatic.com "
                 "https://www.googletagmanager.com https://connect.facebook.net https://www.googleadservices.com https://googleads.g.doubleclick.net; "
                 "connect-src 'self' https://maps.googleapis.com https://*.googleapis.com "
                 "https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://googleads.g.doubleclick.net https://www.google.com; "
@@ -209,7 +209,7 @@ class CleanURLHandler(RangeMixin, http.server.SimpleHTTPRequestHandler):
                 "frame-src https://www.google.com https://www.googletagmanager.com "
                 "https://td.doubleclick.net; "
                 "style-src 'self'; "
-                "font-src 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net https://www.googleadservices.com https://googleads.g.doubleclick.net; "
+                "font-src 'self'; script-src 'self' 'sha256-HABz/p+Tlr0o9OI0F/qUQP9zPRX/KaSez78PI+BY0sQ=' https://www.googletagmanager.com https://connect.facebook.net https://www.googleadservices.com https://googleads.g.doubleclick.net; "
                 "connect-src 'self' https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://googleads.g.doubleclick.net https://www.google.com",
             )
         # A teszt üzemmód robotkizárása is, hogy a két környezet ne térjen el.
