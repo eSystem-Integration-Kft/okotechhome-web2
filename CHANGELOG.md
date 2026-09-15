@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.45.00-80A640?style=flat-square" alt="verzió 0.45.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.46.00-80A640?style=flat-square" alt="verzió 0.46.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-52-56642B?style=flat-square" alt="52 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-53-56642B?style=flat-square" alt="53 kiadás">
 </p>
 
 ---
@@ -28,6 +28,113 @@ külön naplóban él, és a két verzió-idővonal **független**.
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
 
 ---
+
+## [0.46.00] — 2026-09-15
+
+### Eltávolítva — a GTM-konténer kivezetve, a GA4 közvetlenül mér
+
+Bela döntése, szó szerint: *„ezeket vedd ki, csak lassít."* A konténer **öt
+idegen kiszolgálót és ~600 KB JavaScriptet** hozott minden lapmegtekintésre —
+köztük a `googletagmanager.com`-ot **háromszor** (`gtm.js` + `gtag/js` kétszer),
+és a **CookieYes**-t, egy versenytárs süti-hozzájárulás terméket, aminek semmi
+keresnivalója egy olyan webhelyen, ami saját hozzájárulási réteget visz.
+
+**A GA4 azért éli túl, mert mostantól közvetlen.** A `G-EN120W3K2Q` az ügyfél
+saját adatfolyama (okotechhome.hu – GA4, 5851195656) — nincs másik property,
+amibe át lehetne térni, és a történeti adat is ebben van. A `meres.js` tölti be,
+`data-ga4-kozvetlen` kapcsolóval. A lényeg a tulajdon: olyan adatfolyam, amitől
+az ügyfél függ, nem múlhat egy konténeren, amit más szerkeszt.
+
+**Élesben mérve, sütik és tárolók törlésével:**
+
+| | előtte | utána |
+|---|---|---|
+| idegen kiszolgáló | 5 · 9 kérés | **2 · 2 kérés** |
+| `page_view` kérés | 1 | **1** — nincs duplázás |
+| PageSpeed (azonos gép, 6× CPU) | 92 | **98** |
+| fő szál blokkolása | 292 ms | **35 ms** |
+
+Ami maradt, mind a saját GA4-hez tartozik: `googletagmanager.com/gtag/js` és
+`region1.google-analytics.com/g/collect`, mindkettő `id=G-EN120W3K2Q`. A
+`googletagmanager.com` név megtévesztő — a Google onnan szolgálja ki a GA4
+könyvtárát is; a konténer útvonala (`/gtm.js`) sehol nem szerepel.
+
+> ⚠️ **AMI ELVESZETT, és ezt mérlegelni kell:** a Google Ads **két konverziója**
+> (ajánlatkérés `pvp6CK…`, megrendelés `4EsLCK…`) és a **Meta Pixel** a
+> konténerben éltek. Ma nincs, ami elsüsse őket. A dataLayer-események a
+> helyükön maradtak — ha valaha visszakerül egy konténer, készen találja őket.
+> Olyankor a közvetlen GA4-et **ki kell kapcsolni**, különben kétszer mér.
+
+### Hozzáadva — mind az öt űrlap mér, nem csak kettő
+
+`oth_ajanlatkeres` · `oth_megrendeles` · `oth_kapcsolat` · `oth_konzultacio` ·
+`oth_szippantasi_dij`. Az esemény közvetlenül a GA4-be megy, ugyanarra a
+kapcsolóra kötve: ha a konténer visszatér, ez az ág elnémul, és a
+dataLayer-sor veszi át — egy esemény, sosem kettő.
+
+**E-mail és telefon NEM megy a GA4-be.** Azok a Google Ads bővített
+egyeztetéséhez és a Meta advanced matchingjéhez valók; a GA4 felhasználói
+azonosítót nem fogad, és a beküldésünk sem tenné oda.
+
+### Hozzáadva — a CRM kért mezői az ajánlatkérőn
+
+A partner létrehozta a köztes adatbázist, és olyan mezőlistát kért, amire az
+űrlap nem tudott válaszolni. **Hét új kérdés:** kapcsolattartó · megye ·
+átlagos vízfogyasztás · talajvíz · **közcsatorna** · hol tart az ingatlannal ·
+hírlevél.
+
+A közcsatorna nem volt a megbeszélt hatban — a `kapcsolattartasi_informaciok`
+felbontásában találtam (*„lehetséges-e csatornára kötés vagy megtörtént-e"*).
+Ezen a webhelyen ez a **legfontosabb kizáró feltétel**: ahol van kiépített
+közcsatorna, ott egyedi berendezés ritkán engedélyezhető.
+
+A megye, a talajvíz, a csatorna és a lakáshelyzet **zárt lista a szerveren is**.
+Az űrlapon legördülő, tehát senki nem gépeli — de a végpont HTTP-n bárkitől
+fogad adatot, és a CRM erre szűr: egy hamis megyenév csendben rossz csoportba
+sorolná a megkeresést. A vízfogyasztás szándékosan szabad szöveg: a vízszámláról
+olvassák le, ami hol m³/hó, hol l/nap — egy `number` mező a helyes választ
+utasítaná el.
+
+A hírlevél **külön jelölő**, sosem az adatkezelési hozzájárulásba olvasztva: az
+egyik az ajánlathoz kell, a másik marketing — a kettő összevonása érvénytelen
+hozzájárulást adna.
+
+### Hozzáadva — honnan érkezett a látogató
+
+Ezt nem lehet megkérdezni, ezért a **`kampany.js`** az érkezési URL-ből olvassa:
+`utm_*` → kampány típusa és azonosítója, `ref`/`partner`/`ajanlo` → ajánló.
+**Mind a 193 lapon fut**, nem csak az űrlapokén: a paraméterek csak az első
+belépéskor vannak meg, az űrlapot viszont két-három lappal később töltik ki.
+
+**Az első érintés nyer, nem az utolsó** — az a kampány kapja a megkeresést,
+amelyik idehozta.
+
+`sessionStorage`-ban tárol, nem `localStorage`-ban. A címkék a látogatással
+együtt elmúlnak, nem tartós azonosítók, profilalkotásra alkalmatlanok, és a
+látogató maga hozta őket az URL-ben — újat nem tudunk meg róla. A hónapokig élő
+attribúció ennél jóval többet állítana, és külön hozzájárulást kívánna.
+
+**Mérve teszten:** a látogató a főoldalon lép be a hirdetésről, majd egy
+**tiszta URL-ű** ajánlatkérőt nyit meg — mind a három rejtett mező megvan.
+
+### Hozzáadva — a CRM-állapotlap a MySQL-utat is vizsgálja
+
+A `crm-allapot.php` eddig egy kérdésre felelt (elérhető-e a HTTP-kapu), a
+szállítási mód viszont háromféle lehet. `'mysql'` vagy `'mindketto'` esetén a
+beküldés olyan úton megy, amit a HTTP-próba **egyáltalán nem érint** — a lap
+tehát „minden rendben"-t mondhatott volna, miközben az adatbázisba semmi nem ér.
+
+Most függőségi sorrendben végigjárja: van-e beállítás → van-e jelszó → létrejön-e
+a kapcsolat → megvan-e a tábla → **van-e írásjog**. Az utolsó a lényeg: a MySQL
+oszloponként is ad jogot, tehát a „tudok kapcsolódni" semmit nem bizonyít az
+írásról — és a különbség különben az első valódi beküldésnél derülne ki, amikor
+már kár lett belőle. A próbaírás tranzakcióban fut és **mindig visszagördül**.
+
+A jelszó sosem jelenik meg, csak az, hogy be van-e állítva. Ha a kapcsolat
+elbukik és a `hoszt` `localhost`, a kimenet megmondja, miért: a PHP annál a
+névnél **figyelmen kívül hagyja a portot**, és a `pdo_mysql.default_socket`
+socketjét használja — így egy helyes jelszó is „Access denied"-dal jöhet vissza,
+egy egészen másik kiszolgálóról.
 
 ## [0.45.00] — 2026-09-14
 
