@@ -51,6 +51,12 @@
      A `change` figyelő miatt az ELFORDÍTÁS is számít, nem csak a betöltéskori
      méret. */
   const SZUK = matchMedia('(max-width: 640px), (max-height: 620px)');
+  /* AHOL A PANEL NEM TAKARJA AZ ŰRLAPOT. A szám nem tetszőleges: az űrlap
+     44rem (704px), a panel 23rem (368px) a jobb szélen, a kettő közé és mellé
+     kell a szegély — együtt ~1100px. Ez alatt a panel rácsúszna a mezőkre,
+     tehát ott marad a fül. Asztali gép és nagy táblagép fekvőben elfér;
+     táblagép állóban és telefon nem. */
+  const SZELES = matchMedia('(min-width: 1100px)');
   const mod = document.body.dataset.kalauzMod || 'kalauz';
 
   /* A bezárás hatóköre EGYETLEN lapnézet. Volt munkamenet-szintű is
@@ -191,13 +197,20 @@
     ajanlat: {
       koszon: 'Segítsek az ajánlatkérésben?',
       alcim: 'Segítek kitölteni.',
-      sug: 'Kérdezzen bármelyik mezőről — azt is megmondom, mit érdemes csatolni, hogy pontosabb legyen az ajánlat.',
+      sug: 'Kérdezzen bármelyik mezőről — megmutatom a lapon, melyikről van szó, és azt is megmondom, mit érdemes csatolni, hogy pontosabb legyen az ajánlat.',
       helyorzo: 'Például: mit írjak a létszámhoz?',
+      /* AZ INDÍTÓK AZ ŰRLAP MEZŐIRE MUTATNAK. Mind a négy olyan kérdés,
+         amelyiknél Öko a lapon is rá tud mutatni a mezőre (`MEZO_MINTAK`) —
+         a látogató így az első kattintásnál megtanulja, hogy erre képes.
+         Az első kettő a 2026-09-15-én bevezetett új mezőkről szól: azok
+         újak a látogatónak is, és a közcsatorna ráadásul kizáró feltétel. */
       inditok: [
+        'Van elérhető közcsatorna — ez mit jelent nekem?',
+        'Honnan tudom, hogy van-e talajvíz a telken?',
+        'Hol találom a vízfogyasztásomat?',
         'Mit írjak a létszámhoz, ha nyaralóról van szó?',
         'Hol találom a helyrajzi számot?',
         'Mit érdemes csatolni az ajánlatkéréshez?',
-        'Mit tartalmaz az ajánlat, és mit nem?',
       ],
       jelzes: [
         'Elakadt az ajánlatkérésben? Segítek.',
@@ -752,8 +765,14 @@
   function kiemel(cel) {
     /* A tartalomindex horgonyai a CÍMEKEN ülnek, mert a lapokon az `id` ott
        van. Egy kiemelt címsor viszont semmit nem mond — a válasz a szakaszban
-       áll, tehát a legközelebbi szakaszt emeljük ki, ha van. */
-    cel = cel.closest('section') || cel;
+       áll, tehát a legközelebbi szakaszt emeljük ki, ha van.
+
+       ŰRLAPMEZŐNÉL VISZONT NEM TÁGÍTUNK. Ott a mező MAGA a válasz: a szakaszra
+       nyitva a reflektor az egész „Az ingatlan" csoportot világítaná meg, és a
+       látogató ugyanúgy keresné, melyik sorról van szó. A `.urlap-mezo` a
+       címkét és a beviteli mezőt együtt fogja — pont annyit, amennyi az
+       azonosításhoz kell. */
+    cel = cel.closest('.urlap-mezo') || cel.closest('section') || cel;
     reflektorLe();
 
     fedo = document.createElement('div');
@@ -947,6 +966,63 @@
     });
   }
 
+  /* ------------------------------------------------- mezőmutatás az űrlapon */
+  /* MIÉRT KELL. Az ajánlatkérőn és a megrendelőlapon a látogató jellemzően nem
+     a webhely tartalmát keresi, hanem azt, hogy MIT ÍRJON EGY MEZŐBE. A
+     tartalmi találat ilyenkor helyes választ ad, de rossz helyre mutat: a
+     tudástár egyik szakaszára, miközben a mező két centiméterre van a szeme
+     alatt. Ha felismerjük, melyik mezőről szól a kérdés, oda mutatunk — a már
+     meglévő reflektorral, ami elsötétíti a lap többi részét és odateszi a
+     kezet.
+
+     KULCSSZAVAK, NEM AI. A válasz szövegét a kiszolgáló adja; ez csak azt
+     dönti el, HOVA mutassunk. Egy rosszul eltalált mező zavaróbb, mint a
+     mutatás hiánya, ezért a minták szűkek és egyértelműek — és ha egyik sem
+     illeszkedik, nem mutatunk semmit.
+
+     AMI NINCS A LAPON, AZ KIMARAD: a térkép mindkét űrlap mezőit ismeri, a
+     `querySelector` pedig magától szűr arra, amelyik épp ott van. */
+  const MEZO_MINTAK = [
+    /* ajánlatkérő */
+    [/kapcsolattart/i,                         'kapcsolattarto'],
+    [/helyrajzi|hrsz/i,                        'hrsz'],
+    [/talajv[ií]z/i,                           'talajviz'],
+    [/k[öo]zcsatorn|r[áa]k[öo]t/i,             'csatorna'],
+    [/megye/i,                                 'megye'],
+    [/v[ií]zfogyaszt|v[ií]zsz[áa]ml|m³|k[öo]bm[ée]ter/i, 'vizfogyasztas'],
+    [/l[ée]tsz[áa]m|h[áa]ny f[őo]|szem[ée]ly/i, 'letszam'],
+    [/telep[üu]l[ée]s|helys[ée]g/i,            'telepules'],
+    [/hol tart|lak[áa]sv[áa]s[áa]rl|[ée]p[íi]tkez/i, 'hol_tart'],
+    [/mi van most a telken|em[ée]szt|old[óo]medenc/i, 'jelenlegi'],
+    [/ingatlan t[íi]pus|nyaral[óo]|csal[áa]di h[áa]z/i, 'ingatlan'],
+    [/melyik megold[áa]s|technol[óo]gi/i,      'irany'],
+    [/mikorra|hat[áa]rid[őo]|[üu]temez/i,      'kezdes'],
+    [/csatol|mell[ée]klet|helysz[íi]nrajz|tervrajz|fot[óo]/i, 'fajl[]'],
+    [/h[íi]rlev[ée]l/i,                        'hirlevel'],
+    [/adatkezel[ée]s|hozz[áa]j[áa]rul/i,       'hozzajarul'],
+    [/c[ée]gn[ée]v|int[ée]zm[ée]ny/i,          'cegnev'],
+    /* megrendelőlap */
+    [/aj[áa]nlat sorsz[áa]m|sorsz[áa]m/i,      'ajanlat_sorszam'],
+    [/szerel[ée]s/i,                           'kivitelezes'],
+    [/[üu]zembe helyez/i,                      'uzembehelyezes'],
+    [/sz[áa]ll[íi]t/i,                         'szallitas'],
+    [/sz[áa]ml[áa]z[áa]si c[íi]m/i,            'szamlazasi_cim'],
+    [/sz[áa]ml[áa]z[áa]si n[ée]v/i,            'szamlazasi_nev'],
+    [/ad[óo]sz[áa]m/i,                         'adoszam'],
+    [/lakhely|sz[ée]khely/i,                   'lakhely'],
+    [/telep[íi]t[ée]s helysz[íi]n/i,           'cim'],
+  ];
+
+  function mezoKereses(kerdes) {
+    if (!kerdes) return null;
+    for (const [minta, nev] of MEZO_MINTAK) {
+      if (!minta.test(kerdes)) continue;
+      const m = document.querySelector('[data-urlap] [name="' + nev + '"]');
+      if (m) return m;
+    }
+    return null;
+  }
+
   /* --------------------------------------------------------------- kérdés */
   let dolgozik = false;
   let aktualisLepes = 0;             // urlap módban: melyik lapon áll a látogató
@@ -992,6 +1068,16 @@
       /* MEGMUTATJA MAGÁTÓL. Ha az első találat ezen a lapon van, nem várunk
          kattintásra: odagörgetünk, a lap többi részét visszavesszük, és a kéz
          rámutat. „Itt van" — ez a segéd dolga, nem egy újabb hivatkozás. */
+
+      /* AZ ŰRLAPMEZŐ ELŐBBRE VALÓ a tartalmi találatnál. Ha a kérdés egy
+         mezőről szólt, a látogatónak nem egy tudástári szakasz kell, hanem az,
+         hogy HOL ÍRJA BE — és az itt van, ugyanezen a lapon. */
+      const mezoCel = mezoKereses(kerdes);
+      if (mezoCel) {
+        setTimeout(() => kiemel(mezoCel), 420);
+        return;
+      }
+
       const elso = (eredmeny.talalatok || [])[0];
       if (elso && elso.horgony) {
         const most = location.pathname.replace(/\/$/, '') || '/';
@@ -1215,8 +1301,22 @@
        a lap kérdéseivel — itt ő a másodpilóta, nem díszlet. Fókuszt nem vesz
        el: a látogató az űrlapot tölti. */
     setTimeout(bejelentkezik, csokkentett ? 200 : 900);
+  } else if (mod === 'ajanlat' && SZELES.matches) {
+    /* AZ AJÁNLATKÉRŐN, SZÉLES NÉZETBEN NYITVA ÉRKEZIK.
+       Ez a leghosszabb űrlap a webhelyen — tizenöt mező, köztük olyanok,
+       amikről a látogató nem tudja, honnan venné az adatot (helyrajzi szám,
+       vízfogyasztás, közcsatorna). Ha Öko fülként várakozik, ezt nem tudja
+       meg; nyitva viszont ott a három kérdés, amit fel szoktak tenni.
+
+       CSAK SZÉLES NÉZETBEN, és ez ugyanaz az indok, ami eddig visszatartotta:
+       a panel nem takarhatja a mezőket. 1100px fölött nem takarja (lásd
+       `SZELES`), alatta igen — ott marad a fül.
+
+       FÓKUSZT NEM VESZ EL (`nyit(false)` a `bejelentkezik`-en belül): a
+       látogató az űrlapot tölti, a kurzor marad, ahol volt. */
+    setTimeout(bejelentkezik, csokkentett ? 200 : 1400);
   } else if (URLAPOS.has(mod)) {
-    /* AZ ÚJ ŰRLAPLAPOKON Öko megérkezik és fülként várakozik, de NEM nyit rá a
+    /* A TÖBBI ŰRLAPLAPON Öko megérkezik és fülként várakozik, de NEM nyit rá a
        kitöltésre: a panel eltakarná a mezőket, és a látogató keze a
        billentyűzeten van. A buborékban megszólal egyszer — annyi elég ahhoz,
        hogy tudjon róla. */
