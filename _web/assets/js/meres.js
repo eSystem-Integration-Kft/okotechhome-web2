@@ -67,33 +67,44 @@
 
   /* ===================== A SAJÁT GA4 — KONTÉNERTŐL FÜGGETLENÜL ============
      MIÉRT VAN MÉGIS KÖZVETLEN GA4, a fenti indoklás ellenére. A konténert
-     2026-09-15 óta MÁS CÉG üzemelteti. Ami a konténerben van, azt ők
-     bármikor átírhatják — és ha a GA4-címke kikerül belőle, a mérésünk velük
-     együtt tűnik el, jelzés nélkül. Az ügyfél saját mérése nem függhet attól,
-     hogy egy külső fél mit tesz egy olyan felületen, amihez nekünk nincs
-     hozzáférésünk.
+     2026-09-15 óta MÁS CÉG üzemelteti. Ami a konténerben van, azt ők bármikor
+     átírhatják — és ha a GA4-címke kikerül belőle, a mérésünk velük együtt
+     tűnik el, jelzés nélkül. Az ügyfél saját mérése nem függhet olyan
+     felülettől, amihez nincs hozzáférésünk.
 
-     EZÉRT KÜLÖN PROPERTY, NEM UGYANAZ. A `data-ga4-sajat` attribútum a MI
-     property-nk azonosítóját hordozza, ami NEM egyezhet a konténerben állóval.
-     Ha a kettő ugyanaz volna, minden lapmegtekintés kétszer számolódna, és a
-     riportok használhatatlanná válnának. A `prod-epit.sh` ezért ellenőrzi is,
-     hogy a két azonosító különbözik-e.
+     UGYANAZ A PROPERTY, MINT A KONTÉNERBEN — és ez szándékos. A
+     `G-EN120W3K2Q` az ügyfél saját adatfolyama (okotechhome.hu – GA4,
+     5851195656); nincs külön property, amibe át lehetne térni, és a történeti
+     adat is ebben van. Külön property-be mérni azt jelentené, hogy az adatsor
+     kettéválik.
+
+     ⚠️ A KETTŐS SZÁMOLÁS KOCKÁZATA EBBŐL KÖVETKEZIK. Ha a konténerben is fut
+     GA4-címke ugyanerre az azonosítóra, egy lapmegtekintésből kettő lehet.
+     A `gtag.js` ugyanazt a `dataLayer`-t és ugyanazt a példányt használja,
+     mint a konténer GA4-címkéje, ezért a `config` NEM feltétlenül duplázódik —
+     de ezt MÉRNI kell, nem feltételezni: a hálózaton hány `/g/collect` kérés
+     megy ki `en=page_view`-val. Az eredmény a CHANGELOG-ban áll.
+
+     A VÉGLEGES ÁLLAPOT: a GA4-címke kerüljön ki a konténerből. Onnantól ez a
+     fájl az egyetlen forrás, az ügyfél kezében, és a konténer csak azt viszi,
+     ami tényleg oda való (Ads, Meta).
 
      A HOZZÁJÁRULÁST UGYANÚGY MEGVÁRJA. A Consent Mode v2 alapállapota fentebb
      mindent `denied`-re állít, és ez a címke is annak a hatálya alatt fut: süti
      csak akkor születik, ha a látogató a statisztikai kategóriát engedte.
      Enélkül a GA4 süti nélküli jelzést küld, ahogy a konténerbeli is. */
-  const SAJAT = sajat && sajat.dataset ? (sajat.dataset.ga4Sajat || '').trim() : '';
-  if (SAJAT && SAJAT !== AZON) {
+  if (sajat && sajat.dataset && sajat.dataset.ga4Kozvetlen === '1') {
     const g = document.createElement('script');
     g.async = true;
-    g.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(SAJAT);
+    g.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(AZON);
     document.head.append(g);
 
-    /* `send_page_view` marad az alapértelmezésen (igen): ez a címke ÖNÁLLÓ
-       mérés, nem a konténer kiegészítése — a lapmegtekintést neki magának kell
-       rögzítenie. */
-    gtag('config', SAJAT);
+    gtag('config', AZON);
+
+    /* A KÖZVETLEN ÁG JELZI MAGÁT. Az űrlapmodul innen tudja meg, hogy a
+       `gtag('event', …)` hívásnak van-e értelme: ha csak a konténer mér, az
+       eseményt a dataLayerből veszi föl, és a közvetlen hívás duplázna. */
+    window.OthGa4Kozvetlen = AZON;
   }
 
   /* A DÖNTÉS KÖVETÉSE. A `suti.js` induláskor is hirdet (a mentett döntéssel),

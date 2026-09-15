@@ -576,7 +576,7 @@
       <!-- A varázsló JS NÉLKÜL is teljes értékű: minden lap egyszerre látszik,
            és egyetlen POST megy a végpontra. A JS annyit tesz, hogy lapokra
            bontja, jelzi a haladást, és helyben mutatja a választ. -->
-      <form class="urlap konzv" method="post" action="api/konzultacio" data-urlap data-konzv>
+      <form data-meres="oth_konzultacio" class="urlap konzv" method="post" action="api/konzultacio" data-urlap data-konzv>
 
         <div class="konzv-folytatas" data-konzv-folytatas hidden>
           <p class="type-ui-body konzv-folytatas-szoveg">Van egy félbehagyott kitöltése ezen a gépen.</p>
@@ -1015,7 +1015,7 @@
 
 <script src="assets/js/site.js?v=12" defer></script>
 <script src="assets/js/kalauz.js?v=45" defer></script>
-<script src="assets/js/urlap.js?v=1" defer></script>
+<script src="assets/js/urlap.js?v=2" defer></script>
 <script src="assets/js/konzultacio.js?v=5" defer></script>
 
 </body>

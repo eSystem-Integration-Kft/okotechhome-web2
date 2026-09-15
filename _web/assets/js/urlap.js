@@ -126,6 +126,34 @@
         oth_email: email || undefined,
         oth_telefon: tel || undefined,
       });
+
+      /* ÉS KÖZVETLENÜL A GA4-NEK IS, ha nincs konténer.
+         ---------------------------------------------------------------
+         A fenti `dataLayer.push` a GTM-nek szól. A konténer 2026-09-15-én
+         kivezetésre került, tehát ma SENKI nem olvassa azt a sort — az
+         esemény ott helyben elveszne.
+
+         A `meres.js` a közvetlen ág bekapcsolásakor kiteszi a
+         `window.OthGa4Kozvetlen`-t. Ha ez megvan, a GA4 itt kapja meg az
+         eseményt. Ha a konténer valaha visszatér, a kapcsoló kikerül, ez az
+         ág elnémul, és a `dataLayer` sor veszi át — ugyanaz az esemény nem
+         mehet ki kétszer.
+
+         A dataLayer-push AKKOR IS MARAD, amikor nincs konténer: olcsó, és
+         ez a szerződés a mérőeszköz felé. Aki holnap bekapcsol egy
+         konténert, készen találja.
+
+         SZEMÉLYES ADAT NEM MEGY A GA4-BE. Az e-mail és a telefon a
+         dataLayerben marad, mert azt a bővített egyeztetéshez a Google Ads
+         és a Meta címkéje használja — a GA4 felhasználói adatot nem fogad,
+         és a beküldésünk sem tenné oda. */
+      const ga4 = window.OthGa4Kozvetlen;
+      if (ga4 && typeof window.gtag === 'function') {
+        window.gtag('event', esemeny, {
+          oth_urlap: urlap.getAttribute('action') || '',
+          send_to: ga4,
+        });
+      }
     };
     /* ======================================================================= */
 

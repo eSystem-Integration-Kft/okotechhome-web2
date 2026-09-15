@@ -294,35 +294,27 @@ PYAI
 # hozzájárulást, csak elérhetővé teszi.
 GA4="G-EN120W3K2Q"
 
-# A SAJÁT GA4 PROPERTY — a konténerbelitől FÜGGETLEN mérés.
+# A GA4 KÖZVETLENÜL FUT, nem a konténeren át — 2026-09-15 óta.
 #
-# MIÉRT KELL. A `GTM-K4J4BWK` konténert 2026-09-15 óta más cég üzemelteti.
-# Ami a konténerben van, azt ők bármikor átírhatják; ha a GA4-címke kikerül
-# belőle, a mérésünk velük együtt tűnik el, jelzés nélkül. Az ügyfél saját
-# mérése nem függhet olyan felülettől, amihez nincs hozzáférésünk.
+# A `G-EN120W3K2Q` az ügyfél saját adatfolyama (okotechhome.hu – GA4,
+# 5851195656). Nincs másik property, amibe át lehetne térni, és a történeti
+# adat is ebben van — külön property-be mérni kettévágná az adatsort.
 #
-# ⚠️ NEM LEHET UGYANAZ, MINT A $GA4. Ha a két azonosító egyezik, minden
-# lapmegtekintés KÉTSZER számolódik — egyszer a konténerből, egyszer innen —,
-# és a riportok használhatatlanná válnak. A lenti őr ezért megállítja az
-# építést, nem csak figyelmeztet.
+# MIÉRT KÖZVETLENÜL. A konténert külső cég üzemelteti, és 2026-09-15-én
+# kivezettük (lásd a 6/b. réteget). A GA4 nem tűnhet el vele együtt.
 #
-# ÜRESEN HAGYVA a modul nem tölt be semmit: a közvetlen ág egyszerűen nem fut.
-GA4_SAJAT=""
+# ⚠️ HA A KONTÉNER VALAHA VISSZAKERÜL és GA4-címkét is visz, EZT KAPCSOLD KI —
+# különben ugyanaz a lapmegtekintés kétszer számolódik.
+GA4_KOZVETLEN="1"
 
-if [ -n "$GA4_SAJAT" ] && [ "$GA4_SAJAT" = "$GA4" ]; then
-  piros "A GA4_SAJAT azonos a GA4-gyel ($GA4) — minden lapmegtekintés kétszer"
-  piros "számolódna. Adj meg MÁSIK property-t, vagy hagyd üresen a GA4_SAJAT-ot."
-  exit 1
-fi
-
-python3 - "$CEL" "$GA4" "$GA4_SAJAT" <<'PYGA'
+python3 - "$CEL" "$GA4" "$GA4_KOZVETLEN" <<'PYGA'
 import pathlib, re, sys
 cel, ga4 = pathlib.Path(sys.argv[1]), sys.argv[2]
-sajat = sys.argv[3] if len(sys.argv) > 3 else ''
+kozvetlen = sys.argv[3] if len(sys.argv) > 3 else ''
 sor = ('<!-- Mérés (GA4). Hozzájárulásig minden tárolás tiltva — lásd\n'
        '     assets/js/meres.js és assets/js/suti.js. -->\n'
        f'<script src="/assets/js/meres.js?v=4" data-ga4="{ga4}"'
-       + (f' data-ga4-sajat="{sajat}"' if sajat else '')
+       + (' data-ga4-kozvetlen="1"' if kozvetlen == '1' else '')
        + ' defer></script>\n')
 n = 0
 for f in sorted(cel.rglob('*.html')):
@@ -334,43 +326,36 @@ for f in sorted(cel.rglob('*.html')):
 print(f'mérés beszúrva: {n} lapon ({ga4})')
 PYGA
 
-# --------------------------------- 6/b. réteg: a GTM-konténer bekapcsolása
+# ------------------------- 6/b. réteg: a GTM-konténer — KIVEZETVE 2026-09-15
 #
-# UGYANAZ AZ ELV, mint a 6. rétegnél: a konténer CSAK az éles fába kerül be,
-# hogy a fejlesztői forgalom ne szennyezze a mérést.
+# A KONTÉNER NEM KERÜL BE TÖBBÉ. Bela döntése: „ezeket vedd ki, csak lassít."
 #
-# A SORREND KÖTÖTT. Ez a réteg a mérés UTÁN fut, tehát a `gtm.js` tag a
-# `meres.js` MÖGÉ kerül a `<head>`-ben. Mindkettő `defer`, a `defer`-es
-# szkriptek pedig dokumentumsorrendben futnak — így a Consent Mode v2
-# alapállapota (minden `denied`) már a dataLayerben van, mire a konténer
-# betölt. Fordított sorrendben a címkék a hozzájárulás előtt indulnának.
+# MIT HOZOTT BE, mérve élesben, lapmegtekintésenként:
 #
-# A `<noscript>` RÉSZ a `<body>` elejére megy, ahogy a Google előírja. Szkript
-# nélküli böngészőben a `defer`-es fájl nem fut le; ez az egyetlen ág, ami
-# akkor is jelez. Az iframe miatt kell a CSP-be a `frame-src`.
-GTM="GTM-K4J4BWK"
-python3 - "$CEL" "$GTM" <<'PYGTM'
-import pathlib, re, sys
-cel, gtm = pathlib.Path(sys.argv[1]), sys.argv[2]
-fej = ('<!-- Google Tag Manager. A GA4, a Google Ads és a Meta Pixel a\n'
-       '     konténerben él — a lapon GTM-en kívül nincs mérőkód. -->\n'
-       f'<script src="/assets/js/gtm.js?v=4" data-gtm="{gtm}" defer></script>\n')
-test = (f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={gtm}"\n'
-        '        height="0" width="0" style="display:none;visibility:hidden"\n'
-        '        title="Google Tag Manager"></iframe></noscript>\n')
-n = 0
-for f in sorted(cel.rglob('*.html')):
-    t = f.read_text(encoding='utf-8')
-    if 'assets/js/gtm.js' in t or '</head>' not in t:
-        continue
-    t = t.replace('</head>', fej + '</head>', 1)
-    m = re.search(r'<body[^>]*>', t)
-    if m:
-        t = t[:m.end()] + '\n' + test + t[m.end():]
-    f.write_text(t, encoding='utf-8')
-    n += 1
-print(f'GTM beszúrva: {n} lapon ({gtm})')
-PYGTM
+#     googletagmanager.com      ×3   gtm.js + gtag/js KÉTSZER
+#     connect.facebook.net      ×1   Meta Pixel
+#     cdn-cookieyes.com         ×1   IDEGEN süti-sáv termék
+#     pagead2.googlesyndication ×3   Ads jelzések
+#     region1.google-analytics  ×1   GA4 jelzés
+#
+# Együtt ~600 KB idegen JavaScript. Azonos gépen, azonos CPU-lassítással mérve:
+# a konténer nélkül 98 pont és 5 ms blokkolás, a konténerrel 92 és 292 ms — a
+# Google gépein ugyanez 550 ms és 68 pont. A teljes költség a fő szálon futó
+# JavaScript; az FCP és az LCP alig mozdul.
+#
+# AMI EZZEL MEGSZŰNIK, és ezt tudni kell:
+#   · a Google Ads két konverziója (ajánlatkérés, megrendelés) — a konténerben
+#     éltek, itt nincs, ami elsüsse őket;
+#   · a Meta Pixel és a `Lead` esemény;
+#   · a CookieYes betöltési kísérlete (ezt a CSP eddig is blokkolta).
+#
+# AMI MEGMARAD: a GA4 — de KÖZVETLENÜL, a 6. rétegben, `data-ga4-kozvetlen`
+# kapcsolóval. Épp ezért került oda: az ügyfél mérése nem tűnhet el azzal
+# együtt, amit egy külső fél kezel.
+#
+# HA A KONTÉNER VISSZAJÖN: a `_web/assets/js/gtm.js` a helyén maradt, és ez a
+# réteg a git történetéből visszaállítható (v0.45.00 előtti állapot). Olyankor
+# a 6. rétegben a `data-ga4-kozvetlen` KAPCSOLD KI, különben a GA4 kétszer mér.
 
 # ------------------------------------------------- 7. réteg: HSTS bekapcsolása
 #
