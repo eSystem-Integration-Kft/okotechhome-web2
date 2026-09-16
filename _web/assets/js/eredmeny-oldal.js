@@ -19,6 +19,14 @@
 
   const ALAK = /^MA-[A-Z2-9]{4}-[A-Z2-9]{4}$/;   /* az `ugy.js` ugyanezt ismeri */
 
+  /* Az ellenőrzés az `ugy.js`-é. Ha az nem töltődött be, a régi alakvizsgálat
+     marad — általános üzenettel, de nem töri el a lapot. */
+  const ellenoriz = (nyers) => (window.OthUgy && window.OthUgy.ellenoriz)
+    ? window.OthUgy.ellenoriz(nyers)
+    : (ALAK.test(String(nyers || '').trim().toUpperCase())
+      ? { ok: true, azon: String(nyers).trim().toUpperCase() }
+      : { ok: false, uzenet: 'A helyes alak: MA-XXXX-XXXX — négy-négy betű vagy szám, kötőjellel elválasztva.' });
+
   const eszkoztar = document.querySelector('[data-er-eszkoztar]');
   const torzs     = document.querySelector('[data-er-torzs]');
   const uzenet    = document.querySelector('[data-er-uzenet]');
@@ -238,22 +246,30 @@
   if (kereso) {
     kereso.addEventListener('submit', (ev) => {
       ev.preventDefault();
-      const id = (mezo.value || '').trim().toUpperCase();
-      if (!ALAK.test(id)) {
+      /* Az `ugy.js` NEVEZI MEG a hibát (tiltott jel, hiányzó jel) — a puszta
+         „helyes alak: MA-XXXX-XXXX" nem mondta meg, mi rossz a beírtban. */
+      const e = ellenoriz(mezo.value);
+      if (!e.ok) {
         mezo.setAttribute('aria-invalid', 'true');
-        allapot('Az azonosító alakja nem megfelelő',
-                'A helyes alak: MA-XXXX-XXXX — négy-négy betű vagy szám, kötőjellel elválasztva.', true);
-        mezo.value = id;
+        allapot('Az azonosító nem megfelelő', e.uzenet, true);
+        mezo.focus();
         return;
       }
+      mezo.value = e.azon;
       mezo.removeAttribute('aria-invalid');
-      betolt(id);
+      betolt(e.azon);
     });
   }
 
   const id = new URLSearchParams(location.search).get('id');
-  if (id && ALAK.test(id.trim().toUpperCase())) {
-    betolt(id.trim().toUpperCase());
+  const idEll = id ? ellenoriz(id) : null;
+  if (idEll && idEll.ok) {
+    betolt(idEll.azon);
+  } else if (idEll) {
+    /* Hibás kód a címsorban (elgépelt vagy csonka link): a hibát mondjuk
+       meg, ne egy általános „adja meg" felhívást. */
+    allapot('Az azonosító nem megfelelő', idEll.uzenet, true);
+    if (mezo) { mezo.value = id; mezo.setAttribute('aria-invalid', 'true'); }
   } else {
     allapot('Adja meg a mentett eredmény azonosítóját',
             'A megoldás-ajánló záró képernyőjén kapott kóddal bármikor előveheti '

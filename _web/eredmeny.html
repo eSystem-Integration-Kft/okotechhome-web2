@@ -539,10 +539,10 @@
         </p>
         <form class="eredmeny-kereso" data-er-kereso hidden>
           <label class="type-ui-body-strong" for="er-id">Az eredmény azonosítója</label>
-          <p class="type-ui-caption eredmeny-kereso-sugo">A mentéskor kapott kód, például MA-K7F3-Q2WD.</p>
+          <p class="type-ui-caption eredmeny-kereso-sugo" id="er-id-sugo">A mentéskor kapott kód, például MA-K7F3-Q2WD. A kódban nincs 0, 1, I és O.</p>
           <div class="eredmeny-kereso-sor">
             <input class="urlap-input" type="text" id="er-id" name="id" inputmode="text"
-                   autocomplete="off" spellcheck="false" placeholder="MA-XXXX-XXXX" maxlength="12" required>
+                   autocomplete="off" spellcheck="false" placeholder="MA-XXXX-XXXX" maxlength="16" required aria-describedby="er-id-sugo">
             <button type="submit" class="btn btn-primary">Előkeresem</button>
           </div>
         </form>
@@ -674,8 +674,8 @@
 
 <script src="assets/js/site.js?v=13" defer></script>
 <script src="assets/js/kalauz.js?v=47" defer></script>
-<script src="assets/js/ugy.js?v=4" defer></script>
-<script src="assets/js/eredmeny-oldal.js?v=5" defer></script>
+<script src="assets/js/ugy.js?v=5" defer></script>
+<script src="assets/js/eredmeny-oldal.js?v=6" defer></script>
 
 </body>
 </html>

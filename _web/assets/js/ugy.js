@@ -34,6 +34,59 @@
   const TAR_KULCS      = 'oth-ugy';
   const ALAK           = /^MA-[A-Z2-9]{4}-[A-Z2-9]{4}$/;
 
+  /* AZ AZONOSÍTÓ JELKÉSZLETE — ugyanaz, amiből a szerver oszt
+     (`api/eredmeny-mentes.php`, `OTH_JELKESZLET`). A 0, az 1, az I és az O
+     SZÁNDÉKOSAN hiányzik: egymással összetéveszthetők. */
+  const JELEK = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const TILTOTT_NEV = { '0': '0 (nulla)', '1': '1 (egyes)', I: 'I betű', O: 'O betű' };
+
+  /** „a, b és c" — magyar felsorolás. */
+  const felsorol = (t) => (t.length < 2 ? t.join('') : t.slice(0, -1).join(', ') + ' és ' + t[t.length - 1]);
+
+  /**
+   * A BEÍRT AZONOSÍTÓ EGYSÉGESÍTÉSE ÉS ELLENŐRZÉSE — egy helyen, minden
+   * beviteli mezőnek.
+   *
+   * MIÉRT KELL. A hibaüzenet eddig csak annyi volt: „A helyes alak:
+   * MA-XXXX-XXXX." Aki nullát gépelt (ilyen jel nincs a kódjainkban), úgy
+   * látta, hogy pontosan ezt írta be — az üzenet nem mondta meg, mi a baj.
+   * Most MEGNEVEZZÜK a hibát: melyik jel nem oda való, és miért, vagy hány jel
+   * hiányzik.
+   *
+   * AMI NEM HIBA, AZT MEGJAVÍTJUK: kisbetű, szóköz, hiányzó vagy más
+   * kötőjel, az elhagyott „MA" előtag. Ezekből a helyes alak egyértelmű.
+   *
+   * @param  {string} nyers  amit a látogató beírt
+   * @returns {{ok: true, azon: string} | {ok: false, uzenet: string}}
+   */
+  function ellenoriz(nyers) {
+    const felso = String(nyers || '').trim().toUpperCase();
+    const VALASZTO = /[\s\-_.\/\u2010-\u2015]/g;
+    let torzs = felso.replace(/^MA(?=[\s\-_.\/\u2010-\u2015])/, '').replace(VALASZTO, '');
+    if (torzs.length === 10 && torzs.startsWith('MA')) torzs = torzs.slice(2);
+
+    if (!torzs) {
+      return { ok: false, uzenet: 'Írja be a mentéskor kapott kódot — például MA-K7F3-Q2WD.' };
+    }
+    const tiltott = [...new Set([...torzs].filter((c) => c in TILTOTT_NEV))];
+    if (tiltott.length) {
+      return { ok: false, uzenet: 'A beírt kódban ' + felsorol(tiltott.map((c) => TILTOTT_NEV[c]))
+        + ' szerepel, ilyen jel viszont nincs az azonosítóinkban: a 0-t, az 1-et, az I-t és az O-t '
+        + 'szándékosan nem használjuk, mert könnyű összetéveszteni őket. Kérjük, nézze meg újra a '
+        + 'kódot ezeken a helyeken.' };
+    }
+    const idegen = [...new Set([...torzs].filter((c) => !JELEK.includes(c)))];
+    if (idegen.length) {
+      return { ok: false, uzenet: 'A kódban csak ékezet nélküli betű és 2–9 közötti szám állhat. '
+        + 'Ez nem oda való: ' + idegen.join(' ') + '.' };
+    }
+    if (torzs.length !== 8) {
+      return { ok: false, uzenet: 'Az azonosító az „MA-" után nyolc jelből áll, négyes csoportokban '
+        + '(például MA-K7F3-Q2WD). A beírt kódban ' + torzs.length + ' jel van.' };
+    }
+    return { ok: true, azon: 'MA-' + torzs.slice(0, 4) + '-' + torzs.slice(4) };
+  }
+
   /** A lap gyökeréhez képest abszolút cím — aloldalról is helyes marad. */
   const alap = () => location.origin + location.pathname.replace(/[^/]*$/, '');
 
@@ -155,8 +208,9 @@
 
   /** Mentett ügy visszaolvasása azonosító alapján. */
   async function olvas(id) {
-    const azon = String(id || '').trim().toUpperCase();
-    if (!ALAK.test(azon)) return { ok: false, uzenet: 'Az azonosító alakja nem megfelelő. A helyes alak: MA-XXXX-XXXX.' };
+    const e = ellenoriz(id);
+    if (!e.ok) return { ok: false, uzenet: e.uzenet };
+    const azon = e.azon;
     const valasz = await hivas(VEGPONT_OLVAS, { id: azon });
     if (valasz.ok && valasz.ugy) {
       /* A visszaolvasott ügy válaszkulcsai innentől a munkamenetben is
@@ -173,6 +227,7 @@
 
   window.OthUgy = {
     ALAK: ALAK,
+    ellenoriz: ellenoriz,
     eredmenyUrl: (azon) => alap() + EREDMENY_LAP + '?id=' + encodeURIComponent(azon),
     eredmenyHref: (azon) => EREDMENY_LAP + '?id=' + encodeURIComponent(azon),
     allapot: olvasTar,
