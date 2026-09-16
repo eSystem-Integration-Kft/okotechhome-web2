@@ -10088,6 +10088,15 @@
      animáció nem fut (csökkentett mozgás, régi böngésző), a rajz akkor is
      teljes, csak áll. Mozgó elem sosem hordoz egyedül jelentést. */
   .abra-bub{opacity:.85}
+
+  /* A MOZGÁS ELTOLÁSA OSZTÁLLYAL. A rajzok korábban `style="--i:N"`-nel adták
+     meg, de az éles CSP (`style-src 'self'`) a soron belüli stílust eldobja:
+     mérve 2026-09-16-án élesben minden buborék egyszerre indult, és a konzol
+     kilenc CSP-sértést jelzett. */
+  .abra-i1{--i:1} .abra-i2{--i:2} .abra-i3{--i:3} .abra-i4{--i:4}
+  .abra-i5{--i:5} .abra-i6{--i:6} .abra-i7{--i:7} .abra-i8{--i:8}
+  .abra-i9{--i:9} .abra-i10{--i:10} .abra-i11{--i:11} .abra-i12{--i:12}
+  .abra-i13{--i:13} .abra-i14{--i:14} .abra-i15{--i:15}
 }
 
 @layer responsive {

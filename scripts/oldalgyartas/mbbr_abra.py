@@ -16,30 +16,33 @@ mögött: a lebegő hordozók és a felszálló buborékok azt mutatják, amit a
 állít, semmivel sem többet.
 """
 
+# A KÉSLELTETÉS OSZTÁLLYAL, nem `style="--i:N"`-nel. Az éles CSP
+# (`style-src 'self'`) a soron belüli stílust eldobja — mérve 2026-09-16-án
+# élesben minden buborék 0 s késleltetéssel, egyszerre indult. Az `abra-iN`
+# osztály az app.css-ben állítja a `--i` értékét.
+
 SZEL = 680
 
 
-def hordozo(cx, cy, r=7, oszt='', stilus=''):
+def hordozo(cx, cy, r=7, oszt=''):
     """Egy biofilmhordozó elem. A klasszikus, bordázott hengeres hordozó
     felülnézete: kör, benne kereszt — ettől ismerhető fel, és ettől látszik,
     hogy a FELÜLET a lényeg, nem a test."""
     o = f' class="{oszt}"' if oszt else ''
-    s = f' style="{stilus}"' if stilus else ''
     k = r * 0.62
-    return (f'<g{o}{s} transform="translate({cx:.1f},{cy:.1f})">'
+    return (f'<g{o} transform="translate({cx:.1f},{cy:.1f})">'
             f'<circle r="{r}" fill="var(--abra-hordozo)" stroke="var(--abra-kiemeles)" stroke-width="1.4"/>'
             f'<path d="M{-k} 0 H{k} M0 {-k} V{k}" stroke="var(--abra-kiemeles)" '
             f'stroke-width="1.2" opacity=".75"/></g>')
 
 
-def pehely(cx, cy, r=5, oszt='', stilus=''):
+def pehely(cx, cy, r=5, oszt=''):
     """Eleveniszap-pehely: szabálytalan folt, nem mértani alakzat — a
     különbség a hordozóhoz képest épp ez."""
     o = f' class="{oszt}"' if oszt else ''
-    s = f' style="{stilus}"' if stilus else ''
     d = (f'M{-r} 0 Q{-r*0.8} {-r} 0 {-r*0.9} Q{r} {-r*0.9} {r*0.9} 0 '
          f'Q{r} {r*0.85} 0 {r} Q{-r*0.9} {r*0.9} {-r} 0 Z')
-    return (f'<path{o}{s} transform="translate({cx:.1f},{cy:.1f})" d="{d}" '
+    return (f'<path{o} transform="translate({cx:.1f},{cy:.1f})" d="{d}" '
             f'fill="var(--abra-iszap)" stroke="var(--abra-keret)" stroke-width="1" opacity=".9"/>')
 
 
@@ -47,8 +50,8 @@ def buborek_sor(x, w, y_alj, db, kulcs):
     ki = []
     for i in range(db):
         cx = x + w * (i + 1) / (db + 1)
-        ki.append(f'<circle class="abra-bub" cx="{cx:.1f}" cy="{y_alj - 8}" r="{2.4 + (i % 3) * 0.6:.1f}" '
-                  f'fill="var(--abra-kiemeles)" style="--i:{i}"/>')
+        ki.append(f'<circle class="abra-bub abra-i{i}" cx="{cx:.1f}" cy="{y_alj - 8}" r="{2.4 + (i % 3) * 0.6:.1f}" '
+                  f'fill="var(--abra-kiemeles)"/>')
     return ''.join(ki)
 
 
@@ -141,7 +144,7 @@ def harom_elv_svg():
     # 2 · MBBR — a hordozók SZABADON MOZOGNAK a reaktortérben. A szórt
     #     elrendezés és a lebegés együtt mondja el, hogy nincsenek rögzítve.
     x = x0 + tw + res
-    mozgo = [hordozo(cx, cy, 7, 'abra-lebeg', f'--i:{i}')
+    mozgo = [hordozo(cx, cy, 7, f'abra-lebeg abra-i{i}')
              for i, (cx, cy) in enumerate(szoras(x, ty, tw, th, 14, 7))]
     mozgo.append(buborek_sor(x, tw, alj, 6, 'mbbr'))
     ki.append(keret(x, 'MBBR', ''.join(mozgo), 'a hordozó a vízzel együtt mozog', 'abra-tart-mbbr'))
@@ -149,7 +152,7 @@ def harom_elv_svg():
     # 3 · ELEVENISZAP — nincs mesterséges hordozófelület: a mikroorganizmusok
     #     jelentős része a vízben LEBEGŐ iszappelyhekben van jelen.
     x = x0 + 2 * (tw + res)
-    lebego = [pehely(cx, cy, 5.4, 'abra-lebeg', f'--i:{i}')
+    lebego = [pehely(cx, cy, 5.4, f'abra-lebeg abra-i{i}')
               for i, (cx, cy) in enumerate(szoras(x, ty, tw, th, 14, 5.4))]
     lebego.append(buborek_sor(x, tw, alj, 6, 'ei'))
     ki.append(keret(x, 'Eleveniszap', ''.join(lebego), 'a biomassza a vízben lebeg', 'abra-tart-ei'))

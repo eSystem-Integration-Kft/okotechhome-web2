@@ -30,7 +30,7 @@
      Csak ez az egy fájl, és csak `latin`. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="/assets/fonts/zilla-slab-600-latin.woff2">
-<link rel="stylesheet" href="../assets/css/app.css?v=255">
+<link rel="stylesheet" href="../assets/css/app.css?v=256">
 <!-- A TÉMÁT BEÁGYAZOTT SOR ÍRJA KI, nem külön fájl. A `data-theme`-nek
      az ELSŐ festés előtt kell a helyén lennie, különben a látogató előbb
      a világos lapot látja, és csak utána vált sötétre. Külön fájlként ez
@@ -58,7 +58,8 @@
      viszont nem. A fejléc MARKUPJA önmagában néma: a panelek nyitása,
      a billentyűzetes kezelés és a mobil fiók mind innen jön. -->
 <script src="../assets/js/site.js?v=14" defer></script>
-<script src="../assets/js/kalauz.js?v=47" defer></script>
+<script src="../assets/js/betolto.js?v=1" defer></script>
+<script type="text/plain" data-kesleltetett src="../assets/js/kalauz.js?v=47"></script>
 </head>
 <body>
 
@@ -593,7 +594,7 @@
       <rect x="151" y="66" width="70" height="74" fill="var(--abra-viz)"/>
       <rect x="148" y="52" width="76" height="88" rx="6"
             fill="none" stroke="var(--abra-keret)" stroke-width="2.5"/>
-      <circle class="abra-bub" cx="162.7" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:0"/><circle class="abra-bub" cx="174.3" cy="128" r="3.3" fill="var(--abra-kiemeles)" style="--i:1"/><circle class="abra-bub" cx="186.0" cy="128" r="4.0" fill="var(--abra-kiemeles)" style="--i:2"/><circle class="abra-bub" cx="197.7" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:3"/><circle class="abra-bub" cx="209.3" cy="128" r="3.3" fill="var(--abra-kiemeles)" style="--i:4"/>
+      <circle class="abra-bub abra-i0" cx="162.7" cy="128" r="2.6" fill="var(--abra-kiemeles)"/><circle class="abra-bub abra-i1" cx="174.3" cy="128" r="3.3" fill="var(--abra-kiemeles)"/><circle class="abra-bub abra-i2" cx="186.0" cy="128" r="4.0" fill="var(--abra-kiemeles)"/><circle class="abra-bub abra-i3" cx="197.7" cy="128" r="2.6" fill="var(--abra-kiemeles)"/><circle class="abra-bub abra-i4" cx="209.3" cy="128" r="3.3" fill="var(--abra-kiemeles)"/>
       <text x="186.0" y="164" text-anchor="middle" class="abra-cimke">Levegőztetés</text>
     </g>
     <g>
@@ -644,7 +645,7 @@
     <path d="M240.0 56 L240.0 85 M240.0 107 L240.0 136"
           stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/>
     <path d="M340.0 56 L340.0 85 M340.0 107 L340.0 136"
-          stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/><circle class="abra-bub" cx="161.8" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:0"/><circle class="abra-bub" cx="180.6" cy="128" r="3.3" fill="var(--abra-kiemeles)" style="--i:1"/><circle class="abra-bub" cx="199.4" cy="128" r="4.0" fill="var(--abra-kiemeles)" style="--i:2"/><circle class="abra-bub" cx="218.2" cy="128" r="2.6" fill="var(--abra-kiemeles)" style="--i:3"/>
+          stroke="var(--abra-keret)" stroke-width="2.5" stroke-linecap="round"/><circle class="abra-bub abra-i0" cx="161.8" cy="128" r="2.6" fill="var(--abra-kiemeles)"/><circle class="abra-bub abra-i1" cx="180.6" cy="128" r="3.3" fill="var(--abra-kiemeles)"/><circle class="abra-bub abra-i2" cx="199.4" cy="128" r="4.0" fill="var(--abra-kiemeles)"/><circle class="abra-bub abra-i3" cx="218.2" cy="128" r="2.6" fill="var(--abra-kiemeles)"/>
     <path id="abra-utvonal" class="abra-ut" d="M32 96.0 L118.0 96.0 L140.0 96 L162.0 96.0 L218.0 96.0 L240.0 96 L262.0 96.0 L318.0 96.0 L340.0 96 L362.0 96.0 L448 96.0" fill="none"
           stroke="var(--abra-jel)" stroke-width="1.5" stroke-dasharray="5 5" opacity=".55"/>
     <!-- A CSEPP KOORDINÁTÁJA SZÁNDÉKOSAN 0;0. Az `animateMotion` nem ODAteszi az

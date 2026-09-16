@@ -28,6 +28,11 @@ Az ANIMÁCIÓ nem dísz: a levegőztetés buborékai, a ciklus futó szaggatása
 `prefers-reduced-motion` a stíluslapban kapuzza — lásd `app.css`, `.abra-*`.
 """
 
+# A KÉSLELTETÉS OSZTÁLLYAL, nem `style="--i:N"`-nel. Az éles CSP
+# (`style-src 'self'`) a soron belüli stílust eldobja — mérve 2026-09-16-án
+# élesben minden buborék 0 s késleltetéssel, egyszerre indult. Az `abra-iN`
+# osztály az app.css-ben állítja a `--i` értékét.
+
 # A rajzterület. Minden koordináta ehhez képest értendő.
 SZEL, MAG = 480, 262
 TARTALY_Y, TARTALY_MAG = 52, 88
@@ -62,8 +67,8 @@ def buborekok(x, w, db=5, kulcs=''):
     for i in range(db):
         cx = x + w * (i + 1) / (db + 1)
         r = 2.6 + (i % 3) * 0.7
-        ki.append(f'<circle class="abra-bub" cx="{cx:.1f}" cy="{ALJ - 12}" r="{r:.1f}" '
-                  f'fill="var(--abra-kiemeles)" style="--i:{i}"/>')
+        ki.append(f'<circle class="abra-bub abra-i{i}" cx="{cx:.1f}" cy="{ALJ - 12}" r="{r:.1f}" '
+                  f'fill="var(--abra-kiemeles)"/>')
     return ''.join(ki)
 
 
