@@ -3759,6 +3759,12 @@
     font-size:var(--type-ui-card-title-size);color:var(--text-primary);
     margin-bottom:var(--space-16) !important;line-height:var(--type-ui-card-title-line-height);
   }
+  /* Programozott fókusz (a kérdés szövege, a gépelésjelző, az összefoglaló
+     címe) — hogy a felolvasó kövesse a beszélgetést. Ezek nem kezelőelemek:
+     a fókuszgyűrű itt zavarna, a konzultációs varázsló címénél ugyanígy. */
+  .aidt-q:focus,.aidt-q:focus-visible,
+  .aidt-typing:focus,.aidt-typing:focus-visible,
+  .aidt-res-head h3:focus,.aidt-res-head h3:focus-visible{outline:none}
   .aidt-time{display:block;margin-top:var(--space-8);font-size:var(--type-ui-caption-size);color:var(--text-secondary)}
   .aidt-why{
     display:inline-flex;align-items:center;gap:var(--space-8);margin-top:var(--space-8);
@@ -3981,6 +3987,8 @@
     line-height:var(--type-display-page-title-line-height);margin-bottom:var(--space-8);
   }
   .aidt-res-band p{margin:0;font-size:var(--type-ui-body-size);color:var(--text-on-dark-muted);line-height:var(--type-ui-body-line-height);max-width:62ch}
+  /* „Nincs elég adat" változat: szám helyett a konzultáció a következő lépés. */
+  .aidt-res-band .aidt-res-band-cta{margin-top:var(--space-24)}
   .aidt-res-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16);margin-bottom:var(--space-16)}
   .aidt-res-card{padding:var(--space-24);border-radius:var(--r-lg);background:var(--canvas);border:1px solid var(--border)}
   .aidt-res-card h4{font-family:var(--font-body);font-size:var(--type-ui-card-title-size);font-weight:var(--type-ui-card-title-weight);color:var(--text-primary);margin-bottom:var(--space-16)}
@@ -3989,7 +3997,10 @@
   .aidt-drivers li::before{content:"";position:absolute;left:0;top:8px;width:var(--space-8);height:var(--space-8);border-radius:50%;background:var(--primary)}
   .aidt-drivers b{color:var(--text-primary);font-weight:var(--type-ui-body-strong-weight)}
   .aidt-clarify{display:flex;flex-direction:column;gap:var(--space-8)}
-  .aidt-clarify li{display:flex;align-items:center;gap:var(--space-8);font-size:var(--type-ui-subtitle-size);color:var(--text-primary);font-weight:var(--type-ui-card-title-weight)}
+  /* A tételek TELJES MONDATOK (korábban rövid állapotcímkék voltak): több
+     sorra törhetnek, ezért a jel az első sorhoz igazodik, és a szöveg nem
+     félkövér. */
+  .aidt-clarify li{display:flex;align-items:flex-start;gap:var(--space-8);font-size:var(--type-ui-subtitle-size);line-height:var(--type-ui-subtitle-line-height);color:var(--text-primary);font-weight:var(--type-ui-subtitle-weight)}
   .aidt-clarify li::before{
     content:"?";flex:none;width:calc(var(--space-16) + var(--space-4));height:calc(var(--space-16) + var(--space-4));
     border-radius:50%;display:grid;place-items:center;background:var(--warning-bg);color:var(--warning-text);

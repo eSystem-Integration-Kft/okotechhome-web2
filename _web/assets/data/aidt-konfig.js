@@ -19,8 +19,10 @@ window.OTH_AIDT = {
       "3-4":  [1900000, 2600000],
       "5-6":  [2400000, 3200000],
       "7-10": [3000000, 4200000],
-      "10+":  null,                 /* 50 fő feletti kapacitás: egyedi tervezés */
-      "x":    [1600000, 3200000]    /* ismeretlen kapacitás — széles tartalék */
+      "10+":  null                  /* 10 fő feletti kapacitás: egyedi tervezés */
+      /* Ismeretlen létszámnál NEM adunk sávot: a modul a nyitott kérdéseket
+         mondja ki, és konzultációt kínál. (Korábban itt egy tartaléksáv állt,
+         ami mind a hat „nem tudom" válaszra is számot írt ki.) */
     },
 
     /* felárak FORINTBAN — a telek adottságai és a kivitelezés körülményei.

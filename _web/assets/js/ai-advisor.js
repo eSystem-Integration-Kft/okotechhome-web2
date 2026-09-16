@@ -37,6 +37,13 @@
       koszonom: "Köszönöm.",
       milliFt: "millió Ft",
       egyediMeretezes: "Egyedi méretezés",
+      kerdesSorszam: (n, ossz) => `${n}. kérdés, összesen ${ossz}: `,
+      valaszol: "Az asszisztens válaszol…",
+      nincsSavRovid: "Nincs elég adat a sávhoz",
+      nincsSavTag: "Előzetes ársáv · kevés adat",
+      nincsSavCim: "Ehhez még túl sok a nyitott kérdés",
+      nincsSavSzoveg: "A sáv a létszámon, a telek adottságain és a meglévő rendszeren múlik — ezekből most túl kevés ismert ahhoz, hogy egy szám ne legyen félrevezető. Egy rövid konzultáción együtt tisztázzuk őket, és utána konkrét sávot adunk.",
+      dKapacitasNyitott: "<b>Létszám:</b> még nyitott — pedig ez adja a rendszer alap-méretezését, és ez a legnagyobb tétel.",
       dKapacitas: (c) => `<b>Kapacitás (${c}):</b> ez adja a rendszer alap-méretezését, ez a legnagyobb tétel.`,
       dTalajviz: "<b>Magas talajvíz:</b> a tartály körüli betonozás / kiegészítő megoldás feljebb tolja a költséget.",
       dKevesHely: "<b>Kevés hely:</b> szűk telken a beépítés és a gépi munka igényesebb.",
@@ -126,6 +133,13 @@
       koszonom: "Thank you.",
       milliFt: "million HUF",
       egyediMeretezes: "Individual sizing",
+      kerdesSorszam: (n, ossz) => `Question ${n} of ${ossz}: `,
+      valaszol: "The assistant is replying…",
+      nincsSavRovid: "Not enough information for a range",
+      nincsSavTag: "Indicative range · too little data",
+      nincsSavCim: "Too many questions are still open for this",
+      nincsSavSzoveg: "The range depends on the number of people, the plot's conditions and the existing system — too little of this is known yet for any figure not to mislead. In a short consultation we clarify them together, and then give you a concrete range.",
+      dKapacitasNyitott: "<b>Number of people:</b> still open — yet this sets the basic sizing of the system, and it is the largest single item.",
       dKapacitas: (c) => `<b>Capacity (${c}):</b> this sets the basic sizing of the system, and it is the largest single item.`,
       dTalajviz: "<b>High groundwater:</b> concreting around the tank or an additional solution pushes the cost up.",
       dKevesHely: "<b>Little space:</b> on a tight plot the installation and the machine work are more demanding.",
@@ -225,7 +239,7 @@
         { id: "5-6", label: "5–6 fő", chip: "5–6 fő" },
         { id: "7-10", label: "7–10 fő", chip: "7–10 fő" },
         { id: "10+", label: "10 fő felett", chip: "10 fő felett" },
-        { id: "x", label: "Nem tudom pontosan", chip: "Kapacitás tisztázandó", unknown: true }
+        { id: "x", label: "Nem tudom pontosan", chip: "Kapacitás tisztázandó", unknown: true, clarify: "Hány fő használja rendszeresen — ebből indul a méretezés." }
       ]
     },
     {
@@ -237,7 +251,7 @@
         { id: "allando", label: "Állandó (állandó lakás)", chip: "Állandó használat" },
         { id: "idoszakos", label: "Időszakos (pl. hétvégi ház)", chip: "Időszakos használat" },
         { id: "szezonalis", label: "Szezonális (pl. nyaraló)", chip: "Szezonális használat" },
-        { id: "x", label: "Nem tudom pontosan", chip: "Használat tisztázandó", unknown: true }
+        { id: "x", label: "Nem tudom pontosan", chip: "Használat tisztázandó", unknown: true, clarify: "Állandó, időszakos vagy szezonális lesz-e a használat." }
       ]
     },
     {
@@ -252,7 +266,7 @@
         { id: "hozzaferes", label: "Nehéz gépi hozzáférés", chip: "Nehéz hozzáférés" },
         { id: "elovíz", label: "Közeli élővíz vagy kút", chip: "Közeli élővíz/kút" },
         { id: "nincs", label: "Nincs ilyen, tudtommal", chip: "Nincs nehezítő adottság", exclusive: true },
-        { id: "x", label: "Nem tudom", chip: "Adottságok tisztázandó", unknown: true, exclusive: true }
+        { id: "x", label: "Nem tudom", chip: "Adottságok tisztázandó", unknown: true, clarify: "Van-e a telken magas talajvíz, szűk hely, lejtés vagy nehéz gépi hozzáférés.", exclusive: true }
       ]
     },
     {
@@ -264,7 +278,7 @@
         { id: "szikkaszt", label: "Elszikkasztás a telken", chip: "Elszikkasztás" },
         { id: "gyoker", label: "Gyökérzónás öntözés", chip: "Gyökérzónás öntözés" },
         { id: "elovíz", label: "Élővízbe vezetés", chip: "Élővízbe vezetés" },
-        { id: "x", label: "Nem tudom / most derül ki", chip: "Elvezetés tisztázandó", unknown: true }
+        { id: "x", label: "Nem tudom / most derül ki", chip: "Elvezetés tisztázandó", unknown: true, clarify: "Hová kerülhet a megtisztított víz." }
       ]
     },
     {
@@ -276,7 +290,7 @@
         { id: "uj", label: "Nincs, teljesen új telepítés", chip: "Új telepítés" },
         { id: "emeszto", label: "Régi emésztő / akna kiváltása", chip: "Emésztő kiváltása" },
         { id: "csere", label: "Meglévő rendszer cseréje / bővítése", chip: "Rendszercsere" },
-        { id: "x", label: "Nem tudom pontosan", chip: "Meglévő rendszer tisztázandó", unknown: true }
+        { id: "x", label: "Nem tudom pontosan", chip: "Meglévő rendszer tisztázandó", unknown: true, clarify: "Van-e a telken kiváltandó emésztő vagy meglévő rendszer." }
       ]
     },
     {
@@ -288,7 +302,7 @@
         { id: "tajekozodas", label: "Most tájékozódom", chip: "Tájékozódás" },
         { id: "felev", label: "Fél éven belül tervezem", chip: "Fél éven belül" },
         { id: "kesz", label: "Konkrét, kész projekt", chip: "Kész projekt" },
-        { id: "x", label: "Nem tudom még", chip: "Ütemezés tisztázandó", unknown: true }
+        { id: "x", label: "Nem tudom még", chip: "Ütemezés tisztázandó", unknown: true, clarify: "Mikorra tervezi a megvalósítást." }
       ]
     }
   ],
@@ -304,7 +318,7 @@
         { id: "5-6", label: "5–6 people", chip: "5–6 people" },
         { id: "7-10", label: "7–10 people", chip: "7–10 people" },
         { id: "10+", label: "More than 10", chip: "More than 10" },
-        { id: "x", label: "I am not sure", chip: "Capacity to clarify", unknown: true }
+        { id: "x", label: "I am not sure", chip: "Capacity to clarify", unknown: true, clarify: "How many people will use it regularly — the sizing starts from this." }
       ]
     },
     {
@@ -316,7 +330,7 @@
         { id: "allando", label: "Permanent (a permanent home)", chip: "Permanent use" },
         { id: "idoszakos", label: "Intermittent (e.g. a weekend house)", chip: "Intermittent use" },
         { id: "szezonalis", label: "Seasonal (e.g. a holiday home)", chip: "Seasonal use" },
-        { id: "x", label: "I am not sure", chip: "Use to clarify", unknown: true }
+        { id: "x", label: "I am not sure", chip: "Use to clarify", unknown: true, clarify: "Whether use will be permanent, intermittent or seasonal." }
       ]
     },
     {
@@ -331,7 +345,7 @@
         { id: "hozzaferes", label: "Difficult machine access", chip: "Difficult access" },
         { id: "elovíz", label: "A watercourse or well nearby", chip: "Watercourse/well nearby" },
         { id: "nincs", label: "None that I know of", chip: "No complicating conditions", exclusive: true },
-        { id: "x", label: "I do not know", chip: "Conditions to clarify", unknown: true, exclusive: true }
+        { id: "x", label: "I do not know", chip: "Conditions to clarify", unknown: true, clarify: "Whether the plot has high groundwater, little space, a slope or difficult machine access.", exclusive: true }
       ]
     },
     {
@@ -343,7 +357,7 @@
         { id: "szikkaszt", label: "Infiltration on the plot", chip: "Infiltration" },
         { id: "gyoker", label: "Reed-bed irrigation", chip: "Reed-bed irrigation" },
         { id: "elovíz", label: "Discharge to a watercourse", chip: "Discharge to watercourse" },
-        { id: "x", label: "I do not know / still to be settled", chip: "Disposal to clarify", unknown: true }
+        { id: "x", label: "I do not know / still to be settled", chip: "Disposal to clarify", unknown: true, clarify: "Where the treated water can go." }
       ]
     },
     {
@@ -355,7 +369,7 @@
         { id: "uj", label: "No, an entirely new installation", chip: "New installation" },
         { id: "emeszto", label: "Replacing an old cesspit / chamber", chip: "Cesspit replacement" },
         { id: "csere", label: "Replacing / extending an existing system", chip: "System replacement" },
-        { id: "x", label: "I am not sure", chip: "Existing system to clarify", unknown: true }
+        { id: "x", label: "I am not sure", chip: "Existing system to clarify", unknown: true, clarify: "Whether there is a cesspit or an existing system on the plot to replace." }
       ]
     },
     {
@@ -367,7 +381,7 @@
         { id: "tajekozodas", label: "I am just looking into it", chip: "Looking into it" },
         { id: "felev", label: "Planned within six months", chip: "Within six months" },
         { id: "kesz", label: "A concrete, ready project", chip: "Ready project" },
-        { id: "x", label: "I do not know yet", chip: "Timing to clarify", unknown: true }
+        { id: "x", label: "I do not know yet", chip: "Timing to clarify", unknown: true, clarify: "When you plan to go ahead." }
       ]
     }
   ]
@@ -387,8 +401,7 @@
       "3-4": [1900000, 2600000],
       "5-6": [2400000, 3200000],
       "7-10": [3000000, 4200000],
-      "10+": null,                 // egyedi méretezés (telep-kategória) — sávot nem adunk
-      "x":   [1600000, 3200000]    // széles tartalék, ha a kapacitás ismeretlen
+      "10+": null                  // egyedi méretezés (telep-kategória) — sávot nem adunk
     },
     modifiers: {
       talajviz:   350000,
@@ -400,10 +413,20 @@
     }
   };
 
-  /* Sáv számítása a válaszokból. A modifierek a felső véget jobban emelik. */
+  /* Sáv számítása a válaszokból. A modifierek a felső véget jobban emelik.
+
+     NINCS SZÁM, HA NINCS MIBŐL SZÁMOLNI. A sáv három válaszon áll: a létszám
+     adja az alapot, a telek adottságai és a meglévő rendszer a felárat. Ha a
+     létszám ismeretlen, vagy a két felár-kérdés közül EGYIK sem ismert, a kiírt
+     szám semmilyen adatra nem támaszkodna — mérve: mind a hat „nem tudom"
+     válaszra is kiírtuk, hogy 1,6–3,2 millió Ft. Az ilyen szám félrevezet,
+     ezért helyette a nyitott kérdéseket mondjuk ki, és a konzultációt kínáljuk.
+     (Korábban a konfigban egy `"x"` tartaléksáv állt erre az esetre.) */
+  const ismeretlen = (v) => v === "x" || (Array.isArray(v) && v.includes("x"));
   function computeBand(a) {
-    const base = PRICE_TABLE.base[a.kapacitas];
     if (a.kapacitas === "10+") return { special: "telep" };
+    if (ismeretlen(a.kapacitas) || (ismeretlen(a.telek) && ismeretlen(a.meglevo))) return { nincsAdat: true };
+    const base = PRICE_TABLE.base[a.kapacitas];
     if (!base) return null;
     let lo = base[0], hi = base[1], mod = 0;
     const add = (id) => { if (PRICE_TABLE.modifiers[id]) mod += PRICE_TABLE.modifiers[id]; };
@@ -419,6 +442,7 @@
   function bandText(band) {
     if (!band) return "—";
     if (band.special) return T.egyediMeretezes;
+    if (band.nincsAdat) return T.nincsSavRovid;
     return `${fmtM(band.lo)}–${fmtM(band.hi)} ${T.milliFt}`;
   }
 
@@ -436,7 +460,10 @@
   function driversList(a) {
     const out = [];
     const capLabel = optChip(0, a.kapacitas);
-    if (capLabel) out.push(T.dKapacitas(capLabel));
+    /* Ismeretlen létszámnál a címke „Kapacitás tisztázandó" volna — az belső
+       állapotjelző, nem mondatba való („Kapacitás (Kapacitás tisztázandó)…"). */
+    if (a.kapacitas === "x") out.push(T.dKapacitasNyitott);
+    else if (capLabel) out.push(T.dKapacitas(capLabel));
     const telek = Array.isArray(a.telek) ? a.telek : [];
     if (telek.includes("talajviz")) out.push(T.dTalajviz);
     if (telek.includes("keveshely")) out.push(T.dKevesHely);
@@ -447,7 +474,9 @@
     return out.slice(0, 4);
   }
 
-  /* A „tisztázandó pontok" a „nem tudom" válaszokból. */
+  /* A „tisztázandó pontok" a „nem tudom" válaszokból — TELJES MONDATTAL. A
+     `chip` („Használat tisztázandó") a helyzetkép-panel állapotjelzője; listába
+     téve belső címkének hat, ezért az opció saját `clarify` szövegét visszük. */
   function clarifyList(a) {
     const out = [];
     QUESTIONS.forEach((q) => {
@@ -457,7 +486,7 @@
         : val === "x";
       if (isUnknown) {
         const opt = q.options.find((o) => o.unknown);
-        out.push(opt ? opt.chip : q.step);
+        out.push(opt && opt.clarify ? opt.clarify : q.q);
       }
     });
     return out;
@@ -504,7 +533,15 @@
     step: 0, answers: {}, draft: [],   // draft: multi-select ideiglenes
     atvett: new Set(),                 // a 6. szekcióból ÁTVETT kérdések azonosítói
     elojelolt: {},                     // részlegesen átvett multi-kérdések előjelölése
-    ugy: null                          // a mentett ügy azonosítója, ha van
+    ugy: null,                         // a mentett ügy azonosítója, ha van
+    /* HOVÁ KERÜLJÖN A FÓKUSZ a következő rajzolás után.
+         null        — sehová: az induló rajzolás NEM veheti el a fókuszt
+         "kerdes"    — az új aktív kérdés szövegére (gépelés alatt a jelzőre)
+         {opt: id}   — többválasztósnál ugyanarra az opcióra
+       A beszélgetés minden lépésnél újrarajzolódik (`innerHTML`), és ezzel a
+       fókuszban lévő gomb is eltűnt: billentyűzettel a lap tetejéről kellett
+       újra végigtabulálni, a felolvasó pedig nem mondta be az új kérdést. */
+    fokusz: null
   };
 
   /* ==========================================================================
@@ -594,9 +631,20 @@
     renderPanel();
   }
 
+  /* 24 órás alak, a magyar konvenció szerint (HH:mm) — mint az ajanlo.js-ben. */
+  const most = () => {
+    const d = new Date();
+    return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+  };
+
   function renderChat() {
     const parts = [];
-    parts.push(bubble("bot", `<p>${esc(NARRATION.greeting)}</p>`, "10:30"));
+    /* A KÖSZÖNTÉS IDEJE a beszélgetés kezdete. Korábban fix „10:30" állt itt,
+       minden látogatónál — aki este nyitotta meg, rögtön látta, hogy nem
+       valódi beszélgetés. Az első kérdésnél (induláskor és újrakezdéskor)
+       frissül; utána a renderelések megtartják. */
+    if (state.step === 0 || !state.kezdes) state.kezdes = most();
+    parts.push(bubble("bot", `<p>${esc(NARRATION.greeting)}</p>`, state.kezdes));
 
     for (let i = 0; i < state.step; i++) {
       parts.push(questionBubble(i, false));   // válaszolt kérdés: opciók láthatók, a választott kiemelve
@@ -614,11 +662,30 @@
     }
     wireOptions();
     updateRail();
+    fokuszAtad();
     if (state.step > 0) chatEl.scrollTop = chatEl.scrollHeight;
   }
 
+  function fokuszAtad() {
+    const f = state.fokusz;
+    if (!f) return;
+    let cel = null;
+    if (f === "kerdes") {
+      cel = state.typing
+        ? chatEl.querySelector(".aidt-typing")
+        : chatEl.querySelector(".is-active-q .aidt-q");
+      if (!state.typing) state.fokusz = null;   // gépelés alatt még vár az új kérdésre
+    } else if (f.opt != null) {
+      cel = chatEl.querySelector(`.is-active-q [data-opt="${String(f.opt).replace(/["\\]/g, "\\$&")}"]`);
+      state.fokusz = null;
+    }
+    if (cel) cel.focus({ preventScroll: true });
+  }
+
   function typingRow() {
-    return `<div class="aidt-row is-bot no-av"><div class="aidt-bubble bot aidt-typing"><span></span><span></span><span></span></div></div>`;
+    /* A jelző a válasz utáni fél másodpercre veszi át a fókuszt: addig az új
+       kérdés még nincs a DOM-ban, és a fókusz különben a lap törzsére esne. */
+    return `<div class="aidt-row is-bot no-av"><div class="aidt-bubble bot aidt-typing" tabindex="-1" role="status" aria-label="${esc(T.valaszol)}"><span></span><span></span><span></span></div></div>`;
   }
   function updateRail() {
     const fill = bodyEl.querySelector(".aidt-rail-fill");
@@ -667,7 +734,7 @@
     return `<div class="aidt-row is-bot${active ? " is-active-q" : ""}${!active && state.atvett.has(q.id) ? " is-atvett" : ""}">
       <span class="aidt-av-sm"><span class="aidt-jel" aria-hidden="true"></span></span>
       <div class="aidt-bubble bot aidt-qwrap">
-        <p class="aidt-q">${esc(q.q)}${q.multi ? ` <span class="aidt-multi-badge">${svg(ICON.multi)}${T.tobbValaszthato}</span>` : ""}${atvettJel}</p>
+        <p class="aidt-q"${active ? ' tabindex="-1"' : ""}>${active ? `<span class="visually-hidden">${esc(T.kerdesSorszam(qi + 1, QUESTIONS.length))}</span>` : ""}${esc(q.q)}${q.multi ? ` <span class="aidt-multi-badge">${svg(ICON.multi)}${T.tobbValaszthato}</span>` : ""}${atvettJel}</p>
         ${opts}
       </div>
     </div>`;
@@ -740,6 +807,13 @@
         <strong>${T.egyediMeretezes}</strong>
         <p>${T.egyediSzoveg}</p>
       </div>`;
+    } else if (band && band.nincsAdat) {
+      bandBlock = `<div class="aidt-res-band special">
+        <span class="aidt-res-tag">${T.nincsSavTag}</span>
+        <strong>${T.nincsSavCim}</strong>
+        <p>${T.nincsSavSzoveg}</p>
+        <p class="aidt-res-band-cta"><a href="konzultacio#urlap" class="btn btn-inverse">${T.konzultaciotKerek} <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+      </div>`;
     } else {
       bandBlock = `<div class="aidt-res-band">
         <span class="aidt-res-tag">${T.tajSav}</span>
@@ -754,7 +828,7 @@
           <span class="aidt-av-lg"><span class="aidt-jel" aria-hidden="true"></span></span>
           <div>
             <p class="aidt-eyebrow small">${T.osszefoglaloEyebrow}</p>
-            <h3>${T.osszefoglaloCim}</h3>
+            <h3 tabindex="-1">${T.osszefoglaloCim}</h3>
           </div>
         </div>
 
@@ -809,6 +883,17 @@
        „tájékoztató jellegű" figyelmeztetésé maradjon. */
     const foot = bodyEl.querySelector(".aidt-res-foot");
     if (foot && window.OthUgy) foot.parentNode.insertBefore(mentesBlokk(), foot);
+
+    /* Az utolsó válasz után a fókusz az összefoglaló címére kerül — a
+       felolvasó innen olvassa tovább, és a Tab a sávtól indul. */
+    if (state.fokusz) {
+      state.fokusz = null;
+      const cim = bodyEl.querySelector(".aidt-res-head h3");
+      if (cim) {
+        cim.focus({ preventScroll: true });
+        cim.scrollIntoView({ block: "nearest" });
+      }
+    }
   }
 
   /* --------------------------------------------------------------- EVENTEK */
@@ -827,6 +912,7 @@
             const at = state.draft.indexOf(id);
             if (at >= 0) state.draft.splice(at, 1); else state.draft.push(id);
           }
+          state.fokusz = { opt: id };   // a jelölés után ugyanazon az opción marad
           renderChat();
         } else {
           commitAnswer(q, id);
@@ -848,6 +934,7 @@
     bodyEl.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => jumpTo(parseInt(b.getAttribute("data-edit"), 10))));
     const restart = bodyEl.querySelector("[data-restart]");
     if (restart) restart.addEventListener("click", () => {
+      state.fokusz = "kerdes";
       state.step = 0; state.answers = {}; state.draft = [];
       state.atvett = new Set(); state.elojelolt = {};
       rebuildBody();
@@ -899,8 +986,9 @@
       const payload = {
         email: email,
         visszahivas: callback,
-        valaszok: state.answers,
-        arsav: computeBand(state.answers),
+        valaszok: state.answers,          // gépi kulcsok — a CRM-nek
+        valaszokSzoveg: valaszSorok(),    // kérdés + felirat — a levélnek
+        arsav: arsavKuldes(computeBand(state.answers)),
         ugy_azonosito: ugyAzonosito,
         idobelyeg: new Date().toISOString()
       };
@@ -940,6 +1028,7 @@
   }
 
   function commitAnswer(q, value) {
+    state.fokusz = "kerdes";
     state.answers[q.id] = value;
     state.step += 1;
     state.draft = [];
@@ -962,6 +1051,7 @@
     state.step = i;
     const q = QUESTIONS[i];
     state.draft = (q.multi && Array.isArray(state.answers[q.id])) ? state.answers[q.id].slice() : [];
+    state.fokusz = "kerdes";
     rebuildBody();
   }
 
@@ -1053,10 +1143,10 @@
         <form class="aidt-atvetel-form" novalidate>
           <input class="urlap-input aidt-azon-mezo" type="text" name="id" inputmode="text"
                  autocomplete="off" spellcheck="false" placeholder="MA-XXXX-XXXX"
-                 maxlength="12" aria-label="${T.ugyazonosito}" />
+                 maxlength="16" aria-label="${T.ugyazonosito}" aria-describedby="aidt-azon-hiba" />
           <button type="submit" class="btn btn-halvany">${T.betoltes}</button>
         </form>
-        <p class="aidt-atvetel-hiba" role="alert" hidden></p>`;
+        <p class="aidt-atvetel-hiba" id="aidt-azon-hiba" role="alert" hidden></p>`;
       savEl.hidden = false;
     }
     savWire();
@@ -1067,12 +1157,14 @@
     if (be) be.addEventListener("click", () => {
       const felvett = atvesz(window.OthUgy.valaszkulcsok("ajanlo"));
       if (!felvett.length) { atvetelSavHiba(T.nincsMitAtvenni); return; }
+      state.fokusz = "kerdes";
       rebuildBody();
       atvetelSavFrissit();
     });
 
     const vissza = savEl.querySelector("[data-atv-vissza]");
     if (vissza) vissza.addEventListener("click", () => {
+      state.fokusz = "kerdes";
       state.step = 0; state.answers = {}; state.draft = [];
       state.atvett = new Set(); state.elojelolt = {};
       rebuildBody();
@@ -1084,12 +1176,17 @@
       e.preventDefault();
       const mezo = form.querySelector("input");
       const btn = form.querySelector("button");
-      const id = (mezo.value || "").trim().toUpperCase();
-      if (!window.OthUgy || !window.OthUgy.ALAK.test(id)) {
+      /* Az ellenőrzés az `ugy.js`-ben él: az NEVEZI MEG a hibát (tiltott jel,
+         hiányzó jel), és javítja, ami egyértelmű (kisbetű, szóköz, kötőjel). */
+      const e2 = window.OthUgy && window.OthUgy.ellenoriz ? window.OthUgy.ellenoriz(mezo.value) : null;
+      if (!e2 || !e2.ok) {
         mezo.setAttribute("aria-invalid", "true");
-        atvetelSavHiba("A helyes alak: MA-XXXX-XXXX.");
+        atvetelSavHiba(e2 ? e2.uzenet : T.nincsIlyenAzon);
+        mezo.focus();
         return;
       }
+      const id = e2.azon;
+      mezo.value = id;
       mezo.removeAttribute("aria-invalid");
       btn.disabled = true; btn.setAttribute("aria-busy", "true");
       const valasz = await window.OthUgy.olvas(id);
@@ -1097,6 +1194,7 @@
       if (!valasz.ok) { atvetelSavHiba(valasz.uzenet || T.nincsIlyenAzon); return; }
       const felvett = atvesz(window.OthUgy.valaszkulcsok("ajanlo"));
       if (!felvett.length) { atvetelSavHiba(T.nincsHasznalhato); return; }
+      state.fokusz = "kerdes";
       rebuildBody();
       atvetelSavFrissit();
     });
@@ -1113,16 +1211,36 @@
      Nem új azonosítót ad: ha a munkamenetben már van ügy, azt egészíti ki.
      Így a `/eredmeny?id=…` lapon a két modul kimenete együtt látszik, és a
      CRM egyetlen rekordból látja a teljes utat. */
-  function mentendo() {
+  /* A válaszok olvasható alakja: kérdés + a választott felirat. A „nem tudom"
+     opciónál a látogató saját szava megy („Nem tudom pontosan"), nem a panel
+     állapotcímkéje („Kapacitás tisztázandó"). */
+  function valaszSorok() {
     const a = state.answers;
-    const band = computeBand(a);
-    const cimkek = QUESTIONS.map((q) => {
+    return QUESTIONS.map((q) => {
       const val = a[q.id];
       if (val == null) return null;
       const ids = Array.isArray(val) ? val : [val];
-      const sz = ids.map((id) => optChipById(q, id)).filter(Boolean).join(", ");
+      const sz = ids.map((id) => {
+        const o = q.options.find((x) => x.id === id);
+        return o ? (o.unknown ? o.label : o.chip) : null;
+      }).filter(Boolean).join(", ");
       return sz ? { cimke: q.q, szoveg: sz } : null;
     }).filter(Boolean);
+  }
+
+  /* A SZERVER `min`/`max`-ot vagy `szoveg`-et vár (api/dontestamogato.php). A
+     belső `lo`/`hi` alakot nem ismerte — a látogatónak küldött összefoglalóból
+     emiatt MINDIG kimaradt a sáv. */
+  function arsavKuldes(band) {
+    if (!band) return {};
+    if (band.lo != null) return { min: band.lo, max: band.hi, szoveg: bandText(band) };
+    return { szoveg: bandText(band) };
+  }
+
+  function mentendo() {
+    const a = state.answers;
+    const band = computeBand(a);
+    const cimkek = valaszSorok();
 
     const tisztit = (h) => String(h).replace(/<[^>]*>/g, "");
 
