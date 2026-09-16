@@ -51,7 +51,10 @@
 <!-- A VÁLTÓGOMB HUZALOZÁSA viszont ráér: senki nem kattint rá az első
      festés előtt. Ezért `defer` — nem blokkol, és a téma már áll. -->
 <script src="assets/js/tema.js?v=2" defer></script>
-<link rel="preload" as="image" href="assets/img/oldalak/hero-koltseg.webp?v=2"
+<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="assets/img/oldalak/hero-koltseg-szuk.webp?v=2"
+      imagesrcset="assets/img/oldalak/hero-koltseg-szuk-750.webp?v=2 750w, assets/img/oldalak/hero-koltseg-szuk.webp?v=2 1100w"
+      imagesizes="100vw">
+<link rel="preload" as="image" fetchpriority="high" media="(min-width: 1025px)" href="assets/img/oldalak/hero-koltseg.webp?v=2"
       imagesrcset="assets/img/oldalak/hero-koltseg-1024.webp?v=2 1100w, assets/img/oldalak/hero-koltseg.webp?v=2 1800w"
       imagesizes="100vw">
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
@@ -545,7 +548,7 @@
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="assets/img/oldalak/hero-koltseg-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
+        <source media="(max-width: 1024px)" srcset="assets/img/oldalak/hero-koltseg-szuk-750.webp?v=2 750w, assets/img/oldalak/hero-koltseg-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
         <img src="assets/img/oldalak/hero-koltseg.webp?v=2"
              srcset="assets/img/oldalak/hero-koltseg-1024.webp?v=2 1100w, assets/img/oldalak/hero-koltseg.webp?v=2 1800w"
              sizes="100vw" width="1800" height="771" alt="Íróasztalon kiterített árajánlat és műszaki adatlap, mellette számológép és a berendezés metszetrajza" fetchpriority="high" decoding="async">

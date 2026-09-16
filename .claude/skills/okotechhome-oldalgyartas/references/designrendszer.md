@@ -206,6 +206,16 @@ kétharmadban álló megoldás egészben megmaradjon. A lekicsinyítés **Mitche
 újramintavételezéssel — az alapértelmezett Lanczos annyi fűtextúrát tart meg, hogy a
 WebP ~25%-kal nehezebb lesz látható nyereség nélkül, és a fejléckép az LCP-elem.
 
+**Mobilváltozat és AVIF — a `hero_avif.py` dolga.** Új fejlécképnél vagy a
+sablonból újragyártott lapnál futtasd le: `python3 scripts/oldalgyartas/hero_avif.py`.
+Elkészíti a keskeny kép 750 px-es változatát (a 2x-es telefonoknak), és
+csoportonként (keskeny / széles) AVIF-et — de csak ott tartja meg, ahol mindkét
+fájl legalább 15%-kal kisebb a WebP-nél. A fotós fejléceknél az AVIF gyakran
+NAGYOBB (mérve 2026-09-16: 64-ből 11-nél nyert). Utána átírja a lapok
+`<picture>`-jét és a két, `media`-hoz kötött, `fetchpriority="high"`
+előtöltést. Feltétel nélküli képelőtöltés nem lehet a lapon — mobilon a
+széles képet is letöltené; a `scripts/ellenorzes.sh` 4. kapuja ezt kiszűri.
+
 ## Amit tilos
 
 - Tailwind vagy bármilyen CSS-keretrendszer

@@ -51,8 +51,11 @@
 <!-- A VÁLTÓGOMB HUZALOZÁSA viszont ráér: senki nem kattint rá az első
      festés előtt. Ezért `defer` — nem blokkol, és a téma már áll. -->
 <script src="../assets/js/tema.js?v=2" defer></script>
-<link rel="preload" as="image" href="../assets/img/oldalak/hero-helyzetem.webp?v=3"
-      imagesrcset="../assets/img/oldalak/hero-helyzetem-1024.webp?v=3 1100w, ../assets/img/oldalak/hero-helyzetem.webp?v=3 1800w"
+<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="../assets/img/oldalak/hero-helyzetem-szuk.webp?v=3"
+      imagesrcset="../assets/img/oldalak/hero-helyzetem-szuk-750.webp?v=3 750w, ../assets/img/oldalak/hero-helyzetem-szuk.webp?v=3 1100w"
+      imagesizes="100vw">
+<link rel="preload" as="image" fetchpriority="high" type="image/avif" media="(min-width: 1025px)" href="../assets/img/oldalak/hero-helyzetem.avif?v=3"
+      imagesrcset="../assets/img/oldalak/hero-helyzetem-1024.avif?v=3 1100w, ../assets/img/oldalak/hero-helyzetem.avif?v=3 1800w"
       imagesizes="100vw">
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
      Szkript nélkül nem marad a lapon árva, néma sáv. -->
@@ -546,7 +549,8 @@
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-helyzetem-szuk.webp?v=3 1100w" sizes="100vw" width="1100" height="471">
+        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-helyzetem-szuk-750.webp?v=3 750w, ../assets/img/oldalak/hero-helyzetem-szuk.webp?v=3 1100w" sizes="100vw" width="1100" height="471">
+        <source type="image/avif" srcset="../assets/img/oldalak/hero-helyzetem-1024.avif?v=3 1100w, ../assets/img/oldalak/hero-helyzetem.avif?v=3 1800w" sizes="100vw">
         <img src="../assets/img/oldalak/hero-helyzetem.webp?v=3"
              srcset="../assets/img/oldalak/hero-helyzetem-1024.webp?v=3 1100w, ../assets/img/oldalak/hero-helyzetem.webp?v=3 1800w"
              sizes="100vw" width="1800" height="771" alt="Mulcsozott ágyás kavicsszegéllyel egy kertben, benne két lapos aknafedlap" fetchpriority="high" decoding="async">

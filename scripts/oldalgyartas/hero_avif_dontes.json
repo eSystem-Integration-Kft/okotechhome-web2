@@ -1,0 +1,258 @@
+{
+ "hero-adatkezeles": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-akadalymentesseg": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-alternativak": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-aszf": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-attekintes": {
+  "asztali": true,
+  "mobil": true
+ },
+ "hero-bakonypeterd": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-biologiai": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-cookie": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-csaladi-haz": {
+  "asztali": true,
+  "mobil": true
+ },
+ "hero-csikvand": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-diosbereny": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-dokumentumok": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-elokeszites": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-elokezeles": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-eloszuro": {
+  "asztali": false,
+  "mobil": true
+ },
+ "hero-elszivarogtatas": {
+  "asztali": true,
+  "mobil": true
+ },
+ "hero-emeszto-csere": {
+  "asztali": false,
+  "mobil": true
+ },
+ "hero-engedelyezes": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-etterem": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-gyokerzona": {
+  "asztali": true,
+  "mobil": false
+ },
+ "hero-helyszinrajz": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-helyzetem": {
+  "asztali": true,
+  "mobil": false
+ },
+ "hero-iskola": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-iszapzsak": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-jogi": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-kapcsolat": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-kemping": {
+  "asztali": false,
+  "mobil": true
+ },
+ "hero-koltseg": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-kozcsatorna": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-kut": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-labor": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-lejtes": {
+  "asztali": true,
+  "mobil": true
+ },
+ "hero-levegoztetes": {
+  "asztali": true,
+  "mobil": false
+ },
+ "hero-lezart-epulet": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-mar-van-rendszerem": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-modellek": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-monitoring": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-munkagep": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-munkagodor": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-munkagodor-oldomedence": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-muszaki-adatlap": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-nyaralo": {
+  "asztali": false,
+  "mobil": true
+ },
+ "hero-obudavar": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-oldomedence": {
+  "asztali": true,
+  "mobil": false
+ },
+ "hero-oldomedence-mukodes": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-panzio": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-projektbrief": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-szakerto": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-szippantas": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-szivarogtatasi-vizsgalat": {
+  "asztali": true,
+  "mobil": true
+ },
+ "hero-szuk-telek": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-talajmetszet": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-talajviz": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-telekadatok": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-telekmeret": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-telekvasarlas": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-telepek": {
+  "asztali": false,
+  "mobil": true
+ },
+ "hero-terhelesi-profil": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-tisztitomezo": {
+  "asztali": true,
+  "mobil": true
+ },
+ "hero-tortenetunk": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-uzem": {
+  "asztali": true,
+  "mobil": false
+ },
+ "hero-uzemeltetes": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-vallalkozas": {
+  "asztali": false,
+  "mobil": false
+ },
+ "hero-vizszamla": {
+  "asztali": false,
+  "mobil": false
+ }
+}

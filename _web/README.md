@@ -966,7 +966,7 @@ tudástári cikkre visz.
 | **Megamenü** | háromszintű (főmenüpont › hub › aloldal), a szerkezete a `scripts/oldalgyartas/fejlec.py`-ban adatként él |
 | **Öko kalauz** | AI-alapú kísérő minden lapon, három üzemmódban, a megrendelésig vezető hét lépés ismeretében. Navigációs index: **142 lap, 931 szakasz**. **Szövegindex: 1123 részlet** — a válasz a lapok tényleges mondataiból jön. Három kódszintű védelem a kitalálás ellen. Végpont: `api/kalauz.php` **Helyszíni segítség:** a `data-oko-pont` attribútummal jelölt felületeknél (ügyazonosító, mentés) magától megszólal, amikor a látogató odagörget. |
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
-| **Fejlécképek** | 63 kép / 139 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) |
+| **Fejlécképek** | 63 kép / 139 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) Méretek: széles 1800 és 1100 px, keskeny 1100 és 750 px; AVIF csak ott, ahol érdemben kisebb (`scripts/oldalgyartas/hero_avif.py`, döntés: `hero_avif_dontes.json`) |
 
 ### Tervezett, de még meg nem épített útvonalak
 
@@ -1079,8 +1079,8 @@ _web/
       ├─ logo-okotechhome{,-sotet}.svg             # fejléc — világos és sötét téma
       ├─ logo-jelentes.svg                         # beágyazható (fill-lel, <style> nélkül)
       ├─ logo-email.png                            # levélfejléc, Content-ID-vel beágyazva
-      ├─ hero-rendszer-allokep{,-1024}.webp        # 16:9 — asztali
-      ├─ hero-rendszer-allokep-szuk{,-800}.webp    # 3:2  — tablet és mobil kivágat
+      ├─ hero-rendszer-allokep{,-1024}.{webp,avif}      # 16:9 — asztali
+      ├─ hero-rendszer-allokep-szuk{,-800}.{webp,avif}  # 3:2  — tablet és mobil kivágat
       ├─ helyzet-{uj-epitkezes,emeszto-kivaltasa,nyaralo,telekvasarlas}.webp
       ├─ nagyobb-kapacitas-panzio.webp
       ├─ termek-{epureco-oldomedence,ab-clear}.webp

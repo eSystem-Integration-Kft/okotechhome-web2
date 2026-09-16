@@ -300,6 +300,15 @@ Options -Indexes
 # fölöslegesen érvénytelenítené az egész gyorsítótárat.
 FileETag MTime Size
 
+# AZ AVIF TÍPUSA. Az éles kiszolgáló MIME-térképe nem ismeri: mérve
+# 2026-09-16-án `.avif`-re Content-Type NÉLKÜL válaszolt, és emiatt a lenti
+# `ExpiresByType image/avif` sem fogott — a fejlécképek gyorsítótár nélkül
+# mentek volna ki. A teszt kiszolgáló ismeri; ott ez a sor ártalmatlan.
+# Élesítés előtt egy ideiglenes alkönyvtárban kipróbálva (image/avif, 1 év).
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+</IfModule>
+
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html "access plus 0 seconds"

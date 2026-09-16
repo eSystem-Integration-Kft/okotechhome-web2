@@ -63,8 +63,12 @@
 <!-- A VÁLTÓGOMB HUZALOZÁSA viszont ráér: senki nem kattint rá az első
      festés előtt. Ezért `defer` — nem blokkol, és a téma már áll. -->
 <script src="assets/js/tema.js?v=2" defer></script>
-<link rel="preload" as="image" media="(min-width: 1025px)" href="assets/img/hero-rendszer-allokep.webp?v=5"
-      imagesrcset="assets/img/hero-rendszer-allokep-1024.webp?v=5 1024w, assets/img/hero-rendszer-allokep.webp?v=5 1600w"
+<!-- AZ ELŐTÖLTÉS AVIF. A `type` miatt az AVIF-et nem ismerő böngésző
+     kihagyja, és a `<picture>` WebP-jét tölti — kétszer így senki nem tölt le
+     semmit. A WebP-előtöltés MELLÉ nem tehető: az AVIF-es böngésző mindkettőt
+     letöltené. -->
+<link rel="preload" as="image" type="image/avif" media="(min-width: 1025px)" href="assets/img/hero-rendszer-allokep.avif?v=5"
+      imagesrcset="assets/img/hero-rendszer-allokep-1024.avif?v=5 1024w, assets/img/hero-rendszer-allokep.avif?v=5 1600w"
       imagesizes="100vw">
 <!-- A KESKENY NÉZET ELŐTÖLTÉSE MARAD. Kipróbáltuk elhagyni — mobilon az
      LCP-elem ugyan a hero CÍMSORA, nem a kép, tehát kézenfekvő volt, hogy a
@@ -72,8 +76,8 @@
      VISZONT ROMLOTT: az LCP 4,13 s-ról 4,36 s-ra nőtt. A kép a hero
      elrendezésének része; későn megtalálva a szekció kirajzolása is csúszik.
      Marad. -->
-<link rel="preload" as="image" media="(max-width: 1024px)" href="assets/img/hero-rendszer-allokep-szuk.webp?v=5"
-      imagesrcset="assets/img/hero-rendszer-allokep-szuk-800.webp?v=5 800w, assets/img/hero-rendszer-allokep-szuk.webp?v=5 1300w"
+<link rel="preload" as="image" type="image/avif" media="(max-width: 1024px)" href="assets/img/hero-rendszer-allokep-szuk.avif?v=5"
+      imagesrcset="assets/img/hero-rendszer-allokep-szuk-800.avif?v=5 800w, assets/img/hero-rendszer-allokep-szuk.avif?v=5 1300w"
       imagesizes="100vw">
 <!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
      Szkript nélkül nem marad a lapon árva, néma sáv. -->
@@ -616,9 +620,16 @@
         <!-- Szűkebb nézetben más KIVÁGÁS kell, nem csak kisebb fájl: a 16:9-es
              képkocka egy oszlopban túl alacsony lenne, és a gödör részletei
              elvesznének. A 3:2-es kivágat a berendezésre és a házra szűkít. -->
+        <!-- AVIF előbb (ugyanaz a kivágat, kisebb fájl), WebP utána. -->
+        <source media="(max-width: 1024px)" type="image/avif"
+                srcset="assets/img/hero-rendszer-allokep-szuk-800.avif?v=5 800w, assets/img/hero-rendszer-allokep-szuk.avif?v=5 1300w"
+                sizes="100vw" width="1300" height="866">
         <source media="(max-width: 1024px)"
                 srcset="assets/img/hero-rendszer-allokep-szuk-800.webp?v=5 800w, assets/img/hero-rendszer-allokep-szuk.webp?v=5 1300w"
                 sizes="100vw" width="1300" height="866">
+        <source type="image/avif"
+                srcset="assets/img/hero-rendszer-allokep-1024.avif?v=5 1024w, assets/img/hero-rendszer-allokep.avif?v=5 1600w"
+                sizes="100vw">
         <img src="assets/img/hero-rendszer-allokep.webp?v=5"
              srcset="assets/img/hero-rendszer-allokep-1024.webp?v=5 1024w, assets/img/hero-rendszer-allokep.webp?v=5 1600w"
              sizes="100vw" width="1600" height="900"
