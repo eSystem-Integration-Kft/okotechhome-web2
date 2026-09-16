@@ -25,11 +25,26 @@ if ($email === '') {
 /* A válaszok a kliensről jönnek, tehát NEM megbízhatóak: minden kulcsot és
    értéket szövegként kezelünk, escape-elve, hosszkorláttal. Nem használjuk
    őket vezérlésre, csak megjelenítjük. */
+/*
+ * A LEVÉL AZ OLVASHATÓ ALAKBÓL ÉPÜL. A `valaszok` gépi kulcsokat hoz
+ * (`kapacitas: x`, `telek: talajviz`) — az a CRM-nek szól. A látogatónak
+ * küldött összefoglalóban eddig pontosan ez állt. A modul 2026-09-16 óta a
+ * kérdés és a választott felirat párját is küldi (`valaszokSzoveg`); ha
+ * megvan, a levél abból épül, ha nincs (régi, gyorsítótárazott szkript), a
+ * régi alakból.
+ */
+$olvashato = [];
+foreach ((is_array($BE['valaszokSzoveg'] ?? null) ? $BE['valaszokSzoveg'] : []) as $sor) {
+    if (is_array($sor) && isset($sor['cimke'], $sor['szoveg'])) {
+        $olvashato[(string) $sor['cimke']] = (string) $sor['szoveg'];
+    }
+}
+
 $sorok = [];
 $i = 0;
-foreach ($valaszok as $kulcs => $ertek) {
+foreach ($olvashato ?: $valaszok as $kulcs => $ertek) {
     if (++$i > 40) { break; }
-    $k = mb_substr(OthSmtp::tisztit((string) $kulcs), 0, 120);
+    $k = mb_substr(OthSmtp::tisztit((string) $kulcs), 0, 160);
     $v = is_array($ertek) ? implode(', ', array_map('strval', $ertek)) : (string) $ertek;
     $v = mb_substr(OthSmtp::tisztit($v), 0, 400);
     if ($k === '' || $v === '') { continue; }
@@ -48,24 +63,35 @@ $LABJEGYZET = 'A megadott tartomány <strong>tájékoztató jellegű</strong>: a
     . 'telepítési körülmények — földmunka, a bekötés mélysége és a kezelt víz elhelyezésének '
     . 'módja — mozgatják leginkább, ezeket pedig helyszíni felmérés nélkül nem lehet '
     . 'felelősen megmondani.';
+/* SZÁM NÉLKÜL MÁS A LÁBJEGYZET. Ha a modul nem adott sávot (kevés az adat,
+   vagy egyedi méretezés kell), a „megadott tartomány" mondat olyasmire
+   hivatkozna, ami nincs a levélben. */
+$vanSzam = !empty($arsav['min']) && !empty($arsav['max']);
+if (!$vanSzam) {
+    $LABJEGYZET = 'Ehhez a helyzethez <strong>nem adtunk számot</strong>: a felelős méretezéshez '
+        . 'előbb a nyitott kérdéseket kell tisztázni — ezt konzultáción vagy helyszíni '
+        . 'felmérésen tesszük meg.';
+}
 
 /* ------------------------------------------------ összefoglaló a látogatónak */
 $adatok = $sorok;
 if ($sav !== '') {
-    $adatok = ['Becsült költségtartomány' => '<strong>' . htmlspecialchars($sav, ENT_QUOTES, 'UTF-8') . '</strong>'] + $adatok;
+    $adatok = [($vanSzam ? 'Becsült költségtartomány' : 'Előzetes ársáv') => '<strong>' . htmlspecialchars($sav, ENT_QUOTES, 'UTF-8') . '</strong>'] + $adatok;
 }
 
 $html = OthLevel::html(
     $CFG['webhely'],
     'Döntéstámogató — összefoglaló',
-    'Az Ön válaszai és a becsült költségtartomány',
-    "Köszönjük, hogy kitöltötte a döntéstámogatót. Az alábbiakban összefoglaltuk, mit adott meg,\n"
-    . 'és milyen nagyságrenddel érdemes számolnia.',
+    $vanSzam ? 'Az Ön válaszai és a becsült költségtartomány' : 'Az Ön válaszai',
+    "Köszönjük, hogy kitöltötte a döntéstámogatót. Az alábbiakban összefoglaltuk, mit adott meg"
+    . ($vanSzam ? ",\nés milyen nagyságrenddel érdemes számolnia." : '.'),
     $adatok,
-    ['felirat' => 'Felmérés kérése', 'url' => $CFG['webhely']['url'] . '/kapcsolat'],
+    /* A konzultációs űrlap a `mod=helyszini` paraméterrel a helyszíni felmérést
+       jelöli be előre (konzultacio.js) — a gomb felirata pontosan ezt ígéri. */
+    ['felirat' => 'Felmérés kérése', 'url' => $CFG['webhely']['url'] . '/konzultacio?mod=helyszini#urlap'],
     $LABJEGYZET
 );
-$szoveg = OthLevel::szoveg($CFG['webhely'], 'Az Ön válaszai és a becsült költségtartomány',
+$szoveg = OthLevel::szoveg($CFG['webhely'], $vanSzam ? 'Az Ön válaszai és a becsült költségtartomány' : 'Az Ön válaszai',
     'Köszönjük, hogy kitöltötte a döntéstámogatót.', $adatok, strip_tags($LABJEGYZET));
 
 oth_kuld($CFG, [$email], 'Döntéstámogató — összefoglaló · ' . $CFG['webhely']['nev'], $szoveg, $html);
@@ -116,7 +142,9 @@ OthCrm::kuld($CFG, 'arsav', OthCrm::csomag(
         'url'      => $CFG['webhely']['url'] ?? null,
         'valaszok' => array_merge(
             array_map(static fn ($v): string => is_array($v) ? implode(', ', array_map('strval', $v)) : (string) $v, $valaszok),
-            $arsav === [] ? [] : ['becsült ársáv' => implode(' – ', array_map('strval', $arsav))],
+            /* A formázott sáv, nem a nyers tömb: az `implode` eddig
+               „1600000 – 2200000 – 0" alakot adott (alsó, felső, felár). */
+            $sav === '' ? [] : ['becsült ársáv' => $sav],
         ),
     ],
     /* HOZZÁJÁRULÁS: csak a visszahívás-kérés az. Az e-mail-cím megadása az
