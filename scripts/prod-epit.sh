@@ -198,7 +198,13 @@ fi
 # telepítve van: ea-php82 (8.2.33) · ea-php83 (8.3.33) · ea-php84 (8.4.24) ·
 # ea-php85 (8.5.9). Verzióváltáskor EZT a sort kell átírni — és utána
 # ellenőrizni, hogy az `api/` végpontjai 422-t adnak üres POST-ra, nem 500-at.
-PHP_CSOMAG="${OTH_PHP_CSOMAG:-ea-php82}"
+#
+# A CPANEL BEÁLLÍTÁSÁVAL EGYEZNIE KELL. A MultiPHP Manager az okotechhome.hu-ra
+# 8.5-öt mutat (Bela, 2026-09-16) — ez a sor viszont 82-t írt, és minden
+# feltöltés FELÜLÍRTA a cPanel döntését: a panel 8.5-öt mondott, a kiszolgáló
+# 8.2.33-at futtatott (`X-Powered-By`). A két érték most ugyanaz. Ha valaki a
+# panelen vált, ezt is át kell írni — különben a következő feltöltés visszaveszi.
+PHP_CSOMAG="${OTH_PHP_CSOMAG:-ea-php85}"
 python3 - "$CEL/.htaccess" "$PHP_CSOMAG" <<'PYPHP'
 import sys, pathlib
 p, csomag = pathlib.Path(sys.argv[1]), sys.argv[2]

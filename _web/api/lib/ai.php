@@ -69,7 +69,10 @@ final class OthAi
         $valasz = curl_exec($ch);
         $kod = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlHiba = curl_error($ch);
-        curl_close($ch);
+        /* NEM `curl_close()`: PHP 8.0 óta hatástalan, 8.5 óta elavult, és
+           minden hívásnál figyelmeztetést írt a naplóba. A `CurlHandle`
+           objektum a hivatkozás megszűnésekor magától felszabadul. */
+        unset($ch);
 
         if ($valasz === false || $kod !== 200) {
             /* A kérés tartalma NEM kerülhet a naplóba: benne van a látogató

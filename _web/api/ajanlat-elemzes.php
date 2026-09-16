@@ -218,7 +218,7 @@ curl_setopt_array($ch, [
 $valasz = curl_exec($ch);
 $kod = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlHiba = curl_error($ch);
-curl_close($ch);
+unset($ch);   // nem curl_close(): 8.5 óta elavult — lásd lib/ai.php
 
 if ($valasz === false || $kod !== 200) {
     /* A hibaüzenet NEM tartalmazhatja a kérést: abban a dokumentum és a kulcs
