@@ -247,9 +247,9 @@ def epit():
               </li>''')
             valaszok.append(f'''            <article class="gyik-valasz" id="valasz-{kv}"
                      data-gyik-valasz="{kv}"{'' if qi == 1 else ' hidden'}>
-              <h4 class="type-display-highlight-title gyik-valasz-cim">
+              <h3 class="type-display-highlight-title gyik-valasz-cim">
                 <span class="gyik-valasz-szam" aria-hidden="true">{qi}</span>{esc(k)}
-              </h4>
+              </h3>
               <p class="type-ui-body gyik-valasz-szoveg">{esc(v)}</p>
               <a class="gyik-tovabb" href="{cel}">
                 <span class="gyik-tovabb-nyil" aria-hidden="true">&rarr;</span>
