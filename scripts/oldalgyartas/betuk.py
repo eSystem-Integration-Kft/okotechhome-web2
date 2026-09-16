@@ -20,10 +20,11 @@ KÉT OKBÓL CSINÁLJUK, és mindkettő önmagában is elég volna.
 CSAK A `latin` ÉS A `latin-ext` RÉSZHALMAZ kell. A magyar ékezetek közül az
 á é í ó ö ú ü a `latin`-ban van, az ő (U+0151) és az ű (U+0171) viszont a
 `latin-ext`-ben — ezért kell mind a kettő. A cirill, a görög és a vietnami
-kimarad: harminchat fájlból így tizennyolc lesz.
+kimarad; a Plex Sans változó betű, egy fájl részhalmazonként — így tizennégy
+fájl marad.
 
 A `unicode-range` MEGMARAD minden szabályban. Ez mondja meg a böngészőnek,
-melyik fájlra van szüksége — enélkül mind a tizennyolcat letöltené, holott
+melyik fájlra van szüksége — enélkül mind a tizennégyet letöltené, holott
 egy magyar lapon jellemzően a felére sincs szükség.
 
 FUTTATÁS:  python3 scripts/oldalgyartas/betuk.py
@@ -42,9 +43,19 @@ KI = GYOKER / '_web' / 'assets' / 'css' / 'app.css'
 KEZDET = '/* ===== BETŰK-KEZDET'
 VEGE   = '/* ===== BETŰK-VÉGE'
 
+# AZ IBM PLEX SANS VÁLTOZÓ BETŰ, ezért TARTOMÁNNYAL kérjük (`400..600`), nem
+# súlyonként. Súlyonként kérve a Google ugyanazt a fájlt adta háromszor, három
+# `@font-face`-ben — mi pedig három néven mentettük (`-400-`, `-500-`, `-600-`,
+# bájtra azonos tartalommal). A böngésző az eltérő URL miatt mindet külön
+# töltötte le: mérve 2026-09-16-án a főoldal 12 betűkéréséből 6 volt Plex Sans,
+# 204 KB, holott két fájl (68 KB) elég. Tartománnyal EGY szabály jön,
+# `font-weight: 400 600`-zal, és részhalmazonként egy fájl.
+#
+# A Zilla Slab és a Plex Mono NEM változó betű: náluk a Google a tartományt
+# visszautasítja, ott a súlyonkénti fájl a valódi.
 CSS_URL = ('https://fonts.googleapis.com/css2'
            '?family=Zilla+Slab:wght@400;500;600;700'
-           '&family=IBM+Plex+Sans:wght@400;500;600'
+           '&family=IBM+Plex+Sans:wght@400..600'
            '&family=IBM+Plex+Mono:wght@400;500'
            '&display=swap')
 
@@ -77,29 +88,20 @@ def main() -> int:
         sys.exit('A Google Fonts válasza nem a várt szerkezetű — a szkriptet '
                  'hozzá kell igazítani.')
 
-    sorok = [
-        '/* ==========================================================================',
-        '   BETŰKÉSZLETEK — saját kiszolgálóról',
-        '   --------------------------------------------------------------------------',
-        '   GENERÁLT FÁJL: scripts/oldalgyartas/betuk.py. Kézzel ne szerkeszd.',
-        '',
-        '   Miért nem a Google Fontsról: a stíluslapja renderelést blokkol és két',
-        '   idegen kiszolgálóhoz kell kapcsolódni hozzá (mobilhálózaton egyenként',
-        '   400-800 ms), a betöltése pedig a látogató IP-címét minden',
-        '   lapmegtekintéskor elküldi a Google-nek. Innen semmi külső kérés nincs.',
-        '',
-        '   Csak a `latin` és a `latin-ext` részhalmaz van meg: a magyar ő és ű a',
-        '   `latin-ext`-ben él, a cirill és a görög viszont sosem kell.',
-        '   ========================================================================== */',
-        '',
-    ]
+    # A régió FEJLÉCE az app.css-ben marad (a jelölő után); ide csak a
+    # szabályok jönnek, üres sor nélkül — a fájl egy évig gyorsítótárban ül,
+    # de minden lapbetöltés első letöltésekor ezek is bájtok.
+    sorok = []
 
     letoltve = 0
     for reszhalmaz, blokk in blokkok:
         if reszhalmaz not in KELL:
             continue
         csalad = re.search(r"font-family:\s*'([^']+)'", blokk).group(1)
-        suly = re.search(r'font-weight:\s*(\d+)', blokk).group(1)
+        # Változó betűnél a súly TARTOMÁNY (`font-weight: 400 600`) — a
+        # fájlnévben kötőjellel áll, hogy ne látszódjon egyetlen súlynak.
+        suly = '-'.join(re.search(r'font-weight:\s*(\d+)(?:\s+(\d+))?', blokk)
+                        .groups(default='')).strip('-')
         url = re.search(r'url\((https://[^)]+)\)', blokk).group(1)
         nev = (csalad.lower().replace(' ', '-') + f'-{suly}-{reszhalmaz}.woff2')
         cel = FONTOK / nev
@@ -111,7 +113,6 @@ def main() -> int:
         # a tartalék betűvel AZONNAL látszik, és a saját betű cseréli le.
         sorok.append(f'/* {csalad} {suly} · {reszhalmaz} */')
         sorok.append(re.sub(r'\s*\n\s*', ' ', uj).strip())
-        sorok.append('')
 
     # BESZÚRÁS A JELÖLŐK KÖZÉ. A fájl többi része érintetlen marad — az
     # app.css kézzel karbantartott, csak ez az egy régió generált.
