@@ -56,6 +56,12 @@ PageSpeed (mobil) szerint: `site.js` 502 + 108 + 91 ms, `galeria.js` 213 ms.
 Helyi A/B (3–3 Lighthouse-futás): a régi változat minden futásban újraszámolt,
 az új háromból egyben.
 
+*Élesben mérve utána (PageSpeed, mobil):* a galéria tétele eltűnt; a menüé
+alig csökkent (~700 → ~630 ms). A legnagyobb, 400 ms-os tétel a lap ELSŐ
+teljes stílusszámítása — ez mindenképp lefut, a menü mérése csak előrehozza,
+és a nagysága az `app.css` méretéből (~2800 szabály) adódik. Ez a tétel nem
+számít bele a pontszámba.
+
 **Nem változott — a betűk láncolata.** A betűket a CSS hivatkozza, ezért a CSS
 után indulnak. Az LCP-t adó címsor betűje (Zilla Slab 600) előtöltött; a többi
 `swap`-pal azonnal kirajzolódik tartalék betűvel, az előtöltésük csak a CSS-sel
@@ -113,11 +119,20 @@ Kitöltve ezek ismétlést okoznának, a keresőnek pedig a bélyegkép nem hord
 
 A 12 betűfájlból 8 lett (0.50.00, a Plex Sans egyszer töltődik). Mérve élesben
 utána: Lighthouse mobil 98 pont, LCP 2,3–2,4 s. A 16 saját szkript ~138 KB
-(tömörítve), mind `defer`, futásuk 0,1 s. **Nyitott döntés:** a Lighthouse
-szerint ~50 KB megspórolható minifikálással, és a lap alján álló modulok
-(ajánló, ársávbecslő, összehasonlító) csak odagörgetéskor is betölthetők. A
-minifikálás az éles és a teszt kimenet bájtazonosságát bontaná meg — ezért
-nem ment bele.
+(tömörítve), mind `defer`, futásuk 0,1 s. A Lighthouse szerint ~50 KB
+megspórolható volna a szkriptek minifikálásával, és a lap alján álló modulok
+(ajánló, ársávbecslő, összehasonlító) csak odagörgetéskor is betölthetők.
+
+*Helyesbítve 2026-09-16:* itt eredetileg az állt, hogy a minifikálás az éles és
+a teszt kimenet bájtazonosságát bontaná meg. Ez nem igaz: a `prod-epit.sh` a
+CSS-ből és a HTML-ből már eddig is kivette a megjegyzéseket és a fölös
+térközt (az `app.css` 538 KB → 292 KB); csak a JS-hez nem nyúl. Teljes
+kicsinyítés a CSS-en alig hozna (292 → 276 KB).
+
+**Döntés (Bela):** itt megállunk. A hátralévő lépések — a stílus egy részének
+későbbi betöltése, a kritikus CSS beágyazása — villanással és elugró
+tartalommal járhatnak, amit a látogató nem értene; a UI/UX-veszteség nagyobb
+volna, mint a nyereség.
 
 ---
 
