@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.02-80A640?style=flat-square" alt="verzió 0.50.02">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.03-80A640?style=flat-square" alt="verzió 0.50.03">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-59-56642B?style=flat-square" alt="59 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-60-56642B?style=flat-square" alt="60 kiadás">
 </p>
 
 ---
@@ -26,6 +26,47 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.50.03] — 2026-09-16
+
+A Search Console valós látogatói adatai szerint mobilon 100 URL LCP-je 4 mp
+fölött van (p75: 4,5 mp). Az aloldalakon az LCP-elem a fejléckép keskeny
+változata.
+
+### Teljesítmény — a telefon csak a kirajzolt fejlécképet tölti le (3d7e5cb)
+
+- **Dupla letöltés.** Mind a 139 aloldal feje média-feltétel nélkül
+  előtöltötte a SZÉLES fejlécképet, ezért a telefon egy soha nem mutatott
+  képet is letöltött (átlag 71 KB). Mostantól két, szélességhez kötött
+  előtöltés van, `fetchpriority="high"`-val. Nélküle az LCP-kép alacsony
+  prioritással indult volna, mert az előtöltés és az `<img>` ugyanazt a
+  kérést használja.
+- **750 px-es keskeny kép** a 2x-es telefonoknak: átlag 104 KB helyett 45 KB.
+- **AVIF csak ott, ahol nyer.** Csoportonként (keskeny / széles) akkor kerül
+  ki, ha mindkét fájlja legalább 15%-kal kisebb a WebP-nél. Ez a 64 fejlécből
+  csoportonként 11-nél teljesül. A fű-föld-kavics fotók AVIF-ben gyakran
+  nagyobbak lettek volna (pl. 98 KB helyett 125 KB). A főoldal fejléce
+  AVIF-re váltott (20–34%-kal kisebb). A főoldali előtöltés prioritása
+  szándékosan nem változott, mert ott mobilon a címsor az LCP-elem.
+- **`.htaccess`:** az éles kiszolgáló az `.avif`-et `Content-Type` nélkül
+  adta, így az egyéves gyorsítótár-szabály sem vonatkozott rá. Most
+  `image/avif` típussal megy ki (előbb ideiglenes alkönyvtárban kipróbálva).
+
+Ellenőrizve: öt eszközprofilon (telefon 2x/3x, PSI Moto, tablet, asztali) és
+hat lapon (csak WebP, csak keskeny AVIF, csak széles AVIF, mindkettő) pontosan egy fejléckép töltődik le. A helyi
+Lighthouse-labor LCP-je ettől nem mozdult (6,8 → 6,7 mp), mert helyben a
+tömörítetlen, 540 KB-os `app.css` határozza meg. A fejlécképre jutó adat a
+Moto-profilon 64 KB-ról 17 KB-ra csökkent. A valós hatás a Search Console
+28 napos ablakában látszik majd.
+
+### Ellenőrzés — az előtöltés-kapu nem látta az új előtöltést (a62bd05)
+
+A régi kapu csak a `rel, as, href` sorrendű előtöltést ismerte fel. Most
+minden képelőtöltés jelöltjeit összeveti a lap `<source>`/`<img>`
+forrásaival, és hibát jelez, ha a `<picture>` szélesség szerint vált, az
+előtöltésen pedig nincs `media`.
 
 ---
 
