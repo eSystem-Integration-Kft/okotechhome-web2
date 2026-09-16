@@ -296,7 +296,10 @@ if [ "$KORNYEZET" = eles ]; then
   # A `|| true` itt sem elhagyható: `pipefail` mellett a találat nélküli `grep`
   # bukottá tenné a csővezetéket, és a `set -e` megállítaná a szkriptet —
   # pontosan a jó esetben.
-  MARADT=$( { grep -rlF 'content="noindex' "$HELYI" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
+  # A TESZT-jelölést keressük (`noindex, nofollow, noarchive…`). A négy
+  # hibaoldal élesben szándékosan `noindex, follow` — az nem maradék, és
+  # 2026-09-16-ig pont ez állította meg tévesen az élesítést.
+  MARADT=$( { grep -rlF 'content="noindex, nofollow' "$HELYI" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
   FEJLEC=$(grep -c '^  Header always set X-Robots-Tag' "$HELYI/.htaccess" 2>/dev/null || true)
   if [ "$MARADT" != 0 ] || [ "${FEJLEC:-0}" != 0 ]; then
     piros "TESZT ÜZEMMÓD AKTÍV a _web_prod/-ban — az élesítés leállt."
