@@ -107,6 +107,13 @@ META_TESZT = ('<meta name="robots" content="noindex, nofollow, noarchive, '
               'max-image-preview:none, max-video-preview:0, noai, noimageai">')
 META_ELES = '<meta name="robots" content="index, follow">'
 
+# A HIBAOLDALAK ÉLESBEN IS `noindex`-ek. Korábban ezek is `index, follow`-t
+# kaptak — a `/404` cím pedig 200-as kóddal adja ki a lapot (mérve
+# 2026-09-16-án), tehát a „nem található" lap bekerülhetett a találatok közé.
+# A `follow` marad: a hibaoldal hivatkozásai (főoldal, kapcsolat) jók.
+HIBAOLDALAK = {'401.html', '403.html', '404.html', '500.html'}
+META_HIBA = '<meta name="robots" content="noindex, follow">'
+
 # A meta FOLOTT allo teszt-uzemmodi megjegyzes is megy: elesben felrevezetne,
 # mert epp az ellenkezojet irja le annak, ami a sorban all.
 MEGJEGYZES = """<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
@@ -120,7 +127,8 @@ for f in CEL.rglob('*.html'):
     t = f.read_text(encoding='utf-8')
     if META_TESZT not in t:
         continue
-    t = t.replace(MEGJEGYZES, '').replace(META_TESZT, META_ELES)
+    uj = META_HIBA if (f.parent == CEL and f.name in HIBAOLDALAK) else META_ELES
+    t = t.replace(MEGJEGYZES, '').replace(META_TESZT, uj)
     f.write_text(t, encoding='utf-8')
     db += 1
 print(db)
@@ -512,6 +520,35 @@ if '/__old/' not in t:
 print('__old elzárva: .htaccess + robots.txt')
 PYOLD
 
+# ------------------------------- 10. réteg: robots.txt belső megjegyzések nélkül
+# A `_web/robots.txt` megjegyzései a MI jegyzeteink: a tesztdomaint, a teszt
+# üzemmód rétegeit és a `prod-epit.sh` működését írják le — sőt azt is, hogy az
+# AI-botok ki vannak zárva, holott élesben be vannak engedve (5. réteg). A fájl
+# nyilvános: az éles példányban mindez nem maradhat. Mérve 2026-09-16-án: az
+# élő robots.txt fejléce a `tst.okoth.hu`-t nevezte meg.
+#
+# A SZABÁLYOK ÉRINTETLENEK: csak a megjegyzéssorok mennek, a csoportokat
+# elválasztó üres sorok maradnak (egymás után legfeljebb egy). Ez a réteg a
+# robots.txt-t módosító rétegek (3., 5., 9.) UTÁN fut.
+python3 - "$CEL/robots.txt" <<'PYROBOTSTISZTA'
+import sys, pathlib
+r = pathlib.Path(sys.argv[1])
+ki = ['# ÖkoTech Home — okotechhome.hu',
+      '# A webhely szabadon bejárható, az /api/ végpontok kivételével.',
+      '']
+for sor in r.read_text(encoding='utf-8').splitlines():
+    if sor.lstrip().startswith('#'):
+        continue
+    if not sor.strip():
+        if ki[-1] != '':
+            ki.append('')
+        continue
+    ki.append(sor.rstrip())
+while ki and ki[-1] == '':
+    ki.pop()
+r.write_text('\n'.join(ki) + '\n', encoding='utf-8')
+PYROBOTSTISZTA
+
 # ------------------------------------------------------------------- jelölés
 cat > "$CEL/.epult" <<EOF
 $(date '+%Y-%m-%d %H:%M:%S')
@@ -541,13 +578,17 @@ REGIWP=$(grep -c '__old(/|\$)' "$CEL/.htaccess" 2>/dev/null || true)
 HSTS=$(grep -c '^  Header always set Strict-Transport-Security' "$CEL/.htaccess" 2>/dev/null || true)
 MERES=$( { grep -rl 'assets/js/meres.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
 SUTI=$( { grep -rl 'assets/js/suti.js' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
-MARADT_META=$( { grep -rlF 'content="noindex' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
+# A TESZT-jelölés maradékát keressük (`noindex, nofollow, noarchive…`) — a
+# hibaoldalak szándékos `noindex, follow`-ja nem maradék, azt külön számoljuk.
+MARADT_META=$( { grep -rlF 'content="noindex, nofollow' "$CEL" --include='*.html' 2>/dev/null || true; } | wc -l | tr -d ' ')
+HIBA_NOINDEX=$( { grep -lF 'content="noindex, follow"' "$CEL"/401.html "$CEL"/403.html "$CEL"/404.html "$CEL"/500.html 2>/dev/null || true; } | wc -l | tr -d ' ')
 MARADT_FEJLEC=$(grep -c '^  Header always set X-Robots-Tag' "$CEL/.htaccess" 2>/dev/null || true)
 SITEMAP=$( { grep -c '^Sitemap:' "$CEL/robots.txt" 2>/dev/null || true; } | head -1)
 
 echo
 printf '  noindex meta cserélve ....... %s lapon\n' "$LAPOK"
 printf '  maradt noindex meta ......... %s  %s\n' "$MARADT_META" "$([ "$MARADT_META" = 0 ] && echo '✓' || echo '✕ HIBA')"
+printf '  hibaoldal noindex ........... %s/4  %s\n' "$HIBA_NOINDEX" "$([ "$HIBA_NOINDEX" = 4 ] && echo '✓' || echo '✕ HIBA')"
 printf '  aktív X-Robots-Tag sor ...... %s  %s\n' "${MARADT_FEJLEC:-0}" "$([ "${MARADT_FEJLEC:-0}" = 0 ] && echo '✓' || echo '✕ HIBA')"
 PHPKEZ=$( { grep -c 'x-httpd-' "$CEL/.htaccess" 2>/dev/null || true; } | head -1)
 printf '  PHP-kezelő rögzítve ......... %s  %s\n' "$PHP_CSOMAG" "$([ "${PHPKEZ:-0}" = 1 ] && echo '✓' || echo '✕ HIBA')"
@@ -570,7 +611,7 @@ echo
 # ki: ha a `suti.js` kevesebb lapon van, mint a `meres.js`, akkor a különbségen
 # a GA4 a látogató beleegyezése nélkül futna. Ez nem figyelmeztetés, hanem
 # leállás — az ilyen hiba némán keletkezik, és utólag nem javítható ki.
-if [ "$MARADT_META" != 0 ] || [ "${MARADT_FEJLEC:-0}" != 0 ] || [ "${PHPKEZ:-0}" != 1 ] \
+if [ "$MARADT_META" != 0 ] || [ "${HIBA_NOINDEX:-0}" != 4 ] || [ "${MARADT_FEJLEC:-0}" != 0 ] || [ "${PHPKEZ:-0}" != 1 ] \
    || [ "${MERES:-0}" -eq 0 ] || [ "${SUTI:-0}" -lt "${MERES:-0}" ] || [ "${HSTS:-0}" != 1 ] \
    || [ "${REGIWP:-0}" -lt 2 ] \
    || { [ "$SITEMAP_VAN" = 1 ] && [ "${SITEMAP:-0}" != 1 ]; }; then
