@@ -121,7 +121,12 @@
     }, { root: sav, threshold: 0.6 });
     elemek.forEach(function (el) { figyelo.observe(el); });
 
-    frissit();
+    /* INDULÁSKOR NINCS GÖRGETÉS. Az első bélyeg a sáv elején áll, oda nem
+       kell görgetni — a görgetés kiszámítása viszont (`offsetLeft`,
+       `clientWidth`) a frissen beszúrt bélyegek miatt az egész lap
+       elrendezését kényszerítette ki, még a festés előtt. Mérve (PageSpeed,
+       mobil): 213 ms — a lap legnagyobb kényszerített újraszámítása. */
+    frissit(false);
 
     /* ---- a galéria belépése, ha a szekcióhoz érünk ----
        A belépő jelölést a SZKRIPT teszi rá, és a megjelenéskor veszi le. Ha ez
@@ -165,7 +170,7 @@
       return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
     }
 
-    function frissit() {
+    function frissit(gorget) {
       elemek.forEach(function (el, i) {
         if (i === aktiv) el.setAttribute("data-aktiv", "");
         else el.removeAttribute("data-aktiv");
@@ -175,7 +180,7 @@
         if (i === aktiv) g.setAttribute("aria-current", "true");
         else g.removeAttribute("aria-current");
       });
-      if (gombok[aktiv]) {
+      if (gorget !== false && gombok[aktiv]) {
         var g = gombok[aktiv];
         belyegek.scrollTo({
           left: g.offsetLeft - belyegek.offsetLeft - (belyegek.clientWidth - g.clientWidth) / 2,

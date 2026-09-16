@@ -74,13 +74,41 @@
      a modul alapelve („mérés, nem töréspont") így sértetlen marad. */
   let legszukebbKell = 0;
 
+  /* A KÜSZÖB A MUNKAMENETBEN MEGMARAD. Ugyanazzal a stíluslappal és
+     betűmérettel ugyanannyi — a következő lapon nem kell újra kiírni-olvasni
+     érte az egész dokumentumot. A kulcsban a stíluslap címe (verzióval) és a
+     gyökér betűmérete áll: bármelyik változik, új mérés jön. CSAK a betűk
+     betöltése UTÁNI érték kerül ide (lásd `fonts.ready` lent) — a tartalék
+     betűvel mért 5-8%-kal mellé mehet. */
+  const KUSZOB_KULCS = (() => {
+    const lap = document.querySelector('link[rel="stylesheet"][href*="app.css"]');
+    return 'oth-nav-kuszob|' + (lap ? lap.getAttribute('href') : '')
+      + '|' + getComputedStyle(gyoker).fontSize;
+  })();
+  let kuszobTarbol = false;
+  try {
+    legszukebbKell = Number(sessionStorage.getItem(KUSZOB_KULCS)) || 0;
+    kuszobTarbol = legszukebbKell > 0;
+  } catch (_) { /* privát mód: mérünk */ }
+
   const kuszobMer = () => {
     const elozo = gyoker.dataset.nav;
     gyoker.dataset.nav = 'suru';
     legszukebbKell = Math.max(navLista.scrollWidth,
                               navLista.getBoundingClientRect().width);
-    gyoker.dataset.nav = elozo;
+    /* VISSZA AZ ELŐZŐ ÁLLAPOTBA — hiányzó attribútumot TÖRÖLNI kell.
+       A `dataset.nav = undefined` a szó szerinti „undefined" értéket írta
+       be: az egyik fokozatnak sem felel meg, és a JS nélküli
+       tartalékszabályokat (`:root:not([data-nav])`) is kikapcsolta — a
+       következő olvasás így egy nem létező állapotot számolt újra. */
+    if (elozo === undefined) delete gyoker.dataset.nav;
+    else gyoker.dataset.nav = elozo;
   };
+
+  /* Csak a betűk betöltése utáni mérés menthető (lásd fent). Ha a betűk már
+     a gyorsítótárból jöttek, a `fonts.ready` azonnal teljesül — akkor is
+     ugyanez az ág fut, tehát az érték mindig a végleges betűvel mért. */
+  let kuszobMentes = false;
 
   const fokozatValaszt = () => {
     if (!drawer || !navLista || !fejlecSor) return;
@@ -90,7 +118,12 @@
     /* Csukott `details` tartalma nem mérhető — a mérés idejére kinyitjuk. */
     drawer.open = true;
 
-    if (!legszukebbKell) kuszobMer();
+    if (!legszukebbKell) {
+      kuszobMer();
+      if (kuszobMentes) {
+        try { sessionStorage.setItem(KUSZOB_KULCS, String(legszukebbKell)); } catch (_) { /* nem baj */ }
+      }
+    }
 
     /* A KÜSZÖB ALATT NINCS MIT PRÓBÁLGATNI. Egyetlen olvasás, írás nélkül:
        ha a fejléc teljes belső szélessége sem éri el azt, amit a menüsor a
@@ -137,7 +170,10 @@
            dönti el, hogy egyáltalán próbálkozunk-e, egy rossz érték itt
            tartósan fiók módba ragasztaná a menüt egy olyan képernyőn, ahol
            elférne. */
-        legszukebbKell = 0;
+        /* A tárból jött küszöb már a végleges betűvel mért érték — azt nem
+           dobjuk el, különben minden lapon újra mérnénk. */
+        if (!kuszobTarbol) legszukebbKell = 0;
+        kuszobMentes = true;
         ujramer();
       }).catch(() => {});
     }
