@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.00-80A640?style=flat-square" alt="verzió 0.50.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.01-80A640?style=flat-square" alt="verzió 0.50.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-57-56642B?style=flat-square" alt="57 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-58-56642B?style=flat-square" alt="58 kiadás">
 </p>
 
 ---
@@ -26,6 +26,63 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.50.01] — 2026-09-16
+
+A külső átvilágítás „apróságai" (08–13).
+
+### Javítva — a hibaoldal indexelhető volt (09)
+
+Az éles build minden lap teszt-jelölését `index, follow`-ra cserélte — a négy
+hibaoldalét is. A `/404` cím 200-as kóddal adja ki a lapot, tehát a „nem
+található" oldal bekerülhetett a találatok közé. A hibaoldalak élesben
+`noindex, follow`-t kapnak; a build mind a négyet ellenőrzi.
+
+### Javítva — a robots.txt a tesztdomaint és belső jegyzeteket mutatott (11)
+
+Az élő fájl fejléce a `tst.okoth.hu`-t nevezte meg, leírta a teszt üzemmód
+rétegeit, és azt állította, hogy az AI-botok ki vannak zárva — élesben be
+vannak engedve. A build utolsó rétege minden megjegyzéssort kivesz, és kétsoros
+nyilvános fejlécet tesz a helyükre. A szabályok bájtra egyeznek az addigival;
+a teszten a magyarázó változat marad.
+
+### Javítva — a főoldal címe nem tartalmazta a keresett szavakat (12)
+
+„ÖkoTech Home — otthoni biológiai szennyvíztisztítás" helyett most
+**„Biológiai házi szennyvíztisztító közcsatorna nélkül | ÖkoTech Home"**. A
+„biológiai szennyvíztisztító" a főoldalon mintegy harmincszor szerepel, a régi
+hirdetési céloldalak is erre épültek. Az `og:title` követi.
+
+### Javítva — a GYIK-nél kimaradt egy címsorszint (10)
+
+A szekció `h2`-je után `h4`-es válaszcímek álltak. Mind a 14 most `h3` — a
+lapon és a `szekcio13_15.py`-ban. A megjelenés nem változott: a számított
+stílus és a magasság azonos. Más lapon nincs kihagyott szint.
+
+### Nem változott — a „7 kép szöveges leírás nélkül" (08)
+
+Élesben, kirajzolva mérve valóban 29 képből 7-nek üres az `alt`-ja — és ez
+szándékos, a WCAG szerint helyes:
+
+- a **sötét témás logó** a világos párja; a hivatkozásnak saját neve van
+  („ÖkoTech Home — főoldal"), kitöltve a felolvasó kétszer mondaná a nevet,
+- a **galéria hat bélyegképe** gombban ül, amelynek neve a nagy kép leírása
+  („Kép: …"); a nagy képeknek van `alt`-juk.
+
+Kitöltve ezek ismétlést okoznának, a keresőnek pedig a bélyegkép nem hordoz
+új tartalmat.
+
+### Részben — a betöltés ideje (13)
+
+A 12 betűfájlból 8 lett (0.50.00, a Plex Sans egyszer töltődik). Mérve élesben
+utána: Lighthouse mobil 98 pont, LCP 2,3–2,4 s. A 16 saját szkript ~138 KB
+(tömörítve), mind `defer`, futásuk 0,1 s. **Nyitott döntés:** a Lighthouse
+szerint ~50 KB megspórolható minifikálással, és a lap alján álló modulok
+(ajánló, ársávbecslő, összehasonlító) csak odagörgetéskor is betölthetők. A
+minifikálás az éles és a teszt kimenet bájtazonosságát bontaná meg — ezért
+nem ment bele.
 
 ---
 
