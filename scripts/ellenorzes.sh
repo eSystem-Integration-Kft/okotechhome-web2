@@ -155,15 +155,23 @@ else
   ylw "python3 nincs telepítve — a képellenőrzés kimarad"
 fi
 
-# A fejlécképet `<link rel="preload">` tölti elő. Ha a preload URL-je akár csak a
-# `?v=NN`-ben eltér a tényleges `<img src>`-től, a böngésző KÉT külön erőforrásnak
-# látja: letölti mindkettőt, és épp az LCP-kép előtöltése vész el. Némán.
+# A fejlécképet `<link rel="preload">` tölti elő. Két némán ható hiba ellen:
+#   1. Ha az előtöltés jelöltjei akár csak a `?v=NN`-ben eltérnek a `<picture>`
+#      valamelyik forrásáétól, a böngésző KÉT külön erőforrásnak látja: letölti
+#      mindkettőt, és épp az LCP-kép előtöltése vész el.
+#   2. Ha a `<picture>` szélesség szerint vált képet (`<source media>`), az
+#      előtöltésnek is `media` kell. Nélküle mobilon is letöltődik a széles kép,
+#      amit a lap sosem mutat — mérve 2026-09-16-án, 139 aloldalon így volt.
 if command -v python3 >/dev/null 2>&1; then
   ELTER="$(python3 - <<'PYVEG'
 import os, re
 
-PRE = re.compile(r'<link rel="preload" as="image" href="([^"]+)"')
-IMG = re.compile(r'<img src="([^"]*oldalak/[^"]+)"')
+LINK = re.compile(r'<link rel="preload" as="image"[^>]*>', re.S)
+FORRAS = re.compile(r'<(?:source|img) [^>]*?\bsrcset="([^"]+)"', re.S)
+ATTR = lambda nev, tag: (re.search(r'\b%s="([^"]*)"' % nev, tag) or [None, None])[1]
+
+def jeloltek(ertek):
+    return frozenset(d.strip().split()[0] for d in ertek.split(',') if d.strip())
 
 for gyoker, konyvtarak, fajlok in os.walk('_web'):
     konyvtarak[:] = [k for k in konyvtarak if k not in ('.git', 'node_modules')]
@@ -173,19 +181,24 @@ for gyoker, konyvtarak, fajlok in os.walk('_web'):
         lap = os.path.join(gyoker, nev)
         with open(lap, encoding='utf-8', errors='replace') as f:
             szoveg = f.read()
-        elo = PRE.search(szoveg)
-        kep = IMG.search(szoveg)
-        if not elo or not kep:
+        linkek = LINK.findall(szoveg)
+        if not linkek:
             continue
-        if os.path.basename(elo.group(1)) != os.path.basename(kep.group(1)):
-            print('%s\t%s\t%s' % (os.path.relpath(lap, '_web'),
-                                   os.path.basename(elo.group(1)),
-                                   os.path.basename(kep.group(1))))
+        halmazok = {jeloltek(x) for x in FORRAS.findall(szoveg)}
+        valt = re.search(r'<source [^>]*\bmedia=', szoveg) is not None
+        hely = os.path.relpath(lap, '_web')
+        for tag in linkek:
+            href = ATTR('href', tag)
+            kor = jeloltek(ATTR('imagesrcset', tag) or href or '')
+            if kor not in halmazok or href not in kor:
+                print('%s\ta preload jelöltjei egyik <picture>-forráséval sem egyeznek: %s' % (hely, os.path.basename(href or '?')))
+            elif valt and ATTR('media', tag) is None:
+                print('%s\ta <picture> szélesség szerint vált, a preload media nélküli: %s' % (hely, os.path.basename(href)))
 PYVEG
 )"
   if [[ -n "$ELTER" ]]; then
-    while IFS=$'\t' read -r lap elo kep; do
-      red "a preload nem a megjelenített képre mutat: $lap (preload=$elo, img=$kep)"
+    while IFS=$'\t' read -r lap uzenet; do
+      red "$uzenet ($lap)"
     done <<< "$ELTER"
     HIANY=1
   fi
