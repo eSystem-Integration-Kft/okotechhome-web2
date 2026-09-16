@@ -265,7 +265,7 @@ if (!empty($CFG['visszaigazolas'])) {
 OthCrm::kuld($CFG, 'ajanlat', OthCrm::csomag(
     OthVedelem::szoveg($BE, 'ugy_azonosito', 40) ?: null,
     'ajanlat-' . date('YmdHis') . '-' . substr(sha1($email), 0, 8),
-    ['nev' => $nev, 'email' => $email, 'telefon' => $telefon, 'cegnev' => $cegnev],
+    ['nev' => $nev, 'email' => $email, 'telefon' => $telefon, 'ceg' => $cegnev],   // a CRM `kapcsolat.ceg`-et vár
     [
         'targy'    => 'Ajánlatkérés a weboldalról',
         'uzenet'   => $uzenet,

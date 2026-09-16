@@ -422,6 +422,27 @@ return [
                     __DIR__ . '/crm-konzultacio.txt',
                 ], 'OTH_CRM_TITOK_KONZULTACIO'),
             ],
+            /* Ajánlatkérés és megrendelés. A két végpont 2026-09-08 óta küld
+               ide; a szerveri config.php-ból ez a két csatorna 09-16-ig
+               hiányzott, és a kitöltés némán kimaradt a CRM-ből. */
+            'ajanlat' => [
+                'forras' => oth_env('OTH_CRM_FORRAS_AJANLAT', 'okotechhome-ajanlat'),
+                'titok'  => oth_titok([
+                    __DIR__ . '/../../../oth-titkok/crm-ajanlat.txt',
+                    __DIR__ . '/../../oth-titkok/crm-ajanlat.txt',
+                    __DIR__ . '/../oth-titkok/crm-ajanlat.txt',
+                    __DIR__ . '/crm-ajanlat.txt',
+                ], 'OTH_CRM_TITOK_AJANLAT'),
+            ],
+            'megrendeles' => [
+                'forras' => oth_env('OTH_CRM_FORRAS_MEGRENDELES', 'okotechhome-megrendeles'),
+                'titok'  => oth_titok([
+                    __DIR__ . '/../../../oth-titkok/crm-megrendeles.txt',
+                    __DIR__ . '/../../oth-titkok/crm-megrendeles.txt',
+                    __DIR__ . '/../oth-titkok/crm-megrendeles.txt',
+                    __DIR__ . '/crm-megrendeles.txt',
+                ], 'OTH_CRM_TITOK_MEGRENDELES'),
+            ],
         ],
     ],
 

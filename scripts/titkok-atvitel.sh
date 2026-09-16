@@ -58,6 +58,11 @@ done
 # A HORDOZHATÓ titkok. Az AI-kulcs ugyanaz az Anthropic-fiók, a CRM-tokenek
 # ugyanahhoz a külső szolgáltatáshoz (dealkeeper.hu) tartoznak — mindkettő
 # ugyanaz a két környezetben.
+#
+# A `crm-ajanlat` ÉS A `crm-megrendeles` SZÁNDÉKOSAN NINCS A LISTÁBAN. Ezt a két
+# forrást 2026-09-16-án közvetlenül az élesre vettük fel, a teszten nincs
+# párjuk — a szkript a tesztről másol, tehát itt nincs mit vinnie. Ha egyszer a
+# tesztre is felkerülnek, CSAK AKKOR vehetők fel ide.
 FAJLOK=(ai-kulcs crm-arsav crm-kapcsolat crm-konzultacio crm-megoldasajanlo crm-osszehasonlito)
 
 command -v lftp >/dev/null || { piros "Nincs telepítve az lftp (brew install lftp)."; exit 1; }
@@ -84,6 +89,7 @@ printf '  honnan ..... cullinan.versanus.eu:/oth-titkok   (%s)\n' "$TU"
 printf '  hova ....... cpanel60.sybell.hu:/oth-titkok     (%s)\n' "$EU"
 printf '  fájlok ..... %s\n' "${FAJLOK[*]}"
 printf '  KIHAGYVA ... crm-db.txt (helyi MySQL — élesben saját hozzáférés kell)\n'
+printf '  KIHAGYVA ... crm-ajanlat.txt, crm-megrendeles.txt (csak élesen léteznek)\n'
 echo  "╰─────────────────────────────────────────────────────────────╯"
 echo
 
