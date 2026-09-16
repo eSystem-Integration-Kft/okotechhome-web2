@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.03-80A640?style=flat-square" alt="verzió 0.50.03">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.04-80A640?style=flat-square" alt="verzió 0.50.04">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-60-56642B?style=flat-square" alt="60 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-61-56642B?style=flat-square" alt="61 kiadás">
 </p>
 
 ---
@@ -26,6 +26,55 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.50.04] — 2026-09-16
+
+### Diagnózis — honnan jön a „rossz" mobil LCP
+
+- **A valós felhasználói adat (Search Console, PSI „valódi felhasználók")
+  még a régi webhelyé.** A CrUX legutóbbi 28 napos ablaka 2026-08-16 –
+  09-12; az új webhely 09-11-én indult, tehát ebből két nap az övé. A
+  TTFB p75 3,4 mp és az LCP 4,6 mp a WordPress-időszakból jön; a CrUX-idősor
+  szerint a főoldal LCP-je 2026 tavaszán csúszott a „rossz" sávba. Az új
+  webhely hatása október közepére cseréli ki az ablakot.
+- **A PSI laborszáma (73–75 pont, LCP 5,3 mp) valódi, és reprodukálható.**
+  PSI-hez hasonló lassú CPU-n (`taskpolicy -b`, benchmark 700–950) helyben is
+  65–67 pont és 4,9–5,0 mp jött ki. Az ok: lassú gépen az első kirajzolás a
+  teljes betöltés UTÁN történt, így a szimuláció minden szkriptet és betűt az
+  LCP-be számolt. Valódi 8-szoros CPU-lassítással az első kirajzolás előtti
+  idő a stílusszámításé és az elrendezésé (956 ms) meg a festésé (418 ms) volt,
+  nem a szkripteké (194 ms).
+- A PSI-képen látott `causalfunnel.app` kérés **nem a webhelyé**: sem a
+  kiszolgált HTML-ben, sem egy friss PSI-futásban nincs benne.
+
+### Teljesítmény — a lap teteje előbb rajzolódik ki (28ed5ce)
+
+- **`content-visibility:auto`** a hero alatti sávokon és a láblécen: a
+  böngésző csak azt számolja és festi, ami a képernyő közelében van. 8-szoros
+  CPU-lassítással a stílus + elrendezés 637–736 ms-ról 254–278 ms-ra, a
+  festés 463–573 ms-ról 28–53 ms-ra csökkent. Az Öko reflektora
+  `z-index`-szel emel ki; a kiemelt elemet tartalmazó sáv ezért kilép a
+  tartalmazásból. Ellenőrizve: 11 lap két szélességben azonos magasságú, a
+  horgonyugrás, a reflektor és a kalkulátor ragadós panelje változatlan.
+- **A widgetek szkriptje az első kirajzolás után töltődik** (`betolto.js`):
+  Öko, ajánló, döntéstámogató, ajánlat-összehasonlító, galéria, GYIK,
+  folyamat — a lapon álló sorrendben. Ahol egy nem késleltetett szkript
+  függ tőlük (űrlapok, eredmény- és jelentésoldal, konzultációs varázsló), ott
+  a függőség marad a régi helyén. Az `ellenorzes.sh` jelzi, ha egy lapról
+  kimaradt.
+
+Helyi A/B a lassú CPU-n, gzip-pel, 5 futás: a főoldal szimulált LCP-mediánja
+3,61 mp-ről 3,08 mp-re, a pontszám 85–89-ről 88–93-ra javult; a /ajanlat
+változatlan. Helyben a hálózat pillanatnyi — valós hálózaton a letöltések
+később érnek be, így több marad ki az LCP-ből; a PSI-értéket élesben mérjük.
+
+### Javítva — az ábrák buborékai ismét egymás után szállnak fel (58f8f30)
+
+Az SBR- és MBBR-ábra `style="--i:N"`-nel késleltette a buborékokat. Az éles
+CSP a soron belüli stílust eldobja: élesben mind egyszerre indult, és a konzol
+kilenc CSP-sértést mutatott. A sorszám most osztály (`abra-iN`).
 
 ---
 
