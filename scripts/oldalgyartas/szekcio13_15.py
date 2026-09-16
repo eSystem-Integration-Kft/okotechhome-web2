@@ -16,7 +16,7 @@ import pathlib, re, sys, html as _h
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 
 WEB = pathlib.Path(__file__).resolve().parents[2] / '_web'
-ALCIM = {'Az engedélyezés menete': 'Részletes útmutató a hatósági eljárás lépéseiről.', 'Telek-alkalmassági ellenőrzés': 'Mit kell megnézni a telken a döntés előtt.', 'Magas talajvíz és betonmedencés telepítés': 'Mikor kell eltérő műszaki kialakítás.', 'A tisztított víz elszivárogtatása': 'Hová kerülhet a kezelt víz, és milyen feltételekkel.', 'A technológiák összehasonlítása': 'Zárt tároló, oldómedence és biológiai rendszer egymás mellett.', 'Időszakos használat és technológiaválasztás': 'Nyaraló és szezonális ingatlan: melyik megoldás való oda.', 'Emésztő kiváltása': 'Mikor indokolt a csere, és mi lesz a régi rendszerrel.', 'Az iszapzsákos technológia': 'Hogyan működik szippantás nélkül.', 'Szaghatás és karbantartás': 'Mit jelez a szag, és mit kell tenni.', 'Mit szabad és mit nem szabad a rendszerbe juttatni?': 'A mindennapi használat szabályai.', 'Üzemeltetés és hosszú távú költség': 'Az éves tételek technológiánként.', 'Előzetes ársáv kalkulátor': 'Néhány kérdés alapján nagyságrendi tartomány.', 'Ajánlat-ellenőrző': 'Mire terjed ki az ajánlat, és mi hiányzik belőle.', 'Előzetes szakmai egyeztetés': 'Elköteleződés nélküli első beszélgetés.'}
+ALCIM = {'Az engedélyezés menete': 'Mitől függ az eljárás, és milyen dokumentumok kellhetnek.', 'Telek-alkalmassági ellenőrzés': 'Mit kell megnézni a telken a döntés előtt.', 'Magas talajvíz és betonmedencés telepítés': 'Mikor kell eltérő műszaki kialakítás.', 'A tisztított víz elszivárogtatása': 'Hová kerülhet a kezelt víz, és milyen feltételekkel.', 'A technológiák összehasonlítása': 'Zárt tároló, oldómedence és biológiai rendszer egymás mellett.', 'Időszakos használat és technológiaválasztás': 'Nyaraló és szezonális ingatlan: melyik megoldás való oda.', 'Emésztő kiváltása': 'Mikor indokolt a csere, és mi lesz a régi rendszerrel.', 'Az iszapzsákos technológia': 'Hogyan működik szippantás nélkül.', 'Szaghatás és karbantartás': 'Mit jelez a szag, és mit kell tenni.', 'Mit szabad és mit nem szabad a rendszerbe juttatni?': 'A mindennapi használat szabályai.', 'Üzemeltetés és hosszú távú költség': 'Az éves tételek technológiánként.', 'Előzetes ársáv kalkulátor': 'Néhány kérdés alapján nagyságrendi tartomány.', 'Ajánlat-ellenőrző': 'Mire terjed ki az ajánlat, és mi hiányzik belőle.', 'Előzetes szakmai egyeztetés': 'Elköteleződés nélküli első beszélgetés.'}
 esc = lambda s: _h.escape(s, quote=False)
 
 # ------------------------------------------------------------------ 13.
@@ -78,7 +78,7 @@ GYIK = [
   'Az engedélyezés menete településenként eltérhet. Van, ahol egyszerűbb bejelentés elegendő, '
   'máshol részletesebb vízjogi vagy hatósági eljárás szükséges. Az első lépés mindig ugyanaz: '
   'tisztázni kell a helyi előírásokat, a kezelt víz elhelyezését és a telek adottságait.',
-  'Az engedélyezés menete', 'tudastar/engedelyezes-es-megfeleloseg', False),
+  'Az engedélyezés menete', 'helyzetem/milyen-dokumentumokra-lehet-szukseg', False),
  ('Engedélyezés és telekalkalmasság', 'Mitől függ, hogy telepíthető-e szennyvíztisztító az adott telken?',
   'Elsősorban a kezelt víz elhelyezésétől, a talaj szikkasztóképességétől, a talajvízszinttől, '
   'a csőkivezetés mélységétől és a helyi előírásoktól. Nem elég azt tudni, van-e hely a '
@@ -87,7 +87,7 @@ GYIK = [
  ('Engedélyezés és telekalkalmasság', 'Magas talajvíznél is telepíthető biológiai szennyvíztisztító?',
   'A magas talajvíz nem feltétlenül kizáró ok, de külön műszaki kialakítást igényelhet. Ilyenkor '
   'a tartály védelmét és a kezelt víz elhelyezését külön kell megtervezni.',
-  'Magas talajvíz és betonmedencés telepítés', 'tudastar/telek-talaj-es-viz', False),
+  'Magas talajvíz és betonmedencés telepítés', 'projekt-elokeszites/magas-talajvizi-helyzetek', False),
  ('Engedélyezés és telekalkalmasság', 'Hová kerül a tisztított víz?',
   'Jellemzően telken belüli elszivárogtatással vagy gyökérzónás hasznosítással kerül vissza a '
   'környezetbe. A feltételeket a talaj, a talajvíz, a helyi előírások és a választott technológia '
@@ -99,7 +99,7 @@ GYIK = [
   'A jogszabály ismer kivételt hatályos vízjogi üzemeltetési engedéllyel üzemeltetett egyedi '
   'szennyvízkezelő létesítmény esetén, ilyenkor viszont talajterhelési díjjal is számolni kell. '
   'Ez egyedi mérlegelést kíván, ezért érdemes a helyi előírások tisztázásával kezdeni.',
-  'Vonatkozó jogszabályok', 'tudastar/engedelyezes-es-megfeleloseg', True),
+  'Vonatkozó jogszabályok', 'helyzetem/milyen-dokumentumokra-lehet-szukseg', True),
 
  ('Technológia és használat',
   'Mi a különbség a zárt tároló, az oldómedence és a biológiai szennyvíztisztító között?',
@@ -129,12 +129,12 @@ GYIK = [
   'Megfelelő működés mellett nincs szaghatás. A biológiai tisztítás levegőztetett folyamat, '
   'nem rothasztásra épül. Az erős szag jellemzően hibára, túlterhelésre vagy karbantartási '
   'problémára utal.',
-  'Szaghatás és karbantartás', 'tudastar/uzemeltetes-es-hibamegelozes', False),
+  'Szaghatás és karbantartás', 'tudastar/budos-lesz-a-kertben', False),
  ('Üzemeltetés', 'Kell baktériumot, tablettát vagy adalékanyagot adagolni?',
   'Az A.B. Clear rendszerben a baktériumkultúra önfenntartó, a beérkező szennyvíz táplálja. '
   'Normál használat mellett nincs szükség baktériumtablettára, porra vagy más adalékanyagra.',
   'Mit szabad és mit nem szabad a rendszerbe juttatni?',
-  'tudastar/uzemeltetes-es-hibamegelozes', False),
+  'megoldasok/biologiai-uzemeltetes-es-karbantartas', False),
  ('Üzemeltetés', 'Miből áll az éves üzemeltetési költség?',
   'A technológiától függ. Zárt tárolónál a fő tétel a szippantás. Biológiai rendszereknél '
   'áramfogyasztás, alkatrészcsere, karbantartás és iszapkezelés merülhet fel. Az A.B. Clear '

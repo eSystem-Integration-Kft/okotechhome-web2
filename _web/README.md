@@ -598,7 +598,7 @@ válaszolt, de senkit nem vitt előre. A hét lépés:
 | 3 | **Terhelés** — állandó létszám, csúcs, használat jellege | `projekt-elokeszites/terheles-es-kapacitas` |
 | 4 | Megoldástípus — a 2–3. adatai döntik el | `megoldasok/` |
 | 5 | **Konzultáció és helyszíni felmérés** | `/konzultacio` |
-| 6 | Tervezés és vízjogi engedély | `projekt-elokeszites/engedelyezes-es-dokumentumok` |
+| 6 | Tervezés és vízjogi engedély | `helyzetem/milyen-dokumentumokra-lehet-szukseg` (a tervezett `projekt-elokeszites/engedelyezes-es-dokumentumok` hub még nincs meg) |
 | 7 | Kivitelezés, majd üzemeltetés | — |
 
 Minden válasznak **el kell helyeznie a látogatót ezen az úton**, és ki kell
@@ -968,30 +968,40 @@ tudástári cikkre visz.
 | **Konzultációkérő** | hatlépéses varázsló `/konzultacio` alatt, három AI-hívással (kitöltéssegéd, belső brief, személyre szabott visszaigazolás) |
 | **Fejlécképek** | 63 kép / 139 oldal, témánként; mind a `alapkepek/` referenciáival generálva. **Egy kivétel:** a szippantási kalkulátor rajzolt fejlécet kap (COMPONENTS.md 21.) |
 
-### Hivatkozott, de még meg nem épített útvonalak
+### Tervezett, de még meg nem épített útvonalak
 
-A lábléc a **sitemap szerkezetét** viszi, nem a kész lapok listáját — a sitemap
-pedig több lapot ismer, mint amennyi elkészült. Ezért a lábléc tizenegy olyan
-útvonalra mutat, ami ma **404**. Ez tudatos állapot, de nyilván kell tartani:
-egy *elgépelt* szlug pontosan úgy néz ki, mint egy még meg nem épített lap.
+A lábléc és a főoldal eredetileg a **sitemap szerkezetét** vitte, nem a kész
+lapok listáját — és így kilenc hivatkozás **404**-re mutatott, tizedikként az
+AI döntéstámogató „Konzultációt kérek" gombja (`ajanlatkeres`). Egy külső
+átvilágítás „sürgős" hibaként jelezte: a legmelegebb érdeklődőt veszítjük el,
+és a keresőnek is rossz jel.
 
-A `scripts/ellenorzes.sh` **7. kapuja** minden futáskor felsorolja őket. Ha a
-lista ennél a tizenegynél hosszabb, az **hiba**: vagy elgépelés került be, vagy
-a listát kell itt frissíteni.
+**2026-09-16 óta egyetlen belső hivatkozás sem mutat meg nem épített lapra.**
+Ahol a tervezett hub még hiányzik, a hivatkozás a tartalmilag legközelebbi
+KÉSZ lapra visz. Ha a hub elkészül, a hivatkozást vissza kell írni — ez a
+táblázat a várólista:
 
-| Útvonal | Mi lenne | Honnan hivatkozzuk |
+| Tervezett útvonal | Addig ide mutat | Hol él a hivatkozás |
 |---|---|---|
-| `tudastar/telek-talaj-es-viz` | Tudástár-hub: talajtípusok, talajvíz, szikkasztás, vízbefogadó, kút és védőtávolság | lábléc |
-| `tudastar/terheles-es-meretezes` | Tudástár-hub: lakosegyenérték, vízfogyasztás, hidraulikai és szervesanyag-terhelés, csúcs- és alulterhelés | lábléc |
-| `tudastar/engedelyezes-es-megfeleloseg` | Tudástár-hub: jogi fogalmak, engedélyezési folyamat, CE és szabványok, mintavétel | lábléc |
-| `tudastar/uzemeltetes-es-hibamegelozes` | Tudástár-hub: üzemeltetés, hibamegelőzés | lábléc |
-| `tudastar/koltseg-es-megvalositas` | Tudástár-hub: teljes projektköltség, megvalósítás | lábléc |
-| `tudastar/fogalomtar` | Fogalomtár | lábléc |
-| `projekt-elokeszites/engedelyezes-es-dokumentumok` | Előkészítés-hub — a szekció másik három hubja (`telekalkalmassag`, `terheles-es-kapacitas`, `tisztitott-viz-elhelyezese`) már megvan | lábléc |
-| `projekt-elokeszites/helyszini-felmeres` | Előkészítés-hub. **Vigyázat:** a `helyzetem/helyszini-felmeres` létezik, de az más lap — nem átirányítási cél | lábléc |
-| `projekt-elokeszites/koltsegek-es-ajanlatok` | Előkészítés-hub | lábléc · a szippantási kalkulátor ide kerülne be a menübe (lásd fentebb) |
-| `ugyfeltamogatas/` | Ügyféltámogatás szekció (hibajelenségek, karbantartás, alkatrészek) — a `helyzetem.py` is hivatkozza | lábléc · Kiindulópont-lapok |
-| `partnereknek/` | Partneri szekció | lábléc |
+| `tudastar/telek-talaj-es-viz` | `projekt-elokeszites/telekalkalmassag` · a magas talajvizes GYIK: `projekt-elokeszites/magas-talajvizi-helyzetek` | főoldal (tudástár-kártya, GYIK) |
+| `tudastar/terheles-es-meretezes` | `projekt-elokeszites/terheles-es-kapacitas` | főoldal (tudástár-kártya) |
+| `tudastar/engedelyezes-es-megfeleloseg` | `helyzetem/milyen-dokumentumokra-lehet-szukseg` | főoldal (kártya, GYIK) |
+| `tudastar/uzemeltetes-es-hibamegelozes` | `megoldasok/biologiai-uzemeltetes-es-karbantartas` · a szagos GYIK: `tudastar/budos-lesz-a-kertben` | főoldal (kártya, két GYIK) |
+| `projekt-elokeszites/engedelyezes-es-dokumentumok` | `helyzetem/milyen-dokumentumokra-lehet-szukseg` | lábléc |
+| `projekt-elokeszites/helyszini-felmeres` | `helyzetem/helyszini-felmeres` — **más lap**, csak ideiglenes linkcél; 301-es átirányítás NEM mehet rá, mert a hub elkészültével a kettő külön él | lábléc |
+| `projekt-elokeszites/koltsegek-es-ajanlatok` | `megoldasok/biologiai-koltsegtenyezok` | lábléc · a szippantási kalkulátor ide kerülne be a menübe (lásd fentebb) |
+| `ugyfeltamogatas/` | `helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem` (a belépési lapja); a lapon belüli szervizkérés a `kapcsolat#urlap`-ra | lábléc · „Már van rendszerem" lap |
+| `partnereknek/` | `kapcsolat` — ott a „Szakmai partner vagyok" külön megkeresési téma | lábléc |
+| `ajanlatkeres` | `konzultacio#urlap` — ez nem tervezett lap, hanem elírás volt | `assets/js/ai-advisor.js` |
+
+A cél minden sora a **generátorban** is átvezetve: `lablec.py`,
+`szekcio13_15.py`, `helyzetem.py`. A főoldal tudástár-kártyái kézzel
+karbantartottak.
+
+A `scripts/ellenorzes.sh` **7. kapuja** minden futáskor felsorolja a feloldhatatlan
+belső hivatkozásokat; a helyes állapot: *„minden belső hivatkozás feloldható"*.
+**A kapu a JavaScriptben összerakott linkeket NEM látja** — az `ajanlatkeres`
+is így csúszott át. Új JS-es hivatkozásnál kézzel kell ellenőrizni.
 
 Az `ugyfeltamogatas/` a sitemap **ÜGYFÉLSZOLGÁLAT** ágának nyilvános fele; a
 belépés mögötti ügyfélzóna külön, megtervezett, de el nem indított projekt.

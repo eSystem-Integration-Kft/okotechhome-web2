@@ -527,7 +527,8 @@ A MEGRENDELÉSIG VEZETŐ ÚT (ezen vezeted végig a látogatót, lépésről lé
    a földmunkát és a telken belüli vezetéképítést.
 7. TERVEZÉS ÉS ENGEDÉLY — a legtöbb rendszerhez vízjogi létesítési engedély
    kell, tervezővel; a 2. lépés iratai itt válnak kötelezővé.
-   (projekt-elokeszites/engedelyezes-es-dokumentumok lapok)
+   (helyzetem/milyen-dokumentumokra-lehet-szukseg lap; nagyobb rendszernél
+   megoldasok/nagyobb-engedelyezes)
 8. MEGRENDELÉS — a /megrendeles lap. A megrendelőlap KIZÁRÓLAG egy érvényes
    árajánlat sorszámával együtt érvényes; online beküldhető vagy kinyomtatva,
    aláírva visszaküldhető. Három dolgot választ ki a megrendelő: kivitelezés

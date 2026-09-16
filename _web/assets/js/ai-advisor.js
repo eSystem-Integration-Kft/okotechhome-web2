@@ -793,7 +793,7 @@
             </div>
           </div>
           <div class="aidt-act-cta">
-            <a href="ajanlatkeres" class="btn btn-primary">${T.konzultaciotKerek} <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a href="konzultacio#urlap" class="btn btn-primary">${T.konzultaciotKerek} <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <button type="button" class="btn btn-secondary" data-restart="1">${T.ujrakezdem}</button>
           </div>
         </div>

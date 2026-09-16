@@ -43,27 +43,25 @@ HASABOK = [
         ('Telekalkalmasság', 'projekt-elokeszites/telekalkalmassag'),
         ('Terhelés és kapacitás', 'projekt-elokeszites/terheles-es-kapacitas'),
         ('Tisztított víz elhelyezése', 'projekt-elokeszites/tisztitott-viz-elhelyezese'),
-        ('Engedélyezés', 'projekt-elokeszites/engedelyezes-es-dokumentumok'),
-        ('Helyszíni felmérés', 'projekt-elokeszites/helyszini-felmeres'),
-        ('Költségek és ajánlatok', 'projekt-elokeszites/koltsegek-es-ajanlatok'),
+        # A HÁROM HUB MÉG NEM ÉPÜLT MEG (`projekt-elokeszites/engedelyezes-es-
+        # dokumentumok`, `…/helyszini-felmeres`, `…/koltsegek-es-ajanlatok`).
+        # Addig a legközelebbi KÉSZ lapra mutatunk: a halott link a látogatónak
+        # 404, a keresőnek rossz jel. Ha a hub elkészül, itt kell visszaírni —
+        # a várólistát a _web/README.md tartja.
+        ('Engedélyezés', 'helyzetem/milyen-dokumentumokra-lehet-szukseg'),
+        ('Helyszíni felmérés', 'helyzetem/helyszini-felmeres'),
+        ('Költségek és ajánlatok', 'megoldasok/biologiai-koltsegtenyezok'),
     ]),
-    # A hasáb KEVERT: a sitemap szerinti hat téma-hub (ezek MÉG NEM léteznek,
-    # felsorolásuk a _web/README.md-ben), közéjük fűzve a már megírt cikkek.
-    # A HTML-ben ez a sorrend él — ha itt elcsúszik, a generátor futása
-    # visszaírná a cikkeket a láblécből.
+    # A hasáb VÁLOGATÁS, nem a teljes archívum (f98a8a8e): hat kész cikk, és
+    # alatta egy „Összes téma" sor a tudástár kezdőlapjára. A HTML ezt hordozza
+    # 2026-09-15 óta — a generátor addig még a régi, tizenhárom tételes listát
+    # írta volna vissza, köztük öt meg nem épített hubbal.
     ('Tudástár', 'tudastar/', [
-        ('Telek, talaj és víz', 'tudastar/telek-talaj-es-viz'),
-        ('Terhelés és méretezés', 'tudastar/terheles-es-meretezes'),
-        ('Engedélyezés', 'tudastar/engedelyezes-es-megfeleloseg'),
-        ('EN 12566-1 vagy -3', 'tudastar/en-12566-1-vagy-en-12566-3'),
-        ('Telepítés lépésről lépésre', 'tudastar/telepites-lepesrol-lepesre'),
+        ('Hogyan tisztul meg a szennyvíz?', 'tudastar/hogyan-tisztul-meg-a-szennyviz'),
         ('Oldómedence vagy biológiai?', 'tudastar/oldomedence-vagy-biologiai-szennyviztisztito'),
-        ('A 42 hetes CE-vizsgálat', 'tudastar/42-hetes-ce-vizsgalat'),
-        ('Büdös lesz a kertben?', 'tudastar/budos-lesz-a-kertben'),
-        ('Mikrobiológiai ujjlenyomat', 'tudastar/mikrobiologiai-ujjlenyomat'),
-        ('Tisztítószerek', 'tudastar/tisztitoszerek'),
-        ('Üzemeltetés', 'tudastar/uzemeltetes-es-hibamegelozes'),
-        ('Költség és megvalósítás', 'tudastar/koltseg-es-megvalositas'),
+        ('Telepítés lépésről lépésre', 'tudastar/telepites-lepesrol-lepesre'),
+        ('EN 12566-1 vagy -3', 'tudastar/en-12566-1-vagy-en-12566-3'),
+        ('Üzemeltetés és költségek', 'tudastar/uzemeltetes-teendok-es-koltsegek'),
         ('Fogalomtár', 'tudastar/fogalomtar'),
     ]),
     ('Eredmények', 'eredmenyek/', [
@@ -77,9 +75,16 @@ HASABOK = [
     ]),
 ]
 
+# Az `ugyfeltamogatas/` és a `partnereknek/` szekció MÉG NEM ÉPÜLT MEG. Addig
+# az Ügyféltámogatás a belépési lapjára visz (ez a sitemap szerint is annak az
+# előszobája), a Partnereknek pedig a kapcsolati lapra, ahol a „Szakmai partner
+# vagyok" megkeresés külön téma.
+# Ezek a hasábok egy „Összes téma" sorral zárulnak: a lista csak válogatás.
+MIND = {'tudastar/'}
+
 MASODLAGOS = [
-    ('Ügyféltámogatás', 'ugyfeltamogatas/'),
-    ('Partnereknek', 'partnereknek/'),
+    ('Ügyféltámogatás', 'helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem'),
+    ('Partnereknek', 'kapcsolat'),
     ('ÖkoTech-Home', 'okotech-home/'),
     ('Kapcsolat', 'kapcsolat'),
 ]
@@ -101,6 +106,10 @@ def epit(elo=''):
         li = '\n'.join(
             f'          <li><a class="lablec-link" href="{elo}{h}">{t}</a></li>'
             for t, h in tetelek)
+        if cel in MIND:
+            li += ('\n          <li class="lablec-mind-tetel"><a class="lablec-mind" '
+                   f'href="{elo}{cel}">Összes téma<span class="action-arrow-end" '
+                   'aria-hidden="true">&rarr;</span></a></li>')
         hasabok += f'''
       <nav class="lablec-hasab" aria-labelledby="lf-{cel.strip('/').replace('/', '-')}">
         <h2 class="type-data-eyebrow lablec-cim" id="lf-{cel.strip('/').replace('/', '-')}">

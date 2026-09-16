@@ -9955,8 +9955,13 @@
      szekció tetejét a menü ALATT találná — a cím és az első sor eltűnne
      mögötte. Ez a szabály minden `id`-vel ellátott szekcióra érvényes, nem
      csak arra az egyre, ami miatt megírtuk: ahol horgony van, ott ez a
-     probléma mindig fennáll. */
-  .section[id]{scroll-margin-top:calc(var(--header-h,5rem) + var(--space-16))}
+     probléma mindig fennáll.
+
+     A CÍMEKRE IS. A lapon belüli hivatkozások többnyire a szekció CÍMÉRE
+     mutatnak (`#…-cim`), nem a szekcióra — a címnek pedig nem volt ilyen
+     szabálya: mérve 2026-09-16-án a „Már van rendszerem" lapon a cím
+     a lap tetejére, a 82 px-es fejléc ALÁ ugrott. */
+  .section[id], :is(h2, h3)[id]{scroll-margin-top:calc(var(--header-h,5rem) + var(--space-16))}
   /* Aki hivatkozásból érkezik, lássa, MELYIK tételért jött. */
   .fogalom:target .fogalom-nev{color:var(--primary)}
 
