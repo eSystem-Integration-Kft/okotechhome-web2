@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.01-80A640?style=flat-square" alt="verzió 0.50.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.02-80A640?style=flat-square" alt="verzió 0.50.02">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-58-56642B?style=flat-square" alt="58 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-59-56642B?style=flat-square" alt="59 kiadás">
 </p>
 
 ---
@@ -26,6 +26,41 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.50.02] — 2026-09-16
+
+### Javítva — a 0.50.01 nem jutott ki élesre
+
+A feltöltő szkript biztonsági ellenőrzése bármilyen `noindex` jelölést
+teszt-maradéknak nézett — a 0.50.01 óta szándékosan `noindex`-es hibaoldalakat
+is —, és leállította az élesítést. Most a teszt-jelölést keresi, ugyanúgy, mint
+a build.
+
+### Teljesítmény — kevesebb kényszerített újraszámítás betöltéskor
+
+PageSpeed (mobil) szerint: `site.js` 502 + 108 + 91 ms, `galeria.js` 213 ms.
+
+- **Galéria:** induláskor a bélyegsávot az első bélyeghez görgette — ahol
+  amúgy is áll —, és ehhez a frissen beszúrt elemeken az egész lap
+  elrendezését kiszámoltatta. Induláskor már nem görget; lapozáskor igen
+  (360 px-en ellenőrizve, a régivel azonosan).
+- **Menü:** a legszűkebb fokozat mérése után a `data-nav` visszaírása hiányzó
+  attribútumnál a szó szerinti „undefined"-et írta be — ez egyik fokozatnak
+  sem felelt meg, és a JS nélküli tartalékszabályokat is kikapcsolta. Most
+  törli. A végleges betűvel mért küszöb a munkamenetben megmarad, a további
+  lapok nem mérik újra. A választott fokozat 360 és 1920 px között tíz
+  szélességen, első és ismételt betöltésnél is azonos a korábbival.
+
+Helyi A/B (3–3 Lighthouse-futás): a régi változat minden futásban újraszámolt,
+az új háromból egyben.
+
+**Nem változott — a betűk láncolata.** A betűket a CSS hivatkozza, ezért a CSS
+után indulnak. Az LCP-t adó címsor betűje (Zilla Slab 600) előtöltött; a többi
+`swap`-pal azonnal kirajzolódik tartalék betűvel, az előtöltésük csak a CSS-sel
+és a hero képpel versenyezne. A renderelést blokkoló `app.css` (45 KB) érdemi
+javítása a kritikus CSS kiemelése volna — ez külön munka.
 
 ---
 
