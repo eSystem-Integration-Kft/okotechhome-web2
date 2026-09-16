@@ -204,6 +204,28 @@ PYVEG
   fi
 fi
 
+# A lap alatti widgetek szkriptje az első kirajzolás UTÁN töltődik (betolto.js).
+# Egy újragyártott lap a régi, `defer`-es alakot hozza vissza — azt a
+# szkript_kesleltetes.py alakítja át. Itt csak azt nézzük, kell-e.
+if command -v python3 >/dev/null 2>&1; then
+  KESIK="$(python3 - <<'PYVEG'
+import pathlib, sys
+sys.path.insert(0, 'scripts/oldalgyartas')
+import szkript_kesleltetes as sk
+for f in sorted(pathlib.Path('_web').rglob('*.html')):
+    t = f.read_text(encoding='utf-8')
+    if sk.lapot_atir(t)[0] != t:
+        print(f.relative_to('_web'))
+PYVEG
+)"
+  if [[ -n "$KESIK" ]]; then
+    while IFS= read -r lap; do
+      red "widget-szkript késleltetés nélkül: $lap — futtasd: python3 scripts/oldalgyartas/szkript_kesleltetes.py"
+    done <<< "$KESIK"
+    HIANY=1
+  fi
+fi
+
 [[ $HIANY -eq 0 ]] && grn "minden hivatkozott JS/CSS és kép létezik"
 
 # ── 5. JS szintaxis ──────────────────────────────────────────────────────────

@@ -741,6 +741,28 @@
   .section-alt{background:var(--section-alt-bg)}
   .section-inner{max-width:var(--container-max);margin-inline:auto;padding-inline:var(--page-gutter)}
 
+  /* ===== 5.3b A képernyőn kívüli sávok — `content-visibility:auto` =====
+     MIÉRT. A lapok hosszúak (a főoldal 15 sáv, 220 KB HTML), és a böngésző
+     az ELSŐ kirajzolás előtt az EGÉSZ lap stílusát és elrendezését kiszámolja,
+     holott csak a teteje látszik. Mérve 2026-09-16-án, élesben, valódi
+     8-szoros CPU-lassítással: a hero címsora (az LCP-elem) 1,9 mp-et várt, és
+     ebből a stílus + elrendezés 956 ms, a festés 418 ms volt — a szkript csak
+     194 ms. A PageSpeed ugyanezt 2,4 mp „elem renderelési késés"-nek mérte.
+     Így a böngésző a képernyőtől távoli sávot csak akkor számolja ki, amikor
+     odaér. Látványban nincs különbség: a sáv a közelébe érve kirajzolódik.
+     A HELYFOGLALÓ MAGASSÁG becslés; az `auto` miatt egyszeri kirajzolás után
+     a valódi méretet jegyzi meg, így a görgetősáv visszafelé nem ugrál.
+     A HERO (az első gyerek) kimarad: abban van az LCP-elem.
+     MELLÉKHATÁS: a tartalmazás (`contain: layout paint style`) rétegkontextust
+     is nyit. Az Öko reflektora `z-index`-szel emeli a megtalált elemet a
+     fedőréteg fölé — a sáv ebbe zárná, ezért kiemeléskor a sáv kilép belőle. */
+  main > .section:not(:first-child),
+  .lablec{
+    content-visibility:auto;
+    contain-intrinsic-block-size:auto 720px;
+  }
+  main > .section:has(.oko-fokusz){content-visibility:visible}
+
   .section-head{margin-bottom:var(--space-48);text-align:center}
   /* Dokumentált variáns: balra zárt szekciófejléc (4. alapszabály — új variáns
      csak új osztállyal). A 4. szekció így indul, a vizuális terv szerint. */
