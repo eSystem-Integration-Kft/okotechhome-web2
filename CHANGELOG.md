@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.49.00-80A640?style=flat-square" alt="verzió 0.49.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.00-80A640?style=flat-square" alt="verzió 0.50.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-56-56642B?style=flat-square" alt="56 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-57-56642B?style=flat-square" alt="57 kiadás">
 </p>
 
 ---
@@ -26,6 +26,163 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.50.00] — 2026-09-16
+
+### Javítva — tíz hivatkozás vitt hibaoldalra
+
+Egy külső átvilágítás jelezte, **sürgősként**: az AI döntéstámogató
+eredménye alatt a **„Konzultációt kérek"** gomb a nem létező `/ajanlatkeres`
+címre mutatott — a modul egyetlen útja a megkeresés felé, és épp azt a
+látogatót veszítette el, aki végigment mind a hat kérdésen. Most a
+`konzultacio#urlap`-ra visz, egyenesen a varázslóhoz.
+
+Mellette kilenc hivatkozás mutatott meg nem épített lapra — a lábléc öt tétele
+mind a 189 lapon, a főoldal négy tudástár-kártyája. Ezekhez még négy főoldali
+GYIK-hivatkozás és a „Már van rendszerem" lap négy linkje jött, ugyanazokra a
+halott címekre. Mind a **tartalmilag legközelebbi kész lapra** mutat, amíg a
+tervezett hub el nem készül; a várólistát a `_web/README.md` tartja.
+
+A generátorok is át vannak vezetve (`lablec.py`, `szekcio13_15.py`,
+`helyzetem.py`). A `lablec.py` Tudástár-hasábja 2026-09-15 óta elcsúszott a
+HTML-től, és egy futás öt halott hubot írt volna vissza — most bájtra egyezik.
+
+A `scripts/ellenorzes.sh` 7. kapuja: *„minden belső hivatkozás feloldható"*.
+**A kapu a JS-ben összerakott linket nem látja** — az `ajanlatkeres` is így
+csúszott át.
+
+### Javítva — az IBM Plex Sans háromszor töltődött le
+
+A Plex Sans **változó betű**, a Google mégis súlyonként adta: ugyanazt a fájlt
+háromszor, három `@font-face`-ben — mi pedig három néven mentettük, bájtra
+azonos tartalommal. Az eltérő URL miatt a böngésző mindet letöltötte. Mérve
+az élő főoldalon (Lighthouse, mobil): **12 betűkérés, 284 KB**, ebből a Plex
+Sans 6 kérés és 204 KB, holott két fájl (68 KB) elég.
+
+Most részhalmazonként egy szabály van, `font-weight: 400 600`-zal. A főoldal
+**8 betűkéréssel, 145 KB-tal** tölt be. A megjelenés nem változott: a 400-as,
+500-as, 600-as és 700-as szövegek kirajzolt szélessége az élő és az új
+változatban pixelre egyezik.
+
+**Mérve, két módon** (Lighthouse, mobil):
+
+| | pont | FCP | LCP |
+|---|---|---|---|
+| A/B, helyben, azonos szerveren, 3–3 futás — régi | 59 | 6,45 s | 9,90–9,98 s |
+| A/B, helyben — új | 61 | 5,70 s | 9,08–9,23 s |
+| élesben, előtte (1 futás) | 77 | 2,6 s | 5,2 s |
+| élesben, utána (3 futás) | 98 | 1,2 s | 2,3–2,4 s |
+
+A betűjavítás SAJÁT hatása az A/B sor: **FCP −0,75 s, LCP −0,7–0,9 s**. A
+helyi szerver nem tömörít, ezért ott az abszolút érték rossz — csak a
+különbség mérvadó. Az éles előtte-mérés egyetlen futás volt, tehát az
+5,2 → 2,4 s-ból nem minden írható a betűk javára.
+
+A PageSpeed Insights API névtelen napi kerete aznap elfogyott; a mérés a helyi
+`lighthouse` parancssorral készült.
+
+### Javítva — az AI döntéstámogató három hibája (külső átvilágítás, 03–05)
+
+**A köszöntés mindig „10:30"-at írt ki**, minden látogatónál. Aki este nyitotta
+meg, rögtön látta, hogy nem valódi beszélgetés. Most a beszélgetés kezdetének
+valódi ideje áll ott, 24 órás alakban — mint a megoldás-ajánlóban.
+
+**Mind a hat „nem tudom" válaszra is számot adott** (1,6–3,2 millió Ft) — egy
+konfigurációs tartaléksávból, ami semmilyen adatra nem támaszkodott. A sáv
+három válaszon áll: a létszám adja az alapot, a telek és a meglévő rendszer
+a felárat. Ha a létszám ismeretlen, vagy a két felár-kérdés közül egyik sem
+ismert, most **„Ehhez még túl sok a nyitott kérdés"** áll a szám helyén, és
+alatta a konzultációs gomb. A `"x"` tartaléksáv kikerült az `aidt-konfig.js`-ből.
+
+**Belső címkék kerültek a szövegbe**: „Kapacitás (Kapacitás tisztázandó): ez
+adja…", és a tisztázandók listája „Használat tisztázandó", „Ütemezés
+tisztázandó" volt. Ezek a helyzetkép-panel állapotjelzői, ott maradnak; a
+listába most minden „nem tudom" opció saját, teljes mondata kerül, az
+ismeretlen létszám pedig „Létszám: még nyitott — …" alakban szerepel.
+
+### Javítva — a mentett azonosító hibaüzenete nem mondta meg, mi a baj (06)
+
+Az azonosítókban szándékosan nincs 0, 1, I és O. Aki nullát gépelt, csak
+annyit kapott: „A helyes alak: MA-XXXX-XXXX." — és úgy látta, pontosan ezt
+írta be. Most az `ugy.js` egyetlen ellenőrzője **megnevezi a hibát** („A beírt
+kódban 0 (nulla) szerepel, ilyen jel viszont nincs az azonosítóinkban…", vagy
+hogy hány jel hiányzik), és **megjavítja, ami egyértelmű**: kisbetű, szóköz,
+más kötőjel, elhagyott „MA" előtag (`ma k7f3 q2wd` → `MA-K7F3-Q2WD`). A
+döntéstámogató mezője és az eredmény-lap is ezt használja — a címsorban
+érkező hibás kódnál is. Az eredmény-lap súgója előre jelzi a tiltott jeleket.
+
+### Javítva — billentyűzettel és felolvasóval nehézkes volt a döntéstámogató (07)
+
+A beszélgetés minden lépésnél újrarajzolódik, és ezzel a fókuszban lévő gomb
+is eltűnt: billentyűzettel a lap tetejéről kellett újra végigtabulálni, a
+felolvasó pedig nem mondta be az új kérdést. Most:
+
+- a válasz után a fókusz a **gépelésjelzőre** kerül („Az asszisztens
+  válaszol…"), onnan az **új kérdés szövegére**, amelyet a felolvasó
+  sorszámmal olvas fel („3. kérdés, összesen 6: …"); a következő Tab az első
+  válaszra visz,
+- többválasztós kérdésnél a jelölés után a fókusz **ugyanazon az opción**
+  marad,
+- az utolsó válasz után az **összefoglaló címére** ugrik; a helyzetkép-
+  panelről, az újrakezdésből és az adatátvételből is az aktív kérdésre.
+
+Az induló rajzolás nem veszi el a fókuszt. Kipróbálva csak billentyűzettel,
+mind a hat kérdésen át az összefoglalóig.
+
+### Javítva — az „Elküldöm magamnak" levélből mindig kimaradt az ársáv
+
+A modul `lo`/`hi` kulccsal küldte a sávot, a végpont `min`/`max`-ot vagy
+`szoveg`-et várt — a látogatónak küldött összefoglalóban **soha nem szerepelt
+szám**. A válaszok pedig gépi kulccsal mentek ki (`kapacitas: 3-4`,
+`telek: talajviz`). Most a modul a kérdés és a választott felirat párját is
+küldi (`valaszokSzoveg`), és a sávot a várt alakban; a régi, gyorsítótárból
+futó szkript kérése továbbra is feldolgozható. Szám nélkül a levél fejléce és
+lábjegyzete sem beszél „megadott tartományról". A levél „Felmérés kérése"
+gombja a `konzultacio?mod=helyszini#urlap`-ra visz (eddig a kapcsolati
+lapra). A CRM a formázott sávot kapja az `1600000 – 2200000 – 0` helyett.
+
+Kipróbálva a böngészőben elfogott valódi kérésekkel, egy elszigetelt
+példányon, helyi SMTP-gyűjtővel — valódi levél és CRM-bejegyzés nélkül.
+
+### Javítva — az ajánlatkérés és a megrendelés nem jutott el a CRM-be
+
+A két végpont 2026-09-08 óta küldött volna a DealKeepernek, de a szerveri
+`config.php`-ból hiányzott a két csatorna — a `hiba.log` minden kitöltésnél
+„nincs beállítva ez a csatorna"-t írt, 09-16-án háromszor. A levelek kimentek,
+a CRM-be nem került semmi.
+
+Most a DealKeeperben felvett `okotechhome-ajanlat` és `okotechhome-megrendeles`
+forrás be van kötve, a titkuk a szerver `oth-titkok/` könyvtárában. Ellenőrizve
+rekord nélkül: a szerverről aláírt, szándékosan érvénytelen törzsű kérésre a
+kapu mindkét forrásnál 422-t ad (az aláírás jó, a feldolgozás előtt áll meg),
+rossz titokkal 401-et. A `config.example.php` is megkapta a két csatornát; a
+`titkok-atvitel.sh` szándékosan nem viszi őket (a teszten nincs párjuk).
+
+A két végpont a cégnevet `cegnev` kulccsal küldte, a DealKeeper
+`kapcsolat.ceg`-et vár — javítva, különben a cégnév elveszett volna.
+
+### Javítva — a feltöltés minden alkalommal visszavette a cPanel PHP-verzióját
+
+A MultiPHP Manager az okotechhome.hu-ra **PHP 8.5**-öt mutatott, a kiszolgáló
+mégis **8.2.33**-at futtatott. Ok: a cPanel a választást a gyökér
+`.htaccess`-be írja, a feltöltés pedig ezt a fájlt a miénkkel cseréli le —
+amelybe a `prod-epit.sh` 2026-09-11 óta `ea-php82`-t rögzített. A `hiba.log`
+szerint 09-15 estig 8.5 futott, az aznap esti feltöltés óta 8.2.
+
+A rögzítés most `ea-php85`, a panellel egyezően. Élesítés előtt egy ideiglenes
+alkönyvtárban próbálva (8.5.9), utána a gyökérben mérve (8.5.9), mind a 13
+végpont 422-t ad üres kérésre. A 8.5-ben elavult `curl_close()` két helyről
+kikerült (`lib/ai.php`, `ajanlat-elemzes.php`) — eddig minden AI-hívás
+figyelmeztetést írt a naplóba. A 8.5 nem teszi ki az `X-Powered-By` fejlécet,
+tehát a verzió onnan már nem olvasható le.
+
+### Javítva — a lapon belüli ugrás a fejléc alá rejtette a címet
+
+A `scroll-margin-top` eddig csak az `id`-s szekciókon volt, a hivatkozások
+viszont a szekció CÍMÉRE mutatnak (`#…-cim`). Most minden `id`-s `h2`/`h3`
+megkapja.
 
 ---
 
