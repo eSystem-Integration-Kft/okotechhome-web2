@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.03-80A640?style=flat-square" alt="verzió 0.51.03">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.04-80A640?style=flat-square" alt="verzió 0.51.04">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-65-56642B?style=flat-square" alt="65 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-66-56642B?style=flat-square" alt="66 kiadás">
 </p>
 
 ---
@@ -26,6 +26,19 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.51.04] — 2026-09-17
+
+### Javítva — az adatok kártyán állnak a biológiai lapon
+
+Bela jelezte: a „Megvalósult telepítések" három adata háttér nélküli
+kártyáknak látszott. A főoldal bizalmi sávjára épült (háttér nélkül, csak
+elválasztó vonalakkal), és a zöld sávon ez félkész kártyának hatott. Most — a
+„Mérhető adatok" négy jelölésével együtt — a lap kártyáinak felületét,
+keretét és árnyékát kapják; tableten a hármas sor hármas marad, telefonon
+egymás alá kerül.
 
 ---
 
