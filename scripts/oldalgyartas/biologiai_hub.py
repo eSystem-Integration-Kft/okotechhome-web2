@@ -1777,8 +1777,15 @@ OLDALAK = [
          crumbs=ABC, sections=epit_abc_referenciak()),
 ]
 
+# A HUB LAPJÁT 2026-09-17 ÓTA A `biologiai_foldal.py` GYÁRTJA (Bela új szövege,
+# ábrákkal). Innen újragyártva a régi szöveg írná felül — ezért kimarad.
+KULON_GENERATOR = {'megoldasok/biologiai-szennyviztisztitas.html'}
+
 if __name__ == '__main__':
     for o in OLDALAK:
+        if o['file'] in KULON_GENERATOR:
+            print(f"  {o['file']:56s} kihagyva — biologiai_foldal.py")
+            continue
         out = WEB / o['file']
         out.write_text(G.build(o), encoding='utf-8')
         print(f"  {o['file']:56s} {len(out.read_text(encoding='utf-8'))//1024} KB")

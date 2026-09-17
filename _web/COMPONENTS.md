@@ -3008,3 +3008,30 @@ fordult**: a Python 3.9 f-stringje sem fordított perjelet, sem beágyazott
 állnak (`SZAKASZOK`), a formázás pedig egyetlen helyen, a `szekcio()`-ban dől
 el. A sortörés `NL = chr(10)` néven konstans — így az f-stringek tiszták
 maradnak.
+
+---
+
+## 24. Biológiai útmutató-lap — `.bio-*`
+
+A `megoldasok/biologiai-szennyviztisztitas` lap komponensei (generátor:
+`scripts/oldalgyartas/biologiai_foldal.py`, rajzok: `biologiai_abra.py`).
+A meglévő elemeket (`.folyoszoveg`, `.compare-table`, `.numbered-grid`,
+`.trust-grid`, `.situation-grid`, `.panel`, `.faq`, `.gyik-csoport`) csak
+kiegészítik.
+
+| Osztály | Mi | Megjegyzés |
+|---|---|---|
+| `.bio-bevezeto` | szöveg + „A lényeg röviden" doboz | 1024 px alatt egy oszlop |
+| `.bio-lenyeg`, `.bio-kulcsadatok` | összefoglaló kulcsadatokkal (`<dl>`) | a bal szegély a márkaszín — a GEO-összefoglaló helye |
+| `.bio-tartalom` | tartalomjegyzék chipekben | 44 px magas célpontok; a horgonyok a `.section[id]`-kre mutatnak |
+| `.bio-folyamat`, `.bio-lepes` | négylépéses infografika | a rajz SVG (`aria-hidden`), a szöveg HTML; 4 → 2 → 1 oszlop |
+| `.bio-hullo` | lefelé hulló csepp az ábrán | `motion` réteg, `prefers-reduced-motion` mögött |
+| `.bio-foto`, `.bio-foto-par`, `.bio-foto-sor`, `.bio-foto-szeles` | galériafotók képaláírással | a képaláírások a galéria szövegei |
+| `.bio-koltseg` | halmozott költségsáv | a sáv SVG `preserveAspectRatio="none"`-nal, a szélesség attribútum (a CSP miatt nem `style`); a feliratok HTML; görgetésre kitöltődik, ahol a böngésző ismeri az `animation-timeline:view()`-t |
+| `.bio-utem` | a kompresszor 7/3 perces ciklusa | `7fr 3fr` rács; a jelzővonal kompozitoron fut (`translateX` a saját szélességéhez mérve) |
+| `.bio-tetelek` | példaszámítás tételsorai | 640 px alatt az érték a név alá kerül |
+| `.bio-jogi`, `.bio-szerzo` | jogszabályi háttér, szerző és frissítés | E-E-A-T: ki írta, mikor, miből |
+
+Tokenek: `--bio-sav-aram` (márkaszín), `--bio-sav-zsak` (borostyán — a két zöld
+egymás mellett nem vált el), `--bio-sav-membran`, `--bio-lenyeg-*`, `--bio-utem-*`;
+mind újradeklarálva `[data-theme="dark"]`-ban.
