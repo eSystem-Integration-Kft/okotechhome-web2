@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.50.04-80A640?style=flat-square" alt="verzió 0.50.04">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.00-80A640?style=flat-square" alt="verzió 0.51.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-61-56642B?style=flat-square" alt="61 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-62-56642B?style=flat-square" alt="62 kiadás">
 </p>
 
 ---
@@ -26,6 +26,56 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.51.00] — 2026-09-17
+
+### Hozzáadva — a biológiai szennyvíztisztító lap új szövege (8c0b5f2)
+
+A `/megoldasok/biologiai-szennyviztisztitas` Bela szövegét kapta, SEO-blokkal:
+fókusz a „biológiai szennyvíztisztító", másodlagosan a „bio emésztő" (és a
+„bio emésztő tartály", „… ár"). A cím és a leírás karakterre az övé.
+
+**Négy állítás a webhely saját forrásaihoz igazítva:**
+- a „2 év" jogszabályi jótállás kimaradt — az ÁSZF 1 évet, a megrendelő 2 évet
+  ír, a 151/2003. Korm. rendelet 2026. márciusi módosítása óta pedig
+  250 000 Ft fölött 3 év a kötelező;
+- a cég 2004 óta foglalkozik a területtel, a saját A.B. Clear fejlesztése a
+  cégtörténet szerint 2010-ben indult;
+- a tisztított víz gyökérzónás **elhelyezése**, nem „öntözése" (a fogalomtár
+  szerint);
+- „CE-jelölés", nem „CE-tanúsítás"; a 3800+ rendszer „megvalósított", ahogy a
+  főoldal mondja, nem „működő".
+
+**A szöveg köré:** összefoglaló doboz kulcsadatokkal és tartalomjegyzék ·
+négylépéses folyamat-infografika (SVG-rajz, HTML-szöveg, mozgás csökkentett
+mozgásnál kikapcsolva) · a galéria fotói a saját képaláírásukkal (kompresszor,
+iszapzsák, kész kert, a telepítés három lépése) · összevetés arról, mit takarhat
+a „bio emésztő" név · a VITUKI-értékek táblázatban · a 7/3 perces ciklus és a
+két üzemmód éves költsége halmozott sávban · hivatkozás a hét aloldalra, a
+fogalomtárra és az alternatívákra · a GYIK három csoportban · Article,
+Service, Breadcrumb és FAQPage adat.
+
+A lapnak saját generátora van (`biologiai_foldal.py`); a `biologiai_hub.py`
+kihagyja, különben a régi szöveget írná vissza. Öko indexe frissült.
+
+### Javítva — a sötét „Következő lépés" panelek gombja ismét látszik (7730d5f)
+
+A `.btn-inverse` világos felületre szánt sötét gomb, a `.panel-dark` háttere
+pedig ugyanez a szín. 165 lapon a panel fő gombja csak feliratnak látszott
+(mérve: gomb háttere = panel háttere = rgb(19, 50, 22)). A panelen a gomb most
+a panel ellentétes színét kapja, világos és sötét témában is.
+
+### PageSpeed a 0.50.04 után (élesben, mobil, főoldal)
+
+A 0.50.04 előtt 73–75 pont, TBT 140–210 ms volt. Utána **77 pont, TBT 30 ms**.
+Az **LCP 5,3 mp maradt**: a PSI gépén a hero címsora ~2,4 mp-nél rajzolódik ki
+(TTFB 30 ms). Helyben 20-szoros CPU-lassítással a címsor ~0,6 mp-nél jelenik
+meg. A megamenü kivétele nem gyorsított rajta, az előtöltés elhagyása
+rontott. A betű `swap`-ja működik: 2 mp-cel késleltetett betűnél is a
+tartalék betűvel rajzol. A további lépés a renderelést blokkoló CSS
+átalakítása volna — ez döntés kérdése.
 
 ---
 
