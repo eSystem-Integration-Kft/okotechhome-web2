@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.00-80A640?style=flat-square" alt="verzió 0.51.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.01-80A640?style=flat-square" alt="verzió 0.51.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-62-56642B?style=flat-square" alt="62 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-63-56642B?style=flat-square" alt="63 kiadás">
 </p>
 
 ---
@@ -26,6 +26,16 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.51.01] — 2026-09-17
+
+### Javítva — nincs `<title>` a rejtett rajzokban
+
+A biológiai lap négy folyamatrajza `aria-hidden`, így a bennük álló `<title>`
+senkinek nem segített, a SEO-ellenőrzők viszont többlet title elemnek jelzik.
+A felirat megjegyzésként marad a rajz előtt.
 
 ---
 
