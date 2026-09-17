@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.05-80A640?style=flat-square" alt="verzió 0.51.05">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.06-80A640?style=flat-square" alt="verzió 0.51.06">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-67-56642B?style=flat-square" alt="67 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-68-56642B?style=flat-square" alt="68 kiadás">
 </p>
 
 ---
@@ -26,6 +26,19 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.51.06] — 2026-09-17
+
+### Javítva — „gyökérzónás elhelyezés" mindenhol
+
+Három lap még „gyökérzónás öntözés"-t írt (Tisztítószerek cikk, A.B. Clear
+műszaki adatok, „Családi házhoz keresek rendszert"). A webhely saját
+gyökérzóna-lapja ezt konkrét kialakítás nélkül nem bizonyító kifejezésnek
+tartja, és a biológiai lap sem használja már. Most „gyökérzónás elhelyezés",
+ugyanazzal a hivatkozással; Öko szövegindexe frissült. Egyedül a szabályt
+kimondó lap nevezi meg a kifejezést. Bela jóváhagyásával.
 
 ---
 
