@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.01-80A640?style=flat-square" alt="verzió 0.51.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.02-80A640?style=flat-square" alt="verzió 0.51.02">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-63-56642B?style=flat-square" alt="63 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-64-56642B?style=flat-square" alt="64 kiadás">
 </p>
 
 ---
@@ -26,6 +26,25 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.51.02] — 2026-09-17
+
+### Javítva — akadálymentesség a biológiai lapon (Lighthouse: 90 → 100)
+
+- A lépésszámok 11 px-es márkazöldje 2,7:1-es kontrasztú volt — most
+  szövegszínű.
+- Az összefoglaló jegyzetében a fogalomtár-link csak színében különbözött —
+  most aláhúzott.
+- A két egymás alatti „tovább" link egymásba lógott (44 px-es link egy
+  alacsonyabb bekezdésben) — a bekezdés most flex.
+- A lábléc már nem `content-visibility:auto`: az axe a kihagyott tartalomnál
+  nem találta a sötét hátteret, és a világos linkeket a lap világos alapjához
+  mérte (hamis 1,21:1).
+
+A főoldal 92 pontja más, korábbi tételekből áll (az összehasonlító
+kiemelt szava, a galéria listaelemei, egy bezárógomb mérete).
 
 ---
 
