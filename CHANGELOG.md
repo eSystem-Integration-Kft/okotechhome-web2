@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.04-80A640?style=flat-square" alt="verzió 0.51.04">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.05-80A640?style=flat-square" alt="verzió 0.51.05">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-66-56642B?style=flat-square" alt="66 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-67-56642B?style=flat-square" alt="67 kiadás">
 </p>
 
 ---
@@ -26,6 +26,26 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.51.05] — 2026-09-17
+
+### Javítva — a Megoldások gyűjtőlap canonical címe
+
+A lap `https://okotechhome.hu/megoldasok`-ot adta canonicalnak, `og:url`-nek és
+morzsamenü-tételnek. Ez a cím 301-gyel a `/megoldasok/`-ra visz, és a sitemap
+is azt listázza — a kereső tehát egy átirányításra mutató canonicalt látott.
+Mindhárom most perjellel áll, mint a többi gyűjtőlapon.
+
+### Ellenőrizve — a származtatott fájlok szinkronban
+
+Élesben, 2026-09-17: a `sitemap.xml` (187 URL), az `llms.txt`, az
+`llms-full.txt` és a `robots.txt` bájtra egyezik a 0.51.04-es builddel; a
+biológiai lap új címe, leírása és szövege mindegyikben benne van, `lastmod`
+2026-09-17. A sitemap pontosan az indexelhető lapokat listázza (az egyetlen
+eltérés a fenti canonical volt). Öko indexe újragenerálva sem változott. A
+README-ben az index számai frissítve (188 lap, 1057 szakasz, 1337 részlet).
 
 ---
 
