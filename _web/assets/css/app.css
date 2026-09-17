@@ -752,12 +752,14 @@
      odaér. Látványban nincs különbség: a sáv a közelébe érve kirajzolódik.
      A HELYFOGLALÓ MAGASSÁG becslés; az `auto` miatt egyszeri kirajzolás után
      a valódi méretet jegyzi meg, így a görgetősáv visszafelé nem ugrál.
-     A HERO (az első gyerek) kimarad: abban van az LCP-elem.
+     A HERO (az első gyerek) kimarad: abban van az LCP-elem. A LÁBLÉC is
+     kimarad: az akadálymentességi mérő (axe) a kihagyott tartalomnál nem
+     találja a sötét hátteret, és a világos linkeket a lap világos alapjához
+     méri — mérve 2026-09-17-én hamis 1,21:1-es kontrasztot jelzett.
      MELLÉKHATÁS: a tartalmazás (`contain: layout paint style`) rétegkontextust
      is nyit. Az Öko reflektora `z-index`-szel emeli a megtalált elemet a
      fedőréteg fölé — a sáv ebbe zárná, ezért kiemeléskor a sáv kilép belőle. */
-  main > .section:not(:first-child),
-  .lablec{
+  main > .section:not(:first-child){
     content-visibility:auto;
     contain-intrinsic-block-size:auto 720px;
   }
@@ -10265,6 +10267,7 @@
   .bio-kulcsadat dt{color:var(--text-secondary)}
   .bio-kulcsadat dd{margin:0;color:var(--text-primary)}
   .bio-lenyeg-jegyzet{margin:0;color:var(--text-tertiary)}
+  .bio-lenyeg-jegyzet a{text-decoration:underline;text-underline-offset:2px}
 
   /* --- Tartalomjegyzék -------------------------------------------------- */
   .bio-tartalom{
@@ -10314,7 +10317,8 @@
     background:var(--surface-muted);border-radius:var(--r-md);
     padding:var(--space-8);
   }
-  .bio-lepes-szam{margin:var(--space-8) 0 0;color:var(--abra-kiemeles)}
+  /* A szám szövegszínű: a márkazöld 11 px-en 2,7:1 lett volna. */
+  .bio-lepes-szam{margin:var(--space-8) 0 0;color:var(--text-secondary)}
   .bio-lepes-cim{margin:0;color:var(--text-primary)}
   .bio-lepes-szoveg{margin:0;color:var(--text-secondary)}
   .bio-folyamat-jegyzet{margin:0;color:var(--text-tertiary)}
@@ -10336,7 +10340,9 @@
   .bio-foto-szeles img{aspect-ratio:16 / 7}
 
   /* --- Tovább-hivatkozás ------------------------------------------------- */
-  .bio-tovabb{margin:var(--space-16) 0 0}
+  /* Flex, hogy a bekezdés a 44 px-es link magasságát vegye fel — különben a
+     két egymás alatti link egymásba lóg. */
+  .bio-tovabb{display:flex;margin:var(--space-16) 0 0}
   .bio-tovabb + .bio-tovabb{margin-top:0}
 
   /* --- Táblák ----------------------------------------------------------- */
