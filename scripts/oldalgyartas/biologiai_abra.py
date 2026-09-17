@@ -27,8 +27,12 @@ def _esc(s):
 def _svg(tartalom, cim):
     # Dekoratív kísérőrajz: a jelentést a mellette álló HTML-szöveg hordozza,
     # ezért a képernyőolvasó elől rejtve — kétszer ne olvassa fel ugyanazt.
-    return (f'<svg class="bio-lepes-rajz" viewBox="0 0 120 84" aria-hidden="true" focusable="false">'
-            f'<title>{_esc(cim)}</title>{tartalom}</svg>')
+    # `<title>` NINCS benne: rejtett rajzban haszontalan, a SEO-ellenőrzők
+    # viszont „több title elem" hibának jelzik. A `cim` a forrás olvasójának
+    # szól, megjegyzésként marad a rajz előtt.
+    return (f'<!-- {_esc(cim)} -->'
+            f'<svg class="bio-lepes-rajz" viewBox="0 0 120 84" aria-hidden="true" focusable="false">'
+            f'{tartalom}</svg>')
 
 
 def _buborekok(x0, szel, y, db, r0=2.2):
