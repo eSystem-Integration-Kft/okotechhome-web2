@@ -10377,7 +10377,17 @@
   .bio-elv p{margin:0;color:var(--text-primary)}
 
   /* --- Bizalmi sor, feltételek, címkék ---------------------------------- */
-  .bio-bizalom{margin-top:var(--space-32)}
+  /* KÁRTYÁK, NEM SÁV. A `.trust-grid` a főoldalon háttér nélküli, vonallal
+     tagolt sáv; a zöld szekcióban így az adatok háttér nélküli, lebegő
+     kártyáknak látszottak (Bela jelezte). Itt ugyanaz a kártya, mint a lap
+     többi eleménél. */
+  .bio-bizalom{margin-top:var(--space-32);gap:var(--space-24)}
+  .bio-bizalom .trust-item{
+    padding:var(--space-24);
+    background:var(--card-bg);border:1px solid var(--card-border);
+    border-radius:var(--card-radius);box-shadow:var(--card-shadow);
+  }
+  .bio-bizalom .trust-item + .trust-item{border-left:1px solid var(--card-border)}
   .bio-bizalom:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
   .bio-feltetelek{margin-block:var(--space-24);padding:0;list-style:none}
   .bio-cimkek{
@@ -10489,12 +10499,15 @@
     .bio-lepesek{grid-template-columns:repeat(2,minmax(0,1fr))}
     .bio-lepes + .bio-lepes::before{display:none}
     .bio-foto-sor{grid-template-columns:repeat(3,minmax(0,1fr))}
+    /* A hármas sor tableten is hármas marad — kettesben egy árva kártya lenne. */
+    .bio-bizalom:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
   }
   @media (max-width:640px){
     .bio-lepesek,.bio-foto-par,.bio-foto-sor{grid-template-columns:minmax(0,1fr)}
     .bio-kulcsadatok{grid-template-columns:minmax(0,1fr)}
     .bio-utem-adatok{grid-template-columns:minmax(0,1fr)}
-    .bio-bizalom:has(> :nth-child(3):last-child){grid-template-columns:minmax(0,1fr)}
+    .bio-bizalom,
+    .bio-bizalom:has(> :nth-child(3):last-child){grid-template-columns:minmax(0,1fr);row-gap:var(--space-16)}
     .bio-foto-szeles img{aspect-ratio:3 / 2}
     .bio-tetel{flex-direction:column;gap:0}
     .bio-tetel dd{text-align:left}
