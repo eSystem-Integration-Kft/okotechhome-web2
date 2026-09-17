@@ -3658,6 +3658,15 @@
   /* A panel záró akciója: a testszövegtől elválasztva, hogy a gomb ne olvadjon
      az utolsó bekezdéshez. A --space-8 a flex gap-en FELÜL jön. */
   .panel-dark-actions{margin-top:var(--space-8)}
+  /* A PANEL GOMBJA A PANEL ELLENTÉTE. A `.btn-inverse` a világos felületre
+     szánt sötét gomb — a `.panel-dark` háttere viszont ugyanez a szín
+     (mindkettő `--surface-inverse`, sötét témában mindkettő
+     `--surface-muted`). A gomb így 165 lapon csak feliratnak látszott.
+     Mérve 2026-09-17-én: háttér = panel = rgb(19, 50, 22). */
+  .panel-dark .btn-inverse{
+    background:var(--panel-dark-text);color:var(--panel-dark-bg);
+    border-color:var(--panel-dark-text);
+  }
   /* A hivatkozás sötét felületen a szövegszínt veszi fel: a --link kékje itt
      nem érné el a 4,5:1-et. Ez a prózában álló <a>-ra is áll, nem csak a
      .text-link komponensre — különben a panelbe írt szövegközi link megbukna. */

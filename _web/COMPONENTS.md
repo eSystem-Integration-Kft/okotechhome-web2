@@ -796,6 +796,10 @@ A 3. szekció záró blokkja: a legsötétebb felületen, kétoszlopos (cím | s
   felületen nem éri el a 4,5:1-et.
 - Sötét témában a Forest maga a sáv színe, ezért a panel a felület-lépcső következő fokára
   ül (`--surface-muted`), a szöveg pedig a normál szövegszínt kapja.
+- **A panel gombja a panel ellentéte** (`.panel-dark .btn-inverse`: háttér
+  `--panel-dark-text`, felirat `--panel-dark-bg`). A `.btn-inverse` világos felületre
+  szánt sötét gomb, és a háttere pontosan a panelé — 2026-09-17-ig 165 lapon a
+  „Következő lépés" gombja csak feliratnak látszott.
 
 ---
 
