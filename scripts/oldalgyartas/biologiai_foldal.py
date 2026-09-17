@@ -381,7 +381,7 @@ def uzemeltetes():
 
 def telek():
     torzs = NL.join([
-        '''      <aside class="panel bio-elv" aria-label="Fontos elv">
+        '''      <aside class="bio-elv" aria-label="Fontos elv">
         <p class="type-ui-body-strong">Fontos elv: a telek adottságai nem a technológiát döntik el, hanem a kivitelezés módját.</p>
       </aside>''',
         folyo(

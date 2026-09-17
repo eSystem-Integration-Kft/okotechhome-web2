@@ -10356,13 +10356,24 @@
   .bio-adat-tabla thead th:last-child{text-align:right}
 
   /* --- Panelek ---------------------------------------------------------- */
-  .bio-kerdes-panel,.bio-elv{
+  .bio-kerdes-panel{
     grid-template-columns:minmax(0,1fr);gap:var(--space-16);
-    margin-block:var(--space-32);
+    margin-block:var(--space-32);max-width:72ch;
+    padding:var(--space-32);
   }
   .section-alt .bio-kerdes-panel{background:var(--surface)}
   .bio-kerdes-panel h3{margin:0;color:var(--text-primary)}
-  .bio-elv{border-left:4px solid var(--bio-lenyeg-jel)}
+  /* KIEMELT ELV — önálló kiemelés, nem `.panel`. A panel háttere a zöld
+     sávval azonos (`--surface-muted`), a nagy lekerekítés a vastag bal
+     szegéllyel zárójelnek hatott, és a doboz szélesebb volt a szövegnél.
+     Itt: világos felület, egyenes bal sáv, a szöveghasáb szélessége. */
+  .bio-elv{
+    margin-block:var(--space-32);max-width:72ch;
+    padding:var(--space-16) var(--space-24);
+    background:var(--surface);
+    border-left:4px solid var(--bio-lenyeg-jel);
+    border-radius:0 var(--r-md) var(--r-md) 0;
+  }
   .bio-elv p{margin:0;color:var(--text-primary)}
 
   /* --- Bizalmi sor, feltételek, címkék ---------------------------------- */
