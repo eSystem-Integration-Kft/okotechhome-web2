@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.54.00-80A640?style=flat-square" alt="verzió 0.54.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.54.01-80A640?style=flat-square" alt="verzió 0.54.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-72-56642B?style=flat-square" alt="72 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-73-56642B?style=flat-square" alt="73 kiadás">
 </p>
 
 ---
@@ -26,6 +26,29 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.54.01] — 2026-09-18
+
+### Javítva — a partnersáv bizalmi sáv lett, nem dísz
+
+Bela jelezte: a kártyák rendben vannak, a zöld háttér nem. A sáv a
+`.section-alt`-on állt, így a színes logók mellé a zöld harmadik színként jött
+be, a fehér kártyák pedig foltként ültek rajta. Most a lap saját felületén áll,
+vékony vonallal fölötte-alatta; a kártyák egy rácson osztoznak (nem maguk
+szabják a szélességüket), és minden logó saját optikai felső korlátot kap: a
+kétsoros jelkép (HD-Rotatec, Suni) nagyobb magasságot kíván, mint az egysoros
+felirat (Hidrofilt, maszesz), hogy azonos súlyú legyen. Telefonon kettesével.
+
+### Módosítva — a munkaterület neve Produktív
+
+Test2 → **Prod**uktív mindenütt, ahol a név a jelenről szól: a README, a
+VERSIONING és a CHANGELOG fejlécében, a skillekben, a jelvényen és a kód
+megjegyzéseiben. Ahol a formátum engedi, az első szótag félkövér; a jelvényen
+és a YAML-leírásokban sima szöveg, mert ott a jelölés karakterként látszana.
+A dátumozott changelog-bejegyzések a régi nevet viszik: azok azt rögzítik, hogy
+hívtuk a munkaterületet akkor.
 
 ---
 
