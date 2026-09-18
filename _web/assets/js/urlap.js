@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · urlap.js
+   ÖkoTech Home — Produktív · urlap.js
    Űrlapbeküldés oldalfrissítés nélkül — progressive enhancement
    -----------------------------------------------------------------------------
    Az űrlap JS NÉLKÜL is teljes értékű: sima POST megy a végpontra. Ez a fájl

@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · ofc.js
+   ÖkoTech Home — Produktív · ofc.js
    AI ajánlat-összehasonlító: fájlcsatolás és az összehasonlító tábla vezérlése
    -----------------------------------------------------------------------------
    A Test1-beli modul viselkedése változatlanul: három kártya (A/B/C), mindegyik

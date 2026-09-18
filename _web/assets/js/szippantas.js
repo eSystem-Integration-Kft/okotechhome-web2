@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · szippantas.js
+   ÖkoTech Home — Produktív · szippantas.js
    Szippantási díj kalkulátor + települési díjadatbázis
    -----------------------------------------------------------------------------
    Amit csinál:

@@ -903,18 +903,18 @@ böngésző a betöltés előtt is ismerje az arányt (CLS).
 ## 18. AI-alapú döntéstámogató — `.aidt-*`
 
 A 8. szekció (*„Mitől függ az ár?"*) a Test1 (`okotechhome-web`) §6 moduljából került át.
-**A funkció és az elrendezés változatlan; a megjelenés teljes egészében a Test2
+**A funkció és az elrendezés változatlan; a megjelenés teljes egészében a **Prod**uktív
 designrendszerére van átültetve.**
 
 | Réteg | Mi történt vele |
 |---|---|
 | `assets/js/ai-advisor.js` (566 sor) | **változatlanul átvéve** — kérdéssor, állapotkezelés, ársáv-logika, eredményképernyő |
-| `.aidt-*` CSS (~200 sor) | **újraírva**: minden érték a Test2 tokenjeiből |
-| szekció-váz (HTML) | a Test2 `.section` / `.section-inner` szerkezetébe illesztve |
+| `.aidt-*` CSS (~200 sor) | **újraírva**: minden érték a **Prod**uktív tokenjeiből |
+| szekció-váz (HTML) | a **Prod**uktív `.section` / `.section-inner` szerkezetébe illesztve |
 
-### Token-megfeleltetés (Test1 → Test2)
+### Token-megfeleltetés (Test1 → **Prod**uktív)
 
-| Test1 | Test2 |
+| Test1 | **Prod**uktív |
 |---|---|
 | `--paper`, `--paper-2` | `--canvas` |
 | `--ink-text` / `--muted` | `--text-primary` / `--text-secondary` |
@@ -925,7 +925,7 @@ designrendszerére van átültetve.**
 | `--gold` | `--warning-border` / `--warning-text` |
 | `--shadow-sm` | `--card-shadow` |
 | `clamp()` méretek | fix skálaértékek (`--space-*`) |
-| pill (`100px`) sarkok | `--r-md` — a Test2 gombformája |
+| pill (`100px`) sarkok | `--r-md` — a **Prod**uktív gombformája |
 | nyers `px` betűméretek | `--type-*` szereptokenek |
 
 **Miért a CSS hordozza a betűméretet.** A modul DOM-ját JS generálja, a markupban nincs

@@ -68,7 +68,7 @@ def esc(s):
 
 
 def logo(szlug, nev, szel, elotag='../'):
-    return (f'<img src="{elotag}assets/img/partnerek/{szlug}.webp?v=1" width="{szel}" height="160"\n'
+    return (f'<img class="partner-jel partner-jel-{szlug}" src="{elotag}assets/img/partnerek/{szlug}.webp?v=1" width="{szel}" height="160"\n'
             f'             alt="{_html.escape(nev, quote=True)} logója" loading="lazy" decoding="async">')
 
 

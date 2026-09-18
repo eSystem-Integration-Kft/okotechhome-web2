@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · urlap-fajl.js
+   ÖkoTech Home — Produktív · urlap-fajl.js
    Mellékletek: ledobó felület a natív fájlmező helyett
    -----------------------------------------------------------------------------
    MIÉRT. A natív `<input type="file">` két dolgot tud rosszul. Nem lehet

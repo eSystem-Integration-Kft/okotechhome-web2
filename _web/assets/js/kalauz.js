@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · kalauz.js
+   ÖkoTech Home — Produktív · kalauz.js
    „Öko" — a lapokon végigkísérő segéd
    -----------------------------------------------------------------------------
    MI EZ. Egy kis figura a jobb alsó sarokban, aki bejelentkezik, és segít

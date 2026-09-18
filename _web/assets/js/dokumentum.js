@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · dokumentum.js
+   ÖkoTech Home — Produktív · dokumentum.js
    Okirat-oldalak segédje: nyomtatás, keltezés, jogszabályi lábjegyzetek
    -----------------------------------------------------------------------------
    Három apró viselkedés, mindegyik progressive enhancement — JS nélkül az

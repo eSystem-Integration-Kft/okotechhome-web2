@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · urlap-ellenorzes.js
+   ÖkoTech Home — Produktív · urlap-ellenorzes.js
    Élő űrlapellenőrzés — progressive enhancement
    -----------------------------------------------------------------------------
    MIT CSINÁL. Kitöltés közben ellenőrzi a mezőket, a hibát PIROS BUBORÉKBAN

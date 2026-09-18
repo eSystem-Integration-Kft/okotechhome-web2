@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-serve.py — lokális preview szerver az ÖkoTech Home Test2 oldalhoz.
+serve.py — lokális preview szerver az ÖkoTech Home Produktív oldalhoz.
 
 Miért kell: az oldal kiterjesztés nélküli útvonalakat használ (/uj-epitkezes),
 amit élesben a .htaccess rewrite old meg. A sima `python3 -m http.server`
@@ -240,7 +240,7 @@ def main():
         allow_reuse_address = True
 
     with Kiszolgalo(("127.0.0.1", port), CleanURLHandler) as httpd:
-        print(f"ÖkoTech Home Test2 — preview:  http://localhost:{port}")
+        print(f"ÖkoTech Home Produktív — preview:  http://localhost:{port}")
         print(f"Gyökér: {ROOT}")
         print("Leállítás: Ctrl+C")
         try:

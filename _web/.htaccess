@@ -1,5 +1,5 @@
 # =============================================================================
-# ÖkoTech Home — Test2 · Apache konfiguráció
+# ÖkoTech Home — Produktív · Apache konfiguráció
 # Clean URL (kiterjesztés nélküli útvonalak) + biztonsági fejlécek + cache
 #
 # FIGYELEM: ez rejtett dotfile. Az FTP-kliensek és a ZIP-csomagolók alapból

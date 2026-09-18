@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · site.js
+   ÖkoTech Home — Produktív · site.js
    -----------------------------------------------------------------------------
    Designrendszer 0.7: „Nincs framework. Natív HTML-elem és vanilla JS.
    A viselkedést nem újraépítjük, hanem a platformtól kérjük."

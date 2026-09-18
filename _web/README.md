@@ -1150,7 +1150,7 @@ Az `app.css` `@layer` sorrendje rögzíti a rétegarchitektúrát:
 reset → tokens → base → typography → components → responsive → motion
 ```
 
-| Réteg | Test2 |
+| Réteg | **Prod**uktív |
 |---|---|
 | **Display betű** | Zilla Slab (`--font-heading`) — kizárólag `type-display-*` |
 | **Törzs betű** | IBM Plex Sans (`--font-body`) — kizárólag `type-ui-*` |
@@ -1189,10 +1189,10 @@ A **márka, a téma és a logó azonos** a Test1-gyel; az eltérés a designrend
 | **Szerver** | statikus, Apache `.htaccess` |
 
 > **Eltérés a Test1-től, amit tudni kell:** a Test1 GSAP 3.12 + ScrollTrigger + Lenis
-> smooth-scroll stacket használ. A Test2 designrendszer **0.7 alapszabálya** viszont kimondja:
+> smooth-scroll stacket használ. A **Prod**uktív designrendszer **0.7 alapszabálya** viszont kimondja:
 > *„Nincs framework. Natív HTML-elem és vanilla JS. A viselkedést nem újraépítjük, hanem a
 > platformtól kérjük."* Ezért a GSAP/Lenis réteg **nem emelhető át változtatás nélkül** —
-> ha a Test2-ben is kell scroll-animáció, vagy natív CSS scroll-driven animationnel kell
+> ha a **Prod**uktív-ben is kell scroll-animáció, vagy natív CSS scroll-driven animationnel kell
 > megoldani, vagy a designrendszernek kell felmentést adnia. Ez nyitott kérdés.
 
 ## Helyi kiszolgálás

@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · gyik.js
+   ÖkoTech Home — Produktív · gyik.js
    Kétszintű GYIK: kategóriafülek + kérdéslista + válaszpanel
    -----------------------------------------------------------------------------
    JS NÉLKÜL minden kategória és minden válasz látszik egymás alatt — a `hidden`

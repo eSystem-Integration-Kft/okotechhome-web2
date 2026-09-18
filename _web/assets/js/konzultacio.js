@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · konzultacio.js
+   ÖkoTech Home — Produktív · konzultacio.js
    A konzultációkérő varázsló — progressive enhancement
    -----------------------------------------------------------------------------
    AMIT JS NÉLKÜL IS TUD az űrlap: minden lap egyszerre látszik, a natív

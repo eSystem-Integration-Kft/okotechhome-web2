@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · app.css
+   ÖkoTech Home — Produktív · app.css
    -----------------------------------------------------------------------------
    Igazságforrás: OTH-design-system-Teszt.v2.html (v0.5) + OTH-design-system-Teszt.v2.md
    A @layer sorrend rögzíti a rétegarchitektúrát: primitive → semantic → component.
@@ -2964,7 +2964,7 @@
   /* ===== 5.14 Ajánlat-összehasonlító modul (ÚJ, a Test1-ből átvéve) =====
      A 11. szekció: bal oszlop a magyarázat és az indítógomb, jobb oszlop a
      feltöltő felület és az összehasonlító tábla. A funkció és az elrendezés a
-     Test1-beli modulé, a megjelenés a Test2 tokenkészletéből épül. */
+     Test1-beli modulé, a megjelenés a Produktív tokenkészletéből épül. */
   .ofc{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,9fr);gap:var(--space-48);align-items:start}
 
   .ofc-eyebrow{display:flex;align-items:center;gap:var(--space-8);color:var(--text-tertiary);margin-bottom:var(--space-16)}
@@ -3696,7 +3696,7 @@
 
   /* ===== 5.18 AI-alapú döntéstámogató — „Mitől függ az ár?" (ÚJ) =====
      Átvéve a Test1 (`okotechhome-web`) §6 moduljából: a FUNKCIÓ és az ELRENDEZÉS
-     változatlan, a megjelenés viszont teljes egészében a Test2 designrendszerére
+     változatlan, a megjelenés viszont teljes egészében a Produktív designrendszerére
      van átültetve. A modul DOM-ját a `assets/js/ai-advisor.js` generálja, ezért a
      betűméretek is itt, szereptokenekből jönnek (a markupban nincs `.type-*`).
      Token-megfeleltetés: paper→canvas · ink-text→text-primary · muted→text-secondary
@@ -10277,19 +10277,44 @@
   .partner-nev{margin:0;color:var(--text-primary)}
   .partner-adat{margin:0;color:var(--text-tertiary)}
   .partner-link{margin:auto 0 0}
-  /* A főoldal logósávja: ugyanaz a fehér lap, csak kisebb és sorban. */
+  /* A FŐOLDAL LOGÓSÁVJA — bizalmi sáv, nem dísz.
+     A sáv a lap SAJÁT felületén áll (nem a zöld `.section-alt`-on): a színes
+     logók mellé a zöld harmadik szín volt, és a fehér kártyák foltokként
+     ültek rajta. Vékony vonal fölötte-alatta választja el a szomszédos
+     szekcióktól. A kártyák EGYENLŐ szélességűek (rács, nem flex), a logók
+     pedig közös optikai magasságra állnak — így a keskeny és a széles
+     jelkép is ugyanakkora súlyt kap. */
+  .partner-szekcio{
+    background:var(--canvas);
+    border-block:1px solid var(--border);
+    padding-block:var(--space-64);
+  }
   .partner-sav{
-    display:flex;flex-wrap:wrap;gap:var(--space-16);justify-content:center;
-    margin:0;padding:0;list-style:none;
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:var(--space-16);margin:0;padding:0;list-style:none;
+    max-width:var(--container-max);
   }
   .partner-sav li{
     display:flex;align-items:center;justify-content:center;
-    height:var(--space-70);min-width:var(--space-128);padding:var(--space-8) var(--space-24);
+    min-height:var(--space-96);padding:var(--space-16) var(--space-24);
     background:var(--partner-logo-bg);
-    border:1px solid var(--card-border);border-radius:var(--r-md);
+    border:1px solid var(--card-border);border-radius:var(--card-radius);
   }
-  .partner-sav img{max-height:100%;width:auto;object-fit:contain}
-  .partner-sav-alatt{margin-top:var(--space-24);text-align:center}
+  .partner-sav img{
+    max-height:var(--space-40);max-width:100%;width:auto;height:auto;object-fit:contain;
+  }
+  /* OPTIKAI MÉRET, NEM MÉRT MÉRET. Az egysoros feliratok (Hidrofilt, maszesz)
+     ugyanabban a magasságban nagyobbnak látszanak, mint a kétsoros jelképek
+     (HD-Rotatec: korong + felirat; Suni: jel + két sor). Ezért logónként
+     állítjuk a felső korlátot, hogy a négy jel egyforma súlyú legyen. */
+  .partner-sav .partner-jel-hd-rotatec{max-height:var(--space-64)}
+  .partner-sav .partner-jel-suni{max-height:var(--space-56)}
+  .partner-sav .partner-jel-hidrofilt{max-height:var(--space-32)}
+  .partner-sav .partner-jel-maszesz{max-height:var(--space-32)}
+  .partner-logo .partner-jel-hd-rotatec{max-height:100%}
+  .partner-logo .partner-jel-hidrofilt,
+  .partner-logo .partner-jel-maszesz{max-height:var(--space-48)}
+  .partner-sav-alatt{margin-top:var(--space-32);text-align:center}
 
   /* --- Bevezető: szöveg + „A lényeg röviden" doboz ------------------------ */
   .hub-bevezeto{
@@ -10565,7 +10590,7 @@
     .hub-bizalom:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
   }
   @media (max-width:1024px){
-    .partner-racs{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .partner-racs,.partner-sav{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
   @media (max-width:640px){
     .partner-racs{grid-template-columns:minmax(0,1fr)}

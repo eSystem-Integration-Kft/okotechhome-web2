@@ -1,5 +1,5 @@
 /* =============================================================================
-   ÖkoTech Home — Test2 · folyamat.js
+   ÖkoTech Home — Produktív · folyamat.js
    Szolgáltatási folyamat — lépéssor
    -----------------------------------------------------------------------------
    A markupban mind a hat lépés panelje ott van, és JS NÉLKÜL mind látszik
