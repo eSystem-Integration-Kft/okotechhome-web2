@@ -8,62 +8,42 @@
      "index, follow"-ra kell cserélni, minden oldalon. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Általános Szerződési Feltételek | ÖkoTech Home</title>
-<meta name="description" content="A szerződéskötés menete, teljesítés, fizetés, fogyasztói elállási jog, jótállás és szavatosság, panaszkezelés és jogorvoslat.">
+<title>ÁSZF — Általános Szerződési Feltételek | ÖkoTech Home</title>
+<meta name="description" content="A fogyasztókra vonatkozó szerződési feltételek: megrendelés, teljesítés, fizetés, 14 napos elállási jog, jótállás és szavatosság, panaszkezelés.">
 <link rel="canonical" href="https://okotechhome.hu/aszf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Általános Szerződési Feltételek">
-<meta property="og:description" content="A szerződéskötés menete, teljesítés, fizetés, fogyasztói elállási jog, jótállás és szavatosság, panaszkezelés és jogorvoslat.">
-<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-aszf.webp?v=2">
-<meta property="og:url" content="https://okotechhome.hu/aszf">
-<meta property="og:site_name" content="ÖkoTech Home">
-<meta property="og:image:width" content="1800">
-<meta property="og:image:height" content="764">
-<meta property="og:image:alt" content="Általános Szerződési Feltételek">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:description" content="A fogyasztókra vonatkozó szerződési feltételek: megrendelés, teljesítés, fizetés, 14 napos elállási jog, jótállás és szavatosság, panaszkezelés.">
+<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-aszf.webp">
 <meta property="og:locale" content="hu_HU">
-<!-- A BETŰK AZ app.css-BEN VANNAK, saját kiszolgálóról. A Google Fontsról
-     betöltve a stíluslap renderelést blokkolna két idegen kézfogás után,
-     és a látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
-     Külön betuk.css-ként is egy blokkoló kérés volt — mérve 190 ms; az
-     app.css részeként a kérés eltűnt, a bájtok pedig egy évig a
-     gyorsítótárban maradnak.
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
+     stíluslap renderelést blokkolna két idegen kézfogás után, és a
+     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
 
-     A CÍMSOR BETŰJE ELŐTÖLTVE — mérve ez adja az LCP-t, nem a hero-kép.
-     Csak ez az egy fájl, és csak `latin`. -->
+     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
+     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
+     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
+     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
+     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
+     adjuk oda az LCP-t.
+     A betűk az app.css BETŰK-régiójában, külön kérés nélkül. -->
+<link rel="stylesheet" href="assets/css/app.css?v=268">
+<!-- Két, szélességhez kötött előtöltés — mindegyik eszköz csak azt tölti
+     elő, amit a <picture> ki is rajzol. A korábbi, feltétel nélküli
+     előtöltés mobilon egy soha nem mutatott széles képet is letöltött.
+     A 750 px-es jelöltet és a nyerő AVIF-et a hero_avif.py teszi hozzá —
+     újragyártott lapnál futtasd le utána. -->
+<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="assets/img/oldalak/hero-aszf-szuk.webp"
+      imagesrcset="assets/img/oldalak/hero-aszf-szuk.webp 1100w"
+      imagesizes="100vw">
+<link rel="preload" as="image" fetchpriority="high" media="(min-width: 1025px)" href="assets/img/oldalak/hero-aszf.webp"
+      imagesrcset="assets/img/oldalak/hero-aszf-1024.webp 1100w, assets/img/oldalak/hero-aszf.webp 1800w"
+      imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="/assets/fonts/zilla-slab-600-latin.woff2">
-<link rel="stylesheet" href="assets/css/app.css?v=268">
-<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
-     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
-<!-- A TÉMÁT BEÁGYAZOTT SOR ÍRJA KI, nem külön fájl. A `data-theme`-nek
-     az ELSŐ festés előtt kell a helyén lennie, különben a látogató előbb
-     a világos lapot látja, és csak utána vált sötétre. Külön fájlként ez
-     egy teljes hálózati körfordulás volt: mérve 560 ms 2,9 KiB-ért, és
-     addig a lap semmit nem rajzolt ki. Beágyazva 195 bájt, kérés nélkül.
-
-     A CSP-BEN HASH ENGEDI, nem `unsafe-inline`: a `script-src` egyetlen
-     sha256-ot nevez meg, pontosan ezt a szöveget. Ha a sor egy karaktert
-     változik, a böngésző MEGTAGADJA a futtatását — ilyenkor a `tema.js`
-     veszi át (lentebb, `defer`), csak villanással. A hash a
-     `_web/.htaccess`-ben és a `serve.py`-ban él, mindkettőt frissíteni kell. -->
 <script>(()=>{try{var t=localStorage.getItem('oth-tema')}catch(e){}document.documentElement.dataset.theme=t==='dark'||t==='light'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})();</script>
-<!-- A VÁLTÓGOMB HUZALOZÁSA viszont ráér: senki nem kattint rá az első
-     festés előtt. Ezért `defer` — nem blokkol, és a téma már áll. -->
 <script src="assets/js/tema.js?v=2" defer></script>
-<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="assets/img/oldalak/hero-aszf-szuk.webp?v=2"
-      imagesrcset="assets/img/oldalak/hero-aszf-szuk-750.webp?v=2 750w, assets/img/oldalak/hero-aszf-szuk.webp?v=2 1100w"
-      imagesizes="100vw">
-<link rel="preload" as="image" fetchpriority="high" media="(min-width: 1025px)" href="assets/img/oldalak/hero-aszf.webp?v=2"
-      imagesrcset="assets/img/oldalak/hero-aszf-1024.webp?v=2 1100w, assets/img/oldalak/hero-aszf.webp?v=2 1800w"
-      imagesizes="100vw">
-<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
-     Szkript nélkül nem marad a lapon árva, néma sáv. -->
 <script src="/assets/js/suti.js?v=4" defer></script>
-<!-- Honnan érkezett a látogató: az `utm_*` és az ajánlói paraméter az ELSŐ
-     belépéskor van meg, az űrlapot viszont jellemzően pár lappal később
-     tölti ki. Ezért fut MINDEN lapon, nem csak az űrlapokén. Rejtett
-     mezőkbe másol, a látogató nem lát belőle semmit. -->
 <script src="/assets/js/kampany.js?v=1" defer></script>
 </head>
 <body>
@@ -547,120 +527,211 @@
           </ol>
         </nav>
         <h1 class="type-display-page-title hero-title" id="oldal-cim">Általános Szerződési Feltételek</h1>
-        <p class="type-ui-body-strong hero-lead">A szerződéskötés és a teljesítés szabályai. Ahol a fogyasztókra és a vállalkozásokra eltérő szabály vonatkozik, azt külön jelöljük.</p>
+        <p class="type-ui-body-strong hero-lead">Fogyasztók részére. Ha cégként vagy intézményként rendel, a vállalkozásoknak szóló változat vonatkozik Önre.</p>
       </div>
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="assets/img/oldalak/hero-aszf-szuk-750.webp?v=2 750w, assets/img/oldalak/hero-aszf-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
-        <img src="assets/img/oldalak/hero-aszf.webp?v=2"
-             srcset="assets/img/oldalak/hero-aszf-1024.webp?v=2 1100w, assets/img/oldalak/hero-aszf.webp?v=2 1800w"
-             sizes="100vw" width="1800" height="771" alt="Aláírásra előkészített, több oldalas szerződés egy sötét fa íróasztalon, mellette toll és olvasószemüveg" fetchpriority="high" decoding="async">
+        <source media="(max-width: 1024px)" srcset="assets/img/oldalak/hero-aszf-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
+        <img src="assets/img/oldalak/hero-aszf.webp"
+             srcset="assets/img/oldalak/hero-aszf-1024.webp 1100w, assets/img/oldalak/hero-aszf.webp 1800w"
+             sizes="100vw" width="1800" height="771" alt="Aláírásra előkészített szerződés és toll egy asztalon" fetchpriority="high" decoding="async">
       </picture>
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="mire-vonatkoznak-ezek-a-feltetelek-cim">
+  <section class="section" aria-labelledby="valaszto-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Hatály</p>
-        <h2 class="type-display-section-title section-title" id="mire-vonatkoznak-ezek-a-feltetelek-cim">Mire vonatkoznak ezek a feltételek</h2>
-      </header>
-      <div class="jogi-kiemelt type-ui-body"><p>Hatályos: <strong>2026. augusztus 7</strong>-tól. Az ÁSZF-et egyoldalúan módosíthatjuk; a módosítás a közzététellel lép hatályba, és a már megkötött szerződéseket nem érinti.</p></div>
-      <div class="jogi-szoveg">
-        <p class="type-ui-body">Ezek az Általános Szerződési Feltételek (ÁSZF) az <strong>ÖkoTech-Home Kft.</strong> mint Eladó és a Megrendelő között létrejövő adásvételi és szolgáltatási szerződésekre vonatkoznak.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Amire vonatkozik</h3>
-        <ul class="jogi-lista">
-          <li class="type-ui-body">szennyvíztisztító berendezés és kapcsolódó termékek adásvétele</li>
-          <li class="type-ui-body">telepítés, beüzemelés és kapcsolódó kivitelezési szolgáltatások</li>
-          <li class="type-ui-body">helyszíni felmérés és műszaki tanácsadás</li>
-          <li class="type-ui-body">karbantartás és szerviz</li>
-        </ul>
-        <h3 class="type-ui-card-title jogi-alcim">Amire nem vonatkozik</h3>
-        <p class="type-ui-body">Ez a webhely <strong>nem webáruház</strong>: itt közvetlenül nem lehet terméket megvásárolni. A webhelyen ajánlatot kérhet, a szerződés pedig az ajánlat elfogadásával, külön jön létre. A távollévők között kötött szerződésekre vonatkozó szabályokat — így a fogyasztói elállási jogot — akkor kell alkalmazni, ha a szerződés ténylegesen távollévők között jött létre.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Fogyasztó és vállalkozás</h3>
-        <p class="type-ui-body">A Polgári Törvénykönyv szerint <strong>fogyasztó</strong> a szakmája, önálló foglalkozása vagy üzleti tevékenysége körén kívül eljáró természetes személy. Több rendelkezés — az elállási jog, a jótállás, a kellékszavatosság határideje — eltér aszerint, hogy Ön fogyasztóként vagy vállalkozásként köt szerződést. Ezt minden érintett pontban külön jelöljük.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="szerzodo-fel-adatai-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Az Eladó</p>
-        <h2 class="type-display-section-title section-title" id="szerzodo-fel-adatai-cim">Szerződő fél adatai</h2>
+        <p class="type-data-eyebrow section-eyebrow">Melyik vonatkozik Önre</p>
+        <h2 class="type-display-section-title section-title" id="valaszto-cim">Két szerződés, két vásárlói kör</h2>
       </header>
       <div class="jogi-szoveg">
+        <p class="type-ui-body">A magyar jog a fogyasztóra olyan kötelező szabályokat ír elő — 14 napos
+          elállási jog, kötelező jótállás, termékszavatosság, békéltető testület —, amelyek a
+          vállalkozásokra nem vonatkoznak. Ezért két külön szerződésünk van.</p>
         <ul class="jogi-lista">
-          <li class="type-ui-body"><strong>Cégnév:</strong> ÖkoTech-Home Kft.</li>
-          <li class="type-ui-body"><strong>Székhely:</strong> 2500 Esztergom, Csendesvölgy utca 27.</li>
-          <li class="type-ui-body"><strong>Ügyfélszolgálat és telephely:</strong> 2509 Esztergom, Strázsa u. 12.</li>
-          <li class="type-ui-body"><strong>Cégjegyzékszám:</strong> 11-09-008852 (Tatabányai Törvényszék Cégbírósága)</li>
-          <li class="type-ui-body"><strong>Adószám:</strong> 12268687-2-11</li>
-          <li class="type-ui-body"><strong>Bankszámlaszám:</strong> CIB Bank — 10700268-70877618-51100005</li>
-          <li class="type-ui-body"><strong>IBAN:</strong> HU80 1070 0268 7087 7618 5110 0005</li>
-          <li class="type-ui-body"><strong>E-mail:</strong> <a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></li>
-          <li class="type-ui-body"><strong>Telefon:</strong> +36 33 200 211, +36 33 400 387</li>
+          <li class="type-ui-body"><strong>Ezt a lapot olvassa</strong>, ha magánszemélyként, a szakmáján és önálló foglalkozásán kívül eső célból rendel.</li>
+          <li class="type-ui-body">A másik dokumentum a <a href="aszf-vallalkozasoknak">ÁSZF vállalkozásoknak</a>.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="hogyan-jon-letre-es-mi-a-tartalma-cim">
+  <section class="section" aria-labelledby="preambulum-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A szerződés</p>
-        <h2 class="type-display-section-title section-title" id="hogyan-jon-letre-es-mi-a-tartalma-cim">Hogyan jön létre, és mi a tartalma</h2>
+        <p class="type-data-eyebrow section-eyebrow">Bevezetés</p>
+        <h2 class="type-display-section-title section-title" id="preambulum-cim">Preambulum</h2>
       </header>
       <div class="jogi-szoveg">
-        <h3 class="type-ui-card-title jogi-alcim">Az ajánlatkérés és az ajánlat</h3>
+        <p class="type-ui-body">Jelen Általános Szerződési Feltételek (a továbbiakban: ÁSZF) az ÖkoTech-Home Kft. mint Eladó (továbbiakban: Eladó) és a megrendelő (a továbbiakban: Megrendelő, együttesen: Felek), jogait és kötelezettségeit, a szerződéskötés feltételeit szabályozzák.</p>
+        <p class="type-ui-body">Eladó által üzemeltetett weboldal (Biológiai szennyvíztisztítók 1-től 50 főig - Ökotech-Home Kft. (okotechhome.hu)) célja, hogy a rajta elérhetővé tett berendezéseket és a többi feltüntetett szolgáltatást, terméket az Eladó üzletszerűen értékesítse.</p>
+        <p class="type-ui-body">A társaság szolgáltatásait https://okotechhome.hu/formok/megrendel.php az Eladó valamennyi Megrendelője jogosult igénybe venni, érvényes és sikeres regisztrációt követően, vagy akár regisztráció nélkül is a megrendelőlap kitöltésével, aláírásával és online történő visszaküldésével.</p>
+        <p class="type-ui-body">A megrendelőlap kitöltésével és online megküldésével a Megrendelő kifejezetten tudomásul veszi, hogy nyilatkozata fizetési kötelezettséget von maga után.</p>
+        <p class="type-ui-body">Az Eladó szolgáltatásait igénybe vevő valamennyi Megrendelő kijelenti, hogy elolvasta és elfogadja és magára nézve kötelezőnek ismeri el a jelen ÁSZF-ben foglaltakat.</p>
+        <p class="type-ui-body">A weboldalon feltüntetett termékek képpel és leírással kerülnek bemutatásra. Mindezek mellett az Eladó figyelmezteti a Megrendelőt, hogy a weboldalon található képek csak illusztráció céljára szolgálnak és azok a valóságban eltérhetnek a képen látottaktól.</p>
+        <p class="type-ui-body">Jelen ÁSZF minden szerződésre és szolgáltatásra vonatkozik, amelyet Eladó és Megrendelő a fent megjelölt Honlapon keresztül kötnek, függetlenül attól, hogy annak teljesítése Magyarországról vagy külföldről, az Eladó vagy közreműködője által történik.</p>
+        <p class="type-ui-body">Amennyiben Megrendelő az ügyletkötés során jogi személy képviseletében vagy egyéni vállalkozóként jár el vagy a szerződést szakmájával, önálló foglalkozásával, üzleti tevékenységével összefüggő célok érdekében köti, így nem minősül sem a Polgári Törvénykönyvről szóló 2013. évi V. törvény (továbbiakban: Ptk.) 8:1. § (1) bekezdés 3. pontja szerint, sem pedig a fogyasztóvédelemről szóló 1997. évi CLV. törvény (továbbiakban: Fgytv.) 2. § a) pontja szerint fogyasztónak. Így se jelen ÁSZF, sem pedig a 45/2014. (II. 26.) Korm. rendeletben foglaltak nem vonatkoznak rá. Ebben az esetben az Eladó külön ÁSZF-ét kell alkalmazni, amely vállalkozásoknak szól.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="elado-adatai-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Szerződő fél</p>
+        <h2 class="type-display-section-title section-title" id="elado-adatai-cim">Eladó adatai</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">Cégnév: Ökotech-Home Kft.</p>
+        <p class="type-ui-body">Székhely: 2500 Esztergom, Csendesvölgy utca 27.</p>
+        <p class="type-ui-body">Levelezési cím: 2500 Esztergom, Csendesvölgy utca 27.</p>
+        <p class="type-ui-body">E-mail cím: kapcsolat@okotechhome.hu</p>
+        <p class="type-ui-body">Telefon: (06) 33/200-211</p>
+        <p class="type-ui-body">Fax: (06) 70/466-7704</p>
+        <p class="type-ui-body">Cégjegyzékszám: 11-09-008852</p>
+        <p class="type-ui-body">Adószám: 12268687-2-11</p>
+        <p class="type-ui-body">Bankszámlaszámok:</p>
+        <p class="type-ui-body">CIB Bank:</p>
+        <p class="type-ui-body">Forint számla: 10700268-70877618-51100005</p>
+        <p class="type-ui-body">IBAN: HU80107002687087761851100005</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="elado-kotelezettsegei-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Kötelezettségek</p>
+        <h2 class="type-display-section-title section-title" id="elado-kotelezettsegei-cim">Eladó kötelezettségei</h2>
+      </header>
+      <div class="jogi-szoveg">
         <ol class="jogi-lista">
-          <li class="type-ui-body">A Megrendelő ajánlatot kér — a webhely űrlapján, e-mailben, telefonon vagy személyesen.</li>
-          <li class="type-ui-body">Az Eladó az ajánlatot a kérés beérkezésétől számított <strong>48 órán belül</strong> megküldi, munkanapokon.</li>
-          <li class="type-ui-body">A Megrendelő az ajánlatot annak megküldésétől számított <strong>48 órán belül</strong> fogadhatja el; ezt követően az ajánlat kötöttsége megszűnik.</li>
-          <li class="type-ui-body">A szerződés az ajánlat elfogadásának az Eladóhoz való megérkezésével jön létre.</li>
+          <li class="type-ui-body">Eladó kötelezettsége jelen ÁSZF szerint a termék tulajdonjogának átruházása, igény esetén kiszállítása, és a Megrendelő által igényelt egyéb megrendelőlapon megrendelt és rögzített szolgáltatás nyújtása.</li>
+          <li class="type-ui-body">Eladó kötelezettségeit telepítés esetén műszaki átadás-átvételi eljárás keretein belül munkalap kitöltésével és átadásával teljesíti.</li>
+          <li class="type-ui-body">Ha az Megrendelő az átadás-átvételi eljárást nem folytatja le, vagy nincsen jelen a helyszínen a teljesítés joghatásai a tényleges birtokbaadás alapján állnak be. A teljesítéséhez az Eladó a dolog tulajdonjogának átruházására köteles, a dolog átadásával és az ellenérték megfizetésével kerül az Megrendelő tulajdonába.</li>
+          <li class="type-ui-body">A Megrendelő tudomásul veszi és kifejezetten hozzájárul a szerződés megkötésével, hogy amennyiben számára egyedi megrendelésre készült a termék vagy a Megrendelő egyéni igényeihez igazított, valamint a teljes mértékben teljesített szolgáltatások esetén elállási/felmondási jogát elveszíti.</li>
+          <li class="type-ui-body">A megrendelés során a „Szállítási cím” megadása esetén Eladó köteles a terméket a Megrendelőhöz továbbítani, illetve annak továbbításáról gondoskodni a megrendelés során a Megrendelő által a „Szállítási mód” alatt megjelölt módon. A fuvarozás – megrendelőlapon feltüntetett – díját Megrendelő viseli. A termék jelen pontban meghatározott módon történő átvétele esetén Megrendelő a megrendelés során az alábbi fizetési módok közül választhat: előre banki átutalás vagy előre bankkártyás fizetés. Árut az Eladó csak teljes vételár előre megfizetése esetén szállít ki és a szolgáltatást is csak annak ellenértékének teljes előzetes megfizetését követően a vállalt határidőben végzi el. Részletfizetés nem lehetséges.</li>
+          <li class="type-ui-body">Eladó köteles a terméket a szerződésben meghatározott mennyiségben, minőségben és leírás szerint szolgáltatni. Eladó a telepítés során köteles a gépészet működését kipróbálni, azt bemutatni a Megrendelőnek vagy használati útmutatót biztosítani.</li>
         </ol>
-        <h3 class="type-ui-card-title jogi-alcim">Az Eladó kötelezettségei</h3>
-        <ul class="jogi-lista">
-          <li class="type-ui-body">a termék tulajdonjogának átruházása és átadása a szerződésben meghatározott mennyiségben, minőségben és leírás szerint</li>
-          <li class="type-ui-body">külön megrendelés esetén a telepítés elvégzése</li>
-          <li class="type-ui-body">műszaki átadás-átvételi eljárás lefolytatása</li>
-          <li class="type-ui-body">a berendezés működésének bemutatása, illetve a használati útmutató átadása</li>
-        </ul>
-        <h3 class="type-ui-card-title jogi-alcim">A Megrendelő kötelezettségei</h3>
-        <ul class="jogi-lista">
-          <li class="type-ui-body">a vételár megfizetése a szállítást megelőzően, illetve az átadáskor</li>
-          <li class="type-ui-body">a termék átvételkori megvizsgálása</li>
-          <li class="type-ui-body">a munkavégzéshez szükséges villamos energia biztosítása</li>
-          <li class="type-ui-body">a munkaterület megközelíthetőségének biztosítása</li>
-          <li class="type-ui-body">az építési törmelék elszállításáról való gondoskodás, ha a szerződés másként nem rendelkezik</li>
-        </ul>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="szallitas-telepites-atadas-cim">
+  <section class="section" aria-labelledby="megrendelo-kotelezettsegei-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Kötelezettségek</p>
+        <h2 class="type-display-section-title section-title" id="megrendelo-kotelezettsegei-cim">Megrendelő kötelezettségei</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Megrendelő jelen ÁSZF rendelkezései szerint köteles megfizetni a vételárat és átvenni a terméket.</li>
+          <li class="type-ui-body">Vételár megfizetése: A Megrendelő ezen kötelezettsége magában foglalja mindazon intézkedések megtételét és alakiságok megtartását, amelyek a szerződés vagy bármely jogszabály, különösen a Ptk. rendelkezései értelmében a fizetés teljesítésének lehetővé tételéhez szükségesek. Megrendelőnek – ha a Felek máshogy nem állapodnak meg vagy jelen ÁSZF-ből más nem következik – a fizetést azelőtt kell teljesítenie, mielőtt az Eladó jelen ÁSZF-nek megfelelően az Megrendelő rendelkezésére bocsátja a terméket. Az Eladó a fizetés teljesítését a termék, illetve a kapcsolódó okmányok átadásának feltételévé teheti. A végösszeg egészét a Megrendelőnek a termék kiszállítás napját megelőző munkanapig meg kell fizetnie az Eladó részére, de legkésőbb a kiszállításkor. Ennek hiányában a szállítás megtagadható, illetve nem vehető le a termék a szállító járműről. A fizetési késedelem kizárja az Eladó késedelmes teljesítését.</li>
+          <li class="type-ui-body">A Megrendelő a termékek megvizsgálása hiányában is köteles megfizetni a vételárat. Az Eladóval régebbi üzleti kapcsolatban lévő, rendszeres Megrendelők esetén – külön megállapodás alapján – lehetőség van a vételár jelen ÁSZF-től eltérő időpontban történő utólagos, vagy határidőre történő megfizetésére is.</li>
+          <li class="type-ui-body">Megrendelő jelen ÁSZF szerint köteles Eladónak járó díjat megfizetni a kapcsolódó szolgáltatás után, munkavégzés helyét a kivitelezéshez alkalmassá tenni, valamint a terméket átvenni.</li>
+          <li class="type-ui-body">A munkafolyamat során keletkezett építési hulladék elszállításáról a Megrendelőnek kell gondoskodni, ennek költsége a Megrendelőt terheli. Megrendelő kötelezettségei közé tartozik a munkálatokhoz szükséges áram biztosítása is.</li>
+          <li class="type-ui-body">Amennyiben a kiviteli munka Megrendelőnek felróható okból nem kezdhető el, vagy folyamatosan nem végezhető, úgy az Eladó a teljesítési határidőre vonatkozóan egyoldalú határidő módosítást hajthat végre.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő telephelyi átvétellel szándékozik terméket vásárolni és a készre jelentést követő 8 napon túl nem szállítja el, vagy pedig az előre megállapodott időpontig nem szállítja el, az Eladó tárolási díjat számít fel, melynek mértéke: 3.000 Ft+ÁFA/nap.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő a felszólítás ellenére 30 napon túl nem szállítja el a megrendelt termékeket, úgy az Eladót megilleti a választás joga a teljesítés további követelése vagy a szerződéstől való elállás, és jogkövetkezményei alkalmazása között. A szerződéstől való elállás esetén a megrendelt termékek harmadik személy részére értékesíthetők.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő kéri a termék kiszállítását, úgy az előre egyeztetett időpontban az Megrendelő költségére történik.</li>
+          <li class="type-ui-body">Amennyiben a kiszállítási hely nehezen megközelíthető, valamilyen módon akadályoztatott, esetleg a területre történő behajtás engedélyköteles, úgy az alkalmassá tétel a Megrendelő feladata.</li>
+          <li class="type-ui-body">Amennyiben a szállítás a Megrendelő hibájából meghiúsul, úgy az Eladó az újbóli kiszállítás díját a Megrendelőre terheli. Az ily módon kialakult újbóli kiszállítás kizárja az Eladó késedelmes teljesítését.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="szallitasi-es-fizetesi-feltetelek-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Szállítás</p>
+        <h2 class="type-display-section-title section-title" id="szallitasi-es-fizetesi-feltetelek-cim">Szállítási és fizetési feltételek</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">A weboldalon kiválasztott és megrendelt terméket az Eladó a Megrendelőnek e-mailben küldött rendelési visszaigazolásban szereplő időpontig szállítja ki a Megrendelő által a megrendelés során jelzett szállítási címre.</li>
+          <li class="type-ui-body">A megrendelt Terméket az Eladó a megrendelést követő visszaigazoló e-mailben meghatározott szállítási időn belül köteles szolgáltatni, a szállítási idő a vételár teljes kiegyenlítését követő nap kezdődik. A szállítás fuvarozó cég igénybevételével, kivételesen saját fuvareszközzel történik. Meghatározott időpontra (órára) történő kiszállítást az Eladónak nem áll módjában vállalni, kivéve, ha erre vonatkozóan a felek külön írásban megállapodnak.</li>
+          <li class="type-ui-body">Amennyiben egy Megrendelőnek lejárt, kifizetetlen számlája van Eladó felé, annak kiegyenlítéséig a kiszolgálást az Eladó szüneteltetheti, az újabb rendelés kiegyenlített vételárát a korábbi tartozásba beszámíthatja. A Megrendelő a késedelembe esés időpontjától kezdődően a késedelemmel érintett naptári félév első napján érvényes, Ptk. szerinti késedelmi kamatot köteles fizetni. A tartozások behajtásából származó valamennyi költséget a Megrendelő viseli.</li>
+          <li class="type-ui-body">A Megrendelő köteles a kiszállítás vagy átvétel időpontjában a csomagot tételesen ellenőrizni és hiánytalan teljesítés esetén az átvételi elismervényt aláírni. Ezt követően hiányosságokra vonatkozó reklamációt az Eladónak nem áll módjában elfogadni. Amennyiben a Megrendelő bármilyen sérülést, eltérést tapasztalna, a fuvarozó a Megrendelő kérésére köteles tételesen átadni az Termék és a helyszínen jegyzőkönyvet felvenni. Az így keletkezett károkért a fuvarozót terheli a felelősség, nem pedig Eladót.</li>
+          <li class="type-ui-body">Az Eladó a szállítási díj változtatásának jogát fenntartja azzal, hogy a módosítás a weboldalon való megjelenéssel egyidejűleg lép hatályba. A módosítás a már megrendelt termékek vételárát nem befolyásolja.</li>
+          <li class="type-ui-body">A jelen pontban szereplő valamennyi szállítási feltétel az e-mailen, telefonon és személyesen leadott rendelésekre egyaránt vonatkozik.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="a-megrendeles-folyamata-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Megrendelés</p>
+        <h2 class="type-display-section-title section-title" id="a-megrendeles-folyamata-cim">A megrendelés folyamata</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Eladó által nyújtott termékekkel kapcsolatos ajánlatkérésre a weboldalon feltüntetett űrlap kitöltésével („Ajánlatkérés elküldése” gombra való kattintással) vagy személyesen van lehetőség.</li>
+          <li class="type-ui-body">Az ajánlatkérés megérkezését követően az Eladó 48 órán belül megküldi a Megrendelő részére az ajánlattételi felhívás alapján összeállított ajánlatot elektronikus levél útján.</li>
+          <li class="type-ui-body">Az ajánlat megküldését követően azt a Megrendelő 48 órán belül jogosult elfogadni, ezt követően Eladó ajánlati kötöttsége megszűnik. A jogviszony az ajánlat elfogadásával és Eladó részére történő visszaigazolásával jön létre.</li>
+          <li class="type-ui-body">Megrendelő a megrendelés feladásával kijelenti, hogy a jelen Általános Szerződési Feltételeket elfogadja és magára nézve kötelezőnek ismeri el, valamint nyilatkozik, hogy cselekvőképes, felnőttkorú magánszemély.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="a-szerzodes-teljesitese-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
         <p class="type-data-eyebrow section-eyebrow">Teljesítés</p>
-        <h2 class="type-display-section-title section-title" id="szallitas-telepites-atadas-cim">Szállítás, telepítés, átadás</h2>
+        <h2 class="type-display-section-title section-title" id="a-szerzodes-teljesitese-cim">A szerződés teljesítése</h2>
       </header>
       <div class="jogi-szoveg">
-        <h3 class="type-ui-card-title jogi-alcim">Szállítás</h3>
-        <p class="type-ui-body">A termék a visszaigazolásban megjelölt határidőn belül kerül kiszállításra; a határidő a teljes vételár beérkezését követő naptól számít. Konkrét órára történő kiszállítást csak külön megállapodás esetén tudunk vállalni.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Átvétel és megvizsgálás</h3>
-        <p class="type-ui-body">A Megrendelő az átvételkor köteles a küldemény tartalmát megvizsgálni és az átvételt igazolni. Szállításból eredő sérülést az átvételkor, a fuvarozónál kell jelezni; az így keletkezett kárért az Eladó nem felel.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Telepítés és műszaki átadás</h3>
-        <p class="type-ui-body">A telepítést az Eladó biztonságosan, szakszerűen, gazdaságosan és határidőben végzi el. Az időjárás a teljesítést késleltetheti. Az Eladó a Megrendelő utasítása szerint jár el, de köteles figyelmeztetni, ha az utasítás célszerűtlen vagy jogszabályba ütközik. A teljesítést a dokumentált műszaki átadás-átvétel igazolja; ha a Megrendelő az átadáson nem vesz részt, a tényleges birtokbavétel váltja ki a teljesítés joghatásait.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Raktározás</h3>
-        <p class="type-ui-body">Ha a kiszállítás a teljes vételár megfizetésétől számított egy hónapon túl történik, az Eladó a terméket a megállapodott kiszállítási időpontig díjmentesen tárolja. Az ezt követő időszakra napi 3 000 Ft + áfa tárolási díj számítható fel.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Időpont-egyeztetés és lemondás</h3>
-        <ul class="jogi-lista">
-          <li class="type-ui-body">az egyeztetett időpontot az Eladó e-mailben visszaigazolja; a Megrendelő visszaigazolása nélkül az időpont nem foglalt</li>
-          <li class="type-ui-body">az első időpontmódosítás díjmentes</li>
-          <li class="type-ui-body">ismételt lemondás vagy módosítás esetén 15 000 Ft + áfa adminisztrációs díj számítható fel</li>
-          <li class="type-ui-body">a szolgáltatás napját megelőző második munkanap 16:00 óráig a lemondás díjmentes; ezt követően a kiszállási díj felszámítható</li>
-        </ul>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Amennyiben Megrendelő nem rendelte meg a kapcsolódó szolgáltatási tevékenységet Eladótól, csak a terméket, úgy a szerződés a termék Megrendelőhöz történő megérkezésével és átvételével teljesül.</li>
+          <li class="type-ui-body">A kapcsolódó szolgáltatási tevékenység végzésének feltételeit az Eladó úgy köteles megszervezni, hogy biztosítsa a tevékenység biztonságos, szakszerű, gazdaságos és határidőre történő befejezését.</li>
+          <li class="type-ui-body">A telepítést az Eladó a Megrendelő igényeivel összhangban, külön megállapodás keretein belül tudja kivitelezni. A munkafolyamatokat akadályozó időjárási körülmények a kivitelezés befejezésének időpontját eltolhatják. A vállalási határidőt nagy mértékben befolyásolja az egyedi megállapodásban meghatározott munkafolyamatok elvégzésének időpontja.</li>
+          <li class="type-ui-body">Az Eladó a Megrendelő utasítása szerint köteles eljárni a kapcsolódó szolgáltatási tevékenység gyakorlása során. Ha a Megrendelő célszerűtlen vagy szakszerűtlen utasítást ad, az Eladó köteles őt erre figyelmeztetni. Ha a Megrendelő a figyelmeztetés ellenére utasítását fenntartja, az Eladó a szerződéstől elállhat vagy a feladatot a Megrendelő utasításai szerint, az ő kockázatára elláthatja. Az Eladó köteles megtagadni az utasítás teljesítését, ha annak végrehajtása jogszabály vagy hatósági határozat megsértéséhez vezetne, vagy veszélyeztetné mások személyét vagy vagyonát.</li>
+          <li class="type-ui-body">Ha a teljesítés olyan okból válik lehetetlenné, amelyért egyik fél sem felelős, és</li>
+        </ol>
+        <p class="type-ui-body">(1)a lehetetlenné válás oka az Eladó érdekkörében merült fel, díjazásra nem tarthat igényt,</p>
+        <p class="type-ui-body">(2) a lehetetlenné válás oka a Megrendelő érdekkörében merült fel, az Eladót a szolgáltatáshoz kapcsolódó díj megilleti, de a Megrendelő levonhatja azt az összeget, amelyet az Eladó a lehetetlenné válás folytán költségben megtakarított, továbbá, amelyet a felszabadult időben másutt keresett vagy nagyobb nehézség nélkül kereshetett volna,</p>
+        <p class="type-ui-body">(3) a lehetetlenné válás oka mindkét fél érdekkörében vagy érdekkörén kívül merült fel, az Eladót a szolgáltatással kapcsolatban az elvégzett munka és költségei fejében a díj arányos része illeti meg.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Eladó a kötelezettségeit telepítés esetén műszaki átadás, átvételi eljárással teljesíti. Ha az Megrendelő az átadás-átvételi eljárást nem folytatja le, a teljesítés joghatásai a tényleges birtokbavétel alapján állnak be. A teljesítéséhez az Eladó a dolog tulajdonjogának átruházására köteles, a dolog átadásával és az ellenérték megfizetésével kerül az Megrendelő tulajdonába.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="raktarozasi-megallapodas-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Raktározás</p>
+        <h2 class="type-display-section-title section-title" id="raktarozasi-megallapodas-cim">Raktározási megállapodás</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Amennyiben a megrendelt termék kiszállítási határideje a Megrendelő általi fizetést követő 1 hónapos határidőn túl kerül megállapításra Eladó és Megrendelő között automatikusan raktározási megállapodás (továbbiakban: Megállapodás) jön létre.</li>
+          <li class="type-ui-body">A Megállapodás értelmében a megrendelt termék tulajdonjoga a Megrendelőre a díj megfizetésével átszáll, azonban tekintettel a későbbi kiszállításra a terméket Eladó a megállapított kiszállítási időpontig díjmentesen raktározza.</li>
+          <li class="type-ui-body">Amennyiben a megállapított kiszállítási határidőig Megrendelő a terméket nem szállítja el vagy nem veszi át úgy Eladó a további raktározásért napi 3000,-Ft+ÁFA díjat számol fel.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="idopontegyeztetes-lemondasok-kezelese-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Időpont</p>
+        <h2 class="type-display-section-title section-title" id="idopontegyeztetes-lemondasok-kezelese-cim">Időpontegyeztetés, lemondások kezelése</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Az időpont egyeztetés telefonon vagy írásban történik. A foglalt időpontról e-mailt küld Eladó, amelyet a Megrendelőnek vissza kell igazolni. Visszaigazolás elmulasztása esetén Eladó nem vállalja a kívánt időpontban történő helyszíni kiszállást.</li>
+          <li class="type-ui-body">A 8.1. szerinti egyeztetett időpont legfeljebb egy alkalommal módosítható díjmentesen. Ismételt lemondás vagy módosítás esetén 15.000 Ft + ÁFA adminisztrációs díj kerül felszámításra. A munkanapon 16:00 óra után jelzett módosítást a következő munkanapon áll módunkban rögzíteni.</li>
+          <li class="type-ui-body">Az egyeztetett időpontot legkésőbb a munkavégzést megelőző 2. munkanapon 16:00 óráig lehet díjmentesen lemondani vagy módosítani. E határidőn belüli vagy aznapi lemondás esetén a teljes kiszállási díj felszámításra kerül. Amennyiben a kiszállás nem az Eladó érdekkörében felmerülő okból hiúsul meg, a kiszállási díjat nem áll módunkban elengedni.</li>
+          <li class="type-ui-body">Amennyiben az előzetes felmérést/helyszíni szemlét követően az Eladó által megküldött ajánlat kiküldését követő 30 napon belül Megrendelő érvényes megrendelést tesz és átutalja az előleg összegét, úgy a felmérési/helyszíni szemle díj 50 százalékát a megrendelés összegéből jóváírjuk.</li>
+        </ol>
       </div>
     </div>
   </section>
@@ -672,98 +743,174 @@
         <h2 class="type-display-section-title section-title" id="fizetesi-feltetelek-cim">Fizetési feltételek</h2>
       </header>
       <div class="jogi-szoveg">
-        <p class="type-ui-body">A Megrendelő a vételárat a visszaigazolást követően banki átutalással vagy bankkártyával fizeti meg. Az Eladó a számlát elektronikusan, a megadott e-mail címre küldi meg; a Megrendelő az elektronikus számlát elfogadja, kivéve, ha ettől eltérően nyilatkozik.</p>
-        <p class="type-ui-body">Késedelmes fizetés esetén az Eladó a Polgári Törvénykönyv szerinti késedelmi kamatot számíthatja fel a késedelem napjától. A behajtással kapcsolatos költségek a Megrendelőt terhelik. Lejárt tartozás esetén az Eladó a további szolgáltatást a rendezésig felfüggesztheti.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Az Megrendelő megrendelését a megrendelés visszaigazolását követően banki átutalással, vagy bankkártyás fizetéssel egyenlítheti ki.</li>
+          <li class="type-ui-body">Az Eladó a kiválasztott fizetési módtól függően e-mailben számlát küld meg a Megrendelő által megadott e-mail címre, majd – ha a Felek ettől eltérően nem állapodtak meg, vagy jelen ÁSZF ettől eltérő rendelkezést nem tartalmaz – a Megrendelő által megfizetett összeg jóváírását követően Eladó szolgáltatja a Terméket/szolgáltatást Megrendelő részére az ÁSZF-ben rögzítettek szerint.</li>
+          <li class="type-ui-body">Az Eladó a Megrendelő részére a Megrendelő által megfizetett összeg jóváírását követően – a Megrendelő által választott fizetési módtól függően – elektronikus úton megküldött számlát állít ki az Megrendelő által megadott e-mail címre (vagy az Megrendelő kifejezett külön kérésére postai úton a Megrendelő által megadott címre). Az ÁSZF elfogadásával a Megrendelő hozzájárul ahhoz, hogy számára az Eladó elektronikus úton megküldött számlát állítson ki. Ha a Megrendelő elektronikus úton megküldendő számlája vagy díjbekérője elkészül, az Eladó erről e-mailen keresztül értesíti/megküldi számára a számlát/díjbekérőt.</li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="elallasi-jog-tavollevok-kozott-kotott-szerzodesnel-cim">
+  <section class="section" aria-labelledby="szellemi-tulajdon-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Fogyasztói jogok</p>
-        <h2 class="type-display-section-title section-title" id="elallasi-jog-tavollevok-kozott-kotott-szerzodesnel-cim">Elállási jog távollévők között kötött szerződésnél</h2>
+        <p class="type-data-eyebrow section-eyebrow">Szerzői jog</p>
+        <h2 class="type-display-section-title section-title" id="szellemi-tulajdon-cim">Szellemi tulajdon</h2>
       </header>
       <div class="jogi-szoveg">
-        <p class="type-ui-body">Ha a szerződés fogyasztóval, távollévők között jött létre, a fogyasztót a 45/2014. (II. 26.) Korm. rendelet alapján <strong>14 napon belül indokolás nélküli elállási jog</strong> illeti meg.</p>
-        <h3 class="type-ui-card-title jogi-alcim">A határidő</h3>
-        <p class="type-ui-body">A 14 nap attól a naptól kezdődik, amelyen a fogyasztó vagy az általa megjelölt, a fuvarozótól eltérő harmadik személy a terméket átveszi. Több tétel esetén az utoljára átvett terméktől számít. Szolgáltatásra irányuló szerződésnél a szerződés megkötésének napjától.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Hogyan gyakorolható</h3>
-        <p class="type-ui-body">Egyértelmű nyilatkozattal — postai úton, e-mailben vagy a 45/2014. Korm. rendelet 2. melléklete szerinti nyilatkozatminta felhasználásával. A határidő betartottnak minősül, ha a nyilatkozatot a határidő lejárta előtt elküldi.</p>
-        <h3 class="type-ui-card-title jogi-alcim">A termék visszaküldése</h3>
-        <p class="type-ui-body">A terméket indokolatlan késedelem nélkül, de legkésőbb az elállás közlésétől számított 14 napon belül vissza kell küldeni. A visszaküldés közvetlen költsége a fogyasztót terheli. A fogyasztó a termék jellegének, tulajdonságainak megállapításához szükséges használatot meghaladó használatból eredő értékcsökkenésért felel.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Visszatérítés</h3>
-        <p class="type-ui-body">Az Eladó az elállásról való tudomásszerzéstől számított 14 napon belül téríti vissza a fogyasztó által megfizetett összeget, ideértve a kiszállítás költségét is — kivéve a legkevésbé költséges szokásos fuvarozási módtól eltérő választásból eredő többletköltséget. A visszatérítés az eredeti fizetési móddal történik. Az Eladó a visszatérítést visszatarthatja, amíg a terméket vissza nem kapta, vagy amíg a fogyasztó nem igazolta a visszaküldést.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Mikor nem gyakorolható</h3>
-        <ul class="jogi-lista">
-          <li class="type-ui-body">a szolgáltatás egészének teljesítése után, ha a fogyasztó előzetesen kifejezetten hozzájárult a teljesítés megkezdéséhez és tudomásul vette az elállási jog elvesztését</li>
-          <li class="type-ui-body">nem előre gyártott, a fogyasztó utasítása alapján vagy kifejezett kérésére előállított, illetve egyértelműen a fogyasztó személyére szabott termék esetén</li>
-          <li class="type-ui-body">a fogyasztó kifejezett kérésére végzett sürgős javítási vagy karbantartási munkánál</li>
-          <li class="type-ui-body">a jogszabályban meghatározott további esetekben</li>
-        </ul>
-        <div class="jogi-kiemelt type-ui-body"><p>Szolgáltatásra irányuló szerződésnél a 14 napon túli lemondás esetén a megrendelés szerinti díj 30%-a meghiúsulási kötbérként számítható fel.</p></div>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">A weboldal és annak képi és szöveges, valamint szerkezeti kialakítása egyéni eredeti jelleget hordoz, így szerzői jogi védelem alatt áll. Az Eladó a szerzői jogi jogosultja a weboldalon megjelenített valamennyi tartalomnak: bármely szerzői műnek, illetve más szellemi alkotásnak.</li>
+          <li class="type-ui-body">A jelen ÁSZF-ben kifejezetten meghatározott jogokon túlmenően a regisztráció, a weboldal használata, illetve az ÁSZF egyetlen rendelkezése sem biztosít jogot a Megrendelőnek a weboldal felületén található kereskedelmi nevek vagy védjegyek bármely használatára, hasznosítására.</li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="kellekszavatossag-termekszavatossag-jotallas-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Hibás teljesítés</p>
-        <h2 class="type-display-section-title section-title" id="kellekszavatossag-termekszavatossag-jotallas-cim">Kellékszavatosság, termékszavatosság, jótállás</h2>
-      </header>
-      <div class="jogi-szoveg">
-        <h3 class="type-ui-card-title jogi-alcim">Kellékszavatosság</h3>
-        <p class="type-ui-body">Hibás teljesítés esetén a Megrendelő kijavítást vagy kicserélést kérhet, kivéve, ha az lehetetlen vagy aránytalan többletköltséget jelentene. Ha erre nincs mód vagy az Eladó nem vállalta, a Megrendelő arányos árleszállítást igényelhet, a hibát az Eladó költségére maga kijavíthatja, vagy — végső esetben — elállhat a szerződéstől. Jelentéktelen hiba miatt elállásnak nincs helye.</p>
-        <p class="type-ui-body">A hibát a felfedezéstől számított <strong>két hónapon belül</strong> közölni kell. Az igény a teljesítéstől számított <strong>két év</strong> — vállalkozás esetén egy év — alatt évül el. A teljesítéstől számított hat hónapon belül a hiba közlésén túl nincs más feltétel; hat hónap után a Megrendelőnek kell bizonyítania, hogy a hiba már a teljesítéskor megvolt.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Termékszavatosság</h3>
-        <p class="type-ui-body">Ingó dolog hibája esetén a fogyasztó a gyártótól vagy forgalmazótól kijavítást vagy kicserélést kérhet. A termék akkor hibás, ha nem felel meg a forgalomba hozatalakor hatályos minőségi követelményeknek, vagy nem rendelkezik a gyártó által megadott tulajdonságokkal. Az igény a forgalomba hozataltól számított <strong>két éven belül</strong> érvényesíthető. Ugyanazon hiba miatt kellékszavatossági és termékszavatossági igény egyszerre nem érvényesíthető.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Jótállás</h3>
-        <p class="type-ui-body">Fogyasztói szerződés esetén az Eladó a berendezésre az átadástól vagy a telepítéstől számított <strong>egy év</strong> jótállást vállal. A jótállás a tartályszerkezetre és a beépített egységekre — légbefúvó, elosztók, csővezetékek — terjed ki, amennyiben a szállítást és a telepítést az Eladó végezte.</p>
-        <h3 class="type-ui-card-title jogi-alcim">A jótállás nem terjed ki</h3>
-        <ul class="jogi-lista">
-          <li class="type-ui-body">a rendeltetésszerű használat melletti természetes elhasználódásra</li>
-          <li class="type-ui-body">a nem rendeltetésszerű használatból, a karbantartás elmulasztásából vagy jogosulatlan átalakításból eredő hibára</li>
-          <li class="type-ui-body">a nem az Eladó által végzett telepítésből eredő hibára</li>
-          <li class="type-ui-body">a szállítás során keletkezett sérülésre, ha a szállítást nem az Eladó végezte</li>
-          <li class="type-ui-body">a baktériumkultúra teljesítményére — annak állapotát a rendszerbe juttatott vegyszerek és anyagok érdemben befolyásolják, ez a Megrendelő ellenőrzése alatt áll</li>
-        </ul>
-        <p class="type-ui-body">A jótállás érvényesítésének feltétele a rendeltetésszerű használat és a karbantartás dokumentált igazolása. Ha a Megrendelő a karbantartást nem tudja igazolni, az a jótállási igényt korlátozhatja vagy kizárhatja.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="a-felelosseg-korlatai-cim">
+  <section class="section" aria-labelledby="felelosseg-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
         <p class="type-data-eyebrow section-eyebrow">Felelősség</p>
-        <h2 class="type-display-section-title section-title" id="a-felelosseg-korlatai-cim">A felelősség korlátai</h2>
+        <h2 class="type-display-section-title section-title" id="felelosseg-cim">Felelősség</h2>
       </header>
       <div class="jogi-szoveg">
-        <p class="type-ui-body">Az Eladó a hibás teljesítésért való felelősségét a teljesítés során részére megfizetett nettó díj 50%-áig korlátozza. Ez a korlátozás nem terjed ki a szándékosan okozott, továbbá az emberi életet, testi épséget vagy egészséget megkárosító szerződésszegésre — ezekre a korlátozás jogszabály erejénél fogva sem alkalmazható.</p>
-        <p class="type-ui-body">Az Eladó nem felel a következményi károkért — így az elmaradt haszonért vagy a jóhírnév sérelméért —, továbbá mentesül, ha a teljesítés elmaradása az ellenőrzési körén kívül eső, előre nem látható körülmény (vis maior) következménye.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Az Eladó kizár minden felelősséget az Megrendelő által megvalósított esetleges jogsértésekért. Az Eladó kizárja a felelősségét a szállítási cím alatti kert, illetve telek állagának megóvásáért. A szállítójárműről való levétel és a termék elhelyezése közötti időszakban esetlegesen bekövetkező személyi, illetve tárgyi sérülésekért az Eladó nem vállal felelősséget, amennyiben azt nem ő végzi.</li>
+          <li class="type-ui-body">Eladó a hibás teljesítésből eredő kártérítési kötelezettségét a teljesítés során részére megfizetett nettó díj 50%-ában korlátozza, ezt meghaladó összegben a kártérítési kötelezettségét kizárja. A felelősség korlátozása nem terjed ki a szándékosan okozott, továbbá az emberi életet, testi épséget vagy egészséget megkárosító károkozásért való felelősségre. Eladó ezen felül kizárja a felelősségét a hibás teljesítéshez fűződő következményi károk (pl. elmaradt haszon, jó hírnév sérelme stb.) megtérítéséért is.</li>
+          <li class="type-ui-body">Az Eladó mentesül a felelősség alól, ha bizonyítja, hogy a szerződésszegést ellenőrzési körén kívül eső, a szerződéskötés időpontjában előre nem látható körülmény okozta, és nem volt elvárható, hogy a körülményt elkerülje vagy a kárt elhárítsa (vis maior körülmények).</li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="panaszkezeles-es-jogorvoslat-cim">
+  <section class="section" aria-labelledby="jotallas-szavatossag-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Panasz</p>
-        <h2 class="type-display-section-title section-title" id="panaszkezeles-es-jogorvoslat-cim">Panaszkezelés és jogorvoslat</h2>
+        <p class="type-data-eyebrow section-eyebrow">Jótállás</p>
+        <h2 class="type-display-section-title section-title" id="jotallas-szavatossag-cim">Jótállás, szavatosság</h2>
       </header>
       <div class="jogi-szoveg">
-        <h3 class="type-ui-card-title jogi-alcim">Panasz bejelentése</h3>
-        <p class="type-ui-body">Panaszát szóban — személyesen vagy telefonon — és írásban is előterjesztheti: postai úton a székhelyre, vagy e-mailben a <a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a> címre. A szóbeli panaszt lehetőség szerint azonnal orvosoljuk; ha ez nem lehetséges, jegyzőkönyvet veszünk fel, amelynek másolatát átadjuk vagy megküldjük.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Válaszadási határidő</h3>
-        <p class="type-ui-body">Az írásbeli panaszra a beérkezéstől számított <strong>30 napon belül</strong> érdemben, indokolással ellátva, írásban válaszolunk. A panaszt elutasító álláspontunkat megindokoljuk, és tájékoztatjuk a jogorvoslati lehetőségekről. A panaszról felvett jegyzőkönyvet és a válasz másolatát öt évig megőrizzük.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Békéltető testület</h3>
-        <p class="type-ui-body">Fogyasztói jogvita esetén a fogyasztó a lakóhelye vagy tartózkodási helye szerinti békéltető testülethez fordulhat. Az Eladó székhelye szerint illetékes: <strong>Komárom-Esztergom Vármegyei Békéltető Testület</strong> — 2800 Tatabánya, Fő tér 36. · +36 34 513 010 · <a href="mailto:bekeltetes@kemkik.hu">bekeltetes@kemkik.hu</a>. Az Eladót a békéltető testületi eljárásban együttműködési kötelezettség terheli.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Fogyasztóvédelmi hatóság</h3>
-        <p class="type-ui-body">A fogyasztó a lakóhelye szerint illetékes fogyasztóvédelmi hatósághoz is fordulhat. A hatósági feladatokat a fővárosi és vármegyei kormányhivatalok látják el; elérhetőségük a kormanyhivatal.hu oldalon található.</p>
-        <h3 class="type-ui-card-title jogi-alcim">Online vitarendezés</h3>
-        <p class="type-ui-body">Online megkötött szerződéssel összefüggő jogvita esetén a fogyasztó az Európai Bizottság online vitarendezési platformját is igénybe veheti.</p>
-        <div class="jogi-kiemelt type-ui-body"><p><strong>ELLENŐRIZENDŐ ÉLESÍTÉS ELŐTT:</strong> az EU online vitarendezési (ODR) platformjának működése és elérhetősége megváltozott. Publikálás előtt ellenőrizni kell az aktuális állapotot, és ennek megfelelően kell megadni vagy elhagyni a hivatkozást.</p></div>
+        <h3 class="type-ui-card-title jogi-alcim">Hibás teljesítés</h3>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">A kötelezett hibásan teljesít, ha a szolgáltatás a teljesítés időpontjában nem felel meg a szerződésben vagy jogszabályban megállapı́tott minőségi követelményeknek. Nem teljesít hibásan a kötelezett, ha a jogosult a hibát a szerződéskötés időpontjában ismerte, vagy a hibát a szerződéskötés időpontjában ismernie kellett. Fogyasztó és vállalkozás közötti szerződésben semmis az a kikötés, amely e fejezetnek a kellékszavatosságra és a jótállásra vonatkozó rendelkezéseitől a fogyasztó hátrányára tér el. Több szavatossági jog csak a Polgári Törvénykönyv szerinti fogyasztónak minősülő Felhasználókat illeti meg.</li>
+        </ol>
+        <h3 class="type-ui-card-title jogi-alcim">Kellékszavatosság</h3>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Milyen esetben élhet Megrendelő a kellékszavatossági jogával? Megrendelő az Eladó hibás teljesítése esetén a Eladóval szemben kellékszavatossági igényt érvényesíthet a Polgári Törvénykönyv szabályai szerint.</li>
+          <li class="type-ui-body">Milyen jogok illetik meg a Megrendelőőt a kellékszavatossági igénye alapján? Megrendelő – választása szerint – az alábbi kellékszavatossági igényekkel élhet: kérhet kijavítást vagy kicserélést, kivéve, ha az ezek közül a Megrendelő által választott igény teljesítése lehetetlen vagy a vállalkozás számára más igénye teljesítéséhez képest aránytalan többletköltséggel járna. Ha a kijavítást vagy a kicserélést nem kérte, illetve nem kérhette, úgy igényelheti az ellenszolgáltatás arányos leszállítását vagy a hibát a vállalkozás költségére Megrendelő is kijavíthatja, illetve mással kijavíttathatja vagy – végső esetben – a szerződéstől is elállhat. Választott kellékszavatossági jogáról egy másikra is áttérhet, az áttérés költségét azonban Felhasználó viseli, kivéve, ha az indokolt volt, vagy arra a vállalkozás adott okot.</li>
+          <li class="type-ui-body">Milyen határidőben érvényesítheti Megrendelő kellékszavatossági igényét? Megrendelő (ha fogyasztónak minősül) köteles a hibát annak felfedezése után haladéktalanul, de nem később, mint a hiba felfedezésétől számıt́ott kettő hónapon belül közölni. Ugyanakkor felhívjuk a figyelmét, hogy a szerződés teljesítésétől számított két éves (vállalkozás esetén 1 éves) elévülési határidőn túl kellékszavatossági jogait már nem érvényesítheti.</li>
+          <li class="type-ui-body">Kivel szemben érvényesítheti kellékszavatossági igényét? Megrendelő az Eladóval szemben érvényesı́theti kellékszavatossági igényét.</li>
+          <li class="type-ui-body">Milyen egyéb feltétele van kellékszavatossági jogai érvényesı́tésének (amennyiben a Megrendelő fogyasztónak minősül)? A teljesítéstől számított hat hónapon belül a kellékszavatossági igénye	 érvényesıt́ésének a hiba közlésén túl nincs egyéb feltétele, ha Megrendelő igazolja, hogy a terméket, illetve a szolgáltatást az Eladó vállalkozás nyújtotta. A teljesítéstől számıt́ott hat hónap eltelte után azonban már Megrendelő köteles bizonyıt́ani, hogy a Megrendelő által felismert hiba már a teljesítés időpontjában is megvolt.</li>
+        </ol>
+        <h3 class="type-ui-card-title jogi-alcim">Termékszavatosság</h3>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Milyen esetben élhet Megrendelő a termékszavatossági jogával? Ingó dolog (termék) hibája esetén Megrendelő – választása szerint – kellékszavatossági vagy termékszavatossági igényt érvényesıt́het.</li>
+          <li class="type-ui-body">Milyen jogok illetik meg Megrendelőt termékszavatossági igénye alapján? Termékszavatossági igényként Megrendelő kizárólag a hibás termék kijavítását vagy kicserélését kérheti.</li>
+          <li class="type-ui-body">Milyen esetben minősü a termék hibásnak? A termék akkor hibás, ha az nem felel meg a forgalomba hozatalakor hatályos minőségi követelményeknek, vagy pedig, ha nem rendelkezik a gyártó által adott leıŕásban szereplő tulajdonságokkal.</li>
+          <li class="type-ui-body">Milyen határidőben érvényesıt́heti Megrendelő termékszavatossági igényét? Termékszavatossági igényét Megrendelő a termék gyártó általi forgalomba hozatalától számított két éven belül érvényesítheti. E határidő elteltével e jogosultságát elveszti.</li>
+          <li class="type-ui-body">Kivel szemben és milyen egyéb feltétellel érvényesítheti termékszavatossági igényét? Termékszavatossági igényét kizárólag az ingó dolog gyártójával vagy forgalmazójával szemben	 gyakorolhatja.	 A termék hibáját termékszavatossági igény érvényesítése esetén Megrendelőnek kell bizonyıt́ania.</li>
+          <li class="type-ui-body">A gyártó (forgalmazó) milyen esetben mentesül termékszavatossági kötelezettsége alól? A gyártó (forgalmazó) kizárólag akkor mentesül termékszavatossági kötelezettsége alól, ha bizonyítani tudja, hogy: – a terméket nem üzleti tevékenysége körében gyártotta, illetve hozta forgalomba, vagy – a hiba a tudomány és a technika állása szerint a forgalomba hozatal időpontjában nem volt felismerhető vagy – a termék hibája jogszabály vagy kötelező hatósági előıŕás alkalmazásából ered. A gyártónak (forgalmazónak) a mentesüléshez elegendő egy okot bizonyítania.	 Felhívom figyelmét, hogy ugyanazon hiba miatt kellékszavatossági és termékszavatossági igényt egyszerre, egymással párhuzamosan nem érvényesı́thet. Termékszavatossági igényének eredményes érvényesı́tése esetén azonban a kicserélt termékre, illetve kijavított részre vonatkozó	 kellékszavatossági igényét a gyártóval szemben érvényesıt́heti.</li>
+        </ol>
+        <h3 class="type-ui-card-title jogi-alcim">Jótállás</h3>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Milyen esetben élhet Megrendelő a jótállási jogával? Hibás teljesítés esetén az egyes tartós fogyasztási cikkekre vonatkozó kötelező jótállásról szóló 151/2003. (IX. 22.) Korm. rendelet alapján az Eladó jótállásra köteles, ha a Megrendelő fogyasztónak minősül.</li>
+          <li class="type-ui-body">Megrendelőt milyen jogok és milyen határidőn belül illetik meg jótállás alapján? A jótállás időtartama egy év. A jótállási határidő a fogyasztási cikk Megrendelő részére történő átadása, vagy ha az üzembe helyezést a forgalmazó vagy annak megbízottja végzi, az üzembe helyezés napjával kezdődik. Jótállási igénye alapján a jogosult választása szerint</li>
+        </ol>
+        <p class="type-ui-body">1. kijavítást vagy kicserélést igényelhet, kivéve, ha a választott jótállási jog teljesítése lehetetlen, vagy ha az a kötelezettnek – másik jótállási igény teljesítésével összehasonlítva – aránytalan többletköltséget eredményezne, figyelembevéve a szolgáltatás hibátlan állapotban képviselt értékét, a szerződésszegés súlyát és a jótállási jog teljesıt́ésével a jogosultnak okozott érdeksérelmet; vagy</p>
+        <p class="type-ui-body">2. az ellenszolgáltatás arányos leszállítását igényelheti, a hibát a kötelezett költségére maga kijavı́thatja vagy mással kijavíttathatja, vagy a szerződéstől elállhat, ha a kötelezett a kijavítást vagy a kicserélést nem vállalta, e kötelezettségének a (...) nem tud eleget tenni, vagy ha a jogosultnak a kijavításhoz vagy kicseréléshez fűződő érdeke megszűnt. Jelentéktelen hiba miatt elállásnak nincs helye. A kijavítást vagy kicserélést - a dolog tulajdonságaira és a jogosult által elvárható rendeltetésére figyelemmel - megfelelő határidőn belül, a jogosult érdekeit kímélve kell elvégezni.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Mikor mentesül az Eladó a jótállási kötelezettsége alól? Az Eladó jótállási kötelezettsége alól csak abban az esetben mentesül, ha bizonyítja, hogy a hiba oka a teljesítés után keletkezett. Felhívjuk a figyelmét, hogy ugyanazon hiba miatt kellékszavatossági é jótállási igényt, illetve termékszavatossági és jótállási igényt egyszerre, egymással párhuzamosan nem érvényesíthet, egyébként viszont fogyasztót	 a jótállásból fakadó jogok a termék-és kellékszavatosság fejezetekben leírt jogosultságoktól függetlenül megilletik.</li>
+          <li class="type-ui-body">Eladó nem tartozik jótállássala jótállási időn túl (szakmailag elvárható élettartam) a természetes elhasználódásból/avulásból származó károkért.</li>
+          <li class="type-ui-body">Eladó nem tartozik továbbá szavatossággal, illetve jótállással az olyan károkért, amelyek a kárveszély átszállása utáni hibás vagy gondatlan kezelésből, túlzott igénybevételből, illetve a meghatározottól eltérő behatásokból, illetve egyéb, a termékek nem rendeltetésszerű használatából keletkeztek.</li>
+          <li class="type-ui-body">Ha a Megrendelő a fogyasztási cikk meghibásodása miatt a vásárlástól (üzembehelyezéstől) számított három munkanapon belül érvényesıt́ csereigényt, Eladó köteles a fogyasztási cikket kicserélni, feltéve, hogy a meghibásodás a rendeltetésszerű használatot akadályozza.</li>
+          <li class="type-ui-body">Eladó 3 év jótállást vállal a berendezésre és annak elektronikai részére, valamint 15 év kiterjesztett jótállást vállal a műanyag tartályra. A műanyag tartályra vonatkozó 15 éves kiterjesztett jótállási idő feltétele, hogy annak kiszállítását, szakszerű beszerelését és éves karbantartását is Eladó végezze. Ellenkező esetben a műanyag tartályra is szintén 3 év jótállást vállal Eladó.</li>
+          <li class="type-ui-body">Amennyiben a berendezés a Megrendelő által, nem megfelelően, szakszerűtlenül, kerül telepítésre az Eladónak nem áll módjában jótállást vállalni. Ugyancsak nem áll módjában jótállást vállalni Eladónak, amennyiben időjárási vagy egyéb természeti viszonyok miatt kár éri a Megrendelőt vagy a Megrendelő által telepített berendezést.</li>
+          <li class="type-ui-body">A jótállásból eredő garanciális javítások érvényesítésében szerepet játszik a szakszerű használat, gondos karbantartás megléte, így amennyiben azok meglétét a Megrendelő nem tudja hitelt érdemlő módon igazolni az a jótállás korlátozásához vagy kizártságához vezethet.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="elallas-felmondas-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Elállás</p>
+        <h2 class="type-display-section-title section-title" id="elallas-felmondas-cim">Elállás, felmondás</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Az Európai Parlament és a Tanács 2011/83/EU számú irányelvének, továbbá a fogyasztó és a vállalkozás közötti szerződések részletes szabályairól szóló 45/2014. (II.26.) Korm. rendelet szabályozása értelmében Fogyasztó a megrendelt termék kézhez vételétől számított 14	 napon	 belül indokolás nélkül elállhat a szerződéstől, valamint az elállás közlésétől számított 14 napon belül visszaküldheti a megrendelt terméket.	 Jelen tájékoztató hiányában jogosult Fogyasztó 1 év elteltéig gyakorolni az elállási jogát. Ha a Eladó a termék kézhezvételének vagy a szerződés megkötésének napjától számított 14 nap lejártát követően, de 12 hónapon belül megadja a tájékoztatást, úgy az elállásra nyitva álló határidő e tájékoztatás közlésétől számított 14 nap.</li>
+          <li class="type-ui-body">A Megrendelő az elállási jogát gyakorolhatja az erre vonatkozó egyértelmű nyilatkozatával, vagy a 45/2014. (II.26.) Korm. rendelet 2. mellékletében meghatározott nyilatkozat-minta útján.</li>
+          <li class="type-ui-body">Az elállási jog gyakorlására nyitva álló idő attól a naptól számított 14 nap elteltével jár le, amelyen Megrendelő, vagy az általa megjelölt, a fuvarozótól	 eltérő harmadik személy a termekét átveszi.</li>
+          <li class="type-ui-body">Megrendelő a szerződés megkötésének napja, és a termék átvételének napja közötti időszakban is gyakorolhatja elállási jogát.</li>
+          <li class="type-ui-body">A termék visszaküldésének költségét a Megrendelőnek kell viselnie, az Eladó nem vállalta ezen költség viselését</li>
+          <li class="type-ui-body">Az elállási jog gyakorlása esetén a Megrendelőt a termék visszajuttatásának költségén kívül más költség nem terheli.</li>
+        </ol>
+        <h3 class="type-ui-card-title jogi-alcim">A fogyasztó nem gyakorolhatja a Korm. rendelet 20. § szerinti jogát</h3>
+        <p class="type-ui-body">a) szolgáltatás nyújtására irányuló szerződés esetében a szolgáltatás maradéktalan teljesítése után, azonban, ha szerződés fizetési kötelezettséget keletkeztet a fogyasztó számára, csak akkor, ha a teljesítés a fogyasztó kifejezett előzetes beleegyezésével és annak a fogyasztó általi tudomásulvételével kezdődött meg, hogy elveszíti elállási jogát, amint a vállalkozás maradéktalanul teljesítette a szerződést;</p>
+        <p class="type-ui-body">b) olyan áru vagy szolgáltatás tekintetében, amelynek ára, illetve díja a pénzpiac vállalkozás által nem befolyásolható, a 20. § (2) bekezdésében meghatározott határidő alatt is lehetséges ingadozásától függ;</p>
+        <p class="type-ui-body">c) olyan nem előre gyártott áru esetében, amelyet a fogyasztó utasítása alapján vagy kifejezett kérésére állítottak elő, vagy olyan áru esetében, amelyet egyértelműen a fogyasztó személyére szabtak;</p>
+        <p class="type-ui-body">d) romlandó vagy minőségét rövid ideig megőrző áru tekintetében;</p>
+        <p class="type-ui-body">e) olyan zárt csomagolású áru tekintetében, amely egészségvédelmi vagy higiéniai okokból az átadást követő felbontása után nem küldhető vissza;</p>
+        <p class="type-ui-body">f) olyan áru tekintetében, amely jellegénél fogva az átadást követően elválaszthatatlanul vegyül más áruval;</p>
+        <p class="type-ui-body">g) olyan alkoholtartalmú ital tekintetében, amelynek tényleges értéke a vállalkozás által nem befolyásolható módon a piaci ingadozásoktól függ, és amelynek áráról a felek az adásvételi szerződés megkötésekor állapodtak meg, azonban a szerződés teljesítésére csak a megkötéstől számított harmincadik napot követően kerül sor;</p>
+        <p class="type-ui-body">h) - a (2) bekezdésben foglalt kivétellel - olyan vállalkozási szerződés esetében, amelynél a vállalkozás a fogyasztó kifejezett kérésére keresi fel a fogyasztót sürgős javítási vagy karbantartási munkálatok elvégzése céljából;</p>
+        <p class="type-ui-body">i) lezárt csomagolású hang-, illetve képfelvétel, valamint számítógépes szoftver példányának adásvétele tekintetében, ha az átadást követően a fogyasztó a csomagolást felbontotta;</p>
+        <p class="type-ui-body">j) hírlap, folyóirat és időszaki lap tekintetében, az előfizetéses szerződések kivételével;</p>
+        <p class="type-ui-body">k) nyilvános árverésen megkötött szerződések esetében;</p>
+        <p class="type-ui-body">l) lakáscélú szolgáltatás kivételével szállásnyújtásra irányuló szerződés, fuvarozás, személygépjármű-kölcsönzés, étkeztetés vagy szabadidős tevékenységekhez kapcsolódó szolgáltatásra irányuló szerződés esetében, ha a szerződésben meghatározott teljesítési határnapot vagy határidőt kötöttek ki;</p>
+        <p class="type-ui-body">m) a nem tárgyi adathordozón nyújtott digitális tartalom tekintetében, ha a vállalkozás a fogyasztó kifejezett, előzetes beleegyezésével kezdte meg a teljesítést, és a fogyasztó e beleegyezésével egyidejűleg nyilatkozott annak tudomásul vételéről, hogy a teljesítés megkezdését követően elveszíti a 20. § szerinti jogát, továbbá a vállalkozás a 12. § (2) bekezdés vagy a 18. § szerint visszaigazolást küldött a fogyasztó részére.</p>
+        <p class="type-ui-body">(2) Az (1) bekezdés h) pontjában meghatározott esetben a 20. § szerinti jog a fogyasztó által kifejezetten kért szolgáltatásokon és a karbantartás vagy a javítás elvégzéséhez felhasznált cserealkatrészeken felül kínált szolgáltatásokra vagy árukra kiterjed.</p>
+        <p class="type-ui-body">(3) Az (1) bekezdés a) -c) és e) pontjában meghatározott esetekben a fogyasztó gyakorolhatja a 20. § szerinti jogát, ha a szerződést a kereskedelemről szóló törvényben meghatározott üzleten kívüli kereskedés vagy az árubemutatóval egybekötött termékértékesítés keretében kötötte meg.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Eladó a termék visszaérkezését/vagy az elállási nyilatkozat megérkeztét követően a fenti jogszabályok értelmében haladéktalanul, de legkésőbb az elállásról való tudomásszerzésétől számított 14 napon belül visszatéríti a kifizetett összeget a Megrendelő részére, azonban az Eladót visszatartási jog illeti meg a 13.15 pont szerint.</li>
+          <li class="type-ui-body">A visszatérítés során az eredeti ügylet során alkalmazott fizetési móddal egyező fizetési módot alkalmazunk, kivéve, ha Megrendelő más fizetési mód igénybevételéhez kifejezetten a hozzájárulását adja; e visszatérítési mód alkalmazásából kifolyólag Megrendelőt semmilyen többletköltség nem terheli.</li>
+          <li class="type-ui-body">Megrendelő köteles az árukat indokolatlan késedelem nélkül, de a szerződéstől való elállására vonatkozó értesítés Eladó részére történő megküldésétől számı́tott 14 napnál semmiféleképpen sem később visszaküldeni vagy Eladó címen leadni.</li>
+          <li class="type-ui-body">Megrendelőnek írásban történő elállás esetén elegendő az elállási nyilatkozatot megküldenie 14 napon belül.</li>
+          <li class="type-ui-body">Megrendelő akkor tartja be a határidőt, ha a 14 napos időszak letelte előtt visszaküldi, vagy átadja a terméke(ke)t. A visszaküldés határidőben teljesítettnek minősül, ha a Megrendelő a terméket a határidő lejárta előtt elküldi.</li>
+          <li class="type-ui-body">A Megrendelő kizárólag a termék visszaküldésének közvetlen költségét viseli, kivéve,	ha az Eladó vállalta e költség viselését.</li>
+          <li class="type-ui-body">Az Eladó nem köteles a Megrendelő részére megtérı́teni azon többletköltségeket, amely az Eladó által felkínált legolcsóbb szokásos fuvarozási módtól eltérő szállítási mód választásából adódik.</li>
+          <li class="type-ui-body">A visszatérítést Eladó mindaddig visszatarthatja, amíg vissza nem kapta az áru(ka)t, vagy Megrendelő bizonyítékot nem szolgáltatott arra vonatkozóan, hogy azokat visszaküldte: a	 kettő közül a korábbi időpontot kell figyelembe venni.</li>
+          <li class="type-ui-body">Amennyiben Megrendelő élni szeretne elállási jogával, annak jelzését megteheti az Eladó elérhetőségeinek valamelyikén írásban (akár a mellékelt adatlap segítségével), telefonon, vagy akár személyesen is. Postai úton írásban történő jelzés alkalmával a postára adás időpontját vesszük figyelembe, telefonon történő jelzés alkalmával pedig a telefonon történő jelzését. Postai úton történő jelzés esetén ajánlott, tértivevényes küldeményként, való jelzést fogad el Eladó. A megrendelt terméket futárszolgálat segítségével juttathatja vissza Megrendelő Eladó részére.</li>
+          <li class="type-ui-body">A Megrendelő csak a termék jellegének, tulajdonságainak és működésének megállapı́tásához szükséges használatot meghaladó használatból eredő értékcsökkenésért felel.</li>
+          <li class="type-ui-body">Az elállási jog csak a Polgári Törvénykönyv szerinti fogyasztónak minősülő Megrendelőket illeti meg. Az elállási jog nem illeti meg a vállalkozást, azaz az olyan személyt, aki a szakmája, önálló foglalkozása vagy üzleti tevékenysége körében jár el.</li>
+          <li class="type-ui-body">Eladó azon termékei és szolgáltatásai melyek egyedi terméknek minősülnek, így különösen az A. B. Clear szennyvíztisztító berendezés a 45/2014. (II. 26.) Korm. rendelet 29. § szerint a fogyasztót megillető elállási és felmondási jog alóli kivételnek tekinthetők. Így a Megrendelő tudomásul veszi, hogy ezen termék vásárlásától nem állhat el.</li>
+          <li class="type-ui-body">Megrendelő elállása vagy felmondása esetén köteles Eladónak a kapcsolódó szolgáltatási díj arányos részét megfizetni és a jogviszony megszüntetésével okozott kárt megtéríteni.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő csomagajánlatként igénybe vett szolgáltatások alapján kedvezményre volt jogosult, úgy az egyes termékek, szolgáltatásoktól való elállása esetén a csomagajánlat szerinti kedvezmény nem illeti meg. Ezek alapján elszámolási kötelezettsége keletkezik Eladóval szemben az igénybe vett kedvezmény erejéig, amelyet az elállását követő 8 napon belül, egy összegben, átutalással köteles megfizetni Eladó részére.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="elallasi-jog-gyakorlasanak-a-menete-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Elállás</p>
+        <h2 class="type-display-section-title section-title" id="elallasi-jog-gyakorlasanak-a-menete-cim">Elállási jog gyakorlásának a menete</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Amennyiben a Megrendelő élni kíván az elállási joggal, úgy köteles az elállási szándékát az Eladó elérhetőségein jelezni.</li>
+          <li class="type-ui-body">Megrendelő határidőben gyakorolja elállási jogát, amennyiben a termék kézhezvételétől számított 14. nap lejárta előtt elküldi elállási nyilatkozatát. Írásban történő elállás esetén elég csak az elállási nyilatkozatot elküldeni 14 napon belül. Postai úton történő jelzés alkalmával a postára adás dátumát, email vagy telefaxon keresztül történő értesítés esetén az email illetve a fax küldésének idejét veszi figyelembe.</li>
+          <li class="type-ui-body">A Megrendelő elállás esetén köteles a megrendelt terméket az Eladó címére késedelem nélkül, de legkésőbb elállási nyilatkozatának közlésétől számított 14 napon belül visszaküldeni. A határidő betartottnak minősül, amennyiben a 14 napos határidő letelte előtt elküldi a terméket (tehát nem kell megérkezni 14 napon belül). A Megrendelő viseli az elállási jog gyakorlása miatt az áru visszaszolgáltatásával kapcsolatban felmerülő költségeket.</li>
+          <li class="type-ui-body">Az Eladó azonban nem köteles a Megrendelő része megtéríteni azon többletköltségeket, amely az Eladó által felkínált legolcsóbb szokásos fuvarozási módtól eltérő szállítási mód választásából adódik. A Megrendelő a szerződés megkötésének napja és a termék átvételének napja közötti időszakban is gyakorolja elállási jogát.</li>
+          <li class="type-ui-body">Több termék adásvételekor, amennyiben az egyes termékek szállítása eltérő időpontban történik, úgy az utoljára szolgáltatott termék, illetve több tételből vagy darabból álló termék esetén az utoljára kézbesített tételnek vagy darab kézhezvételtől számított 14 napon belül élhet a vásárló az elállási joggal.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="az-aszf-kozzetetele-es-modositasa-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Hatály</p>
+        <h2 class="type-display-section-title section-title" id="az-aszf-kozzetetele-es-modositasa-cim">Az ÁSZF közzététele és módosítása</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Jelen ÁSZF 2025. január 15. napján lép hatályba és azokat a Ökotech-Home Kft. weboldalán teszi közzé.</li>
+          <li class="type-ui-body">Eladó jogosult az ÁSZF-ben foglaltakat jövőre kiterjedő hatállyal egyoldalúan módosítani. A módosított verzió a fent megjelölt weboldalon történő közzétételét követő naptári naptól hatályos, és a hatályba lépését megelőzően létrejött szerződéseket nem érinti.</li>
+        </ol>
       </div>
     </div>
   </section>
@@ -771,11 +918,172 @@
   <section class="section" aria-labelledby="zaro-rendelkezesek-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Záró rész</p>
         <h2 class="type-display-section-title section-title" id="zaro-rendelkezesek-cim">Záró rendelkezések</h2>
       </header>
       <div class="jogi-szoveg">
-        <p class="type-ui-body">Az ÁSZF valamely rendelkezésének érvénytelensége a többi rendelkezés érvényességét nem érinti. Az itt nem szabályozott kérdésekben a magyar jog — különösen a Polgári Törvénykönyvről szóló 2013. évi V. törvény és a 45/2014. (II. 26.) Korm. rendelet — az irányadó.</p>
-        <p class="type-ui-body">A webhely tartalma — szöveg, kép, szerkezet — szerzői jogi védelem alatt áll. A webhely használata nem keletkeztet jogot a tartalom felhasználására.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Jelen ÁSZF valamely részének érvénytelensége a többi pont érvényességére nem hat ki. Az ÁSZF valamely részének érvénytelensége esetén az érvénytelenné vált részt oly módon kell megváltoztatni, hogy azzal a Felek által célzott joghatás érvényesüljön.</li>
+          <li class="type-ui-body">Amennyiben az ÁSZF és a Felek között létrejött egyéb megállapodás között ellentét van, az ÁSZF rendelkezései az irányadóak.</li>
+          <li class="type-ui-body">13.3 A Honlap használatához szükséges azon technikai tájékoztatást, melyet jelen ÁSZF nem tartalmaz, a Honlapon elérhető egyéb tájékoztatások nyújtják.</li>
+          <li class="type-ui-body">Amennyiben a Felek az esetleges jogvitát békés úton nem tudják rendezni, úgy a Budai Központi Kerületi Bíróság, illetve Tatabányai Törvényszék illetékességének kikötését elfogadják.</li>
+          <li class="type-ui-body">13.4. A Megrendelő a megrendelése véglegesítése előtt köteles megismerni a jelen ÁSZF rendelkezéseit.</li>
+          <li class="type-ui-body">13.5. A jelen ÁSZF-ben nem szabályozott kérdésekben a magyar jog, így különösen a 2013. évi V. törvény a Polgári Törvénykönyvről (Ptk.), 45/2014. (II. 26.) Kormány rendelet rendelkezései az irányadóak.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="panasz-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Panasz</p>
+        <h2 class="type-display-section-title section-title" id="panasz-cim">Panasz</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Panasz: amely egyéni jog- vagy érdeksérelem megszüntetésére irányul, és elintézése nem tartozik más – így különösen bírósági, közigazgatási – eljárás hatálya alá. A panasz javaslatot is tartalmazhat (Pktv. 1. § (2) bekezdés).</li>
+          <li class="type-ui-body">Szolgáltatással kapcsolatos panasz: Társaságunk tevékenységével, szolgáltatásával, munkatársai viselkedésével szemben felmerülő minden olyan egyedi bejelentés, amelyben a panaszos Társaságunk eljárását kifogásolja és azzal kapcsolatban konkrét, egyértelmű igényt fogalmaz meg. Panasznak csak azon bejelentés tekintendő, amely esetén mind a panaszos, mind a panasszal érintett szolgáltatási cím, mind a panasz tárgya egyértelműen beazonosítható. Nem minősül panasznak, ha az Megrendelő a Társaságunktól általános tájékoztatást, véleményt, állásfoglalást vagy méltányossági intézkedést igényel, vagy ha az Megrendelő kifogásoktól mentes tájékoztatást ad Társaságunk számára. Nem minősül panasznak az sem, ha az Megrendelő nem Társaságunk tevékenységét érintő megkeresést juttat el Társaságunkhoz.</li>
+        </ol>
+        <h3 class="type-ui-card-title jogi-alcim">A panasz bejelentése</h3>
+        <p class="type-ui-body">személyesen (az Megrendelőszolgálaton, vagy telefonon)</p>
+        <p class="type-ui-body">írásban (postai levél, e-mail, vagy fax) történhet.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Társaságunk a panaszkezelés során mind a határidők, mind a válasz formája tekintetében az 1997. évi CLV. törvény (továbbiakban: Fgytv.) előírásai alapján az alábbiak szerint jár el. A panasz beérkezésének dátuma minden, írásban küldött vagy jegyzőkönyvben rögzített panasz esetén az a nap, amely napon a panasz Társaságunk iratkezelésre vonatkozó szabályzata szerint érkeztetésre került. A válaszadás alapvetően olyan írásos formában történik, amilyen formában a panasz Társaságunkhoz beérkezett, feltételezve azt, hogy az Megrendelő rendelkezik az adott csatornához való hozzáféréssel, illetve megadta elérhetőségét. Társaságunk ugyanakkor dönthet úgy, hogy adott esetben a válaszát több csatornán keresztül is eljuttatja az Megrendelőhez, vagy úgy, hogy azt csak postai úton küldi meg.</li>
+        </ol>
+        <h3 class="type-ui-card-title jogi-alcim">Személyesen tett panaszbejelentés</h3>
+        <p class="type-ui-body">Személyes panaszt az Megrendelőszolgálaton tehetnek az Ügyfelek a megadott Megrendelőfogadási időben. Az Ügyfeleknek lehetőségük van elektronikusan és telefonon keresztül is a személyes ügyintézés időpontjának előzetes lefoglalására, a személyes ügyintézés időpontja igénylésének napjától számított öt munkanapon belül Társaságunk Megrendelőszolgálata személyes Megrendelőfogadási időpontot biztosít az Megrendelő számára. Az Megrendelőszolgálat munkatársai minden esetben törekednek a panasz azonnali, helyben történő megoldására. Amennyiben az Megrendelő a panasz kezelésével nem ért egyet, vagy a panasz azonnali kivizsgálása nem lehetséges, úgy jegyzőkönyv felvételére kerül sor. A panaszról felvett jegyzőkönyv tartalmazza az Megrendelő nevét, lakcímét, a panasz előterjesztésének idejét, helyét és módját, a panasz részletes leírását, az Megrendelő által bemutatott iratok, dokumentumok és egyéb bizonyítékok jegyzékét, Társaságunk nyilatkozatát az Megrendelő panaszával kapcsolatos álláspontjáról, amennyiben a panasz azonnali kivizsgálása lehetséges, a jegyzőkönyvet felvevő személy és az Megrendelő (fogyasztó) aláírását, a jegyzőkönyv felvételének helyét és idejét. A jegyzőkönyv másolati példányát Társaságunk a személyesen közölt szóbeli panasz esetén helyben az Megrendelőnek (fogyasztónak átadja). A panasszal kapcsolatban ezt követően az írásban tett panaszbejelentés alapján jár el Társaságunk.</p>
+        <h3 class="type-ui-card-title jogi-alcim">Telefonon tett panaszbejelentés</h3>
+        <p class="type-ui-body">Társaságunk a Fgytv. előírásainak megfelelően, telefonos Megrendelőszolgálatot működtet. Megrendelőfogadási időben a telefonos Megrendelőszolgálat munkatársai törekednek az Megrendelő teljes körű tájékoztatására, kérdései megválaszolására. Az Megrendelőszolgálathoz beérkező valamennyi telefonon tett szóbeli panaszt, valamint az Megrendelőszolgálat munkatársa és az Megrendelő (fogyasztó) közötti telefonos kommunikációt Társaságunk hangfelvétellel rögzíti. A hangfelvételt Társaságunk egyedi azonosítószámmal látja el és öt évig megőrzi, a fogyasztóvédelmi törvény 17/B §-a alapján, és az Megrendelő (fogyasztó) kérésére, díjmentesen rendelkezésre bocsátja. Társaságunk Megrendelőszolgálati munkatársa a hangfelvétel készítésével, megőrzésével és rendelkezésre bocsátásával kapcsolatos kötelezettségéről, továbbá az egyedi azonosítószámról a termék (fogyasztót) a telefonos ügyintézés kezdetekor tájékoztatja. Ha a hangfelvétel tartalmazza az Megrendelő (fogyasztó) nevét, lakcímét, a panasz előterjesztésének idejét, módját, az Megrendelő (fogyasztó) panaszának részletes leírását, Társaságunk Megrendelőszolgálati munkatársának válaszát (nyilatkozatát) a panasszal kapcsolatos álláspontjáról, amennyiben a panasz azonnali kivizsgálása lehetséges, és a panasz (hangfelvétel) egyedi azonosítószámmal történő ellátása megtörténik -, a panaszról a jegyzőkönyv felvétele az Megrendelő (fogyasztó) beleegyezésével mellőzhető. Amennyiben az Megrendelő nem elégedett a telefonos Megrendelő szolgálati munkatárs által adott válasszal, vagy a panasz azonnali kivizsgálása nem lehetséges, úgy jegyzőkönyvben rögzítésre kerül az Megrendelő panasza, amellyel kapcsolatban ezt követően az írásban tett panaszbejelentés alapján jár el Társaságunk, a jegyzőkönyvet az érdemi válasszal együtt megküldve. A jegyzőkönyv tartalmi követelményei megegyeznek a személyesen tett panasznál leírtakkal, kivéve, hogy az Megrendelő aláírása helyett a panasz egyedi azonosító száma kerül feltüntetésre.</p>
+        <h3 class="type-ui-card-title jogi-alcim">Írásban (postai levél, fax, e-mail) tett panaszbejelentés</h3>
+        <p class="type-ui-body">Társaságunkhoz írásban forduló Ügyfelek panaszát Társaságunk hatályos iratkezelési szabályzatának megfelelően kezeli. A panasz beérkezési napjának az írásos panasz érkeztetése számít. Írásbeli panaszokat 15 napon belül, írásbeli, de panasznak nem minősülő Megrendelő megkereséseket 30 napon belül válaszol meg a Társaságunk. A Fgytv. előírásai szerint Társaságunk Megrendelőszolgálata minden esetben köteles a Társaságunk panasszal kapcsolatos álláspontját és intézkedéseit indokolással ellátva írásba foglalni, és a fogyasztónak a panasz beérkezését követő 15 napon belül megküldeni, kivéve, ha a fogyasztó panaszát szóban közli és a Társaságunk az abban foglaltaknak nyomban eleget tesz. A 15 napos válaszadási határidő helyszíni vizsgálat vagy valamely hatóság megkeresésének szükségessége esetén egy alkalommal legfeljebb 15 nappal meghosszabbítható. A válaszadási határidő meghosszabbításáról és annak indokáról az Megrendelőszolgálat az Ügyfelet (fogyasztót) írásban, a válaszadási határidő letelte előtt tájékoztatja. Amennyiben az ügy bonyolultságára való tekintettel az előírt határidőkön belül az érdemi válasz nem adható meg, erről Társaságunk tájékoztatni köteles az Ügyfelet.</p>
+        <h3 class="type-ui-card-title jogi-alcim">Jogorvoslat, békéltető testület</h3>
+        <p class="type-ui-body">A békéltető testület a megyei (fővárosi) kereskedelmi és iparkamarák (a továbbiakban: kamara) mellett működő független szervezet, amely feladata a fogyasztó és a vállalkozás közötti, a termék minőségével, biztonságosságával, a termékfelelősségi szabályok alkalmazásával, a szolgáltatás minőségével, továbbá a felek közötti szerződés megkötésével és teljesítésével kapcsolatos vitás ügy (fogyasztói jogviták) bírósági eljáráson kívüli rendezése, azaz e célból egyezség létrehozásának megkísérlése, ennek eredménytelensége esetén pedig az ügyben döntés hozatala a fogyasztói jogok egyszerű, gyors, hatékony és költségkímélő érvényesítésének biztosítása érdekében. A békéltető testület a fogyasztó vagy a vállalkozás kérésére tanácsot ad a fogyasztót megillető jogokkal és a fogyasztót terhelő kötelezettségekkel kapcsolatban. (Fgytv. 18. §) Az Megrendelő (Fgytv. szerinti fogyasztó) a hulladékgazdálkodási közszolgáltatással kapcsolatos, az előzőek szerinti fogyasztói jogvitának minősülő panaszával – ha véleménye szerint a Társaságunk nem orvosolta azt –, hivatalos szervhez fordulhat: az illetékességgel rendelkező békéltető testülethez. A békéltető testület eljárása nem érinti az igények bírósági úton való érvényesíthetőségét. A Ht. 83. §-a alapján -az elszámolással, számlázással, díjfizetéssel kapcsolatban, illetve a díjhátralék esedékességét követően megtett intézkedésekre, valamint a szolgáltatást érintő értesítési, tájékoztatási, szolgáltatásnyújtási kötelezettségre vonatkozó rendelkezések fogyasztókkal szembeni megsértése esetén a fogyasztóvédelmi hatóság jár el. A Megrendelőnek a fogyasztóvédelmi hatósági eljárásban igazolnia kell, hogy a fogyasztóvédelemmel kapcsolatos és az eljárás alapjául szolgáló panaszt Társaságunk felé megtette. A panasz elutasítása esetén Társaságunk a panaszra adott írásos válaszában tájékoztatja az Ügyfelet (fogyasztót) arról, hogy mely hatóság, vagy békéltető testület eljárását kezdeményezheti abban az esetben, ha a panaszára adott választ nem tartja kielégítőnek.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">A fogasztóvédelemről szóló 1997. évi CLV. törvény (Fgytv.) 17/A § (1a) bekezdésével összhangban tájékoztatjuk a fogyasztónak minősülő Megrendelőt, hogy fogyasztói jogvita esetén a fogyasztó a lakóhelye vagy tartózkodási helye szerint illetékes békéltető testülethez fordulhat.
+A békéltető testület eljárása megindításának feltétele, hogy a fogyasztó először közvetlenül megkísérelje társaságunkkal a vitás ügy rendezését.</li>
+        </ol>
+        <h3 class="type-ui-card-title jogi-alcim">A békéltető testületek elérhetőségei az alábbiak</h3>
+        <h3 class="type-ui-card-title jogi-alcim">Kelt</h3>
+        <p class="type-ui-body">Esztergom, 2025.03.13.</p>
+        <p class="type-ui-body">1. számú melléklet</p>
+        <p class="type-ui-body">Elállási-/Felmondási tájékoztató</p>
+        <p class="type-ui-body">Elállási/Felmondási jog: Ön 14 napon belül jogosult indokolás nélkül elállni e szerződéstől. Hasonlóképpen, ha a szolgáltatás nyújtására irányuló szerződés esetén a szerződés teljesítése megkezdődött, Ön jogosult 14 napon belül indokolás nélkül felmondani a szerződést.</p>
+        <p class="type-ui-body">Ha Ön elállási/felmondási jogával élni kíván, elállási/felmondási szándékát tartalmazó egyértelmű nyilatkozatát köteles eljuttatni (például postán vagy elektronikus úton küldött levél útján) az alábbi címre: 2500 Esztergom, Csendesvölgy utca 27.</p>
+        <p class="type-ui-body">Ebből a célból felhasználhatja a mellékelt elállási-/felmondásinyilatkozat-mintát is. Ön határidőben gyakorolja elállási/felmondási jogát, ha a fent megjelölt határidő lejárta előtt elküldi elállási/felmondási nyilatkozatát. Az elállás/felmondás joghatásai: Ha Ön eláll ettől a szerződéstől, haladéktalanul, de legkésőbb az Ön elállási nyilatkozatának kézhezvételétől számított 14 napon belül visszatérítjük az Ön által teljesített valamennyi ellenszolgáltatást, ideértve a fuvarozási költséget is (kivéve azokat a többletköltségeket, amelyek amiatt merültek fel, hogy Ön az általunk felkínált, szokásos fuvarozási módtól eltérő fuvarozási módot választott.) A visszatérítés során az eredeti ügylet során alkalmazott fizetési móddal egyező fizetési módot alkalmazunk, kivéve, ha Ön más fizetési mód igénybevételéhez kifejezetten a hozzájárulását adja; e visszatérítési mód alkalmazásából kifolyólag Önt semmilyen többletköltség nem terheli.</p>
+        <h3 class="type-ui-card-title jogi-alcim">Útmutató az elállási-/felmondási minta-tájékoztató kitöltéséhez</h3>
+        <p class="type-ui-body">a) szolgáltatás nyújtására irányuló szerződés esetén: „a szerződés megkötésének napjától számított 14 nap elteltével jár le;</p>
+        <p class="type-ui-body">b) Megrendelő adásvételére irányuló szerződés esetében: „attól a naptól számított 14 nap elteltével jár le, amelyen Ön vagy az Ön által megjelölt, a fuvarozótól eltérő harmadik személy az Terméket átveszi;</p>
+        <p class="type-ui-body">A visszatérítést mindaddig visszatarthatjuk, amíg vissza nem kaptuk a Terméket, vagy Ön nem igazolta, hogy azt visszaküldte: a kettő közül a korábbi időpontot kell figyelembe venni.</p>
+        <p class="type-ui-body">Ha a fogyasztó a szerződés alapján Terméket vett át, köteles számunkra az Terméket indokolatlan késedelem nélkül, de legkésőbb elállási nyilatkozatának közlésétől számított 14 napon belül visszaküldeni vagy átadni. A határidő betartottnak minősül, ha a 14 napos határidő letelte előtt elküldi a Terméket. Az Megrendelő visszaküldésének költségeit a Megrendelő/Fogyasztó viseli. Társaságunk kizárólag akkor vonható felelősségre a megrendelésben bekövetkezett értékcsökkenésért, ha az a megrendelés jellegének, tulajdonságainak és működésének megállapításához szükséges használatot meghaladó használat miatt következett be. Ha A Megrendelő/Fogyasztó kérte, hogy a felmondási határidőn belül kezdődjön meg a szolgáltatás teljesítése, felmondása esetén Ön köteles megtéríteni számunkra a szerződés megszűnésének időpontjáig arányosan teljesített szolgáltatásért járó összeget. Hasonlóképpen visszatérítjük az Ön által nyújtott ellenszolgáltatás azon részét, amely meghaladja az általunk nyújtott szolgáltatás ellenértékét.</p>
+        <p class="type-ui-body">2. számú melléklet</p>
+        <p class="type-ui-body">Elállási-/Felmondási nyilatkozat-minta (csak a szerződéstől való elállási szándék esetén töltse ki és juttassa vissza)</p>
+        <p class="type-ui-body">Címzett [ide az Eladónak a nevét, postai címét és elektronikus levelezési címét kell beillesztenie]:</p>
+        <p class="type-ui-body">Alulírott(ak) kijelenti(k), hogy gyakorlom/gyakoroljuk elállási/felmondási jogomat/jogunkat az alábbi Megrendelő(k) adásvételére vagy az alábbi szolgáltatás nyújtására irányuló szerződés tekintetében:</p>
+        <h3 class="type-ui-card-title jogi-alcim">Szerződéskötés időpontja/átvétel időpontja</h3>
+        <h3 class="type-ui-card-title jogi-alcim">Fogyasztó(k) neve</h3>
+        <h3 class="type-ui-card-title jogi-alcim">Fogyasztó(k) címe</h3>
+        <p class="type-ui-body">A fogyasztó(k) aláírása (kizárólag papír alapon tett nyilatkozat esetén):</p>
+        <h3 class="type-ui-card-title jogi-alcim">Kelt</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="bekelteto-testuletek-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Jogorvoslat</p>
+        <h2 class="type-display-section-title section-title" id="bekelteto-testuletek-cim">Békéltető testületek</h2>
+        <p class="type-ui-body section-lead">Megyénként, a kamarák mellett működő független szervezetek.</p>
+      </header>
+      <div class="compare-scroll" tabindex="0" role="region" aria-labelledby="bekelteto-testuletek-cim">
+        <table class="compare-table compare-table-start">
+          <caption class="visually-hidden">Békéltető testületek</caption>
+          <thead>
+            <tr>
+              <th scope="col">Megye</th>
+              <th scope="col">Cím</th>
+              <th scope="col">Elérhetőség</th>
+            </tr>
+          </thead>
+          <tbody>
+        <tr>
+          <th scope="row">Baranya megye</th>
+          <td class="type-ui-body">7625 Pécs, Majorossy I. u. 36.</td>
+          <td class="type-ui-body">(+36)-72-507-154, (+36)-20-283-3422<br>e-mail: info@baranyabekeltetes.hu<br>web: www.baranyabekeltetes.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Bács-Kiskun megye</th>
+          <td class="type-ui-body">6000 Kecskemét, Árpád krt. 4<br>Levelezési cím: Bács-Kiskun Megyei Kereskedelmi és Iparkamara által működtetett Bács-Kiskun Megyei Békéltető Testület; 6001 Kecskemét, Pf. 228.</td>
+          <td class="type-ui-body">(+36)-76-501-525, 501-532; (+36)-70-938-4765<br>e-mail: bekeltetes@bacsbekeltetes.hu<br>web: www.bacsbekeltetes.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Békés megye</th>
+          <td class="type-ui-body">5600 Békéscsaba, Penza ltp. 5.<br>Borsod-Abaúj-Zemplén megye<br>3525 Miskolc, Szentpáli u. 1.<br>Budapest<br>1016 Budapest, Krisztina krt. 99.</td>
+          <td class="type-ui-body">(+36)-66-324-976; (+36)-66-324-976<br>e-mail: bekeltetes@bmkik.hu<br>web: www.bmkik.hu<br>(+36)-46-501-091; (+36)-46-501-871<br>e-mail: bekeltetes@bokik.hu<br>web: www.bekeltetes.borsodmegye.hu<br>(+36)-1-488-2131<br>e-mail: bekelteto.testulet@bkik.hu<br>web: bekeltet.bkik.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Csongrád megye</th>
+          <td class="type-ui-body">6721 Szeged, Párizsi krt. 8-12.</td>
+          <td class="type-ui-body">(+36)-62-554-250/118 mellék<br>e-mail: bekelteto.testulet@csmkik.hu<br>web: www.bekeltetes-csongrad.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Fejér megye</th>
+          <td class="type-ui-body">8000 Székesfehérvár, Hosszúsétatér 4-6.<br>Győr-Moson-Sopron megye<br>9021 Győr, Szent István út 10/a.<br>email: bekeltetotestulet@gymskik.hu</td>
+          <td class="type-ui-body">(+36)-22-510-310<br>e-mail: bekeltetes@fmkik.hu<br>web: https://www.bekeltetesfejer.hu/<br>(+36)-96-520-217<br>web: www.gymsmkik.hu/bekelteto</td>
+        </tr>
+        <tr>
+          <th scope="row">Hajdú-Bihar megye</th>
+          <td class="type-ui-body">4025 Debrecen, Petőfi tér 10.<br>Ügyintézés helyszíne: 4025 Debrecen, Vörösmarty u. 13-15.</td>
+          <td class="type-ui-body">(+36)-52-500-710, (+36)-52-500-745<br>e-mail: bekelteto@hbkik.hu<br>web: www.hbmbekeltetes.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Heves megye</th>
+          <td class="type-ui-body">3300 Eger, Hadnagy utca 6. földszint<br>Levelezési címe: 3300 Eger, Postafiók 440.<br>Jász-Nagykun-Szolnok megye<br>5000 Szolnok, Verseghy park. 8. III. emelet 303-304. szoba</td>
+          <td class="type-ui-body">(+36)-36-416-660/105 mellék<br>e-mail: bekeltetes@hkik.hu<br>web: www.hkik.hu/content/bekelteto-testulet<br>(+36)-20-373-2570<br>e-mail: bekeltetotestulet@iparkamaraszolnok.hu<br>web: www.jaszbekeltetes.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Komárom-Esztergom megye</th>
+          <td class="type-ui-body">2800 Tatabánya, Fő tér 36.</td>
+          <td class="type-ui-body">(+36)-34-513-010<br>e-mail: bekeltetes@kemkik.hu<br>web: https://www.kembekeltetes.hu/</td>
+        </tr>
+        <tr>
+          <th scope="row">Nógrád megye</th>
+          <td class="type-ui-body">3100 Salgótarján, Mártírok útja 4. fsz 14.</td>
+          <td class="type-ui-body">(+36)-32-520-860<br>e-mail: nkik@nkik.hu<br>web: www.nkik.hu; www.bekeltetes-nograd.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Pest megye</th>
+          <td class="type-ui-body">1055 Budapest, Balassi Bálint utca 25. IV/2.<br>Levelezési cím: 1364 Budapest, Pf.: 81</td>
+          <td class="type-ui-body">(+36)-1-792-7881<br>e-mail: pmbekelteto@pmkik.hu<br>web: www.pestmegyeibekelteto.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Somogy megye</th>
+          <td class="type-ui-body">7400 Kaposvár, Anna u. 6.<br>Szabolcs-Szatmár- Bereg megye<br>4400 Nyíregyháza, Széchenyi u. 2.</td>
+          <td class="type-ui-body">(+36)-82-501-000; (+36)-82-501-026<br>e-mail: skik@skik.hu<br>web: www.skik.hu<br>(+36)-42-420-180<br>e-mail: bekelteto@szabkam.hu<br>web:www.bekeltetes-szabolcs.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Tolna megye</th>
+          <td class="type-ui-body">7100 Szekszárd, Arany J. u. 23-25.</td>
+          <td class="type-ui-body">(+36)-74-411-661; (+36)-30-664-2130<br>e-mail:kamara@tmkik.hu; monus.greta@tmkik.hu<br>web:www.tmkik.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Vas megye</th>
+          <td class="type-ui-body">9700 Szombathely, Rákóczi Ferenc u. 23.</td>
+          <td class="type-ui-body">(+36)-94-312-356; (+36)-94-506-645; (+36)-30-956-6708<br>e-mail: bea@vmkik.hu<br>web:www.vasibekelteto.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Veszprém megye</th>
+          <td class="type-ui-body">8200 Veszprém, Radnóti tér 1. Pf.: 220</td>
+          <td class="type-ui-body">(+36)-88-814-121; (+36)-88 814-111<br>e-mail: info@bekeltetesveszprem.hu<br>web: www.bekeltetesveszprem.hu</td>
+        </tr>
+        <tr>
+          <th scope="row">Zala megye</th>
+          <td class="type-ui-body">8900 Zalaegerszeg, Petőfi u. 24.</td>
+          <td class="type-ui-body">(+36)-92-550-513<br>e-mail: zmbekelteto@zmkik.hu<br>web: www.bekelteteszala.hu</td>
+        </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -797,21 +1105,32 @@
         </details>
         <details class="faq-item">
           <summary class="faq-q type-ui-card-title">Mennyi a jótállás?</summary>
-          <div class="faq-a"><p class="type-ui-body">Fogyasztói szerződés esetén egy év az átadástól vagy a telepítéstől. A kellékszavatossági igény ettől függetlenül két évig érvényesíthető. A jótállás feltétele a dokumentált, rendeltetésszerű használat és karbantartás.</p></div>
+          <div class="faq-a"><p class="type-ui-body">Fogyasztóként <strong>3 év</strong> a berendezésre és annak elektronikai részére, a műanyag tartályra pedig <strong>15 év</strong> kiterjesztett jótállás. A 15 év feltétele, hogy a kiszállítást, a szakszerű beszerelést és az éves karbantartást is mi végezzük — ellenkező esetben a tartályra is 3 év vonatkozik.</p></div>
         </details>
         <details class="faq-item">
           <summary class="faq-q type-ui-card-title">A baktériumkultúrára is jár jótállás?</summary>
-          <div class="faq-a"><p class="type-ui-body">Nem. A baktériumkultúra állapotát érdemben befolyásolja, hogy milyen anyagok kerülnek a rendszerbe — ez a használat során a Megrendelő ellenőrzése alatt áll. Ezért erre a jótállás nem terjed ki. Az üzemeltetési oldalon részletesen leírjuk, mit nem szabad a rendszerbe juttatni.</p></div>
+          <div class="faq-a"><p class="type-ui-body">Nem. A baktériumkultúra állapotát érdemben befolyásolja, hogy milyen anyagok kerülnek a rendszerbe — ez a használat során a Megrendelő ellenőrzése alatt áll. Az <a href="megoldasok/biologiai-uzemeltetes-es-karbantartas">üzemeltetési oldalon</a> részletesen leírjuk, mit nem szabad a rendszerbe engedni.</p></div>
         </details>
       </div>
     </div>
   </section>
-<!-- JOGI FELÜLVIZSGÁLAT KÖTELEZŐ ÉLESÍTÉS ELŐTT. Ez a tartalom a cég
-     meglévő dokumentumainak átvétele és kiegészítése, NEM ügyvédi munka.
-     Külön ellenőrizendő: a székhely (lásd a generátor fejlécét), az
-     adatfeldolgozói lista aktualitása, és minden jogszabályi hivatkozás. -->
-</main>
 
+  <section class="section section-alt" aria-labelledby="letoltes-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Letöltés</p>
+        <h2 class="type-display-section-title section-title" id="letoltes-cim">A dokumentum PDF-ben</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">Ugyanez a szöveg letölthető és nyomtatható formában. Az űrlapok
+          visszaigazoló levele is ezt csatolja, hogy utólag is bizonyítható legyen, mi állt itt a
+          beküldés pillanatában.</p>
+        <p><a class="btn btn-secondary" href="assets/dok/okotechhome-aszf.pdf" download>ÁSZF fogyasztóknak (PDF)</a></p>
+      </div>
+    </div>
+  </section>
+
+</main>
 <!-- ==========================================================================
      LÁBLÉC — egy sorban: márkablokk + öt hasáb.
 
@@ -921,12 +1240,14 @@
         <li><a class="lablec-jogi-link" href="cookie-tajekoztato">Cookie-tájékoztató</a></li>
         <li><a class="lablec-jogi-link" href="jogi-nyilatkozat">Jogi nyilatkozat</a></li>
         <li><a class="lablec-jogi-link" href="aszf">ÁSZF</a></li>
+        <li><a class="lablec-jogi-link" href="aszf-vallalkozasoknak">ÁSZF vállalkozásoknak</a></li>
         <li><a class="lablec-jogi-link" href="akadalymentessegi-nyilatkozat">Akadálymentesség</a></li>
         <li><button type="button" class="lablec-jogi-link lablec-jogi-gomb" data-suti hidden>Süti-beállítások</button></li>
       </ul>
     </div>
   </div>
 </footer>
+
 
 <script src="assets/js/site.js?v=14" defer></script>
 <script src="assets/js/betolto.js?v=1" defer></script>
@@ -945,38 +1266,10 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Ez a webhely webáruház?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Nem. Itt ajánlatot kérhet, de közvetlenül nem vásárolhat. A szerződés az ajánlat elfogadásával, külön jön létre — ezért az ÁSZF is elsősorban az adásvételi és szolgáltatási szerződésre vonatkozik."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Meddig érvényes az ajánlatuk?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Az ajánlat megküldésétől számított 48 óráig. Ez rövidnek tűnhet, de az ajánlat összeállításához használt árak és kapacitások ennyi ideig tarthatók. Ha több időre van szüksége, jelezze — jellemzően meg tudjuk hosszabbítani."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Mennyi a jótállás?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Fogyasztói szerződés esetén egy év az átadástól vagy a telepítéstől. A kellékszavatossági igény ettől függetlenül két évig érvényesíthető. A jótállás feltétele a dokumentált, rendeltetésszerű használat és karbantartás."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "A baktériumkultúrára is jár jótállás?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Nem. A baktériumkultúra állapotát érdemben befolyásolja, hogy milyen anyagok kerülnek a rendszerbe — ez a használat során a Megrendelő ellenőrzése alatt áll. Ezért erre a jótállás nem terjed ki. Az üzemeltetési oldalon részletesen leírjuk, mit nem szabad a rendszerbe juttatni."
-          }
-        }
+      {"@type":"Question","name":"Ez a webhely webáruház?","acceptedAnswer":{"@type":"Answer","text":"Nem. Itt ajánlatot kérhet, de közvetlenül nem vásárolhat. A szerződés az ajánlat elfogadásával, külön jön létre — ezért az ÁSZF is elsősorban az adásvételi és szolgáltatási szerződésre vonatkozik."}},
+      {"@type":"Question","name":"Meddig érvényes az ajánlatuk?","acceptedAnswer":{"@type":"Answer","text":"Az ajánlat megküldésétől számított 48 óráig. Ez rövidnek tűnhet, de az ajánlat összeállításához használt árak és kapacitások ennyi ideig tarthatók. Ha több időre van szüksége, jelezze — jellemzően meg tudjuk hosszabbítani."}},
+      {"@type":"Question","name":"Mennyi a jótállás?","acceptedAnswer":{"@type":"Answer","text":"Fogyasztóként 3 év a berendezésre és annak elektronikai részére, a műanyag tartályra pedig 15 év kiterjesztett jótállás. A 15 év feltétele, hogy a kiszállítást, a szakszerű beszerelést és az éves karbantartást is mi végezzük — ellenkező esetben a tartályra is 3 év vonatkozik."}},
+      {"@type":"Question","name":"A baktériumkultúrára is jár jótállás?","acceptedAnswer":{"@type":"Answer","text":"Nem. A baktériumkultúra állapotát érdemben befolyásolja, hogy milyen anyagok kerülnek a rendszerbe — ez a használat során a Megrendelő ellenőrzése alatt áll. Az üzemeltetési oldalon részletesen leírjuk, mit nem szabad a rendszerbe engedni."}}
       ]
     }
   ]

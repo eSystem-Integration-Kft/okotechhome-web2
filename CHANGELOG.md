@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.58.00-80A640?style=flat-square" alt="verzió 0.58.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.59.00-80A640?style=flat-square" alt="verzió 0.59.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-79-56642B?style=flat-square" alt="79 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-80-56642B?style=flat-square" alt="80 kiadás">
 </p>
 
 ---
@@ -26,6 +26,58 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.59.00] — 2026-09-18
+
+### Hozzáadva — két ÁSZF, két vásárlói körre
+
+Bela két aláírt dokumentumot küldött: egyet fogyasztóknak, egyet a fogyasztónak
+nem minősülő vásárlóknak. Nem ugyanannak a szövegnek két változata — a magyar
+jog a fogyasztóra olyan kötelező szabályokat ír elő (14 napos elállási jog,
+kötelező jótállás, termékszavatosság, békéltető testület), amelyek a
+vállalkozásokra nem vonatkoznak. Ezért lett a fogyasztói 2,3-szor hosszabb.
+
+- `/aszf` — **ÁSZF**, fogyasztóknak (7 650 szó)
+- `/aszf-vallalkozasoknak` — **ÁSZF vállalkozásoknak** (3 750 szó)
+
+Mindkettő a lap tetején kimondja, kire vonatkozik, és átvezet a másikra. A húsz
+békéltető testület elérhetősége bekezdésfolyam helyett táblázatban áll. A szöveg
+szó szerint került át a `.docx`-ből; a `scripts/oldalgyartas/aszf_forras.py`
+olvassa be, tehát új jogi változatnál elég a fájlt cserélni.
+
+Mindkettő letölthető PDF-ben, és a négy űrlap visszaigazoló levele a megfelelőt
+csatolja. A régi `/aszf-jogi-szemelyek/` innentől a vállalkozási lapra visz.
+
+### Módosítva — a jótállás a szerződésekhez igazodik
+
+A webhely eddig „2 év"-et mondott négy lapon és „egy év"-et az ÁSZF-lapon. Az új
+dokumentumok szerint: **fogyasztónak 3 év**, **vállalkozásnak 1 év** a
+berendezésre és az elektronikai részére, a műanyag tartályra **15 év**
+kiterjesztett jótállás — utóbbi feltétele, hogy a kiszállítást, a szakszerű
+beszerelést és az éves karbantartást is mi végezzük. Ez a feltétel eddig sehol
+nem szerepelt. Hat lapon átvezetve.
+
+### Javítva — a lábléc a hírlapokon rossz mélységgel épült
+
+A `lablec.py` a gyökér és a nem-gyökér között tett különbséget, a hírek viszont
+két szinttel lejjebb élnek (`okotech-home/hirek/…`). Az egyetlen `../` ott a
+logót és a lábléc minden hivatkozását elrontotta volna — 42 lapon. Az előtag
+mostantól a lap mélységéből jön. A Partnerek lap is bekerült a láblécbe.
+
+### Javítva — a lapsablon hozzájárulás nélküli mérést adott volna
+
+A `sablon.py` kerete elavult: `meres.js`-t emelt be `suti.js` nélkül, és
+hiányzott belőle a témabetöltő, a kampánykód és a késleltetett kalauz. A frissen
+gyártott lapok ezért hozzájárulás nélkül mértek volna. A keret mostantól egy
+KIADOTT lapról jön, nem a sablonból. A beégetett `app.css?v=78` is javítva.
+
+### Hozzáadva — jogi szakasz az `llms.txt`-ben
+
+A jogi lapok eddig egyáltalán nem szerepeltek benne, pedig a „mennyi a
+jótállás?" kérdésre pontosan ezek a mérvadó válaszok. Az új szakasz elöljáróban
+kimondja a két vásárlói kör közti különbséget.
 
 ---
 

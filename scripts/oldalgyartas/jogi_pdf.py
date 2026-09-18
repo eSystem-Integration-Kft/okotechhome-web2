@@ -36,6 +36,7 @@ CEL = GYOKER / '_web' / 'assets' / 'dok'
 LAPOK = {
     'adatkezelesi-tajekoztato': 'okotechhome-adatkezelesi-tajekoztato.pdf',
     'aszf':                     'okotechhome-aszf.pdf',
+    'aszf-vallalkozasoknak':    'okotechhome-aszf-vallalkozasoknak.pdf',
 }
 
 CHROME_JELOLTEK = [

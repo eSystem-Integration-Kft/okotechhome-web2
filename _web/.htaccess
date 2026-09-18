@@ -96,7 +96,10 @@ DirectoryIndex index.html
   # állt (regisztráció, hírlevél); az újban egy van, célonkénti bontással.
   RewriteRule ^adatkezelesi-tajekoztato-(regisztraciohoz|hirlevelhez)/?$  /adatkezelesi-tajekoztato [R=301,L,NE,NC]
   RewriteRule ^impresszum/?$                                       /jogi-nyilatkozat [R=301,L,NE,NC]
-  RewriteRule ^(szallitasi-feltetelek|vasarloi-tajekoztato|aszf-jogi-szemelyek)/?$  /aszf [R=301,L,NE,NC]
+  RewriteRule ^(szallitasi-feltetelek|vasarloi-tajekoztato)/?$  /aszf [R=301,L,NE,NC]
+  # A régi „ÁSZF jogi személyeknek" a fogyasztónak NEM minősülő vásárlók
+  # szerződése volt — annak ma önálló lapja van.
+  RewriteRule ^aszf-jogi-szemelyek/?$                               /aszf-vallalkozasoknak [R=301,L,NE,NC]
 
   # A RÉGI TAGSÁGI (MEMBERSHIP) RÉSZ megszűnt: nincs bejelentkezés a webhelyen.
   # A Kapcsolat lap a becsületes cél — onnan él ember válaszol.

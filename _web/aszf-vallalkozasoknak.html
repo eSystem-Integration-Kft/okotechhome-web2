@@ -8,62 +8,42 @@
      "index, follow"-ra kell cserélni, minden oldalon. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kapcsolat — felmérés, ajánlat, szerviz | ÖkoTech Home</title>
-<meta name="description" content="Írjon vagy telefonáljon: új érdeklődőként, meglévő ügyfélként, szakmai partnerként vagy sajtómegkeresésként. Elérhetőség, és amit érdemes a megkereséshez előkészíteni.">
-<link rel="canonical" href="https://okotechhome.hu/kapcsolat">
+<title>ÁSZF vállalkozásoknak | ÖkoTech Home</title>
+<meta name="description" content="A fogyasztónak nem minősülő vásárlókra — cégekre, intézményekre — vonatkozó szerződési feltételek: teljesítés, fizetés, felelősség és jótállás.">
+<link rel="canonical" href="https://okotechhome.hu/aszf-vallalkozasoknak">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kapcsolat">
-<meta property="og:description" content="Írjon vagy telefonáljon: új érdeklődőként, meglévő ügyfélként, szakmai partnerként vagy sajtómegkeresésként. Elérhetőség, és amit érdemes a megkereséshez előkészíteni.">
-<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-kapcsolat.webp?v=2">
-<meta property="og:url" content="https://okotechhome.hu/kapcsolat">
-<meta property="og:site_name" content="ÖkoTech Home">
-<meta property="og:image:width" content="1800">
-<meta property="og:image:height" content="764">
-<meta property="og:image:alt" content="Kapcsolat">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="ÁSZF vállalkozásoknak">
+<meta property="og:description" content="A fogyasztónak nem minősülő vásárlókra — cégekre, intézményekre — vonatkozó szerződési feltételek: teljesítés, fizetés, felelősség és jótállás.">
+<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-dokumentumok.webp">
 <meta property="og:locale" content="hu_HU">
-<!-- A BETŰK AZ app.css-BEN VANNAK, saját kiszolgálóról. A Google Fontsról
-     betöltve a stíluslap renderelést blokkolna két idegen kézfogás után,
-     és a látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
-     Külön betuk.css-ként is egy blokkoló kérés volt — mérve 190 ms; az
-     app.css részeként a kérés eltűnt, a bájtok pedig egy évig a
-     gyorsítótárban maradnak.
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
+     stíluslap renderelést blokkolna két idegen kézfogás után, és a
+     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
 
-     A CÍMSOR BETŰJE ELŐTÖLTVE — mérve ez adja az LCP-t, nem a hero-kép.
-     Csak ez az egy fájl, és csak `latin`. -->
+     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
+     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
+     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
+     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
+     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
+     adjuk oda az LCP-t.
+     A betűk az app.css BETŰK-régiójában, külön kérés nélkül. -->
+<link rel="stylesheet" href="assets/css/app.css?v=268">
+<!-- Két, szélességhez kötött előtöltés — mindegyik eszköz csak azt tölti
+     elő, amit a <picture> ki is rajzol. A korábbi, feltétel nélküli
+     előtöltés mobilon egy soha nem mutatott széles képet is letöltött.
+     A 750 px-es jelöltet és a nyerő AVIF-et a hero_avif.py teszi hozzá —
+     újragyártott lapnál futtasd le utána. -->
+<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="assets/img/oldalak/hero-dokumentumok-szuk.webp"
+      imagesrcset="assets/img/oldalak/hero-dokumentumok-szuk.webp 1100w"
+      imagesizes="100vw">
+<link rel="preload" as="image" fetchpriority="high" media="(min-width: 1025px)" href="assets/img/oldalak/hero-dokumentumok.webp"
+      imagesrcset="assets/img/oldalak/hero-dokumentumok-1024.webp 1100w, assets/img/oldalak/hero-dokumentumok.webp 1800w"
+      imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="/assets/fonts/zilla-slab-600-latin.woff2">
-<link rel="stylesheet" href="assets/css/app.css?v=268">
-<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
-     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
-<!-- A TÉMÁT BEÁGYAZOTT SOR ÍRJA KI, nem külön fájl. A `data-theme`-nek
-     az ELSŐ festés előtt kell a helyén lennie, különben a látogató előbb
-     a világos lapot látja, és csak utána vált sötétre. Külön fájlként ez
-     egy teljes hálózati körfordulás volt: mérve 560 ms 2,9 KiB-ért, és
-     addig a lap semmit nem rajzolt ki. Beágyazva 195 bájt, kérés nélkül.
-
-     A CSP-BEN HASH ENGEDI, nem `unsafe-inline`: a `script-src` egyetlen
-     sha256-ot nevez meg, pontosan ezt a szöveget. Ha a sor egy karaktert
-     változik, a böngésző MEGTAGADJA a futtatását — ilyenkor a `tema.js`
-     veszi át (lentebb, `defer`), csak villanással. A hash a
-     `_web/.htaccess`-ben és a `serve.py`-ban él, mindkettőt frissíteni kell. -->
 <script>(()=>{try{var t=localStorage.getItem('oth-tema')}catch(e){}document.documentElement.dataset.theme=t==='dark'||t==='light'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})();</script>
-<!-- A VÁLTÓGOMB HUZALOZÁSA viszont ráér: senki nem kattint rá az első
-     festés előtt. Ezért `defer` — nem blokkol, és a téma már áll. -->
 <script src="assets/js/tema.js?v=2" defer></script>
-<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="assets/img/oldalak/hero-kapcsolat-szuk.webp?v=2"
-      imagesrcset="assets/img/oldalak/hero-kapcsolat-szuk-750.webp?v=2 750w, assets/img/oldalak/hero-kapcsolat-szuk.webp?v=2 1100w"
-      imagesizes="100vw">
-<link rel="preload" as="image" fetchpriority="high" media="(min-width: 1025px)" href="assets/img/oldalak/hero-kapcsolat.webp?v=2"
-      imagesrcset="assets/img/oldalak/hero-kapcsolat-1024.webp?v=2 1100w, assets/img/oldalak/hero-kapcsolat.webp?v=2 1800w"
-      imagesizes="100vw">
-<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
-     Szkript nélkül nem marad a lapon árva, néma sáv. -->
 <script src="/assets/js/suti.js?v=4" defer></script>
-<!-- Honnan érkezett a látogató: az `utm_*` és az ajánlói paraméter az ELSŐ
-     belépéskor van meg, az űrlapot viszont jellemzően pár lappal később
-     tölti ki. Ezért fut MINDEN lapon, nem csak az űrlapokén. Rejtett
-     mezőkbe másol, a látogató nem lát belőle semmit. -->
 <script src="/assets/js/kampany.js?v=1" defer></script>
 </head>
 <body>
@@ -543,275 +523,332 @@
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="./">Főoldal</a></li>
-            <li aria-current="page">Kapcsolat</li>
+            <li aria-current="page">ÁSZF vállalkozásoknak</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Kapcsolat</h1>
-        <p class="type-ui-body-strong hero-lead">Négy különböző okból szokás írni: valaki most tájékozódik, valakinek már van rendszere, valaki szakmai partnerként keres, és van, aki sajtóként. Alább kiválaszthatja, melyik illik Önre — a válasz így gyorsabb és pontosabb lesz.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">ÁSZF vállalkozásoknak</h1>
+        <p class="type-ui-body-strong hero-lead">Fogyasztónak nem minősülő vásárlók részére. Magánszemélyként a fogyasztói változat vonatkozik Önre.</p>
       </div>
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="assets/img/oldalak/hero-kapcsolat-szuk-750.webp?v=2 750w, assets/img/oldalak/hero-kapcsolat-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
-        <img src="assets/img/oldalak/hero-kapcsolat.webp?v=2"
-             srcset="assets/img/oldalak/hero-kapcsolat-1024.webp?v=2 1100w, assets/img/oldalak/hero-kapcsolat.webp?v=2 1800w"
-             sizes="100vw" width="1800" height="771" alt="Helyszíni felmérés a kertben: összecsukható asztalon kiterített műszaki rajz, colstok, jegyzetfüzet és talajminta-zacskó, háttérben a ház és egy aknafedlap" fetchpriority="high" decoding="async">
+        <source media="(max-width: 1024px)" srcset="assets/img/oldalak/hero-dokumentumok-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
+        <img src="assets/img/oldalak/hero-dokumentumok.webp"
+             srcset="assets/img/oldalak/hero-dokumentumok-1024.webp 1100w, assets/img/oldalak/hero-dokumentumok.webp 1800w"
+             sizes="100vw" width="1800" height="771" alt="Céges dokumentumok és bélyegző egy íróasztalon" fetchpriority="high" decoding="async">
       </picture>
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="kihez-kerul-a-megkeresese-cim">
+  <section class="section" aria-labelledby="valaszto-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Megkeresés típusa</p>
-        <h2 class="type-display-section-title section-title" id="kihez-kerul-a-megkeresese-cim">Kihez kerül a megkeresése?</h2>
-        <p class="type-ui-body section-lead">Négy külön útvonal, mert négy különböző kérdésről van szó. Válassza azt, amelyik a helyzetére illik — így rögtön ahhoz jut, aki válaszolni tud.</p>
+        <p class="type-data-eyebrow section-eyebrow">Melyik vonatkozik Önre</p>
+        <h2 class="type-display-section-title section-title" id="valaszto-cim">Két szerződés, két vásárlói kör</h2>
       </header>
-      <ul class="situation-grid" role="list">
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-inditas"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Új érdeklődő vagyok</h3>
-          <p class="type-ui-body situation-text">Még nincs rendszer, és azt szeretné tudni, mi jöhet szóba az ingatlanán. Ehhez a település neve, a használat módja és a háztartás létszáma elég a kezdéshez.</p>
-          <a class="text-link situation-action" href="#urlap"><span class="link-label">Írjon nekünk<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-szerviz"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Meglévő ügyfél vagyok</h3>
-          <p class="type-ui-body situation-text">Üzemeltetési kérdés, hibajelenség, alkatrész vagy szervizkérés. Adja meg a berendezés típusát és a telepítés helyét — az adattábláról leolvasható.</p>
-          <a class="text-link situation-action" href="helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem"><span class="link-label">Már van rendszerem<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-vallalkozas"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Szakmai partner vagyok</h3>
-          <p class="type-ui-body situation-text">Tervező, kivitelező, önkormányzat vagy viszonteladó. Műszaki dokumentációt, méretezési segítséget és együttműködési feltételeket egyaránt tudunk küldeni.</p>
-          <a class="text-link situation-action" href="#urlap"><span class="link-label">Szakmai megkeresés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-        <li class="situation">
-          <span class="icon-badge" aria-hidden="true">
-            <span class="icon icon-inline icon-badge-size icon-nav-tudastar"></span>
-          </span>
-          <h3 class="type-ui-card-title situation-title">Sajtó vagy egyéb megkeresés</h3>
-          <p class="type-ui-body situation-text">Szakmai anyag, interjú vagy egyéb kérdés. Írja meg a határidőt is, hogy tudjunk hozzá igazodni.</p>
-          <a class="text-link situation-action" href="#urlap"><span class="link-label">Egyéb megkeresés<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="mit-irjon-meg-hogy-erdemi-valaszt-tudjunk-adni-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Előkészítés</p>
-        <h2 class="type-display-section-title section-title" id="mit-irjon-meg-hogy-erdemi-valaszt-tudjunk-adni-cim">Mit írjon meg, hogy érdemi választ tudjunk adni?</h2>
-        <p class="type-ui-body section-lead">Nem kell mindent tudnia — de minél több szerepel az alábbiakból, annál pontosabb választ tudunk küldeni kiszállás előtt.</p>
-      </header>
-      <ul class="numbered-grid" role="list">
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text"><strong>Az ingatlan helye.</strong> A település neve elég a kezdéshez; a helyrajzi számmal a helyi szabályozás is ellenőrizhető.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text"><strong>A használat módja és a létszám.</strong> Állandó lakhatás vagy időszakos használat, hány fő, és van-e kiszámítható csúcs a terhelésben.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text"><strong>A jelenlegi helyzet.</strong> Van-e már valamilyen rendszer a telken, és ha igen, milyen — emésztő, oldómedence vagy tisztítóberendezés.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">04</span>
-          <p class="type-ui-body card-text"><strong>Mit tud a telekről.</strong> Talaj, tavaszi vízállás, közeli kutak, megközelíthetőség — amennyit tud, annyit.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">05</span>
-          <p class="type-ui-body card-text"><strong>Hol tart a projektben.</strong> Tájékozódik, telket néz, tervez, vagy már ajánlatot kér. Ez határozza meg, mivel tudunk a leginkább segíteni.</p>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section" id="urlap" aria-labelledby="urlap-cim">
-    <div class="section-inner">
-      <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Üzenet</p>
-        <h2 class="type-display-section-title section-title" id="urlap-cim">Írjon nekünk</h2>
-        <p class="type-ui-body section-lead">Munkanapokon igyekszünk egy munkanapon belül
-          válaszolni. Ha sürgős, a telefon a gyorsabb út:
-          <a href="tel:+3633200211">+36 33 200 211</a>.</p>
-      </header>
-
-      <!-- Az űrlap JS NÉLKÜL is működik: sima POST az api/kapcsolat végpontra,
-           amely ilyenkor JSON-t ad vissza. A JS ezt fogja el, és helyben
-           jeleníti meg a választ — de a küldés nem függ tőle. -->
-      <div class="konzv-folytatas konzv-atvezeto">
-        <p class="type-ui-body konzv-folytatas-szoveg">Konkrét projekthez inkább a részletes kérdőívet ajánljuk — abból már szakmai javaslat készül.</p>
-        <div class="konzv-folytatas-gombok">
-          <a class="btn btn-primary btn-kicsi" href="konzultacio">Konzultációkérés</a>
-        </div>
-      </div>
-      <form data-meres="oth_kapcsolat" class="urlap" method="post" action="api/kapcsolat" data-urlap>
-        <div class="urlap-sor">
-          <p class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-nev">Név <span aria-hidden="true">*</span></label>
-            <input class="urlap-input" type="text" id="f-nev" name="nev" required
-                   autocomplete="name" maxlength="120">
-          </p>
-          <p class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-email">E-mail <span aria-hidden="true">*</span></label>
-            <input class="urlap-input" type="email" id="f-email" name="email" required
-                   autocomplete="email" maxlength="254">
-          </p>
-        </div>
-
-        <div class="urlap-sor">
-          <p class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-tel">Telefon</label>
-            <input class="urlap-input" type="tel" id="f-tel" name="telefon"
-                   autocomplete="tel" maxlength="40" placeholder="+36 30 123 4567">
-          </p>
-          <p class="urlap-mezo">
-            <label class="type-ui-caption urlap-cimke" for="f-telepules">Település</label>
-            <input class="urlap-input" type="text" id="f-telepules" name="telepules"
-                   maxlength="120" placeholder="ahol az ingatlan van">
-          </p>
-        </div>
-
-        <p class="urlap-mezo">
-          <label class="type-ui-caption urlap-cimke" for="f-tema">Megkeresés típusa</label>
-          <select class="urlap-input" id="f-tema" name="tema">
-            <option value="uj">Új érdeklődő vagyok</option>
-            <option value="ugyfel">Meglévő ügyfél vagyok</option>
-            <option value="partner">Szakmai partner vagyok</option>
-            <option value="sajto">Sajtó vagy egyéb megkeresés</option>
-          </select>
-        </p>
-
-        <p class="urlap-mezo">
-          <label class="type-ui-caption urlap-cimke" for="f-uzenet">Üzenet <span aria-hidden="true">*</span></label>
-          <textarea class="urlap-input urlap-terulet" id="f-uzenet" name="uzenet" required
-                    rows="6" maxlength="5000"
-                    placeholder="Írja le néhány mondatban a helyzetét: hol van az ingatlan, hogyan használják, és mi a kérdése."></textarea>
-        </p>
-
-        <p class="urlap-jelolo">
-          <input type="checkbox" id="f-hozzajarul" name="hozzajarul" value="1" required>
-          <label class="type-ui-subtitle" for="f-hozzajarul">Hozzájárulok, hogy a megadott adataimat
-            a megkeresés megválaszolása céljából kezeljék.
-            <a href="adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> <span aria-hidden="true">*</span></label>
-        </p>
-
-        <!-- Mézesbödön: a robotok kitöltik, ember nem látja. A `nyitva` mező a
-             megnyitás időpontja — a túl gyors beküldés is robotra utal. -->
-        <p class="urlap-csapda" aria-hidden="true">
-          <label for="f-weboldal">Weboldal</label>
-          <input type="text" id="f-weboldal" name="weboldal" tabindex="-1" autocomplete="off">
-        </p>
-        <input type="hidden" name="nyitva" value="" data-urlap-ido>
-
-        <p class="urlap-akcio">
-          <button class="btn btn-primary" type="submit">Üzenet küldése</button>
-        </p>
-        <p class="type-ui-caption urlap-jog">A <span aria-hidden="true">*</span>-gal jelölt mezők
-          kitöltése kötelező. Az adatait kizárólag a megkeresés megválaszolására használjuk.</p>
-
-        <!-- A visszajelzés helye. `aria-live`: a képernyőolvasó felolvassa,
-             amint megjelenik — enélkül a nem látó felhasználó nem tudná meg,
-             sikerült-e a küldés. -->
-        <p class="urlap-valasz type-ui-body" role="status" aria-live="polite" data-urlap-valasz hidden></p>
-      </form>
-
-      <p class="type-ui-body urlap-kozvetlen">Vagy közvetlenül:
-        <a href="tel:+3633200211">+36 33 200 211</a> ·
-        <a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a> ·
-        2509 Esztergom, Strázsa u. 12.</p>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       ELÉRHETŐSÉG — a térkép a TELJES SZÉLESSÉGŰ háttér, az adatok pedig egy
-       lebegő kártyán ülnek fölötte, bal oldalon. Korábban a szöveg külön
-       szekcióban állt a térkép FÖLÖTT: két blokk mondta ugyanazt egymás után,
-       és a térképnek csak a maradék hely jutott. Egyben tartva a szakasz
-       rövidebb, a térkép pedig másfélszer magasabb lehet.
-
-       A kártya SZÁNDÉKOSAN nem ér le a térkép aljáig: a bal alsó sarokban a
-       Google logója, a jobb alsóban a térképadat-jelzés áll — ezek eltakarása
-       a beágyazás felhasználási feltételeibe ütközne.
-
-       A Google Térkép ALAPÉRTELMEZÉSBEN töltődik be — a cég döntése.
-       ADATVÉDELMI KÖTELEZETTSÉG: a beágyazás sütit tesz le és elküldi a
-       látogató IP-jét a Google-nek. Ezt a cookie-tájékoztatóban nevesíteni
-       kell (harmadik féltől származó süti, cél, adatkezelő), és a
-       cookie-hozzájárulásnak ki kell terjednie rá. Amíg ezek nem élnek, ez
-       nyitott megfelelőségi pont.
-  =========================================================================== -->
-  <section class="terkep" aria-labelledby="terkep-cim"
-           data-terkep-kulcs="AIzaSyB2CfkvqjCHU8MKNwbC5zYe2SIB9PVcMnU"
-           data-terkep-szelesseg="47.7501283"
-           data-terkep-hosszusag="18.73557"
-           data-terkep-nagyitas="16">
-    <div class="terkep-inner">
-      <article class="terkep-kartya">
-        <p class="type-data-eyebrow terkep-eyebrow">Elérhetőség</p>
-        <h2 class="type-display-section-title terkep-cim" id="terkep-cim">Elérhetőség és megközelítés</h2>
-
-        <ul class="terkep-adatok" role="list">
-          <li class="terkep-adat">
-            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5s7-6.6 7-11.5a7 7 0 1 0-14 0c0 4.9 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
-            <span class="type-ui-body terkep-adat-szoveg"><strong>ÖkoTech Home</strong><br>2509 Esztergom, Strázsa u. 12.</span>
-          </li>
-          <li class="terkep-adat">
-            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 3h3.1l1.5 4-2 1.4a12.5 12.5 0 0 0 5.6 5.6L16 12l4 1.5v3.1a2 2 0 0 1-2.2 2A16.4 16.4 0 0 1 4 6.2 2 2 0 0 1 6 3z"/></svg></span>
-            <span class="type-ui-body terkep-adat-szoveg"><a href="tel:+3633200211">+36 33 200 211</a></span>
-          </li>
-          <li class="terkep-adat">
-            <span class="terkep-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
-            <span class="type-ui-body terkep-adat-szoveg"><a href="mailto:kapcsolat@okotechhome.hu">kapcsolat@okotechhome.hu</a></span>
-          </li>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">A magyar jog a fogyasztóra olyan kötelező szabályokat ír elő — 14 napos
+          elállási jog, kötelező jótállás, termékszavatosság, békéltető testület —, amelyek a
+          vállalkozásokra nem vonatkoznak. Ezért két külön szerződésünk van.</p>
+        <ul class="jogi-lista">
+          <li class="type-ui-body"><strong>Ezt a lapot olvassa</strong>, ha cégként, intézményként vagy egyéni vállalkozóként, a szakmája körében rendel.</li>
+          <li class="type-ui-body">A másik dokumentum a <a href="aszf">fogyasztóknak szóló ÁSZF</a>.</li>
         </ul>
-
-        <p class="type-ui-body terkep-megjegyzes">A helyszíni felmérésre az ország egész
-          területén vállalkozunk. A látogatás időpontját előre egyeztetjük, és előtte
-          átküldjük, mit érdemes hozzá előkészíteni.</p>
-
-        <p>
-          <a class="btn btn-secondary terkep-utvonal"
-             href="https://www.google.com/maps/dir/?api=1&amp;destination=2509%20Esztergom%2C%20Str%C3%A1zsa%20u.%2012."
-             target="_blank" rel="noopener noreferrer">Útvonaltervezés<span
-             class="terkep-utvonal-jel" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg></span><span
-             class="visually-hidden"> — a Google Térképen, új lapon nyílik</span></a>
-        </p>
-      </article>
+      </div>
     </div>
+  </section>
 
-    <div class="terkep-vaszon">
-      <!-- A `src` SZÁNDÉKOSAN `data-src` — lásd scripts/oldalgyartas/kapcsolat.py -->
-      <iframe class="terkep-beagyazott"
-              title="ÖkoTech Home — 2509 Esztergom, Strázsa u. 12. a Google Térképen"
-              data-src="https://www.google.com/maps?q=47.7501283,18.73557&amp;ll=47.7501283,18.73278&amp;z=16&amp;hl=hu&amp;output=embed"
-              loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-              allowfullscreen></iframe>
-      <span class="terkep-fade" aria-hidden="true"></span>
+  <section class="section" aria-labelledby="preambulum-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Bevezetés</p>
+        <h2 class="type-display-section-title section-title" id="preambulum-cim">Preambulum</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">Jelen Általános Szerződési Feltételek (a továbbiakban: ÁSZF) az ÖkoTech-Home Kft. mint Eladó (továbbiakban: Eladó vagy Vállalkozó) és a megrendelő (a továbbiakban: Megrendelő, együttesen: Felek), jogait és kötelezettségeit, a szerződéskötés feltételeit szabályozzák.</p>
+        <p class="type-ui-body">Eladó által üzemeltetett weboldal (Biológiai szennyvíztisztítók 1-től 50 főig - Ökotech-Home Kft. (okotechhome.hu) célja, hogy a rajta elérhetővé tett berendezéseket és a többi feltüntetett szolgáltatást, terméket az Eladó üzletszerűen értékesítse.</p>
+        <p class="type-ui-body">A társaság szolgáltatásait https://okotechhome.hu/formok/megrendel.php az Eladó valamennyi Ügyfele jogosult igénybe venni, érvényes és sikeres regisztrációt követően, vagy akár regisztráció nélkül is a megrendelőlap kitöltésével, aláírásával és online történő visszaküldésével. A megrendelőlap kitöltésével és online megküldésével a Megrendelő kifejezetten tudomásul veszi, hogy nyilatkozata fizetési kötelezettséget von maga után.</p>
+        <p class="type-ui-body">Az Eladó szolgáltatásait igénybe vevő valamennyi Megrendelő kijelenti, hogy elolvasta és elfogadja és magára nézve kötelezőnek ismeri el a jelen ÁSZF-ben foglaltakat.</p>
+        <p class="type-ui-body">A weboldalon feltüntetett termékek képpel és leírással kerülnek bemutatásra. Mindezek mellett az Eladó figyelmezteti az Ügyfelet, hogy a weboldalon található képek csak illusztráció céljára szolgálnak és azok a valóságban eltérhetnek a képen látottaktól.</p>
+        <p class="type-ui-body">Jelen ÁSZF minden szerződésre és szolgáltatásra vonatkozik, amelyet Eladó és Megrendelő a fent megjelölt Honlapon keresztül kötnek, függetlenül attól, hogy annak teljesítése Magyarországról vagy külföldről, az Eladó vagy közreműködője által történik. Amennyiben Megrendelő az ügyletkötés során jogi személy képviseletében vagy egyéni vállalkozóként jár el, jelen ÁSZF elfogadásával úgy nyilatkozik, hogy a szerződést szakmájával, önálló foglalkozásával, üzleti tevékenységével összefüggő célok érdekében köti, így nem minősül sem a Polgári Törvénykönyvről szóló 2013. évi V. törvény (továbbiakban: Ptk.) 8:1. § (1) bekezdés 3. pontja szerint, sem pedig a fogyasztóvédelemről szóló 1997. évi CLV. törvény (továbbiakban: Fgytv.) 2. § a) pontja szerint fogyasztónak.</p>
+        <p class="type-ui-body">Az Eladó tájékoztatja a Megrendelőt, hogy szennyvíztisztító berendezés alkalmazása engedélyhez kötött. A szennyvíztisztító berendezés alkalmazásához szükséges engedély megszerzése a Megrendelő kötelezettsége, így az engedély iránti kérelemhez szükséges valamennyi dokumentum beszerzése, az engedélyeztetési eljárás lebonyolítása az ahhoz kapcsolódó ügyintézéssel, valamint valamennyi felmerülő költség viselése a Megrendelő feladata. A Megrendelő tudomásul veszi, hogy az Eladó nem vállal felelősséget az engedély nélküli megrendelésből és telepítéséből eredő bárminemű költségekért, bírságokért vagy károkért.</p>
+      </div>
+    </div>
+  </section>
 
-      <!-- Saját jelölés a Google gombostűje fölött. `aria-hidden`: a címet a
-           kártya már kimondja, ez vizuális kiemelés, nem új információ. -->
-      <span class="terkep-jeloles" aria-hidden="true">
-        <img src="assets/img/logo-okotechhome.svg" width="928" height="290"
-             alt="" loading="lazy" decoding="async">
-      </span>
+  <section class="section" aria-labelledby="elado-adatai-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Szerződő fél</p>
+        <h2 class="type-display-section-title section-title" id="elado-adatai-cim">Eladó adatai</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">Cégnév: Ökotech-Home Kft.</p>
+        <p class="type-ui-body">Székhely: 2500 Esztergom, Csendesvölgy utca 27.</p>
+        <p class="type-ui-body">Levelezési cím: 2500 Esztergom, Csendesvölgy utca 27.</p>
+        <p class="type-ui-body">E-mail cím: kapcsolat@okotechhome.hu</p>
+        <p class="type-ui-body">Telefon: (06) 33/200-211</p>
+        <p class="type-ui-body">Fax: (06) 70/466-7704</p>
+        <p class="type-ui-body">Cégjegyzékszám: 11-09-008852</p>
+        <p class="type-ui-body">Adószám: 12268687-2-11</p>
+        <p class="type-ui-body">Bankszámlaszámok:</p>
+        <p class="type-ui-body">CIB Bank:</p>
+        <p class="type-ui-body">Forint számla: 10700268-70877618-51100005</p>
+        <p class="type-ui-body">IBAN: HU80107002687087761851100005</p>
+      </div>
+    </div>
+  </section>
 
-      <!-- Az élő térkép tárolója. ÜRESEN és REJTVE marad mindaddig, amíg a
-           Maps API be nem töltött; a terkep.js akkor veszi elő, és a fenti
-           beágyazott keret helyére lép. Ha a kulcs hiányzik, lejár vagy a
-           referrer-korlátozás miatt elutasítják, a keret marad — a szekció
-           tehát sosem üresedik ki. -->
-      <div class="terkep-elo" hidden></div>
+  <section class="section" aria-labelledby="elado-kotelezettsegei-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Kötelezettségek</p>
+        <h2 class="type-display-section-title section-title" id="elado-kotelezettsegei-cim">Eladó kötelezettségei</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Eladó kötelezettsége jelen ÁSZF szerint, a megrendelt termék elkészítése, igény esetén kiszállítása, a termék tulajdonjogának átruházása és a Megrendelő által igényelt egyéb megrendelőlapon megrendelt és rögzített szolgáltatás kivitelezése.</li>
+          <li class="type-ui-body">Eladó kötelezettségeit telepítés esetén műszaki átadás-átvételi eljárás keretein belül munkalap kitöltésével és átadásával teljesíti.</li>
+          <li class="type-ui-body">Ha a Megrendelő az átadás-átvételi eljárást nem folytatja le, vagy nincsen jelen a helyszínen a teljesítés joghatásai a tényleges birtokbaadás alapján állnak be. A teljesítéséhez az Eladó a dolog tulajdonjogának átruházására köteles, a dolog átadásával és az ellenérték megfizetésével kerül a Megrendelő tulajdonába.</li>
+          <li class="type-ui-body">A Megrendelő tudomásul veszi és kifejezetten hozzájárul a szerződés megkötésével, hogy az általa megrendelt szennyvíztisztító és szennyvízkezelő berendezések kapcsán elállás nem illeti meg, valamint a teljes mértékben teljesített szolgáltatások esetén elállási/felmondási jogát elveszíti.</li>
+          <li class="type-ui-body">A megrendelés során a „Szállítási cím” megadása esetén Eladó köteles a terméket a Megrendelőhöz továbbítani, illetve annak továbbításáról gondoskodni a megrendelés során a Megrendelő által a „Szállítási mód” alatt megjelölt módon. A fuvarozás – megrendelőlapon feltüntetett – díját Megrendelő viseli. A termék jelen pontban meghatározott módon történő átvétele esetén Megrendelő a megrendelés során az alábbi fizetési módok közül választhat: előre banki átutalás vagy előre bankkártyás fizetés. Árut az Eladó csak teljes vételár előre megfizetése esetén szállít ki és a szolgáltatást is csak annak ellenértékének teljes előzetes megfizetését követően a vállalt határidőben végzi el. Részletfizetés nem lehetséges.</li>
+          <li class="type-ui-body">Eladó köteles a terméket a szerződésben meghatározott mennyiségben, minőségben és leírás szerint szolgáltatni. Eladó a telepítés során köteles a gépészet működését kipróbálni, azt bemutatni a Megrendelőnek vagy használati útmutatót biztosítani.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="megrendelo-kotelezettsegei-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Kötelezettségek</p>
+        <h2 class="type-display-section-title section-title" id="megrendelo-kotelezettsegei-cim">Megrendelő kötelezettségei</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Megrendelő jelen ÁSZF rendelkezései szerint köteles megfizetni a vételárat és átvenni a terméket.</li>
+          <li class="type-ui-body">Vételár megfizetése: A Megrendelő ezen kötelezettsége magában foglalja mindazon intézkedések megtételét és alakiságok megtartását, amelyek a szerződés vagy bármely jogszabály, különösen a Ptk. rendelkezései értelmében a fizetés teljesítésének lehetővé tételéhez szükségesek. Megrendelőnek – ha a Felek máshogy nem állapodnak meg vagy jelen ÁSZF-ből más nem következik – a fizetést azelőtt kell teljesítenie, mielőtt az Eladó jelen ÁSZF-nek megfelelően a Megrendelő rendelkezésére bocsátja a terméket. Az Eladó a fizetés teljesítését a termék, illetve az okmányok átadásának feltételévé teheti. A végösszeg egészét a Megrendelőnek a termék kiszállítás napját megelőző munkanapig meg kell fizetnie az Eladó részére, de legkésőbb a kiszállításkor. Ennek hiányában a szállítás megtagadható, illetve nem vehető le a termék a szállító járműről. A fizetési késedelem kizárja az Eladó késedelmes teljesítését.</li>
+          <li class="type-ui-body">A Megrendelő a termékek megvizsgálása hiányában is köteles megfizetni a vételárat. A Vállalkozóval régebbi üzleti kapcsolatban lévő, rendszeres Megrendelők esetén – külön megállapodás alapján – lehetőség van a vételár jelen ÁSZF-től eltérő időpontban történő utólagos, vagy határidőre történő megfizetésére is.</li>
+          <li class="type-ui-body">Megrendelő jelen ÁSZF szerint köteles az Eladónak járó díjat megfizetni, a munkavégzés helyét a kivitelezéshez alkalmassá tenni, valamint a terméket átvenni.</li>
+          <li class="type-ui-body">A munkafolyamat során keletkezett építési hulladék elszállításáról a Megrendelőnek kell gondoskodni, ennek költsége a Megrendelőt terheli. Megrendelő kötelezettségei közé tartozik a munkálatokhoz szükséges áram biztosítása is.</li>
+          <li class="type-ui-body">Amennyiben a kiviteli munka Megrendelőnek felróható okból nem kezdhető el, vagy folyamatosan nem végezhető, úgy az Eladó a teljesítési határidőre vonatkozóan egyoldalú határidő módosítást hajthat végre.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő telephelyi átvétellel szándékozik terméket vásárolni és a készre jelentést követő 8 napon túl nem szállítja el, vagy pedig az előre megállapodott időpontig nem szállítja el, az Eladó tárolási díjat számít fel, melynek mértéke: 3.000 Ft+ÁFA/nap.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő a felszólítás ellenére 30 napon túl nem szállítja el a megrendelt termékeket, úgy az Eladó vállalkozó jogosult azt harmadik személy felé értékesíteni amellett, hogy jogosult a Megrendelő által fizetett díj 30%-át megtartani meghiúsulási kötbér címén.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő kéri a termék kiszállítását, úgy az előre egyeztetett időpontban a Megrendelő költségére történik.</li>
+          <li class="type-ui-body">Amennyiben a kiszállítási hely nehezen megközelíthető, valamilyen módon akadályoztatott, esetleg a területre történő behajtás engedélyköteles, úgy az alkalmassá tétel a Megrendelő feladata.</li>
+          <li class="type-ui-body">Amennyiben a szállítás a Megrendelő hibájából meghiúsul, úgy az Eladó az újbóli kiszállítás díját a Megrendelőre terheli. Az ily módon kialakult újbóli kiszállítás kizárja az Eladó késedelmes teljesítését.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="szallitasi-es-fizetesi-feltetelek-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Szállítás</p>
+        <h2 class="type-display-section-title section-title" id="szallitasi-es-fizetesi-feltetelek-cim">Szállítási és fizetési feltételek</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">A weboldalon kiválasztott és megrendelt terméket az Eladó a Megrendelőnek e-mailben küldött rendelési visszaigazolásban szereplő időpontig szállítja ki a Megrendelő által a megrendelés során jelzett szállítási címre.</li>
+          <li class="type-ui-body">A megrendelt Terméket az Eladó a megrendelést követő visszaigazoló e-mailben meghatározott szállítási időn belül köteles szolgáltatni, a szállítási idő a vételár teljes kiegyenlítését követő nap kezdődik. A szállítás fuvarozó cég igénybevételével, kivételesen saját fuvareszközzel történik. Meghatározott időpontra (órára) történő kiszállítást az Eladónak nem áll módjában vállalni, kivéve, ha erre vonatkozóan a felek külön írásban megállapodnak.</li>
+          <li class="type-ui-body">Amennyiben egy Megrendelőnek lejárt, kifizetetlen számlája van, annak kiegyenlítéséig a kiszolgálást az Eladó szüneteltetheti, az újabb rendelés kiegyenlített vételárát a korábbi tartozásba beszámíthatja. A Megrendelő a késedelembe esés időpontjától kezdődően a késedelemmel érintett naptári félév első napján érvényes, Ptk. szerinti, vállalkozások közötti késedelmi kamatot köteles fizetni. A tartozások behajtásából származó valamennyi költséget a Megrendelő viseli.</li>
+          <li class="type-ui-body">A Megrendelő köteles a kiszállítás vagy átvétel időpontjában a csomagot tételesen ellenőrizni és hiánytalan teljesítés esetén az átvételi elismervényt aláírni. Ezt követően hiányosságokra vonatkozó reklamációt az Eladónak nem áll módjában elfogadni. Amennyiben a Megrendelő bármilyen sérülést, eltérést tapasztalna, a fuvarozó a Megrendelő kérésére köteles tételesen átadni a Terméket és a helyszínen jegyzőkönyvet felvenni. Az így keletkezett károkért a fuvarozót terheli a felelősség.</li>
+          <li class="type-ui-body">Az Eladó a szállítási díj változtatásának jogát fenntartja azzal, hogy a módosítás a weboldalon való megjelenéssel egyidejűleg lép hatályba. A módosítás a már megrendelt termékek vételárát nem befolyásolja.</li>
+          <li class="type-ui-body">A jelen pontban szereplő valamennyi szállítási feltétel az e-mailen, telefonon és személyesen leadott rendelésekre egyaránt vonatkozik.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="a-megrendeles-folyamata-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Megrendelés</p>
+        <h2 class="type-display-section-title section-title" id="a-megrendeles-folyamata-cim">A megrendelés folyamata</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Eladó által nyújtott termékekkel kapcsolatos ajánlatkérésre a weboldalon feltüntetett űrlap kitöltésével („Ajánlatkérés elküldése” gombra való kattintással) vagy személyesen van lehetőség.</li>
+          <li class="type-ui-body">Az ajánlatkérés megérkezését követően az Eladó 48 órán belül megküldi a Megrendelő részére az ajánlattételi felhívás alapján összeállított ajánlatot elektronikus levél útján.</li>
+          <li class="type-ui-body">Az ajánlat megküldését követően a Megrendelő 48 órán belül jogosult elfogadni azt, ezt követően Eladó ajánlati kötöttsége megszűnik. A jogviszony az ajánlat elfogadásával és Eladó részére történő visszaigazolásával jön létre.</li>
+          <li class="type-ui-body">Megrendelő a megrendelés feladásával kijelenti, hogy a jelen Általános Szerződési Feltételeket elfogadja és magára nézve kötelezőnek ismeri el, valamint nyilatkozik, hogy nem minősül sem a Ptk. 8:1. § (1) bekezdés 3. pontja szerint, sem pedig a fogyasztóvédelemről szóló 1997. évi CLV. törvény (továbbiakban: Fgytv.) 2. § a) pontja szerint fogyasztónak. Megrendelő nyilatkozik továbbá, hogy Magyarországon bejegyzett jogi személy.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="a-szerzodes-teljesitese-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Teljesítés</p>
+        <h2 class="type-display-section-title section-title" id="a-szerzodes-teljesitese-cim">A szerződés teljesítése</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Amennyiben Megrendelő nem rendelte meg a kapcsolódó szolgáltatási tevékenységet Eladótól, csak a terméket, úgy a szerződés a termék Megrendelőhöz történő megérkezésével és átvételével teljesül.</li>
+          <li class="type-ui-body">A kapcsolódó szolgáltatási tevékenység végzésének feltételeit az Eladó úgy köteles megszervezni, hogy biztosítsa a tevékenység biztonságos, szakszerű, gazdaságos és határidőre történő befejezését.</li>
+          <li class="type-ui-body">A telepítést az Eladó a Megrendelő igényeivel összhangban, külön megállapodás keretein belül tudja kivitelezni. A munkafolyamatokat akadályozó időjárási körülmények a kivitelezés befejezésének időpontját eltolhatják. A vállalási határidőt nagy mértékben befolyásolja az egyedi megállapodásban meghatározott munkafolyamatok elvégzésének időpontja.</li>
+          <li class="type-ui-body">Az Eladó a Megrendelő utasítása szerint köteles eljárni. Ha a Megrendelő célszerűtlen vagy szakszerűtlen utasítást ad, az Eladó köteles őt erre figyelmeztetni. Ha a Megrendelő a figyelmeztetés ellenére utasítását fenntartja, az Eladó a szerződéstől elállhat vagy a feladatot a Megrendelő utasításai szerint, az ő kockázatára elláthatja. Az Eladó köteles megtagadni az utasítás teljesítését, ha annak végrehajtása jogszabály vagy hatósági határozat megsértéséhez vezetne, vagy veszélyeztetné mások személyét vagy vagyonát.</li>
+          <li class="type-ui-body">Ha a teljesítés olyan okból válik lehetetlenné, amelyért egyik fél sem felelős, és</li>
+        </ol>
+        <p class="type-ui-body">(1)a lehetetlenné válás oka az Eladó érdekkörében merült fel, díjazásra nem tarthat igényt,</p>
+        <p class="type-ui-body">(2) a lehetetlenné válás oka a Megrendelő érdekkörében merült fel, az Eladót a díj megilleti, de a Megrendelő levonhatja azt az összeget, amelyet az Eladó a lehetetlenné válás folytán költségben megtakarított, továbbá, amelyet a felszabadult időben másutt keresett vagy nagyobb nehézség nélkül kereshetett volna,</p>
+        <p class="type-ui-body">(3) a lehetetlenné válás oka mindkét fél érdekkörében vagy érdekkörén kívül merült fel, az Eladót az elvégzett munka és költségei fejében a díj arányos része illeti meg.</p>
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Eladó a kötelezettségeit telepítés esetén műszaki átadás, átvételi eljárással teljesíti. Ha a Megrendelő az átadás-átvételi eljárást nem folytatja le, a teljesítés joghatásai a tényleges birtokbavétel alapján állnak be. A teljesítéséhez az Eladó a dolog tulajdonjogának átruházására köteles, a dolog átadásával és az ellenérték megfizetésével kerül az Megrendelő tulajdonába.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="raktarozasi-megallapodas-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Raktározás</p>
+        <h2 class="type-display-section-title section-title" id="raktarozasi-megallapodas-cim">Raktározási megállapodás</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Amennyiben a megrendelt termék kiszállítási határideje a Megrendelő általi fizetést követő 1 hónapos határidőn túl kerül megállapításra Eladó és Megrendelő között automatikusan raktározási megállapodás (továbbiakban: Megállapodás) jön létre.</li>
+          <li class="type-ui-body">A Megállapodás értelmében a megrendelt termék tulajdonjoga a Megrendelőre a díj megfizetésével átszáll, azonban tekintettel a későbbi kiszállításra a terméket Eladó a megállapított kiszállítási időpontig díjmentesen raktározza.</li>
+          <li class="type-ui-body">Amennyiben a megállapított kiszállítási határidőig Megrendelő a terméket nem szállítja el vagy nem veszi át úgy Eladó a további raktározásért napi 3000,-Ft+ÁFA díjat számol fel.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="idopontegyeztetes-lemondasok-kezelese-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Időpont</p>
+        <h2 class="type-display-section-title section-title" id="idopontegyeztetes-lemondasok-kezelese-cim">Időpontegyeztetés, lemondások kezelése</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Az időpont egyeztetés telefonon vagy írásban történik. A foglalt időpontról e-mailt küld Eladó, amelyet a Megrendelőnek vissza kell igazolni. Visszaigazolás elmulasztása esetén Eladó nem vállalja a kívánt időpontban történő helyszíni kiszállást.</li>
+          <li class="type-ui-body">A 8.1. szerinti egyeztetett időpont legfeljebb egy alkalommal módosítható díjmentesen. Ismételt lemondás vagy módosítás esetén 15.000 Ft + ÁFA adminisztrációs díj kerül felszámításra. A munkanapon 16:00 óra után jelzett módosítást a következő munkanapon áll módunkban rögzíteni.</li>
+          <li class="type-ui-body">Az egyeztetett időpontot legkésőbb a munkavégzést megelőző 2. munkanapon 16:00 óráig lehet díjmentesen lemondani vagy módosítani. E határidőn belüli vagy aznapi lemondás esetén a teljes kiszállási díj felszámításra kerül. Amennyiben a kiszállás nem az Vállalkozó érdekkörében felmerülő okból hiúsul meg, a kiszállási díjat nem áll módunkban elengedni.</li>
+          <li class="type-ui-body">Amennyiben az előzetes felmérést/helyszíni szemlét követően az Eladó által megküldött ajánlat kiküldését követő 30 napon belül Megrendelő érvényes megrendelést tesz és átutalja az előleg összegét, úgy a felmérési/helyszíni szemle díj 50 százalékát a megrendelés összegéből jóváírjuk.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="fizetesi-feltetelek-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Fizetés</p>
+        <h2 class="type-display-section-title section-title" id="fizetesi-feltetelek-cim">Fizetési feltételek</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">A Megrendelő megrendelését a megrendelés visszaigazolását követően banki átutalással, vagy bankkártyás fizetéssel egyenlítheti ki.</li>
+          <li class="type-ui-body">Az Eladó a kiválasztott fizetési módtól függően e-mailben számlát küld meg a Megrendelő által megadott e-mail címre, majd – ha a Felek ettől eltérően nem állapodtak meg, vagy jelen ÁSZF ettől eltérő rendelkezést nem tartalmaz – a Megrendelő által megfizetett összeg jóváírását követően szolgáltatja az Terméket/szolgáltatást Megrendelő részére az ÁSZF-ben rögzítettek szerint.</li>
+          <li class="type-ui-body">Az Eladó a Megrendelő részére a Megrendelő által megfizetett összeg jóváírását követően – a Megrendelő által választott fizetési módtól függően – elektronikus úton megküldött számlát állít ki a Megrendelő által megadott e-mail címre (vagy a Megrendelő kifejezett kérésére postai úton a Megrendelő által megadott címre). Az ÁSZF elfogadásával a Megrendelő hozzájárul ahhoz, hogy számára az Eladó elektronikus úton megküldött számlát állítson ki. Ha a Megrendelő elektronikus úton megküldendő számlája vagy díjbekérője elkészül, az Eladó erről e-mailen keresztül értesíti/megküldi számára a számlát/díjbekérőt.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="szellemi-tulajdon-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Szerzői jog</p>
+        <h2 class="type-display-section-title section-title" id="szellemi-tulajdon-cim">Szellemi tulajdon</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">A weboldal és annak képi és szöveges, valamint szerkezeti kialakítása egyéni eredeti jelleget hordoz, így szerzői jogi védelem alatt áll. Az Eladó a szerzői jogi jogosultja a weboldalon megjelenített valamennyi tartalomnak: bármely szerzői műnek, illetve más szellemi alkotásnak.</li>
+          <li class="type-ui-body">A jelen ÁSZF-ben kifejezetten meghatározott jogokon túlmenően a regisztráció, a weboldal használata, illetve az ÁSZF egyetlen rendelkezése sem biztosít jogot a Megrendelőnek a weboldal felületén található kereskedelmi nevek vagy védjegyek bármely használatára, hasznosítására.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="felelosseg-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Felelősség</p>
+        <h2 class="type-display-section-title section-title" id="felelosseg-cim">Felelősség</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Az Eladó kizár minden felelősséget a Megrendelő által megvalósított esetleges jogsértésekért. Az Eladó kizárja a felelősségét a szállítási cím alatti kert, illetve telek állagának megóvásáért. A szállítójárműről való levétel és a termék elhelyezése közötti időszakban esetlegesen bekövetkező személyi, illetve tárgyi sérülésekért az Eladó nem vállal felelősséget, amennyiben azt nem ő végzi.</li>
+          <li class="type-ui-body">Eladó a hibás teljesítésből eredő kártérítési kötelezettségét a teljesítés során részére megfizetett nettó díj 50%-ában korlátozza, ezt meghaladó összegben a kártérítési kötelezettségét kizárja. A felelősség korlátozása nem terjed ki a szándékosan okozott, továbbá az emberi életet, testi épséget vagy egészséget megkárosító károkozásért való felelősségre. Eladó ezen felül kizárja a felelősségét a hibás teljesítéshez fűződő következményi károk (pl. elmaradt haszon, jó hírnév sérelme stb.) megtérítéséért is.</li>
+          <li class="type-ui-body">Az Eladó mentesül a felelősség alól, ha bizonyítja, hogy a szerződésszegést ellenőrzési körén kívül eső, a szerződéskötés időpontjában előre nem látható körülmény okozta, és nem volt elvárható, hogy a körülményt elkerülje vagy a kárt elhárítsa (vis maior körülmények).</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="jotallas-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Jótállás</p>
+        <h2 class="type-display-section-title section-title" id="jotallas-cim">Jótállás</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Eladó 1 év jótállást vállal a berendezésre és annak elektronikai részére, a műanyag tartályra pedig összesen 15 év kiterjesztett jótállást vállal. Ezen jótállás csak a berendezésre és annak részeire vonatkozik, nem terjed ki egyéb működési, felhasználási következményekre.</li>
+          <li class="type-ui-body">A műanyag tartályra vonatkozó, összesen 15 éves kiterjesztett jótállási idő feltétele, hogy annak kiszállítását, szakszerű beszerelését és éves karbantartását is Eladó végezze. Ellenkező esetben a műanyag tartályra 1 év jótállást vállal Eladó.</li>
+          <li class="type-ui-body">Amennyiben a berendezés a Megrendelő által, nem megfelelően, szakszerűtlenül, kerül telepítésre az Eladónak nem áll módjában jótállást vállalni. Ugyancsak nem áll módjában jótállást vállalni az Eladónak, amennyiben időjárási vagy egyéb természeti viszonyok miatt kár éri a Megrendelőt vagy a Megrendelő által telepített berendezést.</li>
+          <li class="type-ui-body">A jótállásból eredő garanciális javítások érvényesítésében szerepet játszik a szakszerű használat, gondos karbantartás megléte, így amennyiben azok meglétét a Megrendelő nem tudja hitelt érdemlő módon igazolni az a jótállás korlátozásához vagy kizártságához vezethet.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="elallas-felmondas-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Elállás</p>
+        <h2 class="type-display-section-title section-title" id="elallas-felmondas-cim">Elállás, felmondás</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Megrendelő tudomásul veszi és kifejezetten hozzájárul a szerződés megkötésével, hogy amennyiben számára egyedi megrendelésre készült a termék vagy a Megrendelő egyéni igényeihez igazított a termék – így különösen a szennyvíztisztító berendezések – azzal szemben elállási/felmondási jog nem illeti meg.</li>
+          <li class="type-ui-body">Megrendelő a kapcsolódó szolgáltatási tevékenység kapcsán gyakorolt elállása vagy felmondása esetén köteles az Eladónak a megrendelés szerinti díj 30%-ának megfelelő mértékű kötbért megfizetni.</li>
+          <li class="type-ui-body">Az egyéb Termékkel kapcsolatban Megrendelő általi elállás vagy felmondás esetén Eladó a kapcsolódó szolgáltatások megrendelésétől történő elállás esetén, amennyiben a szolgáltatást még nem teljesítette az Eladó a nettó szolgáltatási díj 30%-ának megfelelő összegű meghiúsulási kötbérre jogosult Eladó.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő a jelen ÁSZF vagy a megrendelőlapon vállaltak valamely rendelkezését megszegi, az Eladó a szerződést jogosult azonnali hatállyal felmondani. Az Eladót a szerződés ezen okból történő felmondása esetén a Megrendelő által megrendelt szolgáltatások megrendelés szerinti nettó díjának 40%-ának megfelelő összegű meghiúsulási kötbér illeti meg, amelyet a Megrendelő a felmondásnak a kézhezvételétől számított 8 napon belül, egy összegben, átutalással köteles megfizetni.</li>
+          <li class="type-ui-body">Amennyiben a Megrendelő csomagajánlatként igénybe vett szolgáltatások alapján kedvezményre volt jogosult, úgy az egyes szolgáltatásoktól való elállása esetén a csomagajánlat szerinti kedvezmény nem illeti meg. Ezek alapján elszámolási kötelezettsége keletkezik Eladóval szemben az igénybe vett kedvezmény erejéig, amelyet az elállását követő 8 napon belül, egy összegben, átutalással köteles megfizetni Eladó részére.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="az-aszf-kozzetetele-es-modositasa-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Hatály</p>
+        <h2 class="type-display-section-title section-title" id="az-aszf-kozzetetele-es-modositasa-cim">Az ÁSZF közzététele és módosítása</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Jelen ÁSZF 2025. január 15. napján lép hatályba és azokat a Ökotech-Home Kft. weboldalán teszi közzé.</li>
+          <li class="type-ui-body">Eladó jogosult az ÁSZF-ben foglaltakat jövőre kiterjedő hatállyal egyoldalúan módosítani. A módosított verzió a fent megjelölt weboldalon történő közzétételét követő naptári naptól hatályos, és a hatályba lépését megelőzően létrejött szerződéseket nem érinti.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="zaro-rendelkezesek-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Záró rész</p>
+        <h2 class="type-display-section-title section-title" id="zaro-rendelkezesek-cim">Záró rendelkezések</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <ol class="jogi-lista">
+          <li class="type-ui-body">Jelen ÁSZF valamely részének érvénytelensége a többi pont érvényességére nem hat ki. Az ÁSZF valamely részének érvénytelensége esetén az érvénytelenné vált részt oly módon kell megváltoztatni, hogy azzal a Felek által célzott joghatás érvényesüljön.</li>
+          <li class="type-ui-body">Amennyiben az ÁSZF és a Felek között létrejött egyéb megállapodás között ellentét van, az ÁSZF rendelkezései az irányadóak.</li>
+          <li class="type-ui-body">A Honlap használatához szükséges azon technikai tájékoztatást, melyet jelen ÁSZF nem tartalmaz, a Honlapon elérhető egyéb tájékoztatások nyújtják.</li>
+          <li class="type-ui-body">Amennyiben a Felek az esetleges jogvitát békés úton nem tudják rendezni, úgy a Budai Központi Kerületi Bíróság, illetve Tatabányai Törvényszék illetékességének kikötését elfogadják.</li>
+          <li class="type-ui-body">A Megrendelő a megrendelése véglegesítése előtt köteles megismerni a jelen ÁSZF rendelkezéseit.</li>
+          <li class="type-ui-body">A jelen ÁSZF-ben nem szabályozott kérdésekben a magyar jog, így különösen a Ptk. rendelkezései az irányadóak.</li>
+        </ol>
+        <p class="type-ui-body">Kelt: Esztergom, 2025.03.13.</p>
+      </div>
     </div>
   </section>
 
@@ -823,23 +860,37 @@
       </header>
       <div class="faq">
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Mennyi idő alatt kapok választ?</summary>
-          <div class="faq-a"><p class="type-ui-body">Munkanapokon egy munkanapon belül igyekszünk válaszolni. Ha a kérdés felmérést igényel, a válaszban időpontot is javasolunk.</p></div>
+          <summary class="faq-q type-ui-card-title">Miért más ez a szerződés, mint a fogyasztói?</summary>
+          <div class="faq-a"><p class="type-ui-body">Mert a fogyasztóra kötelező szabályok — 14 napos elállási jog, kötelező jótállás, termékszavatosság, békéltető testület — a vállalkozásokra nem vonatkoznak. Ami ezen a lapon áll, az a felek megállapodása.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">A felmérés fizetős?</summary>
-          <div class="faq-a"><p class="type-ui-body">A felmérés feltételeit a helyszín és a feladat összetettsége határozza meg; ezt a megkeresésre adott válaszban előre és egyértelműen megírjuk, hogy ne érje meglepetés.</p></div>
+          <summary class="faq-q type-ui-card-title">Mennyi a jótállás vállalkozásként?</summary>
+          <div class="faq-a"><p class="type-ui-body"><strong>1 év</strong> a berendezésre és annak elektronikai részére, a műanyag tartályra pedig összesen <strong>15 év</strong> kiterjesztett jótállás. A 15 év feltétele, hogy a kiszállítást, a szakszerű beszerelést és az éves karbantartást is mi végezzük — ellenkező esetben a tartályra is 1 év vonatkozik.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-q type-ui-card-title">Az egész országban vállalnak munkát?</summary>
-          <div class="faq-a"><p class="type-ui-body">Igen, a felmérést és a telepítést az ország egész területén végezzük. A távolság a kiszállásban jelenhet meg költségtételként, ezt az ajánlat tartalmazza.</p></div>
+          <summary class="faq-q type-ui-card-title">Melyik szerződés vonatkozik egyéni vállalkozóra?</summary>
+          <div class="faq-a"><p class="type-ui-body">Ez, ha a megrendelés a szakmája, önálló foglalkozása vagy üzleti tevékenysége körébe esik. Ha magánszemélyként, ettől függetlenül rendel, a <a href="aszf">fogyasztói ÁSZF</a> az irányadó.</p></div>
         </details>
       </div>
     </div>
   </section>
 
-</main>
+  <section class="section section-alt" aria-labelledby="letoltes-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Letöltés</p>
+        <h2 class="type-display-section-title section-title" id="letoltes-cim">A dokumentum PDF-ben</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">Ugyanez a szöveg letölthető és nyomtatható formában. Az űrlapok
+          visszaigazoló levele is ezt csatolja, hogy utólag is bizonyítható legyen, mi állt itt a
+          beküldés pillanatában.</p>
+        <p><a class="btn btn-secondary" href="assets/dok/okotechhome-aszf-vallalkozasoknak.pdf" download>ÁSZF vállalkozásoknak (PDF)</a></p>
+      </div>
+    </div>
+  </section>
 
+</main>
 <!-- ==========================================================================
      LÁBLÉC — egy sorban: márkablokk + öt hasáb.
 
@@ -957,11 +1008,10 @@
   </div>
 </footer>
 
+
 <script src="assets/js/site.js?v=14" defer></script>
 <script src="assets/js/betolto.js?v=1" defer></script>
 <script type="text/plain" data-kesleltetett src="assets/js/kalauz.js?v=47"></script>
-<script src="assets/js/urlap.js?v=3" defer></script>
-<script src="assets/js/terkep.js?v=5" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -970,36 +1020,15 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
       {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okotechhome.hu/"},
-      {"@type":"ListItem","position":2,"name":"Kapcsolat","item":"https://okotechhome.hu/kapcsolat"}
+      {"@type":"ListItem","position":2,"name":"ÁSZF vállalkozásoknak","item":"https://okotechhome.hu/aszf-vallalkozasoknak"}
       ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Mennyi idő alatt kapok választ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Munkanapokon egy munkanapon belül igyekszünk válaszolni. Ha a kérdés felmérést igényel, a válaszban időpontot is javasolunk."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "A felmérés fizetős?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A felmérés feltételeit a helyszín és a feladat összetettsége határozza meg; ezt a megkeresésre adott válaszban előre és egyértelműen megírjuk, hogy ne érje meglepetés."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Az egész országban vállalnak munkát?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Igen, a felmérést és a telepítést az ország egész területén végezzük. A távolság a kiszállásban jelenhet meg költségtételként, ezt az ajánlat tartalmazza."
-          }
-        }
+      {"@type":"Question","name":"Miért más ez a szerződés, mint a fogyasztói?","acceptedAnswer":{"@type":"Answer","text":"Mert a fogyasztóra kötelező szabályok — 14 napos elállási jog, kötelező jótállás, termékszavatosság, békéltető testület — a vállalkozásokra nem vonatkoznak. Ami ezen a lapon áll, az a felek megállapodása."}},
+      {"@type":"Question","name":"Mennyi a jótállás vállalkozásként?","acceptedAnswer":{"@type":"Answer","text":"1 év a berendezésre és annak elektronikai részére, a műanyag tartályra pedig összesen 15 év kiterjesztett jótállás. A 15 év feltétele, hogy a kiszállítást, a szakszerű beszerelést és az éves karbantartást is mi végezzük — ellenkező esetben a tartályra is 1 év vonatkozik."}},
+      {"@type":"Question","name":"Melyik szerződés vonatkozik egyéni vállalkozóra?","acceptedAnswer":{"@type":"Answer","text":"Ez, ha a megrendelés a szakmája, önálló foglalkozása vagy üzleti tevékenysége körébe esik. Ha magánszemélyként, ettől függetlenül rendel, a fogyasztói ÁSZF az irányadó."}}
       ]
     }
   ]

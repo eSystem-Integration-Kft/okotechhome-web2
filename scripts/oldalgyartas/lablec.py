@@ -86,6 +86,7 @@ MASODLAGOS = [
     ('Ügyféltámogatás', 'helyzetem/mar-van-rendszerem-segitsegre-van-szuksegem'),
     ('Partnereknek', 'kapcsolat'),
     ('ÖkoTech-Home', 'okotech-home/'),
+    ('Partnerek', 'okotech-home/partnerek'),
     ('Kapcsolat', 'kapcsolat'),
 ]
 
@@ -94,6 +95,7 @@ JOGI = [
     ('Cookie-tájékoztató', 'cookie-tajekoztato'),
     ('Jogi nyilatkozat', 'jogi-nyilatkozat'),
     ('ÁSZF', 'aszf'),
+    ('ÁSZF vállalkozásoknak', 'aszf-vallalkozasoknak'),
     ('Akadálymentesség', 'akadalymentessegi-nyilatkozat'),
 ]
 
@@ -186,7 +188,12 @@ if __name__ == '__main__':
         if p.name in ('401.html', '403.html', '404.html', '500.html'):
             continue                      # a hibaoldalak önhordók, saját láblécük van
         s = p.read_text(encoding='utf-8')
-        elo = '' if p.parent == WEB else '../'
+        # AZ ELŐTAG A LAP MÉLYSÉGÉBŐL JÖN, nem abból, hogy a gyökérben van-e.
+        # A hírek két szinttel lejjebb élnek (`okotech-home/hirek/…`), és az
+        # egyetlen `../` ott a fejléclogót és a lábléc minden hivatkozását
+        # elrontotta — mérve 2026-09-18-án, 42 lapon.
+        melyseg = len(p.relative_to(WEB).parts) - 1
+        elo = '../' * melyseg
         uj = epit(elo)
         if '<footer class="lablec">' in s:
             s = re.sub(r'\n<!-- =+\n     LÁBLÉC.*?\n</footer>\n', uj, s, flags=re.S)

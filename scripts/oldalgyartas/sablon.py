@@ -253,7 +253,7 @@ def build(p):
      szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
      adjuk oda az LCP-t.
      A betűk az app.css BETŰK-régiójában, külön kérés nélkül. -->
-<link rel="stylesheet" href="../assets/css/app.css?v=78">
+<link rel="stylesheet" href="../assets/css/app.css?v=268">
 <!-- Két, szélességhez kötött előtöltés — mindegyik eszköz csak azt tölti
      elő, amit a <picture> ki is rajzol. A korábbi, feltétel nélküli
      előtöltés mobilon egy soha nem mutatott széles képet is letöltött.

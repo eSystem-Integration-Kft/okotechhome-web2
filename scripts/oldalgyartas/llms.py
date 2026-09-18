@@ -52,6 +52,13 @@ SZAKASZOK = [
 GYOKER_LAPOK = ['kapcsolat', 'konzultacio', 'ajanlat', 'megrendeles',
                 'szippantasi-dij-kalkulator']
 
+# A JOGI LAPOK eddig kimaradtak. Pedig a „mennyi a jótállás?", „van-e elállási
+# jog?" kérdésre pontosan ezek a mérvadó válaszok — és két ÁSZF van, két
+# vásárlói körre, amit egy nyelvi modellnek külön meg kell tudnia különböztetni.
+JOGI_LAPOK = ['aszf', 'aszf-vallalkozasoknak', 'adatkezelesi-tajekoztato',
+              'cookie-tajekoztato', 'jogi-nyilatkozat',
+              'akadalymentessegi-nyilatkozat']
+
 
 def cim_es_leiras(f: pathlib.Path):
     t = f.read_text(encoding='utf-8', errors='replace')
@@ -129,6 +136,20 @@ def epit(web: pathlib.Path) -> str:
                            else f'- [{c}]({DOMAIN}{ut(f, web)})')
     if tetelek:
         s += ['## Megkeresés és eszközök', ''] + tetelek + ['']
+
+    tetelek = []
+    for nev in JOGI_LAPOK:
+        f = web / f'{nev}.html'
+        if f.exists() and indexelheto(f):
+            c, l = cim_es_leiras(f)
+            tetelek.append(f'- [{c}]({DOMAIN}{ut(f, web)}): {l}' if l
+                           else f'- [{c}]({DOMAIN}{ut(f, web)})')
+    if tetelek:
+        s += ['## Jogi dokumentumok', '',
+              'Két ÁSZF van, két vásárlói körre: a fogyasztói változat 3 év jótállást,',
+              'a vállalkozásoknak szóló 1 évet ad; a műanyag tartályra mindkettő 15 év',
+              'kiterjesztett jótállást, ha a kiszállítás, a beszerelés és az éves',
+              'karbantartás is tőlünk van.', ''] + tetelek + ['']
 
     s += ['## Megjegyzés',
           '',
