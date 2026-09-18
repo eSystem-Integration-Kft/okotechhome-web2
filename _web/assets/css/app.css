@@ -1087,6 +1087,20 @@
     margin-bottom:var(--space-16)}
   .folyoszoveg > p,.jogi-szoveg > p{color:var(--text-secondary);margin-bottom:var(--space-16)}
   .folyoszoveg > p:last-child,.jogi-szoveg > p:last-child{margin-bottom:0}
+
+  /* A SZÖVEGBEN ÁLLÓ HIVATKOZÁS ALÁ VAN HÚZVA. A szín önmagában nem
+     megkülönböztető jel (WCAG 2.2 AA, 1.4.1): a linkszín és a szövegszín
+     kontrasztja 1,14:1 — mérve 2026-09-18-án, a Megoldások hubon. Az önálló,
+     nyilas `.text-link` ettől független: az saját sorban áll, nem szövegben. */
+  .folyoszoveg a:not(.btn):not(.text-link),
+  .jogi-szoveg a:not(.btn):not(.text-link),
+  .card-text a:not(.btn):not(.text-link),
+  .situation-text a:not(.btn):not(.text-link),
+  .faq-a a:not(.btn):not(.text-link),
+  .hub-lenyeg p a:not(.btn):not(.text-link){
+    text-decoration:underline;text-underline-offset:2px;
+    text-decoration-thickness:from-font;
+  }
   /* A JOGSZABÁLYHELY a jog megnevezése után, halványabban. Azért külön elem és
      nem a mondat része, mert a hivatkozás ELLENŐRIZHETŐSÉG, nem olvasnivaló: aki
      a szöveget olvassa, átsiklik rajta, aki viszont keresi, egy pillantással
