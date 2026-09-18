@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.61.00-80A640?style=flat-square" alt="verzió 0.61.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.62.00-80A640?style=flat-square" alt="verzió 0.62.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-83-56642B?style=flat-square" alt="83 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-84-56642B?style=flat-square" alt="84 kiadás">
 </p>
 
 ---
@@ -26,6 +26,38 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.62.00] — 2026-09-18
+
+### Hozzáadva — a régi webhely dokumentumtára visszakerült
+
+A `/wp-content/uploads/` alatti fájlok évi 600-nál több organikus kattintást
+hoztak, és az átállás óta mind 404 volt. A `/_Backup/20260903/oko-wp-mentes.zip`
+mentésből **79 fájl került vissza az EREDETI címére** — átirányítás nélkül, mert
+egy PDF-et lapra irányítani soft 404, amit a Google kiejt az indexből.
+
+- **Jogszabályi összefoglaló** (2012. május) — 344 katt/év, a lista legnagyobb
+  egyedi tétele
+- **Üzemeltetési dokumentumtár**, 12 darab: használati és karbantartási
+  utasítás (201 katt/év), a berendezések működése, kamrák elnevezése, telepítés
+  lépésről lépésre, szikkasztóalagút telepítése, levegőelosztó beállítása,
+  iszapkipumpálás négyféle kivitelben, dugult könyök elhárítása
+- **25 kiadott engedély** 2013 és 2020 közül — a határozatokban a név, a cím és
+  a helyrajzi szám kitakarva szerepel, ezért közölhetők
+- TÜV-tanúsítvány, két sajtóközlemény, elállási nyilatkozatminta
+
+Mind be is van kötve a témába vágó lapról, hogy ne csak a régi találatokból
+legyenek elérhetők: a dokumentumtár, a tanúsítványok, az elszivárogtatás, a
+telepítés és az üzemeltetés lapjáról.
+
+### Javítva — a szikkasztó kavicsának szemnagysága
+
+A lap „20–25 mm-es" mosott kulékavicsot írt; a most visszakerült, saját
+telepítési útmutatónk **16–32 mm szemnagyságú, osztályozott, mosott** kulékavicsot
+ír elő, és a geotextíliára is ad minősítést (legalább 100-as). A lap a
+dokumentumhoz igazodik, és hivatkozik rá.
 
 ---
 
