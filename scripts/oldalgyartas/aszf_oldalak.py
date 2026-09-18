@@ -344,6 +344,13 @@ def webpage_sema(html, o, nap_iso):
 
 FOGYASZTO = FORRAS / '2026-09-18_ASZF_fogyasztok.docx'
 VALLALKOZAS = FORRAS / '2026-09-18_ASZF_fogyasztonak_nem_minosulo.docx'
+if not FOGYASZTO.exists() or not VALLALKOZAS.exists():
+    sys.exit('A forrásdokumentumok nincsenek meg:\n'
+             f'  {FOGYASZTO}\n  {VALLALKOZAS}\n'
+             'A kiadott lapok érintetlenek maradnak. Ha új jogi változat jött, tedd a\n'
+             'fájlokat erre a két útvonalra, és futtasd újra. A szövegkivonat a\n'
+             '_files/aszf-forras/ alatt van meg — abból a tagolás nem állítható vissza.')
+
 NAP, NAP_ISO = hatalyos(FOGYASZTO)
 
 OLDALAK = [

@@ -113,6 +113,15 @@ def epit(web: pathlib.Path) -> str:
          '  megfelelő egy-egy megoldás.',
          '']
 
+    # A FŐOLDAL eddig kimaradt a felsorolásból. A fejlécben ott a cég leírása,
+    # de a főoldal SAJÁT címe és leírása — az, amit a kereső is lát — sehol nem
+    # szerepelt, pedig az a webhely belépési pontja.
+    f = web / 'index.html'
+    if f.exists() and indexelheto(f):
+        c, l = cim_es_leiras(f)
+        s += ['## A webhely belépési pontja', '',
+              f'- [{c}]({DOMAIN}/): {l}' if l else f'- [{c}]({DOMAIN}/)', '']
+
     for cim, mappa in SZAKASZOK:
         d = web / mappa
         if not d.is_dir():

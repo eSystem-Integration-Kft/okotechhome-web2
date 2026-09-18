@@ -241,6 +241,10 @@ def build(p):
 <meta property="og:title" content="{esc(p['h1'])}">
 <meta property="og:description" content="{esc(p['desc'])}">
 <meta property="og:image" content="{DOMAIN}/assets/img/oldalak/hero-{img}.webp">
+<!-- Az `og:url` a KANONIKUS cím. A sablonból eddig hiányzott, ezért a belőle
+     gyártott lapok megosztásakor a közösségi oldal a megosztott — akár
+     paraméteres — címet vette volna azonosítónak. -->
+<meta property="og:url" content="{DOMAIN}/{p['url']}">
 <meta property="og:locale" content="hu_HU">
 <!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
      stíluslap renderelést blokkolna két idegen kézfogás után, és a

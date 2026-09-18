@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.63.00-80A640?style=flat-square" alt="verzió 0.63.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.63.01-80A640?style=flat-square" alt="verzió 0.63.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-85-56642B?style=flat-square" alt="85 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-86-56642B?style=flat-square" alt="86 kiadás">
 </p>
 
 ---
@@ -26,6 +26,43 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.63.01] — 2026-09-18
+
+### Javítva — teljes SEO- és GEO-átvilágítás után minden lap hibátlan
+
+A 191 kiadott lapot végigmértem cím, leírás, `h1`, canonical, közösségi meta és
+strukturált adat szerint. Amit talált:
+
+- **`og:url` hiányzott a lapsablonból** — a belőle gyártott három új lapon
+  (mindkét ÁSZF és a jogszabályi áttekintés) nem volt kanonikus cím a
+  megosztáshoz. A sablon javítva, a lapokon pótolva.
+- **14 lapleírás 165 karakter fölött** volt, tehát levágódott a találati
+  listában. Mind rövidebb lett úgy, hogy a lényeg elöl maradjon.
+- **3 cím 63–65 karakter** — ezek is beférnek mostantól.
+- **A `/konzultacio` lapon egyáltalán nem volt strukturált adat.** Kapott
+  `WebPage` és `BreadcrumbList` csomópontot.
+
+Az eredmény: **hiba egy lapon sincs**, és séma nélküli lap sem maradt.
+
+### Hozzáadva — a főoldal az `llms.txt`-ben
+
+A felsorolásból eddig kimaradt a főoldal: a fejlécben ott a cég leírása, de a
+főoldal SAJÁT címe és leírása — amit a kereső is lát — sehol nem szerepelt.
+
+### Javítva — a mentett eredménylap kikerült Öko kalauzából
+
+Az `/eredmeny` ma `noindex` (személyre szóló, kód nélkül üres), a kalauz mégis
+ajánlotta volna. Most kimarad, mint a jelentéslap.
+
+### Javítva — az ÁSZF-generátor nem áll meg a hiányzó forráson
+
+A `.docx` az Asztalról készül; ha nincs ott, a szkript eddig kivétellel elszállt,
+és a vele egy menetben futó generátorok sem futottak le. Mostantól beszédes
+üzenettel kilép, a kiadott lapok érintetlenül maradnak. A szövegkivonat
+bekerült a `_files/aszf-forras/` alá.
 
 ---
 

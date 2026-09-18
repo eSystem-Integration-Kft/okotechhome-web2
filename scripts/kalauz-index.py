@@ -51,6 +51,7 @@ szoveg_tetelek = []
 KIHAGY = {
     '404.html', '401.html', '403.html', '500.html',
     'jelentes.html',            # csak saját eredménnyel értelmes
+    'eredmeny.html',            # mentett eredmény azonosító alapján — kód nélkül üres
     'comparison-report.html',   # ugyanaz angolul — a kihagyás nyelvenként is szimmetrikus
 }
 
