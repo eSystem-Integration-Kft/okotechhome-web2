@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.53.00-80A640?style=flat-square" alt="verzió 0.53.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.53.01-80A640?style=flat-square" alt="verzió 0.53.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-70-56642B?style=flat-square" alt="70 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-71-56642B?style=flat-square" alt="71 kiadás">
 </p>
 
 ---
@@ -26,6 +26,19 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.53.01] — 2026-09-18
+
+### Javítva — a szövegben álló hivatkozás alá van húzva
+
+Az élő Megoldások hubon a Lighthouse akadálymentességi pontszáma 97 volt,
+egyetlen bukó szabállyal: a linket csak a színe különböztette meg a szövegtől
+(kontraszt a környező szöveghez 1,14:1 — WCAG 2.2 AA, 1.4.1). A folyó
+szövegben, a kártyaszövegben, a GYIK-válaszokban és az összefoglaló dobozban
+álló hivatkozások mostantól aláhúzottak. Az önálló, nyilas hivatkozás nem
+változik: az saját sorban áll, nem mondat közben.
 
 ---
 
