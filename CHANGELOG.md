@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.54.01-80A640?style=flat-square" alt="verzió 0.54.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.55.00-80A640?style=flat-square" alt="verzió 0.55.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-73-56642B?style=flat-square" alt="73 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-74-56642B?style=flat-square" alt="74 kiadás">
 </p>
 
 ---
@@ -26,6 +26,51 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.55.00] — 2026-09-18
+
+### Hozzáadva — Házi szennyvíztisztító lap (674621a)
+
+A `/megoldasok/hazi-szennyviztisztito` a „házi szennyvíztisztító" (390
+keresés/hó) és klasztere lapja: hátrányai 90 · legjobb 70 · egyedi
+szennyvíztisztító kisberendezés 70 · szennyvíztisztító házilag 70 · legolcsóbb
+50 · engedélyezése 40 · vélemények · pályázat · kisberendezés. 1900 szó, 38
+belső hivatkozás, négyhelyzetes infografika, döntési táblázat, öt őszinte
+hátrány, a „házilag" kérdés, költségek, engedélyezés, a lezárt projektek és hét
+GYIK-válasz.
+
+A lap szándéka szűk — *melyik rendszer való Önnek* —, mert a főoldal címe és a
+fogalmi tudástár-lap ugyanerre a kifejezésre megy.
+
+`/mi-az-a-hazi-szennyviztisztito-es-miert-hasznos/` innentől 301-gyel ide visz.
+
+### Módosítva — a kánon átvezetve az egész webhelyen
+
+Bela 2026-09-18-i kánonja szerint:
+
+- **Engedélyezés:** egyetlen megfogalmazás, kategorikus „a jegyző dönt" nélkül
+  (elszivárogtatás, nyaralólap).
+- **Kapacitás:** 6–50 lakosegyenérték; „1 főtől", „1–50 fő", „2–6 LE" sehol.
+- **Oxigénellátás:** a kompresszor adja; „rendszeres levegőztetés", nem
+  „folyamatos levegőztetés".
+- **Üzemeltetési költség:** mindkét adat ki van írva, melyik melyik — havi
+  áram, illetve a teljes éves üzemeltetés.
+- **Garancia:** a jogszabály szerinti jótállás, 2 év + 15 év tartálystabilitás.
+- **Kibocsátás:** a VITUKI-értékek megfelelőségi állítás nélkül.
+- **Iszap:** komposztálható, de veteményesben nem.
+- **Oldómedence:** a stabil működéshez rendszeres baktériumkészítmény-adagolás
+  kell — a termékoldalon, az EPURECO lapon és ott is, ahol eddig az ellenkezője
+  állt.
+- **767 000 m³:** mindig „becslésünk szerint".
+- **Írásmód:** ÖkoTech-Home, A.B. Clear — 320 előfordulás javítva.
+
+### Javítva — a perjeles címek nem szivárogtatják ki a szerver útvonalát
+
+A `/nincs-ilyen-oldal/` alakú címek a `/home/okotechhome/public_html/…` címre
+irányítottak: a perjelet levágó szabály relatív célt adott meg, az Apache pedig
+elé tette a fájlrendszer útvonalát. A cél mostantól abszolút.
 
 ---
 
