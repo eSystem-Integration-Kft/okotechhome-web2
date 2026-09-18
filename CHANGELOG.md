@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.60.00-80A640?style=flat-square" alt="verzió 0.60.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.61.00-80A640?style=flat-square" alt="verzió 0.61.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-82-56642B?style=flat-square" alt="82 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-83-56642B?style=flat-square" alt="83 kiadás">
 </p>
 
 ---
@@ -26,6 +26,36 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.61.00] — 2026-09-18
+
+### Hozzáadva — az A.B. Clear termékismertető, mai arculattal
+
+A kiszolgálón megtalált régi `A.B.Clear_termekismerteto.pdf` négy oldala jó
+anyag, de a lába alatt a régi cég állt: `+36 33 400 387`, `www.emeszto.hu`,
+`www.ciszterna.hu`, e-mail-cím sehol. Ez a fájl minden ajánlatkérőnek
+automatikusan kimegy, ezért nem mehetett ki így.
+
+Az új, négyoldalas termékismertető a webhely arculatával készül
+(`scripts/oldalgyartas/termekismerteto.py`): Zilla Slab és IBM Plex, márkaszínek,
+mai elérhetőségek. **Négy adat változott a régihez képest:**
+
+| | Régi lap | Most |
+|---|---|---|
+| Garancia | 2 év | 3 év fogyasztónak, 1 év vállalkozásnak, 15 év a tartályra |
+| VITUKI-értékek | 20 BOI₅ · 10 NH₄-N · 8 P | 15 · 9 · 5 — a webhely mai tájékoztatása |
+| Megfelelőség | „megfelelnek a 28/2004. 3. kategóriájának" | a mért érték, megfelelőségi állítás nélkül |
+| Áramfogyasztás | havi 14–16 kWh | 1000–1500 Ft/hó (36 Ft/kWh példaárral) |
+
+Az utolsó kettő ELTÉRÉS, nem javítás: a régi lap 14–16 kWh-ja és a webhely
+1000–1500 Ft-ja nem hozható össze. A webhely adata áll a lapon, az eltérést
+Bela felé jeleztük.
+
+A dokumentum letölthető a `/megoldasok/ab-clear` és a
+`/megoldasok/ab-clear-dokumentumok` lapról, és mostantól a négy űrlap
+visszaigazoló levele is csatolja — a kód eddig is kereste, csak a fájl hiányzott.
 
 ---
 
