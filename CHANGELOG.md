@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.55.00-80A640?style=flat-square" alt="verzió 0.55.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.55.01-80A640?style=flat-square" alt="verzió 0.55.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-74-56642B?style=flat-square" alt="74 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-75-56642B?style=flat-square" alt="75 kiadás">
 </p>
 
 ---
@@ -26,6 +26,23 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.55.01] — 2026-09-18
+
+### Javítva — két akadálymentességi hiba a helyzetkártyákon
+
+Az élesített lapon mért Lighthouse 93-at adott akadálymentességre (a többi lap
+100). Két oka volt, mindkettő a `hub-*` készletben, tehát mindenhol, ahol
+helyzetkártya áll:
+
+- A kártya „iránya" (a javasolt megoldás) márkazöld szövegszínt kapott: 16
+  px-en 2,7:1. Mostantól címkén áll — a zöld a háttérbe került, a szöveg a
+  sötét alapszínt kapta.
+- A bevezető bekezdésének hivatkozásai aláhúzás nélkül álltak, a link és a
+  körülötte lévő szöveg kontrasztja pedig 1,14:1 — a szín önmagában nem
+  megkülönböztető jel. A bekezdés felkerült az aláhúzó szabályok közé.
 
 ---
 

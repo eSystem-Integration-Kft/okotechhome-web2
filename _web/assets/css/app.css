@@ -1097,7 +1097,8 @@
   .card-text a:not(.btn):not(.text-link),
   .situation-text a:not(.btn):not(.text-link),
   .faq-a a:not(.btn):not(.text-link),
-  .hub-lenyeg p a:not(.btn):not(.text-link){
+  .hub-lenyeg p a:not(.btn):not(.text-link),
+  .hub-bevezeto-szoveg p a:not(.btn):not(.text-link){
     text-decoration:underline;text-underline-offset:2px;
     text-decoration-thickness:from-font;
   }
@@ -10397,8 +10398,16 @@
   /* A szám szövegszínű: a márkazöld 11 px-en 2,7:1 lett volna. */
   .hub-lepes-szam{margin:var(--space-8) 0 0;color:var(--text-secondary)}
   .hub-lepes-cim{margin:0;color:var(--text-primary)}
-  /* A helyzetkártya „iránya”: a javasolt megoldás, kiemelve. */
-  .hub-irany{margin:0;color:var(--abra-kiemeles)}
+  /* A helyzetkártya „iránya”: a javasolt megoldás. Címkén áll, mert ez a
+     kártya VÁLASZA — és mert a márkazöld szövegszínként 16 px-en csak 2,7:1
+     lett volna a kártya alapján (mérve 2026-09-18-án). Így a zöld a háttérbe
+     került, a szöveg pedig a sötét alapszínt kapta. */
+  .hub-irany{
+    margin:0;align-self:start;
+    padding:var(--space-4) var(--space-8);
+    border-radius:var(--r-md);
+    background:var(--badge-bg);color:var(--badge-text);
+  }
   .hub-lepes-szoveg{margin:0;color:var(--text-secondary)}
   .hub-folyamat-jegyzet{margin:0;color:var(--text-tertiary)}
   /* Háromrészes változat: a Megoldások hub rendszerábrája. */
