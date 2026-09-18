@@ -261,7 +261,7 @@ fi
 cim "7. Belső hivatkozások"
 if command -v python3 >/dev/null 2>&1; then
   LINKEK="$(python3 - <<'PYVEG'
-import os, re, collections
+import os, re, collections, urllib.parse
 
 HREF = re.compile(r'href="([^"#?][^"]*)"')
 hianyzo = collections.defaultdict(set)
@@ -280,6 +280,12 @@ for gyoker, konyvtarak, fajlok in os.walk('_web'):
             ut = h.split('#')[0].split('?')[0]
             if not ut:
                 continue
+            # A SZÁZALÉKJELES KÓDOLÁST FEL KELL OLDANI. A visszaállított régi
+            # dokumentumok neve ékezetes, a href-ben viszont kódolva áll — a
+            # fájlrendszerben így egyik sem volt megtalálható, és tizennyolc jó
+            # hivatkozás látszott hiányzónak. Egy ELGÉPELT szlug ugyanebbe a
+            # listába esne: a téves riasztás elrejtené a valódit.
+            ut = urllib.parse.unquote(ut)
             # a gyökér-abszolút útvonal a kiszolgáló gyökeréhez képest él
             alap = '_web' if ut.startswith('/') else gyoker
             cel = os.path.normpath(os.path.join(alap, ut.lstrip('/')))

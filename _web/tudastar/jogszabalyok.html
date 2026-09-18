@@ -8,62 +8,42 @@
      "index, follow"-ra kell cserélni, minden oldalon. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, max-snippet:0, max-image-preview:none, max-video-preview:0, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Költség és telepítés | ÖkoTech Home</title>
-<meta name="description" content="A projekt nem azonos a berendezéssel. Költségszerkezet, felelősségi határok — és az, ami az iszapzsákos rendszernél is a tulajdonosnál marad.">
-<link rel="canonical" href="https://okotechhome.hu/helyzetem/koltseg-es-telepites">
+<title>Szennyvíz jogszabályok — mi változott 2012 óta?</title>
+<meta name="description" content="A házi szennyvíztisztítóra vonatkozó hatályos jogszabályok, és hat pont, ahol ma mást mond a szabály, mint a 2012-es összefoglalónkban.">
+<link rel="canonical" href="https://okotechhome.hu/tudastar/jogszabalyok">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Költség és telepítés">
-<meta property="og:description" content="A projekt nem azonos a berendezéssel. Költségszerkezet, felelősségi határok — és az, ami az iszapzsákos rendszernél is a tulajdonosnál marad.">
-<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-koltseg.webp?v=2">
-<meta property="og:url" content="https://okotechhome.hu/helyzetem/koltseg-es-telepites">
-<meta property="og:site_name" content="ÖkoTech Home">
-<meta property="og:image:width" content="1800">
-<meta property="og:image:height" content="764">
-<meta property="og:image:alt" content="Költség és telepítés">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="Jogszabályi áttekintés">
+<meta property="og:description" content="A házi szennyvíztisztítóra vonatkozó hatályos jogszabályok, és hat pont, ahol ma mást mond a szabály, mint a 2012-es összefoglalónkban.">
+<meta property="og:image" content="https://okotechhome.hu/assets/img/oldalak/hero-engedelyezes.webp">
 <meta property="og:locale" content="hu_HU">
-<!-- A BETŰK AZ app.css-BEN VANNAK, saját kiszolgálóról. A Google Fontsról
-     betöltve a stíluslap renderelést blokkolna két idegen kézfogás után,
-     és a látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
-     Külön betuk.css-ként is egy blokkoló kérés volt — mérve 190 ms; az
-     app.css részeként a kérés eltűnt, a bájtok pedig egy évig a
-     gyorsítótárban maradnak.
+<!-- A betűk SAJÁT KISZOLGÁLÓRÓL jönnek. A Google Fontsról betöltve a
+     stíluslap renderelést blokkolna két idegen kézfogás után, és a
+     látogató IP-címe minden lapmegtekintéskor a Google-höz kerülne.
 
-     A CÍMSOR BETŰJE ELŐTÖLTVE — mérve ez adja az LCP-t, nem a hero-kép.
-     Csak ez az egy fájl, és csak `latin`. -->
+     ELŐTÖLTÉS SZÁNDÉKOSAN NINCS. A `preload as="font"` MAGAS prioritású —
+     ugyanaz, mint a hero-képé —, és mobilhálózaton 57 KB betű állt volna a
+     86 KB-os LCP-kép elé. Amit cserébe adott volna, az egy rövid
+     betűcsere-villanás megspórolása; a `font-display: swap` viszont a
+     szöveget így is azonnal kirakja tartalék betűvel. A villanásért nem
+     adjuk oda az LCP-t.
+     A betűk az app.css BETŰK-régiójában, külön kérés nélkül. -->
+<link rel="stylesheet" href="../assets/css/app.css?v=269">
+<!-- Két, szélességhez kötött előtöltés — mindegyik eszköz csak azt tölti
+     elő, amit a <picture> ki is rajzol. A korábbi, feltétel nélküli
+     előtöltés mobilon egy soha nem mutatott széles képet is letöltött.
+     A 750 px-es jelöltet és a nyerő AVIF-et a hero_avif.py teszi hozzá —
+     újragyártott lapnál futtasd le utána. -->
+<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="../assets/img/oldalak/hero-engedelyezes-szuk.webp"
+      imagesrcset="../assets/img/oldalak/hero-engedelyezes-szuk.webp 1100w"
+      imagesizes="100vw">
+<link rel="preload" as="image" fetchpriority="high" media="(min-width: 1025px)" href="../assets/img/oldalak/hero-engedelyezes.webp"
+      imagesrcset="../assets/img/oldalak/hero-engedelyezes-1024.webp 1100w, ../assets/img/oldalak/hero-engedelyezes.webp 1800w"
+      imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" crossorigin
       href="/assets/fonts/zilla-slab-600-latin.woff2">
-<link rel="stylesheet" href="../assets/css/app.css?v=269">
-<!-- A témát a `data-theme` hordozza; ez a szkript írja ki, még a törzs
-     feldolgozása előtt — így nincs villanás. Lásd assets/js/tema.js. -->
-<!-- A TÉMÁT BEÁGYAZOTT SOR ÍRJA KI, nem külön fájl. A `data-theme`-nek
-     az ELSŐ festés előtt kell a helyén lennie, különben a látogató előbb
-     a világos lapot látja, és csak utána vált sötétre. Külön fájlként ez
-     egy teljes hálózati körfordulás volt: mérve 560 ms 2,9 KiB-ért, és
-     addig a lap semmit nem rajzolt ki. Beágyazva 195 bájt, kérés nélkül.
-
-     A CSP-BEN HASH ENGEDI, nem `unsafe-inline`: a `script-src` egyetlen
-     sha256-ot nevez meg, pontosan ezt a szöveget. Ha a sor egy karaktert
-     változik, a böngésző MEGTAGADJA a futtatását — ilyenkor a `tema.js`
-     veszi át (lentebb, `defer`), csak villanással. A hash a
-     `_web/.htaccess`-ben és a `serve.py`-ban él, mindkettőt frissíteni kell. -->
 <script>(()=>{try{var t=localStorage.getItem('oth-tema')}catch(e){}document.documentElement.dataset.theme=t==='dark'||t==='light'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})();</script>
-<!-- A VÁLTÓGOMB HUZALOZÁSA viszont ráér: senki nem kattint rá az első
-     festés előtt. Ezért `defer` — nem blokkol, és a téma már áll. -->
 <script src="../assets/js/tema.js?v=2" defer></script>
-<link rel="preload" as="image" fetchpriority="high" media="(max-width: 1024px)" href="../assets/img/oldalak/hero-koltseg-szuk.webp?v=2"
-      imagesrcset="../assets/img/oldalak/hero-koltseg-szuk-750.webp?v=2 750w, ../assets/img/oldalak/hero-koltseg-szuk.webp?v=2 1100w"
-      imagesizes="100vw">
-<link rel="preload" as="image" fetchpriority="high" media="(min-width: 1025px)" href="../assets/img/oldalak/hero-koltseg.webp?v=2"
-      imagesrcset="../assets/img/oldalak/hero-koltseg-1024.webp?v=2 1100w, ../assets/img/oldalak/hero-koltseg.webp?v=2 1800w"
-      imagesizes="100vw">
-<!-- Süti-hozzájárulás: a sávot és a beállításkezelőt a szkript építi.
-     Szkript nélkül nem marad a lapon árva, néma sáv. -->
 <script src="/assets/js/suti.js?v=4" defer></script>
-<!-- Honnan érkezett a látogató: az `utm_*` és az ajánlói paraméter az ELSŐ
-     belépéskor van meg, az űrlapot viszont jellemzően pár lappal később
-     tölti ki. Ezért fut MINDEN lapon, nem csak az űrlapokén. Rejtett
-     mezőkbe másol, a látogató nem lát belőle semmit. -->
 <script src="/assets/js/kampany.js?v=1" defer></script>
 </head>
 <body>
@@ -543,149 +523,263 @@
         <nav class="breadcrumb" aria-label="Morzsamenü">
           <ol class="breadcrumb-list type-ui-caption" role="list">
             <li><a href="../">Főoldal</a></li>
-            <li><a href="./">Kiindulópont</a></li>
-            <li><a href="csaladi-hazhoz-keresek-rendszert">Családi ház</a></li>
-            <li aria-current="page">Költség és telepítés</li>
+            <li><a href="./">Tudástár</a></li>
+            <li aria-current="page">Jogszabályi áttekintés</li>
           </ol>
         </nav>
-        <h1 class="type-display-page-title hero-title" id="oldal-cim">Költség és telepítés</h1>
-        <p class="type-ui-body-strong hero-lead">A projekt nem azonos a berendezéssel. Költségszerkezet, felelősségi határok — és az, ami az iszapzsákos rendszernél is a tulajdonosnál marad.</p>
+        <h1 class="type-display-page-title hero-title" id="oldal-cim">Jogszabályi áttekintés</h1>
+        <p class="type-ui-body-strong hero-lead">A 2012-es összefoglalónkat ma is sokan használják. Nem vettük le — de mellé tettük, mi változott azóta.</p>
       </div>
     </div>
     <figure class="hero-media page-hero-media">
       <picture>
-        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-koltseg-szuk-750.webp?v=2 750w, ../assets/img/oldalak/hero-koltseg-szuk.webp?v=2 1100w" sizes="100vw" width="1100" height="471">
-        <img src="../assets/img/oldalak/hero-koltseg.webp?v=2"
-             srcset="../assets/img/oldalak/hero-koltseg-1024.webp?v=2 1100w, ../assets/img/oldalak/hero-koltseg.webp?v=2 1800w"
-             sizes="100vw" width="1800" height="771" alt="Tételes árajánlat egy íróasztalon, mellette számológép, toll és egy műszaki rajz sarka" fetchpriority="high" decoding="async">
+        <source media="(max-width: 1024px)" srcset="../assets/img/oldalak/hero-engedelyezes-szuk.webp 1100w" sizes="100vw" width="1100" height="471">
+        <img src="../assets/img/oldalak/hero-engedelyezes.webp"
+             srcset="../assets/img/oldalak/hero-engedelyezes-1024.webp 1100w, ../assets/img/oldalak/hero-engedelyezes.webp 1800w"
+             sizes="100vw" width="1800" height="771" alt="Hatósági dokumentumok és pecsét egy íróasztalon" fetchpriority="high" decoding="async">
       </picture>
     </figure>
   </section>
 
-  <section class="section" aria-labelledby="mennyibe-kerul-a-szennyviztisztito-cim">
+  <section class="section" aria-labelledby="tizennegy-ev-alatt-sok-minden-valtozott-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">A kérdés átfogalmazása</p>
-        <h2 class="type-display-section-title section-title" id="mennyibe-kerul-a-szennyviztisztito-cim">„Mennyibe kerül a szennyvíztisztító?”</h2>
+        <p class="type-data-eyebrow section-eyebrow">Miért ez a lap</p>
+        <h2 class="type-display-section-title section-title" id="tizennegy-ev-alatt-sok-minden-valtozott-cim">Tizennégy év alatt sok minden változott</h2>
       </header>
-      <p class="type-ui-body section-lead">Erre nincs egyetlen szám, mert a projekt nem azonos a berendezéssel. A telek adottságai és az igényelt szolgáltatási kör több további elemet hoznak magukkal — és ezek gyakran nagyobb tételek, mint maga a tartály.</p>
-      <p class="type-ui-body section-lead">Ezért itt <strong>költségszerkezetet</strong> mutatunk, nem árat: azt, hogy mely tételeket kell az ajánlatban keresnie, és melyik telekadaton múlik még a pontos összeg.</p>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">A házi szennyvíztisztítók engedélyezése nem egyetlen jogszabályban áll: a keretet a vízgazdálkodási törvény adja, a hatáskört egy kormányrendelet osztja szét, a műszaki követelményt egy miniszteri rendelet, a határértéket egy másik, a talajterhelési díjat pedig egy törvény és a helyi önkormányzati rendelet együtt.</p>
+        <p class="type-ui-body">Ebből következik, hogy egy összefoglaló <strong>gyorsan elavul</strong>. A miénk 2012-ben készült, és azóta négy ponton módosultak a szabályok, két helyen pedig olyan rendelet lépett be, ami akkor még nem létezett. Ez a lap ezt vezeti át — nem a régi helyett, hanem mellé.</p>
+        <div class="jogi-kiemelt type-ui-body"><p>Ez a lap <strong>tájékoztat, nem jogi tanácsot ad</strong>. A hivatkozott jogszabályt minden esetben érdemes elolvasni, a konkrét projektet pedig az adott helyszín és a hatóság alapján megítélni.</p></div>
+      </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="amibol-a-projekt-osszeall-cim">
+  <section class="section" aria-labelledby="valtozasok-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Költségszerkezet</p>
-        <h2 class="type-display-section-title section-title" id="amibol-a-projekt-osszeall-cim">Amiből a projekt összeáll</h2>
+        <p class="type-data-eyebrow section-eyebrow">Ami változott</p>
+        <h2 class="type-display-section-title section-title" id="valtozasok-cim">Hat pont, ahol ma mást mond a jogszabály</h2>
+        <p class="type-ui-body section-lead">Nem elírásról van szó: 2012-ben ez volt a
+          helyzet. Azóta viszont módosultak a rendeletek, és átalakult a hatósági
+          szervezet — ezeket szedtük össze.</p>
       </header>
-      <ul class="numbered-grid" role="list">
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">01</span>
-          <p class="type-ui-body card-text"><strong>Berendezés és szállítás.</strong></p>
+      <ul class="valtozas-racs" role="list">
+        <li class="valtozas">
+          <p class="type-ui-caption valtozas-jel">Változott</p>
+          <h3 class="type-ui-card-title valtozas-cim">A műszaki alaprendelet ma már ismeri az egyedi megoldásokat</h3>
+          <dl class="valtozas-sor">
+            <dt>2012-ben</dt><dd class="type-ui-body">A 30/2008. (XII. 31.) KvVM rendeletről azt írtuk: „a törvényhozó megfeledkezett az egyedi szennyvíztisztítási megoldásokról, csak a központi szennyvízelvezetéssel foglalkozik”.</dd>
+            <dt>Ma</dt><dd class="type-ui-body valtozas-ma">Ez a rendelet a vizek hasznosítását szolgáló létesítmények <strong>műszaki szabályait</strong> adja, és a <strong>4. melléklete</strong> tartalmazza az egyedi szennyvíztisztítókra vonatkozó határértékeket.</dd>
+          </dl>
+          <p class="type-ui-body valtozas-kovetkezmeny"><strong>Mit jelent Önnek:</strong> A kifolyó vízre vonatkozó követelményt itt kell keresni. A 28/2004. a felszíni vízbe (élővízbe) vezetés határértékeit adja — az más eset.</p>
         </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">02</span>
-          <p class="type-ui-body card-text"><strong>Földmunka és beemelés.</strong> A talaj kötöttsége és a kitermelt föld elhelyezése mozgatja.</p>
+        <li class="valtozas">
+          <p class="type-ui-caption valtozas-jel">Változott</p>
+          <h3 class="type-ui-card-title valtozas-cim">Háromévente, nem ötévente</h3>
+          <dl class="valtozas-sor">
+            <dt>2012-ben</dt><dd class="type-ui-body">Az összefoglaló szerint a felülvizsgálatok gyakoriságát az engedélyt kiadó szerv állapítja meg, „mely általában 5 év”.</dd>
+            <dt>Ma</dt><dd class="type-ui-body valtozas-ma">CE-jelölt lakossági kisberendezésnél a teljes engedélyezés helyett <strong>kötelező önellenőrzés</strong> terheli a tulajdonost: mintavétel és analitika a létesítéskor, majd <strong>háromévente</strong>, az eredmény a jegyzőnek 15 napon belül (147/2010. Korm. r.).</dd>
+          </dl>
+          <p class="type-ui-body valtozas-kovetkezmeny"><strong>Mit jelent Önnek:</strong> Ez a <strong>tulajdonos</strong> kötelezettsége, nem a gyártóé. Érdemes naptárba tenni: a hároméves ciklus attól a naptól indul, amikor a berendezés üzembe állt.</p>
         </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">03</span>
-          <p class="type-ui-body card-text"><strong>Csővezetékek és elektromos előkészítés.</strong></p>
+        <li class="valtozas">
+          <p class="type-ui-caption valtozas-jel">Változott</p>
+          <h3 class="type-ui-card-title valtozas-cim">Más a hatóság neve — és néha más a hatóság is</h3>
+          <dl class="valtozas-sor">
+            <dt>2012-ben</dt><dd class="type-ui-body">A másodfok az „Országos Környezet- és Vízügyi Főfelügyelőség”, a szikkasztási határértéket a „Vízügyi Felügyelőségek” írták elő.</dd>
+            <dt>Ma</dt><dd class="type-ui-body valtozas-ma">A <strong>jegyző</strong> marad, ha mindhárom teljesül: legfeljebb 500 m³/év kibocsátás, kizárólag háztartási szennyvíz, és a tisztított víz elszikkasztása. Minden más esetben a <strong>megyei katasztrófavédelmi igazgatóság</strong> jár el vízügyi hatóságként.</dd>
+          </dl>
+          <p class="type-ui-body valtozas-kovetkezmeny"><strong>Mit jelent Önnek:</strong> Ha élővízbe vezetne, vagy 500 m³/év fölött van a kibocsátás, nem a jegyzőhöz kell fordulni. Rossz hatóságnál indított eljárás hónapokat vesz el.</p>
         </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">04</span>
-          <p class="type-ui-body card-text"><strong>Magasítás vagy átemelő</strong>, ha a csőszint megkívánja.</p>
+        <li class="valtozas">
+          <p class="type-ui-caption valtozas-jel valtozas-jel-uj">Új szabály</p>
+          <h3 class="type-ui-card-title valtozas-cim">Megvan, mit kell benyújtani</h3>
+          <dl class="valtozas-sor">
+            <dt>2012-ben</dt><dd class="type-ui-body">A kérelem tartalmát nem egyetlen jogszabály sorolta fel; a 2012-es összefoglalóban nem is szerepel ilyen lista.</dd>
+            <dt>Ma</dt><dd class="type-ui-body valtozas-ma">A <strong>41/2017. (XII. 29.) BM rendelet</strong> 3. melléklete tételesen megadja a vízjogi engedélyezési dokumentáció tartalmát. A szakhatóságok kijelölése az 531/2017. Korm. rendeletben áll.</dd>
+          </dl>
+          <p class="type-ui-body valtozas-kovetkezmeny"><strong>Mit jelent Önnek:</strong> A tervezőnek ehhez kell igazodnia. Az eljárás <strong>illetékmentes</strong>, a határidő <strong>60 nap</strong>; a dokumentációt vízilétesítmény-tervezésre jogosult szakember készíti.</p>
         </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">05</span>
-          <p class="type-ui-body card-text"><strong>A kezelt víz elhelyezése.</strong> Szikkasztómező vagy a befogadóig vezető szakasz — talajtípustól és távolságtól függően eltérő nagyságrend.</p>
+        <li class="valtozas">
+          <p class="type-ui-caption valtozas-jel">Változott</p>
+          <h3 class="type-ui-card-title valtozas-cim">A kibocsátási határértékek rendeletét módosították</h3>
+          <dl class="valtozas-sor">
+            <dt>2012-ben</dt><dd class="type-ui-body">A 28/2004. (XII. 25.) KvVM rendelet 2. számú mellékletére hivatkoztunk, a 2012-es szöveggel.</dd>
+            <dt>Ma</dt><dd class="type-ui-body valtozas-ma">A rendelet hatályos, de <strong>a 7/2023. (III. 13.) BM rendelet módosította</strong>, 2023. június 26-i hatállyal.</dd>
+          </dl>
+          <p class="type-ui-body valtozas-kovetkezmeny"><strong>Mit jelent Önnek:</strong> Ha egy régi tervben vagy ajánlatban a 28/2004. valamelyik értéke szerepel, érdemes megnézni, a mai szöveg szerint áll-e ott.</p>
         </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">06</span>
-          <p class="type-ui-body card-text"><strong>Beüzemelés és dokumentáció.</strong></p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">07</span>
-          <p class="type-ui-body card-text"><strong>A régi rendszer kezelése</strong>, ha van ilyen a telken.</p>
-        </li>
-        <li class="card">
-          <span class="card-badge type-data-value" aria-hidden="true">08</span>
-          <p class="type-ui-body card-text"><strong>Üzemeltetés.</strong> Áram, karbantartás, kopó alkatrész — ezek nélkül két ajánlat nem hasonlítható össze.</p>
+        <li class="valtozas">
+          <p class="type-ui-caption valtozas-jel">Amire figyeljen</p>
+          <h3 class="type-ui-card-title valtozas-cim">A talajterhelési díjnak ma kiírható a mértéke</h3>
+          <dl class="valtozas-sor">
+            <dt>2012-ben</dt><dd class="type-ui-body">Az összefoglaló a mentesülés feltételét ismertette, összeget nem közölt.</dd>
+            <dt>Ma</dt><dd class="type-ui-body valtozas-ma">Az egységdíj <strong>1 200 Ft/m³</strong>, ezt szorozza a terület érzékenységi szorzója (a legérzékenyebb területen háromszoros). A bevallás önadózással, <strong>március 31-ig</strong> történik.</dd>
+          </dl>
+          <p class="type-ui-body valtozas-kovetkezmeny"><strong>Mit jelent Önnek:</strong> Aki egyedi szennyvíztisztító kisberendezést használ és évente igazolja a határérték-tartást, <strong>mentesülhet vagy kedvezményt kaphat</strong> — de a konkrét kedvezményt a <strong>helyi önkormányzati rendelet</strong> adja, ezért azt a telepítés szerinti településen kell ellenőrizni.</p>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="ki-mit-vegez-cim">
+  <section class="section" aria-labelledby="a-78-2008-nem-a-szennyvizrol-szol-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Felelősség</p>
-        <h2 class="type-display-section-title section-title" id="ki-mit-vegez-cim">Ki mit végez</h2>
+        <p class="type-data-eyebrow section-eyebrow">Gyakori tévedés</p>
+        <h2 class="type-display-section-title section-title" id="a-78-2008-nem-a-szennyvizrol-szol-cim">A 78/2008. nem a szennyvízről szól</h2>
       </header>
-      <div class="split">
-        <div class="split-card">
-          <h3 class="type-ui-card-title split-title">Amit tőlünk kérhet</h3>
-          <ul class="fit-list" role="list">
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">a berendezés szállítása és beemelése;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">a telepítés és a csatlakozások kialakítása;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">a beüzemelés és az átadás;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">a műszaki dokumentáció;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">a későbbi szervizháttér.</span></li>
-          </ul>
-        </div>
-        <div class="split-card">
-          <h3 class="type-ui-card-title split-title">Amit saját kivitelezővel is elvégeztethet</h3>
-          <ul class="fit-list" role="list">
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">a földmunka;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">az elektromos előkészítés;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text">a helyszín előkészítése a szállítás napjára;</span></li>
-            <li class="type-ui-body"><span class="fit-mark fit-no" aria-hidden="true"></span><span class="fit-text"><strong>ilyenkor a felelősségi határokat előre tisztázni kell</strong> — ez utólag a leggyakoribb vitaforrás.</span></li>
-          </ul>
-        </div>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">Műszaki leírásokban és fórumokon vissza-visszatér a <strong>78/2008. (IV. 3.) Korm. rendelet</strong> mint a szennyvíz műszaki rendelete. Ez a rendelet a <strong>természetes fürdővizekről</strong> szól.</p>
+        <div class="jogi-kiemelt type-ui-body"><p>A helyes hivatkozás a <strong>30/2008. (XII. 31.) KvVM rendelet</strong> — a vizek hasznosítását, védelmét és kártételeinek elhárítását szolgáló tevékenységekre és létesítményekre vonatkozó műszaki szabályokról.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="uzem-cim">
+  <section class="section" aria-labelledby="mi-vonatkozik-egy-hazi-szennyviztisztitora-cim">
     <div class="section-inner">
       <header class="section-head section-head-start">
-        <p class="type-data-eyebrow section-eyebrow">Üzemeltetés</p>
-        <h2 class="type-display-section-title section-title" id="uzem-cim">
-          Ami a tulajdonosnál marad
-        </h2>
+        <p class="type-data-eyebrow section-eyebrow">Hatályos jogszabályok</p>
+        <h2 class="type-display-section-title section-title" id="mi-vonatkozik-egy-hazi-szennyviztisztitora-cim">Mi vonatkozik egy házi szennyvíztisztítóra</h2>
+        <p class="type-ui-body section-lead">Szám, tárgy, és hogy az adott jogszabályban mit kell keresni.</p>
       </header>
-      <p class="type-ui-body section-lead">
-        Az iszapzsákos technológiánál <strong>nincs rendszeres szippantás</strong> — ez valós
-        előny. Ettől azonban nem lesz „nincs vele teendő” rendszer, és jobb ezt vásárlás előtt
-        tudni, mint utána.
-      </p>
-      <p class="type-ui-body section-lead">
-        Marad: az <strong>iszapzsák kezelése</strong> és a fölösiszap komposztálása, a
-        <strong>rendszeres ellenőrzés</strong>, a <strong>membrán és a kompresszor</strong>
-        mint kopó elem, és a <strong>szellőzés átnézése</strong>. Rendkívüli helyzetben —
-        például tartós túlterhelés vagy meghibásodás után — külső beavatkozás is szükséges lehet.
-      </p>
-      <p class="type-ui-body section-lead">A nagyságrend: az iszapzsák cseréje <strong>néhány perces művelet</strong>, egy négyfős családnál jellemzően <strong>évente 3–4 alkalommal</strong>, és a zsák alacsony költségű fogyóeszköz — a magyar piacon jellemzően <strong>1&nbsp;200&nbsp;Ft körül négy darabért</strong>. A folyamat egészét az <a href="../megoldasok/ab-clear-iszapzsakos-technologia">iszapzsákos technológia</a> oldal írja le.</p>
+      <div class="compare-scroll" tabindex="0" role="region" aria-labelledby="mi-vonatkozik-egy-hazi-szennyviztisztitora-cim">
+        <table class="compare-table compare-table-start">
+          <caption class="visually-hidden">Mi vonatkozik egy házi szennyvíztisztítóra</caption>
+          <thead>
+            <tr>
+              <th scope="col">Jogszabály</th>
+              <th scope="col">Tárgy</th>
+              <th scope="col">Amit ad</th>
+            </tr>
+          </thead>
+          <tbody>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">1995. évi LVII. tv.</span></th>
+          <td class="type-ui-body">A vízgazdálkodásról (Vgtv.)</td>
+          <td class="type-ui-body">A keret: vízilétesítmény létesítéséhez, üzemeltetéséhez, fennmaradásához és megszüntetéséhez vízjogi engedély kell.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">72/1996. (V. 22.) Korm. r.</span></th>
+          <td class="type-ui-body">Vízgazdálkodási hatósági jogkör</td>
+          <td class="type-ui-body">Ez választja szét a jegyzői és a vízügyi hatáskört; itt áll az 500 m³/év küszöb.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">147/2010. (IV. 29.) Korm. r.</span></th>
+          <td class="type-ui-body">A vizek hasznosítása és védelme — általános szabályok</td>
+          <td class="type-ui-body">Az egyedi tisztító telepítési feltételei, és a háromévenkénti önellenőrzés.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">30/2008. (XII. 31.) KvVM r.</span></th>
+          <td class="type-ui-body">Ugyanezek műszaki szabályai</td>
+          <td class="type-ui-body">A 4. melléklet adja az egyedi tisztítók határértékeit. Érzékeny vagy magas talajvizű területen csak denitrifikációval működő berendezés telepíthető.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">41/2017. (XII. 29.) BM r.</span></th>
+          <td class="type-ui-body">A vízjogi engedélyezési dokumentáció tartalma</td>
+          <td class="type-ui-body">A 3. melléklet sorolja fel, mit kell benyújtani.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">28/2004. (XII. 25.) KvVM r.</span></th>
+          <td class="type-ui-body">Vízszennyező anyagok kibocsátási határértékei</td>
+          <td class="type-ui-body">A felszíni vízbe és a csatornába vezetés határértékei. Módosítva: 7/2023. (III. 13.) BM.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">27/2004. (XII. 25.) KvVM r.</span></th>
+          <td class="type-ui-body">Érzékeny települések besorolása</td>
+          <td class="type-ui-body">A felszín alatti víz szempontjából érzékeny területeken szigorúbb az elhelyezés.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">219/2004. (VII. 21.) Korm. r.</span></th>
+          <td class="type-ui-body">A felszín alatti vizek védelme</td>
+          <td class="type-ui-body">A szikkasztás alapvédelme.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">220/2004. (VII. 21.) Korm. r.</span></th>
+          <td class="type-ui-body">A felszíni vizek minőségvédelme</td>
+          <td class="type-ui-body">Az élővízbe vezetés alapja.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">253/1997. (XII. 20.) Korm. r. (OTÉK)</span></th>
+          <td class="type-ui-body">Településrendezési és építési követelmények</td>
+          <td class="type-ui-body">A közműpótló a központi közmű hiányában alkalmazható; a zárt szennyvíztároló végső megoldás.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">2003. évi LXXXIX. tv.</span></th>
+          <td class="type-ui-body">Környezetterhelési díj — ebből a talajterhelési díj</td>
+          <td class="type-ui-body">Kit terhel, mi az alapja, és mikor lehet mentesülni.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="jogi-cikk">531/2017. (XII. 29.) Korm. r.</span></th>
+          <td class="type-ui-body">Szakhatóságok kijelölése</td>
+          <td class="type-ui-body">Melyik szakhatóságot kell bevonni az eljárásba.</td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="keszen-all-az-ajanlatkeresre-cim">
+  <section class="section" aria-labelledby="egy-unios-iranyelv-ami-meg-nincs-atultetve-cim">
     <div class="section-inner">
-      <aside class="panel-dark" aria-labelledby="keszen-all-az-ajanlatkeresre-cim">
-        <div class="panel-dark-head">
-          <p class="type-data-eyebrow panel-dark-eyebrow">Következő lépés</p>
-          <h2 class="type-display-highlight-title panel-dark-title" id="keszen-all-az-ajanlatkeresre-cim">Készen áll az ajánlatkérésre?</h2>
-        </div>
-        <div class="panel-dark-body">
-          <p class="type-ui-body panel-dark-text">Nem a tartalom elolvasása teszi a projektet ajánlatkérésre késszé, hanem az adatok. A következő oldal ezt ellenőrzi.</p>
-          <p class="panel-dark-actions"><a class="btn btn-inverse" href="ajanlatkeresi-keszultseg">Ajánlatkérési készültség</a></p>
-        </div>
-      </aside>
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Ami jön</p>
+        <h2 class="type-display-section-title section-title" id="egy-unios-iranyelv-ami-meg-nincs-atultetve-cim">Egy uniós irányelv, ami még nincs átültetve</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">A települési szennyvíz kezeléséről szóló irányelv átdolgozása — <strong>(EU) 2024/3019</strong> — 2024-ben megszületett. Az egyedi rendszereket úgy érinti, hogy ha egy tagállam a 2000 lakosegyenérték feletti agglomerációk terhelésének több mint 2%-át kezeli egyedi rendszerrel, azt <strong>indokolnia kell</strong>.</p>
+        <p class="type-ui-body">Az átültetés határideje <strong>2027. július 31.</strong> A magyar átültető jogszabály még nem ismert, ezért ma nem lehet megmondani, pontosan mit jelent majd egy családi ház szintjén. Amint kihirdetik, ezt a lapot frissítjük.</p>
+        <p class="type-ui-body">Ugyanígy frissül a vízgyűjtő-gazdálkodási terv, és vele az érzékeny területek listája — ez közvetve az elhelyezés feltételeire hat.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="a-2012-es-anyag-elerheto-maradt-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">A régi összefoglaló</p>
+        <h2 class="type-display-section-title section-title" id="a-2012-es-anyag-elerheto-maradt-cim">A 2012-es anyag — elérhető maradt</h2>
+      </header>
+      <div class="jogi-szoveg">
+        <p class="type-ui-body">Sokan a saját könyvjelzőjükből érik el, és hivatkoznak rá. Nem vettük le: ott van az eredeti címén, ahol eddig is volt. Azt viszont fontosnak tartjuk kimondani, hogy <strong>2012. májusi állapotot</strong> tükröz.</p>
+        <p class="type-ui-body"><a class="text-link" href="../wp-content/uploads/2017/04/jogszabalyok-okotehhome-hu-2012-majus.pdf"><span class="link-label">Jogszabályi összefoglaló — 2012. május<span class="action-arrow-end" aria-hidden="true">&darr;</span></span></a> <span class="type-ui-caption">PDF, 317 KB</span></p>
+        <div class="jogi-kiemelt type-ui-body"><p>Ha a régi anyagból dolgozik, három dolgot nézzen meg a mai állapot szerint: <strong>ki a hatóság</strong>, <strong>milyen ritmusban kell mintát venni</strong>, és <strong>melyik rendeletben</strong> keresse a kifolyó vízre vonatkozó határértéket.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gyik-cim">
+    <div class="section-inner">
+      <header class="section-head section-head-start">
+        <p class="type-data-eyebrow section-eyebrow">Gyakori kérdések</p>
+        <h2 class="type-display-section-title section-title" id="gyik-cim">Amit a leggyakrabban kérdeznek</h2>
+      </header>
+      <div class="faq">
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Használható még a 2012-es összefoglalójuk?</summary>
+          <div class="faq-a"><p class="type-ui-body">Tájékozódásra igen, és épp ezért hagytuk elérhetően — de négy ponton ma mást mond a jogszabály, mint akkor. Ezeket fent tételesen összeszedtük. Ha a régi anyagból dolgozik, a hatóság megnevezését, a felülvizsgálati ciklust és a műszaki rendelet szerepét mindenképpen a mai állapot szerint nézze.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Kell-e vízjogi engedély egy házi szennyvíztisztítóhoz?</summary>
+          <div class="faq-a"><p class="type-ui-body">A vízilétesítmény főszabály szerint engedélyköteles. CE-jelölt, gyári lakossági kisberendezésnél viszont könnyített rezsim él: a teljes engedélyezés helyett a tulajdonost kötelező önellenőrzés terheli. Hogy egy konkrét projektben melyik út járható, azt a kapacitás, a szennyvíz eredete és a tisztított víz elhelyezése dönti el.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Ki engedélyezi — a jegyző vagy a vízügyi hatóság?</summary>
+          <div class="faq-a"><p class="type-ui-body">A jegyző, ha mindhárom teljesül: legfeljebb 500 m³/év kibocsátás, kizárólag háztartási szennyvíz, és a tisztított víz elszikkasztása. Ha bármelyik hiányzik — nagyobb mennyiség, nem háztartási szennyvíz, vagy élővízbe vezetés —, a megyei katasztrófavédelmi igazgatóság jár el vízügyi hatóságként.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mennyibe kerül az eljárás, és mennyi ideig tart?</summary>
+          <div class="faq-a"><p class="type-ui-body">A vízjogi engedélyezés illetékmentes, az ügyintézési határidő 60 nap. A költség a tervezői munkáé: a dokumentációt vízilétesítmény-tervezésre jogosult szakember készíti. Szakhatóságként a járási hivatal népegészségügyi feladatköre, védett területen a természetvédelmi hatóság működik közre.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q type-ui-card-title">Mentesülök a talajterhelési díj alól, ha tisztítót telepítek?</summary>
+          <div class="faq-a"><p class="type-ui-body">Ez a lehetőség megvan: aki egyedi szennyvíztisztító kisberendezést alkalmaz és évente igazolja, hogy a vizsgált komponensek egyike sem haladja meg 20%-kal az alapállapotot, mentesülhet vagy kedvezményt kaphat. A konkrét kedvezményt viszont a helyi önkormányzati rendelet adja meg, ezért azt a telepítés szerinti településen kell ellenőrizni.</p></div>
+        </details>
+      </div>
     </div>
   </section>
 
 </main>
-
 <!-- ==========================================================================
      LÁBLÉC — egy sorban: márkablokk + öt hasáb.
 
@@ -803,6 +897,7 @@
   </div>
 </footer>
 
+
 <script src="../assets/js/site.js?v=14" defer></script>
 <script src="../assets/js/betolto.js?v=1" defer></script>
 <script type="text/plain" data-kesleltetett src="../assets/js/kalauz.js?v=47"></script>
@@ -814,14 +909,19 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
       {"@type":"ListItem","position":1,"name":"Főoldal","item":"https://okotechhome.hu/"},
-      {"@type":"ListItem","position":2,"name":"Kiindulópont","item":"https://okotechhome.hu/helyzetem/"},
-      {"@type":"ListItem","position":3,"name":"Családi ház","item":"https://okotechhome.hu/helyzetem/csaladi-hazhoz-keresek-rendszert"},
-      {"@type":"ListItem","position":4,"name":"Költség és telepítés","item":"https://okotechhome.hu/helyzetem/koltseg-es-telepites"}
+      {"@type":"ListItem","position":2,"name":"Tudástár","item":"https://okotechhome.hu/tudastar/"},
+      {"@type":"ListItem","position":3,"name":"Jogszabályi áttekintés","item":"https://okotechhome.hu/tudastar/jogszabalyok"}
       ]
     },
     {
       "@type": "FAQPage",
-      "mainEntity": []
+      "mainEntity": [
+      {"@type":"Question","name":"Használható még a 2012-es összefoglalójuk?","acceptedAnswer":{"@type":"Answer","text":"Tájékozódásra igen, és épp ezért hagytuk elérhetően — de négy ponton ma mást mond a jogszabály, mint akkor. Ezeket fent tételesen összeszedtük. Ha a régi anyagból dolgozik, a hatóság megnevezését, a felülvizsgálati ciklust és a műszaki rendelet szerepét mindenképpen a mai állapot szerint nézze."}},
+      {"@type":"Question","name":"Kell-e vízjogi engedély egy házi szennyvíztisztítóhoz?","acceptedAnswer":{"@type":"Answer","text":"A vízilétesítmény főszabály szerint engedélyköteles. CE-jelölt, gyári lakossági kisberendezésnél viszont könnyített rezsim él: a teljes engedélyezés helyett a tulajdonost kötelező önellenőrzés terheli. Hogy egy konkrét projektben melyik út járható, azt a kapacitás, a szennyvíz eredete és a tisztított víz elhelyezése dönti el."}},
+      {"@type":"Question","name":"Ki engedélyezi — a jegyző vagy a vízügyi hatóság?","acceptedAnswer":{"@type":"Answer","text":"A jegyző, ha mindhárom teljesül: legfeljebb 500 m³/év kibocsátás, kizárólag háztartási szennyvíz, és a tisztított víz elszikkasztása. Ha bármelyik hiányzik — nagyobb mennyiség, nem háztartási szennyvíz, vagy élővízbe vezetés —, a megyei katasztrófavédelmi igazgatóság jár el vízügyi hatóságként."}},
+      {"@type":"Question","name":"Mennyibe kerül az eljárás, és mennyi ideig tart?","acceptedAnswer":{"@type":"Answer","text":"A vízjogi engedélyezés illetékmentes, az ügyintézési határidő 60 nap. A költség a tervezői munkáé: a dokumentációt vízilétesítmény-tervezésre jogosult szakember készíti. Szakhatóságként a járási hivatal népegészségügyi feladatköre, védett területen a természetvédelmi hatóság működik közre."}},
+      {"@type":"Question","name":"Mentesülök a talajterhelési díj alól, ha tisztítót telepítek?","acceptedAnswer":{"@type":"Answer","text":"Ez a lehetőség megvan: aki egyedi szennyvíztisztító kisberendezést alkalmaz és évente igazolja, hogy a vizsgált komponensek egyike sem haladja meg 20%-kal az alapállapotot, mentesülhet vagy kedvezményt kaphat. A konkrét kedvezményt viszont a helyi önkormányzati rendelet adja meg, ezért azt a telepítés szerinti településen kell ellenőrizni."}}
+      ]
     }
   ]
 }

@@ -10419,6 +10419,44 @@
   /* A pipa a kész teendőre: egyszer rajzolódik ki, nem ismétlődik. */
   .hub-pipa{stroke-dasharray:34;stroke-dashoffset:0}
 
+  /* --- Változáskártya: „2012-ben ez állt, ma ez van" --------------------
+     MIÉRT ÍGY. A jogszabályi áttekintés lapon nem elég felsorolni a hatályos
+     rendeleteket: a látogató egy TIZENNÉGY ÉVES összefoglalónkat olvassa, ami
+     ma négy ponton mást mond. A kártya ezért három sávra bontja a tudnivalót —
+     ami akkor állt, ami ma áll, és hogy ebből neki mi következik. A régi
+     állapot halványabb és áthúzás NÉLKÜL: nem volt hamis, csak elavult.
+     A jelvény színe a változás fajtáját mondja meg, nem díszít. */
+  .valtozas-racs{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:var(--space-24);margin:0;padding:0;list-style:none;
+  }
+  .valtozas{
+    display:flex;flex-direction:column;gap:var(--space-16);
+    background:var(--card-bg);border:1px solid var(--card-border);
+    border-radius:var(--card-radius);padding:var(--space-24);
+    box-shadow:var(--card-shadow);
+  }
+  .valtozas-jel{
+    align-self:start;margin:0;
+    padding:var(--space-4) var(--space-8);border-radius:var(--r-md);
+    background:var(--badge-bg);color:var(--badge-text);
+  }
+  .valtozas-jel-uj{background:var(--primary);color:var(--on-primary)}
+  .valtozas-cim{margin:0;color:var(--text-primary)}
+  .valtozas-sor{margin:0;display:grid;grid-template-columns:auto 1fr;gap:var(--space-16)}
+  .valtozas-sor dt{
+    color:var(--text-tertiary);white-space:nowrap;
+    font-family:var(--font-mono);font-size:var(--type-ui-caption-size);
+    letter-spacing:.06em;text-transform:uppercase;padding-top:var(--space-4);
+  }
+  .valtozas-sor dd{margin:0;color:var(--text-secondary)}
+  /* A MAI ÁLLAPOT a hangsúlyos: azt keresi, aki ideérkezett. */
+  .valtozas-sor .valtozas-ma{color:var(--text-primary)}
+  .valtozas-kovetkezmeny{
+    margin:0;padding-top:var(--space-16);
+    border-top:1px solid var(--border);color:var(--text-secondary);
+  }
+
   /* --- Előszűrő kérdések ------------------------------------------------- */
   .hub-kerdesek{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hub-kerdes{gap:var(--space-8)}
@@ -10609,7 +10647,7 @@
   }
   @media (max-width:640px){
     .partner-racs{grid-template-columns:minmax(0,1fr)}
-    .hub-lepesek,.hub-lepesek-3,.hub-foto-par,.hub-foto-sor,.hub-kerdesek{grid-template-columns:minmax(0,1fr)}
+    .hub-lepesek,.hub-lepesek-3,.hub-foto-par,.hub-foto-sor,.hub-kerdesek,.valtozas-racs{grid-template-columns:minmax(0,1fr)}
     .hub-kulcsadatok{grid-template-columns:minmax(0,1fr)}
     .hub-utem-adatok{grid-template-columns:minmax(0,1fr)}
     .hub-bizalom,

@@ -85,7 +85,7 @@ DirectoryIndex index.html
   # ilyen, a szakasz gyűjtőlapja (lásd a `_web/README.md` nyitott tételeit).
   RewriteRule ^allasok/?$                                          /okotech-home/ [R=301,L,NE,NC]
   RewriteRule ^gyik/?$                                             /tudastar/ [R=301,L,NE,NC]
-  RewriteRule ^jogszabalyok/?$                                     /tudastar/ [R=301,L,NE,NC]
+  RewriteRule ^jogszabalyok/?$                                     /tudastar/jogszabalyok [R=301,L,NE,NC]
   RewriteRule ^partnereink/?$                                      /okotech-home/partnerek [R=301,L,NE,NC]
   RewriteRule ^helyszini-felmeres/?$                               /helyzetem/helyszini-felmeres [R=301,L,NE,NC]
   RewriteRule ^peldaengedely/?$                                    /eredmenyek/tanusitvanyok-es-dokumentumok [R=301,L,NE,NC]

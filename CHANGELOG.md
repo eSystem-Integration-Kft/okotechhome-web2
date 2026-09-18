@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.62.00-80A640?style=flat-square" alt="verzió 0.62.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.63.00-80A640?style=flat-square" alt="verzió 0.63.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-84-56642B?style=flat-square" alt="84 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-85-56642B?style=flat-square" alt="85 kiadás">
 </p>
 
 ---
@@ -26,6 +26,45 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.63.00] — 2026-09-18
+
+### Hozzáadva — `/tudastar/jogszabalyok`: mi változott 2012 óta
+
+A visszaállított, 2012. májusi jogszabályi összefoglalónk évi 344 kattintást hoz —
+a tartalma viszont tizennégy éves. Az új lap nem cáfolja, hanem MELLÉ áll:
+megmutatja, mi változott, és mi következik ebből a tulajdonosnak.
+
+**Hat változás, kártyánként „2012-ben → ma → mit jelent Önnek" bontásban:**
+
+1. A **30/2008. KvVM r.** 4. melléklete ma megadja az egyedi tisztítók
+   határértékeit — a régi anyag még azt írta, a jogalkotó megfeledkezett róluk.
+2. **Háromévente**, nem ötévente: CE-jelölt kisberendezésnél önellenőrzés terheli
+   a tulajdonost, az eredmény 15 napon belül a jegyzőnek.
+3. A vízügyi hatóság ma a **megyei katasztrófavédelmi igazgatóság**; a jegyző
+   hatásköre az 500 m³/év, háztartási, elszikkasztásos esetre szűkül.
+4. A **41/2017. BM r.** 3. melléklete tételesen megadja, mit kell benyújtani —
+   2012-ben ilyen lista nem volt.
+5. A **28/2004.** határértékrendeletet a 7/2023. BM r. módosította.
+6. A talajterhelési díj egységdíja ma kiírható: 1 200 Ft/m³ × érzékenységi szorzó.
+
+Mellette a hatályos jogszabályok táblázata, a „78/2008. nem a szennyvízről szól"
+tévedés kiemelve, a 2027-ig átültetendő **(EU) 2024/3019** irányelv, öt GYIK és a
+2012-es PDF — dátumcímkével, és azzal a hárommal, amit benne a mai állapot
+szerint kell nézni. A régi `/jogszabalyok/` cím innentől ide visz.
+
+### Hozzáadva — változáskártya (`.valtozas-*`)
+
+Három sáv egy kártyán: ami akkor állt, ami ma áll, és hogy ebből mi következik.
+A régi állapot halványabb, de áthúzás nélkül — nem volt hamis, csak elavult.
+
+### Javítva — a hivatkozás-ellenőrző nem oldotta fel a százalékjeles címeket
+
+A visszaállított dokumentumok neve ékezetes, a `href`-ben kódolva áll. A kapu a
+fájlrendszerben a kódolt alakot kereste, így tizennyolc jó hivatkozás látszott
+hiányzónak — és egy ELGÉPELT szlug ugyanebbe a listába esett volna, észrevétlenül.
 
 ---
 
