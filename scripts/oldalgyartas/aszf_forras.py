@@ -24,6 +24,47 @@ import zipfile
 NS = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 
 
+
+# ===========================================================================
+# GÉPI CSEREHIBÁK JAVÍTÁSA
+# ---------------------------------------------------------------------------
+# A dokumentumon végigfutott egy „Ügyfél" → „Megrendelő" csere, ami olyan
+# szavakat is átírt, amelyeknek nem volt szabad: `Ügyfélszolgálat` →
+# `Megrendelőszolgálat`, `ügyfélfogadási idő` → `Megrendelőfogadási idő`. A
+# névelő is bennragadt: `az Megrendelő` harmincötször. Ezek MECHANIKUS hibák,
+# jogi tartalmuk nincs — a lapon a helyes alak áll. A `.docx` ÉRINTETLEN marad:
+# a hiteles változat az, és a javított szöveget Bela viszi vissza a jogászhoz.
+#
+# A SORREND SZÁMÍT. Előbb a szóösszetételek (`Megrendelőszolgálat`), utána a
+# névelő — különben az `az Ügyfélszolgálat` helyes alakot is elrontanánk.
+# A webhely megnevezése a két dokumentumban eltérő zárójelezéssel áll (az
+# egyikből hiányzik egy záró zárójel), ezért mintával cseréljük.
+WEBOLDAL = re.compile(r'\(Biológiai szennyvíztisztítók 1-től 50 főig[^)]*\(okotechhome\.hu\)\)?')
+
+JAVITAS = [
+    ('https://okotechhome.hu/formok/megrendel.php', 'https://okotechhome.hu/megrendeles'),
+    # az elrontott csere visszavezetése
+    ('Megrendelőszolgálat', 'Ügyfélszolgálat'),
+    ('Megrendelő szolgálati', 'ügyfélszolgálati'),
+    ('Megrendelőfogadási', 'ügyfélfogadási'),
+    ('az Megrendelő', 'a Megrendelő'),
+    ('Az Megrendelő', 'A Megrendelő'),
+    # írásmód és elgépelés
+    ('Ökotech-Home', 'ÖkoTech-Home'),
+    ('fogasztóvédelem', 'fogyasztóvédelem'),
+]
+
+
+def javit(s):
+    # A Word helyenként pont nélküli i-t (U+0131) hagyott a vessző alatt:
+    # `kijavı́thatja`, `teljesıt́ésével`. Az összevonás után lesz belőle `í`.
+    s = unicodedata.normalize('NFC', s.replace('\u0131', 'i'))
+    s = WEBOLDAL.sub('(Biológiai szennyvíztisztító rendszer — ÖkoTech-Home Kft., okotechhome.hu)', s)
+    for regi, uj in JAVITAS:
+        s = s.replace(regi, uj)
+    return s
+
+
 def _bekezdesek(ut):
     """(szöveg, listaelem-e) párok a dokumentum sorrendjében."""
     xml = zipfile.ZipFile(ut).read('word/document.xml').decode('utf-8')
@@ -41,7 +82,7 @@ def _bekezdesek(ut):
         t = ''.join(c for c in t if unicodedata.category(c) != 'Cf')
         t = re.sub(r'[  ]+', ' ', t).strip()
         if t:
-            ki.append((t, lista))
+            ki.append((javit(t), lista))
     return ki
 
 

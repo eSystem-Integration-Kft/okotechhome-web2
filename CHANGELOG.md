@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.59.00-80A640?style=flat-square" alt="verzió 0.59.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.59.01-80A640?style=flat-square" alt="verzió 0.59.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-80-56642B?style=flat-square" alt="80 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-81-56642B?style=flat-square" alt="81 kiadás">
 </p>
 
 ---
@@ -26,6 +26,30 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.59.01] — 2026-09-18
+
+### Javítva — a helyes szöveg áll az ÁSZF-lapokon
+
+A kapott dokumentumokon végigfutott egy „Ügyfél" → „Megrendelő" csere, ami olyan
+szavakat is átírt, amelyeket nem lett volna szabad. Bela döntése szerint a lapon
+a helyes alak áll; a `.docx` érintetlen marad, az megy vissza a jogászhoz.
+
+| Ami a dokumentumban áll | Ami a lapon áll |
+|---|---|
+| Megrendelőszolgálat (12×) | Ügyfélszolgálat |
+| Megrendelőfogadási idő (3×) | ügyfélfogadási idő |
+| „az Megrendelő" (35×) | „a Megrendelő" |
+| Ökotech-Home (6×) | ÖkoTech-Home |
+| `formok/megrendel.php` | `/megrendeles` |
+| „Biológiai szennyvíztisztítók 1-től 50 főig" | a webhely mai megnevezése |
+| fogasztóvédelem · kijavı́thatja · teljesıt́ésével | javítva |
+
+A javítótábla a `scripts/oldalgyartas/aszf_forras.py`-ban áll, tételesen és
+megindokolva, és a PDF-ekbe is átment. A sorrend kötött: előbb a szóösszetétel,
+utána a névelő — különben az „az Ügyfélszolgálat" helyes alak romlana el.
 
 ---
 
