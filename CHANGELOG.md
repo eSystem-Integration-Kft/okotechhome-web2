@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.56.01-80A640?style=flat-square" alt="verzió 0.56.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.57.00-80A640?style=flat-square" alt="verzió 0.57.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-77-56642B?style=flat-square" alt="77 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-78-56642B?style=flat-square" alt="78 kiadás">
 </p>
 
 ---
@@ -26,6 +26,33 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.57.00] — 2026-09-18
+
+### Hozzáadva — a szikkasztó-klaszter a `/tudastar/elszivarogtatas` lapon
+
+A kulcsszókutatás legnagyobb lefedetlen csoportja a „szikkasztó” volt: 880 ·
+szikkasztó blokk 590 · esővíz szikkasztó 320 · szikkasztó alagút 260 · kulé
+kavicsos szikkasztó 330 · szikkasztó házilag 140 · szikkasztó méretezése 180.
+Nem új lap készült — a meglévő lapon ott volt minden tény (GRAF szivárogtató
+alagútelem, mosott kulé kavics 20–25 mm, geotextília), csak a lap nem nevezte
+nevén magát:
+
+- a cím és a `h1` mostantól viszi a „szikkasztó” szót,
+- **Szikkasztóblokk, szikkasztó alagút vagy kavicságy?** — három kialakítás
+  egymás mellett, azzal a kimondott tanulsággal, hogy nem az elem típusa dönt,
+  hanem a szivárgófelület és a talaj átvevő képessége,
+- **Az esővíz szikkasztó és a szennyvíz-szikkasztó nem ugyanaz** — más a víz,
+  más a terhelés, más a hatósági eljárás; a kettőt nem egy mezőbe vezetjük. Az
+  esővízhasznosításnál a [Suni Kft.](/okotech-home/partnerek) a partnerünk,
+- három új GYIK: házilag megépíthető-e, szikkasztóblokkal elhelyezhető-e a
+  tisztított víz, és hogy a szikkasztó **nem tartály** — a régi, pontszerű
+  gödör vagy akna helyett elosztott mező épül.
+
+Mérve a kiadott lapokon: a címbe emelt keresési volumen 6790 → **7670/hó**, a
+lefedetlen 13 720 → **12 300/hó**.
 
 ---
 
