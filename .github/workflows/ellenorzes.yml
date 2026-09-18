@@ -1,5 +1,5 @@
 # ═════════════════════════════════════════════════════════════════════════════
-#  Repó-ellenőrzés — okotechhome-web2 (Test2)
+#  Repó-ellenőrzés — okotechhome-web2 (Produktív)
 # ─────────────────────────────────────────────────────────────────────────────
 #  Ugyanazt futtatja, amit a fejlesztő helyben: `scripts/ellenorzes.sh`.
 #  A logika SZÁNDÉKOSAN nem YAML-ben él, hanem a szkriptben — így a hiba még

@@ -2,7 +2,7 @@
   <img src="./.github/banner.png" alt="ÖkoTech Home — otthoni biológiai szennyvíztisztítás" width="100%">
 </p>
 
-<h1 align="center">okotechhome-web2 — <em>Test2</em> munkaterület</h1>
+<h1 align="center">okotechhome-web2 — <em><strong>Prod</strong>uktív</em> munkaterület</h1>
 
 <p align="center">
   <strong>Ugyanaz a márka, motor és technológia — új designrendszerrel.</strong><br>
@@ -12,7 +12,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/verzi%C3%B3-0.07.00-80A640?style=flat-square" alt="verzió 0.07.00">
-  <img src="https://img.shields.io/badge/v%C3%A1ltozat-Test2-56642B?style=flat-square" alt="Test2">
+  <img src="https://img.shields.io/badge/v%C3%A1ltozat-Produkt%C3%ADv-56642B?style=flat-square" alt="Produktív">
   <img src="https://img.shields.io/badge/st%C3%A1tusz-teszt%20%C3%BCzemm%C3%B3d-C98A1D?style=flat-square" alt="státusz: teszt üzemmód">
   <img src="https://img.shields.io/badge/lapok-132-133216?style=flat-square" alt="132 lap">
   <img src="https://img.shields.io/badge/designrendszer-v0.5-80A640?style=flat-square" alt="designrendszer v0.5">
@@ -33,7 +33,7 @@
 
 ## ✨ Mi ez
 
-Ez a repó az **ÖkoTech Home** weboldal **Test2** változatának forráskódja: a telepíthető
+Ez a repó az **ÖkoTech Home** weboldal **Prod**uktív változatának forráskódja: a telepíthető
 webkimenet (`_web/`) és a hozzá tartozó verziókezelési réteg, saját verziószámmal.
 
 A webhely nem katalógus, hanem **döntéstámogató tölcsér**: a látogatót a saját helyzetétől
@@ -50,13 +50,13 @@ technológiaválasztáson és az előkészítésen át az ajánlatkérésig és 
   <tr><td><b>Nyelv</b></td><td><code>hu-HU</code> — az angol változat 2026-09-08-án külön projektbe költözött</td></tr>
 </table>
 
-### 🔁 Test1 ↔ Test2
+### 🔁 Test1 ↔ **Prod**uktív
 
 <table>
   <tr>
     <th></th>
     <th>Test1 — <code>okotechhome-web</code></th>
-    <th>Test2 — <code>okotechhome-web2</code> <i>(ez)</i></th>
+    <th>**Prod**uktív — <code>okotechhome-web2</code> <i>(ez)</i></th>
   </tr>
   <tr><td><b>Márka / logó</b></td><td colspan="2" align="center">🟰 <b>azonos</b> — ÖkoTech Home</td></tr>
   <tr><td><b>Tartalmi téma</b></td><td colspan="2" align="center">🟰 <b>azonos</b> — otthoni biológiai szennyvíztisztítás, döntéstámogató tölcsér</td></tr>
@@ -67,7 +67,7 @@ technológiaválasztáson és az előkészítésen át az ajánlatkérésig és 
   <tr><td><b>Verzió-idővonal</b></td><td colspan="2" align="center">↔️ <b>független</b> — a két repó verziója nem korrelál</td></tr>
 </table>
 
-> ⚠️ **A motor mégsem teljesen azonos.** A Test1 GSAP + Lenis stacket használ, a Test2
+> ⚠️ **A motor mégsem teljesen azonos.** A Test1 GSAP + Lenis stacket használ, a **Prod**uktív
 > designrendszer **0.7 alapszabálya** viszont kimondja: *„Nincs framework. Natív HTML-elem és
 > vanilla JS."* A scroll-animációs réteg tehát **nem emelhető át változtatás nélkül** — vagy
 > natív CSS scroll-driven animation kell helyette, vagy a designrendszernek kell felmentést
@@ -337,7 +337,7 @@ A repó két skillt hoz magával (`.claude/skills/`), amelyeket a munka során b
 
 | Skill | Mire való |
 |---|---|
-| **`okotechhome-oldalgyartas`** | *hogyan* épül egy oldal: teljes sitemap (402 elem), URL-séma, hat oldaltípus-sablon, a Test2 komponenskészlete és tokenjei, szöveg- és adatforrások |
+| **`okotechhome-oldalgyartas`** | *hogyan* épül egy oldal: teljes sitemap (402 elem), URL-séma, hat oldaltípus-sablon, a **Prod**uktív komponenskészlete és tokenjei, szöveg- és adatforrások |
 | **`otthoni-biologiai-szennyviztisztitas`** | *mit* írunk: szabványok (EN 12566-3, CE, ISO 9001), magyar jogszabályok és engedélyezés, EU-keret, piaci márkák, HU/EN/DE glosszárium, GEO/AIO tartalom |
 
 A kettő együtt használandó: az első a gyártási kézikönyv, a második a szakmai tudásbázis.
@@ -358,7 +358,7 @@ A kettő együtt használandó: az első a gyártási kézikönyv, a második a 
       **cookie-tájékoztatóban nevesíteni kell**, és a hozzájárulásnak ki kell terjednie rá
 - [ ] Maps API-kulcs beállítása és **korlátozása** (`kapcsolat.html` `.terkep`)
 - [ ] A szippantási díjadatbázis feltöltése — jelenleg üres, és ez a lapon látszik is
-- [ ] Test1 vs. Test2 ügyfél-döntés → a nyertes ág megy `1.00.00`-ra
+- [ ] Test1 vs. **Prod**uktív ügyfél-döntés → a nyertes ág megy `1.00.00`-ra
 
 **Designrendszer-döntést igényel** (részletek: [`_web/COMPONENTS.md`](./_web/COMPONENTS.md))
 

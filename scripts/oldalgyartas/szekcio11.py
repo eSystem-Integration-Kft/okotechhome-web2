@@ -6,7 +6,7 @@ A markup nagy része ismétlődik (három azonos feltöltő kártya, tíz azonos
 szerkezetű táblasor), ezért generáljuk: kézi másolással a három kártya
 elkerülhetetlenül szétcsúszna.
 
-MEGSZÓLÍTÁS: a Test1-beli modul tegező, a Test2 viszont végig magázó (a 8.
+MEGSZÓLÍTÁS: a Test1-beli modul tegező, a Produktív viszont végig magázó (a 8.
 szekció is az). Egyetlen szekció eltérő hangneme feltűnő volna, ezért a
 szövegeket magázóra vettük át — a tartalom és a felépítés változatlan.
 """
@@ -213,7 +213,7 @@ def build():
   <!-- ==========================================================================
        11. SZEKCIÓ — AI AJÁNLAT-ÖSSZEHASONLÍTÓ
        A Test1-beli modul átvéve: viselkedés és elrendezés változatlan, a
-       megjelenés a Test2 tokenkészletéből. A megszólítás magázóra váltott, mert
+       megjelenés a Produktív tokenkészletéből. A megszólítás magázóra váltott, mert
        a webhely többi része (a 8. szekció modulja is) magázó.
 
        ⚠️ A feltöltött fájlok kiolvasása backendet igényel — ma NEM történik

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# ellenorzes.sh — okotechhome-web2 (Test2) repository checks
+# ellenorzes.sh — okotechhome-web2 (Produktív) repository checks
 #
 # Usage:
 #   ./scripts/ellenorzes.sh

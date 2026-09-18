@@ -24,7 +24,7 @@ A cég: **Ökotech-Home Kft.** (Esztergom; saját termékek: **A.B. Clear** biol
 oldómedence; szabadalmaztatott **iszapzsákos** technológia; 2004 óta, 3800+ telepítés, CE / EN 12566-3, ISO 9001,
 Construma nagydíj 2014, Dun & Bradstreet AAA).
 
-> **Ebben a repóban (Test2):** a *hogyan épül fel egy oldal* kérdésre az
+> **Ebben a repóban (**Prod**uktív):** a *hogyan épül fel egy oldal* kérdésre az
 > `okotechhome-oldalgyartas` skill válaszol (sitemap, oldaltípusok, komponenskészlet).
 > Ez a skill a **szakmai tartalmat** adja hozzá. A kettő együtt használandó.
 

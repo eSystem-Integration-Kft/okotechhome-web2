@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Helyzetem kategória oldalgenerátor — Test2 designrendszer.
+"""Helyzetem kategória oldalgenerátor — Produktív designrendszer.
 
 A fejléc (kontaktsáv + megamenü) ma minden oldalon duplikálódik. Amíg nincs
 build-lépés, ez a szkript az egyetlen forrás: a fejlécet egy meglévő aloldalból

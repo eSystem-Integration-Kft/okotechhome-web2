@@ -19,7 +19,7 @@
     <text x="206" y="180" fill="#56642B" font-size="14" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace">2026-07-26</text>
     <circle cx="238" cy="175" r="8" fill="#F3F2EC" stroke="#80A640" stroke-width="3"/>
     <text x="276" y="172" fill="#133216" font-size="18" font-weight="700" font-family="'SF Mono',Menlo,Consolas,monospace">v0.01.01</text>
-    <text x="276" y="194" fill="#56642B" font-size="15">A Test2 repó inicializálása — webkimenet-váz, verziókezelési réteg, friss git-történet</text>
+    <text x="276" y="194" fill="#56642B" font-size="15">A Produktív repó inicializálása — webkimenet-váz, verziókezelési réteg, friss git-történet</text>
   </g>
 
   <!-- 2 -->

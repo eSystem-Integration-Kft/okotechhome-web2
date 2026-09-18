@@ -1,4 +1,4 @@
-# Test2 designrendszer — komponenskészlet és tokenek
+# **Prod**uktív designrendszer — komponenskészlet és tokenek
 
 **Igazságforrás:** `OTH-design-system-Teszt.v2` v0.5, implementálva: `_web/assets/css/app.css`.
 Az új (a rendszerben még nem definiált) komponensek indoklása: `_web/COMPONENTS.md`.

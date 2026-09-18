@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# release.sh — okotechhome-web2 (Test2) release helper
+# release.sh — okotechhome-web2 (Produktív) release helper
 #
 # Usage:
 #   ./scripts/release.sh <X.YY.ZZ> [--dry-run]

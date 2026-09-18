@@ -2,7 +2,7 @@
   <img src="./.github/banner.png" alt="ÖkoTech Home — otthoni biológiai szennyvíztisztítás" width="100%">
 </p>
 
-<h1 align="center">Verziózási szabályzat — ÖkoTech Home <em>Test2</em></h1>
+<h1 align="center">Verziózási szabályzat — ÖkoTech Home <em><strong>Prod</strong>uktív</em></h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/verzi%C3%B3-0.01.01-36C5E6?style=flat-square" alt="verzió 0.01.01">
@@ -11,13 +11,13 @@
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog">
 </p>
 
-Ez a dokumentum rögzíti, **hogyan kap verziószámot** az `okotechhome-web2` (Test2) munkaterület,
+Ez a dokumentum rögzíti, **hogyan kap verziószámot** az `okotechhome-web2` (**Prod**uktív) munkaterület,
 mikor kell emelni, ki emeli, és mi történik a kiadáskor. A tényleges változásokat a
 [`CHANGELOG.md`](./CHANGELOG.md) tartalmazza.
 
-> **Viszony a Test1-hez.** A Test1 (`okotechhome-web`, jelenleg `0.9.0`) és a Test2 azonos
+> **Viszony a Test1-hez.** A Test1 (`okotechhome-web`, jelenleg `0.9.0`) és a **Prod**uktív azonos
 > márkát, motort, technológiát és logót visz, **eltérő designrendszerrel**. A két repó
-> verziószáma **független**: a Test2 saját, nulláról induló idővonalon halad `0.01.01`-től.
+> verziószáma **független**: a **Prod**uktív saját, nulláról induló idővonalon halad `0.01.01`-től.
 
 ---
 
@@ -50,7 +50,7 @@ maradjon (`v0.01.01 < v0.02.00 < v0.10.00`), plain `sort` mellett is.
 
 | Szabály | Részlet |
 |---|---|
-| **Kezdőverzió** | `0.01.01` — a Test2 munkaterület inicializálása |
+| **Kezdőverzió** | `0.01.01` — a **Prod**uktív munkaterület inicializálása |
 | **Érvényes minta** | `^[0-9]+\.[0-9]{2}\.[0-9]{2}$` |
 | **Tag** | `v` előtag + a verzió: `v0.01.01` |
 | **Túlcsordulás** | ha a `MINOR` vagy `PATCH` eléri a `99`-et, a következő szint emelendő |
@@ -137,7 +137,7 @@ A repó [Conventional Commits](https://www.conventionalcommits.org/) formátumot
 Példák:
 
 ```
-feat(design): introduce the Test2 token set and type scale      → MINOR
+feat(design): introduce the **Prod**uktív token set and type scale      → MINOR
 fix(hero): keep the scroll cue visible on 360 px viewports      → PATCH
 style(nav): tighten the header spacing on tablet                → PATCH
 docs(readme): document the repository scope and deploy flow     → nincs emelés

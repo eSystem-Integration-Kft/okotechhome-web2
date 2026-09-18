@@ -2,7 +2,7 @@
   <img src="./.github/banner.png" alt="ÖkoTech Home — otthoni biológiai szennyvíztisztítás" width="100%">
 </p>
 
-<h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
+<h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/verzi%C3%B3-0.54.00-80A640?style=flat-square" alt="verzió 0.54.00">
@@ -18,7 +18,7 @@ a verziószámozás a [Szemantikus Verziózás 2.0.0](https://semver.org/lang/hu
 **feltöltött írásmóddal** (`MINOR` és `PATCH` két számjegyen). A projektre szabott értelmezést
 lásd: [`VERSIONING.md`](./VERSIONING.md).
 
-**Hatókör:** ez a napló az `okotechhome-web2` repó (Test2 munkaterület) teljes történetét fedi le
+**Hatókör:** ez a napló az `okotechhome-web2` repó (**Prod**uktív munkaterület) teljes történetét fedi le
 az inicializálástól kezdve, **tételesen, commitonként**. A Test1 (`okotechhome-web`) története
 külön naplóban él, és a két verzió-idővonal **független**.
 

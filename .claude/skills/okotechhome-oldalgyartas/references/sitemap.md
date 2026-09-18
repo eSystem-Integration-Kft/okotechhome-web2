@@ -1,4 +1,4 @@
-# Sitemap — okotechhome.hu (Test2)
+# Sitemap — okotechhome.hu (**Prod**uktív)
 
 **Forrás:** `Site map.docx` (ügyfél, 2026-08). Ez a fájl a **hiteles szerkezet** — ha a
 navigáció és ez eltér, ezt kell követni, vagy jelezni az eltérést.

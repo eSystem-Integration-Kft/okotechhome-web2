@@ -1,5 +1,5 @@
 # ═════════════════════════════════════════════════════════════════════════════
-#  .gitattributes — okotechhome-web2 (Test2)
+#  .gitattributes — okotechhome-web2 (Produktív)
 # ═════════════════════════════════════════════════════════════════════════════
 #  Három dolgot intéz: (1) sorvégek, (2) mi bináris és mi nem, (3) mi marad ki
 #  a `git archive`-ból — vagyis a deployból.

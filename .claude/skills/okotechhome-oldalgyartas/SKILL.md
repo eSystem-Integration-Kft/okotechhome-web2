@@ -1,8 +1,8 @@
 ---
 name: okotechhome-oldalgyartas
 description: >-
-  Oldalgyártás az okotechhome.hu (Test2) statikus site-ra: a sitemap alapján új aloldalt vagy
-  szekciót építeni, meglévőt átdolgozni, a Test2 designrendszer komponenskészletével és
+  Oldalgyártás az okotechhome.hu (Produktív) statikus site-ra: a sitemap alapján új aloldalt vagy
+  szekciót építeni, meglévőt átdolgozni, a Produktív designrendszer komponenskészletével és
   tokenjeivel. Tartalmazza a teljes sitemapot (402 elem), az URL-sémát, az oldaltípus-sablonokat
   (termék, helyzet, tudástár, modul, jogi), a komponenskészletet és a szövegforrásokat.
   HASZNÁLD MINDIG, amikor a `_web/` alatt HTML-t, CSS-t vagy JS-t írsz vagy módosítasz —
@@ -11,7 +11,7 @@ description: >-
   szabvány-) tartalomhoz az `otthoni-biologiai-szennyviztisztitas` skillt is olvasd be.
 ---
 
-# ÖkoTech Home — oldalgyártás (Test2)
+# ÖkoTech Home — oldalgyártás (**Prod**uktív)
 
 Ez a skill azt írja le, **hogyan készül egy oldal ebben a repóban**. A *mit írjunk* kérdésre
 a szakmai skill és a szövegforrások válaszolnak; ez a skill a **szerkezetet, a
