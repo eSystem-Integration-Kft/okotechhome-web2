@@ -73,7 +73,7 @@ def p(s, osztaly='type-ui-body'):
 
 
 def tovabb(href, felirat):
-    return (f'        <p class="bio-tovabb"><a class="text-link" href="{href}"><span class="link-label">'
+    return (f'        <p class="hub-tovabb"><a class="text-link" href="{href}"><span class="link-label">'
             f'{felirat}<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>')
 
 
@@ -95,11 +95,11 @@ def folyo(*bekezdesek):
     return '      <div class="folyoszoveg">' + NL + NL.join(bekezdesek) + NL + '      </div>'
 
 
-def foto(kep, szel, mag, alt, felirat, osztaly='bio-foto'):
+def foto(kep, szel, mag, alt, felirat, osztaly='hub-foto'):
     return f'''      <figure class="{osztaly}">
         <img src="../assets/img/galeria/{kep}.webp?v=1" width="{szel}" height="{mag}"
              alt="{_html.escape(alt, quote=True)}" loading="lazy" decoding="async">
-        <figcaption class="type-ui-caption bio-foto-felirat">{felirat}</figcaption>
+        <figcaption class="type-ui-caption hub-foto-felirat">{felirat}</figcaption>
       </figure>'''
 
 
@@ -118,31 +118,31 @@ TARTALOM = [
 
 
 def bevezeto():
-    linkek = NL.join(f'            <li><a class="bio-tartalom-link" href="#{a}">{esc(c)}</a></li>'
+    linkek = NL.join(f'            <li><a class="hub-tartalom-link" href="#{a}">{esc(c)}</a></li>'
                      for a, c in TARTALOM)
     return f'''
   <section class="section" aria-labelledby="lenyeg-cim">
-    <div class="section-inner bio-bevezeto">
-      <div class="bio-bevezeto-szoveg">
+    <div class="section-inner hub-bevezeto">
+      <div class="hub-bevezeto-szoveg">
         <p class="type-ui-body-strong">Ez a különbség dönt el minden mást: nincs szippantás, a megtisztított víz pedig a telken belül hasznosul.</p>
         <p class="type-ui-body">Ezen az oldalon végigmegyünk azon, hogyan működik a rendszer, kinek való, mit kell tudni az üzemeltetéséről, és mennyibe kerül fenntartani egy évben. A végén azt is megmondjuk, mikor javasolunk inkább mást.</p>
-        <nav class="bio-tartalom" aria-label="Az oldal tartalma">
-          <p class="type-data-eyebrow bio-tartalom-cim">Az oldalon</p>
-          <ol class="bio-tartalom-lista" role="list">
+        <nav class="hub-tartalom" aria-label="Az oldal tartalma">
+          <p class="type-data-eyebrow hub-tartalom-cim">Az oldalon</p>
+          <ol class="hub-tartalom-lista" role="list">
 {linkek}
           </ol>
         </nav>
       </div>
-      <aside class="bio-lenyeg" aria-labelledby="lenyeg-cim">
-        <h2 class="type-display-highlight-title bio-lenyeg-cim" id="lenyeg-cim">A lényeg röviden</h2>
+      <aside class="hub-lenyeg" aria-labelledby="lenyeg-cim">
+        <h2 class="type-display-highlight-title hub-lenyeg-cim" id="lenyeg-cim">A lényeg röviden</h2>
         <p class="type-ui-body">A tisztítást élő mikroorganizmusok végzik, a szükséges oxigénellátást pedig kompresszor biztosítja. Mivel a keletkező fölösiszap iszapzsákba kerül, rendszeres szippantásra nincs szükség.</p>
-        <dl class="bio-kulcsadatok">
-          <div class="bio-kulcsadat"><dt class="type-ui-caption">Legkisebb szabványos berendezés</dt><dd class="type-data-value">6&nbsp;LE</dd></div>
-          <div class="bio-kulcsadat"><dt class="type-ui-caption">A termékcsalád felső határa</dt><dd class="type-data-value">50&nbsp;LE</dd></div>
-          <div class="bio-kulcsadat"><dt class="type-ui-caption">Teljes üzemeltetés évente</dt><dd class="type-data-value">22&nbsp;700–27&nbsp;500&nbsp;Ft</dd></div>
-          <div class="bio-kulcsadat"><dt class="type-ui-caption">Rendszeres szippantás</dt><dd class="type-data-value">nincs</dd></div>
+        <dl class="hub-kulcsadatok">
+          <div class="hub-kulcsadat"><dt class="type-ui-caption">Legkisebb szabványos berendezés</dt><dd class="type-data-value">6&nbsp;LE</dd></div>
+          <div class="hub-kulcsadat"><dt class="type-ui-caption">A termékcsalád felső határa</dt><dd class="type-data-value">50&nbsp;LE</dd></div>
+          <div class="hub-kulcsadat"><dt class="type-ui-caption">Teljes üzemeltetés évente</dt><dd class="type-data-value">22&nbsp;700–27&nbsp;500&nbsp;Ft</dd></div>
+          <div class="hub-kulcsadat"><dt class="type-ui-caption">Rendszeres szippantás</dt><dd class="type-data-value">nincs</dd></div>
         </dl>
-        <p class="type-ui-caption bio-lenyeg-jegyzet">Az A.B. Clear adatai. Az üzemeltetési költség árammal, iszapzsákkal és évesített membráncserével együtt értendő; <abbr title="lakosegyenérték">LE</abbr> = <a href="../tudastar/fogalomtar#f-lakosegyenertek-le">lakosegyenérték</a>.</p>
+        <p class="type-ui-caption hub-lenyeg-jegyzet">Az A.B. Clear adatai. Az üzemeltetési költség árammal, iszapzsákkal és évesített membráncserével együtt értendő; <abbr title="lakosegyenérték">LE</abbr> = <a href="../tudastar/fogalomtar#f-lakosegyenertek-le">lakosegyenérték</a>.</p>
       </aside>
     </div>
   </section>'''
@@ -168,7 +168,7 @@ def mukodes():
               '<a href="../projekt-elokeszites/gyokerzonas-elhelyezes">gyökérzónás elhelyezéssel</a> '
               'hasznosul.'),
         ),
-        '      <div class="bio-foto-par">',
+        '      <div class="hub-foto-par">',
         foto('berendezes-kompresszor', 1200, 800,
              'Kék burkolatú membrános légszivattyú, a berendezés kompresszora.',
              'A membrános légszivattyú adja az oxigént — a rendszer egyetlen mozgó alkatrésze.'),
@@ -206,7 +206,7 @@ def bio_emeszto():
               'viszont a tisztítás nagy része a talajban folytatódik.'),
         ),
         f'''      <div class="compare-scroll" tabindex="0" role="region" aria-labelledby="bio-emeszto-tabla-cim">
-        <table class="compare-table compare-table-start bio-tabla">
+        <table class="compare-table compare-table-start hub-tabla">
           <caption class="type-ui-card-title" id="bio-emeszto-tabla-cim">Mit takarhat a „bio emésztő” név?</caption>
           <thead>
             <tr><th scope="col"><span class="visually-hidden">Kérdés</span></th><th scope="col">Aktív biológiai szennyvíztisztító</th><th scope="col">Oldómedence</th><th scope="col">Gyűjtő (zárt) tartály</th></tr>
@@ -216,7 +216,7 @@ def bio_emeszto():
           </tbody>
         </table>
       </div>''',
-        '''      <aside class="panel bio-kerdes-panel" aria-labelledby="bio-kerdesek-cim">
+        '''      <aside class="panel hub-kerdes-panel" aria-labelledby="bio-kerdesek-cim">
         <h3 class="type-ui-card-title" id="bio-kerdesek-cim">Ajánlatkérésnél ezt kérdezze meg</h3>
         <ul class="fit-list" role="list">
           <li class="type-ui-body"><span class="fit-mark fit-yes" aria-hidden="true"></span><span class="fit-text">Rendelkezik-e a berendezés <strong>EN&nbsp;12566-3</strong> szabvány szerinti <strong>CE-jelöléssel</strong>?</span></li>
@@ -241,7 +241,7 @@ def mert_adatok():
         ('Összes foszfor', '5'),
     ]
     sorok = NL.join(f'            <tr><th scope="row" class="type-ui-body">{a}</th>'
-                    f'<td class="type-data-value bio-ertek">{b}&nbsp;mg/l</td></tr>' for a, b in ertekek)
+                    f'<td class="type-data-value hub-ertek">{b}&nbsp;mg/l</td></tr>' for a, b in ertekek)
     bizalom = [
         ('EN 12566-3 · CE-jelölés', 'A berendezések az európai kisberendezés-szabvány szerint CE-jelölést viselnek.'),
         ('ISO 9001', 'A gyártás ISO 9001 minőségirányítási rendszerben folyik.'),
@@ -256,8 +256,8 @@ def mert_adatok():
     torzs = NL.join([
         folyo(p('Az ÖkoTech-Home Kft. A.B. Clear berendezéseinek mért kibocsátási értékei a '
                 '<strong>VITUKI</strong> vizsgálati zárójegyzőkönyve szerint:')),
-        f'''      <div class="compare-scroll bio-adat-keret" tabindex="0" role="region" aria-labelledby="vituki-cim">
-        <table class="compare-table compare-table-start bio-adat-tabla">
+        f'''      <div class="compare-scroll hub-adat-keret" tabindex="0" role="region" aria-labelledby="vituki-cim">
+        <table class="compare-table compare-table-start hub-adat-tabla">
           <caption class="visually-hidden" id="vituki-cim">A VITUKI által mért kibocsátási értékek</caption>
           <thead><tr><th scope="col">Paraméter</th><th scope="col">Mért érték</th></tr></thead>
           <tbody>
@@ -275,7 +275,7 @@ def mert_adatok():
               'az általunk kiszállított és szakszerűen telepített tartály stabilitására '
               '<strong>15&nbsp;év</strong> garanciát vállalunk.'),
         ),
-        f'''      <ul class="trust-grid bio-bizalom" role="list">
+        f'''      <ul class="trust-grid hub-bizalom" role="list">
 {bizalom_html}
       </ul>''',
         tovabb('ab-clear-muszaki-adatok', 'Az A.B. Clear műszaki adatai'),
@@ -307,20 +307,20 @@ def kinek():
     torzs = NL.join([
         folyo(p('Négy feltétel teljesülése esetén ez a legjobb választás, és a négy közül a '
                 'legfontosabb az első.')),
-        f'''      <ol class="numbered-grid bio-feltetelek" role="list">
+        f'''      <ol class="numbered-grid hub-feltetelek" role="list">
 {kartyak}
       </ol>''',
         folyo(p('Ha ez a négy adott, akkor jellemzően családi házaknál, tanyákon, vadászházaknál, '
                 'irodáknál, társasházaknál, sőt házcsoportok közös szennyvíztisztításánál is ez a '
                 'megoldás jön szóba.')),
-        f'      <ul class="bio-cimkek" role="list" aria-label="Jellemző felhasználási helyek">{cimkek}</ul>',
+        f'      <ul class="hub-cimkek" role="list" aria-label="Jellemző felhasználási helyek">{cimkek}</ul>',
         folyo(p('A legtöbben azért választják, mert <strong>megszűnik a szippantás</strong>. A '
                 'második ok pedig rendszerint az, hogy a szennyvíz nem áll heteken át a tartályban '
                 'az elszállításig.')),
         foto('kesz_kertek-gyep', 1200, 800,
              'Nyírt gyep, kavicsos szárazpatak és sziklaágyás egy kertben; a gyepen egyetlen kerek fedlap látszik.',
              'Egy működő rendszer fölött: nyírt gyep, kavicsos szárazpatak, sziklaágyás — és egyetlen fedlap.',
-             'bio-foto bio-foto-szeles'),
+             'hub-foto hub-foto-szeles'),
         tovabb('biologiai-kinek-megfelelo', 'Kinek megfelelő — részletesen'),
     ])
     return szekcio('kinek-valo', 'Alkalmasság', 'Kinek megfelelő a biológiai szennyvíztisztító?',
@@ -334,7 +334,7 @@ def uzemeltetes():
         ('Iszapzsákok éves költsége', 'legfeljebb kb. 1&nbsp;200&nbsp;Ft/év'),
         ('Membráncsere 3–4 évente, évesítve', 'kb. 10&nbsp;500&nbsp;Ft/év'),
     ]
-    lista = NL.join(f'          <div class="bio-tetel"><dt class="type-ui-body">{a}</dt>'
+    lista = NL.join(f'          <div class="hub-tetel"><dt class="type-ui-body">{a}</dt>'
                     f'<dd class="type-data-value">{b}</dd></div>' for a, b in tetelek)
     torzs = NL.join([
         folyo(
@@ -349,9 +349,9 @@ def uzemeltetes():
               'beállítást a rendszer terhelése és üzemi állapota határozza meg.'),
         ),
         abra.utem_abra('utem-abra-cim'),
-        f'''      <div class="bio-szamitas">
+        f'''      <div class="hub-szamitas">
         <h3 class="type-ui-card-title">Példaszámítás 36&nbsp;Ft/kWh lakossági áramárral</h3>
-        <dl class="bio-tetelek">
+        <dl class="hub-tetelek">
 {lista}
         </dl>
       </div>''',
@@ -381,7 +381,7 @@ def uzemeltetes():
 
 def telek():
     torzs = NL.join([
-        '''      <aside class="bio-elv" aria-label="Fontos elv">
+        '''      <aside class="hub-elv" aria-label="Fontos elv">
         <p class="type-ui-body-strong">Fontos elv: a telek adottságai nem a technológiát döntik el, hanem a kivitelezés módját.</p>
       </aside>''',
         folyo(
@@ -423,15 +423,15 @@ def mikor_mast():
          'gazdaságossági számítással igazolni lehet, felmentés kérhető a rákötési kötelezettség alól.',
          '../helyzetem/kozcsatorna-vagy-egyedi-rendszer', 'Közcsatorna vagy egyedi rendszer'),
     ]
-    kartyak = NL.join(f'''        <li class="situation bio-eset">
+    kartyak = NL.join(f'''        <li class="situation hub-eset">
           <h3 class="type-ui-card-title situation-title">{a}</h3>
           <p class="type-ui-body situation-text">{b}</p>
-          <p class="bio-eset-link"><a class="text-link" href="{h}"><span class="link-label">{f}<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
+          <p class="hub-eset-link"><a class="text-link" href="{h}"><span class="link-label">{f}<span class="action-arrow-end" aria-hidden="true">&rarr;</span></span></a></p>
         </li>''' for a, b, h, f in esetek)
     torzs = NL.join([
         folyo(p('Nem minden helyzetben ez a jó válasz. Négy esetben mást ajánlunk — és ezek közül '
                 'háromra szintén van megoldásunk.')),
-        f'''      <ul class="situation-grid bio-esetek" data-cols="4" role="list">
+        f'''      <ul class="situation-grid hub-esetek" data-cols="4" role="list">
 {kartyak}
       </ul>''',
         tovabb('biologiai-mikor-nem-megfelelo', 'Mikor nem megfelelő — részletesen'),
@@ -443,13 +443,13 @@ def telepitesek():
     kepek = NL.join([
         foto('telepites-munkagodor', 1200, 800,
              'Egyenes falú munkagödör agyagos talajban, tömörített aljjal.',
-             'Munkagödör agyagos talajban: a gödör egyenes falú, az alja tömörítve.', 'bio-foto'),
+             'Munkagödör agyagos talajban: a gödör egyenes falú, az alja tömörítve.', 'hub-foto'),
         foto('telepites-beemeles', 1200, 800,
              'Világos színű tartály a munkagödörben, mellette a narancssárga bekötőcső.',
-             'A tartály a gödörben, a bekötőcső csatlakoztatása előtt.', 'bio-foto'),
+             'A tartály a gödörben, a bekötőcső csatlakoztatása előtt.', 'hub-foto'),
         foto('telepites-kesz', 1200, 800,
              'Elkészült telepítés: gyepes kert, amelyben egyetlen fedlap látszik.',
-             'A kész állapot: a gyepben egyetlen fedlap marad látható.', 'bio-foto'),
+             'A kész állapot: a gyepben egyetlen fedlap marad látható.', 'hub-foto'),
     ])
     statok = [
         ('2004 óta', 'foglalkozunk biológiai szennyvíztisztítással.'),
@@ -461,7 +461,7 @@ def telepitesek():
           <p class="type-ui-subtitle trust-text">{b}</p>
         </li>''' for a, b in statok)
     torzs = NL.join([
-        f'''      <div class="bio-foto-sor">
+        f'''      <div class="hub-foto-sor">
 {kepek}
       </div>''',
         folyo(
@@ -472,7 +472,7 @@ def telepitesek():
             p('Konkrét eseteket — kiindulási helyzettel, választott megoldással és eredménnyel — az '
               '<a href="../eredmenyek/esettanulmanyok">esettanulmányok</a> között talál.'),
         ),
-        f'''      <ul class="trust-grid bio-bizalom" role="list">
+        f'''      <ul class="trust-grid hub-bizalom" role="list">
 {stat_html}
       </ul>''',
         tovabb('biologiai-esettanulmanyok', 'Kapcsolódó esettanulmányok'),
@@ -582,18 +582,18 @@ JOGSZABALYOK = [
 
 
 def jogi():
-    elemek = NL.join(f'          <div class="bio-jogi-tetel"><dt class="type-ui-body-strong">{a}</dt>'
+    elemek = NL.join(f'          <div class="hub-jogi-tetel"><dt class="type-ui-body-strong">{a}</dt>'
                      f'<dd class="type-ui-body">{b}</dd></div>' for a, b in JOGSZABALYOK)
     torzs = NL.join([
-        f'''      <dl class="bio-jogi">
+        f'''      <dl class="hub-jogi">
 {elemek}
       </dl>''',
         folyo(p('Mivel a jogszabályok és a helyi előírások változhatnak, a konkrét ingatlanra '
                 'vonatkozó eljárást mindig az aktuálisan hatályos szabályok alapján kell '
                 'meghatározni. Ezért ha bizonytalan, inkább kérdezzen rá.')),
-        f'''      <aside class="bio-szerzo" aria-label="Az oldal szerzője">
+        f'''      <aside class="hub-szerzo" aria-label="Az oldal szerzője">
         <p class="type-ui-body">Az oldalt az <strong>ÖkoTech-Home Kft.</strong> szakmai csapata állította össze. A vállalkozás 2004 óta foglalkozik biológiai szennyvíztisztító berendezésekkel, saját A.B. Clear berendezéseit Esztergomban gyártja — az itt leírtak tehát saját gyártói és telepítési tapasztalaton alapulnak.</p>
-        <p class="type-ui-caption bio-szerzo-datum">Utolsó szakmai frissítés: <time datetime="{FRISSITVE[1]}">{FRISSITVE[2]}</time></p>
+        <p class="type-ui-caption hub-szerzo-datum">Utolsó szakmai frissítés: <time datetime="{FRISSITVE[1]}">{FRISSITVE[2]}</time></p>
       </aside>''',
     ])
     return szekcio('jogszabalyok', 'Háttér', 'Jogszabályi és szabványi háttér', torzs)

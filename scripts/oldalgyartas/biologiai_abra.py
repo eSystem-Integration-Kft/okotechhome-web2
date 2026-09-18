@@ -31,7 +31,7 @@ def _svg(tartalom, cim):
     # viszont „több title elem" hibának jelzik. A `cim` a forrás olvasójának
     # szól, megjegyzésként marad a rajz előtt.
     return (f'<!-- {_esc(cim)} -->'
-            f'<svg class="bio-lepes-rajz" viewBox="0 0 120 84" aria-hidden="true" focusable="false">'
+            f'<svg class="hub-lepes-rajz" viewBox="0 0 120 84" aria-hidden="true" focusable="false">'
             f'{tartalom}</svg>')
 
 
@@ -90,7 +90,7 @@ def rajz_tisztitas():
 def rajz_iszap():
     """A fölösiszap az iszapzsákba kerül, és ott víztelenedik."""
     cseppek = ''.join(
-        f'<circle class="bio-hullo abra-i{i}" cx="{x}" cy="70" r="1.6" fill="var(--abra-viz)"/>'
+        f'<circle class="hub-hullo abra-i{i}" cx="{x}" cy="70" r="1.6" fill="var(--abra-viz)"/>'
         for i, x in enumerate((50, 60, 70)))
     return _svg(
         # kosár
@@ -110,7 +110,7 @@ def rajz_iszap():
 def rajz_elvezetes():
     """A tisztított víz a gyökérzónában hasznosul."""
     cseppek = ''.join(
-        f'<circle class="bio-hullo abra-i{i}" cx="{x}" cy="{50}" r="1.7" fill="var(--abra-viz)"/>'
+        f'<circle class="hub-hullo abra-i{i}" cx="{x}" cy="{50}" r="1.7" fill="var(--abra-viz)"/>'
         for i, x in enumerate((30, 48, 66, 84, 102)))
     novenyek = ''.join(
         f'<path d="M{x} 24 V12 M{x} 18 Q{x - 7} 12 {x - 9} 6 M{x} 16 Q{x + 7} 10 {x + 9} 5" fill="none" '
@@ -150,22 +150,22 @@ LEPESEK = [
 def folyamat_abra(azon):
     lepesek = []
     for n, (rajz, cim, szoveg) in enumerate(LEPESEK, 1):
-        lepesek.append(f'''          <li class="bio-lepes">
+        lepesek.append(f'''          <li class="hub-lepes">
             {rajz()}
-            <p class="type-data-eyebrow bio-lepes-szam"><span class="visually-hidden">Lépés </span>{n:02d}</p>
-            <h3 class="type-ui-card-title bio-lepes-cim">{_html.escape(cim)}</h3>
-            <p class="type-ui-body bio-lepes-szoveg">{_html.escape(szoveg)}</p>
+            <p class="type-data-eyebrow hub-lepes-szam"><span class="visually-hidden">Lépés </span>{n:02d}</p>
+            <h3 class="type-ui-card-title hub-lepes-cim">{_html.escape(cim)}</h3>
+            <p class="type-ui-body hub-lepes-szoveg">{_html.escape(szoveg)}</p>
           </li>''')
     nl = '\n'
-    return f'''      <figure class="bio-folyamat" aria-labelledby="{azon}">
-        <figcaption class="bio-folyamat-fej">
+    return f'''      <figure class="hub-folyamat" aria-labelledby="{azon}">
+        <figcaption class="hub-folyamat-fej">
           <p class="type-data-eyebrow section-eyebrow">Infografika</p>
-          <p class="type-display-highlight-title bio-folyamat-cim" id="{azon}">Így tisztít — négy lépésben</p>
+          <p class="type-display-highlight-title hub-folyamat-cim" id="{azon}">Így tisztít — négy lépésben</p>
         </figcaption>
-        <ol class="bio-lepesek" role="list">
+        <ol class="hub-lepesek" role="list">
 {nl.join(lepesek)}
         </ol>
-        <p class="type-ui-caption bio-folyamat-jegyzet">Egyszerűsített ábra. A kamrák száma és elrendezése modellenként eltérhet.</p>
+        <p class="type-ui-caption hub-folyamat-jegyzet">Egyszerűsített ábra. A kamrák száma és elrendezése modellenként eltérhet.</p>
       </figure>'''
 
 
@@ -175,9 +175,9 @@ def folyamat_abra(azon):
 # membráncsere 3–4 évente, évesítve 10 500 Ft.
 TETELEK = [
     # (osztály, felirat)
-    ('bio-sav-aram', 'Villamos energia'),
-    ('bio-sav-zsak', 'Iszapzsák'),
-    ('bio-sav-membran', 'Membráncsere, évesítve'),
+    ('hub-sav-aram', 'Villamos energia'),
+    ('hub-sav-zsak', 'Iszapzsák'),
+    ('hub-sav-membran', 'Membráncsere, évesítve'),
 ]
 UZEMMODOK = [
     # (név, részlet, [áram, zsák, membrán])
@@ -201,43 +201,43 @@ def koltseg_abra(azon):
             x += ertek
         osszeg = sum(ertekek)
         bontas = ' + '.join(f'{felirat.lower()} {ft(e)}' for (_, felirat), e in zip(TETELEK, ertekek))
-        sorok.append(f'''          <li class="bio-koltseg-sor">
-            <p class="type-ui-body bio-koltseg-nev"><strong>{_html.escape(nev)}</strong> <span class="bio-koltseg-reszlet">{reszlet}</span></p>
-            <p class="type-data-value bio-koltseg-osszeg">≈ {ft(osszeg)}<span class="bio-koltseg-egyseg">/év</span></p>
-            <svg class="bio-koltseg-sav" viewBox="0 0 {SKALA} 10" preserveAspectRatio="none" aria-hidden="true" focusable="false">{''.join(teglalapok)}</svg>
+        sorok.append(f'''          <li class="hub-koltseg-sor">
+            <p class="type-ui-body hub-koltseg-nev"><strong>{_html.escape(nev)}</strong> <span class="hub-koltseg-reszlet">{reszlet}</span></p>
+            <p class="type-data-value hub-koltseg-osszeg">≈ {ft(osszeg)}<span class="hub-koltseg-egyseg">/év</span></p>
+            <svg class="hub-koltseg-sav" viewBox="0 0 {SKALA} 10" preserveAspectRatio="none" aria-hidden="true" focusable="false">{''.join(teglalapok)}</svg>
             <p class="visually-hidden">{bontas}</p>
           </li>''')
     jelek = ''.join(
-        f'<li class="type-ui-caption bio-jel"><span class="bio-jel-minta {osztaly}" aria-hidden="true"></span>{felirat}</li>'
+        f'<li class="type-ui-caption hub-jel"><span class="hub-jel-minta {osztaly}" aria-hidden="true"></span>{felirat}</li>'
         for osztaly, felirat in TETELEK)
     nl = '\n'
-    return f'''      <figure class="abra bio-koltseg" aria-labelledby="{azon}">
+    return f'''      <figure class="abra hub-koltseg" aria-labelledby="{azon}">
         <figcaption>
-          <p class="type-ui-card-title bio-koltseg-cim" id="{azon}">Éves üzemeltetési költség, két üzemmódban</p>
+          <p class="type-ui-card-title hub-koltseg-cim" id="{azon}">Éves üzemeltetési költség, két üzemmódban</p>
           <p class="type-ui-caption abra-felirat">Példaszámítás 36&nbsp;Ft/kWh lakossági áramárral. Szippantás nincs benne, mert nincs rá szükség.</p>
         </figcaption>
-        <ul class="bio-koltseg-sorok" role="list">
+        <ul class="hub-koltseg-sorok" role="list">
 {nl.join(sorok)}
         </ul>
-        <ul class="bio-jelek" role="list">{jelek}</ul>
+        <ul class="hub-jelek" role="list">{jelek}</ul>
       </figure>'''
 
 
 def utem_abra(azon):
     """A kompresszor szakaszos ütemezése: tíz percből hét működés."""
-    return f'''      <figure class="abra bio-utem" aria-labelledby="{azon}">
+    return f'''      <figure class="abra hub-utem" aria-labelledby="{azon}">
         <figcaption>
-          <p class="type-ui-card-title bio-koltseg-cim" id="{azon}">A kompresszor szakaszos üzemben</p>
+          <p class="type-ui-card-title hub-koltseg-cim" id="{azon}">A kompresszor szakaszos üzemben</p>
           <p class="type-ui-caption abra-felirat">Egy tízperces ciklus. A folyamatos üzem is teljesen normális — a beállítást a terhelés és az üzemállapot határozza meg.</p>
         </figcaption>
-        <div class="bio-utem-sav" aria-hidden="true">
-          <span class="bio-utem-be"></span><span class="bio-utem-ki"></span>
+        <div class="hub-utem-sav" aria-hidden="true">
+          <span class="hub-utem-be"></span><span class="hub-utem-ki"></span>
         </div>
-        <ul class="bio-utem-skala" role="list">
+        <ul class="hub-utem-skala" role="list">
           <li class="type-ui-caption"><strong>7 perc működés</strong> · az idő 70%-a</li>
           <li class="type-ui-caption"><strong>3 perc szünet</strong></li>
         </ul>
-        <dl class="bio-utem-adatok">
+        <dl class="hub-utem-adatok">
           <div><dt class="type-ui-caption">Folyamatos üzem</dt><dd class="type-data-value">438&nbsp;kWh/év</dd></div>
           <div><dt class="type-ui-caption">Szakaszos üzem</dt><dd class="type-data-value">kb. 307&nbsp;kWh/év</dd></div>
           <div><dt class="type-ui-caption">Kompresszor</dt><dd class="type-data-value">50&nbsp;W</dd></div>

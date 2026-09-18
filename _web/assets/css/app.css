@@ -10207,11 +10207,12 @@
 }
 
 /* ============================================================================
-   BIOLÓGIAI SZENNYVÍZTISZTÍTÓ — a hub útmutató-lapja, `.bio-*`
+   ÚTMUTATÓ-LAPOK — `.hub-*`
    ----------------------------------------------------------------------------
-   A `megoldasok/biologiai-szennyviztisztitas` lap 2026-09-17-i szövegéhez
-   (generátor: scripts/oldalgyartas/biologiai_foldal.py, ábrák:
-   biologiai_abra.py). Minden érték tokenből; a meglévő komponenseket
+   A hosszú, kalauzoló lapok közös készlete: `megoldasok/` (2026-09-18) és
+   `megoldasok/biologiai-szennyviztisztitas` (2026-09-17). Generátorok:
+   `megoldasok_foldal.py`, `biologiai_foldal.py`; rajzok: `*_abra.py`.
+   Minden érték tokenből; a meglévő komponenseket
    (`.folyoszoveg`, `.compare-table`, `.numbered-grid`, `.trust-grid`,
    `.situation-grid`, `.panel`, `.faq`) csak kiegészíti.
    ========================================================================== */
@@ -10219,67 +10220,67 @@
   :root{
     /* A költségsáv három tétele. Az áram a legnagyobb és a legváltozóbb —
        az kapja a márkaszínt; a zsák és a membrán csendesebb. */
-    --bio-sav-aram:var(--primary);
-    --bio-sav-zsak:color-mix(in srgb,var(--color-warning-500) 80%,var(--surface));
-    --bio-sav-membran:color-mix(in srgb,var(--secondary) 45%,var(--surface));
-    --bio-lenyeg-bg:var(--surface);
-    --bio-lenyeg-jel:var(--primary);
-    --bio-utem-be:var(--primary);
-    --bio-utem-ki:var(--surface-muted);
+    --hub-sav-aram:var(--primary);
+    --hub-sav-zsak:color-mix(in srgb,var(--color-warning-500) 80%,var(--surface));
+    --hub-sav-membran:color-mix(in srgb,var(--secondary) 45%,var(--surface));
+    --hub-lenyeg-bg:var(--surface);
+    --hub-lenyeg-jel:var(--primary);
+    --hub-utem-be:var(--primary);
+    --hub-utem-ki:var(--surface-muted);
   }
   [data-theme="dark"]{
-    --bio-sav-aram:var(--primary);
-    --bio-sav-zsak:color-mix(in srgb,var(--color-warning-500) 85%,var(--surface));
-    --bio-sav-membran:color-mix(in srgb,var(--color-stardust) 55%,var(--surface));
-    --bio-lenyeg-bg:var(--surface);
-    --bio-lenyeg-jel:var(--primary);
-    --bio-utem-be:var(--primary);
-    --bio-utem-ki:var(--surface-muted);
+    --hub-sav-aram:var(--primary);
+    --hub-sav-zsak:color-mix(in srgb,var(--color-warning-500) 85%,var(--surface));
+    --hub-sav-membran:color-mix(in srgb,var(--color-stardust) 55%,var(--surface));
+    --hub-lenyeg-bg:var(--surface);
+    --hub-lenyeg-jel:var(--primary);
+    --hub-utem-be:var(--primary);
+    --hub-utem-ki:var(--surface-muted);
   }
 }
 
 @layer components {
   /* --- Bevezető: szöveg + „A lényeg röviden" doboz ------------------------ */
-  .bio-bevezeto{
+  .hub-bevezeto{
     display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
     gap:var(--space-48);align-items:start;
   }
-  .bio-bevezeto-szoveg{display:grid;gap:var(--space-16);max-width:62ch}
-  .bio-bevezeto-szoveg > p{margin:0;color:var(--text-secondary)}
-  .bio-bevezeto-szoveg > .type-ui-body-strong{color:var(--text-primary)}
-  .bio-lenyeg{
+  .hub-bevezeto-szoveg{display:grid;gap:var(--space-16);max-width:62ch}
+  .hub-bevezeto-szoveg > p{margin:0;color:var(--text-secondary)}
+  .hub-bevezeto-szoveg > .type-ui-body-strong{color:var(--text-primary)}
+  .hub-lenyeg{
     display:grid;gap:var(--space-16);
-    background:var(--bio-lenyeg-bg);
-    border:1px solid var(--card-border);border-left:4px solid var(--bio-lenyeg-jel);
+    background:var(--hub-lenyeg-bg);
+    border:1px solid var(--card-border);border-left:4px solid var(--hub-lenyeg-jel);
     border-radius:var(--card-radius);padding:var(--card-padding);
     box-shadow:var(--card-shadow);
   }
-  .bio-lenyeg-cim{margin:0;color:var(--text-primary)}
-  .bio-lenyeg > p{margin:0;color:var(--text-secondary)}
-  .bio-kulcsadatok{
+  .hub-lenyeg-cim{margin:0;color:var(--text-primary)}
+  .hub-lenyeg > p{margin:0;color:var(--text-secondary)}
+  .hub-kulcsadatok{
     display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
     gap:var(--space-16);margin:0;
   }
-  .bio-kulcsadat{
+  .hub-kulcsadat{
     display:flex;flex-direction:column-reverse;gap:var(--space-4);
     padding:var(--space-16);border-radius:var(--r-md);background:var(--surface-muted);
   }
-  .bio-kulcsadat dt{color:var(--text-secondary)}
-  .bio-kulcsadat dd{margin:0;color:var(--text-primary)}
-  .bio-lenyeg-jegyzet{margin:0;color:var(--text-tertiary)}
-  .bio-lenyeg-jegyzet a{text-decoration:underline;text-underline-offset:2px}
+  .hub-kulcsadat dt{color:var(--text-secondary)}
+  .hub-kulcsadat dd{margin:0;color:var(--text-primary)}
+  .hub-lenyeg-jegyzet{margin:0;color:var(--text-tertiary)}
+  .hub-lenyeg-jegyzet a{text-decoration:underline;text-underline-offset:2px}
 
   /* --- Tartalomjegyzék -------------------------------------------------- */
-  .bio-tartalom{
+  .hub-tartalom{
     margin-top:var(--space-8);padding-top:var(--space-16);
     border-top:1px solid var(--border);
   }
-  .bio-tartalom-cim{margin:0 0 var(--space-8);color:var(--text-tertiary)}
-  .bio-tartalom-lista{
+  .hub-tartalom-cim{margin:0 0 var(--space-8);color:var(--text-tertiary)}
+  .hub-tartalom-lista{
     display:flex;flex-wrap:wrap;gap:var(--space-8);
     margin:0;padding:0;list-style:none;
   }
-  .bio-tartalom-link{
+  .hub-tartalom-link{
     display:inline-flex;align-items:center;min-height:44px;
     padding:0 var(--space-16);border-radius:var(--chip-radius);
     background:var(--chip-bg);color:var(--chip-text);
@@ -10287,267 +10288,279 @@
     text-decoration:none;
     transition:background var(--dur-fast) var(--ease-out);
   }
-  .bio-tartalom-link:hover{background:var(--canvas);color:var(--text-primary)}
-  .bio-tartalom-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
+  .hub-tartalom-link:hover{background:var(--canvas);color:var(--text-primary)}
+  .hub-tartalom-link:focus-visible{outline:3px solid var(--border-focus);outline-offset:2px}
 
   /* --- Infografika: négy lépés ------------------------------------------ */
-  .bio-folyamat{margin:0 0 var(--space-48);display:grid;gap:var(--space-24)}
-  .bio-folyamat-fej{display:grid;gap:var(--space-8)}
-  .bio-folyamat-cim{margin:0;color:var(--text-primary)}
-  .bio-lepesek{
+  .hub-folyamat{margin:0 0 var(--space-48);display:grid;gap:var(--space-24)}
+  .hub-folyamat-fej{display:grid;gap:var(--space-8)}
+  .hub-folyamat-cim{margin:0;color:var(--text-primary)}
+  .hub-lepesek{
     display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
     gap:var(--space-24);margin:0;padding:0;list-style:none;
     counter-reset:none;
   }
-  .bio-lepes{
+  .hub-lepes{
     position:relative;display:flex;flex-direction:column;gap:var(--space-8);
     background:var(--card-bg);border:1px solid var(--card-border);
     border-radius:var(--card-radius);padding:var(--space-24);
     box-shadow:var(--card-shadow);
   }
   /* A LÉPÉSEK KÖZÖTTI NYÍL: a folyamat iránya. Dísz, a sorszám mondja meg. */
-  .bio-lepes + .bio-lepes::before{
+  .hub-lepes + .hub-lepes::before{
     content:"";position:absolute;
     left:calc(-1 * var(--space-24) + var(--space-4));top:var(--space-64);
     width:calc(var(--space-24) - var(--space-8));height:2px;
     background:var(--abra-kiemeles);
   }
-  .bio-lepes-rajz{
+  .hub-lepes-rajz{
     display:block;width:100%;height:auto;aspect-ratio:120 / 84;
     background:var(--surface-muted);border-radius:var(--r-md);
     padding:var(--space-8);
   }
   /* A szám szövegszínű: a márkazöld 11 px-en 2,7:1 lett volna. */
-  .bio-lepes-szam{margin:var(--space-8) 0 0;color:var(--text-secondary)}
-  .bio-lepes-cim{margin:0;color:var(--text-primary)}
-  .bio-lepes-szoveg{margin:0;color:var(--text-secondary)}
-  .bio-folyamat-jegyzet{margin:0;color:var(--text-tertiary)}
-  .bio-hullo{opacity:.9}
+  .hub-lepes-szam{margin:var(--space-8) 0 0;color:var(--text-secondary)}
+  .hub-lepes-cim{margin:0;color:var(--text-primary)}
+  .hub-lepes-szoveg{margin:0;color:var(--text-secondary)}
+  .hub-folyamat-jegyzet{margin:0;color:var(--text-tertiary)}
+  /* Háromrészes változat: a Megoldások hub rendszerábrája. */
+  .hub-lepesek-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* A pipa a kész teendőre: egyszer rajzolódik ki, nem ismétlődik. */
+  .hub-pipa{stroke-dasharray:34;stroke-dashoffset:0}
+
+  /* --- Előszűrő kérdések ------------------------------------------------- */
+  .hub-kerdesek{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hub-kerdes{gap:var(--space-8)}
+  .hub-kerdes-cim{margin:0;color:var(--text-primary)}
+  .hub-kerdes-link{margin:auto 0 0}
+  .hub-hullo{opacity:.9}
 
   /* --- Fotók ------------------------------------------------------------ */
-  .bio-foto{margin:0;display:grid;gap:var(--space-8)}
-  .bio-foto img{
+  .hub-foto{margin:0;display:grid;gap:var(--space-8)}
+  .hub-foto img{
     display:block;width:100%;height:auto;aspect-ratio:3 / 2;object-fit:cover;
     border-radius:var(--card-radius);background:var(--surface-muted);
   }
-  .bio-foto-felirat{margin:0;color:var(--text-secondary);max-width:62ch}
-  .bio-foto-par,.bio-foto-sor{
+  .hub-foto-felirat{margin:0;color:var(--text-secondary);max-width:62ch}
+  .hub-foto-par,.hub-foto-sor{
     display:grid;gap:var(--space-24);margin-block:var(--space-32);
   }
-  .bio-foto-par{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .bio-foto-sor{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:0}
-  .bio-foto-szeles{margin-block:var(--space-32)}
-  .bio-foto-szeles img{aspect-ratio:16 / 7}
+  .hub-foto-par{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hub-foto-sor{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:0}
+  .hub-foto-szeles{margin-block:var(--space-32)}
+  .hub-foto-szeles img{aspect-ratio:16 / 7}
 
   /* --- Tovább-hivatkozás ------------------------------------------------- */
   /* Flex, hogy a bekezdés a 44 px-es link magasságát vegye fel — különben a
      két egymás alatti link egymásba lóg. */
-  .bio-tovabb{display:flex;margin:var(--space-16) 0 0}
-  .bio-tovabb + .bio-tovabb{margin-top:0}
+  .hub-tovabb{display:flex;margin:var(--space-16) 0 0}
+  .hub-tovabb + .hub-tovabb{margin-top:0}
 
   /* --- Táblák ----------------------------------------------------------- */
-  .folyoszoveg + .compare-scroll.bio-adat-keret{margin-top:var(--space-16)}
-  .bio-tabla th[scope="row"]{text-align:left;color:var(--text-primary)}
-  .bio-tabla td{text-align:left;color:var(--text-secondary)}
-  .bio-tabla thead th{text-align:left}
-  .bio-adat-tabla{max-width:36rem}
-  .bio-adat-tabla th,.bio-adat-tabla td{text-align:left}
-  .bio-adat-tabla .bio-ertek{text-align:right;color:var(--text-primary);white-space:nowrap}
-  .bio-adat-tabla thead th:last-child{text-align:right}
+  .folyoszoveg + .compare-scroll.hub-adat-keret{margin-top:var(--space-16)}
+  .hub-tabla th[scope="row"]{text-align:left;color:var(--text-primary)}
+  .hub-tabla td{text-align:left;color:var(--text-secondary)}
+  .hub-tabla thead th{text-align:left}
+  .hub-adat-tabla{max-width:36rem}
+  .hub-adat-tabla th,.hub-adat-tabla td{text-align:left}
+  .hub-adat-tabla .hub-ertek{text-align:right;color:var(--text-primary);white-space:nowrap}
+  .hub-adat-tabla thead th:last-child{text-align:right}
 
   /* --- Panelek ---------------------------------------------------------- */
-  .bio-kerdes-panel{
+  .hub-kerdes-panel{
     grid-template-columns:minmax(0,1fr);gap:var(--space-16);
     margin-block:var(--space-32);max-width:72ch;
     padding:var(--space-32);
   }
-  .section-alt .bio-kerdes-panel{background:var(--surface)}
-  .bio-kerdes-panel h3{margin:0;color:var(--text-primary)}
+  .section-alt .hub-kerdes-panel{background:var(--surface)}
+  .hub-kerdes-panel h3{margin:0;color:var(--text-primary)}
   /* KIEMELT ELV — önálló kiemelés, nem `.panel`. A panel háttere a zöld
      sávval azonos (`--surface-muted`), a nagy lekerekítés a vastag bal
      szegéllyel zárójelnek hatott, és a doboz szélesebb volt a szövegnél.
      Itt: világos felület, egyenes bal sáv, a szöveghasáb szélessége. */
-  .bio-elv{
+  .hub-elv{
     margin-block:var(--space-32);max-width:72ch;
     padding:var(--space-16) var(--space-24);
     background:var(--surface);
-    border-left:4px solid var(--bio-lenyeg-jel);
+    border-left:4px solid var(--hub-lenyeg-jel);
     border-radius:0 var(--r-md) var(--r-md) 0;
   }
-  .bio-elv p{margin:0;color:var(--text-primary)}
+  .hub-elv p{margin:0;color:var(--text-primary)}
 
   /* --- Bizalmi sor, feltételek, címkék ---------------------------------- */
   /* KÁRTYÁK, NEM SÁV. A `.trust-grid` a főoldalon háttér nélküli, vonallal
      tagolt sáv; a zöld szekcióban így az adatok háttér nélküli, lebegő
      kártyáknak látszottak (Bela jelezte). Itt ugyanaz a kártya, mint a lap
      többi eleménél. */
-  .bio-bizalom{margin-top:var(--space-32);gap:var(--space-24)}
-  .bio-bizalom .trust-item{
+  .hub-bizalom{margin-top:var(--space-32);gap:var(--space-24)}
+  .hub-bizalom .trust-item{
     padding:var(--space-24);
     background:var(--card-bg);border:1px solid var(--card-border);
     border-radius:var(--card-radius);box-shadow:var(--card-shadow);
   }
-  .bio-bizalom .trust-item + .trust-item{border-left:1px solid var(--card-border)}
-  .bio-bizalom:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
-  .bio-feltetelek{margin-block:var(--space-24);padding:0;list-style:none}
-  .bio-cimkek{
+  .hub-bizalom .trust-item + .trust-item{border-left:1px solid var(--card-border)}
+  .hub-bizalom:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hub-feltetelek{margin-block:var(--space-24);padding:0;list-style:none}
+  .hub-cimkek{
     display:flex;flex-wrap:wrap;gap:var(--space-8);
     margin:var(--space-16) 0 var(--space-24);padding:0;list-style:none;
   }
 
   /* --- Üzemeltetés: ütemezés, tételek, költségsáv ------------------------- */
-  .bio-utem,.bio-koltseg{
+  .hub-utem,.hub-koltseg{
     margin-block:var(--space-32);padding:var(--card-padding);
     background:var(--card-bg);border:1px solid var(--card-border);
     border-radius:var(--card-radius);box-shadow:var(--card-shadow);
   }
-  .bio-koltseg-cim{margin:0;color:var(--text-primary)}
-  .bio-utem figcaption,.bio-koltseg figcaption{display:grid;gap:var(--space-4)}
-  .bio-utem-sav{
+  .hub-koltseg-cim{margin:0;color:var(--text-primary)}
+  .hub-utem figcaption,.hub-koltseg figcaption{display:grid;gap:var(--space-4)}
+  .hub-utem-sav{
     position:relative;overflow:hidden;
     display:grid;grid-template-columns:7fr 3fr;
     height:var(--space-40);border-radius:var(--r-md);
     border:1px solid var(--card-border);
   }
-  .bio-utem-be{background:var(--bio-utem-be)}
-  .bio-utem-ki{
-    background:repeating-linear-gradient(135deg,var(--bio-utem-ki) 0 8px,transparent 8px 16px),var(--surface);
+  .hub-utem-be{background:var(--hub-utem-be)}
+  .hub-utem-ki{
+    background:repeating-linear-gradient(135deg,var(--hub-utem-ki) 0 8px,transparent 8px 16px),var(--surface);
   }
-  .bio-utem-skala{
+  .hub-utem-skala{
     display:grid;grid-template-columns:7fr 3fr;gap:var(--space-8);
     margin:var(--space-8) 0 0;padding:0;list-style:none;color:var(--text-secondary);
   }
-  .bio-utem-skala strong{color:var(--text-primary)}
-  .bio-utem-adatok{
+  .hub-utem-skala strong{color:var(--text-primary)}
+  .hub-utem-adatok{
     display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-16);
     margin:var(--space-24) 0 0;
   }
-  .bio-utem-adatok > div{
+  .hub-utem-adatok > div{
     display:flex;flex-direction:column-reverse;gap:var(--space-4);
     padding:var(--space-16);border-radius:var(--r-md);background:var(--surface-muted);
   }
-  .bio-utem-adatok dt{color:var(--text-secondary)}
-  .bio-utem-adatok dd{margin:0;color:var(--text-primary)}
+  .hub-utem-adatok dt{color:var(--text-secondary)}
+  .hub-utem-adatok dd{margin:0;color:var(--text-primary)}
 
-  .bio-szamitas{margin-block:var(--space-32);max-width:48rem}
-  .bio-szamitas h3{margin:0 0 var(--space-16);color:var(--text-primary)}
-  .bio-tetelek{margin:0;display:grid}
-  .bio-tetel{
+  .hub-szamitas{margin-block:var(--space-32);max-width:48rem}
+  .hub-szamitas h3{margin:0 0 var(--space-16);color:var(--text-primary)}
+  .hub-tetelek{margin:0;display:grid}
+  .hub-tetel{
     display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-16);
     padding-block:var(--space-8);border-bottom:1px solid var(--border);
   }
-  .bio-tetel dt{color:var(--text-secondary)}
-  .bio-tetel dd{margin:0;color:var(--text-primary);text-align:right;white-space:nowrap}
+  .hub-tetel dt{color:var(--text-secondary)}
+  .hub-tetel dd{margin:0;color:var(--text-primary);text-align:right;white-space:nowrap}
 
-  .bio-koltseg-sorok{
+  .hub-koltseg-sorok{
     display:grid;gap:var(--space-24);margin:var(--space-24) 0 0;padding:0;list-style:none;
   }
-  .bio-koltseg-sor{
+  .hub-koltseg-sor{
     display:grid;grid-template-columns:minmax(0,1fr) auto;
     column-gap:var(--space-16);row-gap:var(--space-8);align-items:baseline;
   }
-  .bio-koltseg-nev{margin:0;color:var(--text-primary)}
-  .bio-koltseg-reszlet{color:var(--text-tertiary);font-weight:400}
-  .bio-koltseg-osszeg{margin:0;color:var(--text-primary);white-space:nowrap}
-  .bio-koltseg-egyseg{color:var(--text-tertiary)}
-  .bio-koltseg-sav{
+  .hub-koltseg-nev{margin:0;color:var(--text-primary)}
+  .hub-koltseg-reszlet{color:var(--text-tertiary);font-weight:400}
+  .hub-koltseg-osszeg{margin:0;color:var(--text-primary);white-space:nowrap}
+  .hub-koltseg-egyseg{color:var(--text-tertiary)}
+  .hub-koltseg-sav{
     grid-column:1 / -1;display:block;width:100%;height:var(--space-24);
     border-radius:var(--r-md);overflow:hidden;
     background:var(--canvas);box-shadow:inset 0 0 0 1px var(--border);
   }
-  .bio-sav-aram{fill:var(--bio-sav-aram)}
-  .bio-sav-zsak{fill:var(--bio-sav-zsak)}
-  .bio-sav-membran{fill:var(--bio-sav-membran)}
-  .bio-jelek{
+  .hub-sav-aram{fill:var(--hub-sav-aram)}
+  .hub-sav-zsak{fill:var(--hub-sav-zsak)}
+  .hub-sav-membran{fill:var(--hub-sav-membran)}
+  .hub-jelek{
     display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-24);
     margin:var(--space-24) 0 0;padding:0;list-style:none;
   }
-  .bio-jel{display:inline-flex;align-items:center;gap:var(--space-8);color:var(--text-secondary)}
-  .bio-jel-minta{
+  .hub-jel{display:inline-flex;align-items:center;gap:var(--space-8);color:var(--text-secondary)}
+  .hub-jel-minta{
     display:inline-block;width:var(--space-16);height:var(--space-16);
     border-radius:var(--r-md);
   }
-  .bio-jel-minta.bio-sav-aram{background:var(--bio-sav-aram)}
-  .bio-jel-minta.bio-sav-zsak{background:var(--bio-sav-zsak)}
-  .bio-jel-minta.bio-sav-membran{background:var(--bio-sav-membran)}
+  .hub-jel-minta.hub-sav-aram{background:var(--hub-sav-aram)}
+  .hub-jel-minta.hub-sav-zsak{background:var(--hub-sav-zsak)}
+  .hub-jel-minta.hub-sav-membran{background:var(--hub-sav-membran)}
 
   /* --- Mikor javasolunk mást -------------------------------------------- */
-  .bio-esetek{margin-top:var(--space-24)}
-  .bio-eset{display:flex;flex-direction:column}
-  .bio-eset-link{margin:auto 0 0;padding-top:var(--space-8)}
+  .hub-esetek{margin-top:var(--space-24)}
+  .hub-eset{display:flex;flex-direction:column}
+  .hub-eset-link{margin:auto 0 0;padding-top:var(--space-8)}
 
   /* --- Jogszabályok, szerző ---------------------------------------------- */
-  .bio-jogi{margin:0 0 var(--space-24);display:grid;gap:var(--space-16);max-width:72ch}
-  .bio-jogi-tetel{
+  .hub-jogi{margin:0 0 var(--space-24);display:grid;gap:var(--space-16);max-width:72ch}
+  .hub-jogi-tetel{
     display:grid;gap:var(--space-4);
     padding-left:var(--space-16);border-left:2px solid var(--border);
   }
-  .bio-jogi-tetel dt{color:var(--text-primary)}
-  .bio-jogi-tetel dd{margin:0;color:var(--text-secondary)}
-  .bio-szerzo{
+  .hub-jogi-tetel dt{color:var(--text-primary)}
+  .hub-jogi-tetel dd{margin:0;color:var(--text-secondary)}
+  .hub-szerzo{
     margin-top:var(--space-32);padding:var(--space-24);max-width:72ch;
     border-radius:var(--card-radius);background:var(--surface-muted);
     display:grid;gap:var(--space-8);
   }
-  .bio-szerzo p{margin:0;color:var(--text-secondary)}
-  .bio-szerzo-datum{color:var(--text-tertiary)}
+  .hub-szerzo p{margin:0;color:var(--text-secondary)}
+  .hub-szerzo-datum{color:var(--text-tertiary)}
 }
 
 @layer responsive {
   @media (max-width:1024px){
-    .bio-bevezeto{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
-    .bio-lepesek{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .bio-lepes + .bio-lepes::before{display:none}
-    .bio-foto-sor{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .hub-bevezeto{grid-template-columns:minmax(0,1fr);gap:var(--space-32)}
+    .hub-lepesek,.hub-lepesek-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .hub-lepes + .hub-lepes::before{display:none}
+    .hub-foto-sor{grid-template-columns:repeat(3,minmax(0,1fr))}
     /* A hármas sor tableten is hármas marad — kettesben egy árva kártya lenne. */
-    .bio-bizalom:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
+    .hub-bizalom:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
   }
   @media (max-width:640px){
-    .bio-lepesek,.bio-foto-par,.bio-foto-sor{grid-template-columns:minmax(0,1fr)}
-    .bio-kulcsadatok{grid-template-columns:minmax(0,1fr)}
-    .bio-utem-adatok{grid-template-columns:minmax(0,1fr)}
-    .bio-bizalom,
-    .bio-bizalom:has(> :nth-child(3):last-child){grid-template-columns:minmax(0,1fr);row-gap:var(--space-16)}
-    .bio-foto-szeles img{aspect-ratio:3 / 2}
-    .bio-tetel{flex-direction:column;gap:0}
-    .bio-tetel dd{text-align:left}
-    .bio-koltseg-sor{grid-template-columns:minmax(0,1fr)}
+    .hub-lepesek,.hub-lepesek-3,.hub-foto-par,.hub-foto-sor,.hub-kerdesek{grid-template-columns:minmax(0,1fr)}
+    .hub-kulcsadatok{grid-template-columns:minmax(0,1fr)}
+    .hub-utem-adatok{grid-template-columns:minmax(0,1fr)}
+    .hub-bizalom,
+    .hub-bizalom:has(> :nth-child(3):last-child){grid-template-columns:minmax(0,1fr);row-gap:var(--space-16)}
+    .hub-foto-szeles img{aspect-ratio:3 / 2}
+    .hub-tetel{flex-direction:column;gap:0}
+    .hub-tetel dd{text-align:left}
+    .hub-koltseg-sor{grid-template-columns:minmax(0,1fr)}
   }
 }
 
 @layer motion {
   @media (prefers-reduced-motion:no-preference){
     /* A kicsepegő / elszivárgó víz: lefelé, ahogy a rajz állítja. */
-    .bio-hullo{
+    .hub-hullo{
       transform-box:fill-box;transform-origin:center;
-      animation:bio-hullo 2.8s ease-in infinite;
+      animation:hub-hullo 2.8s ease-in infinite;
       animation-delay:calc(var(--i,0) * 460ms);
     }
-    @keyframes bio-hullo{
+    .hub-pipa{animation:hub-pipa 900ms var(--ease-out) both}
+    @keyframes hub-pipa{from{stroke-dashoffset:34}to{stroke-dashoffset:0}}
+    @keyframes hub-hullo{
       0%{transform:translateY(-4px);opacity:0}
       25%{opacity:.9}
       100%{transform:translateY(14px);opacity:0}
     }
     /* A kompresszor ciklusa: egy söprés tíz másodperc alatt. Nem valós idő
        — a hét és a három perc ARÁNYÁT mutatja. */
-    .bio-utem-sav::after{
+    .hub-utem-sav::after{
       content:"";position:absolute;inset:0;
       /* A teljes szélességű réteg BAL SZÉLÉN egy vonal: a réteg eltolása a
          saját szélességéhez mér, így a vonal a sáv végéig ér — kompozitoron. */
       background:linear-gradient(to right,var(--text-primary) 0 3px,transparent 3px);
       transform:translateX(0);
-      animation:bio-utem 10s linear infinite;
+      animation:hub-utem 10s linear infinite;
     }
-    @keyframes bio-utem{from{transform:translateX(0)}to{transform:translateX(100%)}}
+    @keyframes hub-utem{from{transform:translateX(0)}to{transform:translateX(100%)}}
     /* A költségsáv kitöltődik, amikor a képernyőre ér — ahol a böngésző
        ismeri a görgetéshez kötött animációt. Máshol a sáv eleve teljes. */
     @supports (animation-timeline:view()){
-      .bio-koltseg-sav{
-        animation:bio-sav linear both;
+      .hub-koltseg-sav{
+        animation:hub-sav linear both;
         animation-timeline:view();
         animation-range:entry 10% cover 35%;
       }
-      @keyframes bio-sav{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+      @keyframes hub-sav{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
     }
   }
 }

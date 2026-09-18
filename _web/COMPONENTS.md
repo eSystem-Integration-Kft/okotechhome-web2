@@ -3021,17 +3021,17 @@ kiegészítik.
 
 | Osztály | Mi | Megjegyzés |
 |---|---|---|
-| `.bio-bevezeto` | szöveg + „A lényeg röviden" doboz | 1024 px alatt egy oszlop |
-| `.bio-lenyeg`, `.bio-kulcsadatok` | összefoglaló kulcsadatokkal (`<dl>`) | a bal szegély a márkaszín — a GEO-összefoglaló helye |
-| `.bio-tartalom` | tartalomjegyzék chipekben | 44 px magas célpontok; a horgonyok a `.section[id]`-kre mutatnak |
-| `.bio-folyamat`, `.bio-lepes` | négylépéses infografika | a rajz SVG (`aria-hidden`), a szöveg HTML; 4 → 2 → 1 oszlop |
-| `.bio-hullo` | lefelé hulló csepp az ábrán | `motion` réteg, `prefers-reduced-motion` mögött |
-| `.bio-foto`, `.bio-foto-par`, `.bio-foto-sor`, `.bio-foto-szeles` | galériafotók képaláírással | a képaláírások a galéria szövegei |
-| `.bio-koltseg` | halmozott költségsáv | a sáv SVG `preserveAspectRatio="none"`-nal, a szélesség attribútum (a CSP miatt nem `style`); a feliratok HTML; görgetésre kitöltődik, ahol a böngésző ismeri az `animation-timeline:view()`-t |
-| `.bio-utem` | a kompresszor 7/3 perces ciklusa | `7fr 3fr` rács; a jelzővonal kompozitoron fut (`translateX` a saját szélességéhez mérve) |
-| `.bio-tetelek` | példaszámítás tételsorai | 640 px alatt az érték a név alá kerül |
-| `.bio-jogi`, `.bio-szerzo` | jogszabályi háttér, szerző és frissítés | E-E-A-T: ki írta, mikor, miből |
+| `.hub-bevezeto` | szöveg + „A lényeg röviden" doboz | 1024 px alatt egy oszlop |
+| `.hub-lenyeg`, `.hub-kulcsadatok` | összefoglaló kulcsadatokkal (`<dl>`) | a bal szegély a márkaszín — a GEO-összefoglaló helye |
+| `.hub-tartalom` | tartalomjegyzék chipekben | 44 px magas célpontok; a horgonyok a `.section[id]`-kre mutatnak |
+| `.hub-folyamat`, `.hub-lepes` | négylépéses infografika | a rajz SVG (`aria-hidden`), a szöveg HTML; 4 → 2 → 1 oszlop |
+| `.hub-hullo` | lefelé hulló csepp az ábrán | `motion` réteg, `prefers-reduced-motion` mögött |
+| `.hub-foto`, `.hub-foto-par`, `.hub-foto-sor`, `.hub-foto-szeles` | galériafotók képaláírással | a képaláírások a galéria szövegei |
+| `.hub-koltseg` | halmozott költségsáv | a sáv SVG `preserveAspectRatio="none"`-nal, a szélesség attribútum (a CSP miatt nem `style`); a feliratok HTML; görgetésre kitöltődik, ahol a böngésző ismeri az `animation-timeline:view()`-t |
+| `.hub-utem` | a kompresszor 7/3 perces ciklusa | `7fr 3fr` rács; a jelzővonal kompozitoron fut (`translateX` a saját szélességéhez mérve) |
+| `.hub-tetelek` | példaszámítás tételsorai | 640 px alatt az érték a név alá kerül |
+| `.hub-jogi`, `.hub-szerzo` | jogszabályi háttér, szerző és frissítés | E-E-A-T: ki írta, mikor, miből |
 
-Tokenek: `--bio-sav-aram` (márkaszín), `--bio-sav-zsak` (borostyán — a két zöld
-egymás mellett nem vált el), `--bio-sav-membran`, `--bio-lenyeg-*`, `--bio-utem-*`;
+Tokenek: `--hub-sav-aram` (márkaszín), `--hub-sav-zsak` (borostyán — a két zöld
+egymás mellett nem vált el), `--hub-sav-membran`, `--hub-lenyeg-*`, `--hub-utem-*`;
 mind újradeklarálva `[data-theme="dark"]`-ban.
