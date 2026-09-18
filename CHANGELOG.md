@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.52.00-80A640?style=flat-square" alt="verzió 0.52.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.53.00-80A640?style=flat-square" alt="verzió 0.53.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-69-56642B?style=flat-square" alt="69 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-70-56642B?style=flat-square" alt="70 kiadás">
 </p>
 
 ---
@@ -26,6 +26,49 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.53.00] — 2026-09-18
+
+### Hozzáadva — a Megoldások hub a „szennyvíztisztító rendszer" lapja (d4c1956)
+
+A kifejezés a 4. helyről a 20.-ra esett vissza, a lap pedig 417 szó volt három
+szakasszal. Bela új szövegével most a teljes klaszter lapja (≈320 keresés/hó:
+szennyvíztisztító rendszer 140 · szikkasztó rendszer 60 · házi szennyvíztisztító
+rendszer 50 · árak 50 · bio szennyvíztisztító rendszer 20).
+
+**A lap elmondja, mi az a szennyvíztisztító rendszer** — három rész, nem egy
+berendezés —, összeveti a három megoldástípust, megnevezi az öt kizáró és
+korlátozó feltételt, felteszi az öt előszűrő kérdést, és kitér arra, amit a
+legtöbben utoljára terveznek: a tisztítómezőre és az üzemeltetésre.
+
+**A szöveg köré:** összefoglaló doboz tartalomjegyzékkel · háromrészes
+rendszerábra (SVG-rajz, HTML-szöveg, mozgás csökkentett mozgásnál kikapcsolva) ·
+összehasonlító táblázat · számozott feltétel- és kérdéskártyák, mindegyik
+továbbvivő hivatkozással · három fotó a szivárogtató építéséről · bizalmi
+adatok és a VITUKI-táblázat · hat GYIK-válasz · Article, Breadcrumb és FAQPage
+adat.
+
+**Belső linkerő:** a H2-k a menüpontok, a horgonyuk az aloldal szlugja, tehát a
+megamenüből a lap belsejébe lehet ugrani. Minden szakaszból megy tovább
+hivatkozás (26 belső link a törzsben): a három megoldásoldalra, a HELYZETEM
+lapokra, a szivárogtatási vizsgálatra, a közcsatorna-lapra, a tisztítómezőre és
+a költségekre. A főoldalról „szennyvíztisztító rendszert" horgonyszöveggel megy
+ide link.
+
+**A klaszter szavai** egy-egy értelmes mondatban: a köznyelvi nevek a definíció
+mellett (a fogalmakat rendbe tevő lapra mutatva), a szikkasztó rendszer a
+vízelhelyezésnél, az árak abban a válaszban, amelyik megmondja, miért nem lehet
+katalógusárat mondani.
+
+**A webhely saját forrásaihoz igazítva:** CE-jelölés (nem tanúsítás), a
+telefonszám kanonikus alakja, a biológiai rendszernél „kisebb helyigény" (a
+„kisebb tisztítómező" nem forrásolt), a tulajdonos kötelezettségei a 147/2010.
+(IV. 29.) Korm. rendelet szerint, és a zárt tároló költségnövekedésének oka.
+
+A `hub-*` komponenscsalád (a biológiai lapé) mostantól két lapé — az osztályok
+`bio-`-ról `hub-`-ra átnevezve.
 
 ---
 
