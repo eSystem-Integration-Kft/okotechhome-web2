@@ -101,14 +101,14 @@ def rajz_intezmeny():
 
 
 HELYZETEK = [
-    (rajz_csaladi_haz, 'Egész évben lakott családi ház', 'Aktív biológiai szennyvíztisztító',
+    (rajz_csaladi_haz, 'Egész évben lakott családi ház', 'Aktív biológiai tisztító',
      'A napi terhelés kiszámítható, a biológia folyamatosan tápanyagot kap.'),
     (rajz_nyaralo, 'Nyaraló, hétvégi ház', 'Biológiai vagy oldómedencés',
      'Egy 2–3 hetes kihagyás egyik technológiánál sem okoz gondot; erősen szezonális '
      'használatnál az oldómedencés rendszer is szóba jön.'),
-    (rajz_emeszto_csere, 'Meglévő emésztő kiváltása', 'Aktív biológiai szennyvíztisztító',
+    (rajz_emeszto_csere, 'Meglévő emésztő kiváltása', 'Aktív biológiai tisztító',
      'A régi akna kitisztítás és vízzáróvá tétel után például esővízgyűjtőként hasznosítható tovább.'),
-    (rajz_intezmeny, 'Panzió, étterem, intézmény', 'Kapacitás szerint méretezett rendszer',
+    (rajz_intezmeny, 'Panzió, étterem, intézmény', 'Kapacitás szerint méretezve',
      'Itt a terhelési profil és a csúcsidőszakok döntenek, nem az épület funkciója.'),
 ]
 

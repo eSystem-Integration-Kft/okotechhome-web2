@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.56.00-80A640?style=flat-square" alt="verzió 0.56.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.56.01-80A640?style=flat-square" alt="verzió 0.56.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-76-56642B?style=flat-square" alt="76 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-77-56642B?style=flat-square" alt="77 kiadás">
 </p>
 
 ---
@@ -26,6 +26,34 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.56.01] — 2026-09-18
+
+### Javítva — a helyzetkártya címkéje levegőhöz jut
+
+Bela jelezte, hogy a javasolt irány címkéje a címsorhoz tapad, és három sorba
+törik. Kapott egy kis térközt (a saját háttere miatt különben egy tömbnek
+látszott a címmel), a szövege rövidebb lett, a `text-wrap:balance` pedig két
+egyenlő sorra osztja. Mérve: mobilon 1 sor, asztalon legfeljebb 2.
+
+### Módosítva — a főoldal és az új lap nem versenyez egymással
+
+A főoldal címe „Biológiai házi szennyvíztisztító közcsatorna nélkül” volt —
+ugyanarra a kifejezésre ment, mint az új `/megoldasok/hazi-szennyviztisztito`.
+Mostantól **Biológiai szennyvíztisztító rendszer | ÖkoTech Home**: a tágabb
+„szennyvíztisztító” (720/hó, 2. hely) és „szennyvíztisztító rendszer” (140/hó,
+4. hely) felé megy, a „házi szennyvíztisztító” pedig az új lapé. A főoldal
+leírásában eddig egyszer sem szerepelt a „szennyvíztisztító” szó.
+
+### Módosítva — a költségtényezők lap az „ár” kifejezésre áll rá
+
+A „biológiai szennyvíztisztító ár” (170/hó) a **9. helyen** állt úgy, hogy a
+kifejezés egyetlen lapunkon sem szerepelt. A lap címe mostantól „Biológiai
+szennyvíztisztító ára — mitől függ?”, a `h1` „Mitől függ a szennyvíztisztító
+ára?”. **Ár továbbra sincs kiírva** — Bela döntése szerint a lap a
+költségszerkezetet adja, számot nem.
 
 ---
 
