@@ -114,6 +114,14 @@ META_ELES = '<meta name="robots" content="index, follow">'
 HIBAOLDALAK = {'401.html', '403.html', '404.html', '500.html'}
 META_HIBA = '<meta name="robots" content="noindex, follow">'
 
+# A SZEMÉLYRE SZÓLÓ EREDMÉNYLAPOK sem indexelhetők. Az `eredmeny.html` egy
+# mentett döntéstámogató eredményt, a `jelentes.html` egy ajánlat-összehasonlító
+# jelentést jelenít meg — mindkettő kód alapján, a kód nélkül üresen. Nincs
+# canonicaljuk és nincs közösségi metájuk sem, mert nem megosztásra készültek;
+# a webhelytérképbe eddig sem kerültek be. A `follow` marad: a fejléc és a
+# lábléc hivatkozásai jók.
+SZEMELYES = {'eredmeny.html', 'jelentes.html'}
+
 # A meta FOLOTT allo teszt-uzemmodi megjegyzes is megy: elesben felrevezetne,
 # mert epp az ellenkezojet irja le annak, ami a sorban all.
 MEGJEGYZES = """<!-- TESZT ÜZEMMÓD: a robot LETÖLTHETI a lapot (a robots.txt engedi), de nem
@@ -127,7 +135,7 @@ for f in CEL.rglob('*.html'):
     t = f.read_text(encoding='utf-8')
     if META_TESZT not in t:
         continue
-    uj = META_HIBA if (f.parent == CEL and f.name in HIBAOLDALAK) else META_ELES
+    uj = META_HIBA if (f.parent == CEL and f.name in HIBAOLDALAK | SZEMELYES) else META_ELES
     t = t.replace(MEGJEGYZES, '').replace(META_TESZT, uj)
     f.write_text(t, encoding='utf-8')
     db += 1

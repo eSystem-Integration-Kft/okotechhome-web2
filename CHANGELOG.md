@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.55.01-80A640?style=flat-square" alt="verzió 0.55.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.56.00-80A640?style=flat-square" alt="verzió 0.56.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-75-56642B?style=flat-square" alt="75 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-76-56642B?style=flat-square" alt="76 kiadás">
 </p>
 
 ---
@@ -26,6 +26,48 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.56.00] — 2026-09-18
+
+### Javítva — elhasadt lapleírások a keresőben
+
+Tizenöt helyen a magyar záró idézőjel egyenes `"` volt egy attribútum
+belsejében, ami ott LEZÁRJA az értéket. Két lap leírása emiatt csonkán ment ki
+a keresőbe: a `/helyzetem/hasznalati-profil` 150 karakter helyett 16-ot, a
+`/helyzetem/biologiai-rendszer-vagy-oldomedence` 118 helyett 24-et. A „mit
+mutatnak a kutatások…” kezdetű menüleírás kilenc lapon vágódott el ugyanígy.
+
+A folyó szövegben további 102 helyen állt egyenes idézőjel a magyar `”` helyén
+— ezek is javítva. Szkriptben, stíluslapban és megjegyzésben nem nyúltunk
+hozzá: ott az egyenes idézőjel a szintaxis része.
+
+### Módosítva — 139 lap címe fér ki a találati listában
+
+A `<title>` 60 karakter fölött levágódik. Ahol a cím ennél hosszabb volt, a
+márkavégződés (`| ÖkoTech Home`, híreknél `— Hírek | ÖkoTech Home`) lekerült —
+a Google a webhely nevét úgyis maga írja ki. Huszonhét lapnál ez sem volt elég,
+ott a cím kulcsszóval kezdődő, rövid változatot kapott; a lap `<h1>`-e és a
+hírek saját címsora változatlan.
+
+Százkét hosszú címből tizenegy maradt 60 fölött, mind 61–63 karakter — ezek a
+gyakorlatban kiférnek.
+
+### Módosítva — a személyre szóló eredménylapok nem indexelhetők
+
+Az `/eredmeny` egy mentett döntéstámogató eredményt, a `/jelentes` egy
+ajánlat-összehasonlítást jelenít meg, mindkettő kód alapján, kód nélkül üresen.
+Nem volt canonicaljuk és közösségi metájuk sem — most `noindex, follow`-t
+kapnak, mint a hibaoldalak.
+
+### Hozzáadva — `scripts/kulcsszo-merleg.py`
+
+Újraméri a 2026-09-04-i kulcsszókutatás 251 célpiaci kifejezését a kiadott
+lapokon, és megmondja, melyik áll címben (A), alcímben (B), szövegben (C) vagy
+sehol. A mostani állás: **A 6600 · B 1180 · C 2450 · hiányzik 13 890
+keresés/hó** — a 09-16-i méréshez képest a címbe emelt volumen 6460-ról
+6600-ra nőtt, a hiányzó 14 460-ról 13 890-re csökkent.
 
 ---
 
