@@ -218,6 +218,7 @@ def osszehasonlitas():
                 '<a href="../projekt-elokeszites/telekmeret-es-szabad-terulet">szabad terület</a>. '
                 'Ezek nem írják felül a technológiaválasztást, hanem azt határozzák meg, milyen '
                 'műszaki kialakítással és milyen költséggel valósítható meg.')),
+        tovabb('hazi-szennyviztisztito', 'Házi szennyvíztisztító — melyik rendszer való Önnek?'),
         tovabb('megoldastipusok-osszehasonlitasa', 'Megoldástípusok összehasonlítása — részletesen'),
         tovabb('melyik-megoldas-mikor-megfelelo', 'Melyik megoldás mikor megfelelő?'),
     ])

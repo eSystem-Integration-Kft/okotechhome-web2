@@ -10397,6 +10397,8 @@
   /* A szám szövegszínű: a márkazöld 11 px-en 2,7:1 lett volna. */
   .hub-lepes-szam{margin:var(--space-8) 0 0;color:var(--text-secondary)}
   .hub-lepes-cim{margin:0;color:var(--text-primary)}
+  /* A helyzetkártya „iránya”: a javasolt megoldás, kiemelve. */
+  .hub-irany{margin:0;color:var(--abra-kiemeles)}
   .hub-lepes-szoveg{margin:0;color:var(--text-secondary)}
   .hub-folyamat-jegyzet{margin:0;color:var(--text-tertiary)}
   /* Háromrészes változat: a Megoldások hub rendszerábrája. */
