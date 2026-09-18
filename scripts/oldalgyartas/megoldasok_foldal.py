@@ -154,15 +154,18 @@ def rendszer():
         abra.rendszer_abra('rendszer-abra-cim'),
         folyo(
             p('Egy működő szennyvíztisztító rendszer három elemből áll, és mindháromnak rendben '
-              'kell lennie.'),
+              'kell lennie. A köznyelv ugyanezt hívja házi szennyvíztisztító rendszernek, '
+              'bio szennyvíztisztító rendszernek vagy ökoemésztőnek — a '
+              '<a href="../tudastar/bioemeszto-okoemeszto-hazi-szennyviztisztito">nevek mögötti '
+              'fogalmakat</a> külön lapon tettük rendbe.'),
             p('<strong>1 · A kezelés.</strong> Ez az a műtárgy, amely a szennyvizet fogadja: zárt '
               'tároló, <a href="oldomedences-rendszer">oldómedence</a> vagy aktív '
               '<a href="biologiai-szennyviztisztitas">biológiai szennyvíztisztító</a>. Ebben dől '
               'el, milyen minőségű víz megy tovább.'),
             p('<strong>2 · A vízelhelyezés.</strong> A tisztított víznek el kell tudnia távozni — '
               'jellemzően <a href="../projekt-elokeszites/elszivarogtatas">szivárogtatómezőn</a> '
-              'keresztül, a talajba. Ez a rész igényli a legtöbb szabad területet, és itt akad el '
-              'a legtöbb terv.'),
+              'keresztül, a talajba — ezt hívják szikkasztó rendszernek is. Ez a rész igényli a '
+              'legtöbb szabad területet, és itt akad el a legtöbb terv.'),
             p('<strong>3 · Az üzemeltetés.</strong> Rendszeres ellenőrzés, karbantartás, és a '
               'szennyvíztisztító rendszer típusától függően szippantás vagy iszapzsákcsere.'),
             p('Aki csak a berendezést választja ki, az a rendszernek <strong>egyharmadát</strong> '
@@ -394,9 +397,10 @@ GYIK = [
      'háznál az aktív biológiai tisztítás az elsődleges irány; erősen szezonális használatnál az '
      'oldómedencés rendszer is szóba jön.'),
     ('Mennyibe kerül egy szennyvíztisztító rendszer?',
-     'A végösszeget nem a tartály ára dönti el, hanem a kapacitás, a tisztítómező mérete, a '
-     'földmunka és a telek adottságai. Ezért ugyanaz a berendezés két szomszédos telken is eltérő '
-     'beruházási költséget jelenthet.'),
+     'A szennyvíztisztító rendszer árak mindig projektre szólnak: a végösszeget nem a tartály ára '
+     'dönti el, hanem a kapacitás, a tisztítómező mérete, a földmunka és a telek adottságai. Ezért '
+     'ugyanaz a berendezés két szomszédos telken is eltérő beruházási költséget jelenthet. A '
+     'tételeket a költségtényezők és az üzemeltetési költségek lapon szedtük össze.'),
     ('Mekkora a legkisebb berendezés?',
      'Az A.B. Clear termékcsalád legkisebb szabványos berendezése 6 lakosegyenérték névleges '
      'kapacitású, és ennél kisebb szabványos berendezés nincs a termékcsaládban. A termékcsalád '
@@ -417,9 +421,10 @@ def gyik():
             <summary class="faq-q type-ui-card-title">{k}</summary>
             <div class="faq-a"><p class="type-ui-body">{v}</p></div>
           </details>''' for k, v in GYIK)
-    return szekcio('gyik', 'Gyakori kérdések', 'Gyakori kérdések', f'''      <div class="faq">
+    torzs = f'''      <div class="faq">
 {elemek}
-      </div>''')
+      </div>''' + NL + tovabb('biologiai-koltsegtenyezok', 'Költségtényezők — mi mozgatja a végösszeget') + NL + tovabb('../tudastar/uzemeltetes-teendok-es-koltsegek', 'Üzemeltetési költségek tételesen')
+    return szekcio('gyik', 'Gyakori kérdések', 'Gyakori kérdések', torzs)
 
 
 def cta():
