@@ -27,6 +27,7 @@ változtattunk, mert jogi tartalom):
 FUTTATÁS:  python3 scripts/oldalgyartas/aszf_oldalak.py
 """
 import html as H
+import json
 import pathlib
 import re
 import sys
@@ -63,6 +64,8 @@ CIMKE = {
     'AZ ÁSZF KÖZZÉTÉTELE ÉS MÓDOSÍTÁSA': 'Hatály',
     'ZÁRÓ RENDELKEZÉSEK': 'Záró rész',
     'PANASZ': 'Panasz',
+    '1. számú melléklet': 'Melléklet',
+    '2. számú melléklet': 'Melléklet',
 }
 
 # A csupa nagybetűs fejezetcím a lapon mondatkezdő alakban áll — kiabálás
@@ -72,7 +75,12 @@ ROVIDITES = {'ÁSZF', 'GDPR'}
 
 def cimke_alak(cim):
     cim = cim.rstrip(':').strip()
-    cim = re.sub(r'^\d+\.\s*', '', cim)
+    # A MELLÉKLET SORSZÁMA A CÍM RÉSZE — a fejezetek elején álló számozás
+    # viszont a Word automatikus listája, azt levágjuk.
+    if not re.match(r'^\d+\. számú melléklet$', cim):
+        cim = re.sub(r'^\d+\.\s*', '', cim)
+    else:
+        return cim
     szavak = []
     for i, sz in enumerate(cim.split()):
         tiszta = sz.strip(',.')
@@ -152,26 +160,54 @@ def szakasz_html(cim, blokkok):
     return ki
 
 
-def epit(ut, cim_sor):
-    szakok = szakaszok(ut)
+def epit(ut):
+    """A dokumentum szakaszai a lapon, EREDETI SORRENDBEN.
+
+    A táblázat ott áll, ahol a dokumentumban: a szöveg kettéválik előtte és
+    utána. Korábban a végére került, és a keltezés meg a mellékletek elé
+    csúsztak.
+    """
     ki = []
-    for cim, blokkok in szakok:
+    for cim, blokkok in szakaszok(ut):
         if cim is None:            # a dokumentum saját címlapja — a lap h1-e viszi
             continue
-        blokk_html = szakasz_html(cim, blokkok)
-        # A táblázat önálló szakasz: a `sec_jogi` csak szövegblokkot ismer.
-        elott = [(t, x) for t, x in blokk_html if t != 'tabla']
-        tabla = next((x for t, x in blokk_html if t == 'tabla'), None)
-        ki.append(sec_jogi(CIMKE.get(cim.rstrip(':'), 'Szerződés'),
-                           cimke_alak(cim), elott))
-        if tabla:
-            ki.append(sec_tabla('Jogorvoslat', 'Békéltető testületek',
-                                'Megyénként, a kamarák mellett működő független szervezetek.',
-                                ['Megye', 'Cím', 'Elérhetőség'], tabla))
+        cimke = CIMKE.get(cim.rstrip(':'), 'Szerződés')
+        nev = cimke_alak(cim)
+        resz = []
+        for tipus, tartalom in szakasz_html(cim, blokkok):
+            if tipus == 'tabla':
+                if resz:
+                    ki.append(sec_jogi(cimke, nev, resz)); resz = []
+                ki.append(sec_tabla('Jogorvoslat', 'Békéltető testületek',
+                                    'Megyénként, a kamarák mellett működő független szervezetek.',
+                                    ['Megye', 'Cím', 'Elérhetőség'], tartalom))
+                cimke, nev = cimke, nev + ' — folytatás'
+            else:
+                resz.append((tipus, tartalom))
+        if resz:
+            ki.append(sec_jogi(cimke, nev, resz))
     return ki
 
 
-def valaszto(masik_url, masik_cim, itt):
+HATALY = re.compile(r'Jelen ÁSZF (\d{4})\. (\w+) (\d{1,2})\. napján lép hatályba')
+
+
+def hatalyos(ut):
+    """A szerződés hatálybalépése — a lap fejlécében és a sémában is ez áll."""
+    for _, blokkok in szakaszok(ut):
+        for _, tartalom in blokkok:
+            for s in ([tartalom] if isinstance(tartalom, str) else tartalom):
+                m = HATALY.search(s)
+                if m:
+                    honap = ['január', 'február', 'március', 'április', 'május', 'június',
+                             'július', 'augusztus', 'szeptember', 'október', 'november',
+                             'december'].index(m.group(2)) + 1
+                    return f'{m.group(1)}. {m.group(2)} {m.group(3)}.', \
+                           f'{m.group(1)}-{honap:02d}-{int(m.group(3)):02d}'
+    return None, None
+
+
+def valaszto(masik_url, masik_cim, itt, hatalyos_nap):
     """A lap tetején: melyik dokumentum vonatkozik Önre."""
     return f'''
   <section class="section" aria-labelledby="valaszto-cim">
@@ -187,6 +223,7 @@ def valaszto(masik_url, masik_cim, itt):
         <ul class="jogi-lista">
           <li class="type-ui-body"><strong>Ezt a lapot olvassa</strong>, ha {itt}</li>
           <li class="type-ui-body">A másik dokumentum a <a href="{masik_url}">{masik_cim}</a>.</li>
+          <li class="type-ui-body"><strong>Hatályos:</strong> {hatalyos_nap}</li>
         </ul>
       </div>
     </div>
@@ -284,8 +321,30 @@ GYIK_VALLALKOZAS = [
      '<a href="aszf">fogyasztói ÁSZF</a> az irányadó.'),
 ]
 
+
+def webpage_sema(html, o, nap_iso):
+    """A jogi lap sémája eddig csak morzsát és GYIK-et adott.
+
+    A `WebPage` csomópont mondja meg, MI ez a lap, KI adja ki és MIKORTÓL
+    hatályos — ez az, amit egy nyelvi modellnek tudnia kell, ha valaki a
+    jótállásról vagy az elállási jogról kérdez.
+    """
+    csomopont = json.dumps({
+        '@type': 'WebPage',
+        'name': o['h1'],
+        'description': o['desc'],
+        'url': f"{G.DOMAIN.rstrip('/')}/{o['url']}",
+        'inLanguage': 'hu-HU',
+        'datePublished': nap_iso,
+        'dateModified': nap_iso,
+        'publisher': {'@type': 'Organization', 'name': 'ÖkoTech-Home Kft.',
+                      'url': G.DOMAIN.rstrip('/') + '/'},
+    }, ensure_ascii=False, indent=6)
+    return html.replace('"@graph": [\n', '"@graph": [\n    ' + csomopont + ',\n', 1)
+
 FOGYASZTO = FORRAS / '2026-09-18_ASZF_fogyasztok.docx'
 VALLALKOZAS = FORRAS / '2026-09-18_ASZF_fogyasztonak_nem_minosulo.docx'
+NAP, NAP_ISO = hatalyos(FOGYASZTO)
 
 OLDALAK = [
     dict(file='aszf.html', url='aszf', img='aszf',
@@ -299,8 +358,8 @@ OLDALAK = [
          crumbs=[HOME],
          sections=[valaszto('aszf-vallalkozasoknak', 'ÁSZF vállalkozásoknak',
                             'magánszemélyként, a szakmáján és önálló foglalkozásán kívül eső '
-                            'célból rendel.')]
-                  + epit(FOGYASZTO, 'Fogyasztók részére')
+                            'célból rendel.', NAP)]
+                  + epit(FOGYASZTO)
                   + [sec_faq(GYIK_FOGYASZTO),
                      letoltes('okotechhome-aszf.pdf', 'ÁSZF fogyasztóknak')]),
 
@@ -315,8 +374,8 @@ OLDALAK = [
          crumbs=[HOME],
          sections=[valaszto('aszf', 'fogyasztóknak szóló ÁSZF',
                             'cégként, intézményként vagy egyéni vállalkozóként, a szakmája '
-                            'körében rendel.')]
-                  + epit(VALLALKOZAS, 'Fogyasztónak nem minősülő vásárlók részére')
+                            'körében rendel.', NAP)]
+                  + epit(VALLALKOZAS)
                   + [sec_faq(GYIK_VALLALKOZAS),
                      letoltes('okotechhome-aszf-vallalkozasoknak.pdf', 'ÁSZF vállalkozásoknak')]),
 ]
@@ -329,6 +388,7 @@ def main():
         html = re.sub(r'(href|src|imagesrcset|srcset)="\.\./', r'\1="', html)
         html = html.replace('../assets/', 'assets/')
         html = keret_szinkron(html)
+        html = webpage_sema(html, o, NAP_ISO)
         out = WEB / o['file']
         out.write_text(html, encoding='utf-8')
         szo = len(re.sub(r'<[^>]+>', ' ', html).split())

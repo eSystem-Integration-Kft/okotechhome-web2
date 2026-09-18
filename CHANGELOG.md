@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.59.01-80A640?style=flat-square" alt="verzió 0.59.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.60.00-80A640?style=flat-square" alt="verzió 0.60.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-81-56642B?style=flat-square" alt="81 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-82-56642B?style=flat-square" alt="82 kiadás">
 </p>
 
 ---
@@ -26,6 +26,35 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.60.00] — 2026-09-18
+
+### Hozzáadva — a jogi lapok a kereső és a nyelvi modellek felé is látszanak
+
+- **`llms.txt`: Jogi dokumentumok szakasz.** A hat jogi lap eddig egyáltalán
+  nem szerepelt benne, pedig a „mennyi a jótállás?", „van-e elállási jog?"
+  kérdésre pontosan ezek a mérvadó válaszok. A szakasz elöljáróban kimondja a
+  két vásárlói kör közti különbséget, hogy a modell ne keverje őket.
+- **`WebPage` csomópont** mindkét ÁSZF-lapon: kiadó, nyelv, és a hatálybalépés
+  napja `datePublished`/`dateModified` mezőben. Eddig csak morzsa és GYIK volt
+  rajtuk.
+- **`termsOfService`** a főoldal `LocalBusiness` csomópontjában, mindkét
+  szerződésre mutatva.
+
+### Módosítva — a szerződés hatálybalépése látszik a lapon
+
+Mindkét ÁSZF „2025. január 15. napján lép hatályba" — ez eddig csak a szöveg
+belsejében, egy bekezdés közepén állt. Mostantól a lap tetején, a vásárlói kör
+megjelölése mellett.
+
+### Javítva — a dokumentum vége a helyére került
+
+A két melléklet (elállási tájékoztató és nyilatkozatminta) és a keltezés a
+„Panasz" fejezet közepébe csúszott, a békéltető testületek táblázata pedig a
+végére. A táblázat mostantól ott áll, ahol a dokumentumban, a mellékletek pedig
+saját szakaszt kaptak, sorszámmal.
 
 ---
 

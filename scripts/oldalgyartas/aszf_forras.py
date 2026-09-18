@@ -86,8 +86,15 @@ def _bekezdesek(ut):
     return ki
 
 
+# A mellékletek a szerződés önálló részei — a dokumentumban nem nagybetűsek,
+# de fejezetként viselkednek. Nélkülük a „Panasz” fejezet végébe csúsztak.
+MELLEKLET = re.compile(r'^\d+\. számú melléklet$')
+
+
 def _cim_e(s):
-    """Fejezetcím: rövid, csupa nagybetűs sor."""
+    """Fejezetcím: rövid, csupa nagybetűs sor — vagy melléklet."""
+    if MELLEKLET.match(s):
+        return True
     betuk = [c for c in s if c.isalpha()]
     return bool(betuk) and len(s) <= 60 and all(c.isupper() for c in betuk)
 
