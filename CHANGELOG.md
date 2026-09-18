@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.57.00-80A640?style=flat-square" alt="verzió 0.57.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.58.00-80A640?style=flat-square" alt="verzió 0.58.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-78-56642B?style=flat-square" alt="78 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-79-56642B?style=flat-square" alt="79 kiadás">
 </p>
 
 ---
@@ -26,6 +26,44 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.58.00] — 2026-09-18
+
+### Hozzáadva — 40 régi cím, amely eddig 404-re futott
+
+Bela egy Search Console-elemzést kapott 58 régi címről, amelyekre még mindig
+érkezik forgalom. Végigmértem mind élesben: **40 nem volt lefedve**. Mind
+bekerült a `.htaccess`-be — karrier- és GYIK-lap, partnerek, jogi lapok,
+`/karbantartas/*`, `/category/*`, `/rajzpalyazat/*`, `/formok/*.php` és a
+rajzpályázatok.
+
+Három meglévő szabály pontosabb célt kapott: `/cegunkrol/` → `/okotech-home/cegunkrol`
+(eddig a cégtörténet), `/referenciaink/` → `/eredmenyek/` (eddig az
+esettanulmányok), `/kiknek/` → `/helyzetem/` (eddig a biológiai szennyvíztisztítás).
+
+Ellenőrizve: **56/58 cím a kért lapra megy**, a két eltérés szándékos és a
+`_web/README.md`-ben indokolt. A szabályok egyike sem nyel el meglévő lapot —
+mind a 191 címet végigfuttattam rajtuk.
+
+### Javítva — minden lap két címen felelt
+
+A `/kapcsolat` és a `/kapcsolat/` is 200-zal válaszolt: a perjelet levágó
+szabály a kiszolgáló szabály MÖGÖTT állt, tehát sosem jutott szóhoz. A canonical
+jelezte ugyan a kanonikus alakot, de a keresőnek így is két címet kellett
+összevonnia — és a régi webhely minden címe perjelre végződött, tehát pont ez a
+gyakoribb alak. A szabály előrekerült: a perjeles alak egy lépésben a
+kanonikusra megy, `301 → 301` lánc sehol nincs. A valódi könyvtárak (`/tudastar/`)
+változatlanul perjelesek maradnak.
+
+### Dokumentálva — ami nem átirányítás, hanem döntés
+
+A `_web/README.md` átirányítás-szakasza újraírva: benne a négy hiányzó lap
+(karrier, GYIK, jogszabály-áttekintő, BioRock), és a régi WordPress
+`/wp-content/uploads/` PDF-jei, amelyek évi 600+ kattintást hoztak, ma 404-esek,
+és a `/_Backup/20260903/oko-wp-mentes.zip` mentésből kellenek vissza — az
+eredeti címükre, mert egy PDF-et lapra irányítani soft 404.
 
 ---
 

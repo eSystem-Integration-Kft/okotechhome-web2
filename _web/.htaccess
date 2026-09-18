@@ -74,10 +74,57 @@ DirectoryIndex index.html
   RewriteRule ^formok/megrendel\.php$                             /megrendeles [R=301,L,NE,NC]
   RewriteRule ^mi-az-a-hazi-szennyviztisztito-es-miert-hasznos/?$  /megoldasok/hazi-szennyviztisztito [R=301,L,NE,NC]
   RewriteRule ^muszaki/?$                                         /megoldasok/ab-clear-muszaki-adatok [R=301,L,NE,NC]
-  RewriteRule ^referenciaink/?$                                   /eredmenyek/esettanulmanyok [R=301,L,NE,NC]
-  RewriteRule ^cegunkrol/?$                                       /okotech-home/tortenetunk [R=301,L,NE,NC]
+  RewriteRule ^referenciaink/?$                                   /eredmenyek/ [R=301,L,NE,NC]
+  RewriteRule ^cegunkrol/?$                                       /okotech-home/cegunkrol [R=301,L,NE,NC]
   RewriteRule ^elszivarogtatas/?$                                 /tudastar/elszivarogtatas [R=301,L,NE,NC]
-  RewriteRule ^kiknek/?$                                          /megoldasok/biologiai-szennyviztisztitas [R=301,L,NE,NC]
+  RewriteRule ^kiknek/?$                                          /helyzetem/ [R=301,L,NE,NC]
+
+  # --- A 2026-09-18-I FORGALOMELEMZÉS ALAPJÁN PÓTOLT CÍMEK -------------------
+  # A Search Console adataiból készült lista 40 olyan régi címet talált, amely
+  # eddig 404-re futott. A cél mindig a LEGPONTOSABB megfelelő; ahol nincs
+  # ilyen, a szakasz gyűjtőlapja (lásd a `_web/README.md` nyitott tételeit).
+  RewriteRule ^allasok/?$                                          /okotech-home/ [R=301,L,NE,NC]
+  RewriteRule ^gyik/?$                                             /tudastar/ [R=301,L,NE,NC]
+  RewriteRule ^jogszabalyok/?$                                     /tudastar/ [R=301,L,NE,NC]
+  RewriteRule ^partnereink/?$                                      /okotech-home/partnerek [R=301,L,NE,NC]
+  RewriteRule ^helyszini-felmeres/?$                               /helyzetem/helyszini-felmeres [R=301,L,NE,NC]
+  RewriteRule ^peldaengedely/?$                                    /eredmenyek/tanusitvanyok-es-dokumentumok [R=301,L,NE,NC]
+  RewriteRule ^kistelepules-referencia-obudavar/?$                 /eredmenyek/obudavar [R=301,L,NE,NC]
+  RewriteRule ^az-a-b-clear-biologiai-szennyviztisztito-bevalt-a-lunczer-csalad-otthonaban/?$  /eredmenyek/ugyfeltapasztalatok [R=301,L,NE,NC]
+
+  # A JOGI LAPOK. A régi webhelyen célonként külön adatkezelési tájékoztató
+  # állt (regisztráció, hírlevél); az újban egy van, célonkénti bontással.
+  RewriteRule ^adatkezelesi-tajekoztato-(regisztraciohoz|hirlevelhez)/?$  /adatkezelesi-tajekoztato [R=301,L,NE,NC]
+  RewriteRule ^impresszum/?$                                       /jogi-nyilatkozat [R=301,L,NE,NC]
+  RewriteRule ^(szallitasi-feltetelek|vasarloi-tajekoztato|aszf-jogi-szemelyek)/?$  /aszf [R=301,L,NE,NC]
+
+  # A RÉGI TAGSÁGI (MEMBERSHIP) RÉSZ megszűnt: nincs bejelentkezés a webhelyen.
+  # A Kapcsolat lap a becsületes cél — onnan él ember válaszol.
+  RewriteRule ^membership-belepes/?$                               /kapcsolat [R=301,L,NE,NC]
+
+  # --- ŰRLAPOK: /formok/*.php -----------------------------------------------
+  RewriteRule ^formok/kapcsolat\.php$                              /kapcsolat [R=301,L,NE,NC]
+  RewriteRule ^formok/megrendel-print\.php$                        /megrendeles [R=301,L,NE,NC]
+
+  # --- KARBANTARTÁS: előbb a nevesített lapok, aztán a gyűjtő ----------------
+  # A sorrend számít: a `[L]` az első illeszkedésnél megáll, tehát a gyűjtőnek
+  # LEGALUL kell lennie, különben elnyelné a nevesítetteket.
+  RewriteRule ^karbantartas/a-b-clear-szennyviztisztito-kisberendezes-alapdokumentumai/?$        /megoldasok/ab-clear-dokumentumok [R=301,L,NE,NC]
+  RewriteRule ^karbantartas/karbantartas-egyeb-termekek-kivitelezesi-utmutatoi/?$               /megoldasok/ab-clear-dokumentumok [R=301,L,NE,NC]
+  RewriteRule ^karbantartas/a-b-clear-szennyviztisztito-kisberendezes-elektromos-kiegeszitoi/?$ /megoldasok/ab-clear-muszaki-adatok [R=301,L,NE,NC]
+  RewriteRule ^karbantartas/membership-regisztracio-aktivalasra-var/?$                          /kapcsolat [R=301,L,NE,NC]
+  RewriteRule ^karbantartas(/.*)?$                                 /megoldasok/biologiai-uzemeltetes-es-karbantartas [R=301,L,NE,NC]
+
+  # --- A WORDPRESS ARCHÍVUMAI -----------------------------------------------
+  # `/category/<valami>/` és lapozói, `/rajzpalyazat/...`, és a régi
+  # gyűjtőlapok. A pályázati kategória külön lapot kapott, ezért ELŐBB áll.
+  RewriteRule ^category/palyazat(/page/[0-9]+)?/?$                 /okotech-home/palyazatok [R=301,L,NE,NC]
+  RewriteRule ^category/[a-z0-9-]+(/page/[0-9]+)?/?$               /okotech-home/hirek/ [R=301,L,NE,NC]
+  RewriteRule ^rajzpalyazat(/.*)?$                                 /okotech-home/hirek/ [R=301,L,NE,NC]
+  RewriteRule ^(akciok|sorsolas|regisztracio)/?$                   /okotech-home/hirek/ [R=301,L,NE,NC]
+  RewriteRule ^tisztitott-viz-felhasznalasa-helyben-orszagos-rajzpalyazat-gyerekeknek/?$  /okotech-home/hirek/ [R=301,L,NE,NC]
+  RewriteRule ^bakteriumok-elete-a-szennyviztisztitoban-szavazas/?$  /okotech-home/hirek/ [R=301,L,NE,NC]
+  RewriteRule ^bakteriumok-elete-a-szennyviztisztitoban(-kozossegepito-orszagos-palyazat-gyerekeknek)?/?$  /okotech-home/hirek/bakteriumok-elete-rajzpalyazat-nyertesek [R=301,L,NE,NC]
 
   # --- A RÉGI KÖSZÖNŐOLDALAK ------------------------------------------------
   # A WordPress az űrlap beküldése UTÁN dobta ide a látogatót, és a Google Ads
@@ -178,20 +225,30 @@ DirectoryIndex index.html
   RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
   RewriteRule ^ %1 [R=301,L,NE]
 
-  # --- 2) Kiterjesztés nélküli útvonal kiszolgálása a .html fájlból ----------
+  # --- 2) Záró perjel eltávolítása (a duplikált URL-ek elkerüléséért) -------
+  # EZ A SZOLGÁLTATÓ SZABÁLY ELŐTT ÁLL. Mögötte mérve 2026-09-18-án MINDEN lap
+  # két címen felelt 200-zal: a `/kapcsolat` és a `/kapcsolat/` is. A canonical
+  # ezt jelzi ugyan, de a keresőnek így is két címet kell összevonnia — a régi
+  # webhely címei pedig mind perjelre végződtek, tehát ez a gyakoribb alak.
+  # Előrehozva a perjeles alak EGY lépésben a kanonikusra megy, és csak utána
+  # szolgálunk ki: nincs 301 → 301 lánc.
+  #
+  # A VALÓDI KÖNYVTÁRAK kimaradnak (`!-d`): a `/tudastar/` marad perjeles, azt
+  # a DirectoryIndex szolgálja ki az `index.html`-ből.
+  #
+  # A CÉL ABSZOLÚT ÚTVONALLAL. Relatív cserénél (`$1`) az Apache a
+  # FÁJLRENDSZER útvonalát teszi a redirect elé: mérve 2026-09-18-án a
+  # /nincs-ilyen-oldal/ a /home/okotechhome/public_html/nincs-ilyen-oldal
+  # címre irányított — kifelé is látszott a szerver könyvtárszerkezete.
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L,NE]
+
+  # --- 3) Kiterjesztés nélküli útvonal kiszolgálása a .html fájlból ----------
   # Csak akkor, ha nem létező könyvtárra vagy fájlra mutat, és a .html létezik.
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.+?)/?$ $1.html [L]
-
-  # --- 3) Záró perjel eltávolítása (a duplikált URL-ek elkerüléséért) -------
-  RewriteCond %{REQUEST_FILENAME} !-d
-  # A CÉL ABSZOLÚT ÚTVONALLAL. Relatív cserénél (`$1`) az Apache a
-  # FÁJLRENDSZER útvonalát teszi a redirect elé: mérve 2026-09-18-án a
-  # /nincs-ilyen-oldal/ a /home/okotechhome/public_html/nincs-ilyen-oldal
-  # címre irányított — kifelé is látszott a szerver könyvtárszerkezete.
-  RewriteRule ^(.+)/$ /$1 [R=301,L,NE]
 </IfModule>
 
 # --- Egyedi hibaoldalak -------------------------------------------------------

@@ -165,31 +165,64 @@ látogató IP-jét a Google-nek, ezért a **cookie-tájékoztatóban nevesíteni
 terjednie rá. Amíg ezek nem élnek, ez nyitott pont — a beágyazás a
 `kapcsolat.html` `.terkep` szekciójában van.
 
-### Google Ads céloldalak — a régi URL-ek átirányítása
+### A régi URL-ek átirányítása — Ads-céloldalak és keresőforgalom
 
-A Google Ads hirdetésekbe a **régi webhely** URL-jei vannak beégetve
-(`okotechhome.hu`). Élesítés után ezek 404-re futnának, a Google pedig a nem
-működő céloldalú hirdetést **„Destination not working"** címen elutasítja — a
-kampány leállhat. Ezért a `.htaccess` *RÉGI DOMAIN → ÚJ DOMAIN* blokkjának
-**már az átállás pillanatában élnie kell**, nem utólag.
+Két külön ok tartja életben ezt a blokkot.
 
-Mivel a webhely **ugyanarra a domainre** kerül, ahol a régi URL-ek éltek, ezek
-**azonos domainen belüli útvonal-átirányítások** — nincs bennük domainváltás, és
-nincs `HTTP_HOST` feltétel sem. A 13 régi útvonal **egyike sem ütközik** az új
-webhely lapjaival; ellenőrizve.
+**1. Google Ads.** A hirdetésekbe a régi webhely URL-jei vannak beégetve.
+404-nél a Google a hirdetést **„Destination not working"** címen elutasítja, és
+a kampány leállhat — ezért ezeknek a szabályoknak már az átállás pillanatában
+élniük kellett. A lekérdezőstringet (`?gclid=…`) az Apache hozzáfűzi a célhoz,
+tehát a kattintáskövetés nem sérül.
 
-A lekérdezőstringet (`?gclid=…`) az Apache alapból hozzáfűzi, tehát az Ads
-kattintáskövetése nem sérül.
+**2. Keresőforgalom.** Egy 2026-09-18-i Search Console-elemzés 58 olyan régi
+címet sorolt fel, amelyre még mindig érkezik kattintás vagy megjelenés. Ebből
+**40 addig 404-re futott**. Mind bekerült; élesben ellenőrizve: 56 cím a kért
+lapra megy, **egyetlen ugrással**, 301 → 301 lánc nincs.
 
-**A lista 13 útvonalat fed le** (2026-09-10-i átadás). Ami nincs benne, az két
-lépcsőben dől el:
+Két helyen szándékosan tértünk el a kapott listától:
 
-1. **ha ugyanaz az útvonal létezik az új webhelyen**, oda megy (nem a
-   főoldalra) — ez akkor számít, amikor a régi domain már ezt a webhelyet
-   szolgálja ki, és az `okotechhome.hu/megoldasok/ab-clear` egy **élő lap**
-   címe;
-2. minden más a **főoldalra** — jobb, mint a 404. A régi sitemap többi URL-jét
-   külön fel kell mérni; addig ez a háló.
+| Régi cím | A lista javaslata | Amit beállítottunk | Miért |
+|---|---|---|---|
+| `/blog/` | `/tudastar/` | `/okotech-home/hirek/` | a régi blog 42 bejegyzése mind a Hírek alá került; a gyűjtőlap kövesse őket |
+| `/karbantartas/karbantartas-biorock-termekek/` | `/megoldasok/` | `/megoldasok/biologiai-uzemeltetes-es-karbantartas` | a gyűjtőszabály pontosabb célt ad; ha a BioRock kifutott, 410 is lehet belőle |
+
+**Ami nem átirányítás, hanem döntés.** Négy régi lapnak van valódi forgalma, és
+nincs pontos megfelelője. Amíg nem születik meg, ideiglenes célra megy:
+
+| Régi lap | Katt./év | Ideiglenes cél | Amit kér |
+|---|---|---|---|
+| `/allasok/` | 104 | `/okotech-home/` | karrieroldal |
+| `/gyik/` | 62 | `/tudastar/` | GYIK-lap az új szerkezetben |
+| `/jogszabalyok/` | 345 (a PDF-fel) | `/tudastar/` | jogszabály-áttekintő, benne a régi PDF |
+| `/karbantartas/karbantartas-biorock-termekek/` | 0 | üzemeltetési lap | eldönteni: 410 vagy marad |
+
+**A régi WordPress fájljai — ezek NEM átirányítandók.** A `/wp-content/uploads/`
+alatti PDF-ek évi 600+ organikus kattintást hoztak (a jogszabály-összefoglaló
+egymaga 344-et). Ma mind 404. A helyes megoldás az, hogy a fájlok **az eredeti
+címükön** kerüljenek vissza — egy PDF-et lapra irányítani „soft 404", amit a
+Google kiejt az indexből.
+
+A fájlok a kiszolgálón **már nincsenek meg**: a régi webhely fája eltűnt a
+webgyökér alól. Megvannak viszont a mentésben:
+`/_Backup/20260903/oko-wp-mentes.zip` (1,87 GB). Ebből kell kibontani legalább
+ezt a hármat, és a `_web/wp-content/uploads/…` alá tenni, változatlan névvel:
+
+```
+2017/04/jogszabalyok-okotehhome-hu-2012-majus.pdf                          344 katt.
+2020/05/2.1.1_A.B.Clear_használati-és-karbantartási-utasítás.pdf           201 katt.
+2020/05/4.2.2_Szikkasztóalagutakból-álló-szikkasztórendszer-telepítése.pdf  21 katt.
+```
+
+Az engedélyminták (2017/04 és 2021/03 alatt) ugyanígy; ha valamelyik fájl mégsem
+marad meg, az A.B. Clear dokumentumok a `/megoldasok/ab-clear-dokumentumok`, az
+engedélyminták a `/eredmenyek/tanusitvanyok-es-dokumentumok` lapra mennek.
+
+**Szabályok a sorrendről.** A `[L]` az első illeszkedésnél megáll, ezért a
+nevesített lapok mindig a gyűjtőszabály ELŐTT állnak (`/karbantartas/…` és
+`/category/palyazat/` a saját gyűjtőjük előtt). Ami egyik szabályra sem
+illeszkedik, az **404-et kap, nem a főoldalt**: a tömeges főoldalra irányítás a
+Google szemében soft 404, és az egész domain megítélését rontja.
 
 ### A két domain ma két külön kiszolgálón van
 
