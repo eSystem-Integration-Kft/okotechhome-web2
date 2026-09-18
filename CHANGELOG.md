@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(Test2)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.51.06-80A640?style=flat-square" alt="verzió 0.51.06">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.52.00-80A640?style=flat-square" alt="verzió 0.52.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-68-56642B?style=flat-square" alt="68 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-69-56642B?style=flat-square" alt="69 kiadás">
 </p>
 
 ---
@@ -26,6 +26,22 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.52.00] — 2026-09-18
+
+### Hozzáadva — a régi megrendelő űrlap címe a megrendelés lapra visz
+
+A `/formok/megrendel.php` 404-et adott. A régi webhelynek két űrlapcíme volt,
+és csak a másik volt átirányítva (`/formok/ajanlatkeres.php` → `/ajanlat`).
+A pár most teljes: `/formok/megrendel.php` → `/megrendeles`, 301-gyel, a
+testvérszabállyal azonos kapcsolókkal (kis-nagybetű-tűrő, a lekérdezés
+átkódolása nélkül).
+
+A szabályt előbb egy ideiglenes könyvtárban próbáltuk ki az éles kiszolgálón —
+301-et adott a `/megrendeles`-re, más útvonalat nem érintett —, a könyvtár
+utána törölve.
 
 ---
 
