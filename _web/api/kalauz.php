@@ -770,8 +770,31 @@ function oth_szamot_igert(string $szoveg, array $mintak): bool
     return false;
 }
 
+/* KÉT KIVÉTEL, SZŰKEN. A számőr a MŰSZAKI ÍGÉRET ellen véd: olyan érték ellen,
+   amely a terheléstől, az üzemeltetéstől vagy a helyszíntől függ, tehát a
+   modell nem tudhatja. Két adat viszont KÖZZÉTETT és rögzített:
+
+   1. A JÓTÁLLÁS IDŐTARTAMA — 2026-09-18 óta szerződéses adat, szó szerint ott
+      áll az /aszf és az /aszf-vallalkozasoknak lapon: 3 év fogyasztónak, 1 év
+      vállalkozásnak, 15 év a tartályra. Ez a leggyakoribb kérdés; elzárni
+      pont azt jelentené, hogy a kalauz a saját szerződésünket nem ismeri.
+   2. A TALAJTERHELÉSI DÍJ EGYSÉGDÍJA — jogszabályban álló összeg (2003. évi
+      LXXXIX. tv.), nem a mi árunk.
+
+   A megengedés NEM a mintát lazítja: a mérés előtt SEMLEGESÍTJÜK ezt a két
+   alakot, és minden más ugyanúgy fennakad. „5 év jótállás" vagy „2 év
+   garancia" továbbra sem megy ki. */
+$MEGENGEDETT = [
+    '/\b(1|3|15)\s*év\b/u',              // a közzétett jótállási idők
+    '/\b1[\s ]?200\s*Ft\s*\/\s*m³/u',   // a talajterhelési díj egységdíja
+];
+
 $valaszSzoveg = mb_substr(OthSmtp::tisztit((string) $eredmeny['valasz']), 0, 600);
-if (oth_szamot_igert($valaszSzoveg, $TILTOTT_MINTAK)) {
+$mert = $valaszSzoveg;
+foreach ($MEGENGEDETT as $m) {
+    $mert = preg_replace($m, 'KÖZZÉTETT', $mert);
+}
+if (oth_szamot_igert($mert, $TILTOTT_MINTAK)) {
     /* A találatokat MEGTARTJUK: az útbaigazítás értékes, csak a szám nem az.
        Így a látogató nem üres kézzel marad, hanem a helyes forrásnál köt ki. */
     error_log('OTH kalauz: számot tartalmazó válasz visszatartva.');

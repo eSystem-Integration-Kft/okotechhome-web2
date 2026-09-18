@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.63.01-80A640?style=flat-square" alt="verzió 0.63.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.64.00-80A640?style=flat-square" alt="verzió 0.64.00">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-86-56642B?style=flat-square" alt="86 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-87-56642B?style=flat-square" alt="87 kiadás">
 </p>
 
 ---
@@ -26,6 +26,23 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.64.00] — 2026-09-18
+
+### Módosítva — Öko kimondhatja a jótállási időt
+
+A kalauz számőre minden mértékegységes értéket visszatart: a válasz helyett
+útbaigazítást ad. Ez jó szabály — a műszaki ígéret ellen véd —, de a
+leggyakoribb kérdésnél („mennyi a jótállás?") azt jelentette, hogy a kalauz a
+saját szerződésünket nem ismeri.
+
+Két adat kivételt kap, szűken: a **közzétett jótállási idők** (3 év fogyasztónak,
+1 év vállalkozásnak, 15 év a tartályra) és a **talajterhelési díj jogszabályi
+egységdíja**. A minta nem lazult: a mérés előtt semlegesítjük ezt a két alakot,
+minden más ugyanúgy fennakad — a „2 év garancia" és az „5 év jótállás" is.
+Tíz próbaesettel ellenőrizve.
 
 ---
 
