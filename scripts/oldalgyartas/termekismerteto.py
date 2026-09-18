@@ -18,8 +18,9 @@ benne. Ez a fájl minden ajánlatkérőnek automatikusan kimenne, tehát nem meh
     terheléstől és az üzemeltetéstől is függ.
   · ÁRAMFOGYASZTÁS: a régi lap „havi 14-16 kWh"-t írt, a webhely 1000–1500 Ft
     havi villamosenergia-költséget (36 Ft/kWh példaárral, ami 28–42 kWh).
-    A kettő nem hozható össze — ITT A WEBHELY ADATA ÁLL, és a különbséget
-    Bela felé jeleztük.
+    A kettő nem hozható össze. BELA DÖNTÉSE (2026-09-18): a webhely adata a
+    mérvadó, a 14-16 kWh nem kerül vissza. A szám a webhelyen és ebben a
+    dokumentumban is ugyanaz — ha változik, mindkét helyen javítani kell.
 
 A MŰSZAKI TÁBLÁZAT a régi termékismertetőből jön: az a cég saját, közzétett
 terméklapja. A méretek mellett ott a forrás kikötése is.

@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.64.01-80A640?style=flat-square" alt="verzió 0.64.01">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.64.02-80A640?style=flat-square" alt="verzió 0.64.02">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-88-56642B?style=flat-square" alt="88 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-89-56642B?style=flat-square" alt="89 kiadás">
 </p>
 
 ---
@@ -26,6 +26,31 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.64.02] — 2026-09-18
+
+### Módosítva — a régi termékismertető helyére az új került
+
+Az `/uploads/szennyviztisztito/A.B.Clear_termekismerteto.pdf` — a RÉGI rendszer
+mappájában — továbbra is elérhető volt a régi esztergomi telefonszámmal, a
+`www.emeszto.hu` és a `www.ciszterna.hu` címmel, és a 2 éves garanciával. A mi
+lapjaink nem hivatkoztak rá, de a cím évek óta él, tehát a keresőből is
+megtalálható.
+
+Bela döntése szerint a fájl helyére az új termékismertető került, **ugyanazon a
+címen**: aki rátalál, a mai adatokat kapja. A régi példány nem veszett el —
+`A.B.Clear_termekismerteto-2016-archiv.pdf` néven a kiszolgálón maradt, és a
+`_files/archivum/` alatt a repóban is megvan.
+
+### Rögzítve — az üzemeltetési költségnél a webhely adata a mérvadó
+
+A régi termékismertető „havi 14-16 kWh"-t írt, a webhely 1000–1500 Ft havi
+villamosenergia-költséget (36 Ft/kWh példaárral, ami 28–42 kWh). A kettő nem
+hozható össze; Bela döntése szerint **a webhely adata az irányadó**, a 14-16 kWh
+nem kerül vissza. A szám a webhelyen és a termékismertetőben ugyanaz — ha
+változik, mindkét helyen javítani kell.
 
 ---
 
