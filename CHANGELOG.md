@@ -5,10 +5,10 @@
 <h1 align="center">Változásnapló — okotechhome-web2 <em>(<strong>Prod</strong>uktív)</em></h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/verzi%C3%B3-0.64.00-80A640?style=flat-square" alt="verzió 0.64.00">
+  <img src="https://img.shields.io/badge/verzi%C3%B3-0.64.01-80A640?style=flat-square" alt="verzió 0.64.01">
   <img src="https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-C9A24A?style=flat-square" alt="Keep a Changelog 1.1.0">
   <img src="https://img.shields.io/badge/SemVer-2.0.0%20(padded)-1572B6?style=flat-square" alt="SemVer 2.0.0 padded">
-  <img src="https://img.shields.io/badge/kiad%C3%A1sok-87-56642B?style=flat-square" alt="87 kiadás">
+  <img src="https://img.shields.io/badge/kiad%C3%A1sok-88-56642B?style=flat-square" alt="88 kiadás">
 </p>
 
 ---
@@ -26,6 +26,28 @@ külön naplóban él, és a két verzió-idővonal **független**.
 
 **Jelölések:** `§` = a főoldal szekciója · `OFC` = AI ajánlat-összehasonlító (offer comparison) ·
 `AIDT` = AI döntéstámogató · a `( )` zárójelben álló hét karakteres kód a commit rövid hash-e.
+
+---
+
+## [0.64.01] — 2026-09-18
+
+### Javítva — a dokumentumlisták kártyát kaptak (`dok-*`)
+
+Bela jelezte, hogy a huszonöt engedélyminta felsorolásként csúnya. Igaza volt, és
+nem csak esztétikailag: a lista azt ismételte huszonötször, ami MINDEGYIKBEN
+közös („Mintaengedély —”), és azt mondta egyszer, kicsiben, ami megkülönbözteti
+őket — a települést és az évet. A fókuszgyűrű ráadásul a sor közepén vágta ketté
+a mérethez tartozó feliratot.
+
+A kártyán fordítva van: a **településnév a címsor**, az év és a fájlméret a
+metasor, a közös rész pedig a szakasz címében áll egyszer. A kártya EGÉSZE
+hivatkozás, tehát a fókuszgyűrű a kártyát keretezi. A rács magától tölti ki a
+helyet — asztalon öt, mobilon egy hasáb —, és a kártyák egy sorban egyforma
+magasak akkor is, ha a metasor két sorba törik.
+
+Mind az öt dokumentumszakasz átállt rá: az engedélyminták, az üzemeltetési
+dokumentumtár, a szikkasztó telepítési útmutatója, a telepítés leírása és az
+üzemeltetési útmutatók.
 
 ---
 
