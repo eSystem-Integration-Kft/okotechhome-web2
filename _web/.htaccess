@@ -71,6 +71,7 @@ DirectoryIndex index.html
   RewriteRule ^javasolt-tisztitoszerek/?$                         /tudastar/tisztitoszerek [R=301,L,NE,NC]
   RewriteRule ^biologiai-szennyviztisztito-telepek/?$             /megoldasok/nagyobb-es-kozossegi-rendszerek [R=301,L,NE,NC]
   RewriteRule ^formok/ajanlatkeres\.php$                          /ajanlat [R=301,L,NE,NC]
+  RewriteRule ^formok/megrendel\.php$                             /megrendeles [R=301,L,NE,NC]
   RewriteRule ^muszaki/?$                                         /megoldasok/ab-clear-muszaki-adatok [R=301,L,NE,NC]
   RewriteRule ^referenciaink/?$                                   /eredmenyek/esettanulmanyok [R=301,L,NE,NC]
   RewriteRule ^cegunkrol/?$                                       /okotech-home/tortenetunk [R=301,L,NE,NC]
